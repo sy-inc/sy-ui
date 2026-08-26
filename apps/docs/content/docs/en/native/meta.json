@@ -1,0 +1,5 @@
+{
+  "title": "Documentation",
+  "description": "SY UI Native Documentation",
+  "pages": ["getting-started", "components", "releases"]
+}

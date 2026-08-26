@@ -1,0 +1,71 @@
+---
+title: Agent Skills
+description: Enable AI assistants to build UIs with SY UI v3 components
+---
+
+SY UI Skills give your AI assistant comprehensive knowledge of SY UI v3 components, patterns, and best practices.
+
+<DocsImage
+  src="https://assets.sy-ui.com/docs/agent-skills.jpg"
+  darkSrc="https://assets.sy-ui.com/docs/agent-skills-dark.jpg"
+  alt="SY UI v3 MCP Server"
+/>
+
+### Installation
+
+```bash
+curl -fsSL https://sy-ui.com/install | bash -s sy-ui-react
+```
+
+Or using the skills package:
+
+```bash
+npx skills add sy-ui/sy-ui
+```
+
+<span className="text-sm text-muted">
+Support Claude Code, Cursor, OpenCode and more.
+</span>
+
+### Usage
+
+Skills are **automatically discovered** by your AI assistant, or call it directly using `/sy-ui-react` command.
+
+Simply ask your AI assistant to:
+- Build components using SY UI v3
+- Create pages with SY UI components
+- Customize themes and styles
+- Access component documentation
+
+<Callout>
+  For more complex use cases, use the [MCP Server](/docs/react/getting-started/mcp-server) which provides real-time access to component documentation and source code.
+</Callout>
+
+### What's Included
+
+- SY UI v3 installation guide
+- All SY UI v3 components with props, examples, and usage patterns
+- Theming and styling guidelines
+- Design principles and composition patterns
+
+### Structure
+
+```
+skills/sy-ui-react/
+├── SKILL.md              # Main skill documentation
+├── LICENSE.txt           # Apache License 2.0
+└── scripts/              # Utility scripts
+    ├── list_components.mjs
+    ├── get_component_docs.mjs
+    ├── get_source.mjs
+    ├── get_styles.mjs
+    ├── get_theme.mjs
+    └── get_docs.mjs
+```
+
+### Related Documentation
+
+- [Agent Skills Specification](https://agentskills.io/home) - Learn about the Agent Skills format
+- [Claude Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Claude's Skills documentation
+- [Cursor Skills](https://cursor.com/docs/context/skills) - Using Skills in Cursor
+- [OpenCode Skills](https://opencode.ai/docs/skills) - Using Skills in OpenCode

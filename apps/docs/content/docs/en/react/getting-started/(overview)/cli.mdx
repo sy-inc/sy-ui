@@ -1,0 +1,417 @@
+---
+title: CLI
+description: Use the CLI to manage SY UI dependencies and initialize projects.
+icon: terminal
+---
+
+The CLI offers a comprehensive suite of commands to initialize, manage, and improve your SY UI projects. It enables you to `install`, `uninstall`, or `upgrade` individual components, assess the health of your project, download documentation for AI coding agents, and more.
+
+## Installation
+
+Requirements:
+
+- [Node.js version 22.22.0 or later](https://nodejs.org/en/)
+
+
+### Global Installation
+
+To install `sy-ui-cli` globally, execute one of the following commands in your terminal:
+
+
+```npm
+npm install sy-ui-cli@latest -g
+```
+
+### Without Installation
+
+Alternatively, you can use `sy-ui-cli` without a global installation by running one of the following:
+
+<Tabs items={["pnpm", "npm", "yarn", "bun"]}>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx sy-ui-cli@latest
+    ```
+  </Tab>
+  <Tab value="npm">
+    ```bash
+    npx sy-ui-cli@latest
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn dlx sy-ui-cli@latest
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bunx sy-ui-cli@latest
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Start
+
+Once `sy-ui-cli` is installed, run the following command to display available commands:
+
+```bash
+sy-ui
+```
+
+This will produce the following help output:
+
+```bash
+Usage: sy-ui [command]
+
+Options:
+  -v, --version                  Output the current version
+  --no-cache                     Disable cache, by default data will be cached for 30m after the first request
+  -d, --debug                    Debug mode will not install dependencies
+  -h --help                      Display help information for commands
+
+Commands:
+  init [options] [projectName]   Initializes a new project
+  install [options]              Installs @sy-ui/react and @sy-ui/styles to your project
+  upgrade [options]              Upgrades @sy-ui/react and @sy-ui/styles to the latest versions
+  uninstall [options]            Uninstall @sy-ui/react and @sy-ui/styles from the project
+  list [options]                 Lists installed SY UI packages (@sy-ui/react, @sy-ui/styles)
+  env [options]                  Displays debugging information for the local environment
+  doctor [options]               Checks for issues in the project
+  agents-md [options]            Downloads SY UI documentation for AI coding agents
+  help [command]                 Display help for command
+```
+
+### init
+
+Initialize a new SY UI project using the `init` command. This sets up your project with the necessary configurations.
+
+```bash
+sy-ui init [options]
+```
+
+**Options:**
+
+- `-t --template [string]` The template to use for the new project e.g. app, pages, vite, react-router
+- `-p --package [string]` The package manager to use for the new project
+
+output:
+
+```bash
+SY UI CLI <version>
+
+┌  Create a new project
+│
+◇  Select a template (Enter to select)
+│  ● App (A Next.js 16 with app directory template pre-configured with SY UI (v3) and Tailwind CSS.)
+│  ○ Pages (A Next.js 16 with pages directory template pre-configured with SY UI (v3) and Tailwind CSS.)
+│  ○ Vite (A Vite template pre-configured with SY UI (v3) and Tailwind CSS.)
+│  ○ React Router (A React Router template pre-configured with SY UI (v3) and Tailwind CSS.)
+│
+◇  New project name (Enter to skip with default name)
+│  my-sy-ui-app
+│
+◇  Select a package manager (Enter to select)
+│  ● npm
+│  ○ yarn
+│  ○ pnpm
+│  ○ bun
+│
+◇  Template created successfully!
+│
+◇  Next steps ───────╮
+│                    │
+│  cd my-sy-ui-app  │
+│  npm install       │
+│                    │
+├────────────────────╯
+│
+└  🚀 Get started with npm run dev
+```
+
+
+Install the dependencies to start the local server:
+
+<Tabs items={["npm", "pnpm", "yarn", "bun"]}>
+  <Tab value="npm">
+    ```bash
+    cd my-sy-ui-app && npm install
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    cd my-sy-ui-app && pnpm install
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    cd my-sy-ui-app && yarn install
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    cd my-sy-ui-app && bun install
+    ```
+  </Tab>
+</Tabs>
+
+Start the local server:
+
+```npm
+npm run dev
+```
+
+### Install
+
+Install `@sy-ui/react` and `@sy-ui/styles` to your project, along with their peer dependencies. If they are already installed, the command does nothing.
+
+```bash
+sy-ui install [options]
+```
+
+**Options:**
+
+- `-p --packagePath` [string] The path to the package.json file
+
+
+**Output:**
+
+```bash
+SY UI CLI <version>
+
+📦 Packages to be installed:
+╭─────────────────────────────────────────────────────────────────────────────╮
+│   Package          │   Version        │   Status   │   Docs                 │
+│─────────────────────────────────────────────────────────────────────────────│
+│   @sy-ui/react    │   3.0.0          │   stable   │   https://sy-ui.com   │
+│   @sy-ui/styles   │   3.0.0          │   stable   │   https://sy-ui.com   │
+╰─────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────── PeerDependencies ────────────────╮
+│  react@18.3.1                      latest       │
+│  react-dom@18.3.1                  latest       │
+│  tailwindcss@4.2.2                 latest       │
+╰─────────────────────────────────────────────────╯
+? Proceed with installation? › - Use arrow-keys. Return to submit.
+❯   Yes
+    No
+
+✅ @sy-ui/react and @sy-ui/styles installed successfully
+```
+
+### upgrade
+
+
+Upgrade `@sy-ui/react` and `@sy-ui/styles` with their peer dependencies to the latest versions.
+
+```bash
+sy-ui upgrade [options]
+```
+
+**Options:**
+
+- `-p --packagePath` [string] The path to the package.json file
+
+**Output:**
+
+```bash
+SY UI CLI <version>
+
+╭──────────────────────────── Upgrade ────────────────────────────╮
+│  @sy-ui/react               ^3.0.0  ->  ^3.1.0                │
+│  @sy-ui/styles              ^3.0.0  ->  ^3.1.0                │
+╰─────────────────────────────────────────────────────────────────╯
+
+? Would you like to proceed with the upgrade? › - Use arrow-keys. Return to submit.
+❯   Yes
+    No
+
+✅ Upgrade complete. All packages are up to date.
+```
+
+### uninstall
+
+Uninstall `@sy-ui/react` and `@sy-ui/styles` from your project. Peer dependencies will not be uninstalled.
+
+```bash
+sy-ui uninstall [options]
+```
+
+**Options:**
+
+- `-p --packagePath` [string] The path to the package.json file
+
+**Output:**
+
+```bash
+SY UI CLI <version>
+
+❗️ Packages slated for uninstallation:
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│   Package          │   Version   │   Status   │   Docs                               │
+│──────────────────────────────────────────────────────────────────────────────────────│
+│   @sy-ui/react    │   3.0.0     │   stable   │   https://sy-ui.com                 │
+│   @sy-ui/styles   │   3.0.0     │   stable   │   https://sy-ui.com                 │
+╰──────────────────────────────────────────────────────────────────────────────────────╯
+? Confirm uninstallation of these packages: › - Use arrow-keys. Return to submit.
+❯   Yes
+    No
+
+✅ Successfully uninstalled: @sy-ui/react, @sy-ui/styles
+```
+
+### list
+
+List the installed SY UI packages (`@sy-ui/react`, `@sy-ui/styles`).
+
+```bash
+sy-ui list [options]
+```
+
+**Options:**
+
+- `-p --packagePath` [string] The path to the package.json file
+
+**Output:**
+
+```bash
+SY UI CLI <version>
+
+Current installed packages:
+
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│   Package          │   Version          │   Status   │   Docs                        │
+│──────────────────────────────────────────────────────────────────────────────────────│
+│   @sy-ui/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-ui/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+╰──────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+### doctor
+
+Check for issues in your project.
+- Check whether `@sy-ui/react` and `@sy-ui/styles` are installed
+- Check whether `required peer dependencies` are installed and matched minimal requirements in the project
+
+
+```bash
+sy-ui doctor [options]
+```
+
+**Options:**
+
+- `-p --packagePath` [string] The path to the package.json file
+
+**Output:**
+
+If there is a problem in your project, the `doctor` command will display the problem information.
+
+```bash
+SY UI CLI <version>
+
+SY UI CLI: ❌ Your project has 1 issue that require attention
+
+❗️Issue 1: missingSyUIPackages
+
+The following SY UI packages are not installed:
+- @sy-ui/styles
+
+Run `sy-ui install` to install them.
+```
+
+Otherwise, the `doctor` command will display the following message.
+
+```bash
+SY UI CLI <version>
+
+✅ Your project has no detected issues.
+```
+
+### env
+
+Display debug information about the local environment.
+
+```bash
+sy-ui env [options]
+```
+
+**Options:**
+
+- `-p --packagePath` [string] The path to the package.json file
+
+**Output:**
+
+```bash
+SY UI CLI <version>
+
+Current installed packages:
+
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│   Package          │   Version          │   Status   │   Docs                        │
+│──────────────────────────────────────────────────────────────────────────────────────│
+│   @sy-ui/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-ui/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+╰──────────────────────────────────────────────────────────────────────────────────────╯
+
+Environment Info:
+  System:
+    OS: darwin
+    CPU: arm64
+  Binaries:
+    Node: v25.8.1
+```
+
+### agents-md
+
+Download SY UI documentation for AI coding agents (Claude, Cursor, etc.). The command clones the latest docs from the SY UI repository and injects a compact index into `AGENTS.md` or `CLAUDE.md` so assistants can reference your project's SY UI setup.
+
+```bash
+sy-ui agents-md [options]
+```
+
+**Options:**
+
+- `--react` [boolean] Include React docs only (one library at a time)
+- `--native` [boolean] Include Native docs only
+- `--migration` [boolean] Include SY UI v2 to v3 migration docs only
+- `--output <file>` [string] Target file path (e.g., `AGENTS.md`, `CLAUDE.md`)
+- `--ssh` [boolean] Use SSH instead of HTTPS for git clone
+
+**Examples:**
+
+Run without flags to enter interactive mode:
+
+```bash
+sy-ui agents-md
+```
+
+Download React docs to a specific file:
+
+```bash
+sy-ui agents-md --react --output AGENTS.md
+```
+
+Download Native or migration docs:
+
+```bash
+sy-ui agents-md --native --output CLAUDE.md
+sy-ui agents-md --migration --output AGENTS.md
+```
+
+**How it works:**
+
+1. Clones documentation from the `v3` branch using git sparse-checkout
+2. Generates a compact index of doc and demo files
+3. Injects the index into your markdown file between markers (`<!-- SY-UI-REACT-AGENTS-MD-START -->` / `<!-- SY-UI-REACT-AGENTS-MD-END -->`, and similar for Native and Migration)
+4. Adds `.sy-ui-docs/` to `.gitignore`
+
+Only one of `--react`, `--native`, or `--migration` can be selected at a time.
+
+For more details, see [AGENTS.md](/docs/react/getting-started/agents-md).
+
+<Callout>
+  The `agents-md` command collects anonymous usage data (selection, output file names, duration, success or error). Set `SY_UI_ANALYTICS_DISABLED=1` to opt out.
+</Callout>
+
+## Reporting issues
+
+If you found a bug, please report it in [sy-ui-cli Issues](https://github.com/sy-ui/sy-ui-cli/issues).
+

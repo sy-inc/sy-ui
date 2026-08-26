@@ -1,0 +1,180 @@
+import type {ReactElement, ReactNode} from "react";
+
+import {NextRequest} from "next/server";
+import {isValidElement} from "react";
+import {describe, expect, it, vi} from "vitest";
+
+import AboutPage from "@/app/[lang]/(home)/about/page";
+import ContactPage from "@/app/[lang]/(home)/contact/page";
+import HomePage from "@/app/[lang]/(home)/page";
+import PrivacyPage from "@/app/[lang]/(home)/privacy/page";
+import {GET as getMarkdown} from "@/app/agent-markdown/route";
+import {GET as getUnknownAgentEndpoint} from "@/app/api/agent/[...path]/route";
+import {GET as getAgentPage} from "@/app/api/agent/page/route";
+import {GET as searchAgentDocs} from "@/app/api/agent/search/route";
+import {GET as getOpenApi} from "@/app/openapi.json/route";
+import {getOrganizationJsonLd} from "@/lib/json-ld";
+import {generateIndexHeader} from "@/lib/llms-utils";
+
+import {GET as getMcpHandshake} from "@/app/.well-known/mcp/route";
+
+vi.mock("@/lib/get-llm-text", () => ({
+  getLLMText: vi.fn(),
+}));
+vi.mock("@/lib/source", () => ({
+  source: {
+    getPage: vi.fn(),
+    getPages: vi.fn(() => []),
+  },
+}));
+
+function extractText(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(extractText).join(" ");
+  if (!isValidElement(node)) return "";
+
+  const element = node as ReactElement<{
+    children?: ReactNode;
+    description?: string;
+    title?: string;
+  }>;
+
+  return [
+    element.props.title ?? "",
+    element.props.description ?? "",
+    extractText(element.props.children),
+  ].join(" ");
+}
+
+function collectHeadingLevels(node: ReactNode): number[] {
+  if (Array.isArray(node)) return node.flatMap(collectHeadingLevels);
+  if (!isValidElement(node)) return [];
+
+  const element = node as ReactElement<{children?: ReactNode}>;
+  const level =
+    typeof element.type === "string" && /^h[1-6]$/.test(element.type)
+      ? Number(element.type.slice(1))
+      : null;
+
+  return [...(level === null ? [] : [level]), ...collectHeadingLevels(element.props.children)];
+}
+
+describe("SY UI agent readiness", () => {
+  it("publishes a typed OpenAPI alias with unique documented operations", async () => {
+    const response = getOpenApi(new Request("https://sy-ui.com/openapi.json"));
+    const document = (await response.json()) as {
+      info: {title: string};
+      openapi: string;
+      paths: Record<string, Record<string, {description?: string; operationId?: string}>>;
+    };
+    const operations = Object.values(document.paths).flatMap((path) => Object.values(path));
+    const operationIds = operations.map((operation) => operation.operationId);
+
+    expect(response.headers.get("content-type")).toContain("application/vnd.oai.openapi+json");
+    expect(document.info.title).toBe("SY UI Docs Agent API");
+    expect(document.openapi).toBe("3.1.0");
+    expect(operations.every((operation) => Boolean(operation.description))).toBe(true);
+    expect(new Set(operationIds).size).toBe(operationIds.length);
+  });
+
+  it("returns structured JSON errors from agent API routes", async () => {
+    const responses = [
+      await searchAgentDocs(new NextRequest("https://sy-ui.com/api/agent/search")),
+      await getAgentPage(new NextRequest("https://sy-ui.com/api/agent/page")),
+      getUnknownAgentEndpoint(),
+    ];
+
+    for (const response of responses) {
+      const body = (await response.json()) as Record<string, unknown>;
+
+      expect(response.status).toBeGreaterThanOrEqual(400);
+      expect(response.headers.get("content-type")).toContain("application/json");
+      expect(body).toEqual({
+        code: expect.any(String),
+        error: true,
+        hint: expect.any(String),
+        message: expect.any(String),
+      });
+    }
+  });
+
+  it("varies negotiated markdown by Accept and Accept-Encoding", async () => {
+    const request = new NextRequest("https://sy-ui.com/agent-markdown?path=/", {
+      headers: {
+        accept: "text/markdown",
+        "x-sy-ui-markdown-path": "/",
+      },
+    });
+    const response = await getMarkdown(request);
+
+    expect(response.headers.get("content-type")).toContain("text/markdown");
+    expect(response.headers.get("vary")).toBe("Accept, Accept-Encoding");
+    expect(await response.text()).toContain("# SY UI");
+  });
+
+  it("serves the existing SY UI MCP packages from the well-known handshake", async () => {
+    const response = getMcpHandshake(new Request("https://sy-ui.com/.well-known/mcp"));
+    const card = (await response.json()) as {
+      endpoint: string;
+      transports: {package: string; type: string}[];
+    };
+
+    expect(card.endpoint).toBe("https://sy-ui.com/.well-known/mcp/server-card.json");
+    expect(card.transports).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({package: "@sy-ui/react-mcp", type: "stdio"}),
+        expect.objectContaining({package: "@sy-ui/native-mcp", type: "stdio"}),
+      ]),
+    );
+  });
+
+  it("lists predictable SY UI developer resources in llms.txt", () => {
+    const header = generateIndexHeader().join("\n");
+
+    expect(header).toContain("SY UI OpenAPI specification");
+    expect(header).toContain("/openapi.json");
+    expect(header).toContain("/.well-known/mcp");
+    expect(header).toContain("/docs/react/getting-started/cli");
+  });
+
+  it("adds a verified SY UI support contact without fabricating an address", () => {
+    const organization = getOrganizationJsonLd();
+
+    expect(organization.contactPoint).toEqual({
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "sales@sy-ui.com",
+    });
+    expect(organization).not.toHaveProperty("address");
+  });
+
+  it("ships substantial trust-page copy", () => {
+    for (const page of [AboutPage(), ContactPage(), PrivacyPage()]) {
+      expect(extractText(page).replace(/\s+/g, " ").trim().length).toBeGreaterThanOrEqual(500);
+      expect(collectHeadingLevels(page)).toEqual(expect.arrayContaining([2]));
+    }
+
+    const contactText = extractText(ContactPage());
+    const privacyText = extractText(PrivacyPage());
+
+    expect(contactText).toContain("sales@sy-ui.com");
+    expect(contactText).toContain("junior@sy-ui.com");
+    expect(contactText).not.toContain("jrgarciadev@gmail.com");
+    expect(privacyText).toContain("sales@sy-ui.com");
+    expect(privacyText).toContain("junior@sy-ui.com");
+    expect(privacyText).not.toContain("jrgarciadev@gmail.com");
+    expect(privacyText).toContain("Vercel Analytics");
+    expect(privacyText).toContain("PostHog");
+    expect(privacyText).toContain("IP address");
+  });
+
+  it("server-renders meaningful homepage text with a hierarchical outline", async () => {
+    const page = await HomePage({params: Promise.resolve({lang: "en"})});
+    const text = extractText(page).replace(/\s+/g, " ").trim();
+    const headings = collectHeadingLevels(page);
+
+    expect(text.length).toBeGreaterThanOrEqual(500);
+    expect(headings).toEqual(expect.arrayContaining([1, 2, 3]));
+    expect(headings.filter((level) => level === 1)).toHaveLength(1);
+  });
+});

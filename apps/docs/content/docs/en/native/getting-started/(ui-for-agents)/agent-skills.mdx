@@ -1,0 +1,69 @@
+---
+title: Agent Skills
+description: Enable AI assistants to build mobile UIs with SY UI Native components
+---
+
+SY UI Native Skills give your AI assistant comprehensive knowledge of SY UI Native components, patterns, and best practices for React Native development.
+
+<DocsImage
+  src="https://assets.sy-ui.com/docs/agent-skills-native.jpg"
+  darkSrc="https://assets.sy-ui.com/docs/agent-skills-native-dark.jpg"
+  alt="SY UI Native Agent Skills"
+/>
+
+### Installation
+
+```bash
+curl -fsSL https://sy-ui.com/install | bash -s sy-ui-native
+```
+
+Or using the skills package:
+
+```bash
+npx skills add sy-ui/sy-ui
+```
+
+<span className="text-sm text-muted">
+Support Claude Code, Cursor, OpenCode and more.
+</span>
+
+### Usage
+
+Skills are **automatically discovered** by your AI assistant, or call it directly using `/sy-ui-native` command.
+
+Simply ask your AI assistant to:
+- Build mobile components using SY UI Native
+- Create screens with SY UI Native components
+- Customize themes and styles
+- Access component documentation
+
+<Callout>
+  For more complex use cases, use the [MCP Server](/docs/native/getting-started/mcp-server) which provides real-time access to component documentation and source code.
+</Callout>
+
+### What's Included
+
+- SY UI Native installation guide
+- All SY UI Native components with props, examples, and usage patterns
+- Theming and styling guidelines with Uniwind
+- Design principles and composition patterns
+
+### Structure
+
+```
+skills/sy-ui-native/
+├── SKILL.md              # Main skill documentation
+├── LICENSE.txt           # Apache License 2.0
+└── scripts/              # Utility scripts
+    ├── list_components.mjs
+    ├── get_component_docs.mjs
+    ├── get_theme.mjs
+    └── get_docs.mjs
+```
+
+### Related Documentation
+
+- [Agent Skills Specification](https://agentskills.io/home) - Learn about the Agent Skills format
+- [Claude Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Claude's Skills documentation
+- [Cursor Skills](https://cursor.com/docs/context/skills) - Using Skills in Cursor
+- [OpenCode Skills](https://opencode.ai/docs/skills) - Using Skills in OpenCode
