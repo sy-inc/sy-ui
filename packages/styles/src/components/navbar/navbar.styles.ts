@@ -30,8 +30,12 @@ export const navbarVariants = tv({
       center: {content: "navbar__content--center"},
       end: {content: "navbar__content--end"},
     },
+    position: {
+      static: {base: "navbar--static"},
+      sticky: {base: "navbar--sticky"},
+    },
   },
-  defaultVariants: {isBlurred: true, justify: "start"},
+  defaultVariants: {isBlurred: true, justify: "start", position: "sticky"},
 });
 
 export type NavbarVariants = VariantProps<typeof navbarVariants>;

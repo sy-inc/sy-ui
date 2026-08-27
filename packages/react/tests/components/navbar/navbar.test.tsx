@@ -43,4 +43,16 @@ describe("Navbar", () => {
     expect(navbar).toHaveClass("navbar--opaque", "navbar--bordered");
     expect(navbar).not.toHaveClass("navbar--blurred");
   });
+
+  it("supports sticky and static positioning", () => {
+    const {rerender} = render(<Navbar data-testid="navbar" />);
+    const navbar = screen.getByTestId("navbar");
+
+    expect(navbar).toHaveClass("navbar--sticky");
+
+    rerender(<Navbar data-testid="navbar" position="static" />);
+
+    expect(navbar).toHaveClass("navbar--static");
+    expect(navbar).not.toHaveClass("navbar--sticky");
+  });
 });

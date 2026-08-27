@@ -41,14 +41,15 @@ const NavbarRoot = ({
   isBordered,
   isMenuOpen: controlledIsMenuOpen,
   onMenuOpenChange,
+  position,
   ...props
 }: NavbarRootProps) => {
   const [uncontrolledIsMenuOpen, setUncontrolledIsMenuOpen] = React.useState(defaultIsMenuOpen);
   const isMenuOpen = controlledIsMenuOpen ?? uncontrolledIsMenuOpen;
   const menuId = React.useId();
   const slots = React.useMemo(
-    () => navbarVariants({isBlurred, isBordered}),
-    [isBlurred, isBordered],
+    () => navbarVariants({isBlurred, isBordered, position}),
+    [isBlurred, isBordered, position],
   );
   const setMenuOpen = React.useCallback(
     (nextIsOpen: boolean) => {
