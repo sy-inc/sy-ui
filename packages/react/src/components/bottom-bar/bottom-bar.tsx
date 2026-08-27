@@ -37,7 +37,7 @@ const BottomBarRoot = ({
   "aria-labelledby": ariaLabelledBy,
   children,
   className,
-  position = "static",
+  position = "fixed",
   render,
   selectionStyle = "indicator",
   variant = "floating",

@@ -1,0 +1,118 @@
+.navbar {
+  @apply relative z-20 flex min-h-16 w-full items-center gap-4 bg-background px-4;
+}
+
+.navbar--bordered {
+  @apply border-b border-border;
+}
+.navbar--blurred,
+.navbar__menu--blurred {
+  @apply bg-background/70 backdrop-blur-lg backdrop-saturate-150;
+}
+.navbar--opaque,
+.navbar__menu--opaque {
+  @apply bg-background;
+}
+
+.navbar__brand,
+.navbar__content {
+  @apply flex items-center gap-4;
+}
+.navbar__brand {
+  @apply shrink-0;
+}
+.navbar__content {
+  @apply flex-1;
+}
+.navbar__content--center {
+  @apply justify-center;
+}
+.navbar__content--end {
+  @apply justify-end;
+}
+.navbar__item {
+  @apply flex min-h-11 items-center;
+}
+
+.navbar__item a,
+.navbar__menu-item a {
+  @apply rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors outline-none;
+}
+.navbar__item a:hover,
+.navbar__menu-item a:hover {
+  @apply text-foreground;
+}
+.navbar__item a:focus-visible,
+.navbar__menu-item a:focus-visible {
+  @apply status-focused;
+}
+
+.navbar__menu-toggle {
+  @apply ml-auto hidden size-11 shrink-0 items-center justify-center rounded-md border-0 bg-transparent text-foreground outline-none;
+}
+.navbar__menu-toggle:focus-visible,
+.navbar__menu-toggle[data-focus-visible] {
+  @apply status-focused;
+}
+.navbar__menu-icon,
+.navbar__menu-icon::before,
+.navbar__menu-icon::after {
+  @apply block h-0.5 w-5 rounded-full bg-current;
+  transition: transform 150ms ease;
+}
+.navbar__menu-icon {
+  position: relative;
+}
+.navbar__menu-icon::before,
+.navbar__menu-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.navbar__menu-icon::before {
+  transform: translateY(-6px);
+}
+.navbar__menu-icon::after {
+  transform: translateY(6px);
+}
+.navbar__menu-toggle[data-open="true"] .navbar__menu-icon {
+  background: transparent;
+}
+.navbar__menu-toggle[data-open="true"] .navbar__menu-icon::before {
+  transform: rotate(45deg);
+}
+.navbar__menu-toggle[data-open="true"] .navbar__menu-icon::after {
+  transform: rotate(-45deg);
+}
+.navbar__menu {
+  @apply hidden list-none p-0;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    @apply flex-wrap;
+  }
+  .navbar__content {
+    @apply hidden;
+  }
+  .navbar__menu-toggle {
+    @apply flex;
+  }
+  .navbar[data-menu-open="true"] .navbar__menu {
+    @apply flex w-full flex-col gap-1 border-t border-border py-3;
+  }
+  .navbar__menu-item {
+    @apply flex;
+  }
+  .navbar__menu-item a {
+    @apply w-full;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar__menu-icon,
+  .navbar__menu-icon::before,
+  .navbar__menu-icon::after {
+    transition: none;
+  }
+}

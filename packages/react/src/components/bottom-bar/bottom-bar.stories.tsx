@@ -35,7 +35,7 @@ const meta = {
     },
   },
   args: {
-    position: "static",
+    position: "fixed",
   },
   component: BottomBar,
   parameters: {

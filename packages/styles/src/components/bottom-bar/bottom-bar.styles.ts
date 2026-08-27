@@ -46,7 +46,7 @@ export const bottomBarVariants = tv({
   defaultVariants: {
     selectionStyle: "indicator",
     variant: "floating",
-    position: "static",
+    position: "fixed",
   },
 });
 

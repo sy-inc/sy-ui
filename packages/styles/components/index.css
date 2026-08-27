@@ -32,6 +32,7 @@
 @import "./pagination.css";
 @import "./tabs.css";
 @import "./bottom-bar.css";
+@import "./navbar.css";
 
 /* ------------------------------------------------------------------------------------------------
  * Buttons
@@ -41,6 +42,9 @@
 @import "./toggle-button.css";
 @import "./toggle-button-group.css";
 @import "./toolbar.css";
+
+/* Composite navigation components that override shared Button/Link primitives */
+@import "./sidebar.css";
 
 /* ------------------------------------------------------------------------------------------------
  * Collections

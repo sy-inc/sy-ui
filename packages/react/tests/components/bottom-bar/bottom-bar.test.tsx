@@ -42,7 +42,7 @@ describe("BottomBar", () => {
     const tabList = screen.getByRole("tablist", {name: "Primary navigation"});
     const tabs = screen.getAllByRole("tab");
 
-    expect(navigation).toHaveClass("tabs", "bottom-bar", "bottom-bar--static");
+    expect(navigation).toHaveClass("tabs", "bottom-bar", "bottom-bar--fixed");
     expect(tabList).toHaveAttribute("data-slot", "tabs-list");
     expect(tabs).toHaveLength(3);
     expect(tabs[0]).not.toHaveAttribute("href");
