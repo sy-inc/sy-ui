@@ -8,6 +8,7 @@ export * from "./alert-dialog";
 export * from "./autocomplete";
 export * from "./avatar";
 export * from "./badge";
+export * from "./bottom-bar";
 export * from "./breadcrumbs";
 export * from "./button";
 export * from "./button-group";

@@ -1,0 +1,156 @@
+/* Primary navigation for compact application layouts */
+.bottom-bar {
+  @apply z-50 flex w-full items-center justify-center px-4;
+}
+
+.bottom-bar--fixed {
+  @apply fixed inset-x-0 bottom-0;
+
+  padding-block-end: calc(var(--spacing) * 3 + env(safe-area-inset-bottom));
+}
+
+.bottom-bar--sticky {
+  @apply sticky bottom-0;
+
+  padding-block-end: calc(var(--spacing) * 3 + env(safe-area-inset-bottom));
+}
+
+.bottom-bar--static {
+  @apply py-3;
+}
+
+.bottom-bar--edge {
+  padding-inline: 0;
+  padding-block-end: env(safe-area-inset-bottom);
+}
+
+.bottom-bar__list.tabs__list {
+  @apply isolate flex w-full max-w-md list-none items-stretch gap-0 overflow-hidden rounded-3xl border border-border p-1 shadow-surface;
+
+  min-width: 0;
+  background-color: color-mix(in oklab, var(--default) 72%, transparent);
+  -webkit-backdrop-filter: blur(4px) saturate(140%);
+  backdrop-filter: blur(4px) saturate(140%);
+}
+
+.bottom-bar--edge .bottom-bar__list {
+  max-width: none;
+  border-inline: 0;
+  border-bottom: 0;
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: none;
+}
+
+.bottom-bar__link {
+  @apply relative isolate flex h-12 max-h-12 min-h-12 min-w-0 flex-1 basis-0 appearance-none flex-col items-center justify-center gap-0.5 rounded-2xl border-0 bg-transparent px-2 py-1 text-center text-xs leading-none font-medium text-muted outline-none no-highlight;
+
+  /* Nested radius: outer radius (24px) = inner radius (20px) + 4px inset. */
+  border-radius: calc(var(--radius) * 2.5);
+
+  cursor: var(--cursor-interactive);
+  transition:
+    color 150ms var(--ease-smooth),
+    background-color 150ms var(--ease-smooth),
+    opacity 150ms var(--ease-smooth),
+    transform 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:not([data-selected="true"]):not([data-disabled]):hover,
+    &[data-hovered]:not([data-selected="true"]):not([data-disabled]) {
+      @apply bg-surface-hover text-foreground;
+    }
+  }
+
+  &:not([data-disabled]):active,
+  &[data-pressed]:not([data-disabled]) {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible,
+  &[data-focus-visible] {
+    @apply status-focused;
+  }
+
+  &[aria-disabled="true"],
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+
+  &[aria-selected="true"],
+  &[data-selected="true"] {
+    @apply text-segment-foreground;
+  }
+}
+
+.bottom-bar__indicator {
+  @apply pointer-events-none absolute inset-0 rounded-2xl bg-segment/80 opacity-0;
+
+  border-radius: calc(var(--radius) * 2.5);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+
+  z-index: -1;
+  width: auto;
+  height: auto;
+  transform: scale(0.92);
+  transition:
+    translate 250ms var(--ease-out-fluid),
+    width 250ms var(--ease-out-fluid),
+    height 250ms var(--ease-out-fluid),
+    opacity 150ms var(--ease-smooth),
+    transform 200ms var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+
+  .bottom-bar__link[aria-selected="true"] &,
+  .bottom-bar__link[data-selected="true"] & {
+    @apply opacity-100;
+
+    transform: scale(1);
+  }
+}
+
+.bottom-bar--color .bottom-bar__link[data-selected="true"] .bottom-bar__icon {
+  color: var(--accent);
+}
+
+.bottom-bar--underline .bottom-bar__indicator {
+  inset: auto 25% 2px;
+  width: 50%;
+  height: 2px;
+  border-radius: 999px;
+  background-color: var(--accent);
+  transform: scaleX(0.6);
+}
+
+.bottom-bar--underline .bottom-bar__link[data-selected="true"] .bottom-bar__indicator {
+  transform: scaleX(1);
+}
+
+.bottom-bar__icon {
+  @apply relative z-10 flex size-5 shrink-0 items-center justify-center text-current;
+
+  transition: transform 200ms var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+
+  > svg {
+    @apply size-full;
+  }
+
+  .bottom-bar__link[aria-selected="true"] &,
+  .bottom-bar__link[data-selected="true"] & {
+    transform: scale(1.05);
+  }
+}
+
+.bottom-bar__label {
+  @apply relative z-10 max-w-full overflow-hidden text-xs leading-tight text-current;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  .bottom-bar__link[aria-selected="true"] &,
+  .bottom-bar__link[data-selected="true"] & {
+    @apply font-semibold;
+  }
+}
