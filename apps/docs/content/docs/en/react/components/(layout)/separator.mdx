@@ -44,6 +44,8 @@ The Separator component adapts to different surface backgrounds for better visib
 
 ### With Content
 
+Use `SeparatorContent` when inline content should appear between two decorative lines.
+
 <ComponentPreview
   name="separator-with-content"
 />
@@ -105,6 +107,15 @@ The Separator component uses these CSS classes ([View source styles](https://git
 | `variant` | `'default' \| 'secondary' \| 'tertiary'` | `'default'` | The visual variant of the separator |
 | `className` | `string` | - | Additional CSS classes |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, undefined>` | - | Overrides the default DOM element with a custom render function.|
+
+### SeparatorContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | - | Content displayed between two decorative lines |
+| `variant` | `'default' \| 'secondary' \| 'tertiary'` | `'default'` | The line visual variant |
+| `className` | `string` | - | Additional CSS classes for the container |
+| `render` | `DOMRenderFunction<'div', undefined>` | - | Overrides the container DOM element with a custom render function |
 
 ## Related Components
 

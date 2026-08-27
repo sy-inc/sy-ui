@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from "@storybook/react";
 
 import React from "react";
 
-import {Separator} from "./index";
+import {Separator, SeparatorContent as SeparatorContentComponent} from "./index";
 
 const meta: Meta<typeof Separator> = {
   title: "Components/Layout/Separator",
@@ -52,6 +52,25 @@ export const Vertical: Story = {
   ),
 };
 
+export const SeparatorContent: Story = {
+  argTypes: {
+    orientation: {
+      control: false,
+      table: {disable: true},
+    },
+  },
+  render: () => (
+    <div className="flex w-96 flex-col gap-6">
+      <SeparatorContentComponent>OR</SeparatorContentComponent>
+      <SeparatorContentComponent>Continue with</SeparatorContentComponent>
+      <SeparatorContentComponent>Continue with your work email</SeparatorContentComponent>
+      <SeparatorContentComponent>
+        Continue with your work email and password
+      </SeparatorContentComponent>
+    </div>
+  ),
+};
+
 const items = [
   {
     iconUrl: "https://assets.sy-ui.com/docs/3dicons/bell-small.png",
@@ -64,8 +83,7 @@ const items = [
     title: "Set up Browser Extension",
   },
   {
-    iconUrl:
-      "https://assets.sy-ui.com/docs/3dicons/mint-collective-small.png",
+    iconUrl: "https://assets.sy-ui.com/docs/3dicons/mint-collective-small.png",
     subtitle: "Create your first collectible",
     title: "Mint Collectible",
   },

@@ -1,6 +1,6 @@
 import {render, screen} from "@sy-ui/testing/helpers";
 
-import {Separator} from "@/components/separator";
+import {Separator, SeparatorContent} from "@/components/separator";
 
 describe("Separator", () => {
   it("renders with separator role", () => {
@@ -37,5 +37,52 @@ describe("Separator", () => {
     render(<Separator data-foo="bar" data-testid="separator" />);
 
     expect(screen.getByTestId("separator")).toHaveAttribute("data-foo", "bar");
+  });
+});
+
+describe("SeparatorContent", () => {
+  it("renders content between two decorative lines", () => {
+    render(<SeparatorContent data-testid="separator-content">OR</SeparatorContent>);
+
+    const content = screen.getByTestId("separator-content");
+    const lines = content.querySelectorAll('[data-slot="separator-content-line"]');
+
+    expect(content).toHaveAttribute("data-slot", "separator-content");
+    expect(screen.getByText("OR")).toBeInTheDocument();
+    expect(lines).toHaveLength(2);
+    lines.forEach((line) => expect(line).toHaveAttribute("aria-hidden", "true"));
+    expect(screen.queryByRole("separator")).not.toBeInTheDocument();
+  });
+
+  it("exposes variant styles", () => {
+    render(
+      <SeparatorContent data-testid="separator-content" variant="secondary">
+        OR
+      </SeparatorContent>,
+    );
+
+    const content = screen.getByTestId("separator-content");
+    const line = content.querySelector('[data-slot="separator-content-line"]');
+
+    expect(content).not.toHaveAttribute("data-orientation");
+    expect(content).toHaveClass("separator__container");
+    expect(line).toHaveClass("separator--horizontal", "separator--secondary");
+  });
+
+  it("supports custom render and className", () => {
+    render(
+      <SeparatorContent
+        className="custom-class-name"
+        data-testid="separator-content"
+        render={(props) => <section {...props} />}
+      >
+        OR
+      </SeparatorContent>,
+    );
+
+    const content = screen.getByTestId("separator-content");
+
+    expect(content.tagName).toBe("SECTION");
+    expect(content).toHaveClass("custom-class-name");
   });
 });

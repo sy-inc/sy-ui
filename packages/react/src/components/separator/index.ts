@@ -22,8 +22,15 @@ export {SeparatorRoot};
 export type {SeparatorRootProps, SeparatorRootProps as SeparatorProps} from "./separator";
 
 /* -------------------------------------------------------------------------------------------------
+ * Content
+ * -----------------------------------------------------------------------------------------------*/
+export {SeparatorContent} from "./separator-content";
+
+export type {SeparatorContentProps} from "./separator-content";
+
+/* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {separatorVariants} from "@sy-ui/styles";
+export {separatorContentVariants, separatorVariants} from "@sy-ui/styles";
 
-export type {SeparatorVariants} from "@sy-ui/styles";
+export type {SeparatorContentVariants, SeparatorVariants} from "@sy-ui/styles";
