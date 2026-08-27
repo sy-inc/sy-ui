@@ -12,30 +12,13 @@ export const navbarVariants = tv({
     toggle: "navbar__menu-toggle",
   },
   variants: {
-    isBlurred: {
-      false: {
-        base: "navbar--opaque",
-        menu: "navbar__menu--opaque",
-      },
-      true: {
-        base: "navbar--blurred",
-        menu: "navbar__menu--blurred",
-      },
-    },
-    isBordered: {
-      true: {base: "navbar--bordered"},
-    },
     justify: {
       start: {content: "navbar__content--start"},
       center: {content: "navbar__content--center"},
       end: {content: "navbar__content--end"},
     },
-    position: {
-      static: {base: "navbar--static"},
-      sticky: {base: "navbar--sticky"},
-    },
   },
-  defaultVariants: {isBlurred: true, justify: "start", position: "sticky"},
+  defaultVariants: {justify: "start"},
 });
 
 export type NavbarVariants = VariantProps<typeof navbarVariants>;

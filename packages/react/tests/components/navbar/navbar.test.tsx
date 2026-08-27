@@ -31,28 +31,15 @@ describe("Navbar", () => {
     expect(menu).toHaveAttribute("data-slot", "navbar-menu");
   });
 
-  it("supports blurred and bordered variants", () => {
-    const {rerender} = render(<Navbar data-testid="navbar" />);
-    const navbar = screen.getByTestId("navbar");
+  it("renders content without a mobile-only hidden state", () => {
+    render(
+      <Navbar>
+        <Navbar.Content data-testid="navbar-content">Links</Navbar.Content>
+      </Navbar>,
+    );
 
-    expect(navbar).toHaveClass("navbar--blurred");
-    expect(navbar).not.toHaveClass("navbar--bordered");
+    const content = screen.getByTestId("navbar-content");
 
-    rerender(<Navbar isBordered data-testid="navbar" isBlurred={false} />);
-
-    expect(navbar).toHaveClass("navbar--opaque", "navbar--bordered");
-    expect(navbar).not.toHaveClass("navbar--blurred");
-  });
-
-  it("supports sticky and static positioning", () => {
-    const {rerender} = render(<Navbar data-testid="navbar" />);
-    const navbar = screen.getByTestId("navbar");
-
-    expect(navbar).toHaveClass("navbar--sticky");
-
-    rerender(<Navbar data-testid="navbar" position="static" />);
-
-    expect(navbar).toHaveClass("navbar--static");
-    expect(navbar).not.toHaveClass("navbar--sticky");
+    expect(content).toBeVisible();
   });
 });
