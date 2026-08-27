@@ -234,7 +234,7 @@ interface TabProps extends ComponentPropsWithRef<typeof TabPrimitive> {
   className?: string;
 }
 
-const Tab = ({children, className, ...props}: TabProps) => {
+const Tab = ({children, className, onFocus, ...props}: TabProps) => {
   const {slots} = use(TabsContext);
 
   return (
@@ -242,6 +242,20 @@ const Tab = ({children, className, ...props}: TabProps) => {
       {...props}
       className={composeTwRenderProps(className, slots?.tab())}
       data-slot="tabs-tab"
+      onFocus={(event) => {
+        onFocus?.(event);
+
+        const tab = event.currentTarget;
+        const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth";
+
+        requestAnimationFrame(() => {
+          if (typeof tab.scrollIntoView !== "function") return;
+
+          tab.scrollIntoView({behavior, block: "nearest", inline: "nearest"});
+        });
+      }}
     >
       {children}
     </TabPrimitive>

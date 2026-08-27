@@ -65,6 +65,60 @@ const overflowItems = [
   {id: "settings", label: "Settings"},
 ];
 
+const longLabelItems = [
+  {id: "overview", label: "Overview"},
+  {id: "security", label: "Security and authentication settings"},
+  {id: "notifications", label: "Notification preferences and delivery"},
+  {id: "integrations", label: "Connected integrations"},
+];
+
+const FitContentTemplate = (args: Story["args"]) => (
+  <div className="w-[400px]">
+    <Tabs {...args}>
+      <Tabs.ListContainer>
+        <Tabs.List aria-label="Two options">
+          <Tabs.Tab id="overview">
+            Overview
+            <Tabs.Indicator />
+          </Tabs.Tab>
+          <Tabs.Tab id="analytics">
+            Analytics
+            <Tabs.Indicator />
+          </Tabs.Tab>
+        </Tabs.List>
+      </Tabs.ListContainer>
+      <Tabs.Panel className="pt-4" id="overview">
+        <p>Two short tabs keep their natural content widths.</p>
+      </Tabs.Panel>
+      <Tabs.Panel className="pt-4" id="analytics">
+        <p>The list container still spans the available width.</p>
+      </Tabs.Panel>
+    </Tabs>
+  </div>
+);
+
+const LongLabelsTemplate = (args: Story["args"]) => (
+  <div className="w-[320px]">
+    <Tabs {...args}>
+      <Tabs.ListContainer>
+        <Tabs.List aria-label="Long labels">
+          {longLabelItems.map((item) => (
+            <Tabs.Tab key={item.id} id={item.id}>
+              {item.label}
+              <Tabs.Indicator />
+            </Tabs.Tab>
+          ))}
+        </Tabs.List>
+      </Tabs.ListContainer>
+      {longLabelItems.map((item) => (
+        <Tabs.Panel key={item.id} className="pt-4" id={item.id}>
+          <p>{item.label} panel content.</p>
+        </Tabs.Panel>
+      ))}
+    </Tabs>
+  </div>
+);
+
 const OverflowTemplate = (args: Story["args"]) => {
   return (
     <div className="w-[400px]">
@@ -497,6 +551,20 @@ export const Overflow: Story = {
     children: null,
   },
   render: OverflowTemplate,
+};
+
+export const FitContent: Story = {
+  args: {
+    children: null,
+  },
+  render: FitContentTemplate,
+};
+
+export const LongLabels: Story = {
+  args: {
+    children: null,
+  },
+  render: LongLabelsTemplate,
 };
 
 export const Vertical: Story = {

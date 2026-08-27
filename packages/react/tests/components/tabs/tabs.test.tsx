@@ -100,6 +100,27 @@ describe("Tabs", () => {
     expect(tester.getSelectedTab()).toHaveTextContent("Analytics");
   });
 
+  it("scrolls a focused tab into view", async () => {
+    const scrollIntoView = vi.fn();
+    const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
+    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+
+    try {
+      await renderTabs();
+      screen.getByRole("tab", {name: "Analytics"}).focus();
+
+      await waitFor(() => {
+        expect(scrollIntoView).toHaveBeenCalledWith({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "nearest",
+        });
+      });
+    } finally {
+      HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+    }
+  });
+
   it("supports disabled tabs without selecting", async () => {
     const onSelectionChange = vi.fn();
 

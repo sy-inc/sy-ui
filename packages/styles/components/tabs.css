@@ -14,7 +14,7 @@
 
 /* Tab list container */
 .tabs__list-container {
-  @apply relative bg-default;
+  @apply relative w-fit max-w-full bg-default;
 
   border-radius: calc(var(--radius) * 2.5);
 
@@ -106,7 +106,7 @@
 
   /* Horizontal orientation - grow with content so ScrollShadow can detect overflow */
   &[data-orientation="horizontal"] {
-    @apply w-max min-w-full flex-row;
+    @apply w-max flex-row;
   }
 
   /* Vertical orientation */
@@ -121,10 +121,11 @@
 
 /* Individual tab */
 .tabs__tab {
-  @apply relative flex h-8 w-full items-center justify-center rounded-3xl px-4 text-center text-sm font-medium text-muted outline-none no-highlight;
+  @apply relative flex h-8 w-auto shrink-0 items-center justify-center rounded-3xl px-4 text-center text-sm font-medium whitespace-nowrap text-muted outline-none no-highlight;
 
   z-index: 1;
   cursor: var(--cursor-interactive);
+  scroll-margin-inline: 2.5rem;
 
   /**
    * Transitions
