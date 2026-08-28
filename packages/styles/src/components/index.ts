@@ -30,7 +30,7 @@ export * from "./date-field";
 export * from "./date-picker";
 export * from "./date-range-picker";
 export * from "./date-input-group";
-export * from "./time-picker";
+// TimePicker owns its v3 styles in packages/react.
 export * from "./description";
 export * from "./drawer";
 export * from "./disclosure";

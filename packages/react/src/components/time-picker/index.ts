@@ -1,2 +1,2 @@
-export {TimePicker, type TimePickerProps} from "./time-picker";
-export {TimePickerVariants, type TimePickerVariantProps} from "./time-picker.styles";
+export {TimePicker, type TimePickerGranularity, type TimePickerProps} from "./time-picker";
+export {timePickerVariants} from "./time-picker.styles";
