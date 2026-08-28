@@ -70,7 +70,7 @@ interface TableRootProps<
 const TableRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
   children,
   className,
-  isTruncate = true,
+  isTruncate = false,
   isResizable = false,
   onResize,
   onResizeEnd,

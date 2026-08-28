@@ -13,6 +13,23 @@ if (typeof globalThis.ResizeObserver === "undefined") {
   };
 }
 
+if (typeof globalThis.IntersectionObserver === "undefined") {
+  globalThis.IntersectionObserver = class {
+    readonly root = null;
+    readonly rootMargin = "0px";
+    readonly thresholds = [0];
+
+    constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {}
+
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() {
+      return [];
+    }
+  };
+}
+
 if (typeof window.matchMedia !== "function") {
   Object.defineProperty(window, "matchMedia", {
     value: (query: string) => ({

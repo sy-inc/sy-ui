@@ -191,7 +191,7 @@ describe("Table", () => {
     runAllTimers();
 
     expect(selectAll).toBeChecked();
-    expect(rowCheckboxes.every((checkbox) => checkbox.checked)).toBe(true);
+    for (const checkbox of rowCheckboxes) expect(checkbox).toBeChecked();
     expect(
       screen
         .getAllByRole("row")
@@ -204,7 +204,7 @@ describe("Table", () => {
 
     expect(selectAll).toBePartiallyChecked();
     expect(rowCheckboxes[0]).not.toBeChecked();
-    expect(rowCheckboxes.slice(1).every((checkbox) => checkbox.checked)).toBe(true);
+    for (const checkbox of rowCheckboxes.slice(1)) expect(checkbox).toBeChecked();
     expect(onSelectionChange).toHaveBeenCalled();
   });
 

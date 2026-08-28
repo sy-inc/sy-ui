@@ -102,6 +102,8 @@
    -------------------------------------------------------------------------- */
 .table__content {
   @apply w-full border-separate border-spacing-0 text-sm;
+  min-width: max-content;
+  white-space: nowrap;
 }
 
 [data-slot="table-managed-columns"] {

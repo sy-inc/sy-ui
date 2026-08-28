@@ -370,6 +370,15 @@ importers:
       '@sy-ui/styles':
         specifier: workspace:*
         version: link:../styles
+      embla-carousel:
+        specifier: 9.0.0-rc03
+        version: 9.0.0-rc03
+      embla-carousel-autoplay:
+        specifier: 9.0.0-rc03
+        version: 9.0.0-rc03(embla-carousel@9.0.0-rc03)
+      embla-carousel-react:
+        specifier: 9.0.0-rc03
+        version: 9.0.0-rc03(react@19.2.8)
       input-otp:
         specifier: 1.4.2
         version: 1.4.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -5064,6 +5073,24 @@ packages:
 
   electron-to-chromium@1.5.400:
     resolution: {integrity: sha512-96EWDNjM59SYflgeV5Ylsf4EMiq1a25YjCnJH7cxn/AF2H3pILRweaUnoLax0yKHWdpOzY6JKEu45e8irqZIHA==}
+
+  embla-carousel-autoplay@9.0.0-rc03:
+    resolution: {integrity: sha512-zf3x+Z3MGQfyd6aRrk4XRpu6u7afb5shKvSlj4ZHQHQxjgNfrBj98bghZ0jaUlGKAmx4A/5FJ99MLthaJupoEQ==}
+    peerDependencies:
+      embla-carousel: 9.0.0-rc03
+
+  embla-carousel-react@9.0.0-rc03:
+    resolution: {integrity: sha512-9+WG2RjzdapJe9m/v6n8XTVbJE6Ed5e/ZmuNM0GzNh5hnhJ31HSwZrjXSkvh3x57yi6q2AeQglPqEb9K+i1RsA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+
+  embla-carousel-reactive-utils@9.0.0-rc03:
+    resolution: {integrity: sha512-NxACWnzteTmmpZJpvoi4mKxyTyw+B4uBV0sfjJYC4PXaO20e7hjBa05wE4s37lr5ZBgBDrl54PLWZhap3U3r1Q==}
+    peerDependencies:
+      embla-carousel: 9.0.0-rc03
+
+  embla-carousel@9.0.0-rc03:
+    resolution: {integrity: sha512-f36OvPQVCJl54m4nEWfPRd2fe3NQNGY671RzWvvaz9Uai1dpNWO2A8YRUL4fj2KgcYizaO3Wxhu9p0dDPh8Mug==}
 
   emoji-regex-xs@2.0.1:
     resolution: {integrity: sha512-1QFuh8l7LqUcKe24LsPUNzjrzJQ7pgRwp1QMcZ5MX6mFplk2zQ08NVCM84++1cveaUUYtcCYHmeFEuNg16sU4g==}
@@ -13265,6 +13292,22 @@ snapshots:
       gopd: 1.2.0
 
   electron-to-chromium@1.5.400: {}
+
+  embla-carousel-autoplay@9.0.0-rc03(embla-carousel@9.0.0-rc03):
+    dependencies:
+      embla-carousel: 9.0.0-rc03
+
+  embla-carousel-react@9.0.0-rc03(react@19.2.8):
+    dependencies:
+      embla-carousel: 9.0.0-rc03
+      embla-carousel-reactive-utils: 9.0.0-rc03(embla-carousel@9.0.0-rc03)
+      react: 19.2.8
+
+  embla-carousel-reactive-utils@9.0.0-rc03(embla-carousel@9.0.0-rc03):
+    dependencies:
+      embla-carousel: 9.0.0-rc03
+
+  embla-carousel@9.0.0-rc03: {}
 
   emoji-regex-xs@2.0.1: {}
 

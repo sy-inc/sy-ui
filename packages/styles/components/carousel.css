@@ -1,0 +1,272 @@
+/* ==========================================================================
+   Carousel
+   ========================================================================== */
+
+.carousel {
+  @apply relative w-full;
+  --carousel-items-per-view: var(--carousel-items-per-view-base, 1);
+  --carousel-gap: var(--carousel-gap-base, 0px);
+  --carousel-peek: var(--carousel-peek-base, 0px);
+}
+
+.carousel__viewport {
+  @apply overflow-hidden rounded-[inherit];
+}
+
+.carousel__content {
+  @apply flex;
+  gap: var(--carousel-gap);
+}
+
+/* Embla measures the wrap-around seam from the last slide's trailing margin, not the flex
+   `gap` between siblings — without this, a looped carousel loses its gap at the seam. */
+.carousel[data-loop="true"] .carousel__item:last-child {
+  margin-inline-end: var(--carousel-gap);
+}
+
+@media (min-width: 640px) {
+  .carousel {
+    --carousel-items-per-view: var(
+      --carousel-items-per-view-sm,
+      var(--carousel-items-per-view-base, 1)
+    );
+    --carousel-gap: var(--carousel-gap-sm, var(--carousel-gap-base, 0px));
+    --carousel-peek: var(--carousel-peek-sm, var(--carousel-peek-base, 0px));
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel {
+    --carousel-items-per-view: var(
+      --carousel-items-per-view-md,
+      var(--carousel-items-per-view-sm, var(--carousel-items-per-view-base, 1))
+    );
+    --carousel-gap: var(--carousel-gap-md, var(--carousel-gap-sm, var(--carousel-gap-base, 0px)));
+    --carousel-peek: var(
+      --carousel-peek-md,
+      var(--carousel-peek-sm, var(--carousel-peek-base, 0px))
+    );
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel {
+    --carousel-items-per-view: var(
+      --carousel-items-per-view-lg,
+      var(
+        --carousel-items-per-view-md,
+        var(--carousel-items-per-view-sm, var(--carousel-items-per-view-base, 1))
+      )
+    );
+    --carousel-gap: var(
+      --carousel-gap-lg,
+      var(--carousel-gap-md, var(--carousel-gap-sm, var(--carousel-gap-base, 0px)))
+    );
+    --carousel-peek: var(
+      --carousel-peek-lg,
+      var(--carousel-peek-md, var(--carousel-peek-sm, var(--carousel-peek-base, 0px)))
+    );
+  }
+}
+
+@media (min-width: 1280px) {
+  .carousel {
+    --carousel-items-per-view: var(
+      --carousel-items-per-view-xl,
+      var(
+        --carousel-items-per-view-lg,
+        var(
+          --carousel-items-per-view-md,
+          var(--carousel-items-per-view-sm, var(--carousel-items-per-view-base, 1))
+        )
+      )
+    );
+    --carousel-gap: var(
+      --carousel-gap-xl,
+      var(
+        --carousel-gap-lg,
+        var(--carousel-gap-md, var(--carousel-gap-sm, var(--carousel-gap-base, 0px)))
+      )
+    );
+    --carousel-peek: var(
+      --carousel-peek-xl,
+      var(
+        --carousel-peek-lg,
+        var(--carousel-peek-md, var(--carousel-peek-sm, var(--carousel-peek-base, 0px)))
+      )
+    );
+  }
+}
+
+.carousel__item {
+  @apply min-w-0 shrink-0 grow-0 basis-full;
+  flex-basis: calc(
+    (
+        100% - 2 * var(--carousel-peek) -
+          (var(--carousel-items-per-view) - 1) * var(--carousel-gap)
+      ) / var(--carousel-items-per-view)
+  );
+
+  &[role="button"] {
+    cursor: var(--cursor-interactive);
+
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default;
+    }
+
+    &:active,
+    &[data-pressed="true"] {
+      @apply scale-[.99];
+    }
+
+    &:focus-visible,
+    &[data-focus-visible="true"] {
+      @apply status-focused;
+    }
+
+    &[aria-disabled="true"] {
+      @apply status-disabled;
+    }
+  }
+}
+
+.carousel--horizontal {
+  .carousel__content {
+    @apply touch-pan-y flex-row;
+  }
+
+  .carousel__previous {
+    @apply start-3 top-1/2 -translate-y-1/2;
+  }
+
+  .carousel__next {
+    @apply end-3 top-1/2 -translate-y-1/2;
+  }
+
+  .carousel__control svg {
+    @apply rtl:rotate-180;
+  }
+
+  .carousel__pagination {
+    @apply bottom-2 left-1/2 -translate-x-1/2 flex-row;
+  }
+}
+
+.carousel--vertical {
+  @apply h-full;
+
+  .carousel__viewport {
+    @apply h-full;
+  }
+
+  .carousel__content {
+    @apply h-full touch-pan-x flex-col;
+  }
+
+  .carousel__item {
+    @apply h-full min-h-0;
+  }
+
+  .carousel__previous {
+    @apply top-3 left-1/2 -translate-x-1/2;
+  }
+
+  .carousel__next {
+    @apply bottom-3 left-1/2 -translate-x-1/2;
+  }
+
+  .carousel__pagination {
+    @apply top-1/2 right-2 -translate-y-1/2 flex-col;
+  }
+}
+
+.carousel__control {
+  @apply absolute z-2 inline-flex size-11 items-center justify-center rounded-full border border-border bg-background/80 text-foreground shadow-sm backdrop-blur-sm outline-none no-highlight;
+
+  cursor: var(--cursor-interactive);
+  transition:
+    transform 150ms var(--ease-smooth),
+    background-color 100ms var(--ease-out),
+    opacity 100ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  & svg {
+    @apply size-5;
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply scale-95;
+  }
+}
+
+.carousel__autoplay {
+  @apply start-3 bottom-3;
+}
+
+.carousel__pagination {
+  @apply absolute z-2 flex items-center justify-center gap-1;
+}
+
+.carousel__pagination-item {
+  @apply relative inline-flex size-4 items-center justify-center rounded-full outline-none no-highlight;
+
+  cursor: var(--cursor-interactive);
+
+  /* Expands the hit area to the 44px minimum touch target without growing the visible dot. */
+  &::before {
+    @apply absolute -inset-3.5 content-[""];
+  }
+
+  &::after {
+    @apply size-2 rounded-full bg-muted/50 content-[""];
+    transition:
+      width 150ms var(--ease-smooth),
+      background-color 150ms var(--ease-out);
+  }
+
+  &[data-selected="true"]::after {
+    @apply w-4 bg-accent;
+  }
+
+  /* Render-prop content replaces the default dot. */
+  &[data-custom]::after {
+    @apply hidden;
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  @media (hover: hover) {
+    &:hover::after,
+    &[data-hovered="true"]::after {
+      @apply bg-foreground/60;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: none;
+    }
+  }
+}

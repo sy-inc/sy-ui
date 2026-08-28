@@ -2,7 +2,7 @@ import {render} from "@sy-ui/testing/browser";
 import {isDocumentScrollLocked} from "@sy-ui/testing/helpers";
 import {page, userEvent} from "vitest/browser";
 
-// @ts-expect-error Browser geometry tests load the generated CSS artifact directly.
+// Browser geometry tests load the generated CSS artifact directly.
 import "../../../../styles/dist/sy-ui.min.css";
 
 import {SidebarFixture} from "./fixtures";
