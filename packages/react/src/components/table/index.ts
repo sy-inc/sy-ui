@@ -11,12 +11,18 @@ import {
   TableHeader,
   TableLoadMoreContent,
   TableLoadMoreItem,
+  TableLoadingOverlay,
+  TableOverflow,
   TableResizableContainer,
   TableRoot,
   TableRow,
   TableScrollContainer,
+  TableSelectionCheckbox,
   TableSortableColumnHeader,
+  TableSummary,
 } from "./table";
+import {TableManagedColumns} from "./table-managed-columns";
+import {TableVirtualizer} from "./table-virtualizer";
 
 /* -------------------------------------------------------------------------------------------------
  * Compound Component
@@ -32,11 +38,17 @@ export const Table = Object.assign(TableRoot, {
   Header: TableHeader,
   LoadMore: TableLoadMoreItem,
   LoadMoreContent: TableLoadMoreContent,
+  LoadingOverlay: TableLoadingOverlay,
+  ManagedColumns: TableManagedColumns,
+  Overflow: TableOverflow,
   ResizableContainer: TableResizableContainer,
   Root: TableRoot,
   Row: TableRow,
   ScrollContainer: TableScrollContainer,
+  SelectionCheckbox: TableSelectionCheckbox,
   SortableColumnHeader: TableSortableColumnHeader,
+  Summary: TableSummary,
+  Virtualizer: TableVirtualizer,
 });
 
 export type Table = {
@@ -50,11 +62,17 @@ export type Table = {
   BodyProps: ComponentProps<typeof TableBody>;
   RowProps: ComponentProps<typeof TableRow>;
   CellProps: ComponentProps<typeof TableCell>;
+  SelectionCheckboxProps: ComponentProps<typeof TableSelectionCheckbox>;
   FooterProps: ComponentProps<typeof TableFooter>;
   LoadMoreProps: ComponentProps<typeof TableLoadMoreItem>;
   LoadMoreContentProps: ComponentProps<typeof TableLoadMoreContent>;
+  LoadingOverlayProps: ComponentProps<typeof TableLoadingOverlay>;
+  ManagedColumnsProps: ComponentProps<typeof TableManagedColumns>;
+  OverflowProps: ComponentProps<typeof TableOverflow>;
   ResizableContainerProps: ComponentProps<typeof TableResizableContainer>;
   SortableColumnHeaderProps: ComponentProps<typeof TableSortableColumnHeader>;
+  SummaryProps: ComponentProps<typeof TableSummary>;
+  VirtualizerProps: ComponentProps<typeof TableVirtualizer>;
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -70,12 +88,18 @@ export {
   TableBody,
   TableRow,
   TableCell,
+  TableSelectionCheckbox,
   TableFooter,
   TableCollection,
   TableLoadMoreItem,
   TableLoadMoreContent,
   TableResizableContainer,
   TableSortableColumnHeader,
+  TableManagedColumns,
+  TableSummary,
+  TableOverflow,
+  TableLoadingOverlay,
+  TableVirtualizer,
 };
 
 export type {
@@ -89,13 +113,20 @@ export type {
   TableBodyProps,
   TableRowProps,
   TableCellProps,
+  TableSelectionCheckboxProps,
   TableFooterProps,
   TableLoadMoreItemProps,
   TableLoadMoreContentProps,
   TableResizableContainerProps,
   TableSortableColumnHeaderProps,
   TableSortDirection,
+  TableSummaryProps,
+  TableOverflowProps,
+  TableLoadingOverlayProps,
 } from "./table";
+
+export type {TableManagedColumnsProps} from "./table-managed-columns";
+export type {TableVirtualizerProps} from "./table-virtualizer";
 
 /* -------------------------------------------------------------------------------------------------
  * Variants
@@ -103,3 +134,5 @@ export type {
 export {tableVariants} from "@sy-ui/styles";
 
 export type {TableVariants} from "@sy-ui/styles";
+
+export type {TableColumnDefinition, TableColumnPinnedSide} from "./table-column-geometry";

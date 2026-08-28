@@ -17,11 +17,14 @@ export const tableVariants = tv({
     header: "table__header",
     loadMore: "table__load-more",
     loadMoreContent: "table__load-more-content",
+    loadingOverlay: "table__loading-overlay",
+    overflow: "table__overflow",
     resizableContainer: "table__resizable-container",
     row: "table__row",
     scrollContainer: "table__scroll-container",
     sortableColumnHeader: "table__sortable-column-header",
     sortableColumnIndicator: "table__sortable-column-indicator",
+    summary: "table__summary",
   },
   variants: {
     variant: {

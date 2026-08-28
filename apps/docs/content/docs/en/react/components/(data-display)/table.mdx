@@ -110,6 +110,17 @@ Wrap the table in `Table.ResizableContainer` and add `Table.ColumnResizer` insid
   minHeight="420px"
 />
 
+### Managed Columns
+
+`Table.ManagedColumns` is the single geometry boundary for fixed, flexible, resizable, and pinned native columns. Its `columns` must list every leaf `Table.Column` by the same `id` and in the same order. Native pinning uses logical `start`/`end` edges, supports RTL, and adds a shadow only at a covered scroll edge. `Table.Summary` shares the same column track; set `isSticky` to keep it at the bottom of a constrained scrolling container.
+
+<ComponentPreview
+  name="table-managed-columns"
+  minHeight="420px"
+/>
+
+Use `Table.Overflow` inside a cell to opt into truncation. Add `tooltip` to show the full value only when it is actually clipped. `Table.LoadingOverlay` supplies layout only: keep loading state and `aria-busy` on the owning application surface.
+
 ### Empty State
 
 Use `renderEmptyState` on `Table.Body` to display a custom message when the table has no data.
@@ -121,7 +132,7 @@ Use `renderEmptyState` on `Table.Body` to display a custom message when the tabl
 
 ### Virtualization
 
-Table supports virtualization through [Virtualizer](https://react-aria.adobe.com/Virtualizer), enabling efficient rendering of large datasets by displaying only the rows visible within the viewport.
+`Table.Virtualizer` composes the React Aria [Virtualizer](https://react-aria.adobe.com/Virtualizer) with managed column geometry, so virtual rows use the same widths and resizing state. Pass row sizing through `layoutOptions`; column widths come only from `columns` and cannot be overridden there. Pinned columns and `Table.Summary` are native-table features and are not supported in virtualized mode.
 
 <ComponentPreview
   name="table-virtualization"
@@ -204,12 +215,15 @@ The Table component uses these CSS classes ([View source styles](https://github.
 - `.table__row` - Row element (`<tr>`)
 - `.table__cell` - Data cell (`<td>`)
 - `.table__footer` - Footer container (outside table)
+- `.table__summary` - Native table footer row group (`<tfoot>`)
 
 #### Advanced Classes [!toc]
 - `.table__column-resizer` - Drag handle for column resizing
 - `.table__resizable-container` - Wrapper enabling column resizing
 - `.table__load-more` - Sentinel row for infinite scrolling
 - `.table__load-more-content` - Styled container for the loading indicator
+- `.table__overflow` - Opt-in truncation wrapper
+- `.table__loading-overlay` - Presentational loading layer
 
 #### Variant Classes [!toc]
 - `.table-root--primary` - Gray background container with card-style body (default)
@@ -316,8 +330,7 @@ Renders a sortable column label with an ascending/descending indicator. Use it i
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `sortDirection` | `"ascending" \| "descending"` | - | Current sort direction. Pass through from the `Table.Column` render prop. |
-| `showIndicator` | `boolean` | `true` | Whether to render the sort indicator icon when a direction is set. |
-| `indicator` | `React.ReactNode` | - | Custom indicator element. Overrides the default chevron and receives a `data-direction` attribute. |
+| `indicator` | `React.ReactNode` | - | Custom indicator element. Overrides the default chevron and receives a `data-direction` attribute. Pass `null` to render no indicator. |
 | `className` | `string` | - | Additional CSS classes for the wrapper. |
 | `children` | `React.ReactNode` | - | Column label content |
 
@@ -327,6 +340,47 @@ Renders a sortable column label with an ascending/descending indicator. Use it i
 |------|------|---------|-------------|
 | `className` | `string` | - | Additional CSS classes |
 | `children` | `React.ReactNode` | - | Footer content (e.g., pagination) |
+
+### Table.ManagedColumns
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `columns` | `TableColumnDefinition[]` | - | Ordered leaf definitions with `id` plus `width`, `flex`, `minWidth`, `maxWidth`, or native `pinned: "start" \| "end"`. |
+| `fillContainer` | `boolean` | `false` | Distribute spare viewport width between columns. |
+| `viewportWidth` | `number` | measured | Controlled geometry viewport width. Usually omit it. |
+
+Place `Table.ResizableContainer` inside this boundary to feed React Aria resize results back into the same geometry. Pinning is native-only; an invalid pinned width emits a development warning.
+
+### Table.Virtualizer
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `columns` | `TableColumnDefinition[]` | - | The authoritative virtual column geometry. |
+| `layoutOptions` | `Omit<TableLayoutProps, "columnWidths">` | - | Row and heading layout options; managed widths cannot be bypassed. |
+| `fillContainer` | `boolean` | `false` | Distribute spare viewport width between columns. |
+| `viewportWidth` | `number` | measured | Controlled geometry viewport width. Usually omit it. |
+
+### Table.Summary
+
+Native `<tfoot>` row group. Render it inside `Table.Content`, after `Table.Body`; it is distinct from the external `Table.Footer` pagination area.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isSticky` | `boolean` | `true` | Stick the summary to the bottom of the nearest scrolling table viewport. Set to `false` to disable it. |
+| `children` | `React.ReactNode` | - | `Table.Row` summary rows. |
+
+### Table.Overflow
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tooltip` | `boolean` | `false` | Enable the tooltip only while the content is measurably clipped. |
+| `children` | `React.ReactNode` | - | Cell or header text. |
+
+### Table.LoadingOverlay
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | Presentational loading content. The component does not own loading state. |
 
 ### Table.ColumnResizer
 

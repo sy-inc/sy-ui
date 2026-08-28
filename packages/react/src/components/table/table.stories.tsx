@@ -1,10 +1,9 @@
 import type {Meta, StoryObj} from "@storybook/react";
 import type {Selection, SortDescriptor} from "react-aria-components/Table";
 
-import {cn} from "@sy-ui/styles";
 import {Icon} from "@iconify/react";
+import {cn} from "@sy-ui/styles";
 import React from "react";
-import {TableLayout, Virtualizer} from "react-aria-components/Virtualizer";
 
 import {Avatar} from "../avatar";
 import {Button} from "../button";
@@ -21,7 +20,7 @@ export default {
   parameters: {
     layout: "centered",
   },
-  title: "Components/Data Display/Table",
+  title: "Components/Table",
   argTypes: {
     variant: {
       control: "select",
@@ -269,7 +268,7 @@ function DefaultTableTemplate({variant = "primary"}: {variant?: "primary" | "sec
             onSortChange={setSortDescriptor}
           >
             <Table.Header>
-              <Table.Column className="pe-0">
+              <Table.Column className="pe-2">
                 <Checkbox aria-label="Select all" slot="selection">
                   <Checkbox.Content>
                     <Checkbox.Control>
@@ -311,7 +310,7 @@ function DefaultTableTemplate({variant = "primary"}: {variant?: "primary" | "sec
             <Table.Body>
               {pagination.paginatedItems.map((user) => (
                 <Table.Row key={user.id} id={user.id}>
-                  <Table.Cell className="pe-0">
+                  <Table.Cell className="pe-2">
                     <Checkbox
                       aria-label={`Select ${user.name}`}
                       slot="selection"
@@ -494,13 +493,7 @@ const DynamicWithSelectionTemplate = () => {
           >
             <Table.Header>
               <Table.Column>
-                <Checkbox aria-label="Select all" slot="selection">
-                  <Checkbox.Content>
-                    <Checkbox.Control>
-                      <Checkbox.Indicator />
-                    </Checkbox.Control>
-                  </Checkbox.Content>
-                </Checkbox>
+                <Table.SelectionCheckbox aria-label="Select all" />
               </Table.Column>
               <Table.Collection items={columns}>
                 {(column) => (
@@ -512,17 +505,10 @@ const DynamicWithSelectionTemplate = () => {
               {(user) => (
                 <Table.Row>
                   <Table.Cell>
-                    <Checkbox
+                    <Table.SelectionCheckbox
                       aria-label={`Select ${user.name}`}
-                      slot="selection"
                       variant="secondary"
-                    >
-                      <Checkbox.Content>
-                        <Checkbox.Control>
-                          <Checkbox.Indicator />
-                        </Checkbox.Control>
-                      </Checkbox.Content>
-                    </Checkbox>
+                    />
                   </Table.Cell>
                   <Table.Collection items={columns}>
                     {(column) => <Table.Cell>{user[column.id]}</Table.Cell>}
@@ -542,6 +528,418 @@ const DynamicWithSelectionTemplate = () => {
 
 export const DynamicWithSelection: Story = {
   render: () => <DynamicWithSelectionTemplate />,
+};
+
+export const SelectionCheckboxes: Story = {
+  render: () => (
+    <Wrapper>
+      <Table>
+        <Table.Content aria-label="Team selection" selectionMode="multiple">
+          <Table.Header>
+            <Table.Column aria-label="Select rows">
+              <Table.SelectionCheckbox aria-label="Select all rows" />
+            </Table.Column>
+            <Table.Column isRowHeader>Name</Table.Column>
+            <Table.Column>Role</Table.Column>
+          </Table.Header>
+          <Table.Body items={users.slice(0, 3)}>
+            {(user) => (
+              <Table.Row>
+                <Table.Cell>
+                  <Table.SelectionCheckbox
+                    aria-label={`Select ${user.name}`}
+                    variant="secondary"
+                  />
+                </Table.Cell>
+                <Table.Cell>{user.name}</Table.Cell>
+                <Table.Cell>{user.role}</Table.Cell>
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Content>
+      </Table>
+    </Wrapper>
+  ),
+};
+
+interface ShowcaseRow {
+  id: number;
+  employee: string;
+  department: string;
+  project: string;
+  location: string;
+  status: "Active" | "On Leave" | "At Risk";
+  email: string;
+  updated: string;
+  notes: string;
+}
+
+const showcaseRows: ShowcaseRow[] = [
+  [
+    "Amelia Hart",
+    "Platform Engineering",
+    "Customer identity migration",
+    "Kuala Lumpur, Malaysia",
+    "Active",
+    "amelia.hart@northstar.example",
+    "2026-08-27",
+    "Coordinating the final validation window with regional support teams and security reviewers.",
+  ],
+  [
+    "Ravi Menon",
+    "Data & Insights",
+    "Quarterly revenue intelligence",
+    "Singapore",
+    "Active",
+    "ravi.menon@northstar.example",
+    "2026-08-26",
+    "Preparing a consolidated briefing that reconciles finance, sales, and customer success data.",
+  ],
+  [
+    "Sofia Laurent",
+    "Customer Experience",
+    "Enterprise onboarding redesign",
+    "Paris, France",
+    "On Leave",
+    "sofia.laurent@northstar.example",
+    "2026-08-25",
+    "Handover is complete; the research synthesis and accessibility review are ready for sign-off.",
+  ],
+  [
+    "Daniel Brooks",
+    "Security Operations",
+    "Privileged access review",
+    "London, United Kingdom",
+    "At Risk",
+    "daniel.brooks@northstar.example",
+    "2026-08-24",
+    "Several application owners have not yet confirmed their remediation dates for legacy accounts.",
+  ],
+  [
+    "Mei Tanaka",
+    "Product Strategy",
+    "International pricing framework",
+    "Tokyo, Japan",
+    "Active",
+    "mei.tanaka@northstar.example",
+    "2026-08-23",
+    "Comparing regional elasticity findings before the leadership workshop scheduled for next week.",
+  ],
+  [
+    "Lucas Ferreira",
+    "Developer Experience",
+    "Unified release workflow",
+    "São Paulo, Brazil",
+    "Active",
+    "lucas.ferreira@northstar.example",
+    "2026-08-22",
+    "The pilot repository has migrated successfully and the remaining teams are queued for enablement.",
+  ],
+  [
+    "Nora Williams",
+    "People Operations",
+    "Manager capability programme",
+    "Toronto, Canada",
+    "Active",
+    "nora.williams@northstar.example",
+    "2026-08-21",
+    "Collecting feedback from the first cohort and adjusting the coaching materials for remote managers.",
+  ],
+  [
+    "Omar Haddad",
+    "Infrastructure",
+    "Multi-region observability rollout",
+    "Dubai, United Arab Emirates",
+    "At Risk",
+    "omar.haddad@northstar.example",
+    "2026-08-20",
+    "The final data residency decision is blocking two production dashboards and their alert policies.",
+  ],
+  [
+    "Grace Chen",
+    "Brand Marketing",
+    "Annual customer conference",
+    "San Francisco, United States",
+    "Active",
+    "grace.chen@northstar.example",
+    "2026-08-19",
+    "Speaker confirmations are nearly complete, with partner announcements still awaiting legal approval.",
+  ],
+  [
+    "Ethan Murphy",
+    "Commercial Operations",
+    "Renewal forecasting improvements",
+    "Dublin, Ireland",
+    "Active",
+    "ethan.murphy@northstar.example",
+    "2026-08-18",
+    "Testing a revised forecast model against historical expansions, contractions, and delayed renewals.",
+  ],
+  [
+    "Priya Shah",
+    "Legal & Compliance",
+    "Regional data processing review",
+    "Bengaluru, India",
+    "On Leave",
+    "priya.shah@northstar.example",
+    "2026-08-17",
+    "The assigned deputy is reviewing the vendor amendments and will return comments by Friday.",
+  ],
+  [
+    "Jonas Weber",
+    "Finance",
+    "Operating plan reconciliation",
+    "Berlin, Germany",
+    "Active",
+    "jonas.weber@northstar.example",
+    "2026-08-16",
+    "Reconciling headcount assumptions and cloud infrastructure allocations across the operating plan.",
+  ],
+  [
+    "Isabella Rossi",
+    "Research & Design",
+    "Self-service workflow study",
+    "Milan, Italy",
+    "Active",
+    "isabella.rossi@northstar.example",
+    "2026-08-15",
+    "The moderated sessions revealed a clear opportunity to simplify first-run configuration for new teams.",
+  ],
+  [
+    "Noah Campbell",
+    "Sales Engineering",
+    "Strategic account architecture",
+    "Melbourne, Australia",
+    "At Risk",
+    "noah.campbell@northstar.example",
+    "2026-08-14",
+    "The customer is waiting for a confirmed integration timeline before approving the technical proposal.",
+  ],
+  [
+    "Yuki Sato",
+    "Quality Engineering",
+    "Cross-browser regression programme",
+    "Osaka, Japan",
+    "Active",
+    "yuki.sato@northstar.example",
+    "2026-08-13",
+    "Automated coverage now includes the highest-volume workflows and the latest mobile browser releases.",
+  ],
+  [
+    "Maya Johnson",
+    "Partnerships",
+    "Cloud marketplace launch",
+    "New York, United States",
+    "Active",
+    "maya.johnson@northstar.example",
+    "2026-08-12",
+    "Partner enablement assets are published while commercial terms move through the final approval round.",
+  ],
+  [
+    "Alexander Petrov",
+    "Technical Support",
+    "Priority incident response playbook",
+    "Prague, Czech Republic",
+    "On Leave",
+    "alexander.petrov@northstar.example",
+    "2026-08-11",
+    "The support rotation has adopted the draft playbook and is recording follow-up improvements.",
+  ],
+  [
+    "Chloe Martin",
+    "Analytics Engineering",
+    "Executive metrics workspace",
+    "Montreal, Canada",
+    "Active",
+    "chloe.martin@northstar.example",
+    "2026-08-10",
+    "Dashboard definitions are being standardized so leadership reports use the same source-of-truth metrics.",
+  ],
+  [
+    "Samuel Okafor",
+    "Product Operations",
+    "Launch readiness programme",
+    "Lagos, Nigeria",
+    "At Risk",
+    "samuel.okafor@northstar.example",
+    "2026-08-09",
+    "Two dependent teams still need to confirm ownership for localization testing and customer communications.",
+  ],
+  [
+    "Hannah Lee",
+    "Learning & Development",
+    "Internal technical academy",
+    "Seoul, South Korea",
+    "Active",
+    "hannah.lee@northstar.example",
+    "2026-08-08",
+    "The first learning path is available to pilot groups and includes practical exercises with guided reviews.",
+  ],
+].map(([employee, department, project, location, status, email, updated, notes], index) => ({
+  department,
+  email,
+  employee,
+  id: index + 1,
+  location,
+  notes,
+  project,
+  status: status as ShowcaseRow["status"],
+  updated,
+}));
+
+function ShowcaseTableTemplate() {
+  const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set());
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
+    column: "employee",
+    direction: "ascending",
+  });
+
+  const sortedRows = React.useMemo(() => {
+    const column = String(sortDescriptor.column) as keyof ShowcaseRow;
+
+    return [...showcaseRows].sort((a, b) => {
+      const result = String(a[column]).localeCompare(String(b[column]));
+
+      return sortDescriptor.direction === "descending" ? -result : result;
+    });
+  }, [sortDescriptor]);
+
+  const sortableHeader = (id: keyof ShowcaseRow, label: string) => (
+    <Table.Column
+      allowsSorting
+      defaultWidth={180}
+      id={id}
+      isRowHeader={id === "employee"}
+      tooltipProps={{isDisabled: true}}
+    >
+      {({sortDirection}) => (
+        <Table.SortableColumnHeader sortDirection={sortDirection}>
+          {label}
+        </Table.SortableColumnHeader>
+      )}
+    </Table.Column>
+  );
+
+  return (
+    <Wrapper>
+      <Table className="max-w-5xl">
+        <Table.ManagedColumns
+          columns={[
+            {id: "select", pinned: "start", width: 72},
+            {id: "employee", width: 180},
+            {id: "department", width: 180},
+            {id: "project", width: 220},
+            {id: "location", width: 190},
+            {id: "status", width: 130},
+            {id: "email", width: 260},
+            {id: "updated", width: 180},
+            {id: "notes", width: 340},
+            {id: "actions", pinned: "end", width: 120},
+          ]}
+        >
+          <Table.ScrollContainer className="max-h-[360px]">
+            <Table.Content
+              aria-label="Northstar operations showcase"
+              selectedKeys={selectedKeys}
+              selectionMode="multiple"
+              sortDescriptor={sortDescriptor}
+              onSelectionChange={setSelectedKeys}
+              onSortChange={setSortDescriptor}
+            >
+              <Table.Header>
+                <Table.Column
+                  aria-label="Select rows"
+                  id="select"
+                  tooltipProps={{isDisabled: true}}
+                >
+                  <Table.SelectionCheckbox aria-label="Select all rows" />
+                </Table.Column>
+                {sortableHeader("employee", "Employee name and primary contact")}
+                {sortableHeader("department", "Department and organizational group")}
+                {sortableHeader("project", "Current strategic initiative and delivery programme")}
+                <Table.Column id="location" tooltipProps={{isDisabled: true}}>
+                  Office location and regional hub
+                </Table.Column>
+                <Table.Column id="status" tooltipProps={{isDisabled: true}}>
+                  Delivery status and escalation state
+                </Table.Column>
+                <Table.Column id="email" tooltipProps={{isDisabled: true}}>
+                  Work email and notification address
+                </Table.Column>
+                {sortableHeader("updated", "Last operational update date")}
+                <Table.Column id="notes" tooltipProps={{isDisabled: true}}>
+                  Latest programme note and follow-up context
+                </Table.Column>
+                <Table.Column className="text-end" id="actions" tooltipProps={{isDisabled: true}}>
+                  Actions
+                </Table.Column>
+              </Table.Header>
+              <Table.Body>
+                {sortedRows.map((row) => (
+                  <Table.Row key={row.id} id={row.id}>
+                    <Table.Cell>
+                      <Table.SelectionCheckbox
+                        aria-label={`Select ${row.employee}`}
+                        variant="secondary"
+                      />
+                    </Table.Cell>
+                    <Table.Cell>{row.employee}</Table.Cell>
+                    <Table.Cell>{row.department}</Table.Cell>
+                    <Table.Cell>{row.project}</Table.Cell>
+                    <Table.Cell>{row.location}</Table.Cell>
+                    <Table.Cell>{row.status}</Table.Cell>
+                    <Table.Cell>{row.email}</Table.Cell>
+                    <Table.Cell>{row.updated}</Table.Cell>
+                    <Table.Cell>{row.notes}</Table.Cell>
+                    <Table.Cell className="text-end">
+                      <div className="flex justify-end gap-1">
+                        <Button
+                          aria-label={`Edit ${row.employee}`}
+                          isIconOnly
+                          size="sm"
+                          variant="ghost"
+                        >
+                          <Icon icon="gravity-ui:pencil" />
+                        </Button>
+                        <Button
+                          aria-label={`Delete ${row.employee}`}
+                          isIconOnly
+                          size="sm"
+                          variant="ghost"
+                        >
+                          <Icon icon="gravity-ui:trash-bin" />
+                        </Button>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+              <Table.Summary isSticky>
+                <Table.Row>
+                  <Table.Cell isRowHeader>Total</Table.Cell>
+                  <Table.Cell>{showcaseRows.length} members</Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell>
+                    {showcaseRows.filter((row) => row.status === "Active").length} active
+                  </Table.Cell>
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                  <Table.Cell />
+                </Table.Row>
+              </Table.Summary>
+            </Table.Content>
+          </Table.ScrollContainer>
+        </Table.ManagedColumns>
+      </Table>
+    </Wrapper>
+  );
+}
+
+export const V3Enhancements: Story = {
+  render: () => <ShowcaseTableTemplate />,
 };
 
 /**
@@ -592,6 +990,110 @@ export const ColumnResizing: Story = {
 };
 
 /**
+ * Managed native columns combine flexible sizing, logical start/end pinning, resizing, overflow
+ * disclosure, and a native summary row group. Definitions must match leaf cells by id and order.
+ */
+export const ManagedColumns: Story = {
+  render: () => (
+    <Wrapper>
+      <Table>
+        <Table.ManagedColumns
+          columns={[
+            {id: "name", minWidth: 160, pinned: "start", width: 180},
+            {id: "role", flex: 1, minWidth: 260},
+            {id: "status", minWidth: 130, width: 130},
+            {id: "email", minWidth: 260, width: 260},
+            {id: "actions", pinned: "end", width: 100},
+          ]}
+        >
+          <Table.ResizableContainer className="max-h-72 max-w-4xl overflow-auto">
+            <Table.Content aria-label="Managed columns">
+              <Table.Header>
+                <Table.Column isRowHeader id="name">
+                  Name
+                  <Table.ColumnResizer />
+                </Table.Column>
+                <Table.Column id="role">
+                  <Table.Overflow tooltip>Responsibility and organizational role</Table.Overflow>
+                  <Table.ColumnResizer />
+                </Table.Column>
+                <Table.Column id="status">
+                  Status
+                  <Table.ColumnResizer />
+                </Table.Column>
+                <Table.Column id="email">
+                  Email
+                  <Table.ColumnResizer />
+                </Table.Column>
+                <Table.Column id="actions">Actions</Table.Column>
+              </Table.Header>
+              <Table.Body items={users.slice(0, 6)}>
+                {(user) => (
+                  <Table.Row>
+                    <Table.Cell>{user.name}</Table.Cell>
+                    <Table.Cell>
+                      <Table.Overflow tooltip>{user.role}</Table.Overflow>
+                    </Table.Cell>
+                    <Table.Cell>{user.status}</Table.Cell>
+                    <Table.Cell>
+                      <Table.Overflow tooltip>{user.email}</Table.Overflow>
+                    </Table.Cell>
+                    <Table.Cell>Edit</Table.Cell>
+                  </Table.Row>
+                )}
+              </Table.Body>
+              <Table.Summary isSticky>
+                <Table.Row id="summary">
+                  <Table.Cell>Visible members</Table.Cell>
+                  <Table.Cell>6</Table.Cell>
+                  <Table.Cell>—</Table.Cell>
+                  <Table.Cell>—</Table.Cell>
+                  <Table.Cell>—</Table.Cell>
+                </Table.Row>
+              </Table.Summary>
+            </Table.Content>
+          </Table.ResizableContainer>
+        </Table.ManagedColumns>
+      </Table>
+    </Wrapper>
+  ),
+};
+
+/** Presentational overlay for refresh/sort/filter loading; the caller owns loading state. */
+export const LoadingOverlay: Story = {
+  render: () => (
+    <Wrapper>
+      <Table aria-busy="true" className="min-h-64">
+        <Table.ScrollContainer>
+          <Table.Content aria-label="Refreshing users" className="min-w-[600px]">
+            <Table.Header>
+              {columns.map((column) => (
+                <Table.Column key={column.id} id={column.id} isRowHeader={column.isRowHeader}>
+                  {column.name}
+                </Table.Column>
+              ))}
+            </Table.Header>
+            <Table.Body items={users.slice(0, 4)}>
+              {(user) => (
+                <Table.Row>
+                  <Table.Cell>{user.name}</Table.Cell>
+                  <Table.Cell>{user.role}</Table.Cell>
+                  <Table.Cell>{user.status}</Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
+        <Table.LoadingOverlay aria-label="Refreshing users">
+          <Spinner />
+        </Table.LoadingOverlay>
+      </Table>
+    </Wrapper>
+  ),
+};
+
+/**
  * Async loading with infinite scroll using Table.LoadMore.
  * Simulates fetching paginated data — scroll to the bottom to load more rows.
  */
@@ -632,7 +1134,7 @@ export const AsyncLoading: Story = {
         <Table variant={variant}>
           <Table.ScrollContainer className="h-[280px] overflow-y-auto">
             <Table.Content aria-label="Async loading" className="min-w-[600px]">
-              <Table.Header className="sticky top-0 z-10 bg-surface-secondary">
+              <Table.Header>
                 {columns.map((col) => (
                   <Table.Column key={col.id} id={col.id} isRowHeader={col.isRowHeader}>
                     {col.name}
@@ -670,6 +1172,10 @@ export const AsyncLoading: Story = {
   },
 };
 
+/**
+ * First-class virtualization shares managed widths. Pinning and native Summary are intentionally
+ * native-only and are ignored in this mode.
+ */
 export const Virtualization: Story = {
   render: () => {
     const roles = [
@@ -757,43 +1263,41 @@ export const Virtualization: Story = {
     const virtualizedUsers = generateUsers(1000);
 
     return (
-      <Virtualizer
-        layout={TableLayout}
-        layoutOptions={{
-          rowHeight: 42,
-          headingHeight: 42,
-        }}
-      >
-        <Table>
-          <Table.ScrollContainer>
-            <Table.Content
-              aria-label="Virtualized table with 1000 rows"
-              className="h-[500px] min-w-[700px] overflow-auto scrollbar"
-            >
-              <Table.Header className="h-full w-full">
-                <Table.Column isRowHeader id="name" minWidth={160}>
-                  Name
-                </Table.Column>
-                <Table.Column id="role" minWidth={220}>
-                  Role
-                </Table.Column>
-                <Table.Column id="email" minWidth={240}>
-                  Email
-                </Table.Column>
-              </Table.Header>
-              <Table.Body items={virtualizedUsers}>
-                {(user) => (
-                  <Table.Row>
-                    <Table.Cell>{user.name}</Table.Cell>
-                    <Table.Cell>{user.role}</Table.Cell>
-                    <Table.Cell>{user.email}</Table.Cell>
-                  </Table.Row>
-                )}
-              </Table.Body>
-            </Table.Content>
-          </Table.ScrollContainer>
-        </Table>
-      </Virtualizer>
+      <Table>
+        <Table.Virtualizer
+          columns={[
+            {id: "name", minWidth: 160},
+            {id: "role", minWidth: 220},
+            {id: "email", minWidth: 240},
+          ]}
+          layoutOptions={{
+            rowHeight: 42,
+            headingHeight: 42,
+          }}
+        >
+          <Table.Content
+            aria-label="Virtualized table with 1000 rows"
+            className="h-[500px] min-w-[700px] overflow-auto scrollbar"
+          >
+            <Table.Header className="h-full w-full">
+              <Table.Column isRowHeader id="name">
+                Name
+              </Table.Column>
+              <Table.Column id="role">Role</Table.Column>
+              <Table.Column id="email">Email</Table.Column>
+            </Table.Header>
+            <Table.Body items={virtualizedUsers}>
+              {(user) => (
+                <Table.Row>
+                  <Table.Cell>{user.name}</Table.Cell>
+                  <Table.Cell>{user.role}</Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+        </Table.Virtualizer>
+      </Table>
     );
   },
 };

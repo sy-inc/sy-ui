@@ -115,6 +115,17 @@ export default () => (
   minHeight="420px"
 />
 
+### 受管列
+
+`Table.ManagedColumns` 是固定宽度、弹性宽度、列宽调整和原生固定列的统一几何边界。`columns` 必须按相同顺序列出每个叶级 `Table.Column` 的 `id`。原生固定列使用逻辑方向 `start` / `end`，支持 RTL，并只在内容越过滚动边界时显示阴影。`Table.Summary` 共享同一列轨；设置 `isSticky` 可将其固定在受限高度滚动容器的底部。
+
+<ComponentPreview
+  name="table-managed-columns"
+  minHeight="420px"
+/>
+
+在单元格内组合 `Table.Overflow` 可按需截断文本；添加 `tooltip` 后，仅在内容真实溢出时显示完整值。`Table.LoadingOverlay` 只提供布局，加载状态与 `aria-busy` 仍由业务容器管理。
+
 ### 空状态
 
 在 `Table.Body` 上使用 `renderEmptyState`，在表格无数据时展示自定义消息。
@@ -126,7 +137,7 @@ export default () => (
 
 ### 虚拟滚动
 
-Table 通过 [Virtualizer](https://react-aria.adobe.com/Virtualizer) 支持虚拟化，仅渲染视口内可见行，从而高效展示大数据集。
+`Table.Virtualizer` 将 React Aria [Virtualizer](https://react-aria.adobe.com/Virtualizer) 与受管列几何组合，使虚拟行共享相同的列宽和调整状态。行高等配置通过 `layoutOptions` 传入；列宽只能来自 `columns`，不能在其中覆盖。固定列与 `Table.Summary` 仅支持原生 table 模式，虚拟化模式不支持。
 
 <ComponentPreview
   name="table-virtualization"
@@ -206,12 +217,15 @@ Table 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-ui
 - `.table__row` - 行（`<tr>`）
 - `.table__cell` - 数据单元格（`<td>`）
 - `.table__footer` - 表底容器（位于 table 外部）
+- `.table__summary` - 原生表尾行组（`<tfoot>`）
 
 #### 进阶类 [!toc]
 - `.table__column-resizer` - 列宽拖拽手柄
 - `.table__resizable-container` - 启用列宽调整的包裹层
 - `.table__load-more` - 无限滚动的哨兵行
 - `.table__load-more-content` - 加载指示器的样式容器
+- `.table__overflow` - 按需文本截断包裹层
+- `.table__loading-overlay` - 展示型加载层
 - `.table__sortable-column-header` - 可排序列标签与指示器的包裹层
 - `.table__sortable-column-indicator` - 排序方向 chevron（通过 `[data-direction="descending"]` 翻转）
 
@@ -311,8 +325,7 @@ Table 同时支持 CSS 伪类与 data 属性，以提供更灵活的状态控制
 | Prop | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
 | `sortDirection` | `"ascending" \| "descending"` | - | 当前排序方向。请从 `Table.Column` 的渲染函数中透传。 |
-| `showIndicator` | `boolean` | `true` | 当存在排序方向时是否渲染指示器图标。 |
-| `indicator` | `React.ReactNode` | - | 自定义指示器元素。会覆盖默认的 chevron，并会被自动注入 `data-direction` 属性。 |
+| `indicator` | `React.ReactNode` | - | 自定义指示器元素。会覆盖默认的 chevron，并会被自动注入 `data-direction` 属性。传入 `null` 可不渲染指示器。 |
 | `className` | `string` | - | 包裹元素的额外 CSS 类。 |
 | `children` | `React.ReactNode` | - | 列标签内容。 |
 
@@ -321,6 +334,42 @@ Table 同时支持 CSS 伪类与 data 属性，以提供更灵活的状态控制
 |------|------|--------|------|
 | `className` | `string` | - | 额外的 CSS 类。 |
 | `children` | `React.ReactNode` | - | 表底内容（例如分页）。 |
+
+### Table.ManagedColumns
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `columns` | `TableColumnDefinition[]` | - | 有序叶级列定义，包含 `id`，以及 `width`、`flex`、`minWidth`、`maxWidth` 或原生 `pinned: "start" \| "end"`。 |
+| `fillContainer` | `boolean` | `false` | 将视口剩余宽度分配给各列。 |
+| `viewportWidth` | `number` | 自动测量 | 受控几何视口宽度，通常无需传入。 |
+
+将 `Table.ResizableContainer` 放在此边界内，可把 React Aria 的列宽调整结果同步回同一几何模型。固定列仅支持原生模式；固定列占满视口时，开发环境会发出警告。
+
+### Table.Virtualizer
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `columns` | `TableColumnDefinition[]` | - | 虚拟列几何的唯一来源。 |
+| `layoutOptions` | `Omit<TableLayoutProps, "columnWidths">` | - | 行和表头布局选项，不能绕过受管列宽。 |
+| `fillContainer` | `boolean` | `false` | 将视口剩余宽度分配给各列。 |
+| `viewportWidth` | `number` | 自动测量 | 受控几何视口宽度，通常无需传入。 |
+
+### Table.Summary
+原生 `<tfoot>` 行组。请将其放在 `Table.Content` 内、`Table.Body` 之后；它不同于用于分页的外部 `Table.Footer`。
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `isSticky` | `boolean` | `true` | 固定在最近的表格滚动视口底部；设置为 `false` 可关闭。 |
+| `children` | `React.ReactNode` | - | 汇总用的 `Table.Row`。 |
+
+### Table.Overflow
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `tooltip` | `boolean` | `false` | 仅当内容经测量确实被裁切时启用 Tooltip。 |
+| `children` | `React.ReactNode` | - | 单元格或表头文本。 |
+
+### Table.LoadingOverlay
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `children` | `React.ReactNode` | - | 展示型加载内容；组件不持有加载状态。 |
 
 ### Table.ColumnResizer
 继承自 [React Aria ColumnResizer](https://react-spectrum.adobe.com/react-aria/Table.html#columnresizer)。
