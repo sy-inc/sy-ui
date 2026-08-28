@@ -25,7 +25,7 @@ export const getRSS = async (): Promise<string> => {
   const baseUrl = siteConfig.siteUrl;
 
   const feed = new Feed({
-    copyright: `${currentYear} SY UI All rights reserved.`,
+    copyright: `${currentYear} SY INC All rights reserved.`,
     description: siteConfig.description,
     favicon: new URL("/favicon-dark.svg", baseUrl).toString(),
     id: baseUrl.toString(),
@@ -72,7 +72,7 @@ export const getRSS = async (): Promise<string> => {
         },
       ],
       date: lastModified,
-      description: page.data.description || "SY UI documentation page",
+      description: page.data.description || "SY INC documentation page",
       id: page.url,
       link: pageUrl.toString(),
       title: page.data.title,

@@ -9,7 +9,7 @@ github:
   <span className="text-sm text-muted">November 6, 2025</span>
 </div>
 
-This release introduces a comprehensive redesign of SY UI v3, merging v2's beauty and animations with v3's simplicity. All components redesigned, 8 new components, and improved design system with better color tokens, shadows, and architecture.
+This release introduces a comprehensive redesign of SY INC v3, merging v2's beauty and animations with v3's simplicity. All components redesigned, 8 new components, and improved design system with better color tokens, shadows, and architecture.
 
 ## Installation
 
@@ -39,18 +39,18 @@ Update to the latest version:
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI MCP Server](/docs/ui-for-agents/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC MCP Server](/docs/ui-for-agents/mcp-server).
 </Callout>
 
 ## What's New
 
 ### New Design System
 
-We've spent weeks crafting a new design system that merges the soul of SY UI v2 with the simplicity of v3. Every component has been redesigned with attention to detail, smooth animations, and improved developer experience. The new design system is available in our [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3).
+We've spent weeks crafting a new design system that merges the soul of SY INC v2 with the simplicity of v3. Every component has been redesigned with attention to detail, smooth animations, and improved developer experience. The new design system is available in our [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3).
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/docs/videos/v3-beta-1.mp4"
-  poster="https://assets.sy-ui.com/docs/videos/v3-beta-1-poster.png"
+  src="https://assets.sy-inc.com/docs/videos/v3-beta-1.mp4"
+  poster="https://assets.sy-inc.com/docs/videos/v3-beta-1-poster.png"
   height={430}
   muted
 />
@@ -167,7 +167,7 @@ Several components have been refined with better APIs:
 
 ### Flexible Component Patterns
 
-SY UI now supports flexible component syntax. Use compound patterns with or without `.Root`, or named exports - all three patterns work identically.
+SY INC now supports flexible component syntax. Use compound patterns with or without `.Root`, or named exports - all three patterns work identically.
 
 **Available patterns:**
 
@@ -230,16 +230,16 @@ This provides:
 
 ### Global Animation Control
 
-SY UI now supports easy global animation control through the `data-reduce-motion` attribute. Simply add `data-reduce-motion="true"` to your `<html>` or `<body>` tag to disable all animations across your application.
+SY INC now supports easy global animation control through the `data-reduce-motion` attribute. Simply add `data-reduce-motion="true"` to your `<html>` or `<body>` tag to disable all animations across your application.
 
 ```html
 <!DOCTYPE html>
 <html data-reduce-motion="true">
-  <!-- All SY UI animations will be disabled -->
+  <!-- All SY INC animations will be disabled -->
 </html>
 ```
 
-SY UI automatically respects user motion preferences using the `prefers-reduced-motion` media query and extends Tailwind's `motion-reduce:` variant to support both system preferences and manual control via the data attribute. This provides flexible control over animations while maintaining accessibility best practices.
+SY INC automatically respects user motion preferences using the `prefers-reduced-motion` media query and extends Tailwind's `motion-reduce:` variant to support both system preferences and manual control via the data attribute. This provides flexible control over animations while maintaining accessibility best practices.
 
 Learn more about animations and motion preferences in the [Animation documentation](/docs/handbook/animation).
 
@@ -291,7 +291,7 @@ The `--surface-1`, `--surface-2`, and `--surface-3` variables have been removed.
 --surface: var(--white);
 --surface-foreground: var(--foreground);
 
-/* SY UI automatically calculates these using color-mix */
+/* SY INC automatically calculates these using color-mix */
 --color-surface-secondary: color-mix(in oklab, var(--surface) 94%, var(--surface-foreground) 6%);
 --color-surface-tertiary: color-mix(in oklab, var(--surface) 92%, var(--surface-foreground) 8%);
 --color-surface-quaternary: color-mix(in oklab, var(--surface) 86%, var(--surface-foreground) 14%);
@@ -533,7 +533,7 @@ This distinction provides:
 
 #### Auto-Calculated Color System
 
-SY UI now automatically calculates shade levels and soft color variants using CSS `color-mix`. You only need to declare the base colors, and SY UI handles the rest.
+SY INC now automatically calculates shade levels and soft color variants using CSS `color-mix`. You only need to declare the base colors, and SY INC handles the rest.
 
 **Background Shade Levels**
 
@@ -544,7 +544,7 @@ Background shades are automatically calculated from `--background`:
 --background: oklch(0.9702 0 0);
 --foreground: var(--eclipse);
 
-/* SY UI automatically calculates these */
+/* SY INC automatically calculates these */
 --color-background-secondary: color-mix(in oklab, var(--color-background) 96%, var(--color-foreground) 4%);
 --color-background-tertiary: color-mix(in oklab, var(--color-background) 92%, var(--color-foreground) 8%);
 --color-background-quaternary: color-mix(in oklab, var(--color-background) 86%, var(--color-foreground) 14%);
@@ -559,7 +559,7 @@ Surface levels are automatically calculated from `--surface`:
 --surface: var(--white);
 --surface-foreground: var(--foreground);
 
-/* SY UI automatically calculates these */
+/* SY INC automatically calculates these */
 --color-surface-secondary: color-mix(in oklab, var(--surface) 94%, var(--surface-foreground) 6%);
 --color-surface-tertiary: color-mix(in oklab, var(--surface) 92%, var(--surface-foreground) 8%);
 --color-surface-quaternary: color-mix(in oklab, var(--surface) 86%, var(--surface-foreground) 14%);
@@ -576,7 +576,7 @@ Soft color variants are automatically calculated from status colors:
 --warning: oklch(0.7819 0.1585 72.33);
 --success: oklch(0.7329 0.1935 150.81);
 
-/* SY UI automatically calculates these at 15% opacity */
+/* SY INC automatically calculates these at 15% opacity */
 --color-accent-soft: color-mix(in oklab, var(--color-accent) 15%, transparent);
 --color-danger-soft: color-mix(in oklab, var(--color-danger) 15%, transparent);
 --color-warning-soft: color-mix(in oklab, var(--color-warning) 15%, transparent);
@@ -831,10 +831,10 @@ All components now support flexible patterns. Components that support the dual p
 
 You can use any of the three patterns (compound without `.Root`, compound with `.Root`, or named exports) with all these components.
 
-## SY UI Pro
+## SY INC Pro
 
-SY UI Pro is being reshaped from the ground up on top of the new design system. The new Pro version will feature:
-- New components built on top of SY UI v3
+SY INC Pro is being reshaped from the ground up on top of the new design system. The new Pro version will feature:
+- New components built on top of SY INC v3
 - Tailwind CSS v4 native support
 - CSS native animations
 - Enhanced customization options
@@ -851,17 +851,17 @@ We're working towards a stable release in **Q4** this year (2025). This beta rel
 
 ## Community
 
-The reception on the native side has been phenomenal. Thank you for supporting us as we build SY UI v3! Your feedback helps us improve every day.
+The reception on the native side has been phenomenal. Thank you for supporting us as we build SY INC v3! Your feedback helps us improve every day.
 
-See what the community is saying: [SY UI Native Reception](https://x.com/sy_ui/status/1985721976220966926)
+See what the community is saying: [SY INC Native Reception](https://x.com/sy_inc/status/1985721976220966926)
 
 ## Links
 
 - [Component Documentation](/docs/react/components)
-- [Design System - Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
-- [SY UI Native](https://link.sy-ui.com/native)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #5872](https://github.com/sy-ui/sy-ui/pull/5872)
+- [Design System - Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)
+- [SY INC Native](https://link.sy-inc.com/native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #5872](https://github.com/sy-inc/sy-inc/pull/5872)
 
 ## Contributors
 

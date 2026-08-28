@@ -3,7 +3,7 @@ import {isDocumentScrollLocked} from "@sy-inc/testing/helpers";
 import {page, userEvent} from "vitest/browser";
 
 // Browser geometry tests load the generated CSS artifact directly.
-import "../../../../styles/dist/sy-ui.min.css";
+import "../../../../styles/dist/sy-inc.min.css";
 
 import {SidebarFixture} from "./fixtures";
 

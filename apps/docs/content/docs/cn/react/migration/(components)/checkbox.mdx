@@ -1,10 +1,10 @@
 ---
 title: Checkbox
-description: Checkbox 从 SY UI v2 到 v3 的迁移指南。
+description: Checkbox 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Checkbox 文档](/docs/react/components/checkbox)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Checkbox 文档](/docs/react/components/checkbox)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -42,12 +42,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 简单组件，`children` 即标签  
+**v2：** 简单组件，`children` 即标签
 **v3：** 复合组件：`Checkbox.Content`、`Checkbox.Control`、`Checkbox.Indicator`
 
 ### 2. 标签处理
 
-**v2：** 标签直接作为 `children` 传入 `Checkbox`  
+**v2：** 标签直接作为 `children` 传入 `Checkbox`
 **v3：** 标签放在 `Checkbox.Content`（可点击的标签）内；`Description` / `FieldError` 是 `Checkbox.Content` 的同级节点
 
 ### 3. Prop 变更
@@ -66,7 +66,7 @@ export default function App() {
 
 ### 4. CheckboxGroup 变化
 
-**v2：** `CheckboxGroup`（独立组件）使用 `label` prop，子节点为简单的 `Checkbox`  
+**v2：** `CheckboxGroup`（独立组件）使用 `label` prop，子节点为简单的 `Checkbox`
 **v3：** `CheckboxGroup`（独立组件）将 `Label` / `Description` 作为子节点，且每个 `Checkbox` 使用复合结构
 
 迁移 CheckboxGroup 时请参阅 [CheckboxGroup 迁移指南](/docs/react/migration/checkbox-group)。
@@ -192,7 +192,7 @@ export default function App() {
     ```tsx
     {/* Colors */}
     <Checkbox defaultSelected color="primary">Primary</Checkbox>
-    
+
     {/* Sizes */}
     <Checkbox defaultSelected size="md">Medium</Checkbox>
     ```
@@ -208,7 +208,7 @@ export default function App() {
         Primary
       </Checkbox.Content>
     </Checkbox>
-    
+
     {/* Sizes - use Tailwind classes */}
     <Checkbox defaultSelected id="medium">
       <Checkbox.Content>
@@ -308,9 +308,9 @@ v3 Checkbox 支持渲染 prop，用于暴露状态信息：
         <Checkbox.Control>
           <Checkbox.Indicator />
         </Checkbox.Control>
-        
+
           {isSelected ? "Terms accepted" : "Accept terms"}
-        
+
       </Checkbox.Content>
     </>
   )}
@@ -350,7 +350,7 @@ v3 Checkbox 支持渲染 prop，用于暴露状态信息：
 ### v2：`classNames` prop
 
 ```tsx
-<Checkbox 
+<Checkbox
   classNames={{
     base: "custom-base",
     wrapper: "custom-wrapper",
@@ -368,9 +368,9 @@ v3 Checkbox 支持渲染 prop，用于暴露状态信息：
     <Checkbox.Control className="custom-control">
       <Checkbox.Indicator className="custom-indicator" />
     </Checkbox.Control>
-    
+
       Option
-    
+
   </Checkbox.Content>
 </Checkbox>
 ```

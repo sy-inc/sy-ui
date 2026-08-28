@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/popover-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/popover-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/popover-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/popover-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { Popover } from 'sy-ui-native';
+import { Popover } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -262,7 +262,7 @@ popoverRef.current?.close();
 
 ```tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Button, Popover, useThemeColor } from 'sy-ui-native';
+import { Button, Popover, useThemeColor } from 'sy-inc-native';
 import { Text, View } from 'react-native';
 
 export default function PopoverExample() {
@@ -300,7 +300,7 @@ export default function PopoverExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/popover.tsx).
+You can find more examples in the [GitHub repository](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/popover.tsx).
 
 ## API Reference
 
@@ -464,7 +464,7 @@ Popover.Close extends [CloseButton](./close-button) and automatically handles po
 Hook to access popover context values within custom components or compound components.
 
 ```tsx
-import { usePopover } from 'sy-ui-native';
+import { usePopover } from 'sy-inc-native';
 
 const CustomContent = () => {
   const { isOpen, onOpenChange, triggerPosition } = usePopover();
@@ -493,7 +493,7 @@ const CustomContent = () => {
 Hook to access popover animation state values within custom components or compound components.
 
 ```tsx
-import { usePopoverAnimation } from 'sy-ui-native';
+import { usePopoverAnimation } from 'sy-inc-native';
 
 const CustomContent = () => {
   const { progress, isDragging } = usePopoverAnimation();

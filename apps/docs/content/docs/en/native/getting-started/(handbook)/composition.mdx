@@ -4,14 +4,14 @@ description: Build flexible UI with component composition patterns
 icon: layers
 ---
 
-SY UI Native uses composition patterns to create flexible, customizable components. Change the rendered element, compose components together, and maintain full control over markup.
+SY INC Native uses composition patterns to create flexible, customizable components. Change the rendered element, compose components together, and maintain full control over markup.
 
 ## Compound Components
 
-SY UI Native components use a compound component pattern with dot notation—components export sub-components as properties (e.g., `Button.Label`, `Dialog.Trigger`, `Accordion.Item`) that work together to form complete UI elements.
+SY INC Native components use a compound component pattern with dot notation—components export sub-components as properties (e.g., `Button.Label`, `Dialog.Trigger`, `Accordion.Item`) that work together to form complete UI elements.
 
 ```tsx
-import { Button, Dialog } from 'sy-ui-native';
+import { Button, Dialog } from 'sy-inc-native';
 
 function DialogExample() {
   return (
@@ -34,10 +34,10 @@ function DialogExample() {
 
 ## The asChild Prop
 
-The `asChild` prop lets you change what element a component renders. When `asChild` is true, SY UI Native clones the child element and merges props instead of rendering its default element.
+The `asChild` prop lets you change what element a component renders. When `asChild` is true, SY INC Native clones the child element and merges props instead of rendering its default element.
 
 ```tsx
-import { Button, Dialog } from 'sy-ui-native';
+import { Button, Dialog } from 'sy-inc-native';
 
 function DialogExample() {
   return (
@@ -64,10 +64,10 @@ function DialogExample() {
 
 ## Custom Components
 
-Create your own components by composing SY UI Native primitives:
+Create your own components by composing SY INC Native primitives:
 
 ```tsx
-import { Button, Card, Popover } from 'sy-ui-native';
+import { Button, Card, Popover } from 'sy-inc-native';
 import { View } from 'react-native';
 
 // Product card component
@@ -131,8 +131,8 @@ function PopoverButton({ children, popoverContent, ...props }) {
 Create custom variants using `tailwind-variants` to extend component styling. Note that text color classes must be applied to `Button.Label`, not the parent `Button`:
 
 ```tsx
-import { Button } from 'sy-ui-native';
-import type { ButtonRootProps } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 const customButtonVariants = tv({

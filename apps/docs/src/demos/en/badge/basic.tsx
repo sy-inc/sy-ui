@@ -1,9 +1,9 @@
 import {Avatar, Badge} from "@sy-inc/react";
 
-const GREEN_AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";
+const GREEN_AVATAR_URL = "https://assets.sy-inc.com/avatars/green.jpg";
 const ORANGE_AVATAR_URL =
-  "https://assets.sy-ui.com/avatars/orange.jpg";
-const BLUE_AVATAR_URL = "https://assets.sy-ui.com/avatars/blue.jpg";
+  "https://assets.sy-inc.com/avatars/orange.jpg";
+const BLUE_AVATAR_URL = "https://assets.sy-inc.com/avatars/blue.jpg";
 
 export function BadgeBasic() {
   return (

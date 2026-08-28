@@ -41,7 +41,7 @@ github:
 </Tabs>
 
 <Callout type="info">
-  **正在使用 AI 助手？** 只需对它说一句「Hey Cursor，把 SY UI 升级到最新版本」，AI 助手就会自动对比版本并应用必要的变更。了解更多请参阅 [SY UI MCP 服务器](/docs/ui-for-agents/mcp-server)。
+  **正在使用 AI 助手？** 只需对它说一句「Hey Cursor，把 SY INC 升级到最新版本」，AI 助手就会自动对比版本并应用必要的变更。了解更多请参阅 [SY INC MCP 服务器](/docs/ui-for-agents/mcp-server)。
 </Callout>
 
 ## ⚠️ 破坏性变更
@@ -50,7 +50,7 @@ github:
 
 [v3.0.4](/docs/react/releases/v3-0-4) 中发布的该组件使用了 `text-*` BEM 修饰符，与 Tailwind 的 `text-*` 工具类家族冲突。`tailwind-variants` 在每次变体组合时都会运行 `tailwind-merge`，并将 `text--body-sm`、`text--color-muted`、`text--weight-normal` 去重为单个类名——从而静默丢弃其他类名。
 
-将块名重命名为 `typography` 可永久解决该冲突 ([#6505](https://github.com/sy-ui/sy-ui/pull/6505)，修复 [#6497](https://github.com/sy-ui/sy-ui/issues/6497))。
+将块名重命名为 `typography` 可永久解决该冲突 ([#6505](https://github.com/sy-inc/sy-inc/pull/6505)，修复 [#6497](https://github.com/sy-inc/sy-inc/issues/6497))。
 
 **之前：**
 
@@ -90,7 +90,7 @@ CSS BEM 类名也会相应变更：`.text` → `.typography`，`.text--body-sm` 
 
 ### 无前缀源颜色令牌
 
-所有派生颜色令牌——`*-hover`、`*-soft`、`*-soft-foreground`、`border-secondary` 等——从 `theme.css` 中的 `@theme inline` 别名迁移到 `variables.css` 作为无前缀源变量，24 个组件 CSS 文件现直接引用源令牌 ([#6499](https://github.com/sy-ui/sy-ui/pull/6499))。
+所有派生颜色令牌——`*-hover`、`*-soft`、`*-soft-foreground`、`border-secondary` 等——从 `theme.css` 中的 `@theme inline` 别名迁移到 `variables.css` 作为无前缀源变量，24 个组件 CSS 文件现直接引用源令牌 ([#6499](https://github.com/sy-inc/sy-inc/pull/6499))。
 
 **1. `color-mix` 公式从 `theme.css` 移至 `variables.css`**
 
@@ -164,19 +164,19 @@ CSS BEM 类名也会相应变更：`.text` → `.typography`，`.text--body-sm` 
 
 ## 样式修复
 
-- **Calendar / Range Calendar**：日期单元格默认悬停样式现使用 `accent-soft-foreground` 而非 `accent`，使浅色强调主题下悬停单元格仍清晰可读。文档站搜索标签的选中状态也做了相同调整 ([#6500](https://github.com/sy-ui/sy-ui/pull/6500))。
-- **Checkbox**：`.checkbox__control` 现已应用与 `.radio__control` 相同的基础样式：`border`、`border-field-border` 以及 `[border-width:var(--border-width-field)]`，并将 `border-color` 加入过渡属性列表 ([#6521](https://github.com/sy-ui/sy-ui/pull/6521))。
-- **Radio**：`.radio__control` 默认边框现使用 `border-field-border`，而非 Tailwind 通用的 `border` 颜色，与 Input、Select、TextArea、NumberField 保持一致 ([#6522](https://github.com/sy-ui/sy-ui/pull/6522))。
+- **Calendar / Range Calendar**：日期单元格默认悬停样式现使用 `accent-soft-foreground` 而非 `accent`，使浅色强调主题下悬停单元格仍清晰可读。文档站搜索标签的选中状态也做了相同调整 ([#6500](https://github.com/sy-inc/sy-inc/pull/6500))。
+- **Checkbox**：`.checkbox__control` 现已应用与 `.radio__control` 相同的基础样式：`border`、`border-field-border` 以及 `[border-width:var(--border-width-field)]`，并将 `border-color` 加入过渡属性列表 ([#6521](https://github.com/sy-inc/sy-inc/pull/6521))。
+- **Radio**：`.radio__control` 默认边框现使用 `border-field-border`，而非 Tailwind 通用的 `border` 颜色，与 Input、Select、TextArea、NumberField 保持一致 ([#6522](https://github.com/sy-inc/sy-inc/pull/6522))。
 
 ## 文档
 
 ### CLI 页面
 
-新增 [CLI 文档页](/docs/react/getting-started/cli)，涵盖安装、`init`、`install`、`upgrade`、`uninstall`、`list`、`doctor` 与 `env` 命令及示例输出 ([#6498](https://github.com/sy-ui/sy-ui/pull/6498))。
+新增 [CLI 文档页](/docs/react/getting-started/cli)，涵盖安装、`init`、`install`、`upgrade`、`uninstall`、`list`、`doctor` 与 `env` 命令及示例输出 ([#6498](https://github.com/sy-inc/sy-inc/pull/6498))。
 
 ## 依赖项
 
-各软件包版本升级 ([#6529](https://github.com/sy-ui/sy-ui/pull/6529))：
+各软件包版本升级 ([#6529](https://github.com/sy-inc/sy-inc/pull/6529))：
 
 - **`react` / `react-dom`**：`19.2.3` → `19.2.6`
 - **`@types/react`**：`19.2.7` → `19.2.14`
@@ -186,9 +186,9 @@ CSS BEM 类名也会相应变更：`.text` → `.typography`，`.text--body-sm` 
 ## 链接
 
 - [组件文档](/docs/react/components)
-- [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #6503](https://github.com/sy-ui/sy-ui/pull/6503)
+- [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #6503](https://github.com/sy-inc/sy-inc/pull/6503)
 
 ## 贡献者
 

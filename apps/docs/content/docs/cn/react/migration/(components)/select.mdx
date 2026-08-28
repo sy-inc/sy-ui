@@ -1,10 +1,10 @@
 ---
 title: Select
-description: Select 从 SY UI v2 到 v3 的迁移指南。
+description: Select 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Select 文档](/docs/react/components/select)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Select 文档](/docs/react/components/select)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -58,12 +58,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 简单的 Select，子节点为 `SelectItem`  
+**v2：** 简单的 Select，子节点为 `SelectItem`
 **v3：** 复合组件（`Select.Trigger`、`Select.Value`、`Select.Indicator`、`Select.Popover`）与用于菜单项的 `ListBox`
 
 ### 2. 菜单项组件
 
-**v2：** `SelectItem`、`SelectSection`  
+**v2：** `SelectItem`、`SelectSection`
 **v3：** `ListBox.Item`、`ListBox.Section`（分组标题使用 `Header`，分组之间使用 `Separator`）
 
 ### 3. Prop 变更
@@ -115,7 +115,7 @@ export default function App() {
       <SelectItem key="cat">Cat</SelectItem>
       <SelectItem key="dog">Dog</SelectItem>
     </Select>
-    
+
     {/* Multiple selection */}
     const [multiValue, setMultiValue] = useState(new Set([]));
     <Select
@@ -155,7 +155,7 @@ export default function App() {
         </ListBox>
       </Select.Popover>
     </Select>
-    
+
     {/* Multiple selection */}
     const [multiValue, setMultiValue] = useState<Key[]>([]);
     <Select
@@ -199,7 +199,7 @@ export default function App() {
     >
       <SelectItem key="cat">Cat</SelectItem>
     </Select>
-    
+
     {/* With validation */}
     <Select
       isInvalid
@@ -231,7 +231,7 @@ export default function App() {
         </ListBox>
       </Select.Popover>
     </Select>
-    
+
     {/* With validation */}
     <Select isInvalid placeholder="Choose one">
       <Label>Select animal</Label>
@@ -502,12 +502,12 @@ Select (Root)
 
 ### 菜单项标识
 
-- **v2：** React 的 `key` 同时用于列表协调与选择时的项标识。  
+- **v2：** React 的 `key` 同时用于列表协调与选择时的项标识。
 - **v3：** 在 `ListBox.Item` 上使用 `id`（状态 / 焦点）与 `textValue`（无障碍）；列表协调仍使用 React 的 `key`。
 
 ### 选择值的类型
 
-- **v2：** `selectedKeys` 为 `Set<Key>` 或数组  
+- **v2：** `selectedKeys` 为 `Set<Key>` 或数组
 - **v3：** 单选时 `value` 为 `Key | null`，多选时为 `Key[]`
 
 ### 清除按钮
@@ -529,15 +529,15 @@ Select (Root)
 
 ## 总结
 
-1. **组件结构**：必须使用复合组件（`Select.Trigger`、`Select.Value`、`Select.Indicator`、`Select.Popover`）。  
-2. **菜单项组件**：`SelectItem` → `ListBox.Item`，`SelectSection` → `ListBox.Section`（分组标题用 `Header`，分组之间用 `Separator`）。  
-3. **标签 / 描述 / 错误**：使用独立组件，而不是对应 prop。  
-4. **选择相关 prop**：`selectedKeys` / `onSelectionChange` → `value` / `onChange`。  
-5. **受控的打开状态**：新增 `isOpen`、`defaultOpen`、`onOpenChange` 用于控制 Popover 的打开状态。  
-6. **禁用选项**：仍支持 `disabledKeys` 以禁用指定菜单项。  
-7. **必填**：仍支持 `isRequired` 标记字段为必填。  
-8. **样式**：`variant` 仅保留 `primary` \| `secondary`；`color`、`size`、`radius` 已移除，请用 Tailwind CSS 扩展。  
-9. **classNames 已移除**：在各子组件上使用 `className` prop。  
-10. **内容类 prop 已移除**：`startContent`、`endContent` 需通过自定义触发器实现。  
-11. **清除按钮**：`isClearable` 已移除，需手动实现。  
+1. **组件结构**：必须使用复合组件（`Select.Trigger`、`Select.Value`、`Select.Indicator`、`Select.Popover`）。
+2. **菜单项组件**：`SelectItem` → `ListBox.Item`，`SelectSection` → `ListBox.Section`（分组标题用 `Header`，分组之间用 `Separator`）。
+3. **标签 / 描述 / 错误**：使用独立组件，而不是对应 prop。
+4. **选择相关 prop**：`selectedKeys` / `onSelectionChange` → `value` / `onChange`。
+5. **受控的打开状态**：新增 `isOpen`、`defaultOpen`、`onOpenChange` 用于控制 Popover 的打开状态。
+6. **禁用选项**：仍支持 `disabledKeys` 以禁用指定菜单项。
+7. **必填**：仍支持 `isRequired` 标记字段为必填。
+8. **样式**：`variant` 仅保留 `primary` \| `secondary`；`color`、`size`、`radius` 已移除，请用 Tailwind CSS 扩展。
+9. **classNames 已移除**：在各子组件上使用 `className` prop。
+10. **内容类 prop 已移除**：`startContent`、`endContent` 需通过自定义触发器实现。
+11. **清除按钮**：`isClearable` 已移除，需手动实现。
 12. **自定义值**：用 `Select.Value` 的渲染 prop 替代 `renderValue`。

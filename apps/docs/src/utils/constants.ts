@@ -6,9 +6,9 @@ export const GITHUB_API_URL = "https://api.github.com";
 
 export const RAW_GITHUB_URL = "https://raw.githubusercontent.com";
 
-export const REPO_NAME = "sy-ui/sy-ui";
+export const REPO_NAME = "sy-inc/sy-inc";
 
-export const REPO_NAME_NATIVE = "sy-ui/sy-ui-native";
+export const REPO_NAME_NATIVE = "sy-inc/sy-inc-native";
 
 export const ISSUE_REPORT_URL = `${GITHUB_URL}/${REPO_NAME}/issues/new?assignees=&labels=bug&template=bug_report.yml&title=%5BBUG%5D+-+`;
 
@@ -44,7 +44,7 @@ export const THEMES_PATH =
 export const STORYBOOK_URL = __DEV__
   ? "http://localhost:6006"
   : __IS_PRE_RELEASE__ || __PREVIEW__
-    ? "https://storybook-v3.sy-ui.com"
-    : "https://storybook.sy-ui.com";
+    ? "https://storybook-v3.sy-inc.com"
+    : "https://storybook.sy-inc.com";
 
-export const CDN_URL = "https://assets.sy-ui.com";
+export const CDN_URL = "https://assets.sy-inc.com";

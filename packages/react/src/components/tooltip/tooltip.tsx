@@ -38,7 +38,7 @@ type TooltipAnimationScopeProps = {
 };
 
 // React Aria sets `shouldSkipAnimation` while its global warmup timer is active, which makes
-// `Tooltip` drop `data-entering` / `data-exiting` when one tooltip replaces another. SY UI drives
+// `Tooltip` drop `data-entering` / `data-exiting` when one tooltip replaces another. SY INC drives
 // both phases from CSS keyframes, so the flag is cleared for descendants to keep the fade on swap.
 const TooltipAnimationScope = ({children, shouldSkipAnimation}: TooltipAnimationScopeProps) => {
   const state = use(TooltipTriggerStateContext);

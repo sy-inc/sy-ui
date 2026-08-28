@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     NATIVE_APP.NAME,
     " mobile app — how the app handles personal data, analytics, deep links, and authentication.",
   ].join(""),
-  title: ["Privacy Policy", NATIVE_APP.NAME, "SY UI"].join(" | "),
+  title: ["Privacy Policy", NATIVE_APP.NAME, "SY INC"].join(" | "),
 };
 
 const PrivacyPolicyPage: FC = () => {
@@ -30,7 +30,7 @@ const PrivacyPolicyPage: FC = () => {
         {[
           "The ",
           NATIVE_APP.NAME,
-          " app (the “App”) is an interactive showcase that lets developers and designers preview, explore, and interact with the components, blocks, and patterns shipped by the SY UI Native UI library. It is designed as a reference and evaluation tool to help teams adopt SY UI Native in their own React Native applications.",
+          " app (the “App”) is an interactive showcase that lets developers and designers preview, explore, and interact with the components, blocks, and patterns shipped by the SY INC Native UI library. It is designed as a reference and evaluation tool to help teams adopt SY INC Native in their own React Native applications.",
         ].join("")}
       </p>
 
@@ -39,7 +39,7 @@ const PrivacyPolicyPage: FC = () => {
         {[
           "We do not collect, store, or share any personal data. The ",
           NATIVE_APP.NAME,
-          " app does not require an account, does not track user behaviour, and does not send usage statistics, crash reports, or analytics data to SY UI or any third party.",
+          " app does not require an account, does not track user behaviour, and does not send usage statistics, crash reports, or analytics data to SY INC or any third party.",
         ].join("")}
       </p>
 
@@ -54,7 +54,7 @@ const PrivacyPolicyPage: FC = () => {
         {[
           "The ",
           NATIVE_APP.NAME,
-          " app handles Universal Links and custom-scheme deep links that point at component previews on the SY UI documentation site. When the App opens a deep link, the destination URL is resolved entirely on-device by the App’s native intent handler — the link target is never transmitted to a SY UI-operated server or any third-party tracking service.",
+          " app handles Universal Links and custom-scheme deep links that point at component previews on the SY INC documentation site. When the App opens a deep link, the destination URL is resolved entirely on-device by the App’s native intent handler — the link target is never transmitted to a SY INC-operated server or any third-party tracking service.",
         ].join("")}
       </p>
 

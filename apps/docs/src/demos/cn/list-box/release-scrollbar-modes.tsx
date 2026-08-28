@@ -8,8 +8,8 @@ type ScrollbarMode = {
 
 const modes: ScrollbarMode[] = [
   {
-    id: "sy-ui",
-    label: "SY UI 纤细",
+    id: "sy-inc",
+    label: "SY INC 纤细",
     scrollbar: "thin",
   },
   {

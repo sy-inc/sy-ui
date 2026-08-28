@@ -1,18 +1,18 @@
 ---
 title: Migration
-description: Complete guide to migrate your SY UI v2 application to v3
+description: Complete guide to migrate your SY INC v2 application to v3
 index: true
 ---
 
 ## For AI Assistants
 
-Below are three approaches for AI assistants to access migration documentation. ***We recommend using the SY UI Migration MCP server*** and leveraging its prompts and tools, but all options provide agents with the complete documentation.
+Below are three approaches for AI assistants to access migration documentation. ***We recommend using the SY INC Migration MCP server*** and leveraging its prompts and tools, but all options provide agents with the complete documentation.
 
 | Feature | MCP Server | Agent Skills | AGENTS.md |
 |---------|-----------|--------------|-----------|
 | **Data source** | Remote endpoints | Remote endpoints | Local files |
 | **Access method** | MCP tools | Script files | Local file reads |
-| **Setup** | MCP config | Install command | `sy-ui-cli` command |
+| **Setup** | MCP config | Install command | `sy-inc-cli` command |
 | **Updates** | Real-time | Real-time | Manual |
 | **Offline** | ❌ | ❌ | ✅ |
 | **Tools** | MCP tools + prompts | Scripts | ❌ |
@@ -22,12 +22,12 @@ Below are three approaches for AI assistants to access migration documentation. 
 
 <section id="major-changes">
 
-- **Dependencies**: Update React to v19+, SY UI packages to v3, Tailwind CSS to v4, remove Framer Motion
-- **No Provider Required**: v3 removes the need for `SyUIProvider`
+- **Dependencies**: Update React to v19+, SY INC packages to v3, Tailwind CSS to v4, remove Framer Motion
+- **No Provider Required**: v3 removes the need for `SyIncProvider`
 - **Component API Updates**: Many components use React Aria Components patterns
 - **Compound Components**: New compound component patterns for better customization. See individual component guides for details.
 - **Hooks Removed**: v2 component hooks like `useSwitch` or `useInput` are removed - use compound components instead. `useDisclosure` is replaced with `useOverlayState`. See the [Hooks Migration Guide](/docs/react/migration/hooks) for details.
-- **Configuration**: Remove `sy-ui()` plugin from Tailwind config, update CSS imports, remove `hero.ts` file
+- **Configuration**: Remove `sy-inc()` plugin from Tailwind config, update CSS imports, remove `hero.ts` file
 - **Item identity**: Collection items (Dropdown, Listbox, Select, Accordion, etc.) now use `id` and `textValue` in v3; keep React's `key` for lists.
 
 </section>
@@ -44,7 +44,7 @@ When migrating: add `id` (and `textValue` where needed) for v3's API, but keep `
 
 ## Migration Strategies
 
-SY UI v2 and v3 cannot coexist in the same project without special setup. You have two migration approaches to choose from:
+SY INC v2 and v3 cannot coexist in the same project without special setup. You have two migration approaches to choose from:
 
 ### Full Migration
 
@@ -94,7 +94,7 @@ SY UI v2 and v3 cannot coexist in the same project without special setup. You ha
 Use the table below to quickly find migration guidance for each component. Use the link in the "Migration Guide" column to jump to detailed migration instructions.
 
 <Callout>
-  **Component Development Status**: Components marked with 🔄 In Progress or 📋 Planned are still being developed. Check the [Roadmap](https://sy-ui.featurebase.app/roadmap) for the task status. Guides for these components will be available once development is finished.
+  **Component Development Status**: Components marked with 🔄 In Progress or 📋 Planned are still being developed. Check the [Roadmap](https://sy-inc.featurebase.app/roadmap) for the task status. Guides for these components will be available once development is finished.
 </Callout>
 
 | v2 Component | v3 Component | Status | Migration Guide |
@@ -194,5 +194,5 @@ If you encounter issues during migration:
 
 1. Check the [v3 documentation](/docs/react)
 2. Review component-specific migration guides
-3. Check the [GitHub Discussions](https://github.com/sy-ui/sy-ui/discussions)
+3. Check the [GitHub Discussions](https://github.com/sy-inc/sy-inc/discussions)
 4. Join the [Discord community](https://discord.gg/9b6yyZKmH4)

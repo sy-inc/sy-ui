@@ -34,21 +34,21 @@ export function TagGroupWithPrefix() {
         <TagGroup.List>
           <Tag>
             <Avatar className="size-4">
-              <Avatar.Image src="https://assets.sy-ui.com/avatars/blue.jpg" />
+              <Avatar.Image src="https://assets.sy-inc.com/avatars/blue.jpg" />
               <Avatar.Fallback>F</Avatar.Fallback>
             </Avatar>
             Fred
           </Tag>
           <Tag>
             <Avatar className="size-4">
-              <Avatar.Image src="https://assets.sy-ui.com/avatars/green.jpg" />
+              <Avatar.Image src="https://assets.sy-inc.com/avatars/green.jpg" />
               <Avatar.Fallback>M</Avatar.Fallback>
             </Avatar>
             Michael
           </Tag>
           <Tag>
             <Avatar className="size-4">
-              <Avatar.Image src="https://assets.sy-ui.com/avatars/purple.jpg" />
+              <Avatar.Image src="https://assets.sy-inc.com/avatars/purple.jpg" />
               <Avatar.Fallback>J</Avatar.Fallback>
             </Avatar>
             Jane

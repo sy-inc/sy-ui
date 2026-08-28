@@ -8,8 +8,8 @@ export async function GET(request: Request) {
 
   return jsonResponse({
     authorization_servers: [origin],
-    sy_ui_public_api_authentication:
-      "SY UI public documentation and MCP data APIs are currently unauthenticated and read-only. This metadata exists so agents can discover that no OAuth scopes are required for public resources.",
+    sy_inc_public_api_authentication:
+      "SY INC public documentation and MCP data APIs are currently unauthenticated and read-only. This metadata exists so agents can discover that no OAuth scopes are required for public resources.",
     resource: origin,
     resource_documentation: absoluteUrl(origin, "/.well-known/api-catalog"),
     scopes_supported: [],

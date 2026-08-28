@@ -7,14 +7,14 @@ Portals let you render its children into a different part of your app. This is p
 
 ## Default Setup
 
-By default, the `PortalHost` is included in the `SyUINativeProvider`, so there is no need to add it manually. The provider automatically sets up the portal system for all components that use portals.
+By default, the `PortalHost` is included in the `SyIncNativeProvider`, so there is no need to add it manually. The provider automatically sets up the portal system for all components that use portals.
 
 ## Advanced Use Cases
 
-For advanced use cases, you can import `Portal` and `PortalHost` directly from `sy-ui-native` to create custom portal implementations:
+For advanced use cases, you can import `Portal` and `PortalHost` directly from `sy-inc-native` to create custom portal implementations:
 
 ```tsx
-import { Portal, PortalHost } from "sy-ui-native";
+import { Portal, PortalHost } from "sy-inc-native";
 import { View, Text } from "react-native";
 
 function AppLayout() {
@@ -23,12 +23,12 @@ function AppLayout() {
       <View className="p-5">
         <Text>Header Content</Text>
       </View>
-      
+
       <View className="flex-1 p-5">
         <Text>Main Content Area</Text>
         <CustomNotification />
       </View>
-      
+
       {/* Portal host positioned at the top of the screen */}
       <PortalHost name="notification-host" />
     </View>
@@ -61,16 +61,16 @@ To avoid this, keep the state of interactive components (like text inputs) insid
 function ParentComponent() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inputValue, setInputValue] = useState(""); // State in parent
-  
+
   return (
     <Dialog isOpen={dialogOpen} onOpenChange={setDialogOpen}>
       <Dialog.Trigger>
         <Button>Open Dialog</Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Input 
-          value={inputValue} 
-          onChangeText={setInputValue} 
+        <Input
+          value={inputValue}
+          onChangeText={setInputValue}
           // Parent re-renders reset auto-suggestions
         />
       </Dialog.Portal>
@@ -81,15 +81,15 @@ function ParentComponent() {
 // ✅ Correct: State managed inside separate component within portal
 function ParentComponent() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  
+
   return (
     <Dialog isOpen={dialogOpen} onOpenChange={setDialogOpen}>
       <Dialog.Trigger>
         <Button>Open Dialog</Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <DialogFormContent 
-          onClose={() => setDialogOpen(false)} 
+        <DialogFormContent
+          onClose={() => setDialogOpen(false)}
           // Form state isolated from parent
         />
       </Dialog.Portal>
@@ -100,11 +100,11 @@ function ParentComponent() {
 function DialogFormContent({ onClose }: { onClose: () => void }) {
   const [inputValue, setInputValue] = useState(""); // State inside portal
   const [error, setError] = useState("");
-  
+
   return (
     <Dialog.Content>
-      <Input 
-        value={inputValue} 
+      <Input
+        value={inputValue}
         onChangeText={setInputValue}
         // Auto-suggestions preserved during parent re-renders
       />

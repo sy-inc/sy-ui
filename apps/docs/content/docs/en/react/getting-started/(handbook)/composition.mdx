@@ -4,11 +4,11 @@ description: Build flexible UI with component composition patterns
 icon: layers
 ---
 
-SY UI uses composition patterns to create flexible, customizable components. Change the rendered element, compose components together, and maintain full control over markup.
+SY INC uses composition patterns to create flexible, customizable components. Change the rendered element, compose components together, and maintain full control over markup.
 
 ## Framework-Agnostic Styles
 
-SY UI's variant functions are available in the `@sy-inc/styles` package, which can be used independently of React. This enables Vue, Svelte, and other frameworks to use SY UI's design system:
+SY INC's variant functions are available in the `@sy-inc/styles` package, which can be used independently of React. This enables Vue, Svelte, and other frameworks to use SY INC's design system:
 
 ```tsx
 // Import directly from @sy-inc/styles (framework-agnostic)
@@ -22,7 +22,7 @@ Both imports work identically. Use `@sy-inc/styles` when building for non-React 
 
 ## Polymorphic Styling
 
-Apply SY UI styles to any element using variant functions or BEM classes. Extend component styles to framework components, native HTML elements, or custom components with full type safety.
+Apply SY INC styles to any element using variant functions or BEM classes. Extend component styles to framework components, native HTML elements, or custom components with full type safety.
 
 **Example: Styling a Link as a Button**
 
@@ -62,7 +62,7 @@ import Link from 'next/link';
 
 **Working with Compound Components**
 
-When using a custom root element instead of SY UI's Root component, child components cannot access context slots. You can manually pass `className` to child components using variant functions or BEM classes:
+When using a custom root element instead of SY INC's Root component, child components cannot access context slots. You can manually pass `className` to child components using variant functions or BEM classes:
 
 ```tsx
 import { Link } from '@sy-inc/react';
@@ -83,11 +83,11 @@ const slots = linkVariants();
 </NextLink>
 ```
 
-This approach works because SY UI's variant functions and BEM classes can be applied to any element, giving you complete flexibility to style framework components, native elements, or custom components with SY UI's design system.
+This approach works because SY INC's variant functions and BEM classes can be applied to any element, giving you complete flexibility to style framework components, native elements, or custom components with SY INC's design system.
 
 ## Direct Class Application
 
-The simplest way to style links or other elements is to apply SY UI's [BEM](https://getbem.com/) classes directly. This approach is straightforward and works with any framework or vanilla HTML.
+The simplest way to style links or other elements is to apply SY INC's [BEM](https://getbem.com/) classes directly. This approach is straightforward and works with any framework or vanilla HTML.
 
 **With Next.js Link:**
 ```tsx
@@ -111,11 +111,11 @@ import Link from 'next/link';
 - `.button--sm`, `.button--md`, `.button--lg` — Sizes
 - `.button--icon-only` — Icon-only button
 
-This approach works because SY UI uses [BEM](https://getbem.com/) classes that can be applied to any element. It's perfect when you don't need the component's interactive features (like `onPress` handlers) and just want the visual styling.
+This approach works because SY INC uses [BEM](https://getbem.com/) classes that can be applied to any element. It's perfect when you don't need the component's interactive features (like `onPress` handlers) and just want the visual styling.
 
 ## Using Variant Functions
 
-For more control and type safety, use variant functions to apply SY UI styles to framework-specific components or custom elements. Variant functions are available from both `@sy-inc/styles` (framework-agnostic) and `@sy-inc/react` (re-exports).
+For more control and type safety, use variant functions to apply SY INC styles to framework-specific components or custom elements. Variant functions are available from both `@sy-inc/styles` (framework-agnostic) and `@sy-inc/react` (re-exports).
 
 **With Next.js Link:**
 
@@ -146,11 +146,11 @@ import Link from 'next/link';
 </Link>
 ```
 
-**Available variant functions:** Each component exports its variant function (`buttonVariants`, `chipVariants`, `linkVariants`, `spinnerVariants`, and more) from `@sy-inc/styles`. Use them to apply SY UI's design system to any element while maintaining type safety.
+**Available variant functions:** Each component exports its variant function (`buttonVariants`, `chipVariants`, `linkVariants`, `spinnerVariants`, and more) from `@sy-inc/styles`. Use them to apply SY INC's design system to any element while maintaining type safety.
 
 ## Compound Components
 
-SY UI components are built as compound components—they export multiple parts that work together. Use them in three flexible ways:
+SY INC components are built as compound components—they export multiple parts that work together. Use them in three flexible ways:
 
 **Option 1: Compound pattern (recommended)** — Use the main component directly without `.Root` suffix:
 
@@ -250,15 +250,15 @@ const buttonStyles = buttonVariants({ variant: "tertiary", size: "md" });
 
 <Link
   className={buttonStyles}
-  href="https://sy-ui.com"
+  href="https://sy-inc.com"
 >
-  SY UI
+  SY INC
 </Link>
 ```
 
 ## Custom Components
 
-Create your own components by composing SY UI primitives:
+Create your own components by composing SY INC primitives:
 
 ```tsx
 import { Button, Tooltip } from '@sy-inc/react';

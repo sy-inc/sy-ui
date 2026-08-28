@@ -1,10 +1,10 @@
 ---
 title: Tooltip
-description: Tooltip 从 SY UI v2 到 v3 的迁移指南。
+description: Tooltip 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Tooltip 文档](/docs/react/components/tooltip)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Tooltip 文档](/docs/react/components/tooltip)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -46,7 +46,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 通过 `content` prop 与作为触发器的 children 使用 Tooltip  
+**v2：** 通过 `content` prop 与作为触发器的 children 使用 Tooltip
 **v3：** 复合组件（`Tooltip.Trigger`、`Tooltip.Content`、`Tooltip.Arrow`）
 
 ### 2. Prop 变更
@@ -95,12 +95,12 @@ export default function App() {
     <Tooltip content="I am a tooltip" showArrow>
       <Button>Hover me</Button>
     </Tooltip>
-    
+
     {/* With placement */}
     <Tooltip content="Tooltip" placement="bottom">
       <Button>Hover me</Button>
     </Tooltip>
-    
+
     {/* With offset */}
     <Tooltip content="Tooltip" offset={12}>
       <Button>Hover me</Button>
@@ -119,7 +119,7 @@ export default function App() {
         <p>I am a tooltip</p>
       </Tooltip.Content>
     </Tooltip>
-    
+
     {/* With placement */}
     <Tooltip delay={0}>
       <Tooltip.Trigger>
@@ -129,7 +129,7 @@ export default function App() {
         <p>Tooltip</p>
       </Tooltip.Content>
     </Tooltip>
-    
+
     {/* With offset */}
     <Tooltip delay={0}>
       <Tooltip.Trigger>
@@ -315,27 +315,27 @@ Tooltip (Root)
 
 ### `content` prop
 
-- **v2：** 使用 `content` prop 传入提示文本 / 内容  
+- **v2：** 使用 `content` prop 传入提示文本 / 内容
 - **v3：** 内容作为 `Tooltip.Content` 的 children
 
 ### 箭头
 
-- **v2：** 由根上的 `showArrow` 控制  
+- **v2：** 由根上的 `showArrow` 控制
 - **v3：** 在 `Tooltip.Content` 上使用 `showArrow`，并包含 `Tooltip.Arrow` 组件
 
 ### placement 与 offset
 
-- **v2：** `placement` 与 `offset` 在根上  
+- **v2：** `placement` 与 `offset` 在根上
 - **v3：** `placement` 与 `offset` 移至 `Tooltip.Content`
 
 ### 触发元素
 
-- **v2：** children 自动作为触发器  
+- **v2：** children 自动作为触发器
 - **v3：** 必须将触发元素包在 `Tooltip.Trigger` 内
 
 ### 默认延迟
 
-- **v2：** `delay` 默认为 `0`  
+- **v2：** `delay` 默认为 `0`
 - **v3：** `delay` 默认为 `700`（注意：示例中使用 `delay={0}` 以贴近 v2 行为）
 
 ## 总结

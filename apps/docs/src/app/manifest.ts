@@ -21,8 +21,8 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
       },
     ],
-    name: "SY UI",
-    short_name: "SY UI",
+    name: "SY INC",
+    short_name: "SY INC",
     start_url: "/",
     theme_color: "#000000",
   };

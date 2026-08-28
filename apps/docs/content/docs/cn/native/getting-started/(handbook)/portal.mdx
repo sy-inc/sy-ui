@@ -7,14 +7,14 @@ Portal 可将子节点渲染到应用中的其他位置，特别适用于需要�
 
 ## 默认配置
 
-默认情况下，`PortalHost` 已包含在 `SyUINativeProvider` 中，无需手动添加。Provider 会自动为所有使用 Portal 的组件设置好Portal系统。
+默认情况下，`PortalHost` 已包含在 `SyIncNativeProvider` 中，无需手动添加。Provider 会自动为所有使用 Portal 的组件设置好Portal系统。
 
 ## 进阶用法
 
-如需自定义Portal实现，可直接从 `sy-ui-native` 导入 `Portal` 与 `PortalHost`：
+如需自定义Portal实现，可直接从 `sy-inc-native` 导入 `Portal` 与 `PortalHost`：
 
 ```tsx
-import { Portal, PortalHost } from "sy-ui-native";
+import { Portal, PortalHost } from "sy-inc-native";
 import { View, Text } from "react-native";
 
 function AppLayout() {
@@ -23,12 +23,12 @@ function AppLayout() {
       <View className="p-5">
         <Text>Header Content</Text>
       </View>
-      
+
       <View className="flex-1 p-5">
         <Text>Main Content Area</Text>
         <CustomNotification />
       </View>
-      
+
       {/* Portal host positioned at the top of the screen */}
       <PortalHost name="notification-host" />
     </View>
@@ -61,16 +61,16 @@ function CustomNotification() {
 function ParentComponent() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inputValue, setInputValue] = useState(""); // State in parent
-  
+
   return (
     <Dialog isOpen={dialogOpen} onOpenChange={setDialogOpen}>
       <Dialog.Trigger>
         <Button>Open Dialog</Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Input 
-          value={inputValue} 
-          onChangeText={setInputValue} 
+        <Input
+          value={inputValue}
+          onChangeText={setInputValue}
           // Parent re-renders reset auto-suggestions
         />
       </Dialog.Portal>
@@ -81,15 +81,15 @@ function ParentComponent() {
 // ✅ 正确：在Portal内的独立组件中管理状态
 function ParentComponent() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  
+
   return (
     <Dialog isOpen={dialogOpen} onOpenChange={setDialogOpen}>
       <Dialog.Trigger>
         <Button>Open Dialog</Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <DialogFormContent 
-          onClose={() => setDialogOpen(false)} 
+        <DialogFormContent
+          onClose={() => setDialogOpen(false)}
           // Form state isolated from parent
         />
       </Dialog.Portal>
@@ -100,11 +100,11 @@ function ParentComponent() {
 function DialogFormContent({ onClose }: { onClose: () => void }) {
   const [inputValue, setInputValue] = useState(""); // State inside portal
   const [error, setError] = useState("");
-  
+
   return (
     <Dialog.Content>
-      <Input 
-        value={inputValue} 
+      <Input
+        value={inputValue}
         onChangeText={setInputValue}
         // Auto-suggestions preserved during parent re-renders
       />

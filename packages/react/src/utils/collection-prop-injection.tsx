@@ -6,7 +6,7 @@ import React, {Children, createContext, forwardRef, isValidElement, useContext} 
 
 import {Logger} from "./logger";
 
-const logger = new Logger({prefix: "SY UI"});
+const logger = new Logger({prefix: "SY INC"});
 
 /** Dev-only registry for duplicate slot name warnings. */
 let registry: Set<string> | undefined;
@@ -36,7 +36,7 @@ export const createCollectionSlot = <T extends object>(name: string) => {
   }
 
   // String key required — React drops Symbol keys from element props / cloneElement.
-  const key = `$$sy-ui.collection.${name}`;
+  const key = `$$sy-inc.collection.${name}`;
   const SlotContext = createContext<T | undefined>(undefined);
 
   const inject = (children: ReactNode, value: T): ReactNode => {
@@ -70,7 +70,7 @@ export const createCollectionSlot = <T extends object>(name: string) => {
     );
   };
 
-  Injector.displayName = `SY UI.CollectionSlot(${name})`;
+  Injector.displayName = `SY INC.CollectionSlot(${name})`;
 
   type WithSlotProps<P> = P & {children?: ReactNode};
 
@@ -127,7 +127,7 @@ export const createCollectionSlot = <T extends object>(name: string) => {
       },
     );
 
-    Wrapped.displayName = `SY UI.withCollectionSlot(${Primitive.displayName || Primitive.name || name})`;
+    Wrapped.displayName = `SY INC.withCollectionSlot(${Primitive.displayName || Primitive.name || name})`;
 
     return Wrapped;
   };

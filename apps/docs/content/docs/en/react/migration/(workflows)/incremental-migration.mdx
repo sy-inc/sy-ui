@@ -1,11 +1,11 @@
 ---
 title: Incremental Migration
-description: Step-by-step guide for migrating SY UI v2 to v3 incrementally while keeping both versions working side-by-side
+description: Step-by-step guide for migrating SY INC v2 to v3 incrementally while keeping both versions working side-by-side
 ---
 
 ## Overview
 
-Incremental migration with coexistence allows you to migrate from SY UI v2 to v3 component-by-component while keeping your project functional throughout the migration process. This approach uses special setup strategies to allow both v2 and v3 components to work side-by-side.
+Incremental migration with coexistence allows you to migrate from SY INC v2 to v3 component-by-component while keeping your project functional throughout the migration process. This approach uses special setup strategies to allow both v2 and v3 components to work side-by-side.
 
 ### AI Assistant Resources
 
@@ -18,7 +18,7 @@ Before choosing this approach, be aware of:
 - **Bundle Size**: Both versions will be included during migration, increasing bundle size
 - **Styling Conflicts**: v2 and v3 styles may conflict; test thoroughly
 - **Type Conflicts**: TypeScript may show conflicts if both versions are imported in the same file
-- **Provider**: v2 requires `SyUIProvider`, v3 doesn't - you may need conditional provider wrapping
+- **Provider**: v2 requires `SyIncProvider`, v3 doesn't - you may need conditional provider wrapping
 - **React Version**: v3 requires React 19+, v2 supports React 18+ - ensure React 19 is installed
 - **Setup Complexity**: Requires more complex initial setup compared to full migration
 
@@ -35,7 +35,7 @@ You do not need to replace them to complete the migration. If you prefer to remo
 Choose your strategy based on how you currently import v2 components:
 
 - **Using `@sy-inc/react`**: Use Strategy A (pnpm aliases)
-- **Using component packages** (`@sy-ui/button`, `@sy-ui/card`, etc.): Use Strategy B (component packages)
+- **Using component packages** (`@sy-inc/button`, `@sy-inc/card`, etc.): Use Strategy B (component packages)
 
 ## Strategy A: Using pnpm Aliases
 
@@ -49,9 +49,9 @@ This strategy uses pnpm package aliases to install v3 packages under different n
 {
   "dependencies": {
     "@sy-inc/react": "2.8.6",
-    "@sy-ui/theme": "2.4.24",
-    "@sy-ui-v3/react": "npm:@sy-inc/react@latest",
-    "@sy-ui-v3/styles": "npm:@sy-inc/styles@latest"
+    "@sy-inc/theme": "2.4.24",
+    "@sy-inc-v3/react": "npm:@sy-inc/react@latest",
+    "@sy-inc-v3/styles": "npm:@sy-inc/styles@latest"
   }
 }
 ```
@@ -62,16 +62,16 @@ This strategy uses pnpm package aliases to install v3 packages under different n
 import {Button} from "@sy-inc/react"; // v2
 ```
 
-3. Import v3 components from `@sy-ui-v3/react`:
+3. Import v3 components from `@sy-inc-v3/react`:
 
 ```tsx
-import {Button} from "@sy-ui-v3/react"; // v3
+import {Button} from "@sy-inc-v3/react"; // v3
 ```
 
 ### Migration Process
 
 1. **Migrate one component at a time:**
-   - Update imports to use `@sy-ui-v3/react`
+   - Update imports to use `@sy-inc-v3/react`
    - Update component code to v3 API
    - Test the migrated component
    - Verify styling looks correct
@@ -83,7 +83,7 @@ import {Button} from "@sy-ui-v3/react"; // v3
    - If you want to remove v2 removed components later, use the [Component Migration Reference](/docs/react/migration#component-migration-reference) guides and ask your agent to help replace them with native HTML or manual implementations.
 
 3. **Once all components are migrated, switch to v3-only:**
-   - Remove v2 dependencies (`@sy-inc/react`, `@sy-ui/theme`)
+   - Remove v2 dependencies (`@sy-inc/react`, `@sy-inc/theme`)
    - Remove aliases
    - Update all imports to `@sy-inc/react` (remove `-v3` suffix)
    - Complete styling migration
@@ -108,8 +108,8 @@ This strategy uses v2's component-specific packages alongside v3's unified packa
   "dependencies": {
     "@sy-inc/react": "latest", // v3
     "@sy-inc/styles": "latest", // v3
-    "@sy-ui/button": "2.8.6", // v2
-    "@sy-ui/card": "2.8.6", // v2
+    "@sy-inc/button": "2.8.6", // v2
+    "@sy-inc/card": "2.8.6", // v2
     // ... other v2 component packages as needed
   }
 }
@@ -124,7 +124,7 @@ import {Button} from "@sy-inc/react"; // v3
 3. Import v2 components from component packages:
 
 ```tsx
-import {Card} from "@sy-ui/card"; // v2
+import {Card} from "@sy-inc/card"; // v2
 ```
 
 ### Migration Process
@@ -174,10 +174,10 @@ You'll need both Tailwind configs temporarily:
 **v2 Config (tailwind.config.js):**
 
 ```js
-const {sy-ui} = require("@sy-inc/react");
+const {sy-inc} = require("@sy-inc/react");
 
 module.exports = {
-  plugins: [sy-ui()],
+  plugins: [sy-inc()],
   // ... other config
 };
 ```
@@ -193,7 +193,7 @@ For each component you migrate:
    - Check component-specific migration guides
 
 2. **Update imports**
-   - Strategy A: Change `@sy-inc/react` → `@sy-ui-v3/react`
+   - Strategy A: Change `@sy-inc/react` → `@sy-inc-v3/react`
    - Strategy B: Change component package → `@sy-inc/react`
 
 3. **Update component code**
@@ -234,13 +234,13 @@ During coexistence, both v2 and v3 CSS systems will be loaded. Monitor for confl
 Once all components are migrated:
 
 1. **Remove v2 dependencies:**
-   - Remove `@sy-inc/react` and `@sy-ui/theme` (Strategy A)
-   - Remove all `@sy-ui/*` component packages (Strategy B)
+   - Remove `@sy-inc/react` and `@sy-inc/theme` (Strategy A)
+   - Remove all `@sy-inc/*` component packages (Strategy B)
    - Remove aliases (Strategy A)
    - If you left v2 removed components in place (Code, Image, Navbar, Ripple, Snippet, Spacer, User), you have two options: (1) Replace them per the migration guides before removing v2 dependencies, or (2) Keep v2 dependencies until you are ready to replace them. You may ask an agent to help remove them using the provided guides.
 
 2. **Update all imports:**
-   - Change `@sy-ui-v3/react` → `@sy-inc/react` (Strategy A)
+   - Change `@sy-inc-v3/react` → `@sy-inc/react` (Strategy A)
    - Change component package imports → `@sy-inc/react` (Strategy B)
 
 3. **Update CSS:**

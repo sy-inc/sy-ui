@@ -8,7 +8,7 @@ export const Default = () => {
       <Typography type="h3">Composable by default</Typography>
       <Typography type="h4">Small heading</Typography>
       <Typography>
-        SY UI Typography uses React Aria Components Text as the primitive, with semantic typography
+        SY INC Typography uses React Aria Components Text as the primitive, with semantic typography
         types and render-prop polymorphism.
       </Typography>
       <Typography color="muted" type="body-sm">

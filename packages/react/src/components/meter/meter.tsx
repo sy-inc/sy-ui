@@ -45,7 +45,7 @@ const MeterRoot = ({children, className, color, size, ...props}: MeterRootProps)
   );
 };
 
-MeterRoot.displayName = "SY UI.Meter";
+MeterRoot.displayName = "SY INC.Meter";
 
 /* -------------------------------------------------------------------------------------------------
  * Meter Output
@@ -75,7 +75,7 @@ const MeterOutput = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-MeterOutput.displayName = "SY UI.Meter.Output";
+MeterOutput.displayName = "SY INC.Meter.Output";
 
 /* -------------------------------------------------------------------------------------------------
  * Meter Track
@@ -105,7 +105,7 @@ const MeterTrack = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-MeterTrack.displayName = "SY UI.Meter.Track";
+MeterTrack.displayName = "SY INC.Meter.Track";
 
 /* -------------------------------------------------------------------------------------------------
  * Meter Fill
@@ -138,7 +138,7 @@ const MeterFill = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-MeterFill.displayName = "SY UI.Meter.Fill";
+MeterFill.displayName = "SY INC.Meter.Fill";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

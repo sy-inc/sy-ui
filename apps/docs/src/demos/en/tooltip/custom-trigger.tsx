@@ -9,7 +9,7 @@ export function TooltipCustomTrigger() {
           <Avatar size="sm">
             <Avatar.Image
               alt="Jane Doe"
-              src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=4"
+              src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=4"
             />
             <Avatar.Fallback>JD</Avatar.Fallback>
           </Avatar>

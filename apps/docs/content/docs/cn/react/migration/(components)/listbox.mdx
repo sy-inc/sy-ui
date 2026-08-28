@@ -1,10 +1,10 @@
 ---
 title: Listbox
-description: Listbox 从 SY UI v2 到 v3 的迁移指南。
+description: Listbox 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 ListBox 文档](/docs/react/components/listbox)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 ListBox 文档](/docs/react/components/listbox)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -47,12 +47,12 @@ export default function App() {
 
 ### 1. 组件命名
 
-**v2：** `Listbox`、`ListboxItem`、`ListboxSection`  
+**v2：** `Listbox`、`ListboxItem`、`ListboxSection`
 **v3：** `ListBox`、`ListBox.Item`、`ListBox.Section`
 
 ### 2. 条目标识
 
-**v2：** React 的 `key` 同时用于列表调和与条目身份（选择、焦点）。  
+**v2：** React 的 `key` 同时用于列表调和与条目身份（选择、焦点）。
 **v3：** 使用 `id` 管理状态与焦点，使用 `textValue` 提供无障碍信息（当内容不是纯文本时）；列表中仍可为各项保留 React 的 `key`。
 
 ### 3. Prop 变更
@@ -94,7 +94,7 @@ export default function App() {
       <ListboxItem key="text">Text</ListboxItem>
       <ListboxItem key="number">Number</ListboxItem>
     </Listbox>
-    
+
     {/* Multiple selection */}
     const [multiSelected, setMultiSelected] = useState(new Set(["text"]));
 
@@ -130,7 +130,7 @@ export default function App() {
         <ListBox.ItemIndicator />
       </ListBox.Item>
     </ListBox>
-    
+
     {/* Multiple selection */}
     const [multiSelected, setMultiSelected] = useState<Selection>(new Set(["text"]));
 

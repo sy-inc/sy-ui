@@ -93,12 +93,12 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
         <Popover.Trigger aria-label="Popover trigger">
           <div className="flex items-center gap-2">
             <Avatar size="sm">
-              <Avatar.Image alt="Zoe" src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5" />
+              <Avatar.Image alt="Zoe" src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5" />
               <Avatar.Fallback>Z</Avatar.Fallback>
             </Avatar>
             <div className="flex flex-col gap-0">
               <p className="text-sm leading-5 font-medium">Zoe</p>
-              <p className="text-xs leading-none text-muted">zoe@sy-ui.com</p>
+              <p className="text-xs leading-none text-muted">zoe@sy-inc.com</p>
             </div>
           </div>
         </Popover.Trigger>
@@ -110,7 +110,7 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
                   <Avatar size="md">
                     <Avatar.Image
                       alt="Zoe"
-                      src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5"
+                      src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5"
                     />
                     <Avatar.Fallback>Z</Avatar.Fallback>
                   </Avatar>
@@ -133,7 +133,7 @@ const TemplateWithCustomContent = (props: Popover["ContentProps"]) => {
             </Popover.Heading>
             <div>
               <p className="ps-px text-sm">
-                Design Engineer, @sy_ui lover she/her. SF Bay Area&nbsp;
+                Design Engineer, @sy_inc lover she/her. SF Bay Area&nbsp;
                 <span aria-label="confetti" role="img">
                   🎉
                 </span>

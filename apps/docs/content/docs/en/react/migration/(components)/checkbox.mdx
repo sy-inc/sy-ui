@@ -1,10 +1,10 @@
 ---
 title: Checkbox
-description: Migration guide for Checkbox from SY UI v2 to v3
+description: Migration guide for Checkbox from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Checkbox documentation](/docs/react/components/checkbox) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Checkbox documentation](/docs/react/components/checkbox) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -42,12 +42,12 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Simple component with children as label  
+**v2:** Simple component with children as label
 **v3:** Compound components: `Checkbox.Content`, `Checkbox.Control`, `Checkbox.Indicator`
 
 ### 2. Label Handling
 
-**v2:** Label passed as children directly to `Checkbox`  
+**v2:** Label passed as children directly to `Checkbox`
 **v3:** Label goes inside `Checkbox.Content` (the clickable label); `Description`/`FieldError` are siblings of `Checkbox.Content`
 
 ### 3. Prop Changes
@@ -66,7 +66,7 @@ export default function App() {
 
 ### 4. CheckboxGroup Changes
 
-**v2:** `CheckboxGroup` (separate component) with `label` prop and simple `Checkbox` children  
+**v2:** `CheckboxGroup` (separate component) with `label` prop and simple `Checkbox` children
 **v3:** `CheckboxGroup` (separate component) with `Label`/`Description` as children and compound `Checkbox` structure
 
 For migrating checkbox groups, see the [CheckboxGroup migration guide](/docs/react/migration/checkbox-group).
@@ -192,7 +192,7 @@ For migrating checkbox groups, see the [CheckboxGroup migration guide](/docs/rea
     ```tsx
     {/* Colors */}
     <Checkbox defaultSelected color="primary">Primary</Checkbox>
-    
+
     {/* Sizes */}
     <Checkbox defaultSelected size="md">Medium</Checkbox>
     ```
@@ -208,7 +208,7 @@ For migrating checkbox groups, see the [CheckboxGroup migration guide](/docs/rea
         Primary
       </Checkbox.Content>
     </Checkbox>
-    
+
     {/* Sizes - use Tailwind classes */}
     <Checkbox defaultSelected id="medium">
       <Checkbox.Content>
@@ -308,9 +308,9 @@ v3 Checkbox supports a render prop pattern that provides state information:
         <Checkbox.Control>
           <Checkbox.Indicator />
         </Checkbox.Control>
-        
+
           {isSelected ? "Terms accepted" : "Accept terms"}
-        
+
       </Checkbox.Content>
     </>
   )}
@@ -349,7 +349,7 @@ Available render props:
 ### v2: `classNames` Prop
 
 ```tsx
-<Checkbox 
+<Checkbox
   classNames={{
     base: "custom-base",
     wrapper: "custom-wrapper",
@@ -367,9 +367,9 @@ Available render props:
     <Checkbox.Control className="custom-control">
       <Checkbox.Indicator className="custom-indicator" />
     </Checkbox.Control>
-    
+
       Option
-    
+
   </Checkbox.Content>
 </Checkbox>
 ```

@@ -1,10 +1,10 @@
 ---
 title: InputOTP
-description: Migration guide for InputOTP from SY UI v2 to v3
+description: Migration guide for InputOTP from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 InputOTP documentation](/docs/react/components/input-otp) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 InputOTP documentation](/docs/react/components/input-otp) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -42,7 +42,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Single component with automatic segment rendering  
+**v2:** Single component with automatic segment rendering
 **v3:** Compound components: `InputOTP.Group`, `InputOTP.Slot`, `InputOTP.Separator`
 
 ### 2. Prop Changes
@@ -124,7 +124,7 @@ export default function App() {
     ```tsx
     {/* With description */}
     <InputOtp description="Enter the code sent to your email" length={4} />
-    
+
     {/* With error message */}
     <InputOtp errorMessage="Invalid code" isInvalid length={4} />
     ```
@@ -145,7 +145,7 @@ export default function App() {
       </InputOTP>
       <Description>Enter the code sent to your email</Description>
     </div>
-    
+
     {/* With error message */}
     <div className="flex flex-col gap-2">
       <InputOTP isInvalid maxLength={4}>
@@ -243,7 +243,7 @@ v3 introduces several new props not available in v2:
 
 ## Exported Regex Patterns
 
-SY UI re-exports common regex patterns from the input-otp library for convenience:
+SY INC re-exports common regex patterns from the input-otp library for convenience:
 
 ```tsx
 import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from "@sy-inc/react";

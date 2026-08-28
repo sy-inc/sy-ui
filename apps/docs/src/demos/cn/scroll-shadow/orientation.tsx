@@ -1,9 +1,9 @@
 import {Card, ScrollShadow} from "@sy-inc/react";
 
 const images = [
-  "https://assets.sy-ui.com/docs/robot1.jpeg",
-  "https://assets.sy-ui.com/docs/avocado.jpeg",
-  "https://assets.sy-ui.com/docs/oranges.jpeg",
+  "https://assets.sy-inc.com/docs/robot1.jpeg",
+  "https://assets.sy-inc.com/docs/avocado.jpeg",
+  "https://assets.sy-inc.com/docs/oranges.jpeg",
 ];
 
 export default function Orientation() {

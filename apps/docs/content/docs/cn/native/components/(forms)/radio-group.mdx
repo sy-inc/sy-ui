@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/radio-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/radio-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/radio-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/radio-group-docs-dark.mp4"
 />
 
 ## 导入
 
 ```tsx
-import { RadioGroup } from 'sy-ui-native';
+import { RadioGroup } from 'sy-inc-native';
 ```
 
 ## 结构
@@ -64,7 +64,7 @@ import { RadioGroup } from 'sy-ui-native';
 在每个选项下方添加描述以补充上下文。
 
 ```tsx
-import { RadioGroup, Radio, Label, Description } from 'sy-ui-native';
+import { RadioGroup, Radio, Label, Description } from 'sy-inc-native';
 import { View } from 'react-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
@@ -90,7 +90,7 @@ import { View } from 'react-native';
 使用 `Radio` 子组件将默认拇指替换为自定义内容。
 
 ```tsx
-import { RadioGroup, Radio, Label } from 'sy-ui-native';
+import { RadioGroup, Radio, Label } from 'sy-inc-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
   <RadioGroup.Item value="custom">
@@ -117,7 +117,7 @@ import { RadioGroup, Radio, Label } from 'sy-ui-native';
 在 `RadioGroup.Item` 上使用渲染函数以访问状态并自定义整块内容。
 
 ```tsx
-import { RadioGroup, Radio, Label } from 'sy-ui-native';
+import { RadioGroup, Radio, Label } from 'sy-inc-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
   <RadioGroup.Item value="option1">
@@ -138,7 +138,7 @@ import { RadioGroup, Radio, Label } from 'sy-ui-native';
 在单选组下方展示校验错误。
 
 ```tsx
-import { RadioGroup, FieldError } from 'sy-ui-native';
+import { RadioGroup, FieldError } from 'sy-inc-native';
 
 function RadioGroupWithError() {
   const [value, setValue] = React.useState<string | undefined>(undefined);
@@ -165,7 +165,7 @@ import {
   RadioGroup,
   Separator,
   Surface,
-} from 'sy-ui-native';
+} from 'sy-inc-native';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -204,7 +204,7 @@ export default function RadioGroupExample() {
 }
 ```
 
-更多示例见 [GitHub 仓库](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/radio-group.tsx>)。
+更多示例见 [GitHub 仓库](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/radio-group.tsx>)。
 
 ## API 参考
 

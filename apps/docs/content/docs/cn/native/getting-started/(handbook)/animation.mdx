@@ -1,10 +1,10 @@
 ---
 title: 动画
-description: 为 SY UI Native 组件添加流畅动画与过渡
+description: 为 SY INC Native 组件添加流畅动画与过渡
 icon: copy-transparent
 ---
 
-SY UI Native 的动画基于 [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/)，手势由 [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/) 处理。若需更细粒度控制，建议先熟悉二者。
+SY INC Native 的动画基于 [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/)，手势由 [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/) 处理。若需更细粒度控制，建议先熟悉二者。
 
 ## `animation` 属性
 
@@ -21,7 +21,7 @@ SY UI Native 的动画基于 [react-native-reanimated](https://docs.swmansion.co
 调整缩放、透明度或颜色等数值：
 
 ```tsx
-import {Switch} from 'sy-ui-native';
+import {Switch} from 'sy-inc-native';
 
 <Switch
   animation={{
@@ -41,7 +41,7 @@ import {Switch} from 'sy-ui-native';
 自定义时长与缓动：
 
 ```tsx
-import {Accordion} from 'sy-ui-native';
+import {Accordion} from 'sy-inc-native';
 
 <Accordion>
   <Accordion.Item value="1">
@@ -68,7 +68,7 @@ import {Accordion} from 'sy-ui-native';
 使用 Reanimated 的布局动画 API：
 
 ```tsx
-import {Accordion} from 'sy-ui-native';
+import {Accordion} from 'sy-inc-native';
 import {FadeInRight, FadeInLeft, ZoomIn} from 'react-native-reanimated';
 import {Easing} from 'react-native-reanimated';
 
@@ -91,7 +91,7 @@ import {Easing} from 'react-native-reanimated';
 `state` 可在关闭动画的同时仍保留属性配置，便于微调而不真正播放动画：
 
 ```tsx
-import {Switch} from 'sy-ui-native';
+import {Switch} from 'sy-inc-native';
 
 <Switch
   animation={{
@@ -157,17 +157,17 @@ import {Switch} from 'sy-ui-native';
 
 ## 全局动画配置
 
-在 `SyUINativeProvider` 上统一关闭应用内全部 SY UI Native 动画：
+在 `SyIncNativeProvider` 上统一关闭应用内全部 SY INC Native 动画：
 
 ```tsx
-import {SyUINativeProvider} from 'sy-ui-native';
+import {SyIncNativeProvider} from 'sy-inc-native';
 
-<SyUINativeProvider
+<SyIncNativeProvider
   config={{
     animation: 'disable-all',
   }}>
   <App />
-</SyUINativeProvider>;
+</SyIncNativeProvider>;
 ```
 
 这会覆盖各组件自身的 `animation` 设置，全局禁用动画。
@@ -187,7 +187,7 @@ import {SyUINativeProvider} from 'sy-ui-native';
 许多组件支持将 `children` 设为函数，便于根据 `isSelected` 等状态渲染：
 
 ```tsx
-import {Switch} from 'sy-ui-native';
+import {Switch} from 'sy-inc-native';
 
 <Switch
   isSelected={isSelected}

@@ -4,7 +4,7 @@ import clsx from "clsx";
 import {twMerge} from "tailwind-merge";
 
 /**
- * We need to extend the tailwind merge to include SY UI's custom classes.
+ * We need to extend the tailwind merge to include SY INC's custom classes.
  *
  * So we can use classes like `text-small` or `text-default-500` and override them.
  */

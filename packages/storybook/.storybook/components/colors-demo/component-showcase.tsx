@@ -29,14 +29,14 @@ import {
 import {Icon} from "@iconify/react";
 import React from "react";
 
-import {SyUILogo} from "../sy-ui-logo";
+import {SyIncLogo} from "../sy-inc-logo";
 
 export function ComponentShowcase() {
   return (
     <div>
       {/* Navigation */}
       <nav className="flex items-end gap-4 border-b border-border px-6 pt-4 pb-3 text-sm font-medium">
-        <SyUILogo size={24} />
+        <SyIncLogo size={24} />
         <a className="text-foreground hover:text-accent" href="#">
           Pricing
         </a>
@@ -56,7 +56,7 @@ export function ComponentShowcase() {
           <br />
         </h1>
         <p className="rounded-xl text-sm text-muted">
-          SY UI is the modern UI library for web and mobile.
+          SY INC is the modern UI library for web and mobile.
         </p>
         {/* Buttons */}
         <div className="flex flex-wrap gap-2">
@@ -164,7 +164,7 @@ export function ComponentShowcase() {
                     alt="Cherries"
                     className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
                     loading="lazy"
-                    src="https://assets.sy-ui.com/docs/cherries.jpeg"
+                    src="https://assets.sy-inc.com/docs/cherries.jpeg"
                   />
                 </div>
                 <div className="flex flex-1 flex-col gap-3">
@@ -223,7 +223,7 @@ export function ComponentShowcase() {
                         <Avatar className="size-[56px] rounded-xl">
                           <Avatar.Image
                             alt="Demo 1"
-                            src="https://assets.sy-ui.com/docs/demo1.jpg"
+                            src="https://assets.sy-inc.com/docs/demo1.jpg"
                           />
                           <Avatar.Fallback>JK</Avatar.Fallback>
                         </Avatar>
@@ -236,7 +236,7 @@ export function ComponentShowcase() {
                         <Avatar className="size-4">
                           <Avatar.Image
                             alt="John"
-                            src="https://assets.sy-ui.com/avatars/red.jpg"
+                            src="https://assets.sy-inc.com/avatars/red.jpg"
                           />
                           <Avatar.Fallback>JK</Avatar.Fallback>
                         </Avatar>
@@ -249,7 +249,7 @@ export function ComponentShowcase() {
                         <Avatar className="size-[56px] rounded-xl">
                           <Avatar.Image
                             alt="Demo 2"
-                            src="https://assets.sy-ui.com/docs/demo2.jpg"
+                            src="https://assets.sy-inc.com/docs/demo2.jpg"
                           />
                           <Avatar.Fallback>AB</Avatar.Fallback>
                         </Avatar>
@@ -262,7 +262,7 @@ export function ComponentShowcase() {
                         <Avatar className="size-4">
                           <Avatar.Image
                             alt="John"
-                            src="https://assets.sy-ui.com/avatars/blue.jpg"
+                            src="https://assets.sy-inc.com/avatars/blue.jpg"
                           />
                           <Avatar.Fallback>M</Avatar.Fallback>
                         </Avatar>
@@ -283,7 +283,7 @@ export function ComponentShowcase() {
                       alt="Avocado"
                       className="aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20"
                       loading="lazy"
-                      src="https://assets.sy-ui.com/docs/avocado.jpeg"
+                      src="https://assets.sy-inc.com/docs/avocado.jpeg"
                     />
                     <div className="flex flex-1 flex-col justify-center gap-1">
                       <Card.Title className="text-sm">Avocado Hackathon</Card.Title>
@@ -296,7 +296,7 @@ export function ComponentShowcase() {
                       alt="Sound Electro event"
                       className="aspect-square h-16 w-16 shrink-0 rounded-xl object-cover select-none sm:h-20 sm:w-20"
                       loading="lazy"
-                      src="https://assets.sy-ui.com/docs/oranges.jpeg"
+                      src="https://assets.sy-inc.com/docs/oranges.jpeg"
                     />
                     <div className="flex flex-1 flex-col justify-center gap-1">
                       <Card.Title className="text-sm">Sound Electro | Beyond art</Card.Title>
@@ -405,7 +405,7 @@ export function ComponentShowcase() {
               <Avatar>
                 <Avatar.Image
                   alt="User"
-                  src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=3"
+                  src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=3"
                 />
                 <Avatar.Fallback>US</Avatar.Fallback>
               </Avatar>
@@ -599,7 +599,7 @@ export function ComponentShowcase() {
                       <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
                         <Icon className="size-5" icon="gravity-ui:rocket" />
                       </Modal.Icon>
-                      <Modal.Heading>Welcome to SY UI</Modal.Heading>
+                      <Modal.Heading>Welcome to SY INC</Modal.Heading>
                     </Modal.Header>
                     <Modal.Body>
                       <p className="text-sm text-muted">
@@ -728,7 +728,7 @@ export function ComponentShowcase() {
                   <Avatar className="size-5" size="sm">
                     <Avatar.Image
                       alt="Zoe"
-                      src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5"
+                      src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5"
                     />
                     <Avatar.Fallback>Z</Avatar.Fallback>
                   </Avatar>
@@ -742,7 +742,7 @@ export function ComponentShowcase() {
                       <Avatar size="md">
                         <Avatar.Image
                           alt="Zoe"
-                          src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5"
+                          src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5"
                         />
                         <Avatar.Fallback>Z</Avatar.Fallback>
                       </Avatar>
@@ -753,7 +753,7 @@ export function ComponentShowcase() {
                     </div>
                     <Button size="sm">Follow</Button>
                   </div>
-                  <p className="text-sm text-muted">Design Engineer, @sy_ui lover 🎉</p>
+                  <p className="text-sm text-muted">Design Engineer, @sy_inc lover 🎉</p>
                   <div className="flex gap-3">
                     <div className="flex gap-1">
                       <span className="text-sm font-semibold">4</span>

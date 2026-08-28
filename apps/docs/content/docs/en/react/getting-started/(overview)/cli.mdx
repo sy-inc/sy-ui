@@ -1,10 +1,10 @@
 ---
 title: CLI
-description: Use the CLI to manage SY UI dependencies and initialize projects.
+description: Use the CLI to manage SY INC dependencies and initialize projects.
 icon: terminal
 ---
 
-The CLI offers a comprehensive suite of commands to initialize, manage, and improve your SY UI projects. It enables you to `install`, `uninstall`, or `upgrade` individual components, assess the health of your project, download documentation for AI coding agents, and more.
+The CLI offers a comprehensive suite of commands to initialize, manage, and improve your SY INC projects. It enables you to `install`, `uninstall`, or `upgrade` individual components, assess the health of your project, download documentation for AI coding agents, and more.
 
 ## Installation
 
@@ -15,52 +15,52 @@ Requirements:
 
 ### Global Installation
 
-To install `sy-ui-cli` globally, execute one of the following commands in your terminal:
+To install `sy-inc-cli` globally, execute one of the following commands in your terminal:
 
 
 ```npm
-npm install sy-ui-cli@latest -g
+npm install sy-inc-cli@latest -g
 ```
 
 ### Without Installation
 
-Alternatively, you can use `sy-ui-cli` without a global installation by running one of the following:
+Alternatively, you can use `sy-inc-cli` without a global installation by running one of the following:
 
 <Tabs items={["pnpm", "npm", "yarn", "bun"]}>
   <Tab value="pnpm">
     ```bash
-    pnpm dlx sy-ui-cli@latest
+    pnpm dlx sy-inc-cli@latest
     ```
   </Tab>
   <Tab value="npm">
     ```bash
-    npx sy-ui-cli@latest
+    npx sy-inc-cli@latest
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn dlx sy-ui-cli@latest
+    yarn dlx sy-inc-cli@latest
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bunx sy-ui-cli@latest
+    bunx sy-inc-cli@latest
     ```
   </Tab>
 </Tabs>
 
 ## Quick Start
 
-Once `sy-ui-cli` is installed, run the following command to display available commands:
+Once `sy-inc-cli` is installed, run the following command to display available commands:
 
 ```bash
-sy-ui
+sy-inc
 ```
 
 This will produce the following help output:
 
 ```bash
-Usage: sy-ui [command]
+Usage: sy-inc [command]
 
 Options:
   -v, --version                  Output the current version
@@ -73,19 +73,19 @@ Commands:
   install [options]              Installs @sy-inc/react and @sy-inc/styles to your project
   upgrade [options]              Upgrades @sy-inc/react and @sy-inc/styles to the latest versions
   uninstall [options]            Uninstall @sy-inc/react and @sy-inc/styles from the project
-  list [options]                 Lists installed SY UI packages (@sy-inc/react, @sy-inc/styles)
+  list [options]                 Lists installed SY INC packages (@sy-inc/react, @sy-inc/styles)
   env [options]                  Displays debugging information for the local environment
   doctor [options]               Checks for issues in the project
-  agents-md [options]            Downloads SY UI documentation for AI coding agents
+  agents-md [options]            Downloads SY INC documentation for AI coding agents
   help [command]                 Display help for command
 ```
 
 ### init
 
-Initialize a new SY UI project using the `init` command. This sets up your project with the necessary configurations.
+Initialize a new SY INC project using the `init` command. This sets up your project with the necessary configurations.
 
 ```bash
-sy-ui init [options]
+sy-inc init [options]
 ```
 
 **Options:**
@@ -96,18 +96,18 @@ sy-ui init [options]
 output:
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 ┌  Create a new project
 │
 ◇  Select a template (Enter to select)
-│  ● App (A Next.js 16 with app directory template pre-configured with SY UI (v3) and Tailwind CSS.)
-│  ○ Pages (A Next.js 16 with pages directory template pre-configured with SY UI (v3) and Tailwind CSS.)
-│  ○ Vite (A Vite template pre-configured with SY UI (v3) and Tailwind CSS.)
-│  ○ React Router (A React Router template pre-configured with SY UI (v3) and Tailwind CSS.)
+│  ● App (A Next.js 16 with app directory template pre-configured with SY INC (v3) and Tailwind CSS.)
+│  ○ Pages (A Next.js 16 with pages directory template pre-configured with SY INC (v3) and Tailwind CSS.)
+│  ○ Vite (A Vite template pre-configured with SY INC (v3) and Tailwind CSS.)
+│  ○ React Router (A React Router template pre-configured with SY INC (v3) and Tailwind CSS.)
 │
 ◇  New project name (Enter to skip with default name)
-│  my-sy-ui-app
+│  my-sy-inc-app
 │
 ◇  Select a package manager (Enter to select)
 │  ● npm
@@ -119,7 +119,7 @@ SY UI CLI <version>
 │
 ◇  Next steps ───────╮
 │                    │
-│  cd my-sy-ui-app  │
+│  cd my-sy-inc-app  │
 │  npm install       │
 │                    │
 ├────────────────────╯
@@ -133,22 +133,22 @@ Install the dependencies to start the local server:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    cd my-sy-ui-app && npm install
+    cd my-sy-inc-app && npm install
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    cd my-sy-ui-app && pnpm install
+    cd my-sy-inc-app && pnpm install
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    cd my-sy-ui-app && yarn install
+    cd my-sy-inc-app && yarn install
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    cd my-sy-ui-app && bun install
+    cd my-sy-inc-app && bun install
     ```
   </Tab>
 </Tabs>
@@ -164,7 +164,7 @@ npm run dev
 Install `@sy-inc/react` and `@sy-inc/styles` to your project, along with their peer dependencies. If they are already installed, the command does nothing.
 
 ```bash
-sy-ui install [options]
+sy-inc install [options]
 ```
 
 **Options:**
@@ -175,14 +175,14 @@ sy-ui install [options]
 **Output:**
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 📦 Packages to be installed:
 ╭─────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version        │   Status   │   Docs                 │
 │─────────────────────────────────────────────────────────────────────────────│
-│   @sy-inc/react    │   3.0.0          │   stable   │   https://sy-ui.com   │
-│   @sy-inc/styles   │   3.0.0          │   stable   │   https://sy-ui.com   │
+│   @sy-inc/react    │   3.0.0          │   stable   │   https://sy-inc.com   │
+│   @sy-inc/styles   │   3.0.0          │   stable   │   https://sy-inc.com   │
 ╰─────────────────────────────────────────────────────────────────────────────╯
 
 ╭─────────────── PeerDependencies ────────────────╮
@@ -203,7 +203,7 @@ SY UI CLI <version>
 Upgrade `@sy-inc/react` and `@sy-inc/styles` with their peer dependencies to the latest versions.
 
 ```bash
-sy-ui upgrade [options]
+sy-inc upgrade [options]
 ```
 
 **Options:**
@@ -213,7 +213,7 @@ sy-ui upgrade [options]
 **Output:**
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 ╭──────────────────────────── Upgrade ────────────────────────────╮
 │  @sy-inc/react               ^3.0.0  ->  ^3.1.0                │
@@ -232,7 +232,7 @@ SY UI CLI <version>
 Uninstall `@sy-inc/react` and `@sy-inc/styles` from your project. Peer dependencies will not be uninstalled.
 
 ```bash
-sy-ui uninstall [options]
+sy-inc uninstall [options]
 ```
 
 **Options:**
@@ -242,14 +242,14 @@ sy-ui uninstall [options]
 **Output:**
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 ❗️ Packages slated for uninstallation:
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version   │   Status   │   Docs                               │
 │──────────────────────────────────────────────────────────────────────────────────────│
-│   @sy-inc/react    │   3.0.0     │   stable   │   https://sy-ui.com                 │
-│   @sy-inc/styles   │   3.0.0     │   stable   │   https://sy-ui.com                 │
+│   @sy-inc/react    │   3.0.0     │   stable   │   https://sy-inc.com                 │
+│   @sy-inc/styles   │   3.0.0     │   stable   │   https://sy-inc.com                 │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 ? Confirm uninstallation of these packages: › - Use arrow-keys. Return to submit.
 ❯   Yes
@@ -260,10 +260,10 @@ SY UI CLI <version>
 
 ### list
 
-List the installed SY UI packages (`@sy-inc/react`, `@sy-inc/styles`).
+List the installed SY INC packages (`@sy-inc/react`, `@sy-inc/styles`).
 
 ```bash
-sy-ui list [options]
+sy-inc list [options]
 ```
 
 **Options:**
@@ -273,15 +273,15 @@ sy-ui list [options]
 **Output:**
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 Current installed packages:
 
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version          │   Status   │   Docs                        │
 │──────────────────────────────────────────────────────────────────────────────────────│
-│   @sy-inc/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
-│   @sy-inc/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-inc/react    │   3.0.0 🚀latest   │   stable   │   https://sy-inc.com          │
+│   @sy-inc/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-inc.com          │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -293,7 +293,7 @@ Check for issues in your project.
 
 
 ```bash
-sy-ui doctor [options]
+sy-inc doctor [options]
 ```
 
 **Options:**
@@ -305,22 +305,22 @@ sy-ui doctor [options]
 If there is a problem in your project, the `doctor` command will display the problem information.
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
-SY UI CLI: ❌ Your project has 1 issue that require attention
+SY INC CLI: ❌ Your project has 1 issue that require attention
 
-❗️Issue 1: missingSyUIPackages
+❗️Issue 1: missingSyIncPackages
 
-The following SY UI packages are not installed:
+The following SY INC packages are not installed:
 - @sy-inc/styles
 
-Run `sy-ui install` to install them.
+Run `sy-inc install` to install them.
 ```
 
 Otherwise, the `doctor` command will display the following message.
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 ✅ Your project has no detected issues.
 ```
@@ -330,7 +330,7 @@ SY UI CLI <version>
 Display debug information about the local environment.
 
 ```bash
-sy-ui env [options]
+sy-inc env [options]
 ```
 
 **Options:**
@@ -340,15 +340,15 @@ sy-ui env [options]
 **Output:**
 
 ```bash
-SY UI CLI <version>
+SY INC CLI <version>
 
 Current installed packages:
 
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version          │   Status   │   Docs                        │
 │──────────────────────────────────────────────────────────────────────────────────────│
-│   @sy-inc/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
-│   @sy-inc/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-inc/react    │   3.0.0 🚀latest   │   stable   │   https://sy-inc.com          │
+│   @sy-inc/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-inc.com          │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 
 Environment Info:
@@ -361,17 +361,17 @@ Environment Info:
 
 ### agents-md
 
-Download SY UI documentation for AI coding agents (Claude, Cursor, etc.). The command clones the latest docs from the SY UI repository and injects a compact index into `AGENTS.md` or `CLAUDE.md` so assistants can reference your project's SY UI setup.
+Download SY INC documentation for AI coding agents (Claude, Cursor, etc.). The command clones the latest docs from the SY INC repository and injects a compact index into `AGENTS.md` or `CLAUDE.md` so assistants can reference your project's SY INC setup.
 
 ```bash
-sy-ui agents-md [options]
+sy-inc agents-md [options]
 ```
 
 **Options:**
 
 - `--react` [boolean] Include React docs only (one library at a time)
 - `--native` [boolean] Include Native docs only
-- `--migration` [boolean] Include SY UI v2 to v3 migration docs only
+- `--migration` [boolean] Include SY INC v2 to v3 migration docs only
 - `--output <file>` [string] Target file path (e.g., `AGENTS.md`, `CLAUDE.md`)
 - `--ssh` [boolean] Use SSH instead of HTTPS for git clone
 
@@ -380,38 +380,38 @@ sy-ui agents-md [options]
 Run without flags to enter interactive mode:
 
 ```bash
-sy-ui agents-md
+sy-inc agents-md
 ```
 
 Download React docs to a specific file:
 
 ```bash
-sy-ui agents-md --react --output AGENTS.md
+sy-inc agents-md --react --output AGENTS.md
 ```
 
 Download Native or migration docs:
 
 ```bash
-sy-ui agents-md --native --output CLAUDE.md
-sy-ui agents-md --migration --output AGENTS.md
+sy-inc agents-md --native --output CLAUDE.md
+sy-inc agents-md --migration --output AGENTS.md
 ```
 
 **How it works:**
 
 1. Clones documentation from the `v3` branch using git sparse-checkout
 2. Generates a compact index of doc and demo files
-3. Injects the index into your markdown file between markers (`<!-- SY-UI-REACT-AGENTS-MD-START -->` / `<!-- SY-UI-REACT-AGENTS-MD-END -->`, and similar for Native and Migration)
-4. Adds `.sy-ui-docs/` to `.gitignore`
+3. Injects the index into your markdown file between markers (`<!-- SY-INC-REACT-AGENTS-MD-START -->` / `<!-- SY-INC-REACT-AGENTS-MD-END -->`, and similar for Native and Migration)
+4. Adds `.sy-inc-docs/` to `.gitignore`
 
 Only one of `--react`, `--native`, or `--migration` can be selected at a time.
 
 For more details, see [AGENTS.md](/docs/react/getting-started/agents-md).
 
 <Callout>
-  The `agents-md` command collects anonymous usage data (selection, output file names, duration, success or error). Set `SY_UI_ANALYTICS_DISABLED=1` to opt out.
+  The `agents-md` command collects anonymous usage data (selection, output file names, duration, success or error). Set `SY_INC_ANALYTICS_DISABLED=1` to opt out.
 </Callout>
 
 ## Reporting issues
 
-If you found a bug, please report it in [sy-ui-cli Issues](https://github.com/sy-ui/sy-ui-cli/issues).
+If you found a bug, please report it in [sy-inc-cli Issues](https://github.com/sy-inc/sy-inc-cli/issues).
 

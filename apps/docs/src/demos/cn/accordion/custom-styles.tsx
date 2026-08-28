@@ -4,20 +4,20 @@ import {Accordion} from "@sy-inc/react";
 const items = [
   {
     content: "通过实时通知及时了解账户动态。",
-    iconUrl: "https://assets.sy-ui.com/docs/3dicons/bell-small.png",
+    iconUrl: "https://assets.sy-inc.com/docs/3dicons/bell-small.png",
     subtitle: "接收账户活动更新",
     title: "开启通知",
   },
   {
     content: "安装我们的官方浏览器扩展，获得更顺畅的浏览体验。",
-    iconUrl: "https://assets.sy-ui.com/docs/3dicons/compass-small.png",
+    iconUrl: "https://assets.sy-inc.com/docs/3dicons/compass-small.png",
     subtitle: "将浏览器连接到你的账户",
     title: "安装浏览器扩展",
   },
   {
     content: "创建你的第一件数字藏品，开启数字收藏之旅。",
     iconUrl:
-      "https://assets.sy-ui.com/docs/3dicons/mint-collective-small.png",
+      "https://assets.sy-inc.com/docs/3dicons/mint-collective-small.png",
     subtitle: "创建你的第一件收藏品",
     title: "铸造收藏品",
   },

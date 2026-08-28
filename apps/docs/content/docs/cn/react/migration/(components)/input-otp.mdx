@@ -1,10 +1,10 @@
 ---
 title: InputOTP
-description: InputOTP 从 SY UI v2 到 v3 的迁移指南。
+description: InputOTP 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 InputOTP 文档](/docs/react/components/input-otp)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 InputOTP 文档](/docs/react/components/input-otp)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -42,7 +42,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单个组件，自动渲染各个分段  
+**v2：** 单个组件，自动渲染各个分段
 **v3：** 复合组件：`InputOTP.Group`、`InputOTP.Slot`、`InputOTP.Separator`
 
 ### 2. Prop 变更
@@ -124,7 +124,7 @@ export default function App() {
     ```tsx
     {/* With description */}
     <InputOtp description="Enter the code sent to your email" length={4} />
-    
+
     {/* With error message */}
     <InputOtp errorMessage="Invalid code" isInvalid length={4} />
     ```
@@ -145,7 +145,7 @@ export default function App() {
       </InputOTP>
       <Description>Enter the code sent to your email</Description>
     </div>
-    
+
     {/* With error message */}
     <div className="flex flex-col gap-2">
       <InputOTP isInvalid maxLength={4}>
@@ -243,7 +243,7 @@ v3 引入了几个 v2 中没有的 prop：
 
 ## 导出的正则表达式模式
 
-为方便使用，SY UI 从 input-otp 库再导出了几个常用的正则模式：
+为方便使用，SY INC 从 input-otp 库再导出了几个常用的正则模式：
 
 ```tsx
 import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from "@sy-inc/react";

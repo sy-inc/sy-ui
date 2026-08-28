@@ -61,18 +61,18 @@ export function estimateMarkdownTokens(markdown: string): number {
 export function getHomepageMarkdown(origin: string): string {
   const baseUrl = origin.replace(/\/$/, "");
 
-  return `# SY UI
+  return `# SY INC
 
 Beautiful, accessible React UI components built on React Aria and Tailwind CSS v4. The modern alternative to MUI, Chakra UI, and shadcn/ui for building production-ready applications.
 
-SY UI is the modern UI library for web and mobile, built to help teams move fast, stay consistent, and deliver delightful user experiences.
+SY INC is the modern UI library for web and mobile, built to help teams move fast, stay consistent, and deliver delightful user experiences.
 
 ## Start here
 
 - [Get started](${baseUrl}/docs/react/getting-started)
 - [React components](${baseUrl}/docs/react/components)
 - [Native components](${baseUrl}/docs/native/components)
-- [GitHub repository](https://github.com/sy-ui/sy-ui)
+- [GitHub repository](https://github.com/sy-inc/sy-inc)
 
 ## Agent resources
 
@@ -80,8 +80,8 @@ SY UI is the modern UI library for web and mobile, built to help teams move fast
 - [Full LLM documentation](${baseUrl}/llms-full.txt)
 - [React LLM documentation](${baseUrl}/react/llms-full.txt)
 - [Native LLM documentation](${baseUrl}/native/llms-full.txt)
-- [SY UI OpenAPI specification](${baseUrl}/openapi.json)
-- [SY UI Docs Agent API](${baseUrl}/api/agent)
+- [SY INC OpenAPI specification](${baseUrl}/openapi.json)
+- [SY INC Docs Agent API](${baseUrl}/api/agent)
 - [API catalog](${baseUrl}/.well-known/api-catalog)
 - [MCP discovery handshake](${baseUrl}/.well-known/mcp)
 - [MCP server card](${baseUrl}/.well-known/mcp/server-card.json)
@@ -89,17 +89,17 @@ SY UI is the modern UI library for web and mobile, built to help teams move fast
 
 ## MCP and skills
 
-- [SY UI React MCP server](${baseUrl}/docs/react/getting-started/mcp-server)
-- [SY UI Native MCP server](${baseUrl}/docs/native/getting-started/mcp-server)
-- [SY UI React Agent Skills](${baseUrl}/docs/react/getting-started/agent-skills)
-- [SY UI Native Agent Skills](${baseUrl}/docs/native/getting-started/agent-skills)
-- [SY UI CLI](${baseUrl}/docs/react/getting-started/cli)
+- [SY INC React MCP server](${baseUrl}/docs/react/getting-started/mcp-server)
+- [SY INC Native MCP server](${baseUrl}/docs/native/getting-started/mcp-server)
+- [SY INC React Agent Skills](${baseUrl}/docs/react/getting-started/agent-skills)
+- [SY INC Native Agent Skills](${baseUrl}/docs/native/getting-started/agent-skills)
+- [SY INC CLI](${baseUrl}/docs/react/getting-started/cli)
 
-## About SY UI
+## About SY INC
 
-- [About SY UI](${baseUrl}/about)
-- [Contact SY UI](${baseUrl}/contact)
-- [SY UI privacy information](${baseUrl}/privacy)
+- [About SY INC](${baseUrl}/about)
+- [Contact SY INC](${baseUrl}/contact)
+- [SY INC privacy information](${baseUrl}/privacy)
 `;
 }
 

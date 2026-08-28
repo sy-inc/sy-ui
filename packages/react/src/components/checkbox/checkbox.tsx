@@ -58,7 +58,7 @@ const CheckboxRoot = ({children, className, variant, ...props}: CheckboxRootProp
   );
 };
 
-CheckboxRoot.displayName = "SY UI.Checkbox";
+CheckboxRoot.displayName = "SY INC.Checkbox";
 
 /* -------------------------------------------------------------------------------------------------
  * Checkbox.Content — the clickable `CheckboxButton` label wrapping the control + `Label`.
@@ -80,7 +80,7 @@ const CheckboxContent = ({children, className, ...props}: CheckboxContentProps) 
   );
 };
 
-CheckboxContent.displayName = "SY UI.Checkbox.Content";
+CheckboxContent.displayName = "SY INC.Checkbox.Content";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -110,7 +110,7 @@ const CheckboxControl = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-CheckboxControl.displayName = "SY UI.Checkbox.Control";
+CheckboxControl.displayName = "SY INC.Checkbox.Control";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -180,7 +180,7 @@ const CheckboxIndicator = <E extends keyof React.JSX.IntrinsicElements = "span">
   );
 };
 
-CheckboxIndicator.displayName = "SY UI.Checkbox.Indicator";
+CheckboxIndicator.displayName = "SY INC.Checkbox.Indicator";
 
 /* ----------------------------------------------------------------------------------------------*/
 

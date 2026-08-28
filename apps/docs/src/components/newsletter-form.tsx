@@ -58,7 +58,7 @@ export function NewsletterForm() {
       const newsletterResponse = await fetch("/api/newsletter", {
         body: JSON.stringify({
           email: emailValue,
-          source: "Subscribe from SY UI Docs",
+          source: "Subscribe from SY INC Docs",
         }),
         headers: {
           "Content-Type": "application/json",

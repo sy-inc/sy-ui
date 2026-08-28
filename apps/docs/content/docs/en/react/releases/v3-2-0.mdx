@@ -41,7 +41,7 @@ Update to the latest version:
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Prompt "Hey Cursor, update SY UI to the latest version" and your AI assistant will compare versions and apply the necessary changes. Learn more about the [SY UI MCP Server](/docs/ui-for-agents/mcp-server).
+  **Using AI assistants?** Prompt "Hey Cursor, update SY INC to the latest version" and your AI assistant will compare versions and apply the necessary changes. Learn more about the [SY INC MCP Server](/docs/ui-for-agents/mcp-server).
 </Callout>
 
 ## What's New
@@ -71,7 +71,7 @@ Update to the latest version:
 
 Virtualizer support for large option lists, with docs, Storybook, and style fixes for popover sizing and listbox scroll height.
 
-- **Virtualization**: Wrap `ListBox` in React Aria's `<Virtualizer>` inside `Autocomplete.Popover` ([#6642](https://github.com/sy-ui/sy-ui/pull/6642))
+- **Virtualization**: Wrap `ListBox` in React Aria's `<Virtualizer>` inside `Autocomplete.Popover` ([#6642](https://github.com/sy-inc/sy-inc/pull/6642))
 - **Popover sizing**: Listbox caps at `320px` with internal scrolling; search field stays fixed above the list
 
 **Virtualization:**
@@ -80,7 +80,7 @@ Virtualizer support for large option lists, with docs, Storybook, and style fixe
 
 ### Table.SortableColumnHeader
 
-`Table.SortableColumnHeader` renders a sortable column label with an optional ascending/descending indicator. Use it inside a `Table.Column` render prop and forward `sortDirection` ([#6588](https://github.com/sy-ui/sy-ui/pull/6588)).
+`Table.SortableColumnHeader` renders a sortable column label with an optional ascending/descending indicator. Use it inside a `Table.Column` render prop and forward `sortDirection` ([#6588](https://github.com/sy-inc/sy-inc/pull/6588)).
 
 ```tsx
 <Table.Column allowsSorting>
@@ -100,7 +100,7 @@ Virtualizer support for large option lists, with docs, Storybook, and style fixe
 
 ### Tooltip delay theme variables
 
-[Tooltip](/docs/components/tooltip) reads default show and hide delays from theme CSS variables ([#6617](https://github.com/sy-ui/sy-ui/pull/6617)):
+[Tooltip](/docs/components/tooltip) reads default show and hide delays from theme CSS variables ([#6617](https://github.com/sy-inc/sy-inc/pull/6617)):
 
 - `--tooltip-delay` — delay before showing a tooltip (default: `1500ms`)
 - `--tooltip-close-delay` — delay before hiding a tooltip (default: `500ms`)
@@ -117,33 +117,33 @@ Override them globally:
 Individual `delay` and `closeDelay` props still override these values on specific tooltips.
 
 <Callout type="warning">
-  **Behavior change:** With the default SY UI theme, tooltip delays now default to `1500ms` / `500ms` instead of the previous React Aria defaults of `700ms` / `0ms`. Set the CSS variables or props explicitly to preserve the old timing.
+  **Behavior change:** With the default SY INC theme, tooltip delays now default to `1500ms` / `500ms` instead of the previous React Aria defaults of `700ms` / `0ms`. Set the CSS variables or props explicitly to preserve the old timing.
 </Callout>
 
 ## Component Fixes
 
-- **Toast**: ViewTransition updates are serialized in the toast queue, preventing skipped transitions and AbortError rejections when `toast.promise()` swaps the loading toast for success/error feedback ([#6511](https://github.com/sy-ui/sy-ui/pull/6511)).
-- **Fieldset**: `disabled` propagates through React Aria Button, CheckboxGroup, Link, RadioGroup, Slider, ToggleButton, and ToggleButtonGroup contexts ([#6596](https://github.com/sy-ui/sy-ui/pull/6596)).
-- **Autocomplete**: Popover content is wrapped in a React Aria `Dialog`, so opening the popover no longer leaves a stray focus ring on the listbox ([#6627](https://github.com/sy-ui/sy-ui/pull/6627)).
-- **Tooltip**: The trigger uses the `useFocusable` hook instead of the `<Focusable>` wrapper, avoiding a false-positive "child must be focusable" warning when a tooltip is mounted inside an `inert` subtree (e.g. behind an open Drawer/Modal) ([#6628](https://github.com/sy-ui/sy-ui/pull/6628)).
+- **Toast**: ViewTransition updates are serialized in the toast queue, preventing skipped transitions and AbortError rejections when `toast.promise()` swaps the loading toast for success/error feedback ([#6511](https://github.com/sy-inc/sy-inc/pull/6511)).
+- **Fieldset**: `disabled` propagates through React Aria Button, CheckboxGroup, Link, RadioGroup, Slider, ToggleButton, and ToggleButtonGroup contexts ([#6596](https://github.com/sy-inc/sy-inc/pull/6596)).
+- **Autocomplete**: Popover content is wrapped in a React Aria `Dialog`, so opening the popover no longer leaves a stray focus ring on the listbox ([#6627](https://github.com/sy-inc/sy-inc/pull/6627)).
+- **Tooltip**: The trigger uses the `useFocusable` hook instead of the `<Focusable>` wrapper, avoiding a false-positive "child must be focusable" warning when a tooltip is mounted inside an `inert` subtree (e.g. behind an open Drawer/Modal) ([#6628](https://github.com/sy-inc/sy-inc/pull/6628)).
 
 ## Style Fixes
 
-- **Modal / AlertDialog**: `scroll-inside` dialogs cap height with `max-h-full min-h-0` so the body scrolls instead of overflowing ([#6597](https://github.com/sy-ui/sy-ui/pull/6597)).
-- **ScrollShadow**: Fade masks reserve space for visible native scrollbars via `--scroll-shadow-scrollbar-size` ([#6598](https://github.com/sy-ui/sy-ui/pull/6598)).
-- **Table RTL**: Column separators and resize handles use logical `end-0` positioning in RTL ([#6606](https://github.com/sy-ui/sy-ui/pull/6606)).
-- **Link**: Drops the hardcoded `text-sm` so links inherit font size from their parent, and `.link__icon` scales relative to text with `size-[0.75em]` instead of a fixed `size-2` ([#6621](https://github.com/sy-ui/sy-ui/pull/6621)).
-- **DatePicker / DateRangePicker**: Calendar popovers use `min-w-(--trigger-width)` instead of `max-w-(--trigger-width)` so the calendar is at least as wide as the trigger and no longer clips horizontally ([#6622](https://github.com/sy-ui/sy-ui/pull/6622)).
-- **Table**: Secondary header borders and rounded corners render correctly when the table is wrapped in React Aria's `<Virtualizer>` — column selectors no longer treat every virtualized column as both first and last child ([#6624](https://github.com/sy-ui/sy-ui/pull/6624)).
-- **Autocomplete**: The popover is constrained to the trigger width and the listbox caps its height at `320px` with internal scrolling, so virtualized lists no longer overflow the popover ([#6642](https://github.com/sy-ui/sy-ui/pull/6642)).
-- **ListBox**: Replaces `flex flex-col gap` with block flow + sibling margins so React Aria's Virtualizer content height is not collapsed by flex-shrink — fixes scrollbar thumb resizing during virtualized scroll ([#6636](https://github.com/sy-ui/sy-ui/pull/6636)).
-- **InputGroup / NumberField / SearchField**: Browser autofill highlight lifts onto the group shell so prefix, suffix, and increment/decrement slots share the rounded highlight ([#6625](https://github.com/sy-ui/sy-ui/pull/6625)).
-- **Spinner**: Uses `inline-flex` with `shrink-0` (instead of `relative`) so the spin animation renders correctly in non-flex layouts, and honors `motion-reduce` ([#6644](https://github.com/sy-ui/sy-ui/pull/6644)).
-- **Toast**: Close button uses `-top-1 -right-1` on all breakpoints to align with container padding ([#6574](https://github.com/sy-ui/sy-ui/pull/6574)).
+- **Modal / AlertDialog**: `scroll-inside` dialogs cap height with `max-h-full min-h-0` so the body scrolls instead of overflowing ([#6597](https://github.com/sy-inc/sy-inc/pull/6597)).
+- **ScrollShadow**: Fade masks reserve space for visible native scrollbars via `--scroll-shadow-scrollbar-size` ([#6598](https://github.com/sy-inc/sy-inc/pull/6598)).
+- **Table RTL**: Column separators and resize handles use logical `end-0` positioning in RTL ([#6606](https://github.com/sy-inc/sy-inc/pull/6606)).
+- **Link**: Drops the hardcoded `text-sm` so links inherit font size from their parent, and `.link__icon` scales relative to text with `size-[0.75em]` instead of a fixed `size-2` ([#6621](https://github.com/sy-inc/sy-inc/pull/6621)).
+- **DatePicker / DateRangePicker**: Calendar popovers use `min-w-(--trigger-width)` instead of `max-w-(--trigger-width)` so the calendar is at least as wide as the trigger and no longer clips horizontally ([#6622](https://github.com/sy-inc/sy-inc/pull/6622)).
+- **Table**: Secondary header borders and rounded corners render correctly when the table is wrapped in React Aria's `<Virtualizer>` — column selectors no longer treat every virtualized column as both first and last child ([#6624](https://github.com/sy-inc/sy-inc/pull/6624)).
+- **Autocomplete**: The popover is constrained to the trigger width and the listbox caps its height at `320px` with internal scrolling, so virtualized lists no longer overflow the popover ([#6642](https://github.com/sy-inc/sy-inc/pull/6642)).
+- **ListBox**: Replaces `flex flex-col gap` with block flow + sibling margins so React Aria's Virtualizer content height is not collapsed by flex-shrink — fixes scrollbar thumb resizing during virtualized scroll ([#6636](https://github.com/sy-inc/sy-inc/pull/6636)).
+- **InputGroup / NumberField / SearchField**: Browser autofill highlight lifts onto the group shell so prefix, suffix, and increment/decrement slots share the rounded highlight ([#6625](https://github.com/sy-inc/sy-inc/pull/6625)).
+- **Spinner**: Uses `inline-flex` with `shrink-0` (instead of `relative`) so the spin animation renders correctly in non-flex layouts, and honors `motion-reduce` ([#6644](https://github.com/sy-inc/sy-inc/pull/6644)).
+- **Toast**: Close button uses `-top-1 -right-1` on all breakpoints to align with container padding ([#6574](https://github.com/sy-inc/sy-inc/pull/6574)).
 
 ## Dependencies
 
-- **React Aria Components**: `1.17.0` → `1.18.0` ([#6586](https://github.com/sy-ui/sy-ui/pull/6586)). 1.18 adds the `*Field` + `*Button` composition adopted by the toggles, `CalendarHeading`, and `isDateUnavailable(date, anchorDate)`.
+- **React Aria Components**: `1.17.0` → `1.18.0` ([#6586](https://github.com/sy-inc/sy-inc/pull/6586)). 1.18 adds the `*Field` + `*Button` composition adopted by the toggles, `CalendarHeading`, and `isDateUnavailable(date, anchorDate)`.
 - **@internationalized/date**: `3.12.1` → `3.12.2`
 - **React Aria / Stately helpers**: `@react-aria/*`, `@react-stately/*`, and `@react-types/shared` patch updates
 
@@ -268,8 +268,8 @@ Full per-component guides: [Checkbox](/docs/react/migration/checkbox), [Checkbox
 - [Radio Group Docs](/docs/react/components/radio-group)
 - [Switch Docs](/docs/react/components/switch)
 - [Component Docs](/docs/react/components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #6616](https://github.com/sy-ui/sy-ui/pull/6616)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #6616](https://github.com/sy-inc/sy-inc/pull/6616)
 
 ## Contributors
 

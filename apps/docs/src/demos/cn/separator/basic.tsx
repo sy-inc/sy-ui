@@ -4,7 +4,7 @@ export function Basic() {
   return (
     <div className="max-w-md">
       <div className="space-y-1">
-        <h4 className="text-medium font-medium">SY UI v3 组件</h4>
+        <h4 className="text-medium font-medium">SY INC v3 组件</h4>
         <p className="text-small text-default-400">美观、快速、现代的 React UI 库。</p>
       </div>
       <Separator className="my-4" />

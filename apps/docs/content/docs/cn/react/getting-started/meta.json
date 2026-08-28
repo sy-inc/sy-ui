@@ -1,6 +1,6 @@
 {
   "title": "快速开始",
-  "description": "快速开始使用 SY UI v3",
+  "description": "快速开始使用 SY INC v3",
   "root": true,
   "icon": "book-open",
   "pages": [
@@ -11,7 +11,7 @@
     "(overview)/frameworks",
     "(overview)/cli",
     "[sparkles][组件案例](/showcase)",
-    "[route][路线图](https://sy-ui.featurebase.app/roadmap)",
+    "[route][路线图](https://sy-inc.featurebase.app/roadmap)",
     "[figma][Figma](https://www.figma.com/community/file/1546526812159103429)",
     "---手册---",
     "(handbook)/colors",

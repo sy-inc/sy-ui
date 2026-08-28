@@ -4,11 +4,11 @@ description: 使用组件组合模式构建灵活的 UI
 icon: layers
 ---
 
-SY UI 使用组合模式来创建灵活、可定制的组件。你可以更换渲染的元素、把组件组合在一起，并完全掌控最终的标记结构。
+SY INC 使用组合模式来创建灵活、可定制的组件。你可以更换渲染的元素、把组件组合在一起，并完全掌控最终的标记结构。
 
 ## 与框架无关的样式
 
-SY UI 的变体函数位于 `@sy-inc/styles` 包中，可以独立于 React 使用。这使得 Vue、Svelte 等其他框架也能使用 SY UI 的设计系统：
+SY INC 的变体函数位于 `@sy-inc/styles` 包中，可以独立于 React 使用。这使得 Vue、Svelte 等其他框架也能使用 SY INC 的设计系统：
 
 ```tsx
 // Import directly from @sy-inc/styles (framework-agnostic)
@@ -22,7 +22,7 @@ import { buttonVariants } from '@sy-inc/react';
 
 ## 多态样式
 
-使用变体函数或 BEM 类，将 SY UI 样式应用到任何元素上。可以把组件样式扩展到框架组件、原生 HTML 元素或自定义组件，并保持完整的类型安全。
+使用变体函数或 BEM 类，将 SY INC 样式应用到任何元素上。可以把组件样式扩展到框架组件、原生 HTML 元素或自定义组件，并保持完整的类型安全。
 
 **示例：将 Link 设置为按钮样式**
 
@@ -62,7 +62,7 @@ import Link from 'next/link';
 
 **配合复合组件使用**
 
-当使用自定义根元素而非 SY UI 的 Root 组件时，子组件无法访问 context slot。你可以使用变体函数或 BEM 类，手动将 `className` 传递给子组件：
+当使用自定义根元素而非 SY INC 的 Root 组件时，子组件无法访问 context slot。你可以使用变体函数或 BEM 类，手动将 `className` 传递给子组件：
 
 ```tsx
 import { Link } from '@sy-inc/react';
@@ -83,11 +83,11 @@ const slots = linkVariants();
 </NextLink>
 ```
 
-这种方法之所以可行，是因为 SY UI 的变体函数和 BEM 类可以应用到任何元素上，让你能够灵活地用 SY UI 的设计系统为框架组件、原生元素或自定义组件设置样式。
+这种方法之所以可行，是因为 SY INC 的变体函数和 BEM 类可以应用到任何元素上，让你能够灵活地用 SY INC 的设计系统为框架组件、原生元素或自定义组件设置样式。
 
 ## 直接应用类名
 
-为链接或其他元素设置样式最简单的方法，就是直接使用 SY UI 的 [BEM](https://getbem.com/) 类。这种方法简单直接，适用于任何框架或纯 HTML。
+为链接或其他元素设置样式最简单的方法，就是直接使用 SY INC 的 [BEM](https://getbem.com/) 类。这种方法简单直接，适用于任何框架或纯 HTML。
 
 **配合 Next.js Link 使用：**
 ```tsx
@@ -111,11 +111,11 @@ import Link from 'next/link';
 - `.button--sm`、`.button--md`、`.button--lg` — 尺寸
 - `.button--icon-only` — 仅图标按钮
 
-这种方法之所以可行，是因为 SY UI 使用了 [BEM](https://getbem.com/) 类，可以应用到任何元素上。当你不需要组件的交互功能（例如 `onPress` 事件处理器）、只想要视觉样式时，这种方式非常合适。
+这种方法之所以可行，是因为 SY INC 使用了 [BEM](https://getbem.com/) 类，可以应用到任何元素上。当你不需要组件的交互功能（例如 `onPress` 事件处理器）、只想要视觉样式时，这种方式非常合适。
 
 ## 使用变体函数
 
-如需更多控制和类型安全，可以使用变体函数将 SY UI 样式应用到特定框架的组件或自定义元素上。`@sy-inc/styles`（与框架无关）和 `@sy-inc/react`（重新导出）都提供了变体函数。
+如需更多控制和类型安全，可以使用变体函数将 SY INC 样式应用到特定框架的组件或自定义元素上。`@sy-inc/styles`（与框架无关）和 `@sy-inc/react`（重新导出）都提供了变体函数。
 
 **配合 Next.js Link 使用：**
 
@@ -146,11 +146,11 @@ import Link from 'next/link';
 </Link>
 ```
 
-**可用的变体函数：** 每个组件都从 `@sy-inc/styles` 导出其变体函数（`buttonVariants`、`chipVariants`、`linkVariants`、`spinnerVariants` 等）。使用它们可以在保持类型安全的同时，将 SY UI 的设计系统应用到任何元素上。
+**可用的变体函数：** 每个组件都从 `@sy-inc/styles` 导出其变体函数（`buttonVariants`、`chipVariants`、`linkVariants`、`spinnerVariants` 等）。使用它们可以在保持类型安全的同时，将 SY INC 的设计系统应用到任何元素上。
 
 ## 复合组件
 
-SY UI 组件以复合组件的方式构建 —— 它们会导出多个协同工作的子部件。你可以通过三种灵活的方式来使用它们：
+SY INC 组件以复合组件的方式构建 —— 它们会导出多个协同工作的子部件。你可以通过三种灵活的方式来使用它们：
 
 **选项 1：复合模式（推荐）** — 直接使用主组件，无需 `.Root` 后缀：
 
@@ -250,15 +250,15 @@ const buttonStyles = buttonVariants({ variant: "tertiary", size: "md" });
 
 <Link
   className={buttonStyles}
-  href="https://sy-ui.com"
+  href="https://sy-inc.com"
 >
-  SY UI
+  SY INC
 </Link>
 ```
 
 ## 自定义组件
 
-通过组合 SY UI 原语，创建你自己的组件：
+通过组合 SY INC 原语，创建你自己的组件：
 
 ```tsx
 import { Button, Tooltip } from '@sy-inc/react';

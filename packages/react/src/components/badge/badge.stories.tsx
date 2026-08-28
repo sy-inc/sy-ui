@@ -35,7 +35,7 @@ export default {
   title: "Components/Data Display/Badge",
 } as Meta<typeof Badge>;
 
-const AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";
+const AVATAR_URL = "https://assets.sy-inc.com/avatars/green.jpg";
 
 const defaultArgs: BadgeProps = {
   color: "accent",

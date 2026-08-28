@@ -127,7 +127,7 @@ async function main() {
   const compareOnly = args.includes("--compare");
 
   console.log("=".repeat(60));
-  console.log("SY UI CSS Bundle Size Measurement");
+  console.log("SY INC CSS Bundle Size Measurement");
   console.log("=".repeat(60));
   console.log();
 
@@ -138,7 +138,7 @@ async function main() {
     console.log("Previous measurement from:", previous.timestamp);
     console.log();
     console.log("Uncompressed (index.css):", formatBytes(previous.uncompressed.bytes).formatted);
-    console.log("Minified (sy-ui.min.css):", formatBytes(previous.minified.bytes).formatted);
+    console.log("Minified (sy-inc.min.css):", formatBytes(previous.minified.bytes).formatted);
     console.log();
     console.log("Component breakdown:");
 
@@ -167,7 +167,7 @@ async function main() {
 
   // Measure sizes
   const indexPath = path.join(distDir, "index.css");
-  const minifiedPath = path.join(distDir, "sy-ui.min.css");
+  const minifiedPath = path.join(distDir, "sy-inc.min.css");
 
   const uncompressedSize = getFileSize(indexPath);
   const minifiedSize = getFileSize(minifiedPath);
@@ -198,7 +198,7 @@ async function main() {
     `Uncompressed (index.css):   ${result.uncompressed.formatted}${previous ? showComparison(uncompressedSize, previous.uncompressed.bytes, "uncompressed") : ""}`,
   );
   console.log(
-    `Minified (sy-ui.min.css):  ${result.minified.formatted}${previous ? showComparison(minifiedSize, previous.minified.bytes, "minified") : ""}`,
+    `Minified (sy-inc.min.css):  ${result.minified.formatted}${previous ? showComparison(minifiedSize, previous.minified.bytes, "minified") : ""}`,
   );
   console.log(
     `Components total:           ${result.componentsTotal.formatted}${previous ? showComparison(totalComponentBytes, previous.componentsTotal?.bytes, "components") : ""}`,

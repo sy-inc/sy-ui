@@ -1,17 +1,17 @@
 ---
 title: Code
-description: Migration guide for Code from SY UI v2 to v3
+description: Migration guide for Code from SY INC v2 to v3
 ---
 
 <Callout type="warning">
-  The Code component has been **removed** in SY UI v3. Use native HTML `<code>` element with Tailwind CSS classes instead.
+  The Code component has been **removed** in SY INC v3. Use native HTML `<code>` element with Tailwind CSS classes instead.
 </Callout>
 
 ## Key Changes
 
 ### 1. Component Removal
 
-**v2:** `<Code>` component from `@sy-inc/react`  
+**v2:** `<Code>` component from `@sy-inc/react`
 **v3:** Native HTML `<code>` element with Tailwind classes
 
 ### 2. Variants Mapping
@@ -69,7 +69,7 @@ export default function App() {
     {/* Colors */}
     <Code color="primary">Primary code</Code>
     <Code color="success">Success code</Code>
-    
+
     {/* Sizes */}
     <Code size="md">Medium code</Code>
     ```
@@ -83,7 +83,7 @@ export default function App() {
     <code className="px-2 py-1 h-fit font-mono font-normal inline-block whitespace-nowrap rounded-sm bg-success/20 text-success-700 text-sm">
       Success code
     </code>
-    
+
     {/* Sizes */}
     <code className="px-2 py-1 h-fit font-mono font-normal inline-block whitespace-nowrap rounded-sm bg-default/40 text-default-700 text-base">
       Medium code
@@ -197,7 +197,7 @@ If you use inline code frequently, you can create a simple wrapper component:
       return (
         <div className="space-y-4">
           <p>
-            Install SY UI with <Code>npm install @sy-inc/react</Code>
+            Install SY INC with <Code>npm install @sy-inc/react</Code>
           </p>
           <div className="flex gap-2">
             <Code color="primary">Primary</Code>
@@ -221,7 +221,7 @@ If you use inline code frequently, you can create a simple wrapper component:
       return (
         <div className="space-y-4">
           <p>
-            Install SY UI with{" "}
+            Install SY INC with{" "}
             <code className="px-2 py-1 h-fit font-mono font-normal inline-block whitespace-nowrap rounded-sm bg-default/40 text-default-700 text-sm">
               npm install @sy-inc/react
             </code>

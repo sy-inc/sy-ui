@@ -31,34 +31,34 @@ export const Default: Story = {
     <ListBox aria-label="Users" className="w-[220px]" selectionMode="single">
       <ListBox.Item id="1" textValue="Bob">
         <Avatar size="sm">
-          <AvatarImage src="https://assets.sy-ui.com/avatars/blue.jpg" />
+          <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
           <AvatarFallback>B</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
           <Label>Bob</Label>
-          <Description>bob@sy-ui.com</Description>
+          <Description>bob@sy-inc.com</Description>
         </div>
         <ListBox.ItemIndicator />
       </ListBox.Item>
       <ListBox.Item id="2" textValue="Fred">
         <Avatar size="sm">
-          <AvatarImage src="https://assets.sy-ui.com/avatars/green.jpg" />
+          <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
           <AvatarFallback>F</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
           <Label>Fred</Label>
-          <Description>fred@sy-ui.com</Description>
+          <Description>fred@sy-inc.com</Description>
         </div>
         <ListBox.ItemIndicator />
       </ListBox.Item>
       <ListBox.Item id="3" textValue="Martha">
         <Avatar size="sm">
-          <AvatarImage src="https://assets.sy-ui.com/avatars/purple.jpg" />
+          <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
           <AvatarFallback>M</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
           <Label>Martha</Label>
-          <Description>martha@sy-ui.com</Description>
+          <Description>martha@sy-inc.com</Description>
         </div>
         <ListBox.ItemIndicator />
       </ListBox.Item>
@@ -195,34 +195,34 @@ export const MultiSelect: Story = {
       <ListBox aria-label="Users" selectionMode="multiple">
         <ListBox.Item id="1" textValue="Bob">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-ui.com/avatars/blue.jpg" />
+            <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
             <AvatarFallback>B</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <Label>Bob</Label>
-            <Description>bob@sy-ui.com</Description>
+            <Description>bob@sy-inc.com</Description>
           </div>
           <ListBox.ItemIndicator />
         </ListBox.Item>
         <ListBox.Item id="2" textValue="Fred">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-ui.com/avatars/green.jpg" />
+            <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
             <AvatarFallback>F</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <Label>Fred</Label>
-            <Description>fred@sy-ui.com</Description>
+            <Description>fred@sy-inc.com</Description>
           </div>
           <ListBox.ItemIndicator />
         </ListBox.Item>
         <ListBox.Item id="3" textValue="Martha">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-ui.com/avatars/purple.jpg" />
+            <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <Label>Martha</Label>
-            <Description>martha@sy-ui.com</Description>
+            <Description>martha@sy-inc.com</Description>
           </div>
           <ListBox.ItemIndicator />
         </ListBox.Item>
@@ -237,12 +237,12 @@ export const CustomCheckIcon: Story = {
       <ListBox aria-label="Users" selectionMode="multiple">
         <ListBox.Item id="1" textValue="Bob">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-ui.com/avatars/blue.jpg" />
+            <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
             <AvatarFallback>B</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <Label>Bob</Label>
-            <Description>bob@sy-ui.com</Description>
+            <Description>bob@sy-inc.com</Description>
           </div>
           <ListBox.ItemIndicator>
             {({isSelected}) =>
@@ -252,12 +252,12 @@ export const CustomCheckIcon: Story = {
         </ListBox.Item>
         <ListBox.Item id="2" textValue="Fred">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-ui.com/avatars/green.jpg" />
+            <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
             <AvatarFallback>F</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <Label>Fred</Label>
-            <Description>fred@sy-ui.com</Description>
+            <Description>fred@sy-inc.com</Description>
           </div>
           <ListBox.ItemIndicator>
             {({isSelected}) =>
@@ -267,12 +267,12 @@ export const CustomCheckIcon: Story = {
         </ListBox.Item>
         <ListBox.Item id="3" textValue="Martha">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-ui.com/avatars/purple.jpg" />
+            <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <Label>Martha</Label>
-            <Description>martha@sy-ui.com</Description>
+            <Description>martha@sy-inc.com</Description>
           </div>
           <ListBox.ItemIndicator>
             {({isSelected}) =>
@@ -302,12 +302,12 @@ export const Controlled: Story = {
           >
             <ListBox.Item id="1" textValue="Bob">
               <Avatar size="sm">
-                <AvatarImage src="https://assets.sy-ui.com/avatars/blue.jpg" />
+                <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
                 <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <Label>Bob</Label>
-                <Description>bob@sy-ui.com</Description>
+                <Description>bob@sy-inc.com</Description>
               </div>
               <ListBox.ItemIndicator>
                 {({isSelected}) =>
@@ -319,12 +319,12 @@ export const Controlled: Story = {
             </ListBox.Item>
             <ListBox.Item id="2" textValue="Fred">
               <Avatar size="sm">
-                <AvatarImage src="https://assets.sy-ui.com/avatars/green.jpg" />
+                <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
                 <AvatarFallback>F</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <Label>Fred</Label>
-                <Description>fred@sy-ui.com</Description>
+                <Description>fred@sy-inc.com</Description>
               </div>
               <ListBox.ItemIndicator>
                 {({isSelected}) =>
@@ -336,12 +336,12 @@ export const Controlled: Story = {
             </ListBox.Item>
             <ListBox.Item id="3" textValue="Martha">
               <Avatar size="sm">
-                <AvatarImage src="https://assets.sy-ui.com/avatars/purple.jpg" />
+                <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
                 <AvatarFallback>M</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
                 <Label>Martha</Label>
-                <Description>martha@sy-ui.com</Description>
+                <Description>martha@sy-inc.com</Description>
               </div>
               <ListBox.ItemIndicator>
                 {({isSelected}) =>

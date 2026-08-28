@@ -73,7 +73,7 @@ function getValidColorSpace(channel: string, colorSpace?: ColorSpace): ColorSpac
   if (requiredSpace && colorSpace && colorSpace !== requiredSpace) {
     // eslint-disable-next-line no-console
     console.warn(
-      `[SY UI ColorSlider] Invalid combination: channel="${channel}" requires colorSpace="${requiredSpace}", ` +
+      `[SY INC ColorSlider] Invalid combination: channel="${channel}" requires colorSpace="${requiredSpace}", ` +
         `but received colorSpace="${colorSpace}". Auto-correcting to "${requiredSpace}".`,
     );
 
@@ -84,7 +84,7 @@ function getValidColorSpace(channel: string, colorSpace?: ColorSpace): ColorSpac
   if (HSL_HSB_ONLY_CHANNELS.has(channel) && colorSpace === "rgb") {
     // eslint-disable-next-line no-console
     console.warn(
-      `[SY UI ColorSlider] Invalid combination: channel="${channel}" is not available in RGB color space. ` +
+      `[SY INC ColorSlider] Invalid combination: channel="${channel}" is not available in RGB color space. ` +
         `Use colorSpace="hsl" or colorSpace="hsb" instead. Auto-correcting to "hsl".`,
     );
 

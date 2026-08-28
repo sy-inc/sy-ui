@@ -1,7 +1,7 @@
 import {Avatar} from "@sy-inc/react";
 import Image from "next/image";
 
-const SRC = "https://assets.sy-ui.com/avatars/blue.jpg";
+const SRC = "https://assets.sy-inc.com/avatars/blue.jpg";
 
 export function CustomImageComponent() {
   return (

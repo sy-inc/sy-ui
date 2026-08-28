@@ -1,6 +1,6 @@
 ---
 title: RC 1
-description: Alert 组件、独立 Radio 组件、Select TriggerIndicator、SyUINativeProviderRaw、disableFullWindowOverlay、styles 属性扩展、主题 surface 重构
+description: Alert 组件、独立 Radio 组件、Select TriggerIndicator、SyIncNativeProviderRaw、disableFullWindowOverlay、styles 属性扩展、主题 surface 重构
 github:
   pull: 284
 ---
@@ -9,7 +9,7 @@ github:
   <span className="text-sm text-muted">2026 年 2 月 12 日</span>
 </div>
 
-RC 1 是 SY UI Native 的首个候选发布（Release Candidate），表明库已接近生产可用。本版本引入以无障碍为先、带状态变体的 Alert 复合组件；将 Radio 抽为可双模式运行的独立组件；新增带动画的 Select.TriggerIndicator 子组件。还提供轻量 `SyUINativeProviderRaw` 以优化包体、用于 iOS 调试的 `disableFullWindowOverlay`、六个组件统一的 `styles` 插槽式样式，以及用主题显式变量替代计算型 surface 色的主题重构。另含 BottomSheet 内 InputOTP、Toast 文字裁切与元素检查器兼容等关键修复。
+RC 1 是 SY INC Native 的首个候选发布（Release Candidate），表明库已接近生产可用。本版本引入以无障碍为先、带状态变体的 Alert 复合组件；将 Radio 抽为可双模式运行的独立组件；新增带动画的 Select.TriggerIndicator 子组件。还提供轻量 `SyIncNativeProviderRaw` 以优化包体、用于 iOS 调试的 `disableFullWindowOverlay`、六个组件统一的 `styles` 插槽式样式，以及用主题显式变量替代计算型 surface 色的主题重构。另含 BottomSheet 内 InputOTP、Toast 文字裁切与元素检查器兼容等关键修复。
 
 ## 安装
 
@@ -18,28 +18,28 @@ RC 1 是 SY UI Native 的首个候选发布（Release Candidate），表明库�
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -59,7 +59,7 @@ RC 1 是 SY UI Native 的首个候选发布（Release Candidate），表明库�
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -68,7 +68,7 @@ RC 1 是 SY UI Native 的首个候选发布（Release Candidate），表明库�
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -87,8 +87,8 @@ Alert 提供无障碍告警展示，内置五种状态变体：default、accent�
 <NativeVideoPlayerView
   target="component"
   slug="alert"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/alert-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/alert-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/alert-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/alert-docs-dark.mp4"
 />
 
 **特性：**
@@ -104,7 +104,7 @@ Alert 提供无障碍告警展示，内置五种状态变体：default、accent�
 **用法：**
 
 ```tsx
-import { Alert } from "sy-ui-native";
+import { Alert } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -123,7 +123,7 @@ export function Example() {
 
 完整文档与示例见 [Alert 组件页](/docs/native/components/alert)。
 
-**相关 PR：** [#284](https://github.com/sy-ui/sy-ui-native/pull/284)
+**相关 PR：** [#284](https://github.com/sy-inc/sy-inc-native/pull/284)
 
 ### 新子组件
 
@@ -142,7 +142,7 @@ export function Example() {
 **用法：**
 
 ```tsx
-import { Select } from "sy-ui-native";
+import { Select } from "sy-inc-native";
 
 <Select>
   <Select.Trigger>
@@ -157,7 +157,7 @@ import { Select } from "sy-ui-native";
 </Select>
 ```
 
-**相关 PR：** [#274](https://github.com/sy-ui/sy-ui-native/pull/274)
+**相关 PR：** [#274](https://github.com/sy-inc/sy-inc-native/pull/274)
 
 ## 组件改进
 
@@ -175,7 +175,7 @@ import { Select } from "sy-ui-native";
 
 确保不同高度 Toast 堆叠时内容仍被正确遮挡，样式更易维护、可预期。
 
-**相关 PR：** [#229](https://github.com/sy-ui/sy-ui-native/pull/229)
+**相关 PR：** [#229](https://github.com/sy-inc/sy-inc-native/pull/229)
 
 ### Dialog 遮罩手势关闭动画时序
 
@@ -188,7 +188,7 @@ import { Select } from "sy-ui-native";
 - 移除 `isOpen` 为 false 时立即 `progress.set(2)` 的调用
 - 侧滑关闭时关闭动画可正常播放
 
-**相关 PR：** [#277](https://github.com/sy-ui/sy-ui-native/pull/277)
+**相关 PR：** [#277](https://github.com/sy-inc/sy-inc-native/pull/277)
 
 ### 主题 Surface 变量重构
 
@@ -203,7 +203,7 @@ import { Select } from "sy-ui-native";
 
 主题作者可直接控制 surface 色值，不再依赖 `color-mix`，各主题 surface 表现更可预期。
 
-**相关 PR：** [#281](https://github.com/sy-ui/sy-ui-native/pull/281)
+**相关 PR：** [#281](https://github.com/sy-inc/sy-inc-native/pull/281)
 
 ## API 增强
 
@@ -223,7 +223,7 @@ import { Select } from "sy-ui-native";
 **新能力：**
 
 ```tsx
-import { Accordion, Label } from "sy-ui-native";
+import { Accordion, Label } from "sy-inc-native";
 
 // 对指定插槽应用样式
 <Label styles={{ text: { fontSize: 18 }, asterisk: { color: "red" } }} isRequired>
@@ -242,7 +242,7 @@ import { Accordion, Label } from "sy-ui-native";
 
 变更保持与既有 `style` 的向后兼容，二者同时提供时会正确合并。
 
-**相关 PR：** [#271](https://github.com/sy-ui/sy-ui-native/pull/271)
+**相关 PR：** [#271](https://github.com/sy-inc/sy-inc-native/pull/271)
 
 ### `disableFullWindowOverlay` 属性
 
@@ -259,7 +259,7 @@ import { Accordion, Label } from "sy-ui-native";
 **新能力：**
 
 ```tsx
-import { Dialog } from "sy-ui-native";
+import { Dialog } from "sy-inc-native";
 
 // 在 iOS 上启用元素检查器
 <Dialog>
@@ -274,32 +274,32 @@ import { Dialog } from "sy-ui-native";
 
 iOS 上 `FullWindowOverlay` 使用独立原生窗口，会阻挡元素检查器。将 `disableFullWindowOverlay` 设为 `true` 时内容绘于主窗口，开发期可检查元素；代价是遮罩不再叠在原生模态或键盘之上。Android 上该属性无效果。
 
-使用 `SyUINativeProvider` 时，Toast 通过 `config.toast` 传入该属性。
+使用 `SyIncNativeProvider` 时，Toast 通过 `config.toast` 传入该属性。
 
-**相关 PR：** [#283](https://github.com/sy-ui/sy-ui-native/pull/283)
+**相关 PR：** [#283](https://github.com/sy-inc/sy-inc-native/pull/283)
 
-### SyUINativeProviderRaw
+### SyIncNativeProviderRaw
 
-新增轻量提供者变体 `SyUINativeProviderRaw`，不包含 `ToastProvider` 与 `PortalHost`，由使用方完全控制打包依赖。
+新增轻量提供者变体 `SyIncNativeProviderRaw`，不包含 `ToastProvider` 与 `PortalHost`，由使用方完全控制打包依赖。
 
 **新能力：**
 
 ```tsx
-import { SyUINativeProviderRaw } from "sy-ui-native/provider-raw";
+import { SyIncNativeProviderRaw } from "sy-inc-native/provider-raw";
 
 // 无 Toast 与 Portal 的轻量提供者
 export function App() {
   return (
-    <SyUINativeProviderRaw>
+    <SyIncNativeProviderRaw>
       {/* Your app content */}
-    </SyUINativeProviderRaw>
+    </SyIncNativeProviderRaw>
   );
 }
 ```
 
 `react-native-screens`、`@gorhom/bottom-sheet`、`react-native-svg` 由此可作为完全可选的对等依赖。Raw 提供者仅含 `SafeAreaListener`、`GlobalAnimationSettingsProvider`、`TextComponentProvider`。需要 Toast 或 Portal 时可自行组合。
 
-**相关 PR：** [#285](https://github.com/sy-ui/sy-ui-native/pull/285)
+**相关 PR：** [#285](https://github.com/sy-inc/sy-inc-native/pull/285)
 
 ### Select.Trigger 的 `variant` 属性
 
@@ -308,7 +308,7 @@ export function App() {
 **新能力：**
 
 ```tsx
-import { Button, Select } from "sy-ui-native";
+import { Button, Select } from "sy-inc-native";
 
 // 默认变体（预置样式触发器）
 <Select>
@@ -329,7 +329,7 @@ import { Button, Select } from "sy-ui-native";
 </Select>
 ```
 
-**相关 PR：** [#274](https://github.com/sy-ui/sy-ui-native/pull/274)
+**相关 PR：** [#274](https://github.com/sy-inc/sy-inc-native/pull/274)
 
 ### ControlField 的 Radio 变体
 
@@ -338,7 +338,7 @@ import { Button, Select } from "sy-ui-native";
 **新能力：**
 
 ```tsx
-import { ControlField } from "sy-ui-native";
+import { ControlField } from "sy-inc-native";
 
 <ControlField>
   <ControlField.Indicator variant="radio" />
@@ -346,7 +346,7 @@ import { ControlField } from "sy-ui-native";
 </ControlField>
 ```
 
-**相关 PR：** [#286](https://github.com/sy-ui/sy-ui-native/pull/286)
+**相关 PR：** [#286](https://github.com/sy-inc/sy-inc-native/pull/286)
 
 ## ⚠️ 破坏性变更
 
@@ -374,7 +374,7 @@ PressableFeedback Ripple 的 `containerStyle` 与 `rippleStyle` 已合并为统�
 />
 ```
 
-**相关 PR：** [#271](https://github.com/sy-ui/sy-ui-native/pull/271)
+**相关 PR：** [#271](https://github.com/sy-inc/sy-inc-native/pull/271)
 
 ### Select.Trigger 默认样式
 
@@ -394,7 +394,7 @@ PressableFeedback Ripple 的 `containerStyle` 与 `rippleStyle` 已合并为统�
 </Select.Trigger>
 ```
 
-**相关 PR：** [#274](https://github.com/sy-ui/sy-ui-native/pull/274)
+**相关 PR：** [#274](https://github.com/sy-inc/sy-inc-native/pull/274)
 
 ### Surface 主题变量结构调整
 
@@ -414,7 +414,7 @@ color: var(--surface-foreground);
 color: var(--surface-secondary-foreground);
 ```
 
-**相关 PR：** [#281](https://github.com/sy-ui/sy-ui-native/pull/281)
+**相关 PR：** [#281](https://github.com/sy-inc/sy-inc-native/pull/281)
 
 ### 移除 RadioGroup.Indicator
 
@@ -426,7 +426,7 @@ color: var(--surface-secondary-foreground);
 
 ```tsx
 // 之前
-import { RadioGroup } from "sy-ui-native";
+import { RadioGroup } from "sy-inc-native";
 
 <RadioGroup>
   <RadioGroup.Item value="option1">
@@ -438,7 +438,7 @@ import { RadioGroup } from "sy-ui-native";
 </RadioGroup>
 
 // 之后
-import { Radio, RadioGroup } from "sy-ui-native";
+import { Radio, RadioGroup } from "sy-inc-native";
 
 <RadioGroup>
   <RadioGroup.Item value="option1">
@@ -452,22 +452,22 @@ import { Radio, RadioGroup } from "sy-ui-native";
 </RadioGroup>
 ```
 
-**相关 PR：** [#286](https://github.com/sy-ui/sy-ui-native/pull/286)
+**相关 PR：** [#286](https://github.com/sy-inc/sy-inc-native/pull/286)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #229](https://github.com/sy-ui/sy-ui-native/issues/229)**：修复 BottomSheet 内 InputOTP 不可用。现可在 BottomSheet 遮罩内正常聚焦与输入，解决此前无法输入 OTP 的问题。
+- **[Issue #229](https://github.com/sy-inc/sy-inc-native/issues/229)**：修复 BottomSheet 内 InputOTP 不可用。现可在 BottomSheet 遮罩内正常聚焦与输入，解决此前无法输入 OTP 的问题。
 
-- **[Issue #265](https://github.com/sy-ui/sy-ui-native/issues/265)**：修复 Toast 描述首字符被裁切。Toast 样式重构后以真实内边距与占位视图取代边框变通，任意堆叠配置下文字均可完整显示。
+- **[Issue #265](https://github.com/sy-inc/sy-inc-native/issues/265)**：修复 Toast 描述首字符被裁切。Toast 样式重构后以真实内边距与占位视图取代边框变通，任意堆叠配置下文字均可完整显示。
 
-- **[Issue #272](https://github.com/sy-ui/sy-ui-native/issues/272)**：修复 FullWindowOverlay 在 iOS 上阻挡 React Native 元素检查器。Portal 组件新增 `disableFullWindowOverlay`，开发期可将遮罩内容绘于主窗口以恢复检查器。
+- **[Issue #272](https://github.com/sy-inc/sy-inc-native/issues/272)**：修复 FullWindowOverlay 在 iOS 上阻挡 React Native 元素检查器。Portal 组件新增 `disableFullWindowOverlay`，开发期可将遮罩内容绘于主窗口以恢复检查器。
 
 **相关 PR：**
 
-- [#229](https://github.com/sy-ui/sy-ui-native/pull/229)
-- [#283](https://github.com/sy-ui/sy-ui-native/pull/283)
+- [#229](https://github.com/sy-inc/sy-inc-native/pull/229)
+- [#283](https://github.com/sy-inc/sy-inc-native/pull/283)
 
 ## 文档更新
 
@@ -482,7 +482,7 @@ import { Radio, RadioGroup } from "sy-ui-native";
 - [Bottom Sheet](/docs/native/components/bottom-sheet) — 补充 disableFullWindowOverlay
 - [Dialog](/docs/native/components/dialog) — 补充 disableFullWindowOverlay
 - [Popover](/docs/native/components/popover) — 补充 disableFullWindowOverlay
-- [Provider](/docs/native/getting-started/provider) — SyUINativeProviderRaw 与提供者层级
+- [Provider](/docs/native/getting-started/provider) — SyIncNativeProviderRaw 与提供者层级
 - [Theming](/docs/native/getting-started/theming) — 更新 surface 变量结构与示例
 - [Accordion](/docs/native/components/accordion) — 补充 styles 属性
 - [Avatar](/docs/native/components/avatar) — 补充 styles 属性
@@ -492,7 +492,7 @@ import { Radio, RadioGroup } from "sy-ui-native";
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

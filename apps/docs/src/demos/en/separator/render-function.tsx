@@ -6,7 +6,7 @@ export function RenderFunction() {
   return (
     <div className="max-w-md">
       <div className="space-y-1">
-        <h4 className="text-medium font-medium">SY UI v3 Components</h4>
+        <h4 className="text-medium font-medium">SY INC v3 Components</h4>
         <p className="text-small text-default-400">Beautiful, fast and modern React UI library.</p>
       </div>
       <Separator className="my-4" render={(props) => <div {...props} data-custom="foo" />} />

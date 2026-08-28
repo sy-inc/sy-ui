@@ -7,7 +7,7 @@ import path from "path";
 import {notFound} from "next/navigation";
 import {ImageResponse} from "next/og";
 
-import {SyUILogo} from "@/components/sy-ui-logo";
+import {SyIncLogo} from "@/components/sy-inc-logo";
 import {getDocsSeoMetadata} from "@/lib/docs-seo";
 import {stripLocale} from "@/lib/seo";
 import {source} from "@/lib/source";
@@ -111,7 +111,7 @@ export const GET = async (_req: Request, {params}: {params: Promise<{slug: strin
         weight: 600,
       },
     ],
-    icon: <SyUILogo size={58} />,
+    icon: <SyIncLogo size={58} />,
     title: seoMetadata?.title ?? page.data.title,
   });
 };

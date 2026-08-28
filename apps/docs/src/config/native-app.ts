@@ -1,5 +1,5 @@
 /**
- * Centralised configuration for the SY UI Native mobile app surfaces in the
+ * Centralised configuration for the SY INC Native mobile app surfaces in the
  * docs site. Used by:
  *  - the QR popover that appears next to every component preview
  *  - the "Try on Device" MDX section in release notes
@@ -12,24 +12,24 @@
  */
 export const NATIVE_APP = {
   /**
-   * App Store listing for the SY UI Native iOS app. Always defined because
+   * App Store listing for the SY INC Native iOS app. Always defined because
    * iOS is the canonical Universal-Links target and the App Store badge is
    * always shown in the download UI.
    */
   APP_STORE_URL: "https://apps.apple.com/app/id6757860059",
   /**
-   * Human-readable product name used in copy ("Open in SY UI Native",
-   * "Download SY UI Native on the App Store", etc.). Kept here so it tracks
+   * Human-readable product name used in copy ("Open in SY INC Native",
+   * "Download SY INC Native on the App Store", etc.). Kept here so it tracks
    * any future rebranding from a single source of truth.
    */
-  NAME: "SY UI Native",
+  NAME: "SY INC Native",
   /**
    * Set to `null` while the Android build isn't published yet. Both the QR
    * popover and the DownloadAppBanner render a disabled "Coming soon" state
    * automatically when this is `null`. When the Play Store listing goes live,
    * paste its URL here and both surfaces re-enable with no other code changes.
    */
-  PLAY_STORE_URL: "https://play.google.com/store/apps/details?id=com.sy-uinative.android",
+  PLAY_STORE_URL: "https://play.google.com/store/apps/details?id=com.sy-incnative.android",
   /**
    * Custom URL scheme registered by the native app. Used by the in-page
    * "Open in app" tap link on mobile to bypass iOS's same-domain Safari
@@ -39,13 +39,13 @@ export const NATIVE_APP = {
    * The scheme path mirrors the Universal Link path so the native app's
    * `+native-intent` handler can route both transparently.
    */
-  SCHEME: "sy-uinative",
+  SCHEME: "sy-incnative",
   /**
    * URL path prefix used by the docs app to serve the web fallback for
    * `/docs/native-showcase/components/{slug}` Universal Links. The same prefix
    * is encoded into the QR code on every component page so that:
    *  - On-device, the AASA glob (`/docs/native-showcase/components/*`)
-   *    redirects the link into the installed SY UI Native app.
+   *    redirects the link into the installed SY INC Native app.
    *  - Off-device (or when the app isn't installed), the browser falls back
    *    to the route handler at `apps/docs/src/app/native-showcase/...`.
    */

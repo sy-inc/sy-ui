@@ -1,10 +1,10 @@
 ---
 title: Autocomplete
-description: Autocomplete 从 SY UI v2 到 v3 的迁移指南。
+description: Autocomplete 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  在 v3 中，v2 的 `Autocomplete` 可以迁移为 [v3 Autocomplete](/docs/react/components/autocomplete) 或 [v3 ComboBox](/docs/react/components/combo-box)，取决于你的使用场景。请参阅下文「何时使用 Autocomplete 与 ComboBox」。本指南只关注从 SY UI v2 的迁移。
+  在 v3 中，v2 的 `Autocomplete` 可以迁移为 [v3 Autocomplete](/docs/react/components/autocomplete) 或 [v3 ComboBox](/docs/react/components/combo-box)，取决于你的使用场景。请参阅下文「何时使用 Autocomplete 与 ComboBox」。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 何时使用 Autocomplete 与 ComboBox
@@ -116,23 +116,23 @@ export default function App() {
 
 ### 1. 两个替代组件
 
-**v2：** `Autocomplete`（单一组件）  
+**v2：** `Autocomplete`（单一组件）
 **v3：** `ComboBox`（内联输入 + 下拉）或 `Autocomplete`（选择器式 + Popover 内搜索）
 
 ### 2. 组件结构
 
-**v2：** 单一组件，内部包含 Input  
-**v3 ComboBox：** 复合组件（`ComboBox.InputGroup`、`ComboBox.Trigger`、`ComboBox.Popover`）  
+**v2：** 单一组件，内部包含 Input
+**v3 ComboBox：** 复合组件（`ComboBox.InputGroup`、`ComboBox.Trigger`、`ComboBox.Popover`）
 **v3 Autocomplete：** 复合组件（`Autocomplete.Trigger`、`Autocomplete.Value`、`Autocomplete.ClearButton`、`Autocomplete.Indicator`、`Autocomplete.Popover`、`Autocomplete.Filter`）
 
 ### 3. 菜单项组件
 
-**v2：** `AutocompleteItem`、`AutocompleteSection`  
+**v2：** `AutocompleteItem`、`AutocompleteSection`
 **v3：** `ListBox.Item`、`ListBox.Section`（来自 ListBox）
 
 ### 4. 菜单项标识
 
-**v2：** React 的 `key` 同时用于列表协调与选择时的项标识。  
+**v2：** React 的 `key` 同时用于列表协调与选择时的项标识。
 **v3：** 在 `ListBox.Item` 上使用 `id` 与 `textValue`（状态与无障碍）；列表中的项仍保留 React 的 `key`。
 
 ### 5. Autocomplete 专用子组件（v3）
@@ -570,15 +570,15 @@ Autocomplete (Root)
 
 ## 总结
 
-1. **两个替代组件**：v2 `Autocomplete` 可迁移为 v3 `ComboBox`（内联输入）或 v3 `Autocomplete`（Popover 内可筛选的选择器）。  
-2. **组件结构**：由带 prop 的单一组件变为带显式子节点的复合组件。  
-3. **菜单项组件**：`AutocompleteItem` → `ListBox.Item`；`AutocompleteSection` → `ListBox.Section`。  
-4. **菜单项标识**：在项上使用 `id` 与 `textValue`；列表协调仍用 React 的 `key`。  
-5. **输入**：v3 ComboBox 需要显式 `Input`；v3 Autocomplete 在 `Autocomplete.Filter` 内使用 `SearchField`。  
-6. **标签 / 描述**：对应 prop 拆为独立的 `Label` 与 `Description` 组件。  
-7. **筛选**：v3 Autocomplete 通过 `Autocomplete.Filter` 与 `useFilter` 做区域设置感知筛选；v3 ComboBox 使用 `defaultFilter` prop。  
-8. **清除按钮**：v3 Autocomplete 内置 `Autocomplete.ClearButton`；v3 ComboBox 需手动实现。  
-9. **选中值展示**：v3 Autocomplete 用 `Autocomplete.Value` 展示选中值，并支持渲染 prop。  
-10. **样式类 prop 已移除**：`color`、`size`、`radius` 已移除（请使用 Tailwind CSS）；`variant` 现支持 `"primary"` / `"secondary"`。  
-11. **classNames 已移除**：在各子组件上使用 `className` prop。  
+1. **两个替代组件**：v2 `Autocomplete` 可迁移为 v3 `ComboBox`（内联输入）或 v3 `Autocomplete`（Popover 内可筛选的选择器）。
+2. **组件结构**：由带 prop 的单一组件变为带显式子节点的复合组件。
+3. **菜单项组件**：`AutocompleteItem` → `ListBox.Item`；`AutocompleteSection` → `ListBox.Section`。
+4. **菜单项标识**：在项上使用 `id` 与 `textValue`；列表协调仍用 React 的 `key`。
+5. **输入**：v3 ComboBox 需要显式 `Input`；v3 Autocomplete 在 `Autocomplete.Filter` 内使用 `SearchField`。
+6. **标签 / 描述**：对应 prop 拆为独立的 `Label` 与 `Description` 组件。
+7. **筛选**：v3 Autocomplete 通过 `Autocomplete.Filter` 与 `useFilter` 做区域设置感知筛选；v3 ComboBox 使用 `defaultFilter` prop。
+8. **清除按钮**：v3 Autocomplete 内置 `Autocomplete.ClearButton`；v3 ComboBox 需手动实现。
+9. **选中值展示**：v3 Autocomplete 用 `Autocomplete.Value` 展示选中值，并支持渲染 prop。
+10. **样式类 prop 已移除**：`color`、`size`、`radius` 已移除（请使用 Tailwind CSS）；`variant` 现支持 `"primary"` / `"secondary"`。
+11. **classNames 已移除**：在各子组件上使用 `className` prop。
 12. **useFilter Hook**：v3 新增，提供 `contains`、`startsWith`、`endsWith` 用于区域设置感知的文本匹配。

@@ -8,7 +8,7 @@ export const Default = () => {
       <Typography type="h3">默认可组合</Typography>
       <Typography type="h4">小标题</Typography>
       <Typography>
-        SY UI Typography 以 React Aria Components Text 为原语，提供语义化排版类型与 render prop
+        SY INC Typography 以 React Aria Components Text 为原语，提供语义化排版类型与 render prop
         多态。
       </Typography>
       <Typography color="muted" type="body-sm">

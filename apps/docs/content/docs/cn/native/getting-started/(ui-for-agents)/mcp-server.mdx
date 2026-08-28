@@ -1,21 +1,21 @@
 ---
 title: MCP 服务器
-description: 在 AI 助手中直接访问 SY UI Native 文档
+description: 在 AI 助手中直接访问 SY INC Native 文档
 ---
 
-SY UI MCP 服务器让 AI 助手直接读取 SY UI Native 组件文档，便于在 AI 驱动的开发流程中使用 SY UI。
+SY INC MCP 服务器让 AI 助手直接读取 SY INC Native 组件文档，便于在 AI 驱动的开发流程中使用 SY INC。
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/native/hero-native-mcp-light-new.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/native/hero-native-mcp-dark-new.jpg"
-  alt="SY UI Native MCP 服务器"
+  src="https://assets.sy-inc.com/docs/native/hero-native-mcp-light-new.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/native/hero-native-mcp-dark-new.jpg"
+  alt="SY INC Native MCP 服务器"
 />
 
 
-当前 MCP 服务器支持 **sy-ui-native** 与 [stdio 传输](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio)。npm 包名为 `@sy-ui/native-mcp`。源码见 [GitHub](https://github.com/sy-ui/sy-ui-mcp)。
+当前 MCP 服务器支持 **sy-inc-native** 与 [stdio 传输](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio)。npm 包名为 `@sy-inc/native-mcp`。源码见 [GitHub](https://github.com/sy-inc/sy-inc-mcp)。
 
 <Callout>
-  随着 SY UI Native 组件增加，MCP 中的可用内容也会同步扩展。
+  随着 SY INC Native 组件增加，MCP 中的可用内容也会同步扩展。
 </Callout>
 
 ## 快速配置
@@ -24,7 +24,7 @@ SY UI MCP 服务器让 AI 助手直接读取 SY UI Native 组件文档，便于�
 
 <div className="flex items-center gap-3 mb-4">
   <a
-    href="https://link.sy-ui.com/native-mcp-cursor-install"
+    href="https://link.sy-inc.com/native-mcp-cursor-install"
     className="button button--tertiary button--sm no-underline"
   >
     <svg viewBox="0 0 466.73 532.09" className="w-5 h-5 fill-current">
@@ -39,9 +39,9 @@ SY UI MCP 服务器让 AI 助手直接读取 SY UI Native 组件文档，便于�
 ```json title=".cursor/mcp.json"
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -52,7 +52,7 @@ SY UI MCP 服务器让 AI 助手直接读取 SY UI Native 组件文档，便于�
 **Claude Code：** 在终端执行：
 
 ```bash
-claude mcp add sy-ui-native -- npx -y @sy-ui/native-mcp@latest
+claude mcp add sy-inc-native -- npx -y @sy-inc/native-mcp@latest
 ```
 
 或手动写入项目的 `.mcp.json`：
@@ -60,9 +60,9 @@ claude mcp add sy-ui-native -- npx -y @sy-ui/native-mcp@latest
 ```json title=".mcp.json"
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -77,9 +77,9 @@ claude mcp add sy-ui-native -- npx -y @sy-ui/native-mcp@latest
 ```json title=".windsurf/mcp.json"
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -94,16 +94,16 @@ claude mcp add sy-ui-native -- npx -y @sy-ui/native-mcp@latest
 ```json title="settings.json"
 {
   "context_servers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"],
+      "args": ["-y", "@sy-inc/native-mcp@latest"],
       "env": {}
     }
   }
 }
 ```
 
-重启 Zed 后，在 Agent 面板设置中确认 sy-ui-native 旁指示点为绿色，提示为「Server is active」。
+重启 Zed 后，在 Agent 面板设置中确认 sy-inc-native 旁指示点为绿色，提示为「Server is active」。
 
 详见 [Zed MCP 文档](https://zed.dev/docs/ai/mcp)。
 
@@ -112,25 +112,25 @@ claude mcp add sy-ui-native -- npx -y @sy-ui/native-mcp@latest
 ```json title=".vscode/mcp.json"
 {
   "servers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
 ```
 
-打开 `.vscode/mcp.json`，在 sy-ui-native 旁点击 **Start**。
+打开 `.vscode/mcp.json`，在 sy-inc-native 旁点击 **Start**。
 
 详见 [VS Code MCP 文档](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)。
 
 **Codex：** 写入 `~/.codex/config.toml` 或项目内 `.codex/config.toml`：
 
 ```toml title="config.toml"
-[mcp_servers.sy-ui-native]
+[mcp_servers.sy-inc-native]
 command = "npx"
-args = ["-y", "@sy-ui/native-mcp@latest"]
+args = ["-y", "@sy-inc/native-mcp@latest"]
 ```
 
 重启 Codex，在 TUI 中运行 `/mcp` 校验服务器已激活。
@@ -143,9 +143,9 @@ args = ["-y", "@sy-ui/native-mcp@latest"]
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "type": "local",
-      "command": ["npx", "-y", "@sy-ui/native-mcp@latest"]
+      "command": ["npx", "-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -159,18 +159,18 @@ args = ["-y", "@sy-ui/native-mcp@latest"]
 
 配置完成后，可向 AI 提问，例如：
 
-- "Help me install SY UI Native in my Expo app"
-- "Show me all SY UI Native components"
+- "Help me install SY INC Native in my Expo app"
+- "Show me all SY INC Native components"
 - "What props does the Button component have?"
 - "Give me an example of using the Card component"
 - "What are the theme variables for dark mode?"
 
 ### 自动升级
 
-MCP 也可协助将 SY UI Native 升级到最新版本，例如：
+MCP 也可协助将 SY INC Native 升级到最新版本，例如：
 
 ```bash
-"Hey Cursor, update SY UI Native to the latest version"
+"Hey Cursor, update SY INC Native to the latest version"
 ```
 
 助手通常会：
@@ -187,20 +187,20 @@ MCP 向 AI 暴露以下工具：
 
 | 工具 | 说明 |
 |------|------|
-| `list_components` | 列出全部 SY UI Native 组件 |
+| `list_components` | 列出全部 SY INC Native 组件 |
 | `get_component_docs` | 获取一个或多个组件的完整文档（结构、props、示例与用法模式） |
 | `get_theme_variables` | 读取颜色、排版、间距等主题变量，支持明暗模式 |
-| `get_docs` | 浏览 SY UI Native 全部文档（指南与原则等）；安装说明可使用路径 `/docs/native/getting-started/quick-start` |
+| `get_docs` | 浏览 SY INC Native 全部文档（指南与原则等）；安装说明可使用路径 `/docs/native/getting-started/quick-start` |
 
 
 ## 故障排除
 
 **环境要求：** Node.js 22 及以上。使用 `npx` 时会自动下载包。
 
-**需要帮助？** [GitHub Issues](https://github.com/sy-ui/sy-ui-mcp/issues) | [Discord 社区](https://discord.gg/sy-ui)
+**需要帮助？** [GitHub Issues](https://github.com/sy-inc/sy-inc-mcp/issues) | [Discord 社区](https://discord.gg/sy-inc)
 
 ## 链接
 
-- [npm 包](https://www.npmjs.com/package/@sy-ui/native-mcp)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-mcp)
-- [贡献指南](https://github.com/sy-ui/sy-ui-mcp/blob/main/CONTRIBUTING.md)
+- [npm 包](https://www.npmjs.com/package/@sy-inc/native-mcp)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-mcp)
+- [贡献指南](https://github.com/sy-inc/sy-inc-mcp/blob/main/CONTRIBUTING.md)

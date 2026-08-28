@@ -84,7 +84,7 @@ A complete two-factor authentication form with validation and submission.
 
 ### With Pattern
 
-Use the `pattern` prop to restrict input to specific characters. SY UI exports common patterns like `REGEXP_ONLY_CHARS` and `REGEXP_ONLY_DIGITS`.
+Use the `pattern` prop to restrict input to specific characters. SY INC exports common patterns like `REGEXP_ONLY_CHARS` and `REGEXP_ONLY_DIGITS`.
 
 <ComponentPreview name="input-otp-with-pattern" />
 
@@ -127,11 +127,11 @@ To customize the InputOTP component classes, you can use the `@layer components`
 
 ## Styling Reference
 
-SY UI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.
+SY INC follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.
 
 ### CSS Classes
 
-The InputOTP component uses these CSS classes ([View source styles](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/components/input-otp.css)):
+The InputOTP component uses these CSS classes ([View source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/input-otp.css)):
 
 #### Base Classes [!toc]
 - `.input-otp` - Base container
@@ -226,7 +226,7 @@ InputOTP is built on top of the [input-otp](https://github.com/guilhermerodz/inp
 
 ### Exported Patterns
 
-SY UI re-exports common regex patterns from input-otp for convenience:
+SY INC re-exports common regex patterns from input-otp for convenience:
 
 ```tsx
 import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from '@sy-inc/react';

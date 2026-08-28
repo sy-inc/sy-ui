@@ -1,10 +1,10 @@
 ---
 title: DatePicker
-description: DatePicker 从 SY UI v2 到 v3 的迁移指南。
+description: DatePicker 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 DatePicker 文档](/docs/react/components/date-picker)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 DatePicker 文档](/docs/react/components/date-picker)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -69,7 +69,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单一 `DatePicker` 组件，所有部分（输入、日历、标签、popover）都通过 props 在内部处理  
+**v2：** 单一 `DatePicker` 组件，所有部分（输入、日历、标签、popover）都通过 props 在内部处理
 **v3：** 基于组合的 API，由 `DatePicker`、`DateField`、`Calendar` 和 `Label` 共同组成。每个部分都是独立组件。
 
 ### 2. 组成部分

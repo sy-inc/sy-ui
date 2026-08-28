@@ -1,5 +1,5 @@
 import type {ToastContentValue, ToastVariants} from "./index";
-import type {SyUIToastOptions} from "./toast-queue";
+import type {SyIncToastOptions} from "./toast-queue";
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
@@ -19,7 +19,7 @@ import {
 
 type Placement = NonNullable<ToastVariants["placement"]>;
 
-interface ToastStoryProps extends Omit<SyUIToastOptions, "variant"> {
+interface ToastStoryProps extends Omit<SyIncToastOptions, "variant"> {
   placement?: Placement;
 }
 
@@ -63,7 +63,7 @@ const Template = () => {
                 onPress: () => toast.clear(),
                 variant: "tertiary",
               },
-              description: "Bob sent you an invitation to join SY UI team",
+              description: "Bob sent you an invitation to join SY INC team",
               indicator: <Icon icon="gravity-ui:persons" />,
               variant: "default",
             });
@@ -94,7 +94,7 @@ const Template = () => {
                 className: "bg-success text-success-foreground",
                 onPress: noop,
               },
-              description: "You can continue using SY UI Chat",
+              description: "You can continue using SY INC Chat",
             })
           }
         >

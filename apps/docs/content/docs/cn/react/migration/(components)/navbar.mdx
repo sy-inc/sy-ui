@@ -1,17 +1,17 @@
 ---
 title: Navbar
-description: Navbar 从 SY UI v2 到 v3 的迁移指南。
+description: Navbar 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="warning">
-  SY UI v3 已**移除** Navbar 组件。请使用原生 HTML 元素与 Tailwind CSS 类手动搭建导航栏。本指南介绍常见模式，并简化复杂能力的说明。
+  SY INC v3 已**移除** Navbar 组件。请使用原生 HTML 元素与 Tailwind CSS 类手动搭建导航栏。本指南介绍常见模式，并简化复杂能力的说明。
 </Callout>
 
 ## 关键变化
 
 ### 1. 组件移除
 
-**v2：** `<Navbar>` 与子组件（`NavbarBrand`、`NavbarContent`、`NavbarItem`、`NavbarMenu`、`NavbarMenuItem`、`NavbarMenuToggle`）  
+**v2：** `<Navbar>` 与子组件（`NavbarBrand`、`NavbarContent`、`NavbarItem`、`NavbarMenu`、`NavbarMenuItem`、`NavbarMenuToggle`）
 **v3：** 使用原生 HTML 手动组合
 
 ### 2. 子组件映射
@@ -28,12 +28,12 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
 
 ### 3. 已移除的能力
 
-- `shouldHideOnScroll` — 需自行实现滚动检测  
-- `isBlurred` — 请使用 Tailwind CSS 的 `backdrop-blur` 工具类  
-- `isBordered` — 请使用 Tailwind CSS 边框类  
-- `position` 变体 — 请使用 Tailwind CSS 的 `sticky`、`fixed` 等类  
-- `maxWidth` 变体 — 请使用 Tailwind CSS 的 `max-w-*` 类  
-- 移动菜单动画 — 需自行实现  
+- `shouldHideOnScroll` — 需自行实现滚动检测
+- `isBlurred` — 请使用 Tailwind CSS 的 `backdrop-blur` 工具类
+- `isBordered` — 请使用 Tailwind CSS 边框类
+- `position` 变体 — 请使用 Tailwind CSS 的 `sticky`、`fixed` 等类
+- `maxWidth` 变体 — 请使用 Tailwind CSS 的 `max-w-*` 类
+- 移动菜单动画 — 需自行实现
 - 滚动锁定 — 需自行实现（见下文「滚动锁定」）
 
 ## 迁移示例
@@ -56,7 +56,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
         <NavbarItem><Link href="#">Pricing</Link></NavbarItem>
       </NavbarContent>
     </Navbar>
-    
+
     {/* With right-aligned content */}
     <Navbar>
       <NavbarBrand>Logo</NavbarBrand>
@@ -83,7 +83,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
         </ul>
       </header>
     </nav>
-    
+
     {/* With right-aligned content */}
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
       <header className="flex h-16 items-center justify-between px-6">
@@ -586,21 +586,21 @@ useEffect(() => {
 
 ## 总结
 
-1. **组件已移除**：`Navbar`、`NavbarBrand`、`NavbarContent`、`NavbarItem`、`NavbarMenu`、`NavbarMenuItem`、`NavbarMenuToggle` 均已移除。  
-2. **导入调整**：从 `@sy-inc/react` 中移除所有 Navbar 相关导入。  
-3. **手动组合**：使用原生 HTML 搭建导航栏。  
-4. **移动菜单**：通过状态管理手动实现移动菜单。  
-5. **样式**：直接使用 Tailwind CSS 类。  
+1. **组件已移除**：`Navbar`、`NavbarBrand`、`NavbarContent`、`NavbarItem`、`NavbarMenu`、`NavbarMenuItem`、`NavbarMenuToggle` 均已移除。
+2. **导入调整**：从 `@sy-inc/react` 中移除所有 Navbar 相关导入。
+3. **手动组合**：使用原生 HTML 搭建导航栏。
+4. **移动菜单**：通过状态管理手动实现移动菜单。
+5. **样式**：直接使用 Tailwind CSS 类。
 6. **高级能力**：滚动时隐藏、动画等需自行实现。
 
 ## 迁移步骤
 
-1. **移除导入**：删除所有与 Navbar 相关的导入。  
-2. **替换结构**：将 `<Navbar>` 替换为 `<nav>`。  
-3. **替换子组件**：用语义化 HTML（`<header>`、`<ul>`、`<li>`）替代子组件。  
-4. **补充移动菜单**：手动实现菜单切换与菜单面板。  
-5. **应用样式**：用 Tailwind CSS 完成布局与样式。  
-6. **管理状态**：用 React `useState` 管理移动菜单开关。  
+1. **移除导入**：删除所有与 Navbar 相关的导入。
+2. **替换结构**：将 `<Navbar>` 替换为 `<nav>`。
+3. **替换子组件**：用语义化 HTML（`<header>`、`<ul>`、`<li>`）替代子组件。
+4. **补充移动菜单**：手动实现菜单切换与菜单面板。
+5. **应用样式**：用 Tailwind CSS 完成布局与样式。
+6. **管理状态**：用 React `useState` 管理移动菜单开关。
 7. **（可选）** 为应用封装可复用的 Navbar 组件。
 
 ## 常见模式

@@ -47,7 +47,7 @@ const RadioRoot = ({children, className, ...props}: RadioRootProps) => {
   );
 };
 
-RadioRoot.displayName = "SY UI.Radio";
+RadioRoot.displayName = "SY INC.Radio";
 
 /* -------------------------------------------------------------------------------------------------
  * Radio.Content — the clickable `RadioButton` label wrapping the control + `Label`.
@@ -69,7 +69,7 @@ const RadioContent = ({children, className, ...props}: RadioContentProps) => {
   );
 };
 
-RadioContent.displayName = "SY UI.Radio.Content";
+RadioContent.displayName = "SY INC.Radio.Content";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -98,7 +98,7 @@ const RadioControl = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-RadioControl.displayName = "SY UI.Radio.Control";
+RadioControl.displayName = "SY INC.Radio.Control";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -131,7 +131,7 @@ const RadioIndicator = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-RadioIndicator.displayName = "SY UI.Radio.Indicator";
+RadioIndicator.displayName = "SY INC.Radio.Indicator";
 
 /* ----------------------------------------------------------------------------------------------*/
 

@@ -8,7 +8,7 @@ export function Horizontal() {
           alt="樱桃"
           className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover select-none"
           loading="lazy"
-          src="https://assets.sy-ui.com/docs/cherries.jpeg"
+          src="https://assets.sy-inc.com/docs/cherries.jpeg"
         />
       </div>
       <div className="flex flex-1 flex-col gap-3">

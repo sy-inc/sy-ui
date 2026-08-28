@@ -16,7 +16,7 @@ export function Default() {
               onPress: () => toast.clear(),
               variant: "tertiary",
             },
-            description: "Bob 邀请您加入 SY UI 团队",
+            description: "Bob 邀请您加入 SY INC 团队",
             indicator: <Persons />,
             variant: "default",
           });

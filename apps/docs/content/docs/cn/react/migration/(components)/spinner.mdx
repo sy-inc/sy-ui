@@ -1,10 +1,10 @@
 ---
 title: Spinner
-description: Spinner 从 SY UI v2 到 v3 的迁移指南。
+description: Spinner 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Spinner 文档](/docs/react/components/spinner)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Spinner 文档](/docs/react/components/spinner)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -33,7 +33,7 @@ export default function App() {
 
 ### 1. 组件行为
 
-**v2：** 支持多种变体（`default`、`simple`、`gradient`、`wave`、`dots`、`spinner`）以及标签  
+**v2：** 支持多种变体（`default`、`simple`、`gradient`、`wave`、`dots`、`spinner`）以及标签
 **v3：** 仅保留单一圆形旋转变体，不再支持标签
 
 ### 2. Prop 变更
@@ -63,7 +63,7 @@ export default function App() {
     ```tsx
     {/* Simple label */}
     <Spinner label="Loading..." />
-    
+
     {/* With label color and custom styling */}
     <Spinner
       label="Loading..."
@@ -81,7 +81,7 @@ export default function App() {
       <Spinner />
       <span>Loading...</span>
     </div>
-    
+
     {/* With custom styling */}
     <div className="flex flex-col items-center gap-2">
       <Spinner />
@@ -102,7 +102,7 @@ export default function App() {
       <Spinner size="md" />
       <Spinner size="lg" />
     </div>
-    
+
     {/* Colors */}
     <div className="flex gap-4">
       <Spinner color="default" />
@@ -123,7 +123,7 @@ export default function App() {
       <Spinner size="lg" />
       <Spinner size="xl" />
     </div>
-    
+
     {/* Colors */}
     <div className="flex gap-4">
       <Spinner color="current" />
@@ -155,7 +155,7 @@ export default function App() {
     ```tsx
     {/* Only one variant available - circular spinner */}
     <Spinner />
-    
+
     {/* For other spinner styles, consider using CSS animations */}
     ```
   </Tab>

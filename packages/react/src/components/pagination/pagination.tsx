@@ -57,7 +57,7 @@ const PaginationRoot = <E extends keyof React.JSX.IntrinsicElements = "nav">({
   );
 };
 
-PaginationRoot.displayName = "SY UI.Pagination";
+PaginationRoot.displayName = "SY INC.Pagination";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Summary
@@ -92,7 +92,7 @@ const PaginationSummary = <E extends keyof React.JSX.IntrinsicElements = "div">(
   );
 };
 
-PaginationSummary.displayName = "SY UI.Pagination.Summary";
+PaginationSummary.displayName = "SY INC.Pagination.Summary";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Content
@@ -123,7 +123,7 @@ const PaginationContent = <E extends keyof React.JSX.IntrinsicElements = "ul">({
   );
 };
 
-PaginationContent.displayName = "SY UI.Pagination.Content";
+PaginationContent.displayName = "SY INC.Pagination.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Item
@@ -153,7 +153,7 @@ const PaginationItem = <E extends keyof React.JSX.IntrinsicElements = "li">({
   );
 };
 
-PaginationItem.displayName = "SY UI.Pagination.Item";
+PaginationItem.displayName = "SY INC.Pagination.Item";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Link
@@ -180,7 +180,7 @@ const PaginationLink = ({children, className, isActive, ...props}: PaginationLin
   );
 };
 
-PaginationLink.displayName = "SY UI.Pagination.Link";
+PaginationLink.displayName = "SY INC.Pagination.Link";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Previous
@@ -205,7 +205,7 @@ const PaginationPrevious = ({children, className, ...props}: PaginationPreviousP
   );
 };
 
-PaginationPrevious.displayName = "SY UI.Pagination.Previous";
+PaginationPrevious.displayName = "SY INC.Pagination.Previous";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Previous Icon
@@ -235,7 +235,7 @@ const PaginationPreviousIcon = <E extends keyof React.JSX.IntrinsicElements = "s
   );
 };
 
-PaginationPreviousIcon.displayName = "SY UI.Pagination.PreviousIcon";
+PaginationPreviousIcon.displayName = "SY INC.Pagination.PreviousIcon";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Next
@@ -260,7 +260,7 @@ const PaginationNext = ({children, className, ...props}: PaginationNextProps) =>
   );
 };
 
-PaginationNext.displayName = "SY UI.Pagination.Next";
+PaginationNext.displayName = "SY INC.Pagination.Next";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Next Icon
@@ -290,7 +290,7 @@ const PaginationNextIcon = <E extends keyof React.JSX.IntrinsicElements = "span"
   );
 };
 
-PaginationNextIcon.displayName = "SY UI.Pagination.NextIcon";
+PaginationNextIcon.displayName = "SY INC.Pagination.NextIcon";
 
 /* -------------------------------------------------------------------------------------------------
  * Pagination Ellipsis
@@ -320,7 +320,7 @@ const PaginationEllipsis = <E extends keyof React.JSX.IntrinsicElements = "span"
   );
 };
 
-PaginationEllipsis.displayName = "SY UI.Pagination.Ellipsis";
+PaginationEllipsis.displayName = "SY INC.Pagination.Ellipsis";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

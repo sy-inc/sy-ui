@@ -1,10 +1,10 @@
 ---
 title: RadioGroup
-description: Migration guide for RadioGroup from SY UI v2 to v3
+description: Migration guide for RadioGroup from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 RadioGroup documentation](/docs/react/components/radio-group) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 RadioGroup documentation](/docs/react/components/radio-group) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -68,22 +68,22 @@ export default function App() {
 
 ### 1. Label Prop → Label Component
 
-**v2:** Used `label` prop on `RadioGroup`  
+**v2:** Used `label` prop on `RadioGroup`
 **v3:** Use `Label` component as a child of `RadioGroup`
 
 ### 2. Radio Structure
 
-**v2:** Simple Radio components with children as labels  
+**v2:** Simple Radio components with children as labels
 **v3:** Compound Radio components with `Radio.Content`, `Radio.Control`, and `Radio.Indicator`
 
 ### 3. Description Handling
 
-**v2:** Used `description` prop on individual `Radio` components  
+**v2:** Used `description` prop on individual `Radio` components
 **v3:** Use `Description` component as a sibling of `Radio.Content`
 
 ### 4. Event Handler
 
-**v2:** Used `onValueChange` prop  
+**v2:** Used `onValueChange` prop
 **v3:** Uses `onChange` prop (from React Aria Components)
 
 ### 5. Name Prop

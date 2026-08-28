@@ -1,6 +1,6 @@
 @layer theme, base, components, utilities;
 
-/* SY UI v3 Styles - Layered Theme Architecture */
+/* SY INC v3 Styles - Layered Theme Architecture */
 
 /* Base layer - Tailwind CSS v4 */
 @import "tailwindcss";

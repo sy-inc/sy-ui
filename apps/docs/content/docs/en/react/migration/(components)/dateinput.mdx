@@ -1,10 +1,10 @@
 ---
 title: DateInput
-description: Migration guide for DateInput to DateField from SY UI v2 to v3
+description: Migration guide for DateInput to DateField from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 DateField documentation](/docs/react/components/date-field) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 DateField documentation](/docs/react/components/date-field) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -42,12 +42,12 @@ export default function App() {
 
 ### 1. Component Naming
 
-**v2:** `DateInput`  
+**v2:** `DateInput`
 **v3:** `DateField`
 
 ### 2. Component Structure
 
-**v2:** Single component with props  
+**v2:** Single component with props
 **v3:** Compound components: `DateField` (root) + `DateInputGroup` with `DateInputGroup.Input` (render prop) and `DateInputGroup.Segment`; optionally `DateInputGroup.Prefix` and `DateInputGroup.Suffix`
 
 ### 3. Prop Changes

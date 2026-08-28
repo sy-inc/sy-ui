@@ -30,6 +30,7 @@ export * from "./date-field";
 export * from "./date-picker";
 export * from "./date-range-picker";
 export * from "./date-input-group";
+export * from "./time-picker";
 export * from "./description";
 export * from "./drawer";
 export * from "./disclosure";

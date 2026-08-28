@@ -1,11 +1,11 @@
 ---
 title: 完全迁移
-description: 使用完整迁移方法将 SY UI v2 迁移到 v3 的分步指南
+description: 使用完整迁移方法将 SY INC v2 迁移到 v3 的分步指南
 ---
 
 ## 概述
 
-完全迁移是一种从 SY UI v2 迁移到 v3 的结构化方法。此方法首先迁移所有组件代码，然后切换依赖关系，确保干净的过渡。
+完全迁移是一种从 SY INC v2 迁移到 v3 的结构化方法。此方法首先迁移所有组件代码，然后切换依赖关系，确保干净的过渡。
 
 **重要：** 完全迁移意味着项目在迁移过程中将被破坏（v2 和 v3 不能共存）。在功能分支中工作以维护工作主分支。
 
@@ -60,34 +60,34 @@ v3 需要 React 19+。更新你的 React 版本：
   </Tab>
 </Tabs>
 
-**注意**：这些依赖项更新可以在切换 SY UI 之前完成（不会破坏项目）。但是，SY UI 包切换只能在所有组件代码迁移之后进行。
+**注意**：这些依赖项更新可以在切换 SY INC 之前完成（不会破坏项目）。但是，SY INC 包切换只能在所有组件代码迁移之后进行。
 
-#### 更新 SY UI 包
+#### 更新 SY INC 包
 
 **重要**：在迁移所有组件代码后执行此操作。删除 v2 软件包并安装 v3：
 
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm uninstall @sy-inc/react @sy-ui/theme
+    npm uninstall @sy-inc/react @sy-inc/theme
     npm install @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm remove @sy-inc/react @sy-ui/theme
+    pnpm remove @sy-inc/react @sy-inc/theme
     pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn remove @sy-inc/react @sy-ui/theme
+    yarn remove @sy-inc/react @sy-inc/theme
     yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun remove @sy-inc/react @sy-ui/theme
+    bun remove @sy-inc/react @sy-inc/theme
     bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
@@ -159,21 +159,21 @@ v3 不再需要 Framer Motion：
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-inc/react");
+const {sy-inc} = require("@sy-inc/react");
 
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@sy-ui/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@sy-inc/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
-  plugins: [sy-ui()],
+  plugins: [sy-inc()],
   // ... other config
 };
 ```
 
 **v3 配置：**
 
-删除`sy-ui()`来自 Tailwind 配置的插件。如果您仅将 Tailwind 用于 SY UI 并且没有其他自定义，则可以删除`tailwind.config.js`完全。否则，保留该文件但删除 SY UI 插件配置。
+删除`sy-inc()`来自 Tailwind 配置的插件。如果您仅将 Tailwind 用于 SY INC 并且没有其他自定义，则可以删除`tailwind.config.js`完全。否则，保留该文件但删除 SY INC 插件配置。
 
 #### 更新 CSS 导入
 
@@ -208,9 +208,9 @@ rm hero.ts
 
 </section>
 
-<section id="step-3-remove-sy-uiprovider">
+<section id="step-3-remove-sy-incprovider">
 
-### 第3步：删除SyUIProvider
+### 第3步：删除SyIncProvider
 
 v3 不需要 Provider 组件。从应用程序根目录中删除它。
 
@@ -218,13 +218,13 @@ v3 不需要 Provider 组件。从应用程序根目录中删除它。
 
 ```tsx
 // app.tsx or App.tsx
-import {SyUIProvider} from "@sy-inc/react";
+import {SyIncProvider} from "@sy-inc/react";
 
 function App() {
   return (
-    <SyUIProvider>
+    <SyIncProvider>
       <YourApplication />
-    </SyUIProvider>
+    </SyIncProvider>
   );
 }
 ```
@@ -262,7 +262,7 @@ v3 删除了 Framer Motion 依赖性并以不同方式处理动画：
 
 ### 第 4 步：更换拆下的挂钩
 
-SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等）和实用程序挂钩，例如`useDisclosure`。 SY UI v3 删除了大多数组件挂钩，转而使用复合组件，并替换了`useDisclosure`和`useOverlayState`.
+SY INC v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等）和实用程序挂钩，例如`useDisclosure`。 SY INC v3 删除了大多数组件挂钩，转而使用复合组件，并替换了`useDisclosure`和`useOverlayState`.
 
 查看综合[Hooks 迁移指南](/docs/react/migration/hooks)为了：
 - 组件挂钩移除并迁移到复合组件
@@ -281,8 +281,8 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 
 ```tsx
 // Individual packages (if used)
-import {Button} from "@sy-ui/button";
-import {Card} from "@sy-ui/card";
+import {Button} from "@sy-inc/button";
+import {Card} from "@sy-inc/card";
 
 // Or from main package
 import {Button, Card} from "@sy-inc/react";
@@ -345,11 +345,11 @@ type MyButtonProps = ButtonProps & {
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-inc/react");
+const {sy-inc} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
-    sy-ui({
+    sy-inc({
       themes: {
         light: {
           colors: {
@@ -453,17 +453,17 @@ v3 使用 CSS 变量。在 CSS 中覆盖它们：
 
 ### 依赖关系
 - 将 React 更新至 v19+
-- 将 SY UI 包更新到 v3（组件迁移后）
+- 将 SY INC 包更新到 v3（组件迁移后）
 - 删除Framer Motion
 - 将 Tailwind CSS 更新至 v4
 
 ### 配置
-- 消除`sy-ui()`Tailwind 配置中的插件
+- 消除`sy-inc()`Tailwind 配置中的插件
 - 更新 CSS 导入
 - 消除`hero.ts`文件（如果存在）
 
 ### 应用程序代码-组件迁移
-- 消除`SyUIProvider`包装纸
+- 消除`SyIncProvider`包装纸
 - 处理提供者道具迁移（路由器、区域设置、动画）
 - 将所有组件导入更新为`@sy-inc/react`
 - 迁移重命名组件（Divider → Separator、Autocomplete → Combobox、NumberInput → NumberField）

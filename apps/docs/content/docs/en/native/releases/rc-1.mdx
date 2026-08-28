@@ -1,6 +1,6 @@
 ---
 title: RC 1
-description: Alert component, standalone Radio component, Select TriggerIndicator, SyUINativeProviderRaw, disableFullWindowOverlay prop, styles prop expansion, theme surface refactor
+description: Alert component, standalone Radio component, Select TriggerIndicator, SyIncNativeProviderRaw, disableFullWindowOverlay prop, styles prop expansion, theme surface refactor
 github:
   pull: 284
 ---
@@ -9,7 +9,7 @@ github:
   <span className="text-sm text-muted">February 12, 2026</span>
 </div>
 
-RC 1 marks the first Release Candidate for SY UI Native, signaling that the library is approaching production readiness. This release introduces the Alert compound component with accessibility-first design and status variants, extracts Radio into a standalone component with dual-mode operation, and adds the animated Select.TriggerIndicator subcomponent. It also delivers a lightweight SyUINativeProviderRaw for bundle optimization, a new `disableFullWindowOverlay` prop for iOS debugging, unified `styles` prop support across six components, and a theme refactor that replaces calculated surface colors with explicit theme-defined variables. Several critical bug fixes—including InputOTP in BottomSheet, toast text clipping, and element inspector compatibility—round out the release.
+RC 1 marks the first Release Candidate for SY INC Native, signaling that the library is approaching production readiness. This release introduces the Alert compound component with accessibility-first design and status variants, extracts Radio into a standalone component with dual-mode operation, and adds the animated Select.TriggerIndicator subcomponent. It also delivers a lightweight SyIncNativeProviderRaw for bundle optimization, a new `disableFullWindowOverlay` prop for iOS debugging, unified `styles` prop support across six components, and a theme refactor that replaces calculated surface colors with explicit theme-defined variables. Several critical bug fixes—including InputOTP in BottomSheet, toast text clipping, and element inspector compatibility—round out the release.
 
 ## Installation
 
@@ -18,28 +18,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -61,8 +61,8 @@ The Alert component provides accessible alert messaging with built-in support fo
 <NativeVideoPlayerView
   target="component"
   slug="alert"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/alert-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/alert-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/alert-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/alert-docs-dark.mp4"
 />
 
 **Features:**
@@ -78,7 +78,7 @@ The Alert component provides accessible alert messaging with built-in support fo
 **Usage:**
 
 ```tsx
-import { Alert } from "sy-ui-native";
+import { Alert } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -97,7 +97,7 @@ export function Example() {
 
 For complete documentation and examples, see the [Alert component page](/docs/native/components/alert).
 
-**Related PR:** [#284](https://github.com/sy-ui/sy-ui-native/pull/284)
+**Related PR:** [#284](https://github.com/sy-inc/sy-inc-native/pull/284)
 
 ### New Subcomponents
 
@@ -116,7 +116,7 @@ The [Select](/docs/native/components/select) component now includes a `TriggerIn
 **Usage:**
 
 ```tsx
-import { Select } from "sy-ui-native";
+import { Select } from "sy-inc-native";
 
 <Select>
   <Select.Trigger>
@@ -131,7 +131,7 @@ import { Select } from "sy-ui-native";
 </Select>
 ```
 
-**Related PR:** [#274](https://github.com/sy-ui/sy-ui-native/pull/274)
+**Related PR:** [#274](https://github.com/sy-inc/sy-inc-native/pull/274)
 
 ## Component Improvements
 
@@ -149,7 +149,7 @@ The [Toast](/docs/native/components/toast) component styling has been refactored
 
 This refactor ensures content remains properly hidden when toasts of different heights stack together, while providing a more maintainable and predictable styling approach.
 
-**Related PR:** [#229](https://github.com/sy-ui/sy-ui-native/pull/229)
+**Related PR:** [#229](https://github.com/sy-inc/sy-inc-native/pull/229)
 
 ### Dialog Overlay Animation Fix
 
@@ -162,7 +162,7 @@ The [Dialog](/docs/native/components/dialog) component's popup animation timing 
 - Removed immediate `progress.set(2)` call when `isOpen` becomes false
 - Smooth closing animations now play correctly when dismissing popups via swipe gestures
 
-**Related PR:** [#277](https://github.com/sy-ui/sy-ui-native/pull/277)
+**Related PR:** [#277](https://github.com/sy-inc/sy-inc-native/pull/277)
 
 ### Theme Surface Variables Refactor
 
@@ -177,7 +177,7 @@ The theme system has been refactored to replace calculated surface colors with e
 
 This change gives theme authors direct control over surface color values rather than relying on `color-mix` calculations, resulting in more predictable and consistent surface styling across all themes.
 
-**Related PR:** [#281](https://github.com/sy-ui/sy-ui-native/pull/281)
+**Related PR:** [#281](https://github.com/sy-inc/sy-inc-native/pull/281)
 
 ## API Enhancements
 
@@ -197,7 +197,7 @@ Six components now support the unified `styles` prop for slot-based styling, pro
 **New Capability:**
 
 ```tsx
-import { Accordion, Label } from "sy-ui-native";
+import { Accordion, Label } from "sy-inc-native";
 
 // Apply styles to specific slots
 <Label styles={{ text: { fontSize: 18 }, asterisk: { color: "red" } }} isRequired>
@@ -216,7 +216,7 @@ import { Accordion, Label } from "sy-ui-native";
 
 All changes maintain backward compatibility with existing `style` props and properly merge styles when both are provided.
 
-**Related PR:** [#271](https://github.com/sy-ui/sy-ui-native/pull/271)
+**Related PR:** [#271](https://github.com/sy-inc/sy-inc-native/pull/271)
 
 ### `disableFullWindowOverlay` Prop
 
@@ -233,7 +233,7 @@ Portal-based components now support a `disableFullWindowOverlay` prop that enabl
 **New Capability:**
 
 ```tsx
-import { Dialog } from "sy-ui-native";
+import { Dialog } from "sy-inc-native";
 
 // Enable element inspector support on iOS
 <Dialog>
@@ -248,32 +248,32 @@ import { Dialog } from "sy-ui-native";
 
 On iOS, `FullWindowOverlay` uses a separate native window that blocks the React Native element inspector. Setting `disableFullWindowOverlay` to `true` renders content in the main window instead, enabling the inspector during development. The tradeoff is that overlays will no longer appear above native modals or the keyboard. This prop has no effect on Android.
 
-For Toast, the prop is passed via `config.toast` when using `SyUINativeProvider`.
+For Toast, the prop is passed via `config.toast` when using `SyIncNativeProvider`.
 
-**Related PR:** [#283](https://github.com/sy-ui/sy-ui-native/pull/283)
+**Related PR:** [#283](https://github.com/sy-inc/sy-inc-native/pull/283)
 
-### SyUINativeProviderRaw
+### SyIncNativeProviderRaw
 
-A new lightweight provider variant, `SyUINativeProviderRaw`, excludes `ToastProvider` and `PortalHost` to give consumers full control over which dependencies are bundled.
+A new lightweight provider variant, `SyIncNativeProviderRaw`, excludes `ToastProvider` and `PortalHost` to give consumers full control over which dependencies are bundled.
 
 **New Capability:**
 
 ```tsx
-import { SyUINativeProviderRaw } from "sy-ui-native/provider-raw";
+import { SyIncNativeProviderRaw } from "sy-inc-native/provider-raw";
 
 // Lightweight provider without Toast and Portal dependencies
 export function App() {
   return (
-    <SyUINativeProviderRaw>
+    <SyIncNativeProviderRaw>
       {/* Your app content */}
-    </SyUINativeProviderRaw>
+    </SyIncNativeProviderRaw>
   );
 }
 ```
 
 This makes `react-native-screens`, `@gorhom/bottom-sheet`, and `react-native-svg` fully optional dependencies. The raw provider includes only `SafeAreaListener`, `GlobalAnimationSettingsProvider`, and `TextComponentProvider`. Consumers who need toast or portal features can compose them manually.
 
-**Related PR:** [#285](https://github.com/sy-ui/sy-ui-native/pull/285)
+**Related PR:** [#285](https://github.com/sy-inc/sy-inc-native/pull/285)
 
 ### Select.Trigger `variant` Prop
 
@@ -282,7 +282,7 @@ The `Select.Trigger` component now supports a `variant` prop with `"default"` an
 **New Capability:**
 
 ```tsx
-import { Button, Select } from "sy-ui-native";
+import { Button, Select } from "sy-inc-native";
 
 // Default variant (pre-styled trigger)
 <Select>
@@ -303,7 +303,7 @@ import { Button, Select } from "sy-ui-native";
 </Select>
 ```
 
-**Related PR:** [#274](https://github.com/sy-ui/sy-ui-native/pull/274)
+**Related PR:** [#274](https://github.com/sy-inc/sy-inc-native/pull/274)
 
 ### ControlField Radio Variant
 
@@ -312,7 +312,7 @@ The [ControlField](/docs/native/components/control-field) component now supports
 **New Capability:**
 
 ```tsx
-import { ControlField } from "sy-ui-native";
+import { ControlField } from "sy-inc-native";
 
 <ControlField>
   <ControlField.Indicator variant="radio" />
@@ -320,7 +320,7 @@ import { ControlField } from "sy-ui-native";
 </ControlField>
 ```
 
-**Related PR:** [#286](https://github.com/sy-ui/sy-ui-native/pull/286)
+**Related PR:** [#286](https://github.com/sy-inc/sy-inc-native/pull/286)
 
 ## ⚠️ Breaking Changes
 
@@ -348,7 +348,7 @@ Update all instances of individual style props to the unified `styles` prop:
 />
 ```
 
-**Related PR:** [#271](https://github.com/sy-ui/sy-ui-native/pull/271)
+**Related PR:** [#271](https://github.com/sy-inc/sy-inc-native/pull/271)
 
 ### Select.Trigger Default Styles
 
@@ -368,7 +368,7 @@ Update all instances of individual style props to the unified `styles` prop:
 </Select.Trigger>
 ```
 
-**Related PR:** [#274](https://github.com/sy-ui/sy-ui-native/pull/274)
+**Related PR:** [#274](https://github.com/sy-inc/sy-inc-native/pull/274)
 
 ### Surface Theme Variables Restructured
 
@@ -388,7 +388,7 @@ color: var(--surface-foreground);
 color: var(--surface-secondary-foreground);
 ```
 
-**Related PR:** [#281](https://github.com/sy-ui/sy-ui-native/pull/281)
+**Related PR:** [#281](https://github.com/sy-inc/sy-inc-native/pull/281)
 
 ### RadioGroup Indicator Removed
 
@@ -400,7 +400,7 @@ Replace all `RadioGroup.Indicator` and `RadioGroup.IndicatorThumb` usages with t
 
 ```tsx
 // Before
-import { RadioGroup } from "sy-ui-native";
+import { RadioGroup } from "sy-inc-native";
 
 <RadioGroup>
   <RadioGroup.Item value="option1">
@@ -412,7 +412,7 @@ import { RadioGroup } from "sy-ui-native";
 </RadioGroup>
 
 // After
-import { Radio, RadioGroup } from "sy-ui-native";
+import { Radio, RadioGroup } from "sy-inc-native";
 
 <RadioGroup>
   <RadioGroup.Item value="option1">
@@ -426,22 +426,22 @@ import { Radio, RadioGroup } from "sy-ui-native";
 </RadioGroup>
 ```
 
-**Related PR:** [#286](https://github.com/sy-ui/sy-ui-native/pull/286)
+**Related PR:** [#286](https://github.com/sy-inc/sy-inc-native/pull/286)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #229](https://github.com/sy-ui/sy-ui-native/issues/229)**: Fixed InputOTP not working inside BottomSheet. The InputOTP component now functions correctly when rendered within a BottomSheet overlay, resolving input focus and interaction issues that previously prevented OTP entry in bottom sheet contexts.
+- **[Issue #229](https://github.com/sy-inc/sy-inc-native/issues/229)**: Fixed InputOTP not working inside BottomSheet. The InputOTP component now functions correctly when rendered within a BottomSheet overlay, resolving input focus and interaction issues that previously prevented OTP entry in bottom sheet contexts.
 
-- **[Issue #265](https://github.com/sy-ui/sy-ui-native/issues/265)**: Fixed the first letter of Toast description text being clipped. The toast styling refactor replaces the border-based padding approach with proper padding and placeholder views, ensuring all text content is fully visible regardless of toast stacking configuration.
+- **[Issue #265](https://github.com/sy-inc/sy-inc-native/issues/265)**: Fixed the first letter of Toast description text being clipped. The toast styling refactor replaces the border-based padding approach with proper padding and placeholder views, ensuring all text content is fully visible regardless of toast stacking configuration.
 
-- **[Issue #272](https://github.com/sy-ui/sy-ui-native/issues/272)**: Fixed FullWindowOverlay blocking the React Native element inspector on iOS. The new `disableFullWindowOverlay` prop on portal components allows developers to render overlay content in the main window during development, restoring element inspector functionality.
+- **[Issue #272](https://github.com/sy-inc/sy-inc-native/issues/272)**: Fixed FullWindowOverlay blocking the React Native element inspector on iOS. The new `disableFullWindowOverlay` prop on portal components allows developers to render overlay content in the main window during development, restoring element inspector functionality.
 
 **Related PRs:**
 
-- [#229](https://github.com/sy-ui/sy-ui-native/pull/229)
-- [#283](https://github.com/sy-ui/sy-ui-native/pull/283)
+- [#229](https://github.com/sy-inc/sy-inc-native/pull/229)
+- [#283](https://github.com/sy-inc/sy-inc-native/pull/283)
 
 ## Updated Documentation
 
@@ -456,7 +456,7 @@ The following documentation pages have been updated to reflect the changes in th
 - [Bottom Sheet](/docs/native/components/bottom-sheet) - Added disableFullWindowOverlay documentation
 - [Dialog](/docs/native/components/dialog) - Added disableFullWindowOverlay documentation
 - [Popover](/docs/native/components/popover) - Added disableFullWindowOverlay documentation
-- [Provider](/docs/native/getting-started/provider) - SyUINativeProviderRaw documentation and provider hierarchy
+- [Provider](/docs/native/getting-started/provider) - SyIncNativeProviderRaw documentation and provider hierarchy
 - [Theming](/docs/native/getting-started/theming) - Updated surface variable structure and examples
 - [Accordion](/docs/native/components/accordion) - Added styles prop documentation
 - [Avatar](/docs/native/components/avatar) - Added styles prop documentation
@@ -466,7 +466,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

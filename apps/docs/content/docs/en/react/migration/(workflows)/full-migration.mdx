@@ -1,11 +1,11 @@
 ---
 title: Full Migration
-description: Step-by-step guide for migrating SY UI v2 to v3 using full migration approach
+description: Step-by-step guide for migrating SY INC v2 to v3 using full migration approach
 ---
 
 ## Overview
 
-Full migration is a structured approach to migrating from SY UI v2 to v3. This method involves migrating all component code first, then switching dependencies, ensuring a clean transition.
+Full migration is a structured approach to migrating from SY INC v2 to v3. This method involves migrating all component code first, then switching dependencies, ensuring a clean transition.
 
 **Important:** Full migration means the project will be broken during migration (v2 and v3 cannot coexist). Work in a feature branch to maintain a working main branch.
 
@@ -60,34 +60,34 @@ v3 requires React 19+. Update your React version:
   </Tab>
 </Tabs>
 
-**Note**: These dependency updates can be done before switching SY UI (won't break project). However, the SY UI package switch should only happen AFTER all component code is migrated.
+**Note**: These dependency updates can be done before switching SY INC (won't break project). However, the SY INC package switch should only happen AFTER all component code is migrated.
 
-#### Update SY UI Packages
+#### Update SY INC Packages
 
 **Important**: Do this AFTER migrating all component code. Remove v2 packages and install v3:
 
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm uninstall @sy-inc/react @sy-ui/theme
+    npm uninstall @sy-inc/react @sy-inc/theme
     npm install @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm remove @sy-inc/react @sy-ui/theme
+    pnpm remove @sy-inc/react @sy-inc/theme
     pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn remove @sy-inc/react @sy-ui/theme
+    yarn remove @sy-inc/react @sy-inc/theme
     yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun remove @sy-inc/react @sy-ui/theme
+    bun remove @sy-inc/react @sy-inc/theme
     bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
@@ -159,21 +159,21 @@ Ensure you're using Tailwind CSS v4:
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-inc/react");
+const {sy-inc} = require("@sy-inc/react");
 
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@sy-ui/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@sy-inc/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
-  plugins: [sy-ui()],
+  plugins: [sy-inc()],
   // ... other config
 };
 ```
 
 **v3 Configuration:**
 
-Remove the `sy-ui()` plugin from your Tailwind config. If you only used Tailwind for SY UI and have no other customizations, you can remove `tailwind.config.js` entirely. Otherwise, keep the file but remove the SY UI plugin configuration.
+Remove the `sy-inc()` plugin from your Tailwind config. If you only used Tailwind for SY INC and have no other customizations, you can remove `tailwind.config.js` entirely. Otherwise, keep the file but remove the SY INC plugin configuration.
 
 #### Update CSS Imports
 
@@ -208,9 +208,9 @@ rm hero.ts
 
 </section>
 
-<section id="step-3-remove-sy-uiprovider">
+<section id="step-3-remove-sy-incprovider">
 
-### Step 3: Remove SyUIProvider
+### Step 3: Remove SyIncProvider
 
 v3 does not require a Provider component. Remove it from your application root.
 
@@ -218,13 +218,13 @@ v3 does not require a Provider component. Remove it from your application root.
 
 ```tsx
 // app.tsx or App.tsx
-import {SyUIProvider} from "@sy-inc/react";
+import {SyIncProvider} from "@sy-inc/react";
 
 function App() {
   return (
-    <SyUIProvider>
+    <SyIncProvider>
       <YourApplication />
-    </SyUIProvider>
+    </SyIncProvider>
   );
 }
 ```
@@ -262,7 +262,7 @@ v3 removes the Framer Motion dependency and handles animations differently:
 
 ### Step 4: Replace Removed Hooks
 
-SY UI v2 provided component hooks (like `useSwitch`, `useInput`, `useCheckbox`, etc.) and utility hooks like `useDisclosure`. SY UI v3 removes most component hooks in favor of compound components, and replaces `useDisclosure` with `useOverlayState`.
+SY INC v2 provided component hooks (like `useSwitch`, `useInput`, `useCheckbox`, etc.) and utility hooks like `useDisclosure`. SY INC v3 removes most component hooks in favor of compound components, and replaces `useDisclosure` with `useOverlayState`.
 
 See the comprehensive [Hooks Migration Guide](/docs/react/migration/hooks) for:
 - Component hooks removal and migration to compound components
@@ -281,8 +281,8 @@ All components are now imported from a single package:
 
 ```tsx
 // Individual packages (if used)
-import {Button} from "@sy-ui/button";
-import {Card} from "@sy-ui/card";
+import {Button} from "@sy-inc/button";
+import {Card} from "@sy-inc/card";
 
 // Or from main package
 import {Button, Card} from "@sy-inc/react";
@@ -345,11 +345,11 @@ If you had custom theme overrides in v2, you'll need to update them for v3's CSS
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-inc/react");
+const {sy-inc} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
-    sy-ui({
+    sy-inc({
       themes: {
         light: {
           colors: {
@@ -453,17 +453,17 @@ Use this checklist to track your full migration progress:
 
 ### Dependencies
 - Update React to v19+
-- Update SY UI packages to v3 (after component migration)
+- Update SY INC packages to v3 (after component migration)
 - Remove Framer Motion
 - Update Tailwind CSS to v4
 
 ### Configuration
-- Remove `sy-ui()` plugin from Tailwind config
+- Remove `sy-inc()` plugin from Tailwind config
 - Update CSS imports
 - Remove `hero.ts` file (if exists)
 
 ### Application Code - Component Migration
-- Remove `SyUIProvider` wrapper
+- Remove `SyIncProvider` wrapper
 - Handle Provider props migration (router, locale, animations)
 - Update all component imports to `@sy-inc/react`
 - Migrate renamed components (Divider → Separator, Autocomplete → Combobox, NumberInput → NumberField)

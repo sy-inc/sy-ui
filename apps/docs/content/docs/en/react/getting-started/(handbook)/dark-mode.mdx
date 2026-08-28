@@ -1,13 +1,13 @@
 ---
 title: Dark Mode
-description: Add light, dark, and system theme switching to SY UI v3
+description: Add light, dark, and system theme switching to SY INC v3
 icon: moon
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI dark mode is CSS-driven. Components read theme variables from the root element, so you do not need a SY UI provider. Add the `dark` class or `data-theme="dark"` to `<html>` and SY UI will apply the dark theme.
+SY INC dark mode is CSS-driven. Components read theme variables from the root element, so you do not need a SY INC provider. Add the `dark` class or `data-theme="dark"` to `<html>` and SY INC will apply the dark theme.
 
 ```html
 <html class="dark" data-theme="dark">
@@ -20,7 +20,7 @@ SY UI dark mode is CSS-driven. Components read theme variables from the root ele
 Keep the `bg-background` and `text-foreground` classes on your app shell so the page canvas changes with the active theme.
 
 <Callout type="info">
-  SY UI's built-in light and dark themes respond to both `.light` / `.dark` classes and `data-theme="light"` / `data-theme="dark"` attributes. If you set both manually, keep the values in sync.
+  SY INC's built-in light and dark themes respond to both `.light` / `.dark` classes and `data-theme="light"` / `data-theme="dark"` attributes. If you set both manually, keep the values in sync.
 </Callout>
 
 ## Next.js with next-themes
@@ -185,7 +185,7 @@ When you pass a custom `themes` list, include `"light"` and `"dark"` if you stil
 
 ## React with useTheme
 
-Use SY UI's `useTheme` hook when you are building a plain React app, such as Vite or Create React App, and do not need `next-themes`.
+Use SY INC's `useTheme` hook when you are building a plain React app, such as Vite or Create React App, and do not need `next-themes`.
 
 The hook is exported from `@sy-inc/react`. It stores the selected theme in `localStorage`, resolves `"system"` from the user's OS preference, and applies both the class and `data-theme` attribute to `<html>`.
 

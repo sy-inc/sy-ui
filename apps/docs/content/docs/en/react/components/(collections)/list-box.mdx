@@ -70,7 +70,7 @@ export default () => (
 
 ListBox supports virtualization through [Virtualizer](https://react-aria.adobe.com/Virtualizer), enabling efficient rendering of large datasets by displaying only the rows visible within the viewport.
 
-<ComponentPreview 
+<ComponentPreview
   name="list-box-virtualization"
 />
 
@@ -119,11 +119,11 @@ To customize the ListBox component classes, you can use the `@layer components` 
 
 ## Styling Reference
 
-SY UI follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.
+SY INC follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.
 
 ### CSS Classes
 
-The ListBox component uses these CSS classes ([View source styles](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/components/list-box.css)):
+The ListBox component uses these CSS classes ([View source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/list-box.css)):
 
 #### Base Classes [!toc]
 - `.list-box` - Base listbox container
@@ -231,11 +231,11 @@ import { ListBox, Label, Description } from '@sy-inc/react';
 <ListBox aria-label="Users" selectionMode="single">
   <ListBox.Item id="1" textValue="Bob">
     <Label>Bob</Label>
-    <Description>bob@sy-ui.com</Description>
+    <Description>bob@sy-inc.com</Description>
   </ListBox.Item>
   <ListBox.Item id="2" textValue="Alice">
     <Label>Alice</Label>
-    <Description>alice@sy-ui.com</Description>
+    <Description>alice@sy-inc.com</Description>
   </ListBox.Item>
 </ListBox>
 ```

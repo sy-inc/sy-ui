@@ -1,13 +1,13 @@
 ---
 title: 主题
-description: 使用 CSS 变量和全局样式自定义 SY UI 的设计系统
+description: 使用 CSS 变量和全局样式自定义 SY INC 的设计系统
 icon: palette
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI 使用 CSS 变量和 [BEM](https://getbem.com/) 类来实现主题化。你可以使用标准 CSS 自定义从颜色到组件样式的所有内容。
+SY INC 使用 CSS 变量和 [BEM](https://getbem.com/) 类来实现主题化。你可以使用标准 CSS 自定义从颜色到组件样式的所有内容。
 
 <Callout type="info">
   **想要创建你自己的主题？** 试试 [主题构建器](/themes)，以可视化方式自定义颜色、圆角、字体等，然后导出 CSS 用于你的项目。
@@ -15,7 +15,7 @@ SY UI 使用 CSS 变量和 [BEM](https://getbem.com/) 类来实现主题化。�
 
 ## 工作原理
 
-SY UI 的主题系统构建于 [Tailwind CSS v4](https://tailwindcss.com/docs/theme) 的主题之上。当你导入 `@sy-inc/styles` 时，它会使用 Tailwind 的内置调色板，将其映射到语义化变量，自动在浅色和深色主题之间切换，并使用 CSS 层和 `@theme` 指令进行组织。
+SY INC 的主题系统构建于 [Tailwind CSS v4](https://tailwindcss.com/docs/theme) 的主题之上。当你导入 `@sy-inc/styles` 时，它会使用 Tailwind 的内置调色板，将其映射到语义化变量，自动在浅色和深色主题之间切换，并使用 CSS 层和 `@theme` 指令进行组织。
 
 **命名规则：**
 - 不带后缀的颜色用作背景（例如 `--accent`）
@@ -110,7 +110,7 @@ export function ThemeSwitch() {
 
 > **注意**：完整的调色板和视觉参考请参见 [颜色](/docs/handbook/colors)。
 
-> **深色模式**：如需基于 `next-themes` 与 SY UI `useTheme` 钩子的完整配置指南，请参见 [深色模式](/docs/handbook/dark-mode)。
+> **深色模式**：如需基于 `next-themes` 与 SY INC `useTheme` 钩子的完整配置指南，请参见 [深色模式](/docs/handbook/dark-mode)。
 
 **创建你自己的主题：**
 
@@ -414,17 +414,17 @@ export function ThemeSwitch() {
 
 ## 变量参考
 
-SY UI 在 [`variables.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css) 中定义了三种类型的变量：
+SY INC 在 [`variables.css`](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css) 中定义了三种类型的变量：
 
 1. **基础变量（Base Variables）** — 不会变化的值，例如 `--white`、`--black`、间距以及排版
 2. **主题变量（Theme Variables）** — 在浅色 / 深色主题之间切换的颜色，以及滚动条令牌（`--scrollbar-thumb`、`--scrollbar-width` 等）
 3. **计算变量（Calculated Variables）** — 悬停状态、柔和（soft）变体以及边框 / 分隔线层级（每个浅色 / 深色主题中的 **Calculated Colors** 区块，使用 `color-mix()` 计算）
 
-如需完整参考，请查阅：[颜色文档](/docs/handbook/colors)、[默认主题变量](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css)、[共享主题工具](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/shared/theme.css)
+如需完整参考，请查阅：[颜色文档](/docs/handbook/colors)、[默认主题变量](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css)、[共享主题工具](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/shared/theme.css)
 
 **Tailwind 主题桥接（`@theme inline`）：**
 
-[`themes/shared/theme.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/shared/theme.css) 将语义化变量映射为 Tailwind 令牌（`--color-*`、`--radius-*`、`--ease-*`）。计算颜色引用的是 `variables.css` 中的底层变量（例如 `--surface-hover`、`--accent-soft`）—— 它们并不会在该文件中通过 `color-mix()` 内联展开：
+[`themes/shared/theme.css`](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/shared/theme.css) 将语义化变量映射为 Tailwind 令牌（`--color-*`、`--radius-*`、`--ease-*`）。计算颜色引用的是 `variables.css` 中的底层变量（例如 `--surface-hover`、`--accent-soft`）—— 它们并不会在该文件中通过 `color-mix()` 内联展开：
 <CollapsibleCode lang="css" code={`  @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -598,13 +598,13 @@ SY UI 在 [`variables.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styl
 
 ## 滚动条
 
-SY UI 为组件中的滚动区域（表格、弹出框、抽屉等）应用统一的滚动条样式。滚动条使用标准 CSS 属性（`scrollbar-width`、`scrollbar-color`、`scrollbar-gutter`），不再依赖 `::-webkit-scrollbar` 覆盖。
+SY INC 为组件中的滚动区域（表格、弹出框、抽屉等）应用统一的滚动条样式。滚动条使用标准 CSS 属性（`scrollbar-width`、`scrollbar-color`、`scrollbar-gutter`），不再依赖 `::-webkit-scrollbar` 覆盖。
 
 **模式** — 在 `<html>`、组件根元素或滚动插槽上设置 `data-scrollbar`：
 
 | 模式 | `data-scrollbar` | 行为 |
 |------|------------------|------|
-| SY UI 纤细 | *（未设置）* 或 `thin` | 使用主题令牌呈现的纤细滑块 |
+| SY INC 纤细 | *（未设置）* 或 `thin` | 使用主题令牌呈现的纤细滑块 |
 | 操作系统 / 浏览器 | `default` | 原生滚动条（`auto`） |
 | 隐藏 | `none` | 不显示滚动条（`scrollbar-width: none`） |
 
@@ -612,7 +612,7 @@ SY UI 为组件中的滚动区域（表格、弹出框、抽屉等）应用统�
 <!-- 全局使用原生滚动条 -->
 <html data-scrollbar="default">
 
-<!-- 在某个子树中恢复 SY UI 滚动条 -->
+<!-- 在某个子树中恢复 SY INC 滚动条 -->
 <main data-scrollbar="thin">
   ...
 </main>
@@ -623,7 +623,7 @@ SY UI 为组件中的滚动区域（表格、弹出框、抽屉等）应用统�
 </div>
 ```
 
-**主题变量** — 在 [`variables.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css) 的浅色与深色主题区块中定义：
+**主题变量** — 在 [`variables.css`](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css) 的浅色与深色主题区块中定义：
 
 | 变量 | 描述 |
 |------|------|
@@ -658,7 +658,7 @@ SY UI 为组件中的滚动区域（表格、弹出框、抽屉等）应用统�
 
 **自定义溢出区域** — 在自己的元素上使用 `@sy-inc/styles` 提供的 `scrollbar`、`scrollbar-thin`、`scrollbar-default` 或 `scrollbar-none` 工具类。基于类的覆盖方式详见 [样式](/docs/handbook/styling)。
 
-> **注意**：部分组件默认隐藏滚动条（日期选择器弹出框、颜色选择器、次级标签页）。嵌套的滚动插槽（例如日期选择器内部的日历年份选择器）会保留 SY UI 滚动条，因为 `scrollbar-none` 只作用于其所在的元素本身，不会影响使用 `@apply scrollbar` 的后代元素。
+> **注意**：部分组件默认隐藏滚动条（日期选择器弹出框、颜色选择器、次级标签页）。嵌套的滚动插槽（例如日期选择器内部的日历年份选择器）会保留 SY INC 滚动条，因为 `scrollbar-none` 只作用于其所在的元素本身，不会影响使用 `@apply scrollbar` 的后代元素。
 
 ## 资源
 

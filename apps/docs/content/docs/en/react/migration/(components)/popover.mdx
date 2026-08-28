@@ -1,10 +1,10 @@
 ---
 title: Popover
-description: Migration guide for Popover from SY UI v2 to v3
+description: Migration guide for Popover from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Popover documentation](/docs/react/components/popover) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Popover documentation](/docs/react/components/popover) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -52,7 +52,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Separate components (`Popover`, `PopoverTrigger`, `PopoverContent`)  
+**v2:** Separate components (`Popover`, `PopoverTrigger`, `PopoverContent`)
 **v3:** Compound components (`Popover`, `Popover.Trigger`, `Popover.Content`, `Popover.Dialog`, `Popover.Heading`, `Popover.Arrow`)
 
 ### 2. Prop Changes
@@ -85,13 +85,13 @@ export default function App() {
       <PopoverTrigger><Button>Open</Button></PopoverTrigger>
       <PopoverContent><div>Content</div></PopoverContent>
     </Popover>
-    
+
     {/* With placement */}
     <Popover placement="top">
       <PopoverTrigger><Button>Open</Button></PopoverTrigger>
       <PopoverContent><div>Content</div></PopoverContent>
     </Popover>
-    
+
     {/* With offset */}
     <Popover offset={10}>
       <PopoverTrigger><Button>Open</Button></PopoverTrigger>
@@ -111,7 +111,7 @@ export default function App() {
         </Popover.Dialog>
       </Popover.Content>
     </Popover>
-    
+
     {/* With placement - moved to Content */}
     <Popover>
       <Button>Open</Button>
@@ -122,7 +122,7 @@ export default function App() {
         </Popover.Dialog>
       </Popover.Content>
     </Popover>
-    
+
     {/* With offset - moved to Content */}
     <Popover>
       <Button>Open</Button>

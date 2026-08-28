@@ -18,28 +18,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native@beta
+  npm i sy-inc-native@beta
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native@beta
+  pnpm add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native@beta
+  yarn add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native@beta
+  bun add sy-inc-native@beta
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -61,7 +61,7 @@ The [Bottom Sheet](/docs/native/components/bottom-sheet) component has been enha
 
 The Bottom Sheet component supports multiple ways to close: swiping down, pressing the overlay, clicking the close button, or programmatically calling close. Previously, these mechanisms could sometimes conflict or produce inconsistent behavior. This update ensures all close mechanisms work harmoniously together, providing a smoother and more predictable user experience.
 
-**Related PR:** [#201](https://github.com/sy-ui/sy-ui-native/pull/201)
+**Related PR:** [#201](https://github.com/sy-inc/sy-inc-native/pull/201)
 
 ### Dialog Swipe-to-Dismiss Gesture Handling Fix
 
@@ -76,7 +76,7 @@ The [Dialog](/docs/native/components/dialog) component has been fixed to properl
 
 The Dialog component supports swipe-to-dismiss functionality, allowing users to dismiss dialogs by swiping down. This fix resolves issues where gesture handling could become unresponsive or produce unexpected behavior during swipe interactions.
 
-**Related PR:** [#193](https://github.com/sy-ui/sy-ui-native/pull/193)
+**Related PR:** [#193](https://github.com/sy-inc/sy-inc-native/pull/193)
 
 ### TextField Styling and Functionality Fixes
 
@@ -92,7 +92,7 @@ The [TextField](/docs/native/components/text-field) component has been fixed to 
 
 These fixes ensure the TextField component displays correctly across all states (focused, blurred, invalid) and provides consistent visual feedback to users.
 
-**Related PR:** [#202](https://github.com/sy-ui/sy-ui-native/pull/202)
+**Related PR:** [#202](https://github.com/sy-inc/sy-inc-native/pull/202)
 
 ## API Enhancements
 
@@ -103,14 +103,14 @@ The `PortalHost` component is now exported from the main provider module, enabli
 **New Capability:**
 
 ```tsx
-import { SyUINativeProvider, PortalHost } from "@sy-ui/native";
+import { SyIncNativeProvider, PortalHost } from "@sy-inc/native";
 
 export function CustomLayout() {
   return (
     <>
-      <SyUINativeProvider>
+      <SyIncNativeProvider>
         {/* Your app content */}
-      </SyUINativeProvider>
+      </SyIncNativeProvider>
 
       {/* Manually mount PortalHost in a custom location */}
       <PortalHost name="custom-host" />
@@ -119,7 +119,7 @@ export function CustomLayout() {
 }
 ```
 
-This enhancement allows developers to manually mount portal hosts in custom layouts, which is particularly useful for scenarios where you need portals to render in specific locations (e.g., within BottomSheet, Modal, or other overlay components). By default, `SyUINativeProvider` includes a `PortalHost` for standard use cases, but now you can create additional hosts with custom names for advanced scenarios.
+This enhancement allows developers to manually mount portal hosts in custom layouts, which is particularly useful for scenarios where you need portals to render in specific locations (e.g., within BottomSheet, Modal, or other overlay components). By default, `SyIncNativeProvider` includes a `PortalHost` for standard use cases, but now you can create additional hosts with custom names for advanced scenarios.
 
 **Use Cases:**
 
@@ -128,30 +128,30 @@ This enhancement allows developers to manually mount portal hosts in custom layo
 - Custom overlay rendering scenarios
 - Multi-host portal architectures
 
-**Related PR:** [#185](https://github.com/sy-ui/sy-ui-native/pull/185)
+**Related PR:** [#185](https://github.com/sy-inc/sy-inc-native/pull/185)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #187](https://github.com/sy-ui/sy-ui-native/issues/187)**: Fixed an issue where multiple presses were required to re-open a bottom sheet or dialog after it was dismissed via swipe gesture. The internal state now properly synchronizes with the close animation, allowing immediate reopening regardless of how the component was closed.
+- **[Issue #187](https://github.com/sy-inc/sy-inc-native/issues/187)**: Fixed an issue where multiple presses were required to re-open a bottom sheet or dialog after it was dismissed via swipe gesture. The internal state now properly synchronizes with the close animation, allowing immediate reopening regardless of how the component was closed.
 
-- **[Issue #189](https://github.com/sy-ui/sy-ui-native/issues/189)**: Fixed app freezing when swiping to dismiss dialogs containing text inputs.
+- **[Issue #189](https://github.com/sy-inc/sy-inc-native/issues/189)**: Fixed app freezing when swiping to dismiss dialogs containing text inputs.
 
-- **[Issue #196](https://github.com/sy-ui/sy-ui-native/issues/196)**: Fixed TextField multiline input behavior to match React Native's TextInput multiline functionality.
+- **[Issue #196](https://github.com/sy-inc/sy-inc-native/issues/196)**: Fixed TextField multiline input behavior to match React Native's TextInput multiline functionality.
 
-- **[Issue #199](https://github.com/sy-ui/sy-ui-native/issues/199)**: Fixed placeholder text positioning within TextField Input component.
+- **[Issue #199](https://github.com/sy-inc/sy-inc-native/issues/199)**: Fixed placeholder text positioning within TextField Input component.
 
 **Related PRs:**
 
-- [#201](https://github.com/sy-ui/sy-ui-native/pull/201)
-- [#202](https://github.com/sy-ui/sy-ui-native/pull/202)
-- [#193](https://github.com/sy-ui/sy-ui-native/pull/193)
+- [#201](https://github.com/sy-inc/sy-inc-native/pull/201)
+- [#202](https://github.com/sy-inc/sy-inc-native/pull/202)
+- [#193](https://github.com/sy-inc/sy-inc-native/pull/193)
 
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

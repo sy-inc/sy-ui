@@ -121,7 +121,7 @@ export function adjustGrayChroma(baseChroma: number, grayAmount: number): number
 }
 
 /**
- * List of CSS color variable names that use Oklch values in SY UI
+ * List of CSS color variable names that use Oklch values in SY INC
  */
 export const COLOR_VARIABLES = [
   // Primitive colors

@@ -1,10 +1,10 @@
 ---
 title: Table
-description: Table 从 SY UI v2 到 v3 的迁移指南。
+description: Table 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Table 文档](/docs/react/components/table)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Table 文档](/docs/react/components/table)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -63,7 +63,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 独立的命名导入（`Table`、`TableHeader`、`TableColumn`、`TableBody`、`TableRow`、`TableCell`）  
+**v2：** 独立的命名导入（`Table`、`TableHeader`、`TableColumn`、`TableBody`、`TableRow`、`TableCell`）
 **v3：** 单一 `Table` 导入配合点语法：`Table`、`Table.ScrollContainer`、`Table.Content`、`Table.Header`、`Table.Column`、`Table.Body`、`Table.Row`、`Table.Cell`、`Table.Footer`
 
 ### 2. 新增包裹层
@@ -114,22 +114,22 @@ export default function App() {
 
 ### 4. 使用 Checkbox 的选择
 
-**v2：** 设置 `selectionMode` 后由表格自动渲染 Checkbox。  
+**v2：** 设置 `selectionMode` 后由表格自动渲染 Checkbox。
 **v3：** 在列与行中显式使用带 `slot="selection"` 的 `Checkbox`。
 
 ### 5. 加载与空状态
 
-**v2：** `TableBody` 上的 `loadingState`、`loadingContent`、`emptyContent`。  
+**v2：** `TableBody` 上的 `loadingState`、`loadingContent`、`emptyContent`。
 **v3：** `Table.Body` 上的 `renderEmptyState`；无限滚动加载用 `Table.LoadMore`。
 
 ### 6. 分页
 
-**v2：** `Table` 上的 `bottomContent`。  
+**v2：** `Table` 上的 `bottomContent`。
 **v3：** `Table.Footer` 复合组件。
 
 ### 7. 列宽调整
 
-**v2：** 非内置能力。  
+**v2：** 非内置能力。
 **v3：** `Table.ResizableContainer` + `Table.ColumnResizer` 复合组件。
 
 ## 迁移示例
@@ -504,7 +504,7 @@ Table (Root container)
 
 ## 数据项标识
 
-**v2：** React 的 `key` 同时用于列表调和与选择状态。  
+**v2：** React 的 `key` 同时用于列表调和与选择状态。
 **v3：** 在 `Table.Row` 与 `Table.Column` 上使用 `id` 承载选择/排序状态；列表渲染仍保留 React 的 `key`。
 
 ## 总结

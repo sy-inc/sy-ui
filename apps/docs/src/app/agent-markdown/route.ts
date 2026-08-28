@@ -26,7 +26,7 @@ function markdownResponse(markdown: string, init: ResponseInit = {}): Response {
 async function getMarkdownForPath(request: NextRequest): Promise<Response> {
   const origin = getRequestOrigin(request);
   const pathname =
-    request.headers.get("x-sy-ui-markdown-path") ??
+    request.headers.get("x-sy-inc-markdown-path") ??
     request.nextUrl.searchParams.get("path") ??
     "/";
 

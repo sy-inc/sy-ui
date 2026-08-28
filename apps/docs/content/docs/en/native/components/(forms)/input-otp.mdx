@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/input-otp-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/input-otp-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/input-otp-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/input-otp-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { InputOTP } from 'sy-ui-native';
+import { InputOTP } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -150,7 +150,7 @@ Display validation errors when the OTP is invalid.
 Restrict input to specific character patterns using regex. Three predefined patterns are available: `REGEXP_ONLY_DIGITS` (matches digits 0-9), `REGEXP_ONLY_CHARS` (matches alphabetic characters a-z, A-Z), and `REGEXP_ONLY_DIGITS_AND_CHARS` (matches both digits and alphabetic characters).
 
 ```tsx
-import { InputOTP, REGEXP_ONLY_CHARS } from 'sy-ui-native';
+import { InputOTP, REGEXP_ONLY_CHARS } from 'sy-inc-native';
 
 <InputOTP
   maxLength={6}
@@ -205,7 +205,7 @@ When rendering an InputOTP inside a `BottomSheet`, use the `useBottomSheetAwareH
 > **Note**: `useBottomSheetAwareHandlers` must be used inside a `BottomSheet`. Call it from a child component rendered inside `BottomSheet.Content` — outside of a `BottomSheet` context the returned handlers are no-ops.
 
 ```tsx
-import { InputOTP, useBottomSheetAwareHandlers } from 'sy-ui-native';
+import { InputOTP, useBottomSheetAwareHandlers } from 'sy-inc-native';
 
 const BottomSheetOTPInput = () => {
   const { onFocus, onBlur } = useBottomSheetAwareHandlers();
@@ -231,7 +231,7 @@ const BottomSheetOTPInput = () => {
 ## Example
 
 ```tsx
-import { InputOTP, Label, Description, type InputOTPRef } from 'sy-ui-native';
+import { InputOTP, Label, Description, type InputOTPRef } from 'sy-inc-native';
 import { View } from 'react-native';
 import { useRef } from 'react';
 
@@ -271,7 +271,7 @@ export default function InputOTPExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/input-otp.tsx).
+You can find more examples in the [GitHub repository](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/input-otp.tsx).
 
 ## API Reference
 

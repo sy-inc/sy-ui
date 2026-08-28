@@ -28,7 +28,7 @@ export async function GET(request: Request) {
     const skills = await Promise.all(
       VALID_SKILLS.map(async (skillName) => ({
         description:
-          AGENT_SKILL_DESCRIPTIONS[skillName] ?? `SY UI skill archive for ${skillName}.`,
+          AGENT_SKILL_DESCRIPTIONS[skillName] ?? `SY INC skill archive for ${skillName}.`,
         digest: await getSkillDigest(skillName),
         name: skillName,
         type: "archive",

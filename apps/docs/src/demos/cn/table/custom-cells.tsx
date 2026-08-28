@@ -25,7 +25,7 @@ const users: User[] = [
   {
     email: "kate@acme.com",
     id: 4586932,
-    image_url: "https://assets.sy-ui.com/avatars/red.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/red.jpg",
     name: "Kate Moore",
     role: "首席执行官",
     status: "在职",
@@ -33,7 +33,7 @@ const users: User[] = [
   {
     email: "john@acme.com",
     id: 5273849,
-    image_url: "https://assets.sy-ui.com/avatars/green.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/green.jpg",
     name: "John Smith",
     role: "首席技术官",
     status: "在职",
@@ -41,7 +41,7 @@ const users: User[] = [
   {
     email: "sara@acme.com",
     id: 7492836,
-    image_url: "https://assets.sy-ui.com/avatars/blue.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/blue.jpg",
     name: "Sara Johnson",
     role: "首席营销官",
     status: "休假",
@@ -49,7 +49,7 @@ const users: User[] = [
   {
     email: "michael@acme.com",
     id: 8293746,
-    image_url: "https://assets.sy-ui.com/avatars/purple.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/purple.jpg",
     name: "Michael Brown",
     role: "首席财务官",
     status: "在职",
@@ -57,7 +57,7 @@ const users: User[] = [
   {
     email: "emily@acme.com",
     id: 1234567,
-    image_url: "https://assets.sy-ui.com/avatars/orange.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/orange.jpg",
     name: "Emily Davis",
     role: "产品经理",
     status: "未激活",

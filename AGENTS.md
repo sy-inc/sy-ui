@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Instructions for AI agents working with the SY UI v3 repository.
+Instructions for AI agents working with the SY INC v3 repository.
 
 ## Repository Overview
 
-SY UI v3 is a modern React UI library built with **Tailwind CSS v4**, organized as a **pnpm monorepo** managed by **Turborepo**. Components are built on top of [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and follow a compound component pattern similar to Radix UI.
+SY INC v3 is a modern React UI library built with **Tailwind CSS v4**, organized as a **pnpm monorepo** managed by **Turborepo**. Components are built on top of [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and follow a compound component pattern similar to Radix UI.
 
 ### Tech Stack
 
@@ -69,7 +69,7 @@ SY UI v3 is a modern React UI library built with **Tailwind CSS v4**, organized 
   - optional `fixtures.tsx` — shared JSX across layers
 - Import harness from `@sy-inc/testing/helpers` (`render`, `setupUser`, `runAllTimers`, `ssrSmoke`, `User`). Browser suites: `render` from `@sy-inc/testing/browser` (wraps `vitest-browser-react`; owned by `@sy-inc/testing`). Prefer `@/` for sources. Pattern testers: `const user = new User(...); user.createTester(...)` — not a top-level export.
 - Query: `getByRole` / label / text first; `data-testid` when needed; avoid class-primary queries.
-- Assert: roles/names, SY UI `data-*` hooks, callbacks, focus, light BEM + documented `data-slot` on compound parts — not colors, full class lists, or RAC internals.
+- Assert: roles/names, SY INC `data-*` hooks, callbacks, focus, light BEM + documented `data-slot` on compound parts — not colors, full class lists, or RAC internals.
 - Fake timers: per-suite only; wire `advanceTimers` into `setupUser` + `User`; use `runAllTimers()`.
 - Pattern testers for groups / overlays / collections; skip for Button / Checkbox / Switch / TextField.
 - Naming: `describe("Component")`; nested concern; `it` as `supports…` / `calls…` / `exposes…` / `renders…`. SSR: `"Component SSR"`; browser: `"Component (browser)"`.
@@ -130,7 +130,7 @@ pnpm build
 
 ### Compound Component Pattern
 
-SY UI uses a compound component pattern. Each component exports its sub-parts so users can compose and style them independently.
+SY INC uses a compound component pattern. Each component exports its sub-parts so users can compose and style them independently.
 
 ```tsx
 // Context shares state/styles across parts
@@ -188,7 +188,7 @@ export {componentVariants, type ComponentVariants} from "./component.styles";
 2. **Import from `tailwind-variants`**, never from `@sy-inc/standard`.
 3. **Never use `twMerge` manually** — `tailwind-variants` already includes it.
 4. **Add `"use client"` directive** at the top of every component `.tsx` file.
-5. **Display names** follow: `SY UI.ComponentName` or `SY UI.Component.SubPart`.
+5. **Display names** follow: `SY INC.ComponentName` or `SY INC.Component.SubPart`.
 
 ### CSS / BEM Naming
 
@@ -282,7 +282,7 @@ Storybook is the primary dev workflow — run with `pnpm dev` (port 6006).
 
 ### Icon Library
 
-SY UI uses **Iconify** with **gravity-ui** as the default icon set.
+SY INC uses **Iconify** with **gravity-ui** as the default icon set.
 
 ## Current Components
 
@@ -302,7 +302,7 @@ calendar-year-picker
 
 3. **Native addons allowlist** — `onlyBuiltDependencies` in root `pnpm-workspace.yaml` allows native compilation for `esbuild`, `@swc/core`, `@parcel/watcher`, etc. If this list is missing, you'll see "Ignored build scripts" warnings.
 
-4. **Behavioral tests** — see [Behavioral tests](#behavioral-tests-sy-uireact) above. Harness lives in `@sy-inc/testing`; suites in `packages/react/tests/`.
+4. **Behavioral tests** — see [Behavioral tests](#behavioral-tests-sy-increact) above. Harness lives in `@sy-inc/testing`; suites in `packages/react/tests/`.
 
 5. **Commit hooks** — Husky runs `lint-staged` on pre-commit and `commitlint` on commit-msg. Non-conforming commits are rejected.
 

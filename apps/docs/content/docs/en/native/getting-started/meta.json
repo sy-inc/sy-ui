@@ -1,6 +1,6 @@
 {
   "title": "Getting Started",
-  "description": "Get started with SY UI Native",
+  "description": "Get started with SY INC Native",
   "root": true,
   "icon": "book-open",
   "pages": [
@@ -8,7 +8,7 @@
     "index",
     "(overview)/quick-start",
     "(overview)/design-principles",
-    "[route][Roadmap](https://sy-uinative.featurebase.app/roadmap)",
+    "[route][Roadmap](https://sy-incnative.featurebase.app/roadmap)",
     "---Handbook---",
     "(handbook)/provider",
     "(handbook)/portal",

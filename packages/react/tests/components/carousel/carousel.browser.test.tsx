@@ -1,7 +1,7 @@
 import {render} from "@sy-inc/testing/browser";
 import {page, userEvent} from "vitest/browser";
 
-import "../../../../styles/dist/sy-ui.min.css";
+import "../../../../styles/dist/sy-inc.min.css";
 
 import {Carousel} from "@/components/carousel";
 

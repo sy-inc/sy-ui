@@ -41,7 +41,7 @@ const content: Record<HomeLocale, HomeContent> = {
       themeBuilder: "在主题构建器中打开",
     },
     description:
-      "SY UI 是面向 Web 与移动端的现代 UI 库，助你快速迭代、保持一致，并打造令人愉悦的用户体验。",
+      "SY INC 是面向 Web 与移动端的现代 UI 库，助你快速迭代、保持一致，并打造令人愉悦的用户体验。",
     getStarted: "快速开始",
     githubStarsPrefix: "开源项目，已有",
     githubStarsSuffix: "颗星",
@@ -58,7 +58,7 @@ const content: Record<HomeLocale, HomeContent> = {
       roadmap: "路线图",
       themes: "主题",
     },
-    releaseBadge: "SY UI Native v1.0.5 — 补丁版本",
+    releaseBadge: "SY INC Native v1.0.5 — 补丁版本",
     title: (
       <>
         开箱即美。<span className="text-muted/70">设计上随心可定。</span>
@@ -72,7 +72,7 @@ const content: Record<HomeLocale, HomeContent> = {
       themeBuilder: "Open in theme builder",
     },
     description:
-      "SY UI is the modern UI library for web and mobile, built to help you move fast, stay consistent, and deliver delightful user experiences.",
+      "SY INC is the modern UI library for web and mobile, built to help you move fast, stay consistent, and deliver delightful user experiences.",
     getStarted: "Get started",
     githubStarsPrefix: "Open source with",
     githubStarsSuffix: "stars",
@@ -89,7 +89,7 @@ const content: Record<HomeLocale, HomeContent> = {
       roadmap: "Roadmap",
       themes: "Themes",
     },
-    releaseBadge: "SY UI Native v1.0.5 — patch release",
+    releaseBadge: "SY INC Native v1.0.5 — patch release",
     title: (
       <>
         Beautiful by default. <span className="text-muted/70">Customizable by design.</span>
@@ -161,7 +161,7 @@ export function getHomeLayoutLinks(lang: string): LinkItemType[] {
           external: true,
           icon: <Iconify icon="route" />,
           text: nav.roadmap,
-          url: "https://sy-ui.featurebase.app/roadmap",
+          url: "https://sy-inc.featurebase.app/roadmap",
         },
       ],
       on: "menu",
@@ -205,7 +205,7 @@ export function getHomeLayoutLinks(lang: string): LinkItemType[] {
     },
     {
       children: (
-        <ExternalLink href="https://sy-ui.featurebase.app/roadmap">{nav.roadmap}</ExternalLink>
+        <ExternalLink href="https://sy-inc.featurebase.app/roadmap">{nav.roadmap}</ExternalLink>
       ),
       on: "nav",
       type: "custom",

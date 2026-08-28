@@ -1,18 +1,18 @@
 ---
 title: Provider
-description: Configure SY UI Native provider with text, text input, animation, toast, and layout direction settings
+description: Configure SY INC Native provider with text, text input, animation, toast, and layout direction settings
 icon: chevrons-expand-horizontal
 ---
 
-The `SyUINativeProvider` is the root provider component that configures and initializes SY UI Native in your React Native application. It provides global configuration and portal management for your application.
+The `SyIncNativeProvider` is the root provider component that configures and initializes SY INC Native in your React Native application. It provides global configuration and portal management for your application.
 
 ## Overview
 
-The provider serves as the main entry point for SY UI Native, wrapping your application with essential contexts and configurations:
+The provider serves as the main entry point for SY INC Native, wrapping your application with essential contexts and configurations:
 
 - **Safe Area Insets**: Automatically handles safe area insets updates via `SafeAreaListener` and syncs them with Uniwind for use in Tailwind classes (e.g., `pb-safe-offset-3`)
-- **Text Configuration**: Global text component settings for consistency across all SY UI components
-- **Text Input Configuration**: Global text input settings for consistency across all SY UI input components
+- **Text Configuration**: Global text component settings for consistency across all SY INC components
+- **Text Input Configuration**: Global text input settings for consistency across all SY INC input components
 - **Animation Configuration**: Global animation control to disable all animations across the application
 - **Toast Configuration**: Global toast system configuration including insets, default props, and wrapper components
 - **Layout Direction**: Global right-to-left flag used by component logic that runs in JavaScript instead of styles
@@ -23,13 +23,13 @@ The provider serves as the main entry point for SY UI Native, wrapping your appl
 Wrap your application root with the provider:
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider>{/* Your app content */}</SyUINativeProvider>
+      <SyIncNativeProvider>{/* Your app content */}</SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -41,13 +41,13 @@ The provider accepts a `config` prop with the following options:
 
 ### Text Component Configuration
 
-Global settings for all Text components within SY UI Native. These props are carefully selected to include only those that make sense to configure globally across all Text components in the application:
+Global settings for all Text components within SY INC Native. These props are carefully selected to include only those that make sense to configure globally across all Text components in the application:
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     // Disable font scaling for accessibility
     allowFontScaling: false,
@@ -65,22 +65,22 @@ const config: SyUINativeConfig = {
 
 export default function App() {
   return (
-    <SyUINativeProvider config={config}>
+    <SyIncNativeProvider config={config}>
       {/* Your app content */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
 
 ### Text Input Component Configuration
 
-Global settings for all TextInput-based components within SY UI Native (e.g. Input, TextArea, SearchField, InputGroup, InputOTP). These props are carefully selected to include only those that make sense to configure globally across all inputs in the application:
+Global settings for all TextInput-based components within SY INC Native (e.g. Input, TextArea, SearchField, InputGroup, InputOTP). These props are carefully selected to include only those that make sense to configure globally across all inputs in the application:
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textInputProps: {
     // Respect Text Size accessibility settings
     allowFontScaling: false,
@@ -92,9 +92,9 @@ const config: SyUINativeConfig = {
 
 export default function App() {
   return (
-    <SyUINativeProvider config={config}>
+    <SyIncNativeProvider config={config}>
       {/* Your app content */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
@@ -108,7 +108,7 @@ export default function App() {
 Global animation configuration for the entire application:
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // Disable all animations across the application (cascades to all children)
   animation: 'disable-all',
 };
@@ -123,7 +123,7 @@ const config: SyUINativeConfig = {
 Control developer-facing informational messages displayed in the console:
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   devInfo: {
     // Disable styling principles information message
     stylingPrinciples: false,
@@ -142,7 +142,7 @@ Configure the global toast system including insets, default props, and wrapper c
 **Option 1: Disable Toast Provider**
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // Disable toast provider entirely
   toast: false,
   // or
@@ -159,7 +159,7 @@ const config: SyUINativeConfig = {
 ```tsx
 import { KeyboardAvoidingView } from 'react-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   toast: {
     // Global toast configuration (used as defaults for all toasts)
     defaultProps: {
@@ -193,12 +193,12 @@ const config: SyUINativeConfig = {
 
 ### Layout Direction Configuration
 
-Tell SY UI Native components which layout direction they render in:
+Tell SY INC Native components which layout direction they render in:
 
 ```tsx
 import { I18nManager } from 'react-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   isRTL: I18nManager.isRTL,
 };
 ```
@@ -231,12 +231,12 @@ To override the direction for a subtree, wrap it with `LayoutDirectionScope`, to
 Here's a comprehensive example showing all configuration options:
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 import { I18nManager } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // Global text configuration
   textProps: {
     minimumFontScale: 0.5,
@@ -281,9 +281,9 @@ const config: SyUINativeConfig = {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider config={config}>
+      <SyIncNativeProvider config={config}>
         <YourApp />
-      </SyUINativeProvider>
+      </SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -295,11 +295,11 @@ When using Expo Router, wrap your root layout:
 
 ```tsx
 // app/_layout.tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 import { Stack } from 'expo-router';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     minimumFontScale: 0.5,
     maxFontSizeMultiplier: 1.5,
@@ -308,9 +308,9 @@ const config: SyUINativeConfig = {
 
 export default function RootLayout() {
   return (
-    <SyUINativeProvider config={config}>
+    <SyIncNativeProvider config={config}>
       <Stack />
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
@@ -319,10 +319,10 @@ export default function RootLayout() {
 
 ### Provider Hierarchy
 
-The `SyUINativeProvider` internally composes multiple providers:
+The `SyIncNativeProvider` internally composes multiple providers:
 
 ```
-SyUINativeProvider
+SyIncNativeProvider
 ├── SafeAreaListener (handles safe area insets updates)
 │   └── LayoutDirectionProvider (layout direction configuration)
 │       └── GlobalAnimationSettingsProvider (animation configuration)
@@ -343,11 +343,11 @@ The provider automatically wraps your application with [`SafeAreaListener`](http
 
 ## Raw Provider
 
-`SyUINativeProviderRaw` is a lightweight variant of `SyUINativeProvider` designed for bundle optimization. It excludes `ToastProvider` and `PortalHost`, giving you a bare minimum starting point where you only install and add what you actually need. Its `SyUINativeConfigRaw` config accepts the same options as `SyUINativeConfig` except `toast`, so `textProps`, `textInputProps`, `animation`, `devInfo`, and `isRTL` all behave identically.
+`SyIncNativeProviderRaw` is a lightweight variant of `SyIncNativeProvider` designed for bundle optimization. It excludes `ToastProvider` and `PortalHost`, giving you a bare minimum starting point where you only install and add what you actually need. Its `SyIncNativeConfigRaw` config accepts the same options as `SyIncNativeConfig` except `toast`, so `textProps`, `textInputProps`, `animation`, `devInfo`, and `isRTL` all behave identically.
 
 ### When to Use
 
-Use `SyUINativeProviderRaw` when you want full control over which dependencies are included in your bundle. With the raw provider imported from `sy-ui-native/provider-raw`, the following dependencies are optional and only required if you use the corresponding components:
+Use `SyIncNativeProviderRaw` when you want full control over which dependencies are included in your bundle. With the raw provider imported from `sy-inc-native/provider-raw`, the following dependencies are optional and only required if you use the corresponding components:
 
 - **react-native-screens** -- required for overlay components (Popover, Dialog)
 - **@gorhom/bottom-sheet** -- required for BottomSheet component
@@ -357,12 +357,12 @@ Use `SyUINativeProviderRaw` when you want full control over which dependencies a
 
 ```tsx
 import {
-  SyUINativeProviderRaw,
-  type SyUINativeConfigRaw,
-} from 'sy-ui-native/provider-raw';
+  SyIncNativeProviderRaw,
+  type SyIncNativeConfigRaw,
+} from 'sy-inc-native/provider-raw';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const config: SyUINativeConfigRaw = {
+const config: SyIncNativeConfigRaw = {
   textProps: {
     maxFontSizeMultiplier: 1.5,
   },
@@ -371,9 +371,9 @@ const config: SyUINativeConfigRaw = {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProviderRaw config={config}>
+      <SyIncNativeProviderRaw config={config}>
         {/* Your app content */}
-      </SyUINativeProviderRaw>
+      </SyIncNativeProviderRaw>
     </GestureHandlerRootView>
   );
 }
@@ -384,19 +384,19 @@ export default function App() {
 If you need toast or portal functionality with the raw provider, add them yourself:
 
 ```tsx
-import { SyUINativeProviderRaw } from 'sy-ui-native/provider-raw';
-import { PortalHost } from 'sy-ui-native/portal';
-import { ToastProvider } from 'sy-ui-native/toast';
+import { SyIncNativeProviderRaw } from 'sy-inc-native/provider-raw';
+import { PortalHost } from 'sy-inc-native/portal';
+import { ToastProvider } from 'sy-inc-native/toast';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProviderRaw>
+      <SyIncNativeProviderRaw>
         <ToastProvider>
           {/* Your app content */}
           <PortalHost />
         </ToastProvider>
-      </SyUINativeProviderRaw>
+      </SyIncNativeProviderRaw>
     </GestureHandlerRootView>
   );
 }
@@ -405,7 +405,7 @@ export default function App() {
 ### Provider Hierarchy
 
 ```
-SyUINativeProviderRaw
+SyIncNativeProviderRaw
 ├── SafeAreaListener (handles safe area insets updates)
 │   └── LayoutDirectionProvider (layout direction configuration)
 │       └── GlobalAnimationSettingsProvider (animation configuration)
@@ -418,24 +418,24 @@ SyUINativeProviderRaw
 
 ### 1. Single Provider Instance
 
-Always use a single `SyUINativeProvider` at the root of your app. Don't nest multiple providers:
+Always use a single `SyIncNativeProvider` at the root of your app. Don't nest multiple providers:
 
 ```tsx
 // ❌ Bad
-<SyUINativeProvider>
+<SyIncNativeProvider>
   <SomeComponent>
-    <SyUINativeProvider> {/* Don't do this */}
+    <SyIncNativeProvider> {/* Don't do this */}
       <AnotherComponent />
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   </SomeComponent>
-</SyUINativeProvider>
+</SyIncNativeProvider>
 
 // ✅ Good
-<SyUINativeProvider>
+<SyIncNativeProvider>
   <SomeComponent>
     <AnotherComponent />
   </SomeComponent>
-</SyUINativeProvider>
+</SyIncNativeProvider>
 ```
 
 ### 2. Configuration Object
@@ -446,7 +446,7 @@ Define your configuration outside the component to prevent recreating on each re
 // ❌ Bad
 function App() {
   return (
-    <SyUINativeProvider
+    <SyIncNativeProvider
       config={{
         textProps: {
           /* inline config */
@@ -454,12 +454,12 @@ function App() {
       }}
     >
       {/* ... */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 
 // ✅ Good
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     maxFontSizeMultiplier: 1.5,
   },
@@ -467,7 +467,7 @@ const config: SyUINativeConfig = {
 
 function App() {
   return (
-    <SyUINativeProvider config={config}>{/* ... */}</SyUINativeProvider>
+    <SyIncNativeProvider config={config}>{/* ... */}</SyIncNativeProvider>
   );
 }
 ```
@@ -477,7 +477,7 @@ function App() {
 Consider accessibility when configuring text props:
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     // Allow font scaling for accessibility
     allowFontScaling: true,
@@ -492,9 +492,9 @@ const config: SyUINativeConfig = {
 The provider is fully typed. Import types for better IDE support:
 
 ```tsx
-import { SyUINativeProvider, type SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider, type SyIncNativeConfig } from 'sy-inc-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // Full type safety and autocomplete
   textProps: {
     allowFontScaling: true,

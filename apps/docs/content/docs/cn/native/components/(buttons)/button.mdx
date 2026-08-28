@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/button-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/button-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/button-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/button-docs-dark.mp4"
 />
 
 ## 导入
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 ```
 
 ## 结构
@@ -212,7 +212,7 @@ const themeColorAccentForeground = useThemeColor('accent-foreground');
 通过绝对定位元素添加渐变背景。使用 `feedbackVariant="none"` 关闭默认高亮遮罩，或使用 `feedbackVariant="scale-ripple"` 自定义水波纹。
 
 ```tsx
-import { Button, PressableFeedback } from 'sy-ui-native';
+import { Button, PressableFeedback } from 'sy-inc-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
 
@@ -252,7 +252,7 @@ import { StyleSheet } from 'react-native';
 ## 示例
 
 ```tsx
-import { Button, useThemeColor } from 'sy-ui-native';
+import { Button, useThemeColor } from 'sy-inc-native';
 import { Ionicons } from '@expo/vector-icons';
 import { View } from 'react-native';
 
@@ -310,7 +310,7 @@ export default function ButtonExample() {
 }
 ```
 
-更多示例见 [GitHub 仓库](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/button.tsx>)。
+更多示例见 [GitHub 仓库](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/button.tsx>)。
 
 ## API 参考
 
@@ -392,7 +392,7 @@ export default function ButtonExample() {
 用于读取 Button 上下文，返回尺寸、变体与禁用状态。
 
 ```tsx
-import { useButton } from 'sy-ui-native';
+import { useButton } from 'sy-inc-native';
 
 const { size, variant, isDisabled } = useButton();
 ```

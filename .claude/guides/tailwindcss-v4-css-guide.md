@@ -1,6 +1,6 @@
 # Tailwind CSS v4 Component CSS Writing Guide
 
-This guide explains how to write CSS files for components using Tailwind CSS v4 syntax, based on the patterns used in SY UI v3 components.
+This guide explains how to write CSS files for components using Tailwind CSS v4 syntax, based on the patterns used in SY INC v3 components.
 
 ## Table of Contents
 

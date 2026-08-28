@@ -8,12 +8,12 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "author": "SY UI <support@sy-ui.com>",
-  "homepage": "https://sy-ui.com",
+  "author": "SY INC <support@sy-inc.com>",
+  "homepage": "https://sy-inc.com",
   "keywords": [
     "next",
     "next ui",
-    "sy ui",
+    "sy inc",
     "components",
     "modern components",
     "react components",
@@ -37,11 +37,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sy-ui/sy-ui.git",
+    "url": "https://github.com/sy-inc/sy-inc.git",
     "directory": "packages/react"
   },
   "bugs": {
-    "url": "https://github.com/sy-ui/sy-ui/issues"
+    "url": "https://github.com/sy-inc/sy-inc/issues"
   },
   "scripts": {
     "dev": "rollup -c rollup.config.mjs --watch",

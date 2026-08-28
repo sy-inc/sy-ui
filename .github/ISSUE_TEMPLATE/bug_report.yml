@@ -8,25 +8,25 @@ body:
       value: |
         Thank you for reporting an issue :pray:.
 
-        This issue tracker is for reporting bugs found in [SY UI github repository](https://github.com/sy-ui/sy-ui/)
+        This issue tracker is for reporting bugs found in [SY INC github repository](https://github.com/sy-inc/sy-inc/)
         If you have a question about how to achieve something and are struggling, please post a question
         inside of either of the following places:
-          - SY UI's [Discussion's tab](https://github.com/sy-ui/sy-ui/discussions)
-          - SY UI's [Discord channel](https://discord.gg/9b6yyZKmH4)
+          - SY INC's [Discussion's tab](https://github.com/sy-inc/sy-inc/discussions)
+          - SY INC's [Discord channel](https://discord.gg/9b6yyZKmH4)
 
 
         Before submitting a new bug/issue, please check the links below to see if there is a solution or question posted there already:
-         - SY UI's [Issue's tab](https://github.com/sy-ui/sy-ui/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc)
-         - SY UI's [closed issues tab](https://github.com/sy-ui/sy-ui/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed)
-         - SY UI's [Discussions tab](https://github.com/sy-ui/sy-ui/discussions)
+         - SY INC's [Issue's tab](https://github.com/sy-inc/sy-inc/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc)
+         - SY INC's [closed issues tab](https://github.com/sy-inc/sy-inc/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed)
+         - SY INC's [Discussions tab](https://github.com/sy-inc/sy-inc/discussions)
 
         The more information you fill in, the better the community can help you.
   - type: input
     id: version
     attributes:
-      label: SY UI Version
+      label: SY INC Version
       description: |
-        Please provide the version of SY UI you are using (e.g. 3.0.5). Do NOT just put "latest" or "latest version".
+        Please provide the version of SY INC you are using (e.g. 3.0.5). Do NOT just put "latest" or "latest version".
       placeholder: ex. 3.0.5
     validations:
       required: true
@@ -37,11 +37,11 @@ body:
       description: |
         Provide a clear and concise description of the challenge you are running into.
       placeholder: |
-        This issue page is ONLY for SY UI's core library. If you are facing an issue with a specific product, please refer to the following links:
-        - SY UI Pro: Report in SY UI Pro Discord Channel or Contact Support in Pro Dashboard
-        - SY UI CLI: Report in https://github.com/sy-ui/sy-ui-cli/issues
-        - SY UI Native: Report in https://github.com/sy-ui/sy-ui-native/issues
-        - Tailwind Variants: Report in https://github.com/sy-ui/tailwind-variants/issues
+        This issue page is ONLY for SY INC's core library. If you are facing an issue with a specific product, please refer to the following links:
+        - SY INC Pro: Report in SY INC Pro Discord Channel or Contact Support in Pro Dashboard
+        - SY INC CLI: Report in https://github.com/sy-inc/sy-inc-cli/issues
+        - SY INC Native: Report in https://github.com/sy-inc/sy-inc-native/issues
+        - Tailwind Variants: Report in https://github.com/sy-inc/tailwind-variants/issues
     validations:
       required: true
   - type: input

@@ -13,7 +13,7 @@ export function Basic() {
     <div className="w-full max-w-md">
       <div className="flex flex-col gap-4 bg-transparent p-4">
         <DisclosureGroup expandedKeys={expandedKeys} onExpandedChange={setExpandedKeys}>
-          <Disclosure aria-label="预览 SY UI Native" id="preview">
+          <Disclosure aria-label="预览 SY INC Native" id="preview">
             <Disclosure.Heading>
               <Button
                 slot="trigger"
@@ -24,7 +24,7 @@ export function Basic() {
               >
                 <div className="flex w-full items-center justify-start gap-2">
                   <QrCode />
-                  预览 SY UI Native
+                  预览 SY INC Native
                 </div>
                 <Disclosure.Indicator className="text-muted" />
               </Button>
@@ -32,12 +32,12 @@ export function Basic() {
             <Disclosure.Content>
               <Disclosure.Body className="mx-2 flex flex-col items-center gap-2 p-4 text-center">
                 <p className="text-sm text-muted">
-                  使用手机相机扫描此二维码，即可预览 SY UI Native 组件。
+                  使用手机相机扫描此二维码，即可预览 SY INC Native 组件。
                 </p>
                 <img
                   alt="Expo Go 二维码"
                   className="aspect-square w-full max-w-54 object-cover"
-                  src="https://assets.sy-ui.com/images/qr-code-native.png"
+                  src="https://assets.sy-inc.com/images/qr-code-native.png"
                 />
                 <p className="text-sm text-muted">设备需已安装 Expo。</p>
                 <Button className="mt-4" variant="primary">
@@ -49,7 +49,7 @@ export function Basic() {
           </Disclosure>
           <Separator className="my-2" />
           <Disclosure id="download">
-            <Disclosure.Heading aria-label="下载 SY UI Native">
+            <Disclosure.Heading aria-label="下载 SY INC Native">
               <Button
                 slot="trigger"
                 variant={expandedKeys.has("download") ? "secondary" : "tertiary"}
@@ -67,12 +67,12 @@ export function Basic() {
             <Disclosure.Content>
               <Disclosure.Body className="mx-2 flex flex-col items-center gap-2 p-4 text-center">
                 <p className="text-sm text-muted">
-                  下载 SY UI Native 应用，即可在设备上直接体验我们的移动端组件。
+                  下载 SY INC Native 应用，即可在设备上直接体验我们的移动端组件。
                 </p>
                 <img
                   alt="App Store 二维码"
                   className="aspect-square w-full max-w-54 object-cover"
-                  src="https://assets.sy-ui.com/images/qr-code-native.png"
+                  src="https://assets.sy-inc.com/images/qr-code-native.png"
                 />
                 <p className="text-sm text-muted">支持 iOS 和 Android 设备。</p>
                 <Button className="mt-4" variant="primary">

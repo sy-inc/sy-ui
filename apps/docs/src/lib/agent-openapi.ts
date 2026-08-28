@@ -37,10 +37,10 @@ const errorResponse = {
 export function agentApiDocument(origin: string): OpenAPIDocument {
   return {
     ...baseDocument(
-      "SY UI Docs Agent API",
+      "SY INC Docs Agent API",
       AGENT_API_VERSION,
       getAgentServiceBaseUrl(origin),
-      "Public, read-only endpoints for searching SY UI documentation and retrieving markdown page content. No authentication or OAuth scopes are required.",
+      "Public, read-only endpoints for searching SY INC documentation and retrieving markdown page content. No authentication or OAuth scopes are required.",
     ),
     components: {
       schemas: {
@@ -69,7 +69,7 @@ export function agentApiDocument(origin: string): OpenAPIDocument {
         HealthResponse: {
           additionalProperties: false,
           properties: {
-            service: {const: "sy-ui-docs-agent-api", type: "string"},
+            service: {const: "sy-inc-docs-agent-api", type: "string"},
             status: {const: "ok", type: "string"},
             version: {type: "string"},
           },
@@ -107,7 +107,7 @@ export function agentApiDocument(origin: string): OpenAPIDocument {
       "/health": {
         get: {
           description:
-            "Returns the current status and version of the public SY UI Docs Agent API.",
+            "Returns the current status and version of the public SY INC Docs Agent API.",
           operationId: "getAgentApiHealth",
           responses: {
             "200": {
@@ -119,17 +119,17 @@ export function agentApiDocument(origin: string): OpenAPIDocument {
               description: "The agent API is available.",
             },
           },
-          summary: "Check SY UI agent API health",
+          summary: "Check SY INC agent API health",
         },
       },
       "/page": {
         get: {
           description:
-            "Retrieves one public SY UI documentation page, including its metadata and markdown body.",
-          operationId: "getSyUIDocPageMarkdown",
+            "Retrieves one public SY INC documentation page, including its metadata and markdown body.",
+          operationId: "getSyIncDocPageMarkdown",
           parameters: [
             {
-              description: "SY UI docs page URL, for example /docs/react/components/button.",
+              description: "SY INC docs page URL, for example /docs/react/components/button.",
               in: "query",
               name: "url",
               required: true,
@@ -148,24 +148,24 @@ export function agentApiDocument(origin: string): OpenAPIDocument {
             "400": errorResponse,
             "404": errorResponse,
           },
-          summary: "Retrieve SY UI documentation as markdown",
+          summary: "Retrieve SY INC documentation as markdown",
         },
       },
       "/search": {
         get: {
           description:
-            "Searches public SY UI documentation titles, descriptions, URLs, and slugs, optionally restricted to React or React Native.",
-          operationId: "searchSyUIDocs",
+            "Searches public SY INC documentation titles, descriptions, URLs, and slugs, optionally restricted to React or React Native.",
+          operationId: "searchSyIncDocs",
           parameters: [
             {
-              description: "Case-insensitive text to find in SY UI documentation.",
+              description: "Case-insensitive text to find in SY INC documentation.",
               in: "query",
               name: "q",
               required: true,
               schema: {minLength: 1, type: "string"},
             },
             {
-              description: "Limit results to one SY UI platform or search all documentation.",
+              description: "Limit results to one SY INC platform or search all documentation.",
               in: "query",
               name: "platform",
               schema: {default: "all", enum: ["all", "react", "native"], type: "string"},
@@ -184,11 +184,11 @@ export function agentApiDocument(origin: string): OpenAPIDocument {
                   schema: {$ref: "#/components/schemas/SearchResponse"},
                 },
               },
-              description: "Matching SY UI documentation pages.",
+              description: "Matching SY INC documentation pages.",
             },
             "400": errorResponse,
           },
-          summary: "Search SY UI documentation",
+          summary: "Search SY INC documentation",
         },
       },
     },
@@ -198,12 +198,12 @@ export function agentApiDocument(origin: string): OpenAPIDocument {
 function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
   const isReact = kind === "react";
   const serverUrl = isReact ? REACT_MCP_API_URL : NATIVE_MCP_API_URL;
-  const title = isReact ? "SY UI React MCP Data API" : "SY UI Native MCP Data API";
+  const title = isReact ? "SY INC React MCP Data API" : "SY INC Native MCP Data API";
   const componentSourcePaths = isReact
     ? {
         "/v1/components/source": {
           post: {
-            description: "Returns TypeScript source for requested SY UI React components.",
+            description: "Returns TypeScript source for requested SY INC React components.",
             operationId: "getComponentSource",
             requestBody: {
               content: {
@@ -223,7 +223,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
         },
         "/v1/components/styles": {
           post: {
-            description: "Returns CSS source for requested SY UI React components.",
+            description: "Returns CSS source for requested SY INC React components.",
             operationId: "getComponentStyles",
             requestBody: {
               content: {
@@ -249,12 +249,12 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
       title,
       "1.1.0",
       serverUrl,
-      `Public, read-only data API used by the ${isReact ? "@sy-inc/react-mcp" : "@sy-ui/native-mcp"} package and SY UI agent skills.`,
+      `Public, read-only data API used by the ${isReact ? "@sy-inc/react-mcp" : "@sy-inc/native-mcp"} package and SY INC agent skills.`,
     ),
     paths: {
       "/health": {
         get: {
-          description: "Returns the current availability of the SY UI MCP data API.",
+          description: "Returns the current availability of the SY INC MCP data API.",
           operationId: "getHealth",
           responses: {"200": {description: "Health status."}},
           summary: "Check API health",
@@ -262,7 +262,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
       },
       "/v1/components": {
         get: {
-          description: "Lists the component names available for this SY UI platform.",
+          description: "Lists the component names available for this SY INC platform.",
           operationId: "listComponents",
           responses: {"200": {description: "Available components."}},
           summary: "List available components",
@@ -270,7 +270,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
       },
       "/v1/components/docs": {
         post: {
-          description: "Returns documentation for requested SY UI components.",
+          description: "Returns documentation for requested SY INC components.",
           operationId: "getComponentDocs",
           requestBody: {
             content: {
@@ -291,7 +291,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
       ...componentSourcePaths,
       "/v1/docs/{path}": {
         get: {
-          description: "Returns a SY UI documentation resource by its canonical path.",
+          description: "Returns a SY INC documentation resource by its canonical path.",
           operationId: "getDocs",
           parameters: [
             {
@@ -308,7 +308,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
       },
       "/v1/themes/variables": {
         get: {
-          description: "Returns the design tokens for a named SY UI theme.",
+          description: "Returns the design tokens for a named SY INC theme.",
           operationId: "getThemeVariables",
           parameters: [
             {
@@ -327,7 +327,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
 }
 
 export const OPENAPI_BUILDERS: Record<string, (origin: string) => OpenAPIDocument> = {
-  "sy-ui-agent-api.json": agentApiDocument,
-  "sy-ui-native-mcp-api.json": () => mcpApiDocument("native"),
-  "sy-ui-react-mcp-api.json": () => mcpApiDocument("react"),
+  "sy-inc-agent-api.json": agentApiDocument,
+  "sy-inc-native-mcp-api.json": () => mcpApiDocument("native"),
+  "sy-inc-react-mcp-api.json": () => mcpApiDocument("react"),
 };

@@ -1,10 +1,10 @@
 ---
 title: 设计原则
-description: 指导 SY UI v3 设计和开发的核心原则
+description: 指导 SY INC v3 设计和开发的核心原则
 icon: book
 ---
 
-SY UI v3 遵循 10 项核心原则，注重清晰度、无障碍、可定制性以及开发者体验。
+SY INC v3 遵循 10 项核心原则，注重清晰度、无障碍、可定制性以及开发者体验。
 
 ## 核心原则
 
@@ -13,8 +13,8 @@ SY UI v3 遵循 10 项核心原则，注重清晰度、无障碍、可定制性�
 使用语义命名（primary、secondary、tertiary），而非视觉描述（solid、flat、bordered）。灵感来自 [Uber 的 Base 设计系统](https://base.uber.com/6d2425e9f/p/756216-button)，变体遵循清晰的层次结构：
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/emphasis.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/emphasis-dark.jpg"
+  src="https://assets.sy-inc.com/docs/emphasis.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/emphasis-dark.jpg"
   alt="语义意图层次结构"
   className="object-contain"
 />
@@ -220,7 +220,7 @@ const slots = linkVariants({ underline: "hover" });
 ```tsx
 import Link from 'next/link';
 
-// Apply SY UI's BEM classes directly to any element
+// Apply SY INC's BEM classes directly to any element
 <Link className="button button--primary" href="/dashboard">
   Dashboard
 </Link>
@@ -277,9 +277,9 @@ function CustomButton({ variant, className, ...props }) {
 <CustomButton variant="secondary-cta">Learn More</CustomButton>
 ```
 
-## 与 SY UI v2 的对比
+## 与 SY INC v2 的对比
 
-| 维度 | SY UI v2 | SY UI v3 |
+| 维度 | SY INC v2 | SY INC v3 |
 |--------|-----------|-----------|
 | **动画** | Framer Motion | CSS + GPU 加速 |
 | **组件模式** | 带有大量 props 的单一组件 | 复合组件 |

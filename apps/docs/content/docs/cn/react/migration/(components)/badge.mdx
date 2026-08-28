@@ -1,10 +1,10 @@
 ---
 title: Badge
-description: Badge 从 SY UI v2 到 v3 的迁移指南。
+description: Badge 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Badge 文档](/docs/react/components/badge)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Badge 文档](/docs/react/components/badge)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -45,17 +45,17 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单一 `Badge` 组件包裹子节点，通过 `content` prop 设置徽章文本  
+**v2：** 单一 `Badge` 组件包裹子节点，通过 `content` prop 设置徽章文本
 **v3：** 复合组件：`Badge.Anchor`（定位包装器）、`Badge`（徽章本身）、`Badge.Label`（文本插槽，字符串子节点会自动包裹）
 
 ### 2. 变体
 
-**v2：** `solid`、`flat`、`faded`、`shadow`  
+**v2：** `solid`、`flat`、`faded`、`shadow`
 **v3：** `primary`、`secondary`、`soft`
 
 ### 3. 颜色
 
-**v2：** `default`、`primary`、`secondary`、`success`、`warning`、`danger`  
+**v2：** `default`、`primary`、`secondary`、`success`、`warning`、`danger`
 **v3：** `default`、`accent`、`success`、`warning`、`danger`
 
 ### 4. Prop 变更

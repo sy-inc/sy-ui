@@ -1,17 +1,17 @@
 ---
 title: 样式
-description: 使用 Tailwind 或 StyleSheet API 为 SY UI Native 组件编写样式
+description: 使用 Tailwind 或 StyleSheet API 为 SY INC Native 组件编写样式
 icon: brush
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI Native 提供灵活的样式方案：Tailwind CSS 工具类、StyleSheet API，以及用于动态样式的 render props。
+SY INC Native 提供灵活的样式方案：Tailwind CSS 工具类、StyleSheet API，以及用于动态样式的 render props。
 
 ## 样式原则
 
-SY UI Native 以 `className` 作为主要样式入口，所有组件均可通过 `className` 使用 Tailwind 类。
+SY INC Native 以 `className` 作为主要样式入口，所有组件均可通过 `className` 使用 Tailwind 类。
 
 **StyleSheet 优先级：** 同时传入 `style`（StyleSheet）与 `className` 时，`style` 优先级更高，可在需要时覆盖 Tailwind。
 
@@ -24,10 +24,10 @@ SY UI Native 以 `className` 作为主要样式入口，所有组件均可通过
 
 ## 基础样式
 
-**使用 className：** 所有 SY UI Native 组件都支持 `className`：
+**使用 className：** 所有 SY INC Native 组件都支持 `className`：
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 
 <Button className="bg-accent px-6 py-3 rounded-lg">
   <Button.Label>Custom Button</Button.Label>
@@ -37,7 +37,7 @@ import { Button } from 'sy-ui-native';
 **使用 style：** 也可通过 `style` 传入内联样式：
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 
 <Button style={{ backgroundColor: '#8B5CF6', paddingHorizontal: 24 }}>
   <Button.Label>Styled Button</Button.Label>
@@ -49,7 +49,7 @@ import { Button } from 'sy-ui-native';
 使用渲染函数读取组件状态并动态定制内容：
 
 ```tsx
-import { RadioGroup, Label, cn } from 'sy-ui-native';
+import { RadioGroup, Label, cn } from 'sy-inc-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
   <RadioGroup.Item value="option1">
@@ -82,8 +82,8 @@ import { RadioGroup, Label, cn } from 'sy-ui-native';
 结合 [tailwind-variants](https://tailwind-variants.org/)（Tailwind 优先的变体 API）封装自定义组件：
 
 ```tsx
-import { Button } from 'sy-ui-native';
-import type { ButtonRootProps } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 const customButtonVariants = tv({
@@ -147,12 +147,12 @@ export function CustomButton({
 
 ## 使用组件自带的 classNames
 
-每个 SY UI Native 组件都会导出与内部一致的 `classNames` 工具对象，便于让自定义组件在视觉上与库内组件保持一致。
+每个 SY INC Native 组件都会导出与内部一致的 `classNames` 工具对象，便于让自定义组件在视觉上与库内组件保持一致。
 
 例如，让自定义 `Link` 看起来像 `Button`：
 
 ```tsx
-import { buttonClassNames, cn } from 'sy-ui-native';
+import { buttonClassNames, cn } from 'sy-inc-native';
 import { Pressable, Text } from 'react-native';
 
 interface LinkProps {
@@ -200,7 +200,7 @@ export function Link({
 **典型用法：**
 
 ```tsx
-import { buttonClassNames } from 'sy-ui-native';
+import { buttonClassNames } from 'sy-inc-native';
 
 // Use with variant and size options
 const rootClasses = buttonClassNames.root({
@@ -215,18 +215,18 @@ const labelClasses = buttonClassNames.label({
 });
 ```
 
-`classNames` 函数的变体参数与对应组件一致，便于在自定义组件与 SY UI 组件之间保持视觉一致。
+`classNames` 函数的变体参数与对应组件一致，便于在自定义组件与 SY INC 组件之间保持视觉一致。
 
 ## 响应式设计
 
-SY UI Native 通过 [Uniwind](https://docs.uniwind.dev/breakpoints) 支持 Tailwind 的响应式断点前缀，如 `sm:`、`md:`、`lg:`、`xl:`，按屏幕宽度条件应用样式。
+SY INC Native 通过 [Uniwind](https://docs.uniwind.dev/breakpoints) 支持 Tailwind 的响应式断点前缀，如 `sm:`、`md:`、`lg:`、`xl:`，按屏幕宽度条件应用样式。
 
 **移动优先：** 先写无前缀的小屏样式，再用断点为大屏增强。
 
 ### 响应式排版与间距
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 import { View, Text } from 'react-native';
 
 <View className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -268,14 +268,14 @@ import { View, Text } from 'react-native';
 
 ## 工具函数
 
-SY UI Native 提供一些样式相关的工具。
+SY INC Native 提供一些样式相关的工具。
 
 ### cn
 
 `cn` 用于合并 Tailwind 类并处理冲突，适合条件类或与 props 传入的类合并：
 
 ```tsx
-import { cn } from 'sy-ui-native';
+import { cn } from 'sy-inc-native';
 import { View } from 'react-native';
 
 function MyComponent({ className, isActive }) {
@@ -313,7 +313,7 @@ cn('bg-background p-4', 'bg-accent');
 **单色：**
 
 ```tsx
-import { useThemeColor } from 'sy-ui-native';
+import { useThemeColor } from 'sy-inc-native';
 
 function MyComponent() {
   const accentColor = useThemeColor('accent');
@@ -330,7 +330,7 @@ function MyComponent() {
 **多色（推荐在需要多个 token 时使用）：**
 
 ```tsx
-import { useThemeColor } from 'sy-ui-native';
+import { useThemeColor } from 'sy-inc-native';
 
 function MyComponent() {
   const [accentColor, backgroundColor, dangerColor] = useThemeColor([

@@ -94,7 +94,7 @@ const DateRangePickerRoot = <T extends DateValue>({
   );
 };
 
-DateRangePickerRoot.displayName = "SY UI.DateRangePicker";
+DateRangePickerRoot.displayName = "SY INC.DateRangePicker";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Trigger
@@ -129,7 +129,7 @@ const DateRangePickerTrigger = ({
   );
 };
 
-DateRangePickerTrigger.displayName = "SY UI.DateRangePicker.Trigger";
+DateRangePickerTrigger.displayName = "SY INC.DateRangePicker.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Trigger Indicator
@@ -161,7 +161,7 @@ const DateRangePickerTriggerIndicator = <E extends keyof React.JSX.IntrinsicElem
   );
 };
 
-DateRangePickerTriggerIndicator.displayName = "SY UI.DateRangePicker.TriggerIndicator";
+DateRangePickerTriggerIndicator.displayName = "SY INC.DateRangePicker.TriggerIndicator";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Range Separator
@@ -193,7 +193,7 @@ const DateRangePickerRangeSeparator = <E extends keyof React.JSX.IntrinsicElemen
   );
 };
 
-DateRangePickerRangeSeparator.displayName = "SY UI.DateRangePicker.RangeSeparator";
+DateRangePickerRangeSeparator.displayName = "SY INC.DateRangePicker.RangeSeparator";
 
 /* -------------------------------------------------------------------------------------------------
  * DateRangePicker Popover
@@ -231,7 +231,7 @@ const DateRangePickerPopover = ({
   );
 };
 
-DateRangePickerPopover.displayName = "SY UI.DateRangePicker.Popover";
+DateRangePickerPopover.displayName = "SY INC.DateRangePicker.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

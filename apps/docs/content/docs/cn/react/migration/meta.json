@@ -1,6 +1,6 @@
 {
   "title": "迁移",
-  "description": "将 SY UI v2 应用迁移到 v3 的完整指南",
+  "description": "将 SY INC v2 应用迁移到 v3 的完整指南",
   "root": true,
   "icon": "code-pull-request-arrow-right",
   "pages": [

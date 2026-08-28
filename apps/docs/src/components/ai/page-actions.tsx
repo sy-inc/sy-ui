@@ -65,14 +65,14 @@ export function ViewOptions({markdownUrl}: {markdownUrl: string}) {
       },
       {
         description: dict.items.cursor.description,
-        href: "cursor://anysphere.cursor-deeplink/mcp/install?name=sy-ui-react&config=eyJjb21tYW5kIjoibnB4IC15IEBoZXJvdWkvcmVhY3QtbWNwQGxhdGVzdCJ9",
+        href: "cursor://anysphere.cursor-deeplink/mcp/install?name=sy-inc-react&config=eyJjb21tYW5kIjoibnB4IC15IEBoZXJvdWkvcmVhY3QtbWNwQGxhdGVzdCJ9",
         icon: <CursorIcon size={18} />,
         key: "cursor",
         title: dict.items.cursor.title,
       },
       {
         description: dict.items.vscode.description,
-        href: "vscode:mcp/install?%7B%22name%22%3A%22sy-ui-react%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40sy-ui%2Freact-mcp%40latest%22%5D%7D",
+        href: "vscode:mcp/install?%7B%22name%22%3A%22sy-inc-react%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40sy-inc%2Freact-mcp%40latest%22%5D%7D",
         icon: <VSCodeIcon size={18} />,
         key: "vscode",
         title: dict.items.vscode.title,

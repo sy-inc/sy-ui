@@ -1,10 +1,10 @@
 ---
 title: Alert
-description: Migration guide for Alert from SY UI v2 to v3
+description: Migration guide for Alert from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Alert documentation](/docs/react/components/alert) for complete API reference, styling guide, and advanced examples.  This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Alert documentation](/docs/react/components/alert) for complete API reference, styling guide, and advanced examples.  This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -16,7 +16,7 @@ import { Alert } from "@sy-inc/react";
 
 export default function App() {
   return (
-    <Alert 
+    <Alert
       title="This is an alert"
       description="Thanks for subscribing to our newsletter!"
     />
@@ -48,7 +48,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Single `Alert` component with props  
+**v2:** Single `Alert` component with props
 **v3:** Compound components: `Alert`, `Alert.Indicator`, `Alert.Content`, `Alert.Title`, `Alert.Description`
 
 ### 2. Color/Status Props
@@ -64,7 +64,7 @@ export default function App() {
 
 ### 3. Variants Removed
 
-**v2 Variants:** `solid`, `bordered`, `flat`, `faded`  
+**v2 Variants:** `solid`, `bordered`, `flat`, `faded`
 **v3:** No variant prop - use Tailwind CSS classes to achieve similar effects
 
 To achieve v2 variant styles in v3:
@@ -91,7 +91,7 @@ To achieve v2 variant styles in v3:
 
 ### 5. Icon Handling
 
-**v2:** Used `icon` prop or `hideIcon` prop  
+**v2:** Used `icon` prop or `hideIcon` prop
 **v3:** Use `<Alert.Indicator />` with custom children or omit it entirely
 
 ## Migration Examples
@@ -104,11 +104,11 @@ To achieve v2 variant styles in v3:
     import { Icon } from '@iconify/react';
 
     {/* With custom icon */}
-    <Alert 
+    <Alert
       icon={<Icon icon="gravity-ui:box" />}
       title="Custom Icon Alert"
     />
-    
+
     {/* Without icon */}
     <Alert hideIcon title="No Icon Alert" />
     ```
@@ -126,7 +126,7 @@ To achieve v2 variant styles in v3:
         <Alert.Title>Custom Icon Alert</Alert.Title>
       </Alert.Content>
     </Alert>
-    
+
     {/* Without icon */}
     <Alert>
       <Alert.Content>
@@ -200,7 +200,7 @@ To achieve v2 variant styles in v3:
         <Alert.Content>
           <Alert.Title>Closable Alert</Alert.Title>
         </Alert.Content>
-        <CloseButton 
+        <CloseButton
           aria-label="Close"
           onPress={() => setIsVisible(false)}
         />
@@ -215,7 +215,7 @@ To achieve v2 variant styles in v3:
 ### v2: `classNames` Prop
 
 ```tsx
-<Alert 
+<Alert
   classNames={{
     base: "custom-base",
     title: "custom-title",

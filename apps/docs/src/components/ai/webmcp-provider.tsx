@@ -62,7 +62,7 @@ async function fetchJson(path: string): Promise<unknown> {
     const message =
       typeof data === "object" && data !== null && "error" in data && typeof data.error === "string"
         ? data.error
-        : "SY UI WebMCP request failed";
+        : "SY INC WebMCP request failed";
 
     throw new Error(message);
   }
@@ -92,7 +92,7 @@ function resolveSameOriginPath(value: string): string | null {
 const tools: WebMCPTool[] = [
   {
     description:
-      "Search SY UI React and Native documentation. Use this when an agent needs relevant SY UI docs pages by keyword.",
+      "Search SY INC React and Native documentation. Use this when an agent needs relevant SY INC docs pages by keyword.",
     execute(input) {
       const query = getString(input, "query").trim();
       const platform = getPlatform(input);
@@ -116,10 +116,10 @@ const tools: WebMCPTool[] = [
       required: ["query"],
       type: "object",
     },
-    name: "search_sy-ui_docs",
+    name: "search_sy-inc_docs",
   },
   {
-    description: "Retrieve a SY UI documentation page as markdown by same-origin docs URL.",
+    description: "Retrieve a SY INC documentation page as markdown by same-origin docs URL.",
     execute(input) {
       const url = resolveSameOriginPath(getString(input, "url"));
 
@@ -132,23 +132,23 @@ const tools: WebMCPTool[] = [
     inputSchema: {
       properties: {
         url: {
-          description: "A SY UI docs path, for example /docs/react/components/button.",
+          description: "A SY INC docs path, for example /docs/react/components/button.",
           type: "string",
         },
       },
       required: ["url"],
       type: "object",
     },
-    name: "get_sy-ui_doc",
+    name: "get_sy-inc_doc",
   },
   {
     description:
-      "Navigate the browser to a SY UI same-origin page such as the homepage or a docs page.",
+      "Navigate the browser to a SY INC same-origin page such as the homepage or a docs page.",
     execute(input) {
       const url = resolveSameOriginPath(getString(input, "url"));
 
       if (!url) {
-        throw new Error("url must be a same-origin SY UI homepage, docs, or llms path");
+        throw new Error("url must be a same-origin SY INC homepage, docs, or llms path");
       }
 
       window.location.assign(url);
@@ -158,17 +158,17 @@ const tools: WebMCPTool[] = [
     inputSchema: {
       properties: {
         url: {
-          description: "A same-origin SY UI path, for example /docs/react/getting-started.",
+          description: "A same-origin SY INC path, for example /docs/react/getting-started.",
           type: "string",
         },
       },
       required: ["url"],
       type: "object",
     },
-    name: "navigate_sy-ui",
+    name: "navigate_sy-inc",
   },
   {
-    description: "List SY UI component documentation pages for React or Native.",
+    description: "List SY INC component documentation pages for React or Native.",
     execute(input) {
       const platform = getPlatform(input, "react") === "native" ? "native" : "react";
       const limit = Math.min(Math.max(getInteger(input, "limit", 20), 1), 20);
@@ -184,7 +184,7 @@ const tools: WebMCPTool[] = [
       },
       type: "object",
     },
-    name: "list_sy-ui_components",
+    name: "list_sy-inc_components",
   },
 ];
 
@@ -231,7 +231,7 @@ export function WebMCPProvider() {
         }
       } catch (error) {
         if (!didWarn) {
-          console.warn("Unable to register SY UI WebMCP tools", error);
+          console.warn("Unable to register SY INC WebMCP tools", error);
           didWarn = true;
         }
       }

@@ -10,12 +10,12 @@ github:
 </div>
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-native-v1-release-.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-native-v1-release-.mp4"
   height={430}
   muted
 />
 
-🎉 SY UI Native reaches v1.0.0 — the first stable release, marking the library's graduation from beta and release candidate stages into a production-ready foundation for React Native apps. Alongside this milestone, the release includes the new LinkButton component, sub-menu conflict resolution, an optional `@gorhom/bottom-sheet` peer dependency, and improved type safety for `useThemeColor`.
+🎉 SY INC Native reaches v1.0.0 — the first stable release, marking the library's graduation from beta and release candidate stages into a production-ready foundation for React Native apps. Alongside this milestone, the release includes the new LinkButton component, sub-menu conflict resolution, an optional `@gorhom/bottom-sheet` peer dependency, and improved type safety for `useThemeColor`.
 
 ## Installation
 
@@ -24,28 +24,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -61,8 +61,8 @@ The new [LinkButton](/docs/native/components/button) compound component renders 
 <NativeVideoPlayerView
   target="component"
   slug="link-button"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/link-button-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/link-button-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/link-button-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/link-button-docs-dark.mp4"
 />
 
 **Features:**
@@ -76,7 +76,7 @@ The new [LinkButton](/docs/native/components/button) compound component renders 
 **Usage:**
 
 ```tsx
-import { LinkButton } from "sy-ui-native";
+import { LinkButton } from "sy-inc-native";
 
 export function TermsLink() {
   return (
@@ -87,7 +87,7 @@ export function TermsLink() {
 }
 ```
 
-**Related PR:** [#341](https://github.com/sy-ui/sy-ui-native/pull/341)
+**Related PR:** [#341](https://github.com/sy-inc/sy-inc-native/pull/341)
 
 ## Component Improvements
 
@@ -103,13 +103,13 @@ The [Menu](/docs/native/components/menu) sub-menu system has been refactored to 
 - Open sub-menu content uses `z-50`; closed uses `z-40` to avoid stacking issues
 - New "Two Sub Menus" example added to the demo app showcasing multiple sub-menus in a single menu
 
-**Related PR:** [#343](https://github.com/sy-ui/sy-ui-native/pull/343)
+**Related PR:** [#343](https://github.com/sy-inc/sy-inc-native/pull/343)
 
 ### Button Label Ref Type Fix
 
 The `ButtonLabel` ref type has been corrected from `View` to `TextRef`, and an unused `View` import has been removed from `button.tsx`. This fix aligns the ref type with the actual rendered element.
 
-**Related PR:** [#341](https://github.com/sy-ui/sy-ui-native/pull/341)
+**Related PR:** [#341](https://github.com/sy-inc/sy-inc-native/pull/341)
 
 ## API Enhancements
 
@@ -120,7 +120,7 @@ The `useThemeColor` hook now returns a `ThemeColorValue` branded type for single
 **New behavior:**
 
 ```tsx
-import { useThemeColor } from "sy-ui-native";
+import { useThemeColor } from "sy-inc-native";
 
 // Correct — direct assignment
 const mutedColor = useThemeColor("muted");
@@ -131,7 +131,7 @@ const [color] = useThemeColor("muted"); // color: never
 
 `ThemeColorValue` extends `string`, so it is assignable everywhere a `string` is expected. Existing call sites are unaffected at runtime. The `_colorValueBrand` symbol is declared with `declare const` so it has zero runtime footprint.
 
-**Related PR:** [#337](https://github.com/sy-ui/sy-ui-native/pull/337)
+**Related PR:** [#337](https://github.com/sy-inc/sy-inc-native/pull/337)
 
 ### `useBottomSheetAwareHandlers` Public Hook
 
@@ -140,7 +140,7 @@ The `useBottomSheetAwareHandlers` hook is now exported as a public API, giving c
 **Usage:**
 
 ```tsx
-import { useBottomSheetAwareHandlers, Input } from "sy-ui-native";
+import { useBottomSheetAwareHandlers, Input } from "sy-inc-native";
 
 export function BottomSheetInput() {
   const { onFocus, onBlur } = useBottomSheetAwareHandlers();
@@ -149,7 +149,7 @@ export function BottomSheetInput() {
 }
 ```
 
-**Related PR:** [#347](https://github.com/sy-ui/sy-ui-native/pull/347)
+**Related PR:** [#347](https://github.com/sy-inc/sy-inc-native/pull/347)
 
 ## ⚠️ Breaking Changes
 
@@ -164,7 +164,7 @@ The `isBottomSheetAware` prop has been removed from `Input` and `InputOTP`. Prev
 <Input isBottomSheetAware placeholder="Type here..." />
 
 // After
-import { useBottomSheetAwareHandlers } from "sy-ui-native";
+import { useBottomSheetAwareHandlers } from "sy-inc-native";
 
 const { onFocus, onBlur } = useBottomSheetAwareHandlers();
 <Input onFocus={onFocus} onBlur={onBlur} placeholder="Type here..." />
@@ -172,20 +172,20 @@ const { onFocus, onBlur } = useBottomSheetAwareHandlers();
 
 This applies to any `Input` or `InputOTP` rendered inside a `BottomSheet`. Components used outside of bottom sheets are unaffected.
 
-**Related PR:** [#347](https://github.com/sy-ui/sy-ui-native/pull/347)
+**Related PR:** [#347](https://github.com/sy-inc/sy-inc-native/pull/347)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #330](https://github.com/sy-ui/sy-ui-native/issues/330)**: Resolved `Input` unconditionally importing `@gorhom/bottom-sheet` at the module level even when `isBottomSheetAware` was `false`. The package is now loaded lazily via an optional `try/catch` wrapper, so projects that don't use bottom sheet features no longer need it installed.
+- **[Issue #330](https://github.com/sy-inc/sy-inc-native/issues/330)**: Resolved `Input` unconditionally importing `@gorhom/bottom-sheet` at the module level even when `isBottomSheetAware` was `false`. The package is now loaded lazily via an optional `try/catch` wrapper, so projects that don't use bottom sheet features no longer need it installed.
 
-- **[Issue #340](https://github.com/sy-ui/sy-ui-native/issues/340)**: Fixed sub-menu content appearing behind sibling sub-menu triggers. The sub-menu system now tracks the active sub-menu by ID, enforces single-open behavior, and applies correct z-index layering (`z-50` for open, `z-40` for closed).
+- **[Issue #340](https://github.com/sy-inc/sy-inc-native/issues/340)**: Fixed sub-menu content appearing behind sibling sub-menu triggers. The sub-menu system now tracks the active sub-menu by ID, enforces single-open behavior, and applies correct z-index layering (`z-50` for open, `z-40` for closed).
 
 **Related PRs:**
 
-- [#347](https://github.com/sy-ui/sy-ui-native/pull/347)
-- [#343](https://github.com/sy-ui/sy-ui-native/pull/343)
+- [#347](https://github.com/sy-inc/sy-inc-native/pull/347)
+- [#343](https://github.com/sy-inc/sy-inc-native/pull/343)
 
 ## Updated Documentation
 
@@ -199,7 +199,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

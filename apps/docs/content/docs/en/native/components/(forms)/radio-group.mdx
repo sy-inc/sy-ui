@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/radio-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/radio-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/radio-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/radio-group-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { RadioGroup } from 'sy-ui-native';
+import { RadioGroup } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -64,7 +64,7 @@ RadioGroup with simple string children automatically renders title and indicator
 Add descriptive text below each radio option for additional context.
 
 ```tsx
-import { RadioGroup, Radio, Label, Description } from 'sy-ui-native';
+import { RadioGroup, Radio, Label, Description } from 'sy-inc-native';
 import { View } from 'react-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
@@ -90,7 +90,7 @@ import { View } from 'react-native';
 Replace the default indicator thumb with custom content using `Radio` sub-components.
 
 ```tsx
-import { RadioGroup, Radio, Label } from 'sy-ui-native';
+import { RadioGroup, Radio, Label } from 'sy-inc-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
   <RadioGroup.Item value="custom">
@@ -117,7 +117,7 @@ import { RadioGroup, Radio, Label } from 'sy-ui-native';
 Use a render function on RadioGroup.Item to access state and customize the entire content.
 
 ```tsx
-import { RadioGroup, Radio, Label } from 'sy-ui-native';
+import { RadioGroup, Radio, Label } from 'sy-inc-native';
 
 <RadioGroup value={value} onValueChange={setValue}>
   <RadioGroup.Item value="option1">
@@ -138,7 +138,7 @@ import { RadioGroup, Radio, Label } from 'sy-ui-native';
 Display validation errors below the radio group.
 
 ```tsx
-import { RadioGroup, FieldError } from 'sy-ui-native';
+import { RadioGroup, FieldError } from 'sy-inc-native';
 
 function RadioGroupWithError() {
   const [value, setValue] = React.useState<string | undefined>(undefined);
@@ -165,7 +165,7 @@ import {
   RadioGroup,
   Separator,
   Surface,
-} from 'sy-ui-native';
+} from 'sy-inc-native';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -204,7 +204,7 @@ export default function RadioGroupExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/radio-group.tsx>).
+You can find more examples in the [GitHub repository](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/radio-group.tsx>).
 
 ## API Reference
 

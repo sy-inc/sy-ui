@@ -1,10 +1,10 @@
 ---
 title: Design Principles
-description: Core principles that guide SY UI v3's design and development
+description: Core principles that guide SY INC v3's design and development
 icon: book
 ---
 
-SY UI v3 follows 10 core principles that prioritize clarity, accessibility, customization, and developer experience.
+SY INC v3 follows 10 core principles that prioritize clarity, accessibility, customization, and developer experience.
 
 ## Core Principles
 
@@ -13,8 +13,8 @@ SY UI v3 follows 10 core principles that prioritize clarity, accessibility, cust
 Use semantic naming (primary, secondary, tertiary) instead of visual descriptions (solid, flat, bordered). Inspired by [Uber's Base design system](https://base.uber.com/6d2425e9f/p/756216-button), variants follow a clear hierarchy:
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/emphasis.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/emphasis-dark.jpg"
+  src="https://assets.sy-inc.com/docs/emphasis.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/emphasis-dark.jpg"
   alt="Semantic Intent Hierarchy"
   className="object-contain"
 />
@@ -220,7 +220,7 @@ const slots = linkVariants({ underline: "hover" });
 ```tsx
 import Link from 'next/link';
 
-// Apply SY UI's BEM classes directly to any element
+// Apply SY INC's BEM classes directly to any element
 <Link className="button button--primary" href="/dashboard">
   Dashboard
 </Link>
@@ -277,9 +277,9 @@ function CustomButton({ variant, className, ...props }) {
 <CustomButton variant="secondary-cta">Learn More</CustomButton>
 ```
 
-## Comparison with SY UI v2
+## Comparison with SY INC v2
 
-| Aspect | SY UI v2 | SY UI v3 |
+| Aspect | SY INC v2 | SY INC v3 |
 |--------|-----------|-----------|
 | **Animations** | Framer Motion | CSS + GPU accelerated |
 | **Component Pattern** | Single components with many props | Compound components |

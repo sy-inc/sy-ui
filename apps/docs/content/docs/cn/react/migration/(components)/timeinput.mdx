@@ -1,10 +1,10 @@
 ---
 title: TimeInput
-description: TimeInput → TimeField 从 SY UI v2 到 v3 的迁移指南。
+description: TimeInput → TimeField 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 TimeField 文档](/docs/react/components/time-field)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 TimeField 文档](/docs/react/components/time-field)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -42,12 +42,12 @@ export default function App() {
 
 ### 1. 组件命名
 
-**v2：** `TimeInput`  
+**v2：** `TimeInput`
 **v3：** `TimeField`
 
 ### 2. 组件结构
 
-**v2：** 单个组件，通过 prop 配置  
+**v2：** 单个组件，通过 prop 配置
 **v3：** 复合组件：`TimeField`（根）+ `DateInputGroup` 与 `DateInputGroup.Input`（render prop）+ `DateInputGroup.Segment`；可选地搭配 `DateInputGroup.Prefix` 与 `DateInputGroup.Suffix`
 
 ### 3. Prop 变更

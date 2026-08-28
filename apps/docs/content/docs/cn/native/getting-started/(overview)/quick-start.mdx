@@ -1,37 +1,37 @@
 ---
 title: 快速开始
-description: 几分钟内上手 SY UI Native
+description: 几分钟内上手 SY INC Native
 icon: rocket
 ---
 
 请根据项目情况选择适合的方案：
 
 - **方案 1** —— 通过我们的 CLI 一键创建预先配置好的新项目，无需手动设置。
-- **方案 2** —— 将 SY UI Native 添加到已有的 React Native 或 Expo 项目。
+- **方案 2** —— 将 SY INC Native 添加到已有的 React Native 或 Expo 项目。
 
 ## 方案 1：创建新项目
 
-最快捷的启动方式。CLI 会生成一个 Expo 项目，内置 SY UI Native、所有必需的 peer 依赖、Uniwind / Tailwind CSS、全局样式以及已配置好的 `SyUINativeProvider`，让你可以直接进入开发。
+最快捷的启动方式。CLI 会生成一个 Expo 项目，内置 SY INC Native、所有必需的 peer 依赖、Uniwind / Tailwind CSS、全局样式以及已配置好的 `SyIncNativeProvider`，让你可以直接进入开发。
 
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npx create-sy-ui-native-app@latest
+    npx create-sy-inc-native-app@latest
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm create sy-ui-native-app@latest
+    pnpm create sy-inc-native-app@latest
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn create sy-ui-native-app
+    yarn create sy-inc-native-app
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun create sy-ui-native-app@latest
+    bun create sy-inc-native-app@latest
     ```
   </Tab>
 </Tabs>
@@ -46,57 +46,57 @@ npm run start
 到此即可开始开发。可直接跳到[使用第一个组件](#use-your-first-component)，或[浏览组件](/docs/native/components)。
 
 <Callout type="info">
-  生成的项目自带 Expo + TypeScript、预配置的 Uniwind + Tailwind CSS、含必要导入的 `global.css`，并已在应用入口包裹 `GestureHandlerRootView` 与 `SyUINativeProvider`。
+  生成的项目自带 Expo + TypeScript、预配置的 Uniwind + Tailwind CSS、含必要导入的 `global.css`，并已在应用入口包裹 `GestureHandlerRootView` 与 `SyIncNativeProvider`。
 </Callout>
 
 ## 方案 2：添加到已有项目
 
-如果你已经有一个 React Native 或 Expo 应用，请按以下步骤手动安装与配置 SY UI Native。
+如果你已经有一个 React Native 或 Expo 应用，请按以下步骤手动安装与配置 SY INC Native。
 
 <CopyPrompt
-  prompt={`Set up SY UI Native in this React Native project.
+  prompt={`Set up SY INC Native in this React Native project.
 
-Use the SY UI Native MCP server (@sy-ui/native-mcp) as the single source of truth for installation steps, peer dependencies, and component APIs. Start by retrieving the latest quick-start / installation guide from the MCP and follow it precisely — do not rely on memory for versions, package names, or setup steps.
+Use the SY INC Native MCP server (@sy-inc/native-mcp) as the single source of truth for installation steps, peer dependencies, and component APIs. Start by retrieving the latest quick-start / installation guide from the MCP and follow it precisely — do not rely on memory for versions, package names, or setup steps.
 
 Before making any changes:
 
-1. Analyze the project. Detect the package manager (npm / pnpm / yarn / bun), framework (Expo or bare React Native), TypeScript usage, and the location of node_modules. This matters for global.css — the @source path must be written relative to global.css itself and must resolve to node_modules/sy-ui-native/lib.
+1. Analyze the project. Detect the package manager (npm / pnpm / yarn / bun), framework (Expo or bare React Native), TypeScript usage, and the location of node_modules. This matters for global.css — the @source path must be written relative to global.css itself and must resolve to node_modules/sy-inc-native/lib.
 2. Read package.json and only install what is missing. Pin to the exact versions listed in the MCP quick-start to avoid compatibility issues.
 3. Inspect the app entry (App.tsx, app/_layout.tsx, index.tsx, etc.) and check whether GestureHandlerRootView already wraps the app. If it does, reuse it — do not nest a second GestureHandlerRootView.
 
 Then apply the setup:
 
-- Install sy-ui-native plus any missing mandatory+optional peer dependencies.
-- Set up Uniwind + Tailwind CSS (follow the Uniwind quickstart) and add the SY UI Native imports plus the correct @source line to global.css.
+- Install sy-inc-native plus any missing mandatory+optional peer dependencies.
+- Set up Uniwind + Tailwind CSS (follow the Uniwind quickstart) and add the SY INC Native imports plus the correct @source line to global.css.
 - Make sure GestureHandlerRootView wraps the entire app — it must be the outermost wrapper with style { flex: 1 }.
-- Add SyUINativeProvider as a direct child of GestureHandlerRootView, wrapping the rest of the app.
+- Add SyIncNativeProvider as a direct child of GestureHandlerRootView, wrapping the rest of the app.
 
 When done, summarize the changes you made and tell me how to run the app on iOS / Android.`}
 >
-  **更喜欢让 AI 助手代劳？** 在编辑器中安装 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)，将上方提示词粘贴给你的 AI 助手 —— 它会分析你的项目并完成整套配置。
+  **更喜欢让 AI 助手代劳？** 在编辑器中安装 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)，将上方提示词粘贴给你的 AI 助手 —— 它会分析你的项目并完成整套配置。
 </CopyPrompt>
 
-### 1. 安装 SY UI Native
+### 1. 安装 SY INC Native
 
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm install sy-ui-native
+    npm install sy-inc-native
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add sy-ui-native
+    pnpm add sy-inc-native
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add sy-ui-native
+    yarn add sy-inc-native
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add sy-ui-native
+    bun add sy-inc-native
     ```
   </Tab>
 </Tabs>
@@ -153,29 +153,29 @@ When done, summarize the changes you made and tell me how to run the app on iOS 
 @import 'tailwindcss';
 @import 'uniwind';
 
-@import 'sy-ui-native/styles';
+@import 'sy-inc-native/styles';
 
-/* Path to the sy-ui-native lib inside node_modules relative to global.css */
+/* Path to the sy-inc-native lib inside node_modules relative to global.css */
 /* Examples:
- *   - If global.css is at project root: ./node_modules/sy-ui-native/lib
- *   - If global.css is in app/: ../node_modules/sy-ui-native/lib
- *   - If global.css is in src/styles/: ../../node_modules/sy-ui-native/lib
+ *   - If global.css is at project root: ./node_modules/sy-inc-native/lib
+ *   - If global.css is in app/: ../node_modules/sy-inc-native/lib
+ *   - If global.css is in src/styles/: ../../node_modules/sy-inc-native/lib
  */
-@source './node_modules/sy-ui-native/lib';
+@source './node_modules/sy-inc-native/lib';
 ```
 
 ### 6. 使用 Provider 包裹应用
 
-使用 `SyUINativeProvider` 包裹应用，并务必外层再包一层 `GestureHandlerRootView`：
+使用 `SyIncNativeProvider` 包裹应用，并务必外层再包一层 `GestureHandlerRootView`：
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider>{/* Your app content */}</SyUINativeProvider>
+      <SyIncNativeProvider>{/* Your app content */}</SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -186,7 +186,7 @@ export default function App() {
 ## 使用第一个组件
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 import { View } from 'react-native';
 
 export default function MyComponent() {
@@ -204,40 +204,40 @@ export default function MyComponent() {
 
 ```tsx
 // Granular imports - use when you need only a few components
-import { SyUINativeProvider } from "sy-ui-native/provider";
-import { Button } from "sy-ui-native/button";
-import { Card } from "sy-ui-native/card";
+import { SyIncNativeProvider } from "sy-inc-native/provider";
+import { Button } from "sy-inc-native/button";
+import { Card } from "sy-inc-native/card";
 
 // General import - imports the whole library, use when you're using many components
-import { Button, Card } from "sy-ui-native";
+import { Button, Card } from "sy-inc-native";
 ```
 
-细粒度导入适合只用少量组件的场景，有助于控制包体。从 `sy-ui-native` 整体导入会包含完整库，适合在应用中广泛使用多组件时采用。
+细粒度导入适合只用少量组件的场景，有助于控制包体。从 `sy-inc-native` 整体导入会包含完整库，适合在应用中广泛使用多组件时采用。
 
 **可用的细粒度入口：**
 
-- `sy-ui-native/provider` — Provider
-- `sy-ui-native/provider-raw` — 轻量 Provider（最小依赖起点）
-- `sy-ui-native/[component-name]` — 单个组件
-- `sy-ui-native/portal` — Portal 工具
-- `sy-ui-native/toast` — Toast Provider 与工具
-- `sy-ui-native/utils` — 工具函数
-- `sy-ui-native/hooks` — 自定义 Hooks
+- `sy-inc-native/provider` — Provider
+- `sy-inc-native/provider-raw` — 轻量 Provider（最小依赖起点）
+- `sy-inc-native/[component-name]` — 单个组件
+- `sy-inc-native/portal` — Portal 工具
+- `sy-inc-native/toast` — Toast Provider 与工具
+- `sy-inc-native/utils` — 工具函数
+- `sy-inc-native/hooks` — 自定义 Hooks
 
 <Callout type="warning">
-  **重要：** 为控制包体，请**始终**坚持使用细粒度导入策略。只要存在一处从 `sy-ui-native` 的整体导入，就可能使上述优化失效。
+  **重要：** 为控制包体，请**始终**坚持使用细粒度导入策略。只要存在一处从 `sy-inc-native` 的整体导入，就可能使上述优化失效。
 </Callout>
 
-> **提示：** 若需要更强控制，可使用 [`SyUINativeProviderRaw`](/docs/native/getting-started/provider#raw-provider) — 轻量 Provider，不包含 `ToastProvider` 与 `PortalHost`。
+> **提示：** 若需要更强控制，可使用 [`SyIncNativeProviderRaw`](/docs/native/getting-started/provider#raw-provider) — 轻量 Provider，不包含 `ToastProvider` 与 `PortalHost`。
 
 ## 接下来
 
-- [SY UI Native Provider](/docs/native/getting-started/provider)
+- [SY INC Native Provider](/docs/native/getting-started/provider)
 - [样式指南](/docs/native/getting-started/styling)
 - [主题文档](/docs/native/getting-started/theming)
 
 ## 在 Web（Expo）上运行
 
 <Callout type="warning">
-  SY UI Native **目前不建议用于 Web**。我们优先聚焦 iOS 与 Android。Web 开发请使用 [SY UI React](/docs/react/getting-started/quick-start)。
+  SY INC Native **目前不建议用于 Web**。我们优先聚焦 iOS 与 Android。Web 开发请使用 [SY INC React](/docs/react/getting-started/quick-start)。
 </Callout>

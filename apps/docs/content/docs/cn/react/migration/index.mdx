@@ -1,18 +1,18 @@
 ---
 title: 迁移
-description: 将 SY UI v2 应用迁移到 v3 的完整指南
+description: 将 SY INC v2 应用迁移到 v3 的完整指南
 index: true
 ---
 
 ## 面向 AI 助手
 
-以下是 AI 助手获取迁移文档的三种方式。***我们推荐使用 SY UI Migration MCP 服务器***，并充分利用其 prompt 与工具，不过其它方式也都能为 agent 提供完整的文档。
+以下是 AI 助手获取迁移文档的三种方式。***我们推荐使用 SY INC Migration MCP 服务器***，并充分利用其 prompt 与工具，不过其它方式也都能为 agent 提供完整的文档。
 
 | 对比项 | MCP Server | Agent Skills | AGENTS.md |
 |---------|-----------|--------------|-----------|
 | **数据来源** | 远程端点 | 远程端点 | 本地文件 |
 | **访问方式** | MCP 工具 | 脚本文件 | 读取本地文件 |
-| **配置方式** | MCP 配置 | 安装命令 | `sy-ui-cli` 命令 |
+| **配置方式** | MCP 配置 | 安装命令 | `sy-inc-cli` 命令 |
 | **更新** | 实时 | 实时 | 手动 |
 | **离线** | ❌ | ❌ | ✅ |
 | **工具** | MCP 工具 + prompt | 脚本 | ❌ |
@@ -22,12 +22,12 @@ index: true
 
 <section id="major-changes">
 
-- **依赖项**：将 React 升级到 v19+、SY UI 包升级到 v3、Tailwind CSS 升级到 v4，并移除 Framer Motion
-- **无需 Provider**：v3 不再需要 `SyUIProvider`
+- **依赖项**：将 React 升级到 v19+、SY INC 包升级到 v3、Tailwind CSS 升级到 v4，并移除 Framer Motion
+- **无需 Provider**：v3 不再需要 `SyIncProvider`
 - **组件 API 更新**：许多组件改用 React Aria Components 模式
 - **复合组件**：全新的复合组件模式带来了更好的定制能力。详情请参阅各组件的迁移指南。
 - **已移除的 Hooks**：v2 中的组件 Hooks（如 `useSwitch`、`useInput`）已被移除——请改用复合组件。`useDisclosure` 已被替换为 `useOverlayState`。详情请参阅 [Hooks 迁移指南](/docs/react/migration/hooks)。
-- **配置变更**：从 Tailwind 配置中移除 `sy-ui()` 插件，更新 CSS 导入，并删除 `hero.ts` 文件
+- **配置变更**：从 Tailwind 配置中移除 `sy-inc()` 插件，更新 CSS 导入，并删除 `hero.ts` 文件
 - **条目标识**：集合类组件（Dropdown、ListBox、Select、Accordion 等）在 v3 中改用 `id` 和 `textValue`；列表本身仍需保留 React 的 `key`。
 
 </section>
@@ -44,7 +44,7 @@ index: true
 
 ## 迁移策略
 
-如果不做特殊设置，SY UI v2 与 v3 不能在同一个项目中共存。你可以选择以下两种迁移方式：
+如果不做特殊设置，SY INC v2 与 v3 不能在同一个项目中共存。你可以选择以下两种迁移方式：
 
 ### 一次性完整迁移
 
@@ -94,7 +94,7 @@ index: true
 可以通过下表快速查找每个组件的迁移指南。点击「迁移指南」列中的链接，即可跳转到对应的详细迁移说明。
 
 <Callout>
-  **组件开发状态**：标有 🔄 进行中或 📋 计划中的组件仍在开发中。可以查看[路线图](https://sy-ui.featurebase.app/roadmap)了解任务状态。这些组件的迁移指南将在开发完成后提供。
+  **组件开发状态**：标有 🔄 进行中或 📋 计划中的组件仍在开发中。可以查看[路线图](https://sy-inc.featurebase.app/roadmap)了解任务状态。这些组件的迁移指南将在开发完成后提供。
 </Callout>
 
 | v2 组件 | v3 组件 | 状态 | 迁移指南 |
@@ -194,5 +194,5 @@ v3 引入了一系列 v2 中尚未提供的全新组件：
 
 1. 查看 [v3 文档](/docs/react)
 2. 查阅具体组件的迁移指南
-3. 在 [GitHub Discussions](https://github.com/sy-ui/sy-ui/discussions) 中查找或提问
+3. 在 [GitHub Discussions](https://github.com/sy-inc/sy-inc/discussions) 中查找或提问
 4. 加入 [Discord 社区](https://discord.gg/9b6yyZKmH4)

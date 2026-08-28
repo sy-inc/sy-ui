@@ -1,10 +1,10 @@
 ---
 title: Skeleton
-description: Skeleton 从 SY UI v2 到 v3 的迁移指南。
+description: Skeleton 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Skeleton 文档](/docs/react/components/skeleton)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Skeleton 文档](/docs/react/components/skeleton)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -16,7 +16,7 @@ import { Skeleton } from "@sy-inc/react";
 
 export default function App() {
   const isLoaded = false;
-  
+
   return (
     <Skeleton isLoaded={isLoaded}>
       <div className="h-24 bg-secondary" />
@@ -32,7 +32,7 @@ import { Skeleton } from "@sy-inc/react";
 
 export default function App() {
   const isLoaded = false;
-  
+
   return (
     <>
       {!isLoaded ? (
@@ -49,7 +49,7 @@ export default function App() {
 
 ### 1. 组件行为
 
-**v2：** 包裹子节点，并根据 `isLoaded` 显示/隐藏  
+**v2：** 包裹子节点，并根据 `isLoaded` 显示/隐藏
 **v3：** 独立占位符——可见性由你自行控制
 
 ### 2. Prop 变更

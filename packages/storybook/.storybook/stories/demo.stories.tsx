@@ -21,7 +21,7 @@ Components.parameters = {
   docs: {
     description: {
       story:
-        "A comprehensive showcase of SY UI components in action. These demos demonstrate real-world usage patterns and component combinations.",
+        "A comprehensive showcase of SY INC components in action. These demos demonstrate real-world usage patterns and component combinations.",
     },
   },
 };

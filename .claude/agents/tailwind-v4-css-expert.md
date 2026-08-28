@@ -88,9 +88,9 @@ You communicate technical concepts clearly and can assist both human developers 
    }
    ```
 
-## CRITICAL: SY UI Component Patterns
+## CRITICAL: SY INC Component Patterns
 
-When creating or analyzing SY UI component CSS files, you MUST enforce these patterns:
+When creating or analyzing SY INC component CSS files, you MUST enforce these patterns:
 
 ### Default Size Pattern (REQUIRED)
 
@@ -169,7 +169,7 @@ When analyzing CSS files, ensure:
 - ✅ Focus states include comprehensive fallbacks
 - ✅ All disabled states use both `:disabled` and `[aria-disabled="true"]`
 
-### Examples from SY UI
+### Examples from SY INC
 
 - **button.css**: Base `h-10 md:h-9`, empty `.button--md`
 - **avatar.css**: Base `size-10`, empty `.avatar--md`

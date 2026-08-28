@@ -23,22 +23,22 @@ const DISCOUNT_CAMPAIGN = "launch_discount";
 const DEFAULT_CAMPAIGN = "pro_default";
 
 const getProHref = (medium: string, campaign: string) =>
-  `${PRO_URL}?utm_source=sy-ui.com&utm_medium=${medium}&utm_campaign=${campaign}`;
+  `${PRO_URL}?utm_source=sy-inc.com&utm_medium=${medium}&utm_campaign=${campaign}`;
 
 const DEFAULT_PRO_COPY = {
   cardDescription:
     "Components, templates, and AI tooling for React and React Native. Made for teams that care about the details.",
-  cardTitle: "Build faster with SY UI Pro",
+  cardTitle: "Build faster with SY INC Pro",
   cta: "Explore Pro",
   headerDetail: "Components, templates & AI tooling",
-  headerTitle: "SY UI Pro is live",
+  headerTitle: "SY INC Pro is live",
   heroLabel: "Now available",
 };
 
 const DISCOUNT_PRO_COPY = {
   cardDescription:
     "More components, charts, advanced MCP & Skills, and a complete theme builder. Get your license now at a discounted price for a limited time.",
-  cardTitle: "SY UI Pro launch discount is live!",
+  cardTitle: "SY INC Pro launch discount is live!",
   cta: "Get Pro deal",
   headerTitle: "Launch discount is live!",
 };
@@ -179,7 +179,7 @@ export function HeaderBanner() {
   );
 }
 
-const PRO_BANNER_DISMISSED_KEY = "sy-ui-pro-banner-dismissed-session";
+const PRO_BANNER_DISMISSED_KEY = "sy-inc-pro-banner-dismissed-session";
 
 const subscribeToDismissed = (callback: () => void) => {
   window.addEventListener("storage", callback);

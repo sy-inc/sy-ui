@@ -1,10 +1,10 @@
 ---
 title: Radio
-description: Radio 从 SY UI v2 到 v3 的迁移指南。
+description: Radio 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Radio 文档](/docs/react/components/radio-group)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Radio 文档](/docs/react/components/radio-group)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -59,7 +59,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 简单的 Radio，`children` 作为标签文案  
+**v2：** 简单的 Radio，`children` 作为标签文案
 **v3：** 复合组件：`Radio.Content`、`Radio.Control`、`Radio.Indicator`
 
 ### 2. Prop 变更
@@ -89,7 +89,7 @@ export default function App() {
         London
       </Radio>
     </RadioGroup>
-    
+
     {/* With validation */}
     <RadioGroup
       isInvalid
@@ -117,7 +117,7 @@ export default function App() {
         <Description>Capital of England</Description>
       </Radio>
     </RadioGroup>
-    
+
     {/* 带校验 */}
     <RadioGroup isInvalid>
       <Label>Select city</Label>

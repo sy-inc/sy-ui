@@ -149,7 +149,7 @@ function RangeCalendarRoot<T extends DateValue = DateValue>({
   );
 }
 
-RangeCalendarRoot.displayName = "SY UI.RangeCalendar";
+RangeCalendarRoot.displayName = "SY INC.RangeCalendar";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Header
@@ -180,7 +180,7 @@ const RangeCalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "head
   );
 };
 
-RangeCalendarHeader.displayName = "SY UI.RangeCalendar.Header";
+RangeCalendarHeader.displayName = "SY INC.RangeCalendar.Header";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Heading
@@ -201,7 +201,7 @@ const RangeCalendarHeading = ({className, ...props}: RangeCalendarHeadingProps) 
   );
 };
 
-RangeCalendarHeading.displayName = "SY UI.RangeCalendar.Heading";
+RangeCalendarHeading.displayName = "SY INC.RangeCalendar.Heading";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Nav Button
@@ -241,7 +241,7 @@ const RangeCalendarNavButton = ({
   );
 };
 
-RangeCalendarNavButton.displayName = "SY UI.RangeCalendar.NavButton";
+RangeCalendarNavButton.displayName = "SY INC.RangeCalendar.NavButton";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Grid
@@ -278,7 +278,7 @@ const RangeCalendarGrid = ({
   );
 };
 
-RangeCalendarGrid.displayName = "SY UI.RangeCalendar.Grid";
+RangeCalendarGrid.displayName = "SY INC.RangeCalendar.Grid";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Grid Header
@@ -316,7 +316,7 @@ const RangeCalendarGridHeader = ({children, className, ...props}: RangeCalendarG
   );
 };
 
-RangeCalendarGridHeader.displayName = "SY UI.RangeCalendar.GridHeader";
+RangeCalendarGridHeader.displayName = "SY INC.RangeCalendar.GridHeader";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Grid Body
@@ -352,7 +352,7 @@ const RangeCalendarGridBody = ({children, className, ...props}: RangeCalendarGri
   );
 };
 
-RangeCalendarGridBody.displayName = "SY UI.RangeCalendar.GridBody";
+RangeCalendarGridBody.displayName = "SY INC.RangeCalendar.GridBody";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Header Cell
@@ -373,7 +373,7 @@ const RangeCalendarHeaderCell = ({className, ...props}: RangeCalendarHeaderCellP
   );
 };
 
-RangeCalendarHeaderCell.displayName = "SY UI.RangeCalendar.HeaderCell";
+RangeCalendarHeaderCell.displayName = "SY INC.RangeCalendar.HeaderCell";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Cell
@@ -413,7 +413,7 @@ const RangeCalendarCell = ({children, className, ...props}: RangeCalendarCellPro
   );
 };
 
-RangeCalendarCell.displayName = "SY UI.RangeCalendar.Cell";
+RangeCalendarCell.displayName = "SY INC.RangeCalendar.Cell";
 
 /* -------------------------------------------------------------------------------------------------
 | * RangeCalendar Cell Indicator
@@ -441,7 +441,7 @@ const RangeCalendarCellIndicator = <E extends keyof React.JSX.IntrinsicElements 
   );
 };
 
-RangeCalendarCellIndicator.displayName = "SY UI.RangeCalendar.CellIndicator";
+RangeCalendarCellIndicator.displayName = "SY INC.RangeCalendar.CellIndicator";
 
 /* -------------------------------------------------------------------------------------------------
 | * Exports

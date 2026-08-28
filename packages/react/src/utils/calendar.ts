@@ -36,7 +36,7 @@ export function getGregorianYearOffset(identifier: string): number {
 /**
  * Iterates from `start` to `end` using calendar-aware arithmetic so that
  * non-Gregorian calendars (e.g. Japanese, Hebrew) produce correct year
- * boundaries.  Ported from SY UI v2.
+ * boundaries.  Ported from SY INC v2.
  */
 export function getYearRange(start?: DateValue | null, end?: DateValue | null): DateValue[] {
   const years: DateValue[] = [];

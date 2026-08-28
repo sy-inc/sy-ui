@@ -14,19 +14,19 @@ export function Basic() {
         <Disclosure.Heading>
           <Button slot="trigger" variant="secondary">
             <QrCode />
-            预览 SY UI Native
+            预览 SY INC Native
             <Disclosure.Indicator />
           </Button>
         </Disclosure.Heading>
         <Disclosure.Content>
           <Disclosure.Body className="shadow-panel flex flex-col items-center rounded-3xl bg-surface p-4 text-center">
             <p className="text-sm text-muted">
-              使用手机相机扫描此二维码，即可预览 SY UI Native 组件。
+              使用手机相机扫描此二维码，即可预览 SY INC Native 组件。
             </p>
             <img
               alt="Expo Go 二维码"
               className="aspect-square w-full max-w-54 object-cover"
-              src="https://assets.sy-ui.com/images/qr-code-native.png"
+              src="https://assets.sy-inc.com/images/qr-code-native.png"
             />
             <p className="text-sm text-muted">设备需已安装 Expo。</p>
             <Button className="mt-4" variant="primary">

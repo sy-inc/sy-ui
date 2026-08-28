@@ -18,7 +18,7 @@ export async function TrustPage({
     <main className="flex min-h-[calc(100vh-4rem)] flex-col">
       <article className="mx-auto w-full max-w-3xl flex-1 px-6 py-16 sm:py-24">
         <header className="mb-10 border-b border-border pb-8">
-          <p className="mb-3 text-sm font-medium text-muted">SY UI</p>
+          <p className="mb-3 text-sm font-medium text-muted">SY INC</p>
           <h1 className="text-4xl font-bold tracking-tight text-foreground">{title}</h1>
           <p className="mt-4 text-lg leading-8 text-muted">{description}</p>
         </header>

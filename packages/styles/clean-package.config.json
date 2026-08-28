@@ -4,7 +4,7 @@
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "style": "./dist/index.css",
-    "browser": "./dist/sy-ui.min.css",
+    "browser": "./dist/sy-inc.min.css",
     "sideEffects": ["*.css"],
     "exports": {
       ".": {

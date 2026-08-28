@@ -46,7 +46,7 @@ const SwitchRoot = ({children, className, size, ...props}: SwitchRootProps) => {
   );
 };
 
-SwitchRoot.displayName = "SY UI.Switch";
+SwitchRoot.displayName = "SY INC.Switch";
 
 /* -------------------------------------------------------------------------------------------------
  * Switch.Content — the clickable `SwitchButton` label wrapping the control + `Label`.
@@ -68,7 +68,7 @@ const SwitchContent = ({children, className, ...props}: SwitchContentProps) => {
   );
 };
 
-SwitchContent.displayName = "SY UI.Switch.Content";
+SwitchContent.displayName = "SY INC.Switch.Content";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -97,7 +97,7 @@ const SwitchControl = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-SwitchControl.displayName = "SY UI.Switch.Control";
+SwitchControl.displayName = "SY INC.Switch.Control";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -126,7 +126,7 @@ const SwitchThumb = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-SwitchThumb.displayName = "SY UI.Switch.Thumb";
+SwitchThumb.displayName = "SY INC.Switch.Thumb";
 
 /* -----------------------------------------------------------------------------------------------*/
 
@@ -155,7 +155,7 @@ const SwitchIcon = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-SwitchIcon.displayName = "SY UI.Switch.Icon";
+SwitchIcon.displayName = "SY INC.Switch.Icon";
 
 /* ----------------------------------------------------------------------------------------------*/
 

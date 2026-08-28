@@ -30,7 +30,7 @@ export default async function NotFound() {
             className="absolute inset-0 block h-full w-full object-cover dark:hidden"
             height={275}
             quality={100}
-            src="https://assets.sy-ui.com/docs/404_@2x.png"
+            src="https://assets.sy-inc.com/docs/404_@2x.png"
             width={658}
           />
           <Image
@@ -39,7 +39,7 @@ export default async function NotFound() {
             className="absolute inset-0 hidden h-full w-full object-cover dark:block"
             height={275}
             quality={100}
-            src="https://assets.sy-ui.com/docs/404-dark_@2x.png"
+            src="https://assets.sy-inc.com/docs/404-dark_@2x.png"
             width={658}
           />
         </div>

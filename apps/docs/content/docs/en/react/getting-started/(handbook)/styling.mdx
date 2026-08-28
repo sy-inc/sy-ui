@@ -1,17 +1,17 @@
 ---
 title: Styling
-description: Style SY UI components with CSS, Tailwind, or CSS-in-JS
+description: Style SY INC components with CSS, Tailwind, or CSS-in-JS
 icon: brush
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI components provide flexible styling options: Tailwind CSS utilities, CSS with [BEM](https://getbem.com/) classes or data attributes, CSS-in-JS libraries, and render props for dynamic styling.
+SY INC components provide flexible styling options: Tailwind CSS utilities, CSS with [BEM](https://getbem.com/) classes or data attributes, CSS-in-JS libraries, and render props for dynamic styling.
 
 ## Basic Styling
 
-**Using className:** All SY UI components accept `className` props:
+**Using className:** All SY INC components accept `className` props:
 
 ```tsx
 <Button className="bg-purple-500 hover:bg-purple-600">
@@ -33,7 +33,7 @@ SY UI components provide flexible styling options: Tailwind CSS utilities, CSS w
 
 ## Scrollbars
 
-SY UI scroll slots use `@apply scrollbar` in component CSS. For your own overflow containers, use the utilities from `@sy-inc/styles`:
+SY INC scroll slots use `@apply scrollbar` in component CSS. For your own overflow containers, use the utilities from `@sy-inc/styles`:
 
 ```tsx
 <div className="scrollbar h-64 overflow-y-auto">
@@ -43,8 +43,8 @@ SY UI scroll slots use `@apply scrollbar` in component CSS. For your own overflo
 
 | Utility | Effect |
 |---------|--------|
-| `scrollbar` | SY UI thumb (reads theme `--scrollbar-*` variables) |
-| `scrollbar-thin` | SY UI themed thin scrollbar |
+| `scrollbar` | SY INC thumb (reads theme `--scrollbar-*` variables) |
+| `scrollbar-thin` | SY INC themed thin scrollbar |
 | `scrollbar-default` | OS / browser scrollbars |
 | `scrollbar-none` | Hidden scrollbar |
 
@@ -52,7 +52,7 @@ Global and per-subtree control uses `data-scrollbar` on an ancestor. See [Themin
 
 ## State-Based Styling
 
-SY UI components expose their state through data attributes, similar to CSS pseudo-classes:
+SY INC components expose their state through data attributes, similar to CSS pseudo-classes:
 
 ```css
 /* Target different states */
@@ -101,7 +101,7 @@ Apply dynamic styling based on component state:
 
 ## BEM Classes
 
-SY UI uses [BEM methodology](https://getbem.com/) for consistent class naming:
+SY INC uses [BEM methodology](https://getbem.com/) for consistent class naming:
 
 ```css
 /* Block */
@@ -295,7 +295,7 @@ import { Button } from '@sy-inc/react';
 
 > **Note:** See component docs for complete class references: [Button](/docs/components/button#css-classes), [Accordion](/docs/components/accordion#css-classes)
 
-View all component classes in [@sy-inc/styles/components](https://github.com/sy-ui/sy-ui/tree/main/packages/styles/components).
+View all component classes in [@sy-inc/styles/components](https://github.com/sy-inc/sy-inc/tree/main/packages/styles/components).
 
 ## Next Steps
 

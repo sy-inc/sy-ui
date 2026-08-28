@@ -1,10 +1,10 @@
 ---
 title: Button
-description: Button 从 SY UI v2 到 v3 的迁移指南。
+description: Button 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Button 文档](/docs/react/components/button)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Button 文档](/docs/react/components/button)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -33,7 +33,7 @@ export default function App() {
 
 ### 1. 变体与颜色
 
-**v2：** 使用 `color` + `variant` 组合  
+**v2：** 使用 `color` + `variant` 组合
 **v3：** 仅使用 `variant`（无独立 `color` prop）
 
 | v2 color + variant | v3 变体 | 说明 |
@@ -51,17 +51,17 @@ export default function App() {
 | `color="primary" variant="ghost"` | `variant="ghost"` | 相同 |
 | `color="danger" variant="flat"` | `variant="danger-soft"` | 新增柔和危险变体 |
 
-**v2 变体：** `solid`、`bordered`、`light`、`flat`、`faded`、`shadow`、`ghost`  
+**v2 变体：** `solid`、`bordered`、`light`、`flat`、`faded`、`shadow`、`ghost`
 **v3 变体：** `primary`、`secondary`、`tertiary`、`outline`、`ghost`、`danger`、`danger-soft`
 
 ### 2. 加载状态：`isLoading` → `isPending`
 
-**v2：** 使用 `isLoading` prop  
+**v2：** 使用 `isLoading` prop
 **v3：** 使用 `isPending` prop
 
 ### 3. 默认宽度行为
 
-**v2：** 按钮按尺寸带有最小宽度（sm：`min-w-16`，md：`min-w-20`，lg：`min-w-24`）  
+**v2：** 按钮按尺寸带有最小宽度（sm：`min-w-16`，md：`min-w-20`，lg：`min-w-24`）
 **v3：** 按钮默认使用 `w-fit`（宽度随内容，无最小宽度）
 
 因此当文案较短时，v3 按钮会比 v2 更窄。若要保留 v2 的最小宽度行为，请添加 Tailwind 类，请见下方 **尺寸与最小宽度** 示例小节。
@@ -82,7 +82,7 @@ export default function App() {
 
 ### 5. ButtonGroup 仍可用
 
-**v2：** 提供独立的 `ButtonGroup` 组件  
+**v2：** 提供独立的 `ButtonGroup` 组件
 **v3：** `ButtonGroup` 仍然存在。详见 [ButtonGroup 迁移指南](/docs/react/migration/button-group)。
 
 ## 迁移示例
@@ -161,9 +161,9 @@ export default function App() {
     <Button isLoading color="primary">
       Loading
     </Button>
-    
+
     {/* Loading with conditional content */}
-    <Button 
+    <Button
       isLoading={isLoading}
       spinnerPlacement="start"
       color="primary"
@@ -190,9 +190,9 @@ export default function App() {
         </>
       )}
     </Button>
-    
+
     {/* Loading with conditional content */}
-    <Button 
+    <Button
       isPending={isLoading}
       onPress={() => setIsLoading(true)}
     >
@@ -218,14 +218,14 @@ export default function App() {
     ```tsx
     import { Icon } from "@iconify/react";
 
-    <Button 
-      color="success" 
+    <Button
+      color="success"
       endContent={<Icon icon="gravity-ui:camera" />}
     >
       Take a photo
     </Button>
-    <Button 
-      color="danger" 
+    <Button
+      color="danger"
       startContent={<Icon icon="gravity-ui:trash-bin" />}
       variant="bordered"
     >
@@ -333,25 +333,25 @@ v3 `Button` 支持渲染 prop 模式，可拿到状态信息：
 
 可用的渲染 prop：
 
-- `isPending` — 是否处于加载状态  
-- `isPressed` — 是否正被按下  
-- `isHovered` — 是否悬停  
-- `isFocused` — 是否聚焦  
-- `isFocusVisible` — 是否应显示焦点环  
-- `isDisabled` — 是否禁用  
+- `isPending` — 是否处于加载状态
+- `isPressed` — 是否正被按下
+- `isHovered` — 是否悬停
+- `isFocused` — 是否聚焦
+- `isFocusVisible` — 是否应显示焦点环
+- `isDisabled` — 是否禁用
 
 ## 总结
 
-1. **`color` prop 已移除**：请用 `variant` 替代 `color` + `variant` 组合  
-2. **变体体系变更**：新变体系统（`primary`、`secondary`、`tertiary`、`outline`、`ghost`、`danger`、`danger-soft`）  
-3. **`danger-soft` 变体**：v3 新增，替代 v2 的 `color="danger" variant="flat"`  
-4. **`isLoading` → `isPending`**：加载相关 prop 已重命名  
-5. **`isIconOnly`**：v3 仍支持 — 用于仅图标的方形按钮  
-6. **默认宽度变更**：按钮默认 `w-fit`，不再内置最小宽度 — 可添加 `min-w-*` 贴近 v2  
-7. **图标**：`startContent` / `endContent` 已移除 — 请将图标作为 children  
-8. **加载指示器**：需通过渲染 prop 自行组合 Spinner 等  
-9. **渲染 prop**：v3 `Button` 的 children 可为函数，参数包含 `isPending`、`isPressed`、`isHovered`、`isFocused`、`isFocusVisible`、`isDisabled`  
-10. **`radius` 已移除**：请使用 Tailwind CSS 类  
-11. **波纹已移除**：v3 无波纹效果  
-12. **ButtonGroup**：参见 [ButtonGroup 迁移指南](/docs/react/migration/button-group)  
-13. **`classNames` 已移除**：请使用 `className` prop  
+1. **`color` prop 已移除**：请用 `variant` 替代 `color` + `variant` 组合
+2. **变体体系变更**：新变体系统（`primary`、`secondary`、`tertiary`、`outline`、`ghost`、`danger`、`danger-soft`）
+3. **`danger-soft` 变体**：v3 新增，替代 v2 的 `color="danger" variant="flat"`
+4. **`isLoading` → `isPending`**：加载相关 prop 已重命名
+5. **`isIconOnly`**：v3 仍支持 — 用于仅图标的方形按钮
+6. **默认宽度变更**：按钮默认 `w-fit`，不再内置最小宽度 — 可添加 `min-w-*` 贴近 v2
+7. **图标**：`startContent` / `endContent` 已移除 — 请将图标作为 children
+8. **加载指示器**：需通过渲染 prop 自行组合 Spinner 等
+9. **渲染 prop**：v3 `Button` 的 children 可为函数，参数包含 `isPending`、`isPressed`、`isHovered`、`isFocused`、`isFocusVisible`、`isDisabled`
+10. **`radius` 已移除**：请使用 Tailwind CSS 类
+11. **波纹已移除**：v3 无波纹效果
+12. **ButtonGroup**：参见 [ButtonGroup 迁移指南](/docs/react/migration/button-group)
+13. **`classNames` 已移除**：请使用 `className` prop

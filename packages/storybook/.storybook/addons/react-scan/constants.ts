@@ -1,6 +1,6 @@
-export const REACT_SCAN_ADDON_ID = "sy-ui-react-scan-addon";
-export const REACT_SCAN_GLOBAL_TYPE_ID = "sy-ui-react-scan";
-export const REACT_SCAN_PARAM_KEY = "sy-ui-react-scan";
+export const REACT_SCAN_ADDON_ID = "sy-inc-react-scan-addon";
+export const REACT_SCAN_GLOBAL_TYPE_ID = "sy-inc-react-scan";
+export const REACT_SCAN_PARAM_KEY = "sy-inc-react-scan";
 
 export const REACT_SCAN_VALUES = ["true", "false"] as const;
 

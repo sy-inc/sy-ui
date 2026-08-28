@@ -137,7 +137,7 @@ export const WithPrefixAndSuffix: Story = {
 
 export const WithTextPrefix: Story = {
   render: () => (
-    <TextField className="w-[280px]" defaultValue="sy-ui.com" name="website">
+    <TextField className="w-[280px]" defaultValue="sy-inc.com" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Prefix>https://</InputGroup.Prefix>
@@ -149,7 +149,7 @@ export const WithTextPrefix: Story = {
 
 export const WithTextSuffix: Story = {
   render: () => (
-    <TextField className="w-[280px]" defaultValue="sy-ui" name="website">
+    <TextField className="w-[280px]" defaultValue="sy-inc" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Input className="w-[280px]" />
@@ -161,7 +161,7 @@ export const WithTextSuffix: Story = {
 
 export const WithIconPrefixAndTextSuffix: Story = {
   render: () => (
-    <TextField className="w-[280px]" defaultValue="sy-ui" name="website">
+    <TextField className="w-[280px]" defaultValue="sy-inc" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Prefix>
@@ -176,7 +176,7 @@ export const WithIconPrefixAndTextSuffix: Story = {
 
 export const WithCopySuffix: Story = {
   render: () => (
-    <TextField className="w-[280px]" defaultValue="sy-ui.com" name="website">
+    <TextField className="w-[280px]" defaultValue="sy-inc.com" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Input className="w-[280px]" />
@@ -192,7 +192,7 @@ export const WithCopySuffix: Story = {
 
 export const WithIconPrefixAndCopySuffix: Story = {
   render: () => (
-    <TextField className="w-[280px]" defaultValue="sy-ui.com" name="website">
+    <TextField className="w-[280px]" defaultValue="sy-inc.com" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Prefix>
@@ -491,7 +491,7 @@ export const AllVariations: Story = {
           <Description>What customers would pay</Description>
         </TextField>
 
-        <TextField className="w-[280px]" defaultValue="sy-ui.com" name="website1">
+        <TextField className="w-[280px]" defaultValue="sy-inc.com" name="website1">
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Prefix>https://</InputGroup.Prefix>
@@ -499,7 +499,7 @@ export const AllVariations: Story = {
           </InputGroup>
         </TextField>
 
-        <TextField className="w-[280px]" defaultValue="sy-ui" name="website2">
+        <TextField className="w-[280px]" defaultValue="sy-inc" name="website2">
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Input className="w-[280px]" />
@@ -507,7 +507,7 @@ export const AllVariations: Story = {
           </InputGroup>
         </TextField>
 
-        <TextField className="w-[280px]" defaultValue="sy-ui" name="website3">
+        <TextField className="w-[280px]" defaultValue="sy-inc" name="website3">
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Prefix>
@@ -518,7 +518,7 @@ export const AllVariations: Story = {
           </InputGroup>
         </TextField>
 
-        <TextField className="w-[280px]" defaultValue="sy-ui.com" name="website4">
+        <TextField className="w-[280px]" defaultValue="sy-inc.com" name="website4">
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Input className="w-[280px]" />
@@ -530,7 +530,7 @@ export const AllVariations: Story = {
           </InputGroup>
         </TextField>
 
-        <TextField className="w-[280px]" defaultValue="sy-ui.com" name="website5">
+        <TextField className="w-[280px]" defaultValue="sy-inc.com" name="website5">
           <Label>Website</Label>
           <InputGroup>
             <InputGroup.Prefix>

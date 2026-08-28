@@ -41,24 +41,24 @@ v3.1.0 是小版本发布：新增中文 React 文档与本地化示例，soft f
 </Tabs>
 
 <Callout type="info">
-  **正在使用 AI 助手？** 对它说「Hey Cursor，把 SY UI 升级到最新版本」。它会对比版本并应用必要变更。了解更多请参阅 [SY UI MCP 服务器](/docs/ui-for-agents/mcp-server)。
+  **正在使用 AI 助手？** 对它说「Hey Cursor，把 SY INC 升级到最新版本」。它会对比版本并应用必要变更。了解更多请参阅 [SY INC MCP 服务器](/docs/ui-for-agents/mcp-server)。
 </Callout>
 
 ## 新增内容
 
 ### 中文 React 文档
 
-React 文档、迁移指南、发布说明和示例现在都有中文版本 ([#6533](https://github.com/sy-ui/sy-ui/pull/6533))。组件页、入门指南和迁移参考都可以按 locale 发布。
+React 文档、迁移指南、发布说明和示例现在都有中文版本 ([#6533](https://github.com/sy-inc/sy-inc/pull/6533))。组件页、入门指南和迁移参考都可以按 locale 发布。
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/oss-releases/cn-docs-showcase.png"
-  alt="SY UI 中文 React 文档页面"
+  src="https://assets.sy-inc.com/docs/oss-releases/cn-docs-showcase.png"
+  alt="SY INC 中文 React 文档页面"
   wrapperClassName="aspect-[1922/1323]"
 />
 
 ### 可访问的 Soft Foreground 令牌
 
-Soft 状态不再直接套语义色，而是使用专门的 foreground token，让 Badge、Chip、Alert、Toast、Avatar 和 Calendar 范围状态的文字对比度更稳定 ([#6548](https://github.com/sy-ui/sy-ui/pull/6548))。
+Soft 状态不再直接套语义色，而是使用专门的 foreground token，让 Badge、Chip、Alert、Toast、Avatar 和 Calendar 范围状态的文字对比度更稳定 ([#6548](https://github.com/sy-inc/sy-inc/pull/6548))。
 
 可直接覆盖这些 token：
 
@@ -82,18 +82,18 @@ Soft 状态不再直接套语义色，而是使用专门的 foreground token，�
 
 ### 统一滚动条系统
 
-滚动容器现在共享同一套标准 CSS 滚动条工具：主题 token 负责颜色和宽度，`data-scrollbar` 负责模式切换 ([#6545](https://github.com/sy-ui/sy-ui/pull/6545))。组件滚动区域和自定义 overflow 区域都读取同一组 `--scrollbar-*` 变量。
+滚动容器现在共享同一套标准 CSS 滚动条工具：主题 token 负责颜色和宽度，`data-scrollbar` 负责模式切换 ([#6545](https://github.com/sy-inc/sy-inc/pull/6545))。组件滚动区域和自定义 overflow 区域都读取同一组 `--scrollbar-*` 变量。
 
 三种模式：
 
-- SY UI 纤细：不设置 `data-scrollbar`，或设置 `data-scrollbar="thin"`。
+- SY INC 纤细：不设置 `data-scrollbar`，或设置 `data-scrollbar="thin"`。
 - 浏览器默认：设置 `data-scrollbar="default"`，使用操作系统 / 浏览器滚动条。
 - 隐藏：设置 `data-scrollbar="none"`，隐藏滚动条但保留滚动。
 
 ```html
-<div data-scrollbar="thin">使用 SY UI 主题滚动条</div>
+<div data-scrollbar="thin">使用 SY INC 主题滚动条</div>
 <div data-scrollbar="default">使用浏览器默认滚动条</div>
-<div data-scrollbar="none">隐藏后代 SY UI 滚动条</div>
+<div data-scrollbar="none">隐藏后代 SY INC 滚动条</div>
 ```
 
 <div className="not-prose mt-6 mb-4 flex items-center gap-2 text-sm font-medium text-muted">
@@ -130,13 +130,13 @@ Select、ComboBox、Autocomplete、Dropdown、DatePicker、DateRangePicker、Col
 
 `--scrollbar` 保留为兼容别名；新的 thumb、track、gutter、width 和 color token 控制最终滚动条。
 
-恢复浏览器默认滚动条：在 `<html>`、`<main>` 或任意嵌套容器上设置 `data-scrollbar="default"`。如果全局已设为默认，但某个局部仍要 SY UI 样式，在该容器上加 `data-scrollbar="thin"`。
+恢复浏览器默认滚动条：在 `<html>`、`<main>` 或任意嵌套容器上设置 `data-scrollbar="default"`。如果全局已设为默认，但某个局部仍要 SY INC 样式，在该容器上加 `data-scrollbar="thin"`。
 
 ```html
 <html data-scrollbar="default">
   <main>
     <section data-scrollbar="thin">
-      <!-- 这里使用 SY UI 主题滚动条 -->
+      <!-- 这里使用 SY INC 主题滚动条 -->
     </section>
   </main>
 </html>
@@ -144,17 +144,17 @@ Select、ComboBox、Autocomplete、Dropdown、DatePicker、DateRangePicker、Col
 
 ## 组件与运行时修复
 
-- **Fieldset**：`disabled` 会传给字段标签，并禁用后代 React Aria `RadioGroup` 与 `Slider` ([#6547](https://github.com/sy-ui/sy-ui/pull/6547))。
-- **Toast**：非前台 Toast 不再进入 Tab 顺序；卸载时清理已测量高度 ([#6510](https://github.com/sy-ui/sy-ui/pull/6510), [#6512](https://github.com/sy-ui/sy-ui/pull/6512))。
-- **`useTheme`**：SSR 不再读取浏览器 API；`resolvedTheme` 改为派生值；系统主题订阅改用 `useSyncExternalStore` ([#6561](https://github.com/sy-ui/sy-ui/pull/6561))。
-- **Link**：默认无下划线；hover 使用 50% 装饰色；active / pressed 使用 100%；移除下划线装饰色过渡 ([#6570](https://github.com/sy-ui/sy-ui/pull/6570), [#6571](https://github.com/sy-ui/sy-ui/pull/6571))。
+- **Fieldset**：`disabled` 会传给字段标签，并禁用后代 React Aria `RadioGroup` 与 `Slider` ([#6547](https://github.com/sy-inc/sy-inc/pull/6547))。
+- **Toast**：非前台 Toast 不再进入 Tab 顺序；卸载时清理已测量高度 ([#6510](https://github.com/sy-inc/sy-inc/pull/6510), [#6512](https://github.com/sy-inc/sy-inc/pull/6512))。
+- **`useTheme`**：SSR 不再读取浏览器 API；`resolvedTheme` 改为派生值；系统主题订阅改用 `useSyncExternalStore` ([#6561](https://github.com/sy-inc/sy-inc/pull/6561))。
+- **Link**：默认无下划线；hover 使用 50% 装饰色；active / pressed 使用 100%；移除下划线装饰色过渡 ([#6570](https://github.com/sy-inc/sy-inc/pull/6570), [#6571](https://github.com/sy-inc/sy-inc/pull/6571))。
 
 ## 布局、浮层与 RTL 修复
 
-- **浮层定位**：进入动画只过渡 `opacity` 和 `transform`，不再动画化 React Aria 写入的定位值 ([#6549](https://github.com/sy-ui/sy-ui/pull/6549))。
-- **Dialog 与 Modal 聚焦**：Modal 和 AlertDialog 内容改用裁剪处理，避免 focus 触发程序化滚动；body focus ring 不再被 overflow 裁掉 ([#6448](https://github.com/sy-ui/sy-ui/pull/6448), [#6557](https://github.com/sy-ui/sy-ui/pull/6557))。
-- **RTL Table 圆角**：Table 改用逻辑方向的 `border-radius`，RTL 外侧圆角保持正确 ([#6568](https://github.com/sy-ui/sy-ui/pull/6568))。
-- **RTL Picker 与 Menu 指示器**：Select、ListBox.Item、Autocomplete、ComboBox 和 MenuItem 改用 logical inline start/end，覆盖 chevron、value、checkmark、trigger 和 submenu indicator ([#6573](https://github.com/sy-ui/sy-ui/pull/6573))。
+- **浮层定位**：进入动画只过渡 `opacity` 和 `transform`，不再动画化 React Aria 写入的定位值 ([#6549](https://github.com/sy-inc/sy-inc/pull/6549))。
+- **Dialog 与 Modal 聚焦**：Modal 和 AlertDialog 内容改用裁剪处理，避免 focus 触发程序化滚动；body focus ring 不再被 overflow 裁掉 ([#6448](https://github.com/sy-inc/sy-inc/pull/6448), [#6557](https://github.com/sy-inc/sy-inc/pull/6557))。
+- **RTL Table 圆角**：Table 改用逻辑方向的 `border-radius`，RTL 外侧圆角保持正确 ([#6568](https://github.com/sy-inc/sy-inc/pull/6568))。
+- **RTL Picker 与 Menu 指示器**：Select、ListBox.Item、Autocomplete、ComboBox 和 MenuItem 改用 logical inline start/end，覆盖 chevron、value、checkmark、trigger 和 submenu indicator ([#6573](https://github.com/sy-inc/sy-inc/pull/6573))。
 
 ## 文档与依赖
 
@@ -167,9 +167,9 @@ Select、ComboBox、Autocomplete、Dropdown、DatePicker、DateRangePicker、Col
 
 - [组件文档](/docs/react/components)
 - [主题文档](/docs/react/getting-started/theming)
-- [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #6576](https://github.com/sy-ui/sy-ui/pull/6576)
+- [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #6576](https://github.com/sy-inc/sy-inc/pull/6576)
 
 ## 贡献者
 

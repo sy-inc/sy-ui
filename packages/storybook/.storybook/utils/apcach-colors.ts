@@ -1,6 +1,6 @@
 /**
  * Color calculation utilities using apcach for APCA-based contrast calculations
- * Aligned with SY UI theme system - starts with defaults from variables.css and applies hue/chroma adjustments
+ * Aligned with SY INC theme system - starts with defaults from variables.css and applies hue/chroma adjustments
  */
 import {formatRgb, parse} from "culori";
 

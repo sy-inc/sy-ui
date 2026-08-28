@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/search-field-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/search-field-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/search-field-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/search-field-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { SearchField } from 'sy-ui-native';
+import { SearchField } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -124,7 +124,7 @@ Set `isDisabled` on the root to disable all child components via context.
 ## Example
 
 ```tsx
-import { Description, Label, SearchField } from 'sy-ui-native';
+import { Description, Label, SearchField } from 'sy-inc-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -147,7 +147,7 @@ export default function SearchFieldExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/search-field.tsx>).
+You can find more examples in the [GitHub repository](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/search-field.tsx>).
 
 ## API Reference
 
@@ -225,7 +225,7 @@ Automatically hidden when the controlled `value` is an empty string. Calls `onCh
 Hook to access the search field state from context. Must be used within a `SearchField` component.
 
 ```tsx
-import { useSearchField } from 'sy-ui-native';
+import { useSearchField } from 'sy-inc-native';
 
 const { value, onChange, isDisabled, isInvalid, isRequired } = useSearchField();
 ```

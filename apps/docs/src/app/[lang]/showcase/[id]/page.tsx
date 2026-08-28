@@ -36,14 +36,14 @@ export async function generateMetadata({params}: ShowcasePageProps): Promise<Met
 
   return {
     alternates,
-    description: `Interactive demo of ${showcase.name} built with SY UI components.`,
+    description: `Interactive demo of ${showcase.name} built with SY INC components.`,
     openGraph: {
-      description: `Interactive demo of ${showcase.name} built with SY UI components.`,
+      description: `Interactive demo of ${showcase.name} built with SY INC components.`,
       siteName: siteConfig.name,
-      title: `${showcase.name} - SY UI Showcase`,
+      title: `${showcase.name} - SY INC Showcase`,
       url: alternates.canonical,
     },
-    title: `${showcase.name} - SY UI Showcase`,
+    title: `${showcase.name} - SY INC Showcase`,
   };
 }
 

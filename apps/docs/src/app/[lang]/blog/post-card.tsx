@@ -12,7 +12,7 @@ const TAG_COLORS: Record<string, string> = {
   dashboards: "from-amber-500 to-orange-500",
   "design-system": "from-pink-500 to-rose-500",
   ecommerce: "from-yellow-500 to-amber-500",
-  "sy-ui": "from-blue-600 to-violet-600",
+  "sy-inc": "from-blue-600 to-violet-600",
   "landing-page": "from-teal-500 to-cyan-500",
   native: "from-fuchsia-500 to-pink-600",
   react: "from-sky-500 to-blue-600",

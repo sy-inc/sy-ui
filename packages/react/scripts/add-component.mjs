@@ -52,7 +52,7 @@ export const ${componentName} = React.forwardRef<HTMLDivElement, ${componentName
   }
 );
 
-${componentName}.displayName = "SY UI.${componentName}";
+${componentName}.displayName = "SY INC.${componentName}";
 `;
 
   const stylesContent = `import type {VariantProps} from "tailwind-variants";

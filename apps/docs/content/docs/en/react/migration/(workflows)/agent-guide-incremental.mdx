@@ -1,12 +1,12 @@
 ---
 title: Agent Migration Guide - Incremental Migration with Coexistence
-description: Incremental coexistence migration guide for AI assistants helping migrate SY UI v2 to v3
+description: Incremental coexistence migration guide for AI assistants helping migrate SY INC v2 to v3
 index: false
 ---
 
 ## Overview
 
-This guide is designed for AI assistants (agents) helping users migrate from SY UI v2 to v3 using **incremental coexistence migration**. This approach allows v2 and v3 components to work side-by-side, enabling component-by-component migration while keeping the project functional.
+This guide is designed for AI assistants (agents) helping users migrate from SY INC v2 to v3 using **incremental coexistence migration**. This approach allows v2 and v3 components to work side-by-side, enabling component-by-component migration while keeping the project functional.
 
 <Callout type="info">
   **Key Difference**: Unlike full migration, incremental coexistence migration allows the project to remain functional during migration. Both v2 and v3 components can coexist temporarily.
@@ -41,12 +41,12 @@ For detailed setup and migration instructions, see the [Incremental Migration Gu
 For projects using incremental coexistence strategies, agents should:
 
 1. **Identify the strategy**: Check if project uses pnpm aliases (Strategy A) or component packages (Strategy B)
-   - **Strategy A**: Look for aliases like `"@sy-ui-v3/react": "npm:@sy-inc/react@latest"` in package.json
-   - **Strategy B**: Look for component-specific packages like `@sy-ui/button`, `@sy-ui/card` alongside `@sy-inc/react`
+   - **Strategy A**: Look for aliases like `"@sy-inc-v3/react": "npm:@sy-inc/react@latest"` in package.json
+   - **Strategy B**: Look for component-specific packages like `@sy-inc/button`, `@sy-inc/card` alongside `@sy-inc/react`
 
 2. **Verify setup**: Ensure the coexistence setup is correct:
-   - Strategy A: Both `@sy-inc/react` (v2) and `@sy-ui-v3/react` (v3 alias) are installed
-   - Strategy B: `@sy-inc/react` (v3) and component packages like `@sy-ui/button` (v2) are installed
+   - Strategy A: Both `@sy-inc/react` (v2) and `@sy-inc-v3/react` (v3 alias) are installed
+   - Strategy B: `@sy-inc/react` (v3) and component packages like `@sy-inc/button` (v2) are installed
    - CSS is configured for both versions (see CSS Configuration section)
 
 ## Component-by-Component Migration Guidance
@@ -58,8 +58,8 @@ For projects using incremental coexistence strategies, agents should:
    - Use `get_component_migration_guides` MCP tool to fetch component-specific guide
 
 2. **Update imports**
-   - Change imports from `@sy-inc/react` to `@sy-ui-v3/react`
-   - Example: `import {Button} from "@sy-inc/react"` → `import {Button} from "@sy-ui-v3/react"`
+   - Change imports from `@sy-inc/react` to `@sy-inc-v3/react`
+   - Example: `import {Button} from "@sy-inc/react"` → `import {Button} from "@sy-inc-v3/react"`
 
 3. **Update component code**
    - Follow component migration guide from `get_component_migration_guides` tool
@@ -82,12 +82,12 @@ For projects using incremental coexistence strategies, agents should:
    - Use `get_component_migration_guides` MCP tool to fetch component-specific guide
 
 2. **Remove component package**
-   - Remove the v2 component package from dependencies (e.g., `@sy-ui/button`)
+   - Remove the v2 component package from dependencies (e.g., `@sy-inc/button`)
    - Update package.json
 
 3. **Update imports**
    - Change imports from component package to `@sy-inc/react` (v3)
-   - Example: `import {Card} from "@sy-ui/card"` → `import {Card} from "@sy-inc/react"`
+   - Example: `import {Card} from "@sy-inc/card"` → `import {Card} from "@sy-inc/react"`
 
 4. **Update component code**
    - Follow component migration guide from `get_component_migration_guides` tool
@@ -144,12 +144,12 @@ Use the `get_component_migration_guides` MCP tool to fetch detailed guides for e
 Once all components are migrated:
 
 1. **Remove v2 dependencies**
-   - Strategy A: Remove `@sy-inc/react`, `@sy-ui/theme`, and aliases
-   - Strategy B: Remove all remaining `@sy-ui/*` component packages
+   - Strategy A: Remove `@sy-inc/react`, `@sy-inc/theme`, and aliases
+   - Strategy B: Remove all remaining `@sy-inc/*` component packages
    - If the project contains v2 removed components (Code, Image, Navbar, Ripple, Snippet, Spacer, User), inform the user they may ask to remove them later using the provided guides.
 
 2. **Update all imports**
-   - Strategy A: Change `@sy-ui-v3/react` → `@sy-inc/react`
+   - Strategy A: Change `@sy-inc-v3/react` → `@sy-inc/react`
    - Strategy B: All imports should already be `@sy-inc/react` (v3)
 
 3. **Update CSS configuration**
@@ -246,7 +246,7 @@ Once all components are migrated:
 After completing migration:
 
 1. Remove v2 dependencies (already done in completion steps)
-2. Switch from Migration MCP to `sy-ui-react` MCP for v3 development
+2. Switch from Migration MCP to `sy-inc-react` MCP for v3 development
 3. Update documentation references
 4. Run final verification
 5. Complete styling migration

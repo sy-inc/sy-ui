@@ -1,6 +1,6 @@
 ---
 title: 颜色
-description: SY UI Native 的调色板与主题系统
+description: SY INC Native 的调色板与主题系统
 icon: bucket-paint
 links:
   themes: true
@@ -9,9 +9,9 @@ links:
 
 import {ColorSectionSideBySide, ColorSectionStacked, ColorSectionFormField, ColorSectionPrimitive} from "@/components/color-section";
 
-SY UI Native 的颜色体系围绕语义意图构建，而非堆砌视觉色板。系统不会暴露庞大的原始色表，而是定义一小套有意义的色彩角色，覆盖绝大多数界面需求。
+SY INC Native 的颜色体系围绕语义意图构建，而非堆砌视觉色板。系统不会暴露庞大的原始色表，而是定义一小套有意义的色彩角色，覆盖绝大多数界面需求。
 
-系统中的多数颜色会由少量基础值自动派生。这样 SY UI 能在保持对比度、层级与主题行为一致的同时，让整套体系易于理解与修改。
+系统中的多数颜色会由少量基础值自动派生。这样 SY INC 能在保持对比度、层级与主题行为一致的同时，让整套体系易于理解与修改。
 
 颜色应首先传达用途与状态；视觉变化来自尺度、强调与上下文。
 
@@ -258,7 +258,7 @@ import { View, Text } from 'react-native';
 
 ## 默认主题
 
-完整主题定义见仓库中的 [variables.css](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/variables.css)。该主题通过 [Uniwind 主题系统](https://docs.uniwind.dev/theming/basics) 在明暗模式间自动切换，并支持跟随系统与在代码中切换主题。
+完整主题定义见仓库中的 [variables.css](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/variables.css)。该主题通过 [Uniwind 主题系统](https://docs.uniwind.dev/theming/basics) 在明暗模式间自动切换，并支持跟随系统与在代码中切换主题。
 
 <CollapsibleCode lang="css" code={`  @theme {
     /* 基础色（在明暗模式间保持不变） */
@@ -459,7 +459,7 @@ import { View, Text } from 'react-native';
 现在可以同时选取多种颜色，在需要一并处理相关色值时很有用：
 
 ```tsx
-import { useThemeColor } from 'sy-ui-native';
+import { useThemeColor } from 'sy-inc-native';
 
 // 一次选取多种颜色
 const [accent, accentForeground, success, danger] = useThemeColor([

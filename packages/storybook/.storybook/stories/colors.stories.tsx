@@ -186,7 +186,7 @@ export const AllColors = () => {
     <div className="mx-auto max-w-4xl p-6">
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold text-foreground">Color System</h1>
-        <p className="text-muted">SY UI's color palette with CSS variables and computed values</p>
+        <p className="text-muted">SY INC's color palette with CSS variables and computed values</p>
       </div>
 
       <ColorSection colors={baseColors} title="Base Colors" />
@@ -225,7 +225,7 @@ AllColors.parameters = {
   docs: {
     description: {
       story:
-        "A comprehensive overview of all color tokens available in the SY UI design system. Each color shows its CSS variable name and computed value.",
+        "A comprehensive overview of all color tokens available in the SY INC design system. Each color shows its CSS variable name and computed value.",
     },
   },
 };

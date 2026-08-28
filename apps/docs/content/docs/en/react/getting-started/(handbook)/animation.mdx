@@ -1,14 +1,14 @@
 ---
 title: Animation
-description: Add smooth animations and transitions to SY UI v3 components
+description: Add smooth animations and transitions to SY INC v3 components
 icon: copy-transparent
 ---
 
-SY UI components support multiple animation approaches: built-in CSS transitions, custom CSS animations, and JavaScript libraries like Framer Motion.
+SY INC components support multiple animation approaches: built-in CSS transitions, custom CSS animations, and JavaScript libraries like Framer Motion.
 
 ## Built-in Animations
 
-SY UI components use data attributes to expose their state for animation:
+SY INC components use data attributes to expose their state for animation:
 
 ```css
 /* Popover entrance/exit */
@@ -82,7 +82,7 @@ SY UI components use data attributes to expose their state for animation:
 
 ## Framer Motion
 
-SY UI components work seamlessly with Framer Motion for advanced animations.
+SY INC components work seamlessly with Framer Motion for advanced animations.
 
 **Basic usage:**
 
@@ -159,12 +159,12 @@ Apply dynamic animations based on component state:
 
 ## Accessibility
 
-**Respecting motion preferences:** SY UI automatically respects user motion preferences using Tailwind's `motion-reduce:` utility. All built-in transitions and animations are disabled when users enable "reduce motion" in their system settings.
+**Respecting motion preferences:** SY INC automatically respects user motion preferences using Tailwind's `motion-reduce:` utility. All built-in transitions and animations are disabled when users enable "reduce motion" in their system settings.
 
-SY UI extends Tailwind's `motion-reduce:` variant to support both the native `prefers-reduced-motion` media query and the `data-reduce-motion` attribute.
+SY INC extends Tailwind's `motion-reduce:` variant to support both the native `prefers-reduced-motion` media query and the `data-reduce-motion` attribute.
 
 ```css
-/* SY UI pattern - uses Tailwind's motion-reduce: */
+/* SY INC pattern - uses Tailwind's motion-reduce: */
 .button {
   @apply transition-colors motion-reduce:transition-none;
 }
@@ -205,11 +205,11 @@ function AnimatedCard() {
 
 ```html
 <html data-reduce-motion="true">
-  <!-- All SY UI animations will be disabled -->
+  <!-- All SY INC animations will be disabled -->
 </html>
 ```
 
-SY UI automatically detects the user's `prefers-reduced-motion: reduce` setting and disables animations accordingly.
+SY INC automatically detects the user's `prefers-reduced-motion: reduce` setting and disables animations accordingly.
 
 ## Performance Tips
 

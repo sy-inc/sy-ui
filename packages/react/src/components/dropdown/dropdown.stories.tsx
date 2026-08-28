@@ -852,7 +852,7 @@ export const CustomTrigger: Story = {
         <Avatar>
           <Avatar.Image
             alt="Junior Garcia"
-            src="https://assets.sy-ui.com/avatars/orange.jpg"
+            src="https://assets.sy-inc.com/avatars/orange.jpg"
           />
           <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
         </Avatar>
@@ -863,7 +863,7 @@ export const CustomTrigger: Story = {
             <Avatar size="sm">
               <Avatar.Image
                 alt="Jane"
-                src="https://assets.sy-ui.com/avatars/orange.jpg"
+                src="https://assets.sy-inc.com/avatars/orange.jpg"
               />
               <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
             </Avatar>

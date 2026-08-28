@@ -1,22 +1,22 @@
 ---
 title: Chip
-description: Chip 从 SY UI v2 到 v3 的迁移指南。
+description: Chip 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Chip 文档](/docs/react/components/chip)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Chip 文档](/docs/react/components/chip)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 关键变化
 
 ### 1. 变体
 
-**v2：** `solid`、`bordered`、`light`、`flat`、`faded`、`shadow`、`dot`  
+**v2：** `solid`、`bordered`、`light`、`flat`、`faded`、`shadow`、`dot`
 **v3：** `primary`、`secondary`、`tertiary`、`soft`
 
 ### 2. 颜色
 
-**v2：** `default`、`primary`、`secondary`、`success`、`warning`、`danger`  
+**v2：** `default`、`primary`、`secondary`、`success`、`warning`、`danger`
 **v3：** `default`、`accent`、`success`、`warning`、`danger`
 
 ### 3. 复合组件模式
@@ -37,7 +37,7 @@ v3 引入复合组件模式，并提供 `Chip.Label` 子组件：
 
 ### 4. 尺寸变体
 
-**v2：** `sm`、`md`、`lg`（通过 `size` prop）  
+**v2：** `sm`、`md`、`lg`（通过 `size` prop）
 **v3：** `sm`、`md`、`lg`（通过 `size` prop，API 相同）
 
 可用尺寸与 v2 一致，但 v3 通过 BEM 风格的 CSS class（`chip--sm`、`chip--md`、`chip--lg`）应用。默认尺寸为 `md`。
@@ -125,7 +125,7 @@ export default function App() {
     <Chip variant="solid">Solid</Chip>
     <Chip variant="bordered">Bordered</Chip>
     <Chip variant="light">Light</Chip>
-    
+
     {/* Colors */}
     <Chip color="primary">Primary</Chip>
     <Chip color="success">Success</Chip>
@@ -137,7 +137,7 @@ export default function App() {
     <Chip variant="primary">Primary</Chip>
     <Chip variant="secondary">Secondary</Chip>
     <Chip variant="soft">Soft</Chip>
-    
+
     {/* Colors */}
     <Chip color="accent">Accent</Chip>
     <Chip color="success">Success</Chip>
@@ -156,7 +156,7 @@ export default function App() {
     <Chip startContent={<Icon icon="gravity-ui:check" />}>
       Chip
     </Chip>
-    
+
     {/* End content */}
     <Chip endContent={<Icon icon="gravity-ui:chevron-down" />}>
       Chip
@@ -172,7 +172,7 @@ export default function App() {
       <Icon icon="gravity-ui:check" />
       Chip
     </Chip>
-    
+
     {/* 后置图标 */}
     <Chip>
       Chip
@@ -228,7 +228,7 @@ export default function App() {
 
     <Chip>
       Chip
-      <CloseButton 
+      <CloseButton
         aria-label="Close chip"
         onPress={() => console.log("close")}
       />
@@ -244,7 +244,7 @@ export default function App() {
     ```tsx
     {/* Dot variant */}
     <Chip variant="dot">Dot</Chip>
-    
+
     {/* Shadow variant */}
     <Chip variant="shadow">Shadow</Chip>
     ```
@@ -258,7 +258,7 @@ export default function App() {
       <Icon icon="gravity-ui:circle-fill" width={6} />
       Dot
     </Chip>
-    
+
     {/* shadow：使用 Tailwind class */}
     <Chip variant="primary" className="shadow-md">
       Shadow
@@ -272,7 +272,7 @@ export default function App() {
 ### v2：`classNames` prop
 
 ```tsx
-<Chip 
+<Chip
   classNames={{
     base: "custom-base",
     content: "custom-content",

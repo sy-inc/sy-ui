@@ -1,10 +1,10 @@
 ---
 title: Design Principles
-description: Core principles that guide SY UI v3's design and development
+description: Core principles that guide SY INC v3's design and development
 icon: book
 ---
 
-SY UI Native follows 9 core principles that prioritize clarity, accessibility, customization, and developer experience.
+SY INC Native follows 9 core principles that prioritize clarity, accessibility, customization, and developer experience.
 
 ## Core Principles
 
@@ -13,8 +13,8 @@ SY UI Native follows 9 core principles that prioritize clarity, accessibility, c
 Use semantic naming (primary, secondary, tertiary) instead of visual descriptions (solid, flat, bordered). Inspired by [Uber's Base design system](https://base.uber.com/6d2425e9f/p/756216-button), variants follow a clear hierarchy:
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/emphasis.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/emphasis-dark.jpg"
+  src="https://assets.sy-inc.com/docs/emphasis.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/emphasis-dark.jpg"
   alt="Semantic Intent Hierarchy"
 />
 
@@ -38,7 +38,7 @@ Use semantic naming (primary, secondary, tertiary) instead of visual description
 Accessibility follows mobile development best practices with proper touch accessibility, focus management, and screen reader support built into every component. All components include proper accessibility labels and semantic structure for VoiceOver (iOS) and TalkBack (Android).
 
 ```tsx
-import { Tabs } from 'sy-ui-native';
+import { Tabs } from 'sy-inc-native';
 
 <Tabs value="profile" onValueChange={setActiveTab}>
   <Tabs.List>
@@ -61,7 +61,7 @@ Compound components let you rearrange, customize, or omit parts as needed. Use d
 
 ```tsx
 // Compose parts to build exactly what you need
-import { Accordion } from 'sy-ui-native';
+import { Accordion } from 'sy-inc-native';
 
 <Accordion>
   <Accordion.Item value="1">
@@ -79,7 +79,7 @@ import { Accordion } from 'sy-ui-native';
 Start simple, add complexity only when needed. Components work with minimal props and scale up as requirements grow.
 
 ```tsx
-import { Button, Spinner } from 'sy-ui-native';
+import { Button, Spinner } from 'sy-inc-native';
 import { Feather } from '@expo/vector-icons';
 
 // Level 1: Minimal
@@ -109,7 +109,7 @@ import { Feather } from '@expo/vector-icons';
 Consistent patterns across all components: sizes (`sm`, `md`, `lg`), variants, and className support. Same API, same behavior.
 
 ```tsx
-import { Button, Chip, Avatar } from 'sy-ui-native';
+import { Button, Chip, Avatar } from 'sy-inc-native';
 
 // All components follow the same patterns
 <Button size="lg" variant="primary" className="custom">
@@ -128,7 +128,7 @@ import { Button, Chip, Avatar } from 'sy-ui-native';
 Full TypeScript support with IntelliSense, auto-completion, and compile-time error detection. Extend types for custom components.
 
 ```tsx
-import type { ButtonRootProps } from 'sy-ui-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 
 // Type-safe props and event handlers
 <Button
@@ -180,8 +180,8 @@ Beautiful defaults out-of-the-box. Transform the entire look with CSS variables 
 Wrap, extend, and customize components to match your needs. Create custom wrappers or apply custom styles using className.
 
 ```tsx
-import { Button } from 'sy-ui-native';
-import type { ButtonRootProps } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 
 // Custom wrapper component
 interface CTAButtonProps extends Omit<ButtonRootProps, 'variant'> {
@@ -214,7 +214,7 @@ const CTAButton = ({
 **Extend with Tailwind Variants:**
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 import { tv } from 'tailwind-variants';
 
 // Extend button styles with custom variants

@@ -48,13 +48,13 @@ export function PreviewContainer() {
     const iframe = iframeRef.current;
 
     if (!iframe?.contentWindow) return;
-    iframe.contentWindow.postMessage({theme: resolvedTheme ?? "dark", type: "sy-ui-theme"}, "*");
-    iframe.contentWindow.postMessage({type: "sy-ui-accent", vars: themeVars}, "*");
+    iframe.contentWindow.postMessage({theme: resolvedTheme ?? "dark", type: "sy-inc-theme"}, "*");
+    iframe.contentWindow.postMessage({type: "sy-inc-accent", vars: themeVars}, "*");
     iframe.contentWindow.postMessage(
       {
         cdnUrl: fontMeta.cdnUrl,
         family: fontMeta.family,
-        type: "sy-ui-font",
+        type: "sy-inc-font",
         variable: fontMeta.variable,
       },
       "*",
@@ -67,7 +67,7 @@ export function PreviewContainer() {
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      if (event.data?.type === "sy-ui-ready") {
+      if (event.data?.type === "sy-inc-ready") {
         sendMessageToIframe();
       }
     }

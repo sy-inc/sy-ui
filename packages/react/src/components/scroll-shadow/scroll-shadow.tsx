@@ -122,4 +122,4 @@ export const ScrollShadowRoot = ({
   );
 };
 
-ScrollShadowRoot.displayName = "SY UI.ScrollShadow";
+ScrollShadowRoot.displayName = "SY INC.ScrollShadow";

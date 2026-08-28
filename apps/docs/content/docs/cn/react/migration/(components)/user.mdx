@@ -1,17 +1,17 @@
 ---
 title: User
-description: User 从 SY UI v2 到 v3 的迁移指南。
+description: User 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="warning">
-  SY UI v3 中的 User 组件已被**移除**。请使用 Avatar、文本元素与 Tailwind CSS 类手动组合用户展示。
+  SY INC v3 中的 User 组件已被**移除**。请使用 Avatar、文本元素与 Tailwind CSS 类手动组合用户展示。
 </Callout>
 
 ## 主要变化
 
 ### 1. 组件已移除
 
-**v2：** 来自 `@sy-inc/react` 的 `<User>` 组件  
+**v2：** 来自 `@sy-inc/react` 的 `<User>` 组件
 **v3：** 使用 `Avatar` + 文本元素手动组合
 
 ### 2. 功能映射
@@ -208,7 +208,7 @@ export default function App() {
         src: "https://example.com/avatar.jpg",
       }}
     />
-    
+
     {/* As button */}
     <User
       as="button"
@@ -237,7 +237,7 @@ export default function App() {
       </Avatar>
       <span className="text-sm">Junior Garcia</span>
     </button>
-    
+
     {/* As button */}
     <button
       className="inline-flex items-center gap-2 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-focus"

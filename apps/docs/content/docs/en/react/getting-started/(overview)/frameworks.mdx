@@ -1,6 +1,6 @@
 ---
 title: Frameworks
-description: Integrate SY UI with your framework
+description: Integrate SY INC with your framework
 icon: layers
 ---
 
@@ -9,14 +9,14 @@ icon: layers
 ### 1. Create a Next.js project
 
 ```bash
-npx sy-ui-cli@latest init
+npx sy-inc-cli@latest init
 ```
 
 <Callout>
   When prompted, select the **App** or **Pages** template. Then open your new folder and install dependencies (for example `pnpm install`).
 </Callout>
 
-### 2. Use your first SY UI component
+### 2. Use your first SY INC component
 
 <Tabs items={["App Router", "Pages Router"]}>
   <Tab value="App Router">
@@ -28,7 +28,7 @@ npx sy-ui-cli@latest init
     export default function HomePage() {
       return (
         <main className="flex min-h-screen items-center justify-center">
-          <Button variant="tertiary">Hello SY UI</Button>
+          <Button variant="tertiary">Hello SY INC</Button>
         </main>
       );
     }
@@ -43,7 +43,7 @@ npx sy-ui-cli@latest init
     export default function HomePage() {
       return (
         <main className="flex min-h-screen items-center justify-center">
-          <Button variant="tertiary">Hello SY UI</Button>
+          <Button variant="tertiary">Hello SY INC</Button>
         </main>
       );
     }
@@ -52,7 +52,7 @@ npx sy-ui-cli@latest init
 </Tabs>
 
 <Callout>
-  SY UI v3 does not require a provider. Components work directly after installation and style import.
+  SY INC v3 does not require a provider. Components work directly after installation and style import.
 </Callout>
 
 ### 3 Locale Setup (Optional)
@@ -109,14 +109,14 @@ If you are using a [Content Security Policy](https://developer.mozilla.org/en-US
 ### 1. Create a Vite project
 
 ```bash
-npx sy-ui-cli@latest init
+npx sy-inc-cli@latest init
 ```
 
 <Callout>
   When prompted, select the **Vite** template. Then open your new folder and install dependencies (for example `pnpm install`).
 </Callout>
 
-### 2. Use your first SY UI component
+### 2. Use your first SY INC component
 
 Example: `src/App.tsx`
 
@@ -126,7 +126,7 @@ import {Button} from "@sy-inc/react";
 function App() {
   return (
     <main className="flex min-h-screen items-center justify-center">
-      <Button variant="tertiary">Hello SY UI</Button>
+      <Button variant="tertiary">Hello SY INC</Button>
     </main>
   );
 }
@@ -135,7 +135,7 @@ export default App;
 ```
 
 <Callout>
-  SY UI v3 does not require a provider. Components work directly after installation and style import.
+  SY INC v3 does not require a provider. Components work directly after installation and style import.
 </Callout>
 
 ## Next steps

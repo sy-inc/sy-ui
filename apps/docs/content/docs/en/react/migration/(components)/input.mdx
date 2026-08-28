@@ -1,10 +1,10 @@
 ---
 title: Input
-description: Migration guide for Input from SY UI v2 to v3
+description: Migration guide for Input from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Input documentation](/docs/react/components/input) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Input documentation](/docs/react/components/input) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Key Change: Input → TextField
@@ -69,7 +69,7 @@ export default function App() {
 
 ### 1. Component Split
 
-**v2:** Single `Input` component with all features  
+**v2:** Single `Input` component with all features
 **v3:** Split into `Input` (primitive) and `TextField` (compound component)
 
 ### 2. Prop Changes
@@ -104,7 +104,7 @@ export default function App() {
       label="Email"
       type="email"
     />
-    
+
     {/* With error message */}
     <Input
       errorMessage="Please enter a valid email"
@@ -112,7 +112,7 @@ export default function App() {
       label="Email"
       type="email"
     />
-    
+
     {/* Required */}
     <Input isRequired label="Email" type="email" />
     ```
@@ -128,7 +128,7 @@ export default function App() {
       <Description>We'll never share your email</Description>
       <FieldError />
     </TextField>
-    
+
     {/* With error message */}
     <TextField
       isInvalid
@@ -145,7 +145,7 @@ export default function App() {
       <Input />
       <FieldError />
     </TextField>
-    
+
     {/* Required */}
     <TextField isRequired name="email" type="email">
       <Label>Email</Label>

@@ -239,7 +239,7 @@ const DrawerRoot = ({children, state, ...props}: DrawerRootProps) => {
   );
 };
 
-DrawerRoot.displayName = "SY UI.Drawer";
+DrawerRoot.displayName = "SY INC.Drawer";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Trigger
@@ -260,7 +260,7 @@ const DrawerTrigger = ({children, className, ...props}: DrawerTriggerProps) => {
   );
 };
 
-DrawerTrigger.displayName = "SY UI.Drawer.Trigger";
+DrawerTrigger.displayName = "SY INC.Drawer.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Backdrop
@@ -306,7 +306,7 @@ const DrawerBackdrop = ({
   );
 };
 
-DrawerBackdrop.displayName = "SY UI.Drawer.Backdrop";
+DrawerBackdrop.displayName = "SY INC.Drawer.Backdrop";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Content
@@ -349,7 +349,7 @@ const DrawerContent = ({
   );
 };
 
-DrawerContent.displayName = "SY UI.Drawer.Content";
+DrawerContent.displayName = "SY INC.Drawer.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Dialog
@@ -377,7 +377,7 @@ const DrawerDialog = ({children, className, ...props}: DrawerDialogProps) => {
   );
 };
 
-DrawerDialog.displayName = "SY UI.Drawer.Dialog";
+DrawerDialog.displayName = "SY INC.Drawer.Dialog";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Header
@@ -407,7 +407,7 @@ const DrawerHeader = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-DrawerHeader.displayName = "SY UI.Drawer.Header";
+DrawerHeader.displayName = "SY INC.Drawer.Header";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Body
@@ -438,7 +438,7 @@ const DrawerBody = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-DrawerBody.displayName = "SY UI.Drawer.Body";
+DrawerBody.displayName = "SY INC.Drawer.Body";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Footer
@@ -468,7 +468,7 @@ const DrawerFooter = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-DrawerFooter.displayName = "SY UI.Drawer.Footer";
+DrawerFooter.displayName = "SY INC.Drawer.Footer";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Heading
@@ -490,7 +490,7 @@ const DrawerHeading = ({children, className, ...props}: DrawerHeadingProps) => {
   );
 };
 
-DrawerHeading.displayName = "SY UI.Drawer.Heading";
+DrawerHeading.displayName = "SY INC.Drawer.Heading";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Handle
@@ -520,7 +520,7 @@ const DrawerHandle = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-DrawerHandle.displayName = "SY UI.Drawer.Handle";
+DrawerHandle.displayName = "SY INC.Drawer.Handle";
 
 /* -------------------------------------------------------------------------------------------------
  * Drawer Close Trigger
@@ -543,7 +543,7 @@ const DrawerCloseTrigger = ({className, ...rest}: DrawerCloseTriggerProps) => {
   );
 };
 
-DrawerCloseTrigger.displayName = "SY UI.Drawer.CloseTrigger";
+DrawerCloseTrigger.displayName = "SY INC.Drawer.CloseTrigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

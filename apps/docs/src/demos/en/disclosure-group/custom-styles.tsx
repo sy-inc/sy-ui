@@ -28,7 +28,7 @@ export function CustomStyles() {
         </Disclosure.Heading>
         <Disclosure.Content>
           <Disclosure.Body className="text-sm text-muted">
-            Reach us at help@sy-ui.com. Typical response time is under one business day.
+            Reach us at help@sy-inc.com. Typical response time is under one business day.
           </Disclosure.Body>
         </Disclosure.Content>
       </Disclosure>

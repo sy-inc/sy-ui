@@ -4,13 +4,13 @@ import {Accordion} from "@sy-inc/react";
 const items = [
   {
     content: "Stay informed about your account activity with real-time notifications.",
-    iconUrl: "https://assets.sy-ui.com/docs/3dicons/bell-small.png",
+    iconUrl: "https://assets.sy-inc.com/docs/3dicons/bell-small.png",
     subtitle: "Receive account activity updates",
     title: "Set Up Notifications",
   },
   {
     content: "Enhance your browsing experience by installing our official browser extension",
-    iconUrl: "https://assets.sy-ui.com/docs/3dicons/compass-small.png",
+    iconUrl: "https://assets.sy-inc.com/docs/3dicons/compass-small.png",
     subtitle: "Connect your browser to your account",
     title: "Set up Browser Extension",
   },
@@ -18,7 +18,7 @@ const items = [
     content:
       "Begin your journey into the world of digital collectibles by creating your first NFT. ",
     iconUrl:
-      "https://assets.sy-ui.com/docs/3dicons/mint-collective-small.png",
+      "https://assets.sy-inc.com/docs/3dicons/mint-collective-small.png",
     subtitle: "Create your first collectible",
     title: "Mint Collectible",
   },

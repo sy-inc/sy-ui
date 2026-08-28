@@ -7,12 +7,12 @@ export function getOrganizationJsonLd() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "sales@sy-ui.com",
+      email: "sales@sy-inc.com",
     },
-    logo: "https://sy-ui.com/icons/favicon.svg",
-    name: "SY UI",
+    logo: "https://sy-inc.com/icons/favicon.svg",
+    name: "SY INC",
     sameAs: [siteConfig.links.github, siteConfig.links.twitter, siteConfig.links.discord],
-    url: "https://sy-ui.com",
+    url: "https://sy-inc.com",
   };
 }
 
@@ -21,12 +21,12 @@ export function getWebSiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     description: siteConfig.description,
-    name: "SY UI",
+    name: "SY INC",
     publisher: {
       "@type": "Organization",
-      name: "SY UI",
+      name: "SY INC",
     },
-    url: "https://sy-ui.com",
+    url: "https://sy-inc.com",
   };
 }
 
@@ -37,14 +37,14 @@ export function getSoftwareApplicationJsonLd() {
     applicationCategory: "DeveloperApplication",
     description: siteConfig.description,
     downloadUrl: "https://www.npmjs.com/package/@sy-inc/react",
-    name: "SY UI",
+    name: "SY INC",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
     },
     operatingSystem: "Any",
-    url: "https://sy-ui.com",
+    url: "https://sy-inc.com",
   };
 }
 
@@ -82,7 +82,7 @@ export function getTechArticleJsonLd(params: {
         }
       : {
           "@type": "Organization",
-          name: "SY UI",
+          name: "SY INC",
         },
     description: params.description,
     headline: params.title,
@@ -94,9 +94,9 @@ export function getTechArticleJsonLd(params: {
       "@type": "Organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://sy-ui.com/icons/favicon.svg",
+        url: "https://sy-inc.com/icons/favicon.svg",
       },
-      name: "SY UI",
+      name: "SY INC",
     },
     url: params.url,
     ...(params.datePublished && {datePublished: params.datePublished}),
@@ -123,15 +123,15 @@ export function getBlogJsonLd(params: {
     })),
     description:
       params.description ??
-      "Guides, tutorials, and resources for building modern React applications with SY UI.",
-    name: params.name ?? "SY UI Blog",
+      "Guides, tutorials, and resources for building modern React applications with SY INC.",
+    name: params.name ?? "SY INC Blog",
     publisher: {
       "@type": "Organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://sy-ui.com/icons/favicon.svg",
+        url: "https://sy-inc.com/icons/favicon.svg",
       },
-      name: "SY UI",
+      name: "SY INC",
     },
     url: params.url,
   };

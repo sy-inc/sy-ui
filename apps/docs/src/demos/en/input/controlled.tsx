@@ -4,7 +4,7 @@ import {Input} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {
-  const [value, setValue] = React.useState("sy-ui.com");
+  const [value, setValue] = React.useState("sy-inc.com");
 
   return (
     <div className="flex w-80 flex-col gap-2">

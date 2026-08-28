@@ -1,6 +1,6 @@
 import {Avatar, Badge} from "@sy-inc/react";
 
-const AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";
+const AVATAR_URL = "https://assets.sy-inc.com/avatars/green.jpg";
 
 const placements = ["top-right", "top-left", "bottom-right", "bottom-left"] as const;
 

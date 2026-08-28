@@ -1,6 +1,6 @@
 ---
 title: Colors
-description: Color palette and theming system for SY UI v3
+description: Color palette and theming system for SY INC v3
 icon: bucket-paint
 links:
   themes: true
@@ -9,9 +9,9 @@ links:
 
 import {ColorSectionSideBySide, ColorSectionStacked, ColorSectionFormField, ColorSectionPrimitive} from "@/components/color-section";
 
-SY UI's color system is built around semantic intent, not visual abundance. Instead of exposing large raw palettes, the system defines a small, meaningful set of color roles that cover the majority of interface needs.
+SY INC's color system is built around semantic intent, not visual abundance. Instead of exposing large raw palettes, the system defines a small, meaningful set of color roles that cover the majority of interface needs.
 
-Most colors in the system are derived automatically from a limited number of base values. This allows SY UI to maintain consistent contrast, hierarchy, and theming behavior while keeping the system easy to reason about and modify.
+Most colors in the system are derived automatically from a limited number of base values. This allows SY INC to maintain consistent contrast, hierarchy, and theming behavior while keeping the system easy to reason about and modify.
 
 Colors should communicate purpose and state first. Visual variation comes from scale, emphasis, and context.
 
@@ -306,10 +306,10 @@ Primitive colors are mode agnostic values used as foundations for semantic color
 
 ## Default Theme
 
-The complete theme definition can be found in ([variables.css](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css)). This theme automatically switches between light and dark modes based on the `class="dark"` or `data-theme="dark"` attributes.
+The complete theme definition can be found in ([variables.css](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css)). This theme automatically switches between light and dark modes based on the `class="dark"` or `data-theme="dark"` attributes.
 
 <CollapsibleCode lang="css" code={`  @layer base {
-    /* SY UI Default Theme */
+    /* SY INC Default Theme */
     :root {
       color-scheme: light;
 

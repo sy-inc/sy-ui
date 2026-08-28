@@ -14,7 +14,7 @@ const replaceVersion = () => ({
   name: "replace-version",
   transform(code, id) {
     if (id.includes("version.ts") || id.includes("version.js")) {
-      return code.replace("__SY_UI_VERSION__", packageJson.version);
+      return code.replace("__SY_INC_VERSION__", packageJson.version);
     }
 
     return null;

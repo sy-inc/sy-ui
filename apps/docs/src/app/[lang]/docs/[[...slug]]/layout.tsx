@@ -10,7 +10,7 @@ import {FrameworksTabs} from "@/components/frameworks-tabs";
 import {DocsLayout} from "@/components/fumadocs/layouts/notebook";
 import {ThemeToggle} from "@/components/fumadocs/ui/theme-toggle";
 import {GitHubLinkSmall} from "@/components/github-link";
-import {SyUILogo} from "@/components/sy-ui-logo";
+import {SyIncLogo} from "@/components/sy-inc-logo";
 import {VersionSelector} from "@/components/version-selector";
 import {source} from "@/lib/source";
 
@@ -44,7 +44,7 @@ export default async function Layout({
           banner: () => (
             <div className="flex flex-col items-start justify-center gap-4 px-4 pt-4 sm:hidden">
               <div className="flex w-full items-center justify-between gap-4 ps-1">
-                <SyUILogo />
+                <SyIncLogo />
                 <ThemeToggle mode="light-dark-system" />
               </div>
               <Separator />
@@ -91,7 +91,7 @@ export default async function Layout({
             </div>
           ),
           mode: "top",
-          title: <SyUILogo />,
+          title: <SyIncLogo />,
           titleSuffix: <VersionSelector className="mt-1 hidden lg:flex" />,
           titleSuffixGap: "gap-4",
         }}

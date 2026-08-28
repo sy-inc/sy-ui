@@ -1,17 +1,17 @@
 ---
 title: 样式
-description: 使用 CSS、Tailwind 或 CSS-in-JS 为 SY UI 组件设置样式
+description: 使用 CSS、Tailwind 或 CSS-in-JS 为 SY INC 组件设置样式
 icon: brush
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI 组件提供灵活的样式方案：Tailwind CSS 工具类、配合 [BEM](https://getbem.com/) 类名或数据属性的 CSS、CSS-in-JS 库，以及用于动态样式的渲染属性。
+SY INC 组件提供灵活的样式方案：Tailwind CSS 工具类、配合 [BEM](https://getbem.com/) 类名或数据属性的 CSS、CSS-in-JS 库，以及用于动态样式的渲染属性。
 
 ## 基础样式
 
-**使用 className：** 所有 SY UI 组件都接受 `className` 属性：
+**使用 className：** 所有 SY INC 组件都接受 `className` 属性：
 
 ```tsx
 <Button className="bg-purple-500 hover:bg-purple-600">
@@ -33,7 +33,7 @@ SY UI 组件提供灵活的样式方案：Tailwind CSS 工具类、配合 [BEM](
 
 ## 滚动条
 
-SY UI 的滚动插槽在组件 CSS 中使用 `@apply scrollbar`。对于你自己的溢出容器，可使用 `@sy-inc/styles` 提供的工具类：
+SY INC 的滚动插槽在组件 CSS 中使用 `@apply scrollbar`。对于你自己的溢出容器，可使用 `@sy-inc/styles` 提供的工具类：
 
 ```tsx
 <div className="scrollbar h-64 overflow-y-auto">
@@ -43,8 +43,8 @@ SY UI 的滚动插槽在组件 CSS 中使用 `@apply scrollbar`。对于你自�
 
 | 工具类 | 效果 |
 |---------|--------|
-| `scrollbar` | SY UI 滚动条滑块（读取主题的 `--scrollbar-*` 变量） |
-| `scrollbar-thin` | SY UI 主题化纤细滚动条 |
+| `scrollbar` | SY INC 滚动条滑块（读取主题的 `--scrollbar-*` 变量） |
+| `scrollbar-thin` | SY INC 主题化纤细滚动条 |
 | `scrollbar-default` | 操作系统 / 浏览器默认滚动条 |
 | `scrollbar-none` | 隐藏滚动条 |
 
@@ -52,7 +52,7 @@ SY UI 的滚动插槽在组件 CSS 中使用 `@apply scrollbar`。对于你自�
 
 ## 基于状态的样式
 
-SY UI 组件通过数据属性公开其状态，类似于 CSS 伪类：
+SY INC 组件通过数据属性公开其状态，类似于 CSS 伪类：
 
 ```css
 /* Target different states */
@@ -101,7 +101,7 @@ SY UI 组件通过数据属性公开其状态，类似于 CSS 伪类：
 
 ## BEM 类名
 
-SY UI 使用 [BEM 方法论](https://getbem.com/) 来保持类名命名的一致性：
+SY INC 使用 [BEM 方法论](https://getbem.com/) 来保持类名命名的一致性：
 
 ```css
 /* Block */
@@ -295,7 +295,7 @@ import { Button } from '@sy-inc/react';
 
 > **注意：** 完整的类名参考请查看各组件文档：[Button](/docs/components/button#css-classes)、[Accordion](/docs/components/accordion#css-classes)
 
-所有组件的类名请查看 [@sy-inc/styles/components](https://github.com/sy-ui/sy-ui/tree/main/packages/styles/components)。
+所有组件的类名请查看 [@sy-inc/styles/components](https://github.com/sy-inc/sy-inc/tree/main/packages/styles/components)。
 
 ## 下一步
 

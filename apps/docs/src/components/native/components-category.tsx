@@ -91,7 +91,7 @@ const COMPONENT_GROUPS = [
 const componentStatusIcons = ["preview", "new", "updated", "new-dot"];
 
 const VIDEO_BASE_URL =
-  "https://assets.sy-ui.com/docs/native/components/videos";
+  "https://assets.sy-inc.com/docs/native/components/videos";
 
 interface ComponentWithStatus {
   component: {

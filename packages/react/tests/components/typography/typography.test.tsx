@@ -4,9 +4,9 @@ import {Typography} from "@/components/typography";
 
 describe("Typography", () => {
   it("renders text content", () => {
-    render(<Typography>SY UI Typography</Typography>);
+    render(<Typography>SY INC Typography</Typography>);
 
-    expect(screen.getByText("SY UI Typography")).toBeInTheDocument();
+    expect(screen.getByText("SY INC Typography")).toBeInTheDocument();
   });
 
   it("exposes BEM block, data-slot, and data-type", () => {

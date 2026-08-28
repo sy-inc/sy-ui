@@ -1,10 +1,10 @@
 ---
 title: RadioGroup
-description: RadioGroup 从 SY UI v2 到 v3 的迁移指南。
+description: RadioGroup 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 RadioGroup 文档](/docs/react/components/radio-group)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 RadioGroup 文档](/docs/react/components/radio-group)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -68,22 +68,22 @@ export default function App() {
 
 ### 1. label prop → Label 组件
 
-**v2：** 在 `RadioGroup` 上使用 `label` prop  
+**v2：** 在 `RadioGroup` 上使用 `label` prop
 **v3：** 改用 `Label` 组件作为 `RadioGroup` 的子节点
 
 ### 2. Radio 结构
 
-**v2：** 简单的 Radio 组件，子节点直接作为标签  
+**v2：** 简单的 Radio 组件，子节点直接作为标签
 **v3：** 复合 Radio 组件，由 `Radio.Content`、`Radio.Control` 与 `Radio.Indicator` 组成
 
 ### 3. 描述处理
 
-**v2：** 在单个 `Radio` 组件上使用 `description` prop  
+**v2：** 在单个 `Radio` 组件上使用 `description` prop
 **v3：** 将 `Description` 组件作为 `Radio.Content` 的兄弟节点使用
 
 ### 4. 事件处理函数
 
-**v2：** 使用 `onValueChange` prop  
+**v2：** 使用 `onValueChange` prop
 **v3：** 改用 `onChange` prop（来自 React Aria Components）
 
 ### 5. name prop

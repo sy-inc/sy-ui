@@ -10,11 +10,11 @@ export function Variants() {
     {content: <Person />, label: "icon soft", type: "icon-soft"},
     {
       content: [
-        "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=3",
-        "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=4",
-        "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5",
-        "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=8",
-        "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=16",
+        "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=3",
+        "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=4",
+        "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5",
+        "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=8",
+        "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=16",
       ],
       label: "img",
       type: "img",

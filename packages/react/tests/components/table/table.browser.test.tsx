@@ -5,7 +5,7 @@ import {page} from "vitest/browser";
 
 import {Table} from "@/components/table";
 
-import "../../../../styles/dist/sy-ui.min.css";
+import "../../../../styles/dist/sy-inc.min.css";
 
 function DynamicPinnedRows() {
   const [rows, setRows] = React.useState(["Kate"]);

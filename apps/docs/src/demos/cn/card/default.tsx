@@ -14,7 +14,7 @@ export function Default() {
       <Card.Footer>
         <Link
           aria-label="前往 Acme 创作者中心（在新标签页打开）"
-          href="https://sy-ui.com"
+          href="https://sy-inc.com"
           rel="noopener noreferrer"
           target="_blank"
         >

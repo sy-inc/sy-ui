@@ -1,15 +1,15 @@
 ---
 title: 代理迁移指南 - 完整迁移
-description: AI 助手的完整迁移指南，帮助将 SY UI v2 迁移到 v3
+description: AI 助手的完整迁移指南，帮助将 SY INC v2 迁移到 v3
 index: false
 ---
 
 ## 概述
 
-本指南专为人工智能助手（代理）设计，帮助用户从 SY UI v2 迁移到 v3。它实现了**完整迁移方法**，首先分析项目并以可管理的批次迁移组件，而不是一次性迁移全部组件。
+本指南专为人工智能助手（代理）设计，帮助用户从 SY INC v2 迁移到 v3。它实现了**完整迁移方法**，首先分析项目并以可管理的批次迁移组件，而不是一次性迁移全部组件。
 
 <Callout type="warning">
-  **关键约束**：SY UI v2 和 v3 **不应在同一项目中共存**。该项目将在迁移过程中被破坏。始终在功能分支中工作并在切换依赖项之前迁移所有组件代码。
+  **关键约束**：SY INC v2 和 v3 **不应在同一项目中共存**。该项目将在迁移过程中被破坏。始终在功能分支中工作并在切换依赖项之前迁移所有组件代码。
 </Callout>
 
 ## 关键原则
@@ -33,17 +33,17 @@ index: false
 
 - 依赖项更新
 - 主题配置更改
-- 删除 SyUIProvider
+- 删除 SyIncProvider
 - 组件导入和迁移
 - 钩子迁移
 - 样式迁移
 - 测试
 
-**代理注意**：依赖项更新（React 19、Tailwind v4）可以在切换 SY UI 之前完成（不会破坏项目）。但是，SY UI 包切换只能在所有组件代码迁移之后进行。
+**代理注意**：依赖项更新（React 19、Tailwind v4）可以在切换 SY INC 之前完成（不会破坏项目）。但是，SY INC 包切换只能在所有组件代码迁移之后进行。
 
 ## 钩子迁移
 
-SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等）和实用程序挂钩，例如`useDisclosure`。 SY UI v3 删除了大多数组件挂钩，转而使用复合组件，并替换了`useDisclosure`和`useOverlayState`.
+SY INC v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等）和实用程序挂钩，例如`useDisclosure`。 SY INC v3 删除了大多数组件挂钩，转而使用复合组件，并替换了`useDisclosure`和`useOverlayState`.
 
 **何时迁移钩子：**
 
@@ -66,7 +66,7 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 <include>../index.mdx#step-6-component-migration-reference</include>
 
 <Callout type="info">
-  **已删除/进行中/计划的组件**：对于标记为 ❌ 已删除、🔄 进行中或 📋 计划的组件，请在迁移过程中将其替换为标准 HTML 元素。一旦 SY UI 组件在 v3 中可用，您就可以迁移回它们。
+  **已删除/进行中/计划的组件**：对于标记为 ❌ 已删除、🔄 进行中或 📋 计划的组件，请在迁移过程中将其替换为标准 HTML 元素。一旦 SY INC 组件在 v3 中可用，您就可以迁移回它们。
 </Callout>
 
 使用`get_component_migration_guides`MCP 工具可获取每个组件的详细指南。
@@ -105,28 +105,28 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 
 1. **创建迁移分支**
    - 创建一个功能分支用于迁移工作
-   - 例子：`git checkout -b migrate/sy-ui-v3`
+   - 例子：`git checkout -b migrate/sy-inc-v3`
 
 2. **验证迁移 MCP 是否已配置**
    - 检查迁移 MCP 服务器是否已连接
-   - 确保`sy-ui-react`MCP 未连接（以避免混淆）
+   - 确保`sy-inc-react`MCP 未连接（以避免混淆）
    - 验证 MCP 工具可用
 
 3. **分析项目并创建迁移计划**
    - 使用`get_migration_workflow`获取本指南
-   - 扫描 SY UI v2 导入，识别所有组件和使用情况
+   - 扫描 SY INC v2 导入，识别所有组件和使用情况
    - 映射组件依赖关系
    - 创建分阶段迁移计划（例如，每个阶段 3-5 个组件，按依赖项策略）
 
 ### 第 1 阶段：依赖项准备（代码更改之前）
 
-这些步骤可以在切换 SY UI 依赖项之前完成，并且不会破坏项目：
+这些步骤可以在切换 SY INC 依赖项之前完成，并且不会破坏项目：
 
 1. **将 React 更新到 v19**（如果还没有）
-   - 这可以在切换 SY UI 之前完成
+   - 这可以在切换 SY INC 之前完成
 
 2. **将 Tailwind CSS 更新至 v4**（如果尚未更新）
-   - 这可以在切换 SY UI 之前完成
+   - 这可以在切换 SY INC 之前完成
 
 3. **🛑 检查点：停止并等待用户批准**
    - **不要自动进入下一阶段**
@@ -167,12 +167,12 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 **关键**：仅当所有组件都已迁移到 v3 API 模式时才继续。
 
 1. **更新依赖关系**
-   - 消除`@sy-inc/react`和`@sy-ui/theme`（v2）
+   - 消除`@sy-inc/react`和`@sy-inc/theme`（v2）
    - 安装`@sy-inc/react`和`@sy-inc/styles`(v3)
    - 消除`framer-motion`如果存在
    - 更新 CSS 导入（添加`@import "@sy-inc/styles";`)
-   - 从应用程序根目录中删除 SyUIProvider
-   - 更新 Tailwind 配置（删除`sy-ui()`插件）
+   - 从应用程序根目录中删除 SyIncProvider
+   - 更新 Tailwind 配置（删除`sy-inc()`插件）
 
 2. **修复剩余问题**
    - 运行 typecheck/lint（如果可用）（不构建）
@@ -310,7 +310,7 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 完成迁移后：
 
 1. 删除 v2 依赖项（已在依赖切换步骤中完成）
-2. 从迁移 MCP 切换到用于 v3 开发的 `sy-ui-react` MCP
+2. 从迁移 MCP 切换到用于 v3 开发的 `sy-inc-react` MCP
 3. 更新文档中的引用
 4. 运行最终验证
 5. 将迁移分支合并回主分支

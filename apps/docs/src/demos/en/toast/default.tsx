@@ -16,7 +16,7 @@ export function Default() {
               onPress: () => toast.clear(),
               variant: "tertiary",
             },
-            description: "Bob sent you an invitation to join SY UI team",
+            description: "Bob sent you an invitation to join SY INC team",
             indicator: <Persons />,
             variant: "default",
           });

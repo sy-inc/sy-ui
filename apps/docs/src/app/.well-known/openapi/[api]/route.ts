@@ -14,7 +14,7 @@ export async function GET(request: Request, {params}: {params: Promise<{api: str
         code: "OPENAPI_NOT_FOUND",
         error: true,
         hint: `Use one of: ${Object.keys(OPENAPI_BUILDERS).join(", ")}.`,
-        message: "The requested SY UI OpenAPI description was not found.",
+        message: "The requested SY INC OpenAPI description was not found.",
       },
       {status: 404},
     );

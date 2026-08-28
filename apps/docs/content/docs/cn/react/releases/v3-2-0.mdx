@@ -41,7 +41,7 @@ Calendar 新增周视图与日视图、重做的年份选择器，以及基于 R
 </Tabs>
 
 <Callout type="info">
-  **正在使用 AI 助手？** 对它说「Hey Cursor，把 SY UI 升级到最新版本」。它会对比版本并应用必要变更。了解更多请参阅 [SY UI MCP 服务器](/docs/ui-for-agents/mcp-server)。
+  **正在使用 AI 助手？** 对它说「Hey Cursor，把 SY INC 升级到最新版本」。它会对比版本并应用必要变更。了解更多请参阅 [SY INC MCP 服务器](/docs/ui-for-agents/mcp-server)。
 </Callout>
 
 ## 新增内容
@@ -71,7 +71,7 @@ Calendar 新增周视图与日视图、重做的年份选择器，以及基于 R
 
 支持通过 Virtualizer 渲染大型选项列表，并补充文档、Storybook 示例，以及针对 popover 尺寸和 listbox 滚动高度的样式修复。
 
-- **虚拟化**：在 `Autocomplete.Popover` 内用 React Aria 的 `<Virtualizer>` 包裹 `ListBox` ([#6642](https://github.com/sy-ui/sy-ui/pull/6642))
+- **虚拟化**：在 `Autocomplete.Popover` 内用 React Aria 的 `<Virtualizer>` 包裹 `ListBox` ([#6642](https://github.com/sy-inc/sy-inc/pull/6642))
 - **Popover 尺寸**：listbox 高度上限为 `320px` 并支持内部滚动；搜索框固定在列表上方
 
 **虚拟化：**
@@ -80,7 +80,7 @@ Calendar 新增周视图与日视图、重做的年份选择器，以及基于 R
 
 ### Table.SortableColumnHeader
 
-`Table.SortableColumnHeader` 用于渲染 sortable 列标题和可选的升降序指示器。放在 `Table.Column` render prop 中，并传入 `sortDirection` ([#6588](https://github.com/sy-ui/sy-ui/pull/6588))。
+`Table.SortableColumnHeader` 用于渲染 sortable 列标题和可选的升降序指示器。放在 `Table.Column` render prop 中，并传入 `sortDirection` ([#6588](https://github.com/sy-inc/sy-inc/pull/6588))。
 
 ```tsx
 <Table.Column allowsSorting>
@@ -100,7 +100,7 @@ Calendar 新增周视图与日视图、重做的年份选择器，以及基于 R
 
 ### Tooltip 延迟主题变量
 
-[Tooltip](/docs/components/tooltip) 现在会从主题 CSS 变量读取默认的显示与隐藏延迟 ([#6617](https://github.com/sy-ui/sy-ui/pull/6617))：
+[Tooltip](/docs/components/tooltip) 现在会从主题 CSS 变量读取默认的显示与隐藏延迟 ([#6617](https://github.com/sy-inc/sy-inc/pull/6617))：
 
 - `--tooltip-delay` — 显示 Tooltip 前的延迟（默认：`1500ms`）
 - `--tooltip-close-delay` — 隐藏 Tooltip 前的延迟（默认：`500ms`）
@@ -117,33 +117,33 @@ Calendar 新增周视图与日视图、重做的年份选择器，以及基于 R
 单个 Tooltip 上的 `delay` 和 `closeDelay` 属性仍会覆盖这些值。
 
 <Callout type="warning">
-  **行为变更：** 使用默认 SY UI 主题时，Tooltip 延迟现在默认为 `1500ms` / `500ms`，而不是之前的 React Aria 默认值 `700ms` / `0ms`。如需保留旧行为，请显式设置 CSS 变量或 props。
+  **行为变更：** 使用默认 SY INC 主题时，Tooltip 延迟现在默认为 `1500ms` / `500ms`，而不是之前的 React Aria 默认值 `700ms` / `0ms`。如需保留旧行为，请显式设置 CSS 变量或 props。
 </Callout>
 
 ## 组件修复
 
-- **Toast**：Toast 队列会串行化 ViewTransition 更新，避免在 `toast.promise()` 关闭 loading toast 并打开成功/失败反馈时出现被跳过的过渡和 AbortError ([#6511](https://github.com/sy-ui/sy-ui/pull/6511))。
-- **Fieldset**：`disabled` 会传递到 React Aria 的 Button、CheckboxGroup、Link、RadioGroup、Slider、ToggleButton 和 ToggleButtonGroup 上下文 ([#6596](https://github.com/sy-ui/sy-ui/pull/6596))。
-- **Autocomplete**：Popover 内容包裹在 React Aria 的 `Dialog` 中，打开 popover 时 listbox 不再出现多余的焦点环 ([#6627](https://github.com/sy-ui/sy-ui/pull/6627))。
-- **Tooltip**：Trigger 改用 `useFocusable` hook 而非 `<Focusable>` 包装组件，避免 Tooltip 挂载在 `inert` 子树中（例如位于已打开的 Drawer/Modal 之后）时出现误报的 “child must be focusable” 警告 ([#6628](https://github.com/sy-ui/sy-ui/pull/6628))。
+- **Toast**：Toast 队列会串行化 ViewTransition 更新，避免在 `toast.promise()` 关闭 loading toast 并打开成功/失败反馈时出现被跳过的过渡和 AbortError ([#6511](https://github.com/sy-inc/sy-inc/pull/6511))。
+- **Fieldset**：`disabled` 会传递到 React Aria 的 Button、CheckboxGroup、Link、RadioGroup、Slider、ToggleButton 和 ToggleButtonGroup 上下文 ([#6596](https://github.com/sy-inc/sy-inc/pull/6596))。
+- **Autocomplete**：Popover 内容包裹在 React Aria 的 `Dialog` 中，打开 popover 时 listbox 不再出现多余的焦点环 ([#6627](https://github.com/sy-inc/sy-inc/pull/6627))。
+- **Tooltip**：Trigger 改用 `useFocusable` hook 而非 `<Focusable>` 包装组件，避免 Tooltip 挂载在 `inert` 子树中（例如位于已打开的 Drawer/Modal 之后）时出现误报的 “child must be focusable” 警告 ([#6628](https://github.com/sy-inc/sy-inc/pull/6628))。
 
 ## 样式修复
 
-- **Modal / AlertDialog**：`scroll-inside` 对话框通过 `max-h-full min-h-0` 限制高度，使内容区域滚动而非溢出 ([#6597](https://github.com/sy-ui/sy-ui/pull/6597))。
-- **ScrollShadow**：渐隐遮罩通过 `--scroll-shadow-scrollbar-size` 为可见的原生滚动条预留空间 ([#6598](https://github.com/sy-ui/sy-ui/pull/6598))。
-- **Table RTL**：列分隔线与拖拽手柄在 RTL 下使用逻辑属性 `end-0` 定位 ([#6606](https://github.com/sy-ui/sy-ui/pull/6606))。
-- **Link**：移除硬编码的 `text-sm`，让链接从父元素继承字号；`.link__icon` 改为相对单位 `size-[0.75em]`，随文本大小缩放，而不再使用固定的 `size-2` ([#6621](https://github.com/sy-ui/sy-ui/pull/6621))。
-- **DatePicker / DateRangePicker**：日历 popover 由 `max-w-(--trigger-width)` 改为 `min-w-(--trigger-width)`，确保 popover 至少与触发器一样宽，避免被水平裁剪 ([#6622](https://github.com/sy-ui/sy-ui/pull/6622))。
-- **Table**：当 Table 被 React Aria 的 `<Virtualizer>` 包裹时，secondary 表头的边框与圆角能够正确渲染 —— 列选择器不再把每个虚拟化列都同时视为 first 和 last child ([#6624](https://github.com/sy-ui/sy-ui/pull/6624))。
-- **Autocomplete**：Popover 限制为触发器宽度，listbox 高度上限为 `320px` 并支持内部滚动，避免虚拟化列表溢出 popover ([#6642](https://github.com/sy-ui/sy-ui/pull/6642))。
-- **ListBox**：将 `flex flex-col gap` 改为普通块级流 + 兄弟节点间距，避免 React Aria Virtualizer 的内容高度被 flex-shrink 压缩 —— 修复虚拟化滚动时滚动条滑块尺寸变化的问题 ([#6636](https://github.com/sy-ui/sy-ui/pull/6636))。
-- **InputGroup / NumberField / SearchField**：浏览器自动填充高亮提升到分组容器上，使 prefix、suffix 和增减按钮槽位共享圆角高亮 ([#6625](https://github.com/sy-ui/sy-ui/pull/6625))。
-- **Spinner**：改用 `inline-flex` 搭配 `shrink-0`（替代 `relative`），使旋转动画在非 flex 布局中也能正确渲染，并支持 `motion-reduce` ([#6644](https://github.com/sy-ui/sy-ui/pull/6644))。
-- **Toast**：关闭按钮在所有断点下统一使用 `-top-1 -right-1`，与容器内边距对齐 ([#6574](https://github.com/sy-ui/sy-ui/pull/6574))。
+- **Modal / AlertDialog**：`scroll-inside` 对话框通过 `max-h-full min-h-0` 限制高度，使内容区域滚动而非溢出 ([#6597](https://github.com/sy-inc/sy-inc/pull/6597))。
+- **ScrollShadow**：渐隐遮罩通过 `--scroll-shadow-scrollbar-size` 为可见的原生滚动条预留空间 ([#6598](https://github.com/sy-inc/sy-inc/pull/6598))。
+- **Table RTL**：列分隔线与拖拽手柄在 RTL 下使用逻辑属性 `end-0` 定位 ([#6606](https://github.com/sy-inc/sy-inc/pull/6606))。
+- **Link**：移除硬编码的 `text-sm`，让链接从父元素继承字号；`.link__icon` 改为相对单位 `size-[0.75em]`，随文本大小缩放，而不再使用固定的 `size-2` ([#6621](https://github.com/sy-inc/sy-inc/pull/6621))。
+- **DatePicker / DateRangePicker**：日历 popover 由 `max-w-(--trigger-width)` 改为 `min-w-(--trigger-width)`，确保 popover 至少与触发器一样宽，避免被水平裁剪 ([#6622](https://github.com/sy-inc/sy-inc/pull/6622))。
+- **Table**：当 Table 被 React Aria 的 `<Virtualizer>` 包裹时，secondary 表头的边框与圆角能够正确渲染 —— 列选择器不再把每个虚拟化列都同时视为 first 和 last child ([#6624](https://github.com/sy-inc/sy-inc/pull/6624))。
+- **Autocomplete**：Popover 限制为触发器宽度，listbox 高度上限为 `320px` 并支持内部滚动，避免虚拟化列表溢出 popover ([#6642](https://github.com/sy-inc/sy-inc/pull/6642))。
+- **ListBox**：将 `flex flex-col gap` 改为普通块级流 + 兄弟节点间距，避免 React Aria Virtualizer 的内容高度被 flex-shrink 压缩 —— 修复虚拟化滚动时滚动条滑块尺寸变化的问题 ([#6636](https://github.com/sy-inc/sy-inc/pull/6636))。
+- **InputGroup / NumberField / SearchField**：浏览器自动填充高亮提升到分组容器上，使 prefix、suffix 和增减按钮槽位共享圆角高亮 ([#6625](https://github.com/sy-inc/sy-inc/pull/6625))。
+- **Spinner**：改用 `inline-flex` 搭配 `shrink-0`（替代 `relative`），使旋转动画在非 flex 布局中也能正确渲染，并支持 `motion-reduce` ([#6644](https://github.com/sy-inc/sy-inc/pull/6644))。
+- **Toast**：关闭按钮在所有断点下统一使用 `-top-1 -right-1`，与容器内边距对齐 ([#6574](https://github.com/sy-inc/sy-inc/pull/6574))。
 
 ## 依赖
 
-- **React Aria Components**：`1.17.0` → `1.18.0` ([#6586](https://github.com/sy-ui/sy-ui/pull/6586))。1.18 引入了 toggles 所采用的 `*Field` + `*Button` 组合方式、`CalendarHeading`，以及 `isDateUnavailable(date, anchorDate)`。
+- **React Aria Components**：`1.17.0` → `1.18.0` ([#6586](https://github.com/sy-inc/sy-inc/pull/6586))。1.18 引入了 toggles 所采用的 `*Field` + `*Button` 组合方式、`CalendarHeading`，以及 `isDateUnavailable(date, anchorDate)`。
 - **@internationalized/date**：`3.12.1` → `3.12.2`
 - **React Aria / Stately 辅助包**：`@react-aria/*`、`@react-stately/*` 与 `@react-types/shared` 补丁更新
 
@@ -268,8 +268,8 @@ Calendar 新增周视图与日视图、重做的年份选择器，以及基于 R
 - [Radio Group 文档](/docs/react/components/radio-group)
 - [Switch 文档](/docs/react/components/switch)
 - [组件文档](/docs/react/components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #6616](https://github.com/sy-ui/sy-ui/pull/6616)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #6616](https://github.com/sy-inc/sy-inc/pull/6616)
 
 ## 贡献者
 

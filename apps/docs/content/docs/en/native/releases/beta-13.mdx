@@ -18,28 +18,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native@beta
+  npm i sy-inc-native@beta
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native@beta
+  pnpm add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native@beta
+  yarn add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native@beta
+  bun add sy-inc-native@beta
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -63,8 +63,8 @@ The TextArea component provides a complete solution for multiline text input sce
 <NativeVideoPlayerView
   target="component"
   slug="text-area"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/text-area-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/text-area-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/text-area-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/text-area-docs-dark.mp4"
 />
 
 **Features:**
@@ -80,7 +80,7 @@ The TextArea component provides a complete solution for multiline text input sce
 **Usage:**
 
 ```tsx
-import { Description, Label, TextArea, TextField } from "sy-ui-native";
+import { Description, Label, TextArea, TextField } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -95,7 +95,7 @@ export function Example() {
 
 For complete documentation and examples, see the [TextArea component page](/docs/native/components/text-area).
 
-**Related PR:** [#254](https://github.com/sy-ui/sy-ui-native/pull/254)
+**Related PR:** [#254](https://github.com/sy-inc/sy-inc-native/pull/254)
 
 #### Input
 
@@ -104,8 +104,8 @@ The Input component is now available as a standalone component, providing single
 <NativeVideoPlayerView
   target="component"
   slug="input"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/input-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/input-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/input-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/input-docs-dark.mp4"
 />
 
 **Features:**
@@ -121,7 +121,7 @@ The Input component is now available as a standalone component, providing single
 **Usage:**
 
 ```tsx
-import { Description, Input, Label, TextField } from "sy-ui-native";
+import { Description, Input, Label, TextField } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -136,7 +136,7 @@ export function Example() {
 
 For complete documentation and examples, see the [Input component page](/docs/native/components/input).
 
-**Related PR:** [#247](https://github.com/sy-ui/sy-ui-native/pull/247)
+**Related PR:** [#247](https://github.com/sy-inc/sy-inc-native/pull/247)
 
 #### CloseButton
 
@@ -145,8 +145,8 @@ The CloseButton component provides a reusable solution for closing dialogs, moda
 <NativeVideoPlayerView
   target="component"
   slug="close-button"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/close-button-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/close-button-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/close-button-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/close-button-docs-dark.mp4"
 />
 
 **Features:**
@@ -161,7 +161,7 @@ The CloseButton component provides a reusable solution for closing dialogs, moda
 **Usage:**
 
 ```tsx
-import { CloseButton } from "sy-ui-native";
+import { CloseButton } from "sy-inc-native";
 
 // Standalone usage
 <CloseButton onPress={handleClose} />
@@ -174,7 +174,7 @@ import { CloseButton } from "sy-ui-native";
 
 For complete documentation and examples, see the [CloseButton component page](/docs/native/components/close-button).
 
-**Related PR:** [#237](https://github.com/sy-ui/sy-ui-native/pull/237)
+**Related PR:** [#237](https://github.com/sy-inc/sy-inc-native/pull/237)
 
 ### New Subcomponents
 
@@ -192,7 +192,7 @@ The Tabs component now includes a new `Separator` subcomponent that provides ani
 **Usage:**
 
 ```tsx
-import { Tabs } from "sy-ui-native";
+import { Tabs } from "sy-inc-native";
 
 <Tabs value={activeTab} onValueChange={setActiveTab}>
   <Tabs.List>
@@ -210,7 +210,7 @@ import { Tabs } from "sy-ui-native";
 </Tabs>
 ```
 
-**Related PR:** [#228](https://github.com/sy-ui/sy-ui-native/pull/228)
+**Related PR:** [#228](https://github.com/sy-inc/sy-inc-native/pull/228)
 
 ## Component Improvements
 
@@ -228,12 +228,12 @@ The [Button](/docs/native/components/button) component now includes an `outline`
 **Usage:**
 
 ```tsx
-import { Button } from "sy-ui-native";
+import { Button } from "sy-inc-native";
 
 <Button variant="outline">Outline Button</Button>
 ```
 
-**Related PR:** [#235](https://github.com/sy-ui/sy-ui-native/pull/235)
+**Related PR:** [#235](https://github.com/sy-inc/sy-inc-native/pull/235)
 
 ### Tabs Indicator Animation Refactor
 
@@ -246,7 +246,7 @@ The [Tabs](/docs/native/components/tabs) component's indicator animation has bee
 - Better visual consistency during tab transitions
 - Reduced layout recalculations during animations
 
-**Related PR:** [#227](https://github.com/sy-ui/sy-ui-native/pull/227)
+**Related PR:** [#227](https://github.com/sy-inc/sy-inc-native/pull/227)
 
 ### Popover Arrow Sizing and Visual Connection
 
@@ -259,7 +259,7 @@ The [Popover](/docs/native/components/popover) component has been improved with 
 - Better alignment and spacing
 - More polished overall appearance
 
-**Related PR:** [#243](https://github.com/sy-ui/sy-ui-native/pull/243)
+**Related PR:** [#243](https://github.com/sy-inc/sy-inc-native/pull/243)
 
 ### Form Components Decomposition
 
@@ -272,7 +272,7 @@ Form components have been decomposed into standalone primitives, providing devel
 - Better separation of concerns
 - Enhanced flexibility for custom form layouts
 
-**Related PR:** [#247](https://github.com/sy-ui/sy-ui-native/pull/247)
+**Related PR:** [#247](https://github.com/sy-inc/sy-inc-native/pull/247)
 
 ### Input Android Shadow Fix
 
@@ -285,7 +285,7 @@ The [Input](/docs/native/components/input) component now includes platform-speci
 - Better elevation appearance on Android devices
 - Enhanced component appearance on Android platform
 
-**Related PR:** [#248](https://github.com/sy-ui/sy-ui-native/pull/248)
+**Related PR:** [#248](https://github.com/sy-inc/sy-inc-native/pull/248)
 
 ### Popup Animation System Refactor
 
@@ -300,7 +300,7 @@ The animation system for popup components (Popover, Select, Dialog, BottomSheet)
 - Made presentation prop explicit in examples (popover, dialog, bottom-sheet)
 - Simplified animation API for better maintainability and consistency
 
-**Related PR:** [#263](https://github.com/sy-ui/sy-ui-native/pull/263)
+**Related PR:** [#263](https://github.com/sy-inc/sy-inc-native/pull/263)
 
 ## API Enhancements
 
@@ -312,29 +312,29 @@ The library now provides granular exports for each component, allowing developer
 
 ```tsx
 // Granular imports - use when you need only a few components
-import { SyUINativeProvider } from "sy-ui-native/provider";
-import { Button } from "sy-ui-native/button";
-import { Card } from "sy-ui-native/card";
+import { SyIncNativeProvider } from "sy-inc-native/provider";
+import { Button } from "sy-inc-native/button";
+import { Card } from "sy-inc-native/card";
 
 // General import - imports the whole library, use when you're using many components
-import { Button, Card } from "sy-ui-native";
+import { Button, Card } from "sy-inc-native";
 ```
 
-Granular imports are ideal when you only need a few components, as they help keep your bundle size smaller. General imports from `sy-ui-native` will include the entire library, which is convenient when you're using many components throughout your app.
+Granular imports are ideal when you only need a few components, as they help keep your bundle size smaller. General imports from `sy-inc-native` will include the entire library, which is convenient when you're using many components throughout your app.
 
 **Available granular exports:**
 
-- `sy-ui-native/provider` - Provider component
-- `sy-ui-native/[component-name]` - Individual components
-- `sy-ui-native/portal` - Portal utilities
-- `sy-ui-native/utils` - Utility functions
-- `sy-ui-native/hooks` - Custom hooks
+- `sy-inc-native/provider` - Provider component
+- `sy-inc-native/[component-name]` - Individual components
+- `sy-inc-native/portal` - Portal utilities
+- `sy-inc-native/utils` - Utility functions
+- `sy-inc-native/hooks` - Custom hooks
 
 <Callout type="warning">
-  **Important**: To keep the bundle size under control, you must follow the pattern with granular imports consistently. Even one general import from `sy-ui-native` will break this optimization strategy.
+  **Important**: To keep the bundle size under control, you must follow the pattern with granular imports consistently. Even one general import from `sy-inc-native` will break this optimization strategy.
 </Callout>
 
-**Related PR:** [#233](https://github.com/sy-ui/sy-ui-native/pull/233)
+**Related PR:** [#233](https://github.com/sy-inc/sy-inc-native/pull/233)
 
 ### Style Class Names Export
 
@@ -343,7 +343,7 @@ All components now export their style class names, enabling developers to refere
 **New Capability:**
 
 ```tsx
-import { buttonClassNames } from "sy-ui-native";
+import { buttonClassNames } from "sy-inc-native";
 
 // Access component class names programmatically
 const customStyles = {
@@ -354,7 +354,7 @@ const customStyles = {
 
 This enhancement provides developers with programmatic access to component class names, enabling advanced styling scenarios and custom theme implementations.
 
-**Related PR:** [#252](https://github.com/sy-ui/sy-ui-native/pull/252)
+**Related PR:** [#252](https://github.com/sy-inc/sy-inc-native/pull/252)
 
 ## Style Fixes
 
@@ -365,7 +365,7 @@ This enhancement provides developers with programmatic access to component class
 - **Shadow and Border Radius Updates**: Improved shadow and border radius consistency across components
 - **Theme Variable Cleanup**: Simplified theme variables and removed redundant color-mix calculations
 
-**Related PR:** [#246](https://github.com/sy-ui/sy-ui-native/pull/246)
+**Related PR:** [#246](https://github.com/sy-inc/sy-inc-native/pull/246)
 
 ## ⚠️ Breaking Changes
 
@@ -402,7 +402,7 @@ Update all instances of Tabs variant prop:
 - `"primary"` - Primary variant (previously `"pill"`)
 - `"secondary"` - Secondary variant (previously `"line"`)
 
-**Related PR:** [#236](https://github.com/sy-ui/sy-ui-native/pull/236)
+**Related PR:** [#236](https://github.com/sy-inc/sy-inc-native/pull/236)
 
 ### Tabs Indicator Animation Refactor
 
@@ -445,7 +445,7 @@ If you have customized the Tabs indicator animation, update your animation confi
 - Added `left-0` base class to indicator styles to maintain initial positioning
 - Visual behavior remains identical, only the underlying implementation has changed
 
-**Related PR:** [#227](https://github.com/sy-ui/sy-ui-native/pull/227)
+**Related PR:** [#227](https://github.com/sy-inc/sy-inc-native/pull/227)
 
 ### Divider Component Rename
 
@@ -457,17 +457,17 @@ Update all imports and usages:
 
 ```tsx
 // Before
-import { Divider } from "sy-ui-native";
+import { Divider } from "sy-inc-native";
 
 <Divider />
 
 // After
-import { Separator } from "sy-ui-native";
+import { Separator } from "sy-inc-native";
 
 <Separator />
 ```
 
-**Related PR:** [#238](https://github.com/sy-ui/sy-ui-native/pull/238)
+**Related PR:** [#238](https://github.com/sy-inc/sy-inc-native/pull/238)
 
 ### Quaternary Variant Removal
 
@@ -509,7 +509,7 @@ Update any components using the `quaternary` variant:
 - `"secondary"` - Secondary surface styling
 - `"tertiary"` - Tertiary surface styling
 
-**Related PR:** [#246](https://github.com/sy-ui/sy-ui-native/pull/246)
+**Related PR:** [#246](https://github.com/sy-inc/sy-inc-native/pull/246)
 
 ### Form Component Decomposition
 
@@ -526,7 +526,7 @@ Update all imports and usages:
 
 ```tsx
 // Before
-import { FormField, ErrorView, TextField } from "sy-ui-native";
+import { FormField, ErrorView, TextField } from "sy-inc-native";
 
 <FormField>
   <TextField.Input />
@@ -534,7 +534,7 @@ import { FormField, ErrorView, TextField } from "sy-ui-native";
 </FormField>
 
 // After
-import { ControlField, FieldError, Input, TextField } from "sy-ui-native";
+import { ControlField, FieldError, Input, TextField } from "sy-inc-native";
 
 <ControlField>
   <Input />
@@ -548,14 +548,14 @@ The `TextField.Input` subcomponent has been removed. Use the standalone `Input` 
 
 ```tsx
 // Before
-import { TextField } from "sy-ui-native";
+import { TextField } from "sy-inc-native";
 
 <TextField>
   <TextField.Input placeholder="Enter text..." />
 </TextField>
 
 // After
-import { Input, TextField } from "sy-ui-native";
+import { Input, TextField } from "sy-inc-native";
 
 <TextField>
   <Input placeholder="Enter text..." />
@@ -567,7 +567,7 @@ import { Input, TextField } from "sy-ui-native";
 `RadioGroup`, `TextField`, and `ControlField` now use `Label`, `Description`, and `FieldError` components directly, providing more flexible composition:
 
 ```tsx
-import { ControlField, Description, FieldError, Input, Label, RadioGroup, TextField } from "sy-ui-native";
+import { ControlField, Description, FieldError, Input, Label, RadioGroup, TextField } from "sy-inc-native";
 
 // TextField with Label, Description, and FieldError
 <TextField>
@@ -596,7 +596,7 @@ import { ControlField, Description, FieldError, Input, Label, RadioGroup, TextFi
 </ControlField>
 ```
 
-**Related PR:** [#247](https://github.com/sy-ui/sy-ui-native/pull/247)
+**Related PR:** [#247](https://github.com/sy-inc/sy-inc-native/pull/247)
 
 ### CloseButton Component and asChild Removal
 
@@ -608,7 +608,7 @@ Update any usage of `asChild` prop on Close components:
 
 ```tsx
 // Before
-import { Button, Dialog } from "sy-ui-native";
+import { Button, Dialog } from "sy-inc-native";
 
 <Dialog>
   <Dialog.Close asChild>
@@ -617,7 +617,7 @@ import { Button, Dialog } from "sy-ui-native";
 </Dialog>
 
 // After
-import { Button, Dialog } from "sy-ui-native";
+import { Button, Dialog } from "sy-inc-native";
 
 const [isOpen, setIsOpen] = useState(false);
 
@@ -634,7 +634,7 @@ const [isOpen, setIsOpen] = useState(false);
 - Close components still support all Button props including `variant`, `size`, `iconProps`, and custom `children`
 - You must now handle close logic manually when using custom buttons instead of Close components
 
-**Related PR:** [#237](https://github.com/sy-ui/sy-ui-native/pull/237)
+**Related PR:** [#237](https://github.com/sy-inc/sy-inc-native/pull/237)
 
 ### Popup Animation System Refactor
 
@@ -661,21 +661,21 @@ The animation system for popup components has been refactored, resulting in seve
 - `Select.Content`: `presentation` prop is now required (was optional, defaulted to `"popover"`)
 - Animation hooks: `useBottomSheetAnimation()` no longer returns `bottomSheetState`, `useDialogAnimation()` no longer returns `dialogState`
 
-**Related PR:** [#263](https://github.com/sy-ui/sy-ui-native/pull/263)
+**Related PR:** [#263](https://github.com/sy-inc/sy-inc-native/pull/263)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #181](https://github.com/sy-ui/sy-ui-native/issues/181)**: Fixed TextField error when inputting Chinese characters. The TextField component now properly handles multibyte characters and international input, ensuring smooth text entry for all languages including Chinese, Japanese, and Korean.
+- **[Issue #181](https://github.com/sy-inc/sy-inc-native/issues/181)**: Fixed TextField error when inputting Chinese characters. The TextField component now properly handles multibyte characters and international input, ensuring smooth text entry for all languages including Chinese, Japanese, and Korean.
 
-- **[Issue #219](https://github.com/sy-ui/sy-ui-native/issues/219)**: Fixed Button `childrenToString()` returning `"[object Object]"` for multiple children. The function now properly handles React elements and complex children structures, preventing stringification issues when rendering button content.
+- **[Issue #219](https://github.com/sy-inc/sy-inc-native/issues/219)**: Fixed Button `childrenToString()` returning `"[object Object]"` for multiple children. The function now properly handles React elements and complex children structures, preventing stringification issues when rendering button content.
 
-- **[Issue #232](https://github.com/sy-ui/sy-ui-native/issues/232)**: Fixed SyUINativeProvider breaking with the recently released Uniwind Pro. The provider now properly handles Uniwind Pro compatibility, ensuring smooth integration with the latest Uniwind version.
+- **[Issue #232](https://github.com/sy-inc/sy-inc-native/issues/232)**: Fixed SyIncNativeProvider breaking with the recently released Uniwind Pro. The provider now properly handles Uniwind Pro compatibility, ensuring smooth integration with the latest Uniwind version.
 
-- **[Issue #259](https://github.com/sy-ui/sy-ui-native/issues/259)**: Fixed BottomSheet issue where opening quickly and starting a meeting would prevent it from opening again. The refactored animation system resolves this issue by improving the entering/exiting animation logic.
+- **[Issue #259](https://github.com/sy-inc/sy-inc-native/issues/259)**: Fixed BottomSheet issue where opening quickly and starting a meeting would prevent it from opening again. The refactored animation system resolves this issue by improving the entering/exiting animation logic.
 
-- **[Issue #261](https://github.com/sy-ui/sy-ui-native/issues/261)**: Fixed `@gorhom/bottom-sheet` not being tree-shaken. The library now properly supports tree-shaking for unused dependencies.
+- **[Issue #261](https://github.com/sy-inc/sy-inc-native/issues/261)**: Fixed `@gorhom/bottom-sheet` not being tree-shaken. The library now properly supports tree-shaking for unused dependencies.
 
 **Additional Fixes:**
 
@@ -684,13 +684,13 @@ This release includes fixes for the following issues:
 
 **Related PRs:**
 
-- [#226](https://github.com/sy-ui/sy-ui-native/pull/226)
-- [#239](https://github.com/sy-ui/sy-ui-native/pull/239)
+- [#226](https://github.com/sy-inc/sy-inc-native/pull/226)
+- [#239](https://github.com/sy-inc/sy-inc-native/pull/239)
 
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

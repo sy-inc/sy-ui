@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">2026 年 7 月 28 日</span>
 </div>
 
-SY UI Native v1.0.7 让组件表面变得可扩展：组件现在接受 `background` 属性，并暴露配套的背景复合部件，从而可将表面后方的层替换为任意节点。本版本还新增 `GlassView` 层组件、用于 Dialog 与 Bottom Sheet 的 `blur` 遮罩变体，并将 `expo-blur` 作为可选的对等依赖。这些都是扩展点——默认主题不注册任何背景内容，因此渲染结果不变。
+SY INC Native v1.0.7 让组件表面变得可扩展：组件现在接受 `background` 属性，并暴露配套的背景复合部件，从而可将表面后方的层替换为任意节点。本版本还新增 `GlassView` 层组件、用于 Dialog 与 Bottom Sheet 的 `blur` 遮罩变体，并将 `expo-blur` 作为可选的对等依赖。这些都是扩展点——默认主题不注册任何背景内容，因此渲染结果不变。
 
 ## 安装
 
@@ -19,28 +19,28 @@ SY UI Native v1.0.7 让组件表面变得可扩展：组件现在接受 `backgro
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 真机体验
@@ -54,7 +54,7 @@ SY UI Native v1.0.7 让组件表面变得可扩展：组件现在接受 `backgro
 组件此前会直接依据主题令牌渲染固定的不透明表面。在 v1.0.7 中，拥有表面的部件接受 `background` 属性，并暴露以其所背衬元素命名的背景复合部件。传入节点即可替换该层，或传入 `null` 将其移除。
 
 ```tsx
-import { Button, GlassView } from "sy-ui-native";
+import { Button, GlassView } from "sy-inc-native";
 
 <Button
   variant="secondary"
@@ -75,9 +75,9 @@ import { Button, GlassView } from "sy-ui-native";
 
 属性与部件配对规律清晰——`background` 位于 Button、Avatar、Switch、Chip、Checkbox、Input 与 SubMenu 的根组件上，位于 `Radio.Indicator`、`Slider.Track`、`Tabs.List`、`TagGroup.Item`、`InputOTP.Slot` 与 `Popover.Content` 的子部件上，其对应部件分别为 `Radio.IndicatorBackground`、`Slider.TrackBackground`、`Tabs.ListBackground`、`TagGroup.ItemBackground`、`InputOTP.SlotBackground` 与 `Popover.ContentBackground`。每个背景容器都是绝对填充视图，继承宿主元素的定位与裁剪，并接受 `fallbackColor` 主题令牌用于不支持原生模糊的平台。
 
-是否挂载默认层由 `--theme` CSS 变量决定，可使用 `useIsGlassTheme` 与 `useHasDefaultThemeBackground` 检测这一情况。SY UI Native 附带的主题不注册任何背景内容，因此除非你自行注入，否则不会渲染任何内容；用于激活这些层的 `glass` 主题由 `sy-ui-native-pro/themes/glass` 提供。
+是否挂载默认层由 `--theme` CSS 变量决定，可使用 `useIsGlassTheme` 与 `useHasDefaultThemeBackground` 检测这一情况。SY INC Native 附带的主题不注册任何背景内容，因此除非你自行注入，否则不会渲染任何内容；用于激活这些层的 `glass` 主题由 `sy-inc-native-pro/themes/glass` 提供。
 
-**相关 PR：** [#457](https://github.com/sy-ui/sy-ui-native/pull/457)
+**相关 PR：** [#457](https://github.com/sy-inc/sy-inc-native/pull/457)
 
 ## ⚠️ 破坏性变更
 
@@ -104,7 +104,7 @@ import { Button, GlassView } from "sy-ui-native";
 <Select.Trigger className="rounded-2xl bg-surface border-0 shadow-surface" />
 ```
 
-**相关 PR：** [#457](https://github.com/sy-ui/sy-ui-native/pull/457)
+**相关 PR：** [#457](https://github.com/sy-inc/sy-inc-native/pull/457)
 
 ### Toast 遮罩令牌切换
 
@@ -122,7 +122,7 @@ import { Button, GlassView } from "sy-ui-native";
 <Toast className="bg-surface" />
 ```
 
-**相关 PR：** [#457](https://github.com/sy-ui/sy-ui-native/pull/457)
+**相关 PR：** [#457](https://github.com/sy-inc/sy-inc-native/pull/457)
 
 ## 更新的文档
 
@@ -135,7 +135,7 @@ import { Button, GlassView } from "sy-ui-native";
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

@@ -1,10 +1,10 @@
 ---
 title: Radio
-description: Migration guide for Radio from SY UI v2 to v3
+description: Migration guide for Radio from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Radio documentation](/docs/react/components/radio-group) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Radio documentation](/docs/react/components/radio-group) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -59,7 +59,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Simple Radio with children as label  
+**v2:** Simple Radio with children as label
 **v3:** Compound components: `Radio.Content`, `Radio.Control`, `Radio.Indicator`
 
 ### 2. Prop Changes
@@ -89,7 +89,7 @@ export default function App() {
         London
       </Radio>
     </RadioGroup>
-    
+
     {/* With validation */}
     <RadioGroup
       isInvalid
@@ -117,7 +117,7 @@ export default function App() {
         <Description>Capital of England</Description>
       </Radio>
     </RadioGroup>
-    
+
     {/* With validation */}
     <RadioGroup isInvalid>
       <Label>Select city</Label>

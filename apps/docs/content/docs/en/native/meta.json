@@ -1,5 +1,5 @@
 {
   "title": "Documentation",
-  "description": "SY UI Native Documentation",
+  "description": "SY INC Native Documentation",
   "pages": ["getting-started", "components", "releases"]
 }

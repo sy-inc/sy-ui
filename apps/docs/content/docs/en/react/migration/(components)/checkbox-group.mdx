@@ -1,10 +1,10 @@
 ---
 title: CheckboxGroup
-description: Migration guide for CheckboxGroup from SY UI v2 to v3
+description: Migration guide for CheckboxGroup from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 CheckboxGroup documentation](/docs/react/components/checkbox-group) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 CheckboxGroup documentation](/docs/react/components/checkbox-group) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -67,22 +67,22 @@ export default function App() {
 
 ### 1. Same Component Name
 
-**v2:** `CheckboxGroup` (separate import with `label` prop)  
+**v2:** `CheckboxGroup` (separate import with `label` prop)
 **v3:** `CheckboxGroup` (separate import; use `Label` component instead of `label` prop)
 
 ### 2. Label Prop
 
-**v2:** Used `label` prop on `CheckboxGroup`  
+**v2:** Used `label` prop on `CheckboxGroup`
 **v3:** Use `Label` component as a child of `CheckboxGroup`
 
 ### 3. Checkbox Structure
 
-**v2:** Simple Checkbox components with children as labels  
+**v2:** Simple Checkbox components with children as labels
 **v3:** Compound Checkbox components with `Checkbox.Content`, `Checkbox.Control`, and `Checkbox.Indicator`
 
 ### 4. Event Handler
 
-**v2:** Used `onValueChange` prop  
+**v2:** Used `onValueChange` prop
 **v3:** Uses `onChange` prop (from React Aria Components)
 
 ### 5. Variant Support

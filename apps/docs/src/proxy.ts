@@ -117,7 +117,7 @@ export function proxy(request: NextRequest) {
 
     const requestHeaders = new Headers(request.headers);
 
-    requestHeaders.set("x-sy-ui-markdown-path", pathname);
+    requestHeaders.set("x-sy-inc-markdown-path", pathname);
 
     return addHomepageDiscoveryHeaders(
       NextResponse.rewrite(url, {

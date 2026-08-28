@@ -1,10 +1,10 @@
 ---
 title: Dropdown
-description: Dropdown 从 SY UI v2 到 v3 的迁移指南。
+description: Dropdown 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Dropdown 文档](/docs/react/components/dropdown)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Dropdown 文档](/docs/react/components/dropdown)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -57,7 +57,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 相互独立的组件：`DropdownTrigger`、`DropdownMenu`、`DropdownItem`、`DropdownSection`  
+**v2：** 相互独立的组件：`DropdownTrigger`、`DropdownMenu`、`DropdownItem`、`DropdownSection`
 **v3：** 复合组件：`Dropdown.Trigger`、`Dropdown.Popover`、`Dropdown.Menu`、`Dropdown.Item`、`Dropdown.Section`
 
 ### 2. 组件名称变更
@@ -72,7 +72,7 @@ export default function App() {
 
 ### 3. 菜单项标识
 
-**v2：** 菜单项内容通过 children 传递；React 的 `key` 同时用于列表调和与菜单项标识（选择、焦点）。  
+**v2：** 菜单项内容通过 children 传递；React 的 `key` 同时用于列表调和与菜单项标识（选择、焦点）。
 **v3：** 菜单项的可见文本必须使用 `Label` 组件。为每个菜单项提供 `id`（状态/焦点）与 `textValue`（当内容不是纯文本时用于无障碍）。列表中的菜单项仍应保留 React 的 `key`。
 
 ### 4. Prop 变更
@@ -135,7 +135,7 @@ export default function App() {
     >
       New file
     </DropdownItem>
-    
+
     {/* With description */}
     <DropdownItem
       key="edit"
@@ -143,7 +143,7 @@ export default function App() {
     >
       Edit file
     </DropdownItem>
-    
+
     {/* With shortcut */}
     <DropdownItem
       key="copy"
@@ -163,13 +163,13 @@ export default function App() {
       <Icon icon="gravity-ui:square-plus" />
       <Label>New file</Label>
     </Dropdown.Item>
-    
+
     {/* With description */}
     <Dropdown.Item id="edit" textValue="Edit file">
       <Label>Edit file</Label>
       <Description>Edit the file</Description>
     </Dropdown.Item>
-    
+
     {/* With shortcut */}
     <Dropdown.Item id="copy" textValue="Copy">
       <Label>Copy</Label>
@@ -264,7 +264,7 @@ export default function App() {
       <DropdownItem key="text">Text</DropdownItem>
       <DropdownItem key="number">Number</DropdownItem>
     </DropdownMenu>
-    
+
     {/* Multiple selection */}
     const [multiSelected, setMultiSelected] = useState(new Set(["bold"]));
     <DropdownMenu
@@ -297,7 +297,7 @@ export default function App() {
         <Label>Number</Label>
       </Dropdown.Item>
     </Dropdown.Menu>
-    
+
     {/* Multiple selection */}
     const [multiSelected, setMultiSelected] = useState(new Set(["bold"]));
     <Dropdown.Menu

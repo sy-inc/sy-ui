@@ -1,10 +1,10 @@
 ---
 title: Select
-description: Migration guide for Select from SY UI v2 to v3
+description: Migration guide for Select from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Select documentation](/docs/react/components/select) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Select documentation](/docs/react/components/select) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -58,7 +58,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Simple Select with `SelectItem` children  
+**v2:** Simple Select with `SelectItem` children
 **v3:** Compound components (`Select.Trigger`, `Select.Value`, `Select.Indicator`, `Select.Popover`) with `ListBox` for items
 
 ### 2. Item Components
@@ -115,7 +115,7 @@ export default function App() {
       <SelectItem key="cat">Cat</SelectItem>
       <SelectItem key="dog">Dog</SelectItem>
     </Select>
-    
+
     {/* Multiple selection */}
     const [multiValue, setMultiValue] = useState(new Set([]));
     <Select
@@ -155,7 +155,7 @@ export default function App() {
         </ListBox>
       </Select.Popover>
     </Select>
-    
+
     {/* Multiple selection */}
     const [multiValue, setMultiValue] = useState<Key[]>([]);
     <Select
@@ -199,7 +199,7 @@ export default function App() {
     >
       <SelectItem key="cat">Cat</SelectItem>
     </Select>
-    
+
     {/* With validation */}
     <Select
       isInvalid
@@ -231,7 +231,7 @@ export default function App() {
         </ListBox>
       </Select.Popover>
     </Select>
-    
+
     {/* With validation */}
     <Select isInvalid placeholder="Choose one">
       <Label>Select animal</Label>

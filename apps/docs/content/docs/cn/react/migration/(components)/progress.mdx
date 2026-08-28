@@ -1,10 +1,10 @@
 ---
 title: Progress
-description: Progress 从 SY UI v2 到 v3（现在称为 ProgressBar）的迁移指南。
+description: Progress 从 SY INC v2 到 v3（现在称为 ProgressBar）的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 ProgressBar 文档](/docs/react/components/progress-bar)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 ProgressBar 文档](/docs/react/components/progress-bar)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 <Callout type="warning">
@@ -51,12 +51,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单一 `Progress` 组件，所有部分都在内部渲染  
+**v2：** 单一 `Progress` 组件，所有部分都在内部渲染
 **v3：** 复合组件：`ProgressBar`、`ProgressBar.Output`、`ProgressBar.Track`、`ProgressBar.Fill`，并配合外部的 `Label`
 
 ### 2. 颜色
 
-**v2：** `default`、`primary`、`secondary`、`success`、`warning`、`danger`  
+**v2：** `default`、`primary`、`secondary`、`success`、`warning`、`danger`
 **v3：** `default`、`accent`、`success`、`warning`、`danger`
 
 ### 3. Prop 变更

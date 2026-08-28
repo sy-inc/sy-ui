@@ -89,10 +89,10 @@
 }
 
 /* ============================================================================
-   SY_UI COMPONENT OVERRIDES
+   SY_INC COMPONENT OVERRIDES
    ============================================================================ */
 
-/* SY UI Component Style Overrides */
+/* SY INC Component Style Overrides */
 /* @utility button {
   @apply rounded-sm;
 } */
@@ -314,7 +314,7 @@
   }
 }
 
-/* Keep CJK phrases together so they wrap as a whole word instead of breaking between characters. 
+/* Keep CJK phrases together so they wrap as a whole word instead of breaking between characters.
    Safe for non-CJK locales since `keep-all` behaves like `normal` for non-CJK text. */
 #nd-sidebar a,
 #nd-sidebar p,

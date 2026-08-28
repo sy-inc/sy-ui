@@ -40,7 +40,7 @@ Update to the latest version:
 
 ### MCP Server
 
-SY UI now includes an [MCP server](/docs/ui-for-agents/mcp-server) that lets AI assistants like Cursor, Claude Code, and VS Code Copilot access SY UI v3 documentation and component information directly.
+SY INC now includes an [MCP server](/docs/ui-for-agents/mcp-server) that lets AI assistants like Cursor, Claude Code, and VS Code Copilot access SY INC v3 documentation and component information directly.
 
 **Quick Setup:**
 
@@ -48,7 +48,7 @@ SY UI now includes an [MCP server](/docs/ui-for-agents/mcp-server) that lets AI 
 
 <div className="flex items-center gap-3 mb-4">
   <a
-    href="https://link.sy-ui.com/mcp-cursor-install"
+    href="https://link.sy-inc.com/mcp-cursor-install"
     className="button button--tertiary button--sm no-underline bg-default/50 dark:bg-default/30"
   >
     <svg viewBox="0 0 466.73 532.09" className="w-5 h-5 fill-current">
@@ -63,7 +63,7 @@ Or manually add to **Cursor Settings** → **Tools** → **MCP Servers**:
 ```json
 {
   "mcpServers": {
-    "sy-ui-react": {
+    "sy-inc-react": {
       "command": "npx",
       "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
@@ -76,7 +76,7 @@ Or manually add to **Cursor Settings** → **Tools** → **MCP Servers**:
 Run this command in your terminal:
 
 ```bash
-claude mcp add sy-ui-react -- npx -y @sy-inc/react-mcp@latest
+claude mcp add sy-inc-react -- npx -y @sy-inc/react-mcp@latest
 ```
 
 [Learn more](/docs/ui-for-agents/mcp-server)
@@ -173,7 +173,7 @@ import {CloseButton} from "@sy-inc/react";
 
 ## Links
 
-- [GitHub PR #5747](https://github.com/sy-ui/sy-ui/pull/5747)
+- [GitHub PR #5747](https://github.com/sy-inc/sy-inc/pull/5747)
 - [MCP Server Documentation](/docs/ui-for-agents/mcp-server)
 - [Card Component Guide](/docs/components/card)
 - [CloseButton Component](/docs/components/close-button)

@@ -46,7 +46,7 @@ const ProgressBarRoot = ({children, className, color, size, ...props}: ProgressB
   );
 };
 
-ProgressBarRoot.displayName = "SY UI.ProgressBar";
+ProgressBarRoot.displayName = "SY INC.ProgressBar";
 
 /* -------------------------------------------------------------------------------------------------
  * ProgressBar Output
@@ -77,7 +77,7 @@ const ProgressBarOutput = <E extends keyof React.JSX.IntrinsicElements = "span">
   );
 };
 
-ProgressBarOutput.displayName = "SY UI.ProgressBar.Output";
+ProgressBarOutput.displayName = "SY INC.ProgressBar.Output";
 
 /* -------------------------------------------------------------------------------------------------
  * ProgressBar Track
@@ -108,7 +108,7 @@ const ProgressBarTrack = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-ProgressBarTrack.displayName = "SY UI.ProgressBar.Track";
+ProgressBarTrack.displayName = "SY INC.ProgressBar.Track";
 
 /* -------------------------------------------------------------------------------------------------
  * ProgressBar Fill
@@ -142,7 +142,7 @@ const ProgressBarFill = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-ProgressBarFill.displayName = "SY UI.ProgressBar.Fill";
+ProgressBarFill.displayName = "SY INC.ProgressBar.Fill";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

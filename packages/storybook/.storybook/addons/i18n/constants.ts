@@ -1,6 +1,6 @@
-export const I18N_ADDON_ID = "sy-ui-i18n-addon";
-export const I18N_GLOBAL_TYPE_ID = "sy-ui-i18n";
-export const I18N_PARAM_KEY = "sy-ui-i18n";
+export const I18N_ADDON_ID = "sy-inc-i18n-addon";
+export const I18N_GLOBAL_TYPE_ID = "sy-inc-i18n";
+export const I18N_PARAM_KEY = "sy-inc-i18n";
 
 export const LOCALES = [
   {

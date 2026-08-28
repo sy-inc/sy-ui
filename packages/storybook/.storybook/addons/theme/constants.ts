@@ -1,7 +1,7 @@
-export const THEME_ADDON_ID = "sy-ui-theme-addon";
-export const THEME_GLOBAL_TYPE_ID = "sy-ui-theme";
-export const THEME_PARAM_KEY = "sy-ui-theme";
-export const THEME_EVENT_NAME = "sy-ui-theme-changed";
+export const THEME_ADDON_ID = "sy-inc-theme-addon";
+export const THEME_GLOBAL_TYPE_ID = "sy-inc-theme";
+export const THEME_PARAM_KEY = "sy-inc-theme";
+export const THEME_EVENT_NAME = "sy-inc-theme-changed";
 
 export const THEME_VALUES = ["light", "dark"] as const;
 export type ThemeKey = (typeof THEME_VALUES)[number];

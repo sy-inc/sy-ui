@@ -146,7 +146,7 @@ const CalendarYearPickerTrigger = ({
   );
 };
 
-CalendarYearPickerTrigger.displayName = "SY UI.CalendarYearPicker.Trigger";
+CalendarYearPickerTrigger.displayName = "SY INC.CalendarYearPicker.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * CalendarYearPickerTriggerHeading
@@ -174,7 +174,7 @@ const CalendarYearPickerTriggerHeading = <E extends keyof React.JSX.IntrinsicEle
   );
 };
 
-CalendarYearPickerTriggerHeading.displayName = "SY UI.CalendarYearPicker.TriggerHeading";
+CalendarYearPickerTriggerHeading.displayName = "SY INC.CalendarYearPicker.TriggerHeading";
 
 /* -------------------------------------------------------------------------------------------------
  * CalendarYearPickerTriggerIndicator
@@ -201,7 +201,7 @@ const CalendarYearPickerTriggerIndicator = <E extends keyof React.JSX.IntrinsicE
   );
 };
 
-CalendarYearPickerTriggerIndicator.displayName = "SY UI.CalendarYearPicker.TriggerIndicator";
+CalendarYearPickerTriggerIndicator.displayName = "SY INC.CalendarYearPicker.TriggerIndicator";
 
 /* -------------------------------------------------------------------------------------------------
  * CalendarYearPickerGrid
@@ -488,7 +488,7 @@ const CalendarYearPickerGrid = <E extends keyof React.JSX.IntrinsicElements = "d
   );
 };
 
-CalendarYearPickerGrid.displayName = "SY UI.CalendarYearPicker.Grid";
+CalendarYearPickerGrid.displayName = "SY INC.CalendarYearPicker.Grid";
 
 /* -------------------------------------------------------------------------------------------------
  * CalendarYearPickerGridBody
@@ -526,7 +526,7 @@ const CalendarYearPickerGridBody = ({children}: CalendarYearPickerGridBodyProps)
   );
 };
 
-CalendarYearPickerGridBody.displayName = "SY UI.CalendarYearPicker.GridBody";
+CalendarYearPickerGridBody.displayName = "SY INC.CalendarYearPicker.GridBody";
 
 /* -------------------------------------------------------------------------------------------------
  * CalendarYearPickerCell
@@ -586,7 +586,7 @@ const CalendarYearPickerCell = ({
   );
 };
 
-CalendarYearPickerCell.displayName = "SY UI.CalendarYearPicker.Cell";
+CalendarYearPickerCell.displayName = "SY INC.CalendarYearPicker.Cell";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

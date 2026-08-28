@@ -4,7 +4,7 @@ import {InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function WithTextSuffix() {
   return (
-    <TextField className="w-full max-w-[280px]" defaultValue="sy-ui" name="website">
+    <TextField className="w-full max-w-[280px]" defaultValue="sy-inc" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Input className="w-full max-w-[280px]" />

@@ -58,7 +58,7 @@ export function getHomeLayoutLinks(dict: Dictionary, lang: string = "en"): LinkI
           external: true,
           icon: <Iconify icon="route" />,
           text: nav.roadmap,
-          url: "https://sy-ui.featurebase.app/roadmap",
+          url: "https://sy-inc.featurebase.app/roadmap",
         },
       ],
       on: "menu",
@@ -102,7 +102,7 @@ export function getHomeLayoutLinks(dict: Dictionary, lang: string = "en"): LinkI
     },
     {
       children: (
-        <ExternalLink href="https://sy-ui.featurebase.app/roadmap">{nav.roadmap}</ExternalLink>
+        <ExternalLink href="https://sy-inc.featurebase.app/roadmap">{nav.roadmap}</ExternalLink>
       ),
       on: "nav",
       type: "custom",

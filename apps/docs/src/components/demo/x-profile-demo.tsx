@@ -15,17 +15,17 @@ export function XProfileDemo() {
         <div className="flex items-center gap-3">
           <Avatar size="sm">
             <Avatar.Image
-              alt="SY UI"
-              src="https://assets.sy-ui.com/docs/sy-ui_isotipo.png"
+              alt="SY INC"
+              src="https://assets.sy-inc.com/docs/sy-inc_isotipo.png"
             />
             <Avatar.Fallback>H</Avatar.Fallback>
           </Avatar>
           <div className="flex h-full flex-col items-start justify-center">
             <div className="flex items-center gap-0.5">
-              <span className="text-sm leading-4 font-semibold">SY UI</span>
+              <span className="text-sm leading-4 font-semibold">SY INC</span>
               <VerifiedBadgeIcon height={18} width={18} />
             </div>
-            <span className="text-sm tracking-tight text-muted">@sy_ui</span>
+            <span className="text-sm tracking-tight text-muted">@sy_inc</span>
           </div>
         </div>
       </Card.Header>

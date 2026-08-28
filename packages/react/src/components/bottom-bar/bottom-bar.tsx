@@ -158,10 +158,10 @@ const BottomBarLabel = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
-BottomBarRoot.displayName = "SY UI.BottomBar";
-BottomBarItem.displayName = "SY UI.BottomBar.Item";
-BottomBarIcon.displayName = "SY UI.BottomBar.Icon";
-BottomBarLabel.displayName = "SY UI.BottomBar.Label";
+BottomBarRoot.displayName = "SY INC.BottomBar";
+BottomBarItem.displayName = "SY INC.BottomBar.Item";
+BottomBarIcon.displayName = "SY INC.BottomBar.Icon";
+BottomBarLabel.displayName = "SY INC.BottomBar.Label";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

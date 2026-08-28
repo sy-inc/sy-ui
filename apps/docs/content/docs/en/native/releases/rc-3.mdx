@@ -18,28 +18,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -63,8 +63,8 @@ The TagGroup component provides a compound component pattern for rendering selec
 <NativeVideoPlayerView
   target="component"
   slug="tag-group"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/tag-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/tag-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/tag-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/tag-group-docs-dark.mp4"
 />
 
 **Features:**
@@ -82,7 +82,7 @@ The TagGroup component provides a compound component pattern for rendering selec
 **Usage:**
 
 ```tsx
-import { TagGroup } from "sy-ui-native";
+import { TagGroup } from "sy-inc-native";
 
 export function BasicTagGroup() {
   return (
@@ -122,7 +122,7 @@ export function RemovableTagGroup() {
 
 For complete documentation and examples, see the [TagGroup component page](/docs/native/components/tag-group).
 
-**Related PR:** [#309](https://github.com/sy-ui/sy-ui-native/pull/309)
+**Related PR:** [#309](https://github.com/sy-inc/sy-inc-native/pull/309)
 
 #### Menu
 
@@ -131,8 +131,8 @@ The Menu component provides a dropdown menu system built on a compound component
 <NativeVideoPlayerView
   target="component"
   slug="menu"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-dark.mp4"
 />
 
 **Features:**
@@ -149,7 +149,7 @@ The Menu component provides a dropdown menu system built on a compound component
 **Usage:**
 
 ```tsx
-import { Menu } from "sy-ui-native";
+import { Menu } from "sy-inc-native";
 
 export function BasicMenu() {
   return (
@@ -204,7 +204,7 @@ export function MenuWithSections() {
 
 For complete documentation and examples, see the [Menu component page](/docs/native/components/menu).
 
-**Related PR:** [#312](https://github.com/sy-ui/sy-ui-native/pull/312)
+**Related PR:** [#312](https://github.com/sy-inc/sy-inc-native/pull/312)
 
 #### InputGroup
 
@@ -213,8 +213,8 @@ The InputGroup component provides a decorated text input with absolutely-positio
 <NativeVideoPlayerView
   target="component"
   slug="input-group"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/input-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/input-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/input-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/input-group-docs-dark.mp4"
 />
 
 **Features:**
@@ -228,7 +228,7 @@ The InputGroup component provides a decorated text input with absolutely-positio
 **Usage:**
 
 ```tsx
-import { InputGroup } from "sy-ui-native";
+import { InputGroup } from "sy-inc-native";
 
 export function SearchInput() {
   return (
@@ -258,7 +258,7 @@ export function DisabledInput() {
 
 For complete documentation and examples, see the [InputGroup component page](/docs/native/components/input-group).
 
-**Related PR:** [#313](https://github.com/sy-ui/sy-ui-native/pull/313)
+**Related PR:** [#313](https://github.com/sy-inc/sy-inc-native/pull/313)
 
 ## Component Improvements
 
@@ -274,7 +274,7 @@ The [Bottom Sheet](/docs/native/components/bottom-sheet) shared container now ha
 
 The fix uses React Native's `BackHandler` API which is a no-op on iOS, so no platform-specific handling is needed.
 
-**Related PR:** [#308](https://github.com/sy-ui/sy-ui-native/pull/308)
+**Related PR:** [#308](https://github.com/sy-inc/sy-inc-native/pull/308)
 
 ### Slot `combineStyles` Fix
 
@@ -286,7 +286,7 @@ The Slot primitive's `combineStyles` function now returns style arrays instead o
 - React Native handles nested style arrays natively, so consumer behavior is unchanged
 - Fixes animation breakages across components that compose via the Slot primitive
 
-**Related PR:** [#314](https://github.com/sy-ui/sy-ui-native/pull/314)
+**Related PR:** [#314](https://github.com/sy-inc/sy-inc-native/pull/314)
 
 ## Dependencies
 
@@ -299,20 +299,20 @@ Dependency versions have been updated for Expo SDK 55 compatibility:
 
 The `combineStyles` fix described above is the primary code change enabling Expo 55 support, as the previous `StyleSheet.flatten` approach broke Reanimated style bindings in the new SDK.
 
-**Related PR:** [#314](https://github.com/sy-ui/sy-ui-native/pull/314)
+**Related PR:** [#314](https://github.com/sy-inc/sy-inc-native/pull/314)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #272](https://github.com/sy-ui/sy-ui-native/issues/272)**: Resolved `FullWindowOverlay` interfering with the React Native element inspector.
+- **[Issue #272](https://github.com/sy-inc/sy-inc-native/issues/272)**: Resolved `FullWindowOverlay` interfering with the React Native element inspector.
 
-- **[Issue #280](https://github.com/sy-ui/sy-ui-native/issues/280)**: Fixed Avatar component and other Reanimated-dependent components breaking under Expo 55. The `combineStyles` function was destroying Reanimated animated style bindings via `StyleSheet.flatten`; it now returns style arrays to preserve `SharedValue` and `useAnimatedStyle` bindings.
+- **[Issue #280](https://github.com/sy-inc/sy-inc-native/issues/280)**: Fixed Avatar component and other Reanimated-dependent components breaking under Expo 55. The `combineStyles` function was destroying Reanimated animated style bindings via `StyleSheet.flatten`; it now returns style arrays to preserve `SharedValue` and `useAnimatedStyle` bindings.
 
 **Related PRs:**
 
-- [#308](https://github.com/sy-ui/sy-ui-native/pull/308)
-- [#314](https://github.com/sy-ui/sy-ui-native/pull/314)
+- [#308](https://github.com/sy-inc/sy-inc-native/pull/308)
+- [#314](https://github.com/sy-inc/sy-inc-native/pull/314)
 
 ## Updated Documentation
 
@@ -325,7 +325,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

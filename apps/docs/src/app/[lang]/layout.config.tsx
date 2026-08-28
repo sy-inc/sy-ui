@@ -1,6 +1,6 @@
 import type {BaseLayoutProps} from "fumadocs-ui/layouts/shared";
 
-import {SyUILogo} from "@/components/sy-ui-logo";
+import {SyIncLogo} from "@/components/sy-inc-logo";
 
 export {getHomeLayoutLinks} from "./(home)/home-layout-links";
 
@@ -13,7 +13,7 @@ export {getHomeLayoutLinks} from "./(home)/home-layout-links";
  */
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: <SyUILogo />,
+    title: <SyIncLogo />,
     transparentMode: "always",
   },
 };

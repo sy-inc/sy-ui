@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">April 15, 2026</span>
 </div>
 
-SY UI Native v1.0.2 introduces the `asChild` slot pattern for PressableFeedback and Surface components, adds VoiceOver modal containment support across all portal-based overlay components, and fixes an Android-specific Button variant styling issue. This release also refines Input and Select visual styles and improves RadioGroup documentation with inline API references.
+SY INC Native v1.0.2 introduces the `asChild` slot pattern for PressableFeedback and Surface components, adds VoiceOver modal containment support across all portal-based overlay components, and fixes an Android-specific Button variant styling issue. This release also refines Input and Select visual styles and improves RadioGroup documentation with inline API references.
 
 ## Installation
 
@@ -19,28 +19,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -58,7 +58,7 @@ The [PressableFeedback](/docs/native/components/pressable-feedback) and [Surface
 **New capability:**
 
 ```tsx
-import { PressableFeedback, Surface } from "sy-ui-native";
+import { PressableFeedback, Surface } from "sy-inc-native";
 
 // PressableFeedback merges press handling onto the child
 <PressableFeedback asChild onPress={() => console.log("pressed")}>
@@ -73,7 +73,7 @@ import { PressableFeedback, Surface } from "sy-ui-native";
 
 The `asChild` prop defaults to `false`, preserving existing behavior. No migration is required. The child must be a single React element when `asChild` is enabled. Both implementations follow the established Slot primitive pattern already used in the codebase.
 
-**Related PR:** [#380](https://github.com/sy-ui/sy-ui-native/pull/380)
+**Related PR:** [#380](https://github.com/sy-inc/sy-inc-native/pull/380)
 
 ### `unstable_accessibilityContainerViewIsModal` for Portal Components
 
@@ -91,7 +91,7 @@ A new `unstable_accessibilityContainerViewIsModal` prop has been added to all po
 **New capability:**
 
 ```tsx
-import { Dialog } from "sy-ui-native";
+import { Dialog } from "sy-inc-native";
 
 <Dialog>
   <Dialog.Portal unstable_accessibilityContainerViewIsModal>
@@ -104,7 +104,7 @@ import { Dialog } from "sy-ui-native";
 
 The prop defaults to `false`, preserving existing behavior. It is marked `unstable` because it maps directly to the native `accessibilityViewIsModal` on `FullWindowOverlay` from `react-native-screens` and may change with future releases of that library.
 
-**Related PR:** [#383](https://github.com/sy-ui/sy-ui-native/pull/383)
+**Related PR:** [#383](https://github.com/sy-inc/sy-inc-native/pull/383)
 
 ## Style Fixes
 
@@ -119,20 +119,20 @@ Refined the visual styling of the [Input](/docs/native/components/input) and [Se
 
 These are purely cosmetic adjustments with no API or behavioral changes. Visual regression testing is recommended to confirm the updated styles render as expected across iOS and Android.
 
-**Related PR:** [#381](https://github.com/sy-ui/sy-ui-native/pull/381)
+**Related PR:** [#381](https://github.com/sy-inc/sy-inc-native/pull/381)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #363](https://github.com/sy-ui/sy-ui-native/issues/363)**: Fixed the Button outline variant on Android where the border would persist when switching to another variant via a conditional prop. React Native on Android sometimes retains the `borderWidth` property during variant transitions. All button variants except `outline` now include explicit `border-0` classes to ensure `borderWidth` is reset to `0` whenever the variant changes.
+- **[Issue #363](https://github.com/sy-inc/sy-inc-native/issues/363)**: Fixed the Button outline variant on Android where the border would persist when switching to another variant via a conditional prop. React Native on Android sometimes retains the `borderWidth` property during variant transitions. All button variants except `outline` now include explicit `border-0` classes to ensure `borderWidth` is reset to `0` whenever the variant changes.
 
-- **[Issue #357](https://github.com/sy-ui/sy-ui-native/issues/357)**: Resolved the request for `asChild` support on Card for pressable card patterns. The new `asChild` slot pattern on PressableFeedback and Surface enables developers to compose pressable card layouts by merging press handling and surface styling onto a single child element without additional wrapper nodes.
+- **[Issue #357](https://github.com/sy-inc/sy-inc-native/issues/357)**: Resolved the request for `asChild` support on Card for pressable card patterns. The new `asChild` slot pattern on PressableFeedback and Surface enables developers to compose pressable card layouts by merging press handling and surface styling onto a single child element without additional wrapper nodes.
 
 **Related PRs:**
 
-- [#370](https://github.com/sy-ui/sy-ui-native/pull/370)
-- [#380](https://github.com/sy-ui/sy-ui-native/pull/380)
+- [#370](https://github.com/sy-inc/sy-inc-native/pull/370)
+- [#380](https://github.com/sy-inc/sy-inc-native/pull/380)
 
 ## Documentation
 
@@ -146,7 +146,7 @@ The [RadioGroup](/docs/native/components/radio-group) documentation now embeds f
 - Added documentation for `RadioRenderProps`, `RadioRootAnimation`, and `RadioIndicatorThumbAnimation` types
 - Replaced external markdown links with inline code formatting for consistency
 
-**Related PR:** [#384](https://github.com/sy-ui/sy-ui-native/pull/384)
+**Related PR:** [#384](https://github.com/sy-inc/sy-inc-native/pull/384)
 
 ## Updated Documentation
 
@@ -165,7 +165,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

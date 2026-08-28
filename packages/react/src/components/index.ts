@@ -45,7 +45,6 @@ export * from "./separator";
 export * from "./skeleton";
 export * from "./spinner";
 export * from "./surface";
-// export * from "./time-picker";
 export * from "./time-picker";
 export * from "./toast";
 export * from "./toggle-button";

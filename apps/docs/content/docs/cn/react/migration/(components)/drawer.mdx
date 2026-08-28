@@ -1,10 +1,10 @@
 ---
 title: Drawer
-description: Drawer 从 SY UI v2 到 v3 的迁移指南。
+description: Drawer 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Drawer 文档](/docs/react/components/drawer)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Drawer 文档](/docs/react/components/drawer)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -75,12 +75,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** `Drawer` 包裹 `DrawerContent`，并使用渲染回调模式；触发器需要通过 `useDisclosure` 单独管理  
+**v2：** `Drawer` 包裹 `DrawerContent`，并使用渲染回调模式；触发器需要通过 `useDisclosure` 单独管理
 **v3：** 复合组件：`Drawer`、`Drawer.Backdrop`、`Drawer.Content`、`Drawer.Dialog`、`Drawer.Header`、`Drawer.Heading`、`Drawer.Body`、`Drawer.Footer`、`Drawer.Handle`、`Drawer.CloseTrigger`。`Drawer` 的第一个子节点会成为触发器。
 
 ### 2. 触发模式
 
-**v2：** 使用外部触发器，并通过 `useDisclosure` 钩子与 `isOpen` / `onOpenChange` 管理状态  
+**v2：** 使用外部触发器，并通过 `useDisclosure` 钩子与 `isOpen` / `onOpenChange` 管理状态
 **v3：** 内置触发器，`Drawer` 的第一个子节点会自动成为触发器。受控状态可通过 `useOverlayState` 钩子管理。
 
 ### 3. v3 新特性
@@ -113,7 +113,7 @@ export default function App() {
 
 ### 5. Hook 变更
 
-**v2：** 使用 `useDisclosure` 钩子管理打开 / 关闭状态  
+**v2：** 使用 `useDisclosure` 钩子管理打开 / 关闭状态
 **v3：** 使用 `useOverlayState` 钩子（替代 `useDisclosure`）
 
 ```tsx

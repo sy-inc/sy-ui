@@ -47,7 +47,7 @@ const ToolbarRoot = ({
   );
 };
 
-ToolbarRoot.displayName = "SY UI.Toolbar";
+ToolbarRoot.displayName = "SY INC.Toolbar";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

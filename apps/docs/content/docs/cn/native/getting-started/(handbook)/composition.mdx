@@ -4,14 +4,14 @@ description: 用组件组合模式搭建灵活 UI
 icon: layers
 ---
 
-SY UI Native 通过组合模式实现灵活、可定制的组件：可更换实际渲染元素、将多个部件拼在一起，并完全掌控结构。
+SY INC Native 通过组合模式实现灵活、可定制的组件：可更换实际渲染元素、将多个部件拼在一起，并完全掌控结构。
 
 ## 复合组件
 
-SY UI Native 采用点记法的复合组件——子组件作为属性导出（如 `Button.Label`、`Dialog.Trigger`、`Accordion.Item`），共同构成完整界面。
+SY INC Native 采用点记法的复合组件——子组件作为属性导出（如 `Button.Label`、`Dialog.Trigger`、`Accordion.Item`），共同构成完整界面。
 
 ```tsx
-import { Button, Dialog } from 'sy-ui-native';
+import { Button, Dialog } from 'sy-inc-native';
 
 function DialogExample() {
   return (
@@ -34,10 +34,10 @@ function DialogExample() {
 
 ## asChild 属性
 
-`asChild` 用于改变组件实际渲染的元素。为 `true` 时，SY UI Native 会克隆子元素并合并属性，而不是渲染默认包裹节点。
+`asChild` 用于改变组件实际渲染的元素。为 `true` 时，SY INC Native 会克隆子元素并合并属性，而不是渲染默认包裹节点。
 
 ```tsx
-import { Button, Dialog } from 'sy-ui-native';
+import { Button, Dialog } from 'sy-inc-native';
 
 function DialogExample() {
   return (
@@ -64,10 +64,10 @@ function DialogExample() {
 
 ## 自定义组件
 
-通过组合 SY UI Native 原语封装自己的组件：
+通过组合 SY INC Native 原语封装自己的组件：
 
 ```tsx
-import { Button, Card, Popover } from 'sy-ui-native';
+import { Button, Card, Popover } from 'sy-inc-native';
 import { View } from 'react-native';
 
 // 商品卡片
@@ -131,8 +131,8 @@ function PopoverButton({ children, popoverContent, ...props }) {
 可用 `tailwind-variants` 扩展样式。**文字颜色类须加在 `Button.Label` 上，而不是父级 `Button`：**
 
 ```tsx
-import { Button } from 'sy-ui-native';
-import type { ButtonRootProps } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 const customButtonVariants = tv({

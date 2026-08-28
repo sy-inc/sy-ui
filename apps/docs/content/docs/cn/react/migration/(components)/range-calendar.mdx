@@ -1,10 +1,10 @@
 ---
 title: RangeCalendar
-description: RangeCalendar 从 SY UI v2 到 v3 的迁移指南。
+description: RangeCalendar 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 RangeCalendar 文档](/docs/react/components/range-calendar)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 RangeCalendar 文档](/docs/react/components/range-calendar)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -65,12 +65,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单一 `RangeCalendar` 组件，所有布局都在内部处理  
+**v2：** 单一 `RangeCalendar` 组件，所有布局都在内部处理
 **v3：** 复合组件：`RangeCalendar.Header`、`RangeCalendar.Heading`、`RangeCalendar.NavButton`、`RangeCalendar.Grid`、`RangeCalendar.GridHeader`、`RangeCalendar.GridBody`、`RangeCalendar.HeaderCell`、`RangeCalendar.Cell`、`RangeCalendar.CellIndicator`
 
 ### 2. 年份选择器
 
-**v2：** 通过 `showMonthAndYearPickers` prop 提供内置月份 / 年份选择器  
+**v2：** 通过 `showMonthAndYearPickers` prop 提供内置月份 / 年份选择器
 **v3：** 使用专用复合组件：`RangeCalendar.YearPickerTrigger`、`RangeCalendar.YearPickerGrid`、`RangeCalendar.YearPickerGridBody`、`RangeCalendar.YearPickerCell`
 
 ### 3. Prop 变更

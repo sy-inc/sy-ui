@@ -70,8 +70,8 @@ export default async function Page(props: {params: Promise<{lang: string; slug?:
 
   // TODO: add github last edit
   // const lastEditTime = await getGithubLastEdit({
-  //   owner: "sy-ui",
-  //   repo: "sy-ui",
+  //   owner: "sy-inc",
+  //   repo: "sy-inc",
   //   path: `apps/docs/content/docs/${page.path}`,
   // });
 
@@ -218,7 +218,7 @@ export async function generateMetadata(props: {
       card: "summary_large_image",
       description,
       images: imageUrl,
-      site: "@sy_ui",
+      site: "@sy_inc",
       title,
     },
   };

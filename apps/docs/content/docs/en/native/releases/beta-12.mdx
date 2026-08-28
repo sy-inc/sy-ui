@@ -18,28 +18,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native@beta
+  npm i sy-inc-native@beta
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native@beta
+  pnpm add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native@beta
+  yarn add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native@beta
+  bun add sy-inc-native@beta
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -63,8 +63,8 @@ The InputOTP component provides a complete solution for one-time password input 
 <NativeVideoPlayerView
   target="component"
   slug="input-otp"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/input-otp-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/input-otp-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/input-otp-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/input-otp-docs-dark.mp4"
 />
 
 **Features:**
@@ -81,7 +81,7 @@ The InputOTP component provides a complete solution for one-time password input 
 **Usage:**
 
 ```tsx
-import { InputOTP, Label, Description } from "sy-ui-native";
+import { InputOTP, Label, Description } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -108,7 +108,7 @@ export function Example() {
 
 For complete documentation and examples, see the [InputOTP component page](/docs/native/components/input-otp).
 
-**Related PR:** [#214](https://github.com/sy-ui/sy-ui-native/pull/214)
+**Related PR:** [#214](https://github.com/sy-inc/sy-inc-native/pull/214)
 
 #### Label
 
@@ -117,8 +117,8 @@ The Label component provides accessible labeling for form fields with built-in s
 <NativeVideoPlayerView
   target="component"
   slug="label"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/label-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/label-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/label-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/label-docs-dark.mp4"
 />
 
 **Features:**
@@ -133,7 +133,7 @@ The Label component provides accessible labeling for form fields with built-in s
 **Usage:**
 
 ```tsx
-import { Label, TextField } from "sy-ui-native";
+import { Label, TextField } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -147,7 +147,7 @@ export function Example() {
 
 For complete documentation and examples, see the [Label component page](/docs/native/components/label).
 
-**Related PR:** [#214](https://github.com/sy-ui/sy-ui-native/pull/214)
+**Related PR:** [#214](https://github.com/sy-inc/sy-inc-native/pull/214)
 
 #### Description
 
@@ -156,8 +156,8 @@ The Description component provides accessible helper text and descriptions for f
 <NativeVideoPlayerView
   target="component"
   slug="description"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/description-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/description-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/description-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/description-docs-dark.mp4"
 />
 
 **Features:**
@@ -170,7 +170,7 @@ The Description component provides accessible helper text and descriptions for f
 **Usage:**
 
 ```tsx
-import { Description, TextField } from "sy-ui-native";
+import { Description, TextField } from "sy-inc-native";
 
 export function Example() {
   return (
@@ -191,7 +191,7 @@ export function Example() {
 
 For complete documentation and examples, see the [Description component page](/docs/native/components/description).
 
-**Related PR:** [#214](https://github.com/sy-ui/sy-ui-native/pull/214)
+**Related PR:** [#214](https://github.com/sy-inc/sy-inc-native/pull/214)
 
 ## Component Improvements
 
@@ -207,7 +207,7 @@ The [Popover](/docs/native/components/popover) component has been fixed to prope
 
 This fix ensures that when developers call `popoverRef.current?.close()`, the popover closes reliably with proper animation and state management.
 
-**Related PR:** [#207](https://github.com/sy-ui/sy-ui-native/pull/207)
+**Related PR:** [#207](https://github.com/sy-inc/sy-inc-native/pull/207)
 
 ### Popup Controlled State Fix
 
@@ -221,7 +221,7 @@ Popup components (including Dialog, Bottom Sheet, and Popover) have been fixed t
 
 This fix ensures that popup components correctly respond to external state changes when using controlled mode, providing developers with more predictable behavior when managing popup state externally.
 
-**Related PR:** [#215](https://github.com/sy-ui/sy-ui-native/pull/215)
+**Related PR:** [#215](https://github.com/sy-inc/sy-inc-native/pull/215)
 
 ### Button, Chip, and Tabs Border Radius Fix
 
@@ -236,7 +236,7 @@ The [Button](/docs/native/components/button), [Chip](/docs/native/components/chi
 
 These fixes ensure that global border radius settings defined in the theme configuration are properly applied to Button, Chip, and Tabs components, providing consistent styling across the application.
 
-**Related PR:** [#218](https://github.com/sy-ui/sy-ui-native/pull/218)
+**Related PR:** [#218](https://github.com/sy-inc/sy-inc-native/pull/218)
 
 ### TextField.Input Props Cleanup
 
@@ -250,35 +250,35 @@ The [TextField](/docs/native/components/text-field) component's Input subcompone
 
 These props were removed to streamline the TextField.Input API and reduce complexity. Animation behavior is now handled internally by the component, providing a more consistent and predictable experience without requiring manual animation configuration.
 
-**Related PR:** [#220](https://github.com/sy-ui/sy-ui-native/pull/220)
+**Related PR:** [#220](https://github.com/sy-inc/sy-inc-native/pull/220)
 
 ## API Enhancements
 
-### SyUINativeProvider devInfo Configuration
+### SyIncNativeProvider devInfo Configuration
 
-The `SyUINativeProvider` component now supports `devInfo` configuration options for enhanced development experience.
+The `SyIncNativeProvider` component now supports `devInfo` configuration options for enhanced development experience.
 
 **New Capability:**
 
 ```tsx
-import { SyUINativeProvider } from "sy-ui-native";
+import { SyIncNativeProvider } from "sy-inc-native";
 
 export function App() {
   return (
-    <SyUINativeProvider
+    <SyIncNativeProvider
       devInfo={{
         // Configuration options for development
       }}
     >
       {/* Your app content */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
 
 This enhancement provides developers with additional configuration options for development and debugging scenarios, making it easier to troubleshoot and optimize applications during development.
 
-**Related PR:** [#217](https://github.com/sy-ui/sy-ui-native/pull/217)
+**Related PR:** [#217](https://github.com/sy-inc/sy-inc-native/pull/217)
 
 ### Variant Style Prop Support
 
@@ -287,7 +287,7 @@ The [Checkbox](/docs/native/components/checkbox), [Radio](/docs/native/component
 **New Capability:**
 
 ```tsx
-import { Checkbox, Radio, TextField, InputOTP } from "sy-ui-native";
+import { Checkbox, Radio, TextField, InputOTP } from "sy-inc-native";
 
 // Apply variant styles directly via style prop
 <Checkbox variant="bordered" style={{ variant: "flat" }}>
@@ -305,7 +305,7 @@ import { Checkbox, Radio, TextField, InputOTP } from "sy-ui-native";
 
 This enhancement provides developers with more flexibility when customizing component variants, allowing variant changes to be applied via the style prop in addition to the component's variant prop.
 
-**Related PR:** [#220](https://github.com/sy-ui/sy-ui-native/pull/220)
+**Related PR:** [#220](https://github.com/sy-inc/sy-inc-native/pull/220)
 
 ## Style Fixes
 
@@ -328,19 +328,19 @@ Fixed global border radius configuration not applying correctly to certain compo
 
 This release includes fixes for the following issues:
 
-- **[Issue #93](https://github.com/sy-ui/sy-ui-native/issues/93)**: Fixed global border radius configuration not applying to Button component in sy-ui-native using Unwind. The Button component now properly respects border radius settings defined in the global theme configuration, ensuring consistent styling across the application.
+- **[Issue #93](https://github.com/sy-inc/sy-inc-native/issues/93)**: Fixed global border radius configuration not applying to Button component in sy-inc-native using Unwind. The Button component now properly respects border radius settings defined in the global theme configuration, ensuring consistent styling across the application.
 
-- **[Issue #213](https://github.com/sy-ui/sy-ui-native/issues/213)**: Fixed Select controlled mode (`isOpen`) not working. The Select component now properly handles controlled state when the `isOpen` prop is provided, allowing developers to manage Select open/close state externally with predictable behavior.
+- **[Issue #213](https://github.com/sy-inc/sy-inc-native/issues/213)**: Fixed Select controlled mode (`isOpen`) not working. The Select component now properly handles controlled state when the `isOpen` prop is provided, allowing developers to manage Select open/close state externally with predictable behavior.
 
 **Related PRs:**
 
-- [#218](https://github.com/sy-ui/sy-ui-native/pull/218)
-- [#215](https://github.com/sy-ui/sy-ui-native/pull/215)
+- [#218](https://github.com/sy-inc/sy-inc-native/pull/218)
+- [#215](https://github.com/sy-inc/sy-inc-native/pull/215)
 
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

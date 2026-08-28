@@ -152,7 +152,7 @@ function CalendarRoot<T extends DateValue = DateValue, M extends CalendarSelecti
   );
 }
 
-CalendarRoot.displayName = "SY UI.Calendar";
+CalendarRoot.displayName = "SY INC.Calendar";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Header
@@ -182,7 +182,7 @@ const CalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "header">(
   );
 };
 
-CalendarHeader.displayName = "SY UI.Calendar.Header";
+CalendarHeader.displayName = "SY INC.Calendar.Header";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Heading
@@ -201,7 +201,7 @@ const CalendarHeading = ({className, ...props}: CalendarHeadingProps) => {
   );
 };
 
-CalendarHeading.displayName = "SY UI.Calendar.Heading";
+CalendarHeading.displayName = "SY INC.Calendar.Heading";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Nav Button
@@ -236,7 +236,7 @@ const CalendarNavButton = ({children, className, slot, ...props}: CalendarNavBut
   );
 };
 
-CalendarNavButton.displayName = "SY UI.Calendar.NavButton";
+CalendarNavButton.displayName = "SY INC.Calendar.NavButton";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Grid
@@ -273,7 +273,7 @@ const CalendarGrid = ({
   );
 };
 
-CalendarGrid.displayName = "SY UI.Calendar.Grid";
+CalendarGrid.displayName = "SY INC.Calendar.Grid";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Grid Header
@@ -311,7 +311,7 @@ const CalendarGridHeader = ({children, className, ...props}: CalendarGridHeaderP
   );
 };
 
-CalendarGridHeader.displayName = "SY UI.Calendar.GridHeader";
+CalendarGridHeader.displayName = "SY INC.Calendar.GridHeader";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Grid Body
@@ -345,7 +345,7 @@ const CalendarGridBody = ({children, className, ...props}: CalendarGridBodyProps
   );
 };
 
-CalendarGridBody.displayName = "SY UI.Calendar.GridBody";
+CalendarGridBody.displayName = "SY INC.Calendar.GridBody";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Header Cell
@@ -366,7 +366,7 @@ const CalendarHeaderCell = ({className, ...props}: CalendarHeaderCellProps) => {
   );
 };
 
-CalendarHeaderCell.displayName = "SY UI.Calendar.HeaderCell";
+CalendarHeaderCell.displayName = "SY INC.Calendar.HeaderCell";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Cell
@@ -391,7 +391,7 @@ const CalendarCell = ({children, className, ...props}: CalendarCellProps) => {
   );
 };
 
-CalendarCell.displayName = "SY UI.Calendar.Cell";
+CalendarCell.displayName = "SY INC.Calendar.Cell";
 
 /* -------------------------------------------------------------------------------------------------
 | * Calendar Cell Indicator
@@ -420,7 +420,7 @@ const CalendarCellIndicator = <E extends keyof React.JSX.IntrinsicElements = "sp
   );
 };
 
-CalendarCellIndicator.displayName = "SY UI.Calendar.CellIndicator";
+CalendarCellIndicator.displayName = "SY INC.Calendar.CellIndicator";
 
 /* -------------------------------------------------------------------------------------------------
 | * Exports

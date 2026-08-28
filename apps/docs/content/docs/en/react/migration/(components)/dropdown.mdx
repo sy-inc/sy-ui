@@ -1,10 +1,10 @@
 ---
 title: Dropdown
-description: Migration guide for Dropdown from SY UI v2 to v3
+description: Migration guide for Dropdown from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Dropdown documentation](/docs/react/components/dropdown) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Dropdown documentation](/docs/react/components/dropdown) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -57,7 +57,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Separate components: `DropdownTrigger`, `DropdownMenu`, `DropdownItem`, `DropdownSection`  
+**v2:** Separate components: `DropdownTrigger`, `DropdownMenu`, `DropdownItem`, `DropdownSection`
 **v3:** Compound components: `Dropdown.Trigger`, `Dropdown.Popover`, `Dropdown.Menu`, `Dropdown.Item`, `Dropdown.Section`
 
 ### 2. Component Name Changes
@@ -72,7 +72,7 @@ export default function App() {
 
 ### 3. Item Identification
 
-**v2:** Item content passed as children; React's `key` was used for both list reconciliation and item identity (selection, focus).  
+**v2:** Item content passed as children; React's `key` was used for both list reconciliation and item identity (selection, focus).
 **v3:** Item content must use `Label` component for text. Give each item an `id` (for state/focus) and `textValue` (for accessibility when content isn't plain text). Keep React's `key` on items in lists.
 
 ### 4. Prop Changes
@@ -135,7 +135,7 @@ export default function App() {
     >
       New file
     </DropdownItem>
-    
+
     {/* With description */}
     <DropdownItem
       key="edit"
@@ -143,7 +143,7 @@ export default function App() {
     >
       Edit file
     </DropdownItem>
-    
+
     {/* With shortcut */}
     <DropdownItem
       key="copy"
@@ -163,13 +163,13 @@ export default function App() {
       <Icon icon="gravity-ui:square-plus" />
       <Label>New file</Label>
     </Dropdown.Item>
-    
+
     {/* With description */}
     <Dropdown.Item id="edit" textValue="Edit file">
       <Label>Edit file</Label>
       <Description>Edit the file</Description>
     </Dropdown.Item>
-    
+
     {/* With shortcut */}
     <Dropdown.Item id="copy" textValue="Copy">
       <Label>Copy</Label>
@@ -264,7 +264,7 @@ export default function App() {
       <DropdownItem key="text">Text</DropdownItem>
       <DropdownItem key="number">Number</DropdownItem>
     </DropdownMenu>
-    
+
     {/* Multiple selection */}
     const [multiSelected, setMultiSelected] = useState(new Set(["bold"]));
     <DropdownMenu
@@ -297,7 +297,7 @@ export default function App() {
         <Label>Number</Label>
       </Dropdown.Item>
     </Dropdown.Menu>
-    
+
     {/* Multiple selection */}
     const [multiSelected, setMultiSelected] = useState(new Set(["bold"]));
     <Dropdown.Menu

@@ -67,7 +67,7 @@ export async function generateMetadata({params}: BlogPostPageProps): Promise<Met
     twitter: {
       card: "summary_large_image",
       description: post.description,
-      site: "@sy_ui",
+      site: "@sy_inc",
       title: post.title,
       ...(post.image && {images: [post.image]}),
     },

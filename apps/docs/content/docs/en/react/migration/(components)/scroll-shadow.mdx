@@ -1,10 +1,10 @@
 ---
 title: ScrollShadow
-description: Migration guide for ScrollShadow from SY UI v2 to v3
+description: Migration guide for ScrollShadow from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 ScrollShadow documentation](/docs/react/components/scroll-shadow) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 ScrollShadow documentation](/docs/react/components/scroll-shadow) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -12,7 +12,7 @@ description: Migration guide for ScrollShadow from SY UI v2 to v3
 In v2, `ScrollShadow` was a wrapper component:
 
 ```tsx
-import { ScrollShadow } from "@sy-ui/scroll-shadow";
+import { ScrollShadow } from "@sy-inc/scroll-shadow";
 
 export default function App() {
   return (
@@ -41,17 +41,17 @@ export default function App() {
 
 ### 1. Import Path
 
-**v2:** Imported from `@sy-ui/scroll-shadow` package  
+**v2:** Imported from `@sy-inc/scroll-shadow` package
 **v3:** Imported from `@sy-inc/react` unified package
 
 ### 2. Visibility Control
 
-**v2:** `visibility` prop controlled shadow placement  
+**v2:** `visibility` prop controlled shadow placement
 **v3:** Enhanced `visibility` prop with more options and `onVisibilityChange` callback
 
 ### 3. Shadow Size Control
 
-**v2:** Shadow size was fixed or limited customization  
+**v2:** Shadow size was fixed or limited customization
 **v3:** `size` prop allows custom shadow size in pixels
 
 ### 4. Enhanced Props
@@ -140,7 +140,7 @@ export default function App() {
 
 ## Summary
 
-- Update import from `@sy-ui/scroll-shadow` to `@sy-inc/react`
+- Update import from `@sy-inc/scroll-shadow` to `@sy-inc/react`
 - Enhanced API with more configuration options
 - Better shadow detection and visibility control
 - Same orientation support (vertical / horizontal); import from `@sy-inc/react`

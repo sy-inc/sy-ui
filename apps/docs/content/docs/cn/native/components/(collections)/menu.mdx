@@ -9,14 +9,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-dark.mp4"
 />
 
 ## 导入
 
 ```tsx
-import { Menu, SubMenu } from 'sy-ui-native';
+import { Menu, SubMenu } from 'sy-inc-native';
 ```
 
 ## 结构
@@ -334,8 +334,8 @@ const [textStyles, setTextStyles] = useState<Set<MenuKey>>(
 ## 示例
 
 ```tsx
-import type { MenuKey } from 'sy-ui-native';
-import { Button, Menu, Separator } from 'sy-ui-native';
+import type { MenuKey } from 'sy-inc-native';
+import { Button, Menu, Separator } from 'sy-inc-native';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
@@ -404,7 +404,7 @@ export default function MenuExample() {
 }
 ```
 
-更多示例见 [GitHub 仓库](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/menu.tsx>)。
+更多示例见 [GitHub 仓库](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/menu.tsx>)。
 
 ## API 参考
 
@@ -754,7 +754,7 @@ SubMenu 根组件动画配置，可为：
 访问菜单根上下文，须在 `Menu` 内使用。
 
 ```tsx
-import { useMenu } from 'sy-ui-native';
+import { useMenu } from 'sy-inc-native';
 
 const { isOpen, onOpenChange, presentation, isDisabled } = useMenu();
 ```
@@ -774,7 +774,7 @@ const { isOpen, onOpenChange, presentation, isDisabled } = useMenu();
 访问菜单项上下文，须在 `Menu.Item` 内使用。
 
 ```tsx
-import { useMenuItem } from 'sy-ui-native';
+import { useMenuItem } from 'sy-inc-native';
 
 const { id, isSelected, isDisabled, variant } = useMenuItem();
 ```
@@ -793,7 +793,7 @@ const { id, isSelected, isDisabled, variant } = useMenuItem();
 访问菜单动画上下文，须在 `Menu` 内使用。
 
 ```tsx
-import { useMenuAnimation } from 'sy-ui-native';
+import { useMenuAnimation } from 'sy-inc-native';
 
 const { progress, isDragging } = useMenuAnimation();
 ```
@@ -810,7 +810,7 @@ const { progress, isDragging } = useMenuAnimation();
 访问子菜单上下文，须在 `SubMenu` 内使用。
 
 ```tsx
-import { useSubMenu } from 'sy-ui-native';
+import { useSubMenu } from 'sy-inc-native';
 
 const { isOpen, onOpenChange, isDisabled } = useSubMenu();
 ```

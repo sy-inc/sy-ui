@@ -1,4 +1,4 @@
-export {render, type SyUIRenderOptions} from "./render";
+export {render, type SyIncRenderOptions} from "./render";
 export {setupUser, type SetupUserOptions} from "./user";
 export {advanceTimersByTime, runAllTimers} from "./timers";
 export {isDocumentScrollLocked} from "./scroll-lock";

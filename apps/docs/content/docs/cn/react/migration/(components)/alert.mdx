@@ -1,10 +1,10 @@
 ---
 title: Alert
-description: Alert 从 SY UI v2 到 v3 的迁移指南。
+description: Alert 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Alert 文档](/docs/react/components/alert)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Alert 文档](/docs/react/components/alert)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -16,7 +16,7 @@ import { Alert } from "@sy-inc/react";
 
 export default function App() {
   return (
-    <Alert 
+    <Alert
       title="This is an alert"
       description="Thanks for subscribing to our newsletter!"
     />
@@ -48,7 +48,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单一 `Alert` 组件，通过 prop 配置  
+**v2：** 单一 `Alert` 组件，通过 prop 配置
 **v3：** 复合组件：`Alert`、`Alert.Indicator`、`Alert.Content`、`Alert.Title`、`Alert.Description`
 
 ### 2. Color / Status prop
@@ -64,7 +64,7 @@ export default function App() {
 
 ### 3. 移除变体
 
-**v2 变体：** `solid`、`bordered`、`flat`、`faded`  
+**v2 变体：** `solid`、`bordered`、`flat`、`faded`
 **v3：** 不再提供 `variant` prop——请使用 Tailwind CSS 类来实现类似效果
 
 要在 v3 中复刻 v2 的变体外观：
@@ -91,7 +91,7 @@ export default function App() {
 
 ### 5. 图标处理
 
-**v2：** 通过 `icon` prop 设置或 `hideIcon` 隐藏  
+**v2：** 通过 `icon` prop 设置或 `hideIcon` 隐藏
 **v3：** 使用 `<Alert.Indicator />`，通过子节点自定义图标，或完全省略它
 
 ## 迁移示例
@@ -104,11 +104,11 @@ export default function App() {
     import { Icon } from '@iconify/react';
 
     {/* With custom icon */}
-    <Alert 
+    <Alert
       icon={<Icon icon="gravity-ui:box" />}
       title="Custom Icon Alert"
     />
-    
+
     {/* Without icon */}
     <Alert hideIcon title="No Icon Alert" />
     ```
@@ -126,7 +126,7 @@ export default function App() {
         <Alert.Title>Custom Icon Alert</Alert.Title>
       </Alert.Content>
     </Alert>
-    
+
     {/* Without icon */}
     <Alert>
       <Alert.Content>
@@ -200,7 +200,7 @@ export default function App() {
         <Alert.Content>
           <Alert.Title>Closable Alert</Alert.Title>
         </Alert.Content>
-        <CloseButton 
+        <CloseButton
           aria-label="Close"
           onPress={() => setIsVisible(false)}
         />
@@ -215,7 +215,7 @@ export default function App() {
 ### v2：`classNames` prop
 
 ```tsx
-<Alert 
+<Alert
   classNames={{
     base: "custom-base",
     title: "custom-title",

@@ -39,7 +39,7 @@ Update to the latest version:
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI MCP Server](/docs/ui-for-agents/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC MCP Server](/docs/ui-for-agents/mcp-server).
 </Callout>
 
 ## Features
@@ -48,7 +48,7 @@ Update to the latest version:
 
 When the tab list exceeds the available space, `Tabs.ListContainer` automatically renders scroll chevrons and fading edges so users can navigate hidden tabs. This works for both horizontal and vertical orientations.
 
-- **Overflow scrolling**: Wrap `Tabs.List` in `Tabs.ListContainer` to get scroll chevrons and edge fade ([#6696](https://github.com/sy-ui/sy-ui/pull/6696))
+- **Overflow scrolling**: Wrap `Tabs.List` in `Tabs.ListContainer` to get scroll chevrons and edge fade ([#6696](https://github.com/sy-inc/sy-inc/pull/6696))
 
 <ComponentPreview
   isBgSolid
@@ -57,28 +57,28 @@ When the tab list exceeds the available space, `Tabs.ListContainer` automaticall
 
 ## Bug Fixes
 
-- **Input fields**: Set `type="button"` on clear and close buttons so they no longer submit the surrounding form when clicked ([#6656](https://github.com/sy-ui/sy-ui/pull/6656)).
-- **Checkbox / Radio / Switch**: Prevent the visually hidden inputs from causing overflow scroll ([#6657](https://github.com/sy-ui/sy-ui/pull/6657)).
-- **Button / Dropdown / Menu**: Add `will-change-transform` to prevent icon or text shift during transforms ([#6661](https://github.com/sy-ui/sy-ui/pull/6661)).
-- **Chip**: Set width to `w-fit` so chips size to their content instead of stretching to fill the container ([#6664](https://github.com/sy-ui/sy-ui/pull/6664)).
-- **DatePicker / DateRangePicker**: Use `w-fit` instead of `min-w-(--trigger-width)` on the popover to prevent excess width ([#6665](https://github.com/sy-ui/sy-ui/pull/6665)).
-- **Autocomplete**: Correct the right padding of virtualized list items so rows no longer overflow into the popover edge ([#6672](https://github.com/sy-ui/sy-ui/pull/6672)).
-- **Toast**: Catch the ViewTransition `ready` rejection in the toast queue so superseded transitions no longer surface as unhandled promise rejections ([#6674](https://github.com/sy-ui/sy-ui/pull/6674)).
+- **Input fields**: Set `type="button"` on clear and close buttons so they no longer submit the surrounding form when clicked ([#6656](https://github.com/sy-inc/sy-inc/pull/6656)).
+- **Checkbox / Radio / Switch**: Prevent the visually hidden inputs from causing overflow scroll ([#6657](https://github.com/sy-inc/sy-inc/pull/6657)).
+- **Button / Dropdown / Menu**: Add `will-change-transform` to prevent icon or text shift during transforms ([#6661](https://github.com/sy-inc/sy-inc/pull/6661)).
+- **Chip**: Set width to `w-fit` so chips size to their content instead of stretching to fill the container ([#6664](https://github.com/sy-inc/sy-inc/pull/6664)).
+- **DatePicker / DateRangePicker**: Use `w-fit` instead of `min-w-(--trigger-width)` on the popover to prevent excess width ([#6665](https://github.com/sy-inc/sy-inc/pull/6665)).
+- **Autocomplete**: Correct the right padding of virtualized list items so rows no longer overflow into the popover edge ([#6672](https://github.com/sy-inc/sy-inc/pull/6672)).
+- **Toast**: Catch the ViewTransition `ready` rejection in the toast queue so superseded transitions no longer surface as unhandled promise rejections ([#6674](https://github.com/sy-inc/sy-inc/pull/6674)).
 
 ## Refactor
 
-- **React 19 APIs**: Replace `useContext` with the `use()` hook and pass `ref` as a normal prop; swap array-index keys for stable keys ([#6688](https://github.com/sy-ui/sy-ui/pull/6688)).
+- **React 19 APIs**: Replace `useContext` with the `use()` hook and pass `ref` as a normal prop; swap array-index keys for stable keys ([#6688](https://github.com/sy-inc/sy-inc/pull/6688)).
 
 ## Dependencies
 
-- **React Aria**: Upgrade to `react-aria-components@1.19.0` and `react-aria@3.50.0` ([#6658](https://github.com/sy-ui/sy-ui/pull/6658)).
-- **React Aria**: Declare `react-aria` (`^3.50.0`) and `react-aria-components` (`^1.19.0`) as caret ranges so they dedupe with SY UI Pro ([#6689](https://github.com/sy-ui/sy-ui/pull/6689)).
+- **React Aria**: Upgrade to `react-aria-components@1.19.0` and `react-aria@3.50.0` ([#6658](https://github.com/sy-inc/sy-inc/pull/6658)).
+- **React Aria**: Declare `react-aria` (`^3.50.0`) and `react-aria-components` (`^1.19.0`) as caret ranges so they dedupe with SY INC Pro ([#6689](https://github.com/sy-inc/sy-inc/pull/6689)).
 
 ## Links
 
 - [Component Docs](/docs/react/components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #6660](https://github.com/sy-ui/sy-ui/pull/6660)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #6660](https://github.com/sy-inc/sy-inc/pull/6660)
 
 ## Contributors
 

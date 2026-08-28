@@ -18,28 +18,28 @@ RC 4 引入用于嵌套可展开菜单的 SubMenu 复合组件，配套弹簧动
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -59,7 +59,7 @@ RC 4 引入用于嵌套可展开菜单的 SubMenu 复合组件，配套弹簧动
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -68,7 +68,7 @@ RC 4 引入用于嵌套可展开菜单的 SubMenu 复合组件，配套弹簧动
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -81,8 +81,8 @@ RC 4 引入用于嵌套可展开菜单的 SubMenu 复合组件，配套弹簧动
 <NativeVideoPlayerView
   target="component"
   slug="menu"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-dark.mp4"
 />
 
 **特性：**
@@ -97,7 +97,7 @@ RC 4 引入用于嵌套可展开菜单的 SubMenu 复合组件，配套弹簧动
 **用法：**
 
 ```tsx
-import { Menu, SubMenu } from "sy-ui-native";
+import { Menu, SubMenu } from "sy-inc-native";
 
 export function MenuWithSubMenu() {
   return (
@@ -134,7 +134,7 @@ export function MenuWithSubMenu() {
 
 完整文档与示例见 [Menu 组件页](/docs/native/components/menu)。
 
-**相关 PR：** [#331](https://github.com/sy-ui/sy-ui-native/pull/331)
+**相关 PR：** [#331](https://github.com/sy-inc/sy-inc-native/pull/331)
 
 ## 组件改进
 
@@ -149,7 +149,7 @@ export function MenuWithSubMenu() {
 - `Slider.Output` 新增 `textProps`，可向内部文本传递任意属性（如 `maxFontSizeMultiplier`）
 - 从样式模块导出 `OutputSlots` 类型供外部使用
 
-**相关 PR：** [#328](https://github.com/sy-ui/sy-ui-native/pull/328)
+**相关 PR：** [#328](https://github.com/sy-inc/sy-inc-native/pull/328)
 
 ### Menu.Group 的 `disallowEmptySelection`
 
@@ -175,7 +175,7 @@ export function MenuWithSubMenu() {
 </Menu.Group>
 ```
 
-**相关 PR：** [#331](https://github.com/sy-ui/sy-ui-native/pull/331)
+**相关 PR：** [#331](https://github.com/sy-inc/sy-inc-native/pull/331)
 
 ### Bottom Sheet 与 `enablePanDownToClose` 一致
 
@@ -187,7 +187,7 @@ export function MenuWithSubMenu() {
 - 仅在 `isOpen` 与 `enablePanDownToClose` 均为 `true` 时注册 `BackHandler` 监听
 - `enablePanDownToClose={false}` 时不再可通过 Android 返回键关闭
 
-**相关 PR：** [#327](https://github.com/sy-ui/sy-ui-native/pull/327)
+**相关 PR：** [#327](https://github.com/sy-inc/sy-inc-native/pull/327)
 
 ## ⚠️ 破坏性变更
 
@@ -218,7 +218,7 @@ export function MenuWithSubMenu() {
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

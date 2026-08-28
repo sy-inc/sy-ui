@@ -1,6 +1,6 @@
 {
   "title": "快速开始",
-  "description": "快速开始使用 SY UI Native",
+  "description": "快速开始使用 SY INC Native",
   "root": true,
   "icon": "book-open",
   "pages": [
@@ -8,7 +8,7 @@
     "index",
     "(overview)/quick-start",
     "(overview)/design-principles",
-    "[route][路线图](https://sy-uinative.featurebase.app/roadmap)",
+    "[route][路线图](https://sy-incnative.featurebase.app/roadmap)",
     "---手册---",
     "(handbook)/provider",
     "(handbook)/portal",

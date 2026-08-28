@@ -1,13 +1,13 @@
 # @sy-inc/styles
 
-The core SY UI styles package containing CSS files for components, themes, and utilities. This package provides the foundation for SY UI's design system using Tailwind CSS v4 and is framework-agnostic.
+The core SY INC styles package containing CSS files for components, themes, and utilities. This package provides the foundation for SY INC's design system using Tailwind CSS v4 and is framework-agnostic.
 
 ## Documentation
 
-It's the [sy-ui.com](https://sy-ui.com) website for the latest version of SY UI.
+It's the [sy-inc.com](https://sy-inc.com) website for the latest version of SY INC.
 
-- **Latest (v3)**: [https://sy-ui.com](https://sy-ui.com)
-- **v2**: [https://v2.sy-ui.com](https://v2.sy-ui.com)
+- **Latest (v3)**: [https://sy-inc.com](https://sy-inc.com)
+- **v2**: [https://v2.sy-inc.com](https://v2.sy-inc.com)
 
 ## Installation
 
@@ -23,7 +23,7 @@ yarn add @sy-inc/styles
 
 ### Basic Setup
 
-Import the SY UI styles in your main CSS file:
+Import the SY INC styles in your main CSS file:
 
 ```css
 @import "@sy-inc/styles";
@@ -32,8 +32,8 @@ Import the SY UI styles in your main CSS file:
 This will import:
 
 - Tailwind CSS base styles
-- SY UI component styles
-- SY UI utilities
+- SY INC component styles
+- SY INC utilities
 - Default theme variables
 - Animation utilities from tw-animate-css
 
@@ -254,7 +254,7 @@ The theme also provides calculated variables for hover states, soft colors, and 
 The package provides:
 
 - `index.css`: Main unminified CSS file
-- `sy-ui.min.css`: Minified production-ready CSS (generated during build)
+- `sy-inc.min.css`: Minified production-ready CSS (generated during build)
 
 ## Framework Integration
 

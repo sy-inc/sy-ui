@@ -13,7 +13,7 @@ import {Button, Kbd, Separator, Tabs, Tooltip, toast} from "@sy-inc/react";
 import Link from "next/link";
 import {useParams} from "next/navigation";
 
-import {SyUILogo} from "@/components/sy-ui-logo";
+import {SyIncLogo} from "@/components/sy-inc-logo";
 import {useCodePanel} from "@/hooks/use-code-panel";
 import {useDictionary} from "@/hooks/use-dictionary";
 import useKeyPress from "@/hooks/use-key-press";
@@ -56,7 +56,7 @@ export function BuilderHeader() {
       <div className="flex h-14 w-full max-w-[1400px] items-center justify-between min-[1200px]:h-14">
         <div className="flex items-center gap-4">
           <Link href={`/${lang}`}>
-            <SyUILogo />
+            <SyIncLogo />
           </Link>
           <div className="flex items-center gap-3">
             <Tooltip closeDelay={0} delay={100}>

@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/text-field-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/text-field-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/text-field-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/text-field-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { TextField } from 'sy-ui-native';
+import { TextField } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -65,7 +65,7 @@ Mark fields as required to show an asterisk in the label.
 Display error messages when the field is invalid.
 
 ```tsx
-import { FieldError, Input, Label, TextField } from 'sy-ui-native';
+import { FieldError, Input, Label, TextField } from 'sy-inc-native';
 
 <TextField isRequired isInvalid={true}>
   <Label>Email</Label>
@@ -85,7 +85,7 @@ import {
   Input,
   Label,
   TextField,
-} from 'sy-ui-native';
+} from 'sy-inc-native';
 
 <TextField isInvalid={true}>
   <Label isInvalid={false}>Email</Label>
@@ -154,7 +154,7 @@ Customize the input appearance using className.
 
 ```tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Description, Input, Label, TextField } from 'sy-ui-native';
+import { Description, Input, Label, TextField } from 'sy-inc-native';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { withUniwind } from 'uniwind';
@@ -216,7 +216,7 @@ export const TextInputContent = () => {
 };
 ```
 
-You can find more examples in the [GitHub repository](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/text-field.tsx>).
+You can find more examples in the [GitHub repository](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/text-field.tsx>).
 
 ## API Reference
 
@@ -248,7 +248,7 @@ You can find more examples in the [GitHub repository](<https://github.com/sy-ui/
 Hook to access the TextField context values. Must be used within a `TextField` component.
 
 ```tsx
-import { TextField, useTextField } from 'sy-ui-native';
+import { TextField, useTextField } from 'sy-inc-native';
 
 function CustomComponent() {
   const { isDisabled, isInvalid, isRequired } = useTextField();

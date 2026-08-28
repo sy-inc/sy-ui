@@ -9,7 +9,7 @@ import {
 import {themes} from "../../styles/theme";
 
 // Register addon to hook into the manager lifecycle properly
-addons.register("sy-ui-theme-manager", (api) => {
+addons.register("sy-inc-theme-manager", (api) => {
   let lastTheme = DEFAULT_THEME;
 
   const updateManagerTheme = (theme: string) => {

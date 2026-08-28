@@ -6,7 +6,7 @@ import {ReactQRCode} from "@lglab/react-qr-code";
 import {NATIVE_APP} from "@/config/native-app";
 import {useIsMobileDevice} from "@/hooks/use-is-mobile-device";
 
-import {SyUIPlainLogo} from "../sy-ui-plain-logo";
+import {SyIncPlainLogo} from "../sy-inc-plain-logo";
 
 /**
  * In-app route segment that hosts component screens. This matches the
@@ -17,8 +17,8 @@ import {SyUIPlainLogo} from "../sy-ui-plain-logo";
  * coming via Universal Links / App Links). For our custom-scheme URLs it
  * returns the path unchanged and Expo Router routes it natively, which means
  * the URL must already encode the in-app route — i.e.
- * `sy-uinative://components/{slug}` becomes `/components/{slug}` and
- * `sy-uinative://` opens the initial route.
+ * `sy-incnative://components/{slug}` becomes `/components/{slug}` and
+ * `sy-incnative://` opens the initial route.
  */
 const IN_APP_COMPONENT_PATH = "components";
 
@@ -27,10 +27,10 @@ const IN_APP_COMPONENT_PATH = "components";
  * URL that Expo Router can navigate without going through `+native-intent`.
  *
  * Examples:
- *  - `https://sy-ui.com/docs/native-showcase/components/button` ->
- *    `sy-uinative://components/button`
- *  - `https://sy-ui.com/docs/native-showcase/components/`       ->
- *    `sy-uinative://`  (open at the app's initial route)
+ *  - `https://sy-inc.com/docs/native-showcase/components/button` ->
+ *    `sy-incnative://components/button`
+ *  - `https://sy-inc.com/docs/native-showcase/components/`       ->
+ *    `sy-incnative://`  (open at the app's initial route)
  *  - `""` (origin not yet resolved on the client) -> `""`
  */
 function toCustomSchemeUrl(universalLinkUrl: string): string {
@@ -81,7 +81,7 @@ export const DeepLinkQRCode = ({size = 160, url}: DeepLinkQRCodeProps) => {
     // trigger iOS's app handoff — Safari treats it as an in-page navigation.
     // So on mobile we fire the custom URL scheme directly, encoded in the
     // shape Expo Router's deep-link handler expects:
-    // `sy-uinative://components/{slug}` (or `sy-uinative://` for home).
+    // `sy-incnative://components/{slug}` (or `sy-incnative://` for home).
     // The native app's `+native-intent.ts` deliberately only rewrites
     // `https:` URLs and returns custom-scheme paths unchanged, so the URL
     // itself must already be in the in-app route format.
@@ -93,7 +93,7 @@ export const DeepLinkQRCode = ({size = 160, url}: DeepLinkQRCodeProps) => {
         href={mobileUrl || "#"}
       >
         <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-foreground text-background">
-          <SyUIPlainLogo size={18} />
+          <SyIncPlainLogo size={18} />
         </div>
         <div className="flex flex-1 flex-col items-center justify-center">
           <span className="truncate text-sm font-semibold text-foreground">{NATIVE_APP.NAME}</span>

@@ -1,10 +1,10 @@
 ---
 title: Spinner
-description: Migration guide for Spinner from SY UI v2 to v3
+description: Migration guide for Spinner from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Spinner documentation](/docs/react/components/spinner) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Spinner documentation](/docs/react/components/spinner) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -33,7 +33,7 @@ export default function App() {
 
 ### 1. Component Behavior
 
-**v2:** Supported multiple variants (`default`, `simple`, `gradient`, `wave`, `dots`, `spinner`) and labels  
+**v2:** Supported multiple variants (`default`, `simple`, `gradient`, `wave`, `dots`, `spinner`) and labels
 **v3:** Single circular spinner variant, no label support
 
 ### 2. Prop Changes
@@ -63,7 +63,7 @@ export default function App() {
     ```tsx
     {/* Simple label */}
     <Spinner label="Loading..." />
-    
+
     {/* With label color and custom styling */}
     <Spinner
       label="Loading..."
@@ -81,7 +81,7 @@ export default function App() {
       <Spinner />
       <span>Loading...</span>
     </div>
-    
+
     {/* With custom styling */}
     <div className="flex flex-col items-center gap-2">
       <Spinner />
@@ -102,7 +102,7 @@ export default function App() {
       <Spinner size="md" />
       <Spinner size="lg" />
     </div>
-    
+
     {/* Colors */}
     <div className="flex gap-4">
       <Spinner color="default" />
@@ -123,7 +123,7 @@ export default function App() {
       <Spinner size="lg" />
       <Spinner size="xl" />
     </div>
-    
+
     {/* Colors */}
     <div className="flex gap-4">
       <Spinner color="current" />
@@ -155,7 +155,7 @@ export default function App() {
     ```tsx
     {/* Only one variant available - circular spinner */}
     <Spinner />
-    
+
     {/* For other spinner styles, consider using CSS animations */}
     ```
   </Tab>

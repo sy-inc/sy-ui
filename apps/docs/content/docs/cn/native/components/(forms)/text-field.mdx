@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/text-field-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/text-field-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/text-field-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/text-field-docs-dark.mp4"
 />
 
 ## 导入
 
 ```tsx
-import { TextField } from 'sy-ui-native';
+import { TextField } from 'sy-inc-native';
 ```
 
 ## 结构
@@ -65,7 +65,7 @@ import { TextField } from 'sy-ui-native';
 非法时展示错误信息。
 
 ```tsx
-import { FieldError, Input, Label, TextField } from 'sy-ui-native';
+import { FieldError, Input, Label, TextField } from 'sy-inc-native';
 
 <TextField isRequired isInvalid={true}>
   <Label>邮箱</Label>
@@ -85,7 +85,7 @@ import {
   Input,
   Label,
   TextField,
-} from 'sy-ui-native';
+} from 'sy-inc-native';
 
 <TextField isInvalid={true}>
   <Label isInvalid={false}>邮箱</Label>
@@ -154,7 +154,7 @@ import {
 
 ```tsx
 import { Ionicons } from '@expo/vector-icons';
-import { Description, Input, Label, TextField } from 'sy-ui-native';
+import { Description, Input, Label, TextField } from 'sy-inc-native';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { withUniwind } from 'uniwind';
@@ -216,7 +216,7 @@ export const TextInputContent = () => {
 };
 ```
 
-更多示例见 [GitHub 仓库](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/text-field.tsx>)。
+更多示例见 [GitHub 仓库](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/text-field.tsx>)。
 
 ## API 参考
 
@@ -248,7 +248,7 @@ export const TextInputContent = () => {
 访问 `TextField` 上下文，必须在 `TextField` 内使用。
 
 ```tsx
-import { TextField, useTextField } from 'sy-ui-native';
+import { TextField, useTextField } from 'sy-inc-native';
 
 function CustomComponent() {
   const { isDisabled, isInvalid, isRequired } = useTextField();

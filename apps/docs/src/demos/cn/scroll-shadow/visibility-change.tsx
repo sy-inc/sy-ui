@@ -6,9 +6,9 @@ import {Card, ScrollShadow} from "@sy-inc/react";
 import {useState} from "react";
 
 const images = [
-  "https://assets.sy-ui.com/docs/robot1.jpeg",
-  "https://assets.sy-ui.com/docs/avocado.jpeg",
-  "https://assets.sy-ui.com/docs/oranges.jpeg",
+  "https://assets.sy-inc.com/docs/robot1.jpeg",
+  "https://assets.sy-inc.com/docs/avocado.jpeg",
+  "https://assets.sy-inc.com/docs/oranges.jpeg",
 ];
 
 const VISIBILITY_LABELS: Record<ScrollShadowVisibility, string> = {

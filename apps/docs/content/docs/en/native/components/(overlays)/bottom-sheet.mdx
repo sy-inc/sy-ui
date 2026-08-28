@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/bottom-sheet-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/bottom-sheet-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/bottom-sheet-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/bottom-sheet-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { BottomSheet } from 'sy-ui-native';
+import { BottomSheet } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -115,7 +115,7 @@ import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 </BottomSheet>;
 ```
 
-See the full example with a sticky footer (`BottomSheetFooter`) in the [GitHub repository](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/components/bottom-sheet/scrollable-with-snap-points.tsx>).
+See the full example with a sticky footer (`BottomSheetFooter`) in the [GitHub repository](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/components/bottom-sheet/scrollable-with-snap-points.tsx>).
 
 ### Blur Overlay
 
@@ -136,7 +136,7 @@ Use the built-in `blur` variant for an animated blur backdrop. iOS only, require
 Replace the default overlay with custom content like blur effects.
 
 ```tsx
-import { useBottomSheet, useBottomSheetAnimation } from 'sy-ui-native';
+import { useBottomSheet, useBottomSheetAnimation } from 'sy-inc-native';
 import { StyleSheet, Pressable } from 'react-native';
 import { interpolate, useDerivedValue } from 'react-native-reanimated';
 import { AnimatedBlurView } from './animated-blur-view';
@@ -185,7 +185,7 @@ When rendering an `Input` or `InputOTP` inside `BottomSheet.Content`, use the `u
 For scrollable content, also configure `BottomSheet.Content` with `keyboardBehavior="extend"` (or `"interactive"`) and `keyboardShouldPersistTaps="handled"` on the scrollable so taps don't dismiss the keyboard before reaching their target.
 
 ```tsx
-import { BottomSheet, Input, useBottomSheetAwareHandlers } from 'sy-ui-native';
+import { BottomSheet, Input, useBottomSheetAwareHandlers } from 'sy-inc-native';
 
 const BottomSheetTextInput = () => {
   const { onFocus, onBlur } = useBottomSheetAwareHandlers();
@@ -204,12 +204,12 @@ const BottomSheetTextInput = () => {
 </BottomSheet>;
 ```
 
-See full examples for [`Input`](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/components/bottom-sheet/with-text-input.tsx>) and [`InputOTP`](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/components/bottom-sheet/with-otp-input.tsx>) inside a bottom sheet.
+See full examples for [`Input`](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/components/bottom-sheet/with-text-input.tsx>) and [`InputOTP`](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/components/bottom-sheet/with-otp-input.tsx>) inside a bottom sheet.
 
 ## Example
 
 ```tsx
-import { BottomSheet, Button } from 'sy-ui-native';
+import { BottomSheet, Button } from 'sy-inc-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { withUniwind } from 'uniwind';
@@ -259,7 +259,7 @@ export default function BottomSheetExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/bottom-sheet.tsx).
+You can find more examples in the [GitHub repository](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/bottom-sheet.tsx).
 
 ## API Reference
 

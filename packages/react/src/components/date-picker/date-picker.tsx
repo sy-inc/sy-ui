@@ -94,7 +94,7 @@ const DatePickerRoot = <T extends DateValue>({
   );
 };
 
-DatePickerRoot.displayName = "SY UI.DatePicker";
+DatePickerRoot.displayName = "SY INC.DatePicker";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Trigger
@@ -124,7 +124,7 @@ const DatePickerTrigger = ({children, className, ref, ...props}: DatePickerTrigg
   );
 };
 
-DatePickerTrigger.displayName = "SY UI.DatePicker.Trigger";
+DatePickerTrigger.displayName = "SY INC.DatePicker.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Trigger Indicator
@@ -156,7 +156,7 @@ const DatePickerTriggerIndicator = <E extends keyof React.JSX.IntrinsicElements 
   );
 };
 
-DatePickerTriggerIndicator.displayName = "SY UI.DatePicker.TriggerIndicator";
+DatePickerTriggerIndicator.displayName = "SY INC.DatePicker.TriggerIndicator";
 
 /* -------------------------------------------------------------------------------------------------
  * DatePicker Popover
@@ -194,7 +194,7 @@ const DatePickerPopover = ({
   );
 };
 
-DatePickerPopover.displayName = "SY UI.DatePicker.Popover";
+DatePickerPopover.displayName = "SY INC.DatePicker.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

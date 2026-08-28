@@ -1,10 +1,10 @@
 ---
 title: Breadcrumbs
-description: Migration guide for Breadcrumbs from SY UI v2 to v3
+description: Migration guide for Breadcrumbs from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Breadcrumbs documentation](/docs/react/components/breadcrumbs) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Breadcrumbs documentation](/docs/react/components/breadcrumbs) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -45,17 +45,17 @@ export default function App() {
 
 ### 1. Component Name: `BreadcrumbItem` → `BreadcrumbsItem`
 
-**v2:** Used `BreadcrumbItem` (singular)  
+**v2:** Used `BreadcrumbItem` (singular)
 **v3:** Uses `BreadcrumbsItem` (plural)
 
 ### 2. Separator Customization
 
-**v2:** Separator was customizable via props  
+**v2:** Separator was customizable via props
 **v3:** Separator is customizable via `separator` prop on `Breadcrumbs` root
 
 ### 3. Built-in Link Component
 
-**v2:** Items could be links or text  
+**v2:** Items could be links or text
 **v3:** Items automatically use the `Link` component when `href` is provided
 
 ### 4. Prop Changes

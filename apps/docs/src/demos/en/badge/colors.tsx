@@ -1,6 +1,6 @@
 import {Avatar, Badge} from "@sy-inc/react";
 
-const AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";
+const AVATAR_URL = "https://assets.sy-inc.com/avatars/green.jpg";
 
 export function BadgeColors() {
   const colors = ["default", "accent", "success", "warning", "danger"] as const;

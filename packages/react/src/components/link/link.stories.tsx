@@ -28,7 +28,7 @@ const DefaultTemplate = (_props: Link["RootProps"]) => (
       <Link.Icon />
     </Link>
     <Link
-      href="https://sy-ui.com"
+      href="https://sy-inc.com"
       rel="noopener noreferrer"
       target="_blank"
       className={buttonVariants({
@@ -37,7 +37,7 @@ const DefaultTemplate = (_props: Link["RootProps"]) => (
         variant: "tertiary",
       })}
     >
-      SY UI
+      SY INC
       <Link.Icon className="h-2 w-2" />
     </Link>
   </div>

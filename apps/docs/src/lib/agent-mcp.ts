@@ -14,7 +14,7 @@ export function getMcpServerCard(origin: string) {
       tools: true,
     },
     description:
-      "SY UI MCP servers expose read-only SY UI React and SY UI Native documentation, component metadata, source references, styles, and theme variables to AI coding agents.",
+      "SY INC MCP servers expose read-only SY INC React and SY INC Native documentation, component metadata, source references, styles, and theme variables to AI coding agents.",
     endpoint: absoluteUrl(origin, "/.well-known/mcp/server-card.json"),
     links: {
       docs: [
@@ -23,20 +23,20 @@ export function getMcpServerCard(origin: string) {
       ],
       npm: [
         "https://www.npmjs.com/package/@sy-inc/react-mcp",
-        "https://www.npmjs.com/package/@sy-ui/native-mcp",
+        "https://www.npmjs.com/package/@sy-inc/native-mcp",
       ],
       serverCard: absoluteUrl(origin, "/.well-known/mcp/server-card.json"),
-      source: "https://github.com/sy-ui/sy-ui-mcp",
+      source: "https://github.com/sy-inc/sy-inc-mcp",
     },
     notes:
-      "SY UI's supported MCP transport is stdio through the published npm packages. This well-known document is a discovery handshake for those existing servers, not a Streamable HTTP MCP endpoint.",
+      "SY INC's supported MCP transport is stdio through the published npm packages. This well-known document is a discovery handshake for those existing servers, not a Streamable HTTP MCP endpoint.",
     serverInfo: {
-      name: "SY UI MCP",
+      name: "SY INC MCP",
       version: MCP_PACKAGE_VERSION,
     },
     tools: [
       {
-        description: "List all available SY UI v3 React components.",
+        description: "List all available SY INC v3 React components.",
         name: "list_components",
         package: "@sy-inc/react-mcp",
       },
@@ -56,34 +56,34 @@ export function getMcpServerCard(origin: string) {
         package: "@sy-inc/react-mcp",
       },
       {
-        description: "Get SY UI React theme variables.",
+        description: "Get SY INC React theme variables.",
         name: "get_theme_variables",
         package: "@sy-inc/react-mcp",
       },
       {
-        description: "Browse full SY UI React documentation.",
+        description: "Browse full SY INC React documentation.",
         name: "get_docs",
         package: "@sy-inc/react-mcp",
       },
       {
-        description: "List all available SY UI Native components.",
+        description: "List all available SY INC Native components.",
         name: "list_components",
-        package: "@sy-ui/native-mcp",
+        package: "@sy-inc/native-mcp",
       },
       {
         description: "Get complete Native component documentation.",
         name: "get_component_docs",
-        package: "@sy-ui/native-mcp",
+        package: "@sy-inc/native-mcp",
       },
       {
-        description: "Get SY UI Native theme variables.",
+        description: "Get SY INC Native theme variables.",
         name: "get_theme_variables",
-        package: "@sy-ui/native-mcp",
+        package: "@sy-inc/native-mcp",
       },
       {
-        description: "Browse full SY UI Native documentation.",
+        description: "Browse full SY INC Native documentation.",
         name: "get_docs",
-        package: "@sy-ui/native-mcp",
+        package: "@sy-inc/native-mcp",
       },
     ],
     transports: [
@@ -95,10 +95,10 @@ export function getMcpServerCard(origin: string) {
         type: "stdio",
       },
       {
-        args: ["-y", "@sy-ui/native-mcp@latest"],
+        args: ["-y", "@sy-inc/native-mcp@latest"],
         command: "npx",
         dataApi: NATIVE_MCP_API_URL,
-        package: "@sy-ui/native-mcp",
+        package: "@sy-inc/native-mcp",
         type: "stdio",
       },
     ],

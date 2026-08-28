@@ -3,31 +3,31 @@ import React from "react";
 
 const avatars = [
   {
-    image: "https://assets.sy-ui.com/avatars/blue.jpg",
+    image: "https://assets.sy-inc.com/avatars/blue.jpg",
     name: "Blue",
   },
   {
-    image: "https://assets.sy-ui.com/avatars/green.jpg",
+    image: "https://assets.sy-inc.com/avatars/green.jpg",
     name: "Green",
   },
   {
-    image: "https://assets.sy-ui.com/avatars/purple.jpg",
+    image: "https://assets.sy-inc.com/avatars/purple.jpg",
     name: "Purple",
   },
   {
-    image: "https://assets.sy-ui.com/avatars/orange.jpg",
+    image: "https://assets.sy-inc.com/avatars/orange.jpg",
     name: "Orange",
   },
   {
-    image: "https://assets.sy-ui.com/avatars/red.jpg",
+    image: "https://assets.sy-inc.com/avatars/red.jpg",
     name: "red",
   },
   {
-    image: "https://assets.sy-ui.com/avatars/blue.jpg",
+    image: "https://assets.sy-inc.com/avatars/blue.jpg",
     name: "Blue",
   },
   {
-    image: "https://assets.sy-ui.com/avatars/black.jpg",
+    image: "https://assets.sy-inc.com/avatars/black.jpg",
     name: "Black",
   },
 ];

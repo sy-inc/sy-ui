@@ -36,7 +36,7 @@ export const Default = () => {
               <Modal.Icon className="bg-default text-foreground">
                 <Icon className="size-5" icon="gravity-ui:rocket" />
               </Modal.Icon>
-              <Modal.Heading>Welcome to SY UI</Modal.Heading>
+              <Modal.Heading>Welcome to SY INC</Modal.Heading>
             </Modal.Header>
             <Modal.Body>
               <p>

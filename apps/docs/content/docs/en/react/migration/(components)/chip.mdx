@@ -1,22 +1,22 @@
 ---
 title: Chip
-description: Migration guide for Chip from SY UI v2 to v3
+description: Migration guide for Chip from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Chip documentation](/docs/react/components/chip) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Chip documentation](/docs/react/components/chip) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Key Changes
 
 ### 1. Variants
 
-**v2:** `solid`, `bordered`, `light`, `flat`, `faded`, `shadow`, `dot`  
+**v2:** `solid`, `bordered`, `light`, `flat`, `faded`, `shadow`, `dot`
 **v3:** `primary`, `secondary`, `tertiary`, `soft`
 
 ### 2. Colors
 
-**v2:** `default`, `primary`, `secondary`, `success`, `warning`, `danger`  
+**v2:** `default`, `primary`, `secondary`, `success`, `warning`, `danger`
 **v3:** `default`, `accent`, `success`, `warning`, `danger`
 
 ### 3. Compound Component Pattern
@@ -125,7 +125,7 @@ export default function App() {
     <Chip variant="solid">Solid</Chip>
     <Chip variant="bordered">Bordered</Chip>
     <Chip variant="light">Light</Chip>
-    
+
     {/* Colors */}
     <Chip color="primary">Primary</Chip>
     <Chip color="success">Success</Chip>
@@ -137,7 +137,7 @@ export default function App() {
     <Chip variant="primary">Primary</Chip>
     <Chip variant="secondary">Secondary</Chip>
     <Chip variant="soft">Soft</Chip>
-    
+
     {/* Colors */}
     <Chip color="accent">Accent</Chip>
     <Chip color="success">Success</Chip>
@@ -156,7 +156,7 @@ export default function App() {
     <Chip startContent={<Icon icon="gravity-ui:check" />}>
       Chip
     </Chip>
-    
+
     {/* End content */}
     <Chip endContent={<Icon icon="gravity-ui:chevron-down" />}>
       Chip
@@ -172,7 +172,7 @@ export default function App() {
       <Icon icon="gravity-ui:check" />
       Chip
     </Chip>
-    
+
     {/* End content */}
     <Chip>
       Chip
@@ -228,7 +228,7 @@ export default function App() {
 
     <Chip>
       Chip
-      <CloseButton 
+      <CloseButton
         aria-label="Close chip"
         onPress={() => console.log("close")}
       />
@@ -244,7 +244,7 @@ export default function App() {
     ```tsx
     {/* Dot variant */}
     <Chip variant="dot">Dot</Chip>
-    
+
     {/* Shadow variant */}
     <Chip variant="shadow">Shadow</Chip>
     ```
@@ -258,7 +258,7 @@ export default function App() {
       <Icon icon="gravity-ui:circle-fill" width={6} />
       Dot
     </Chip>
-    
+
     {/* Shadow variant - use Tailwind classes */}
     <Chip variant="primary" className="shadow-md">
       Shadow
@@ -272,7 +272,7 @@ export default function App() {
 ### v2: `classNames` Prop
 
 ```tsx
-<Chip 
+<Chip
   classNames={{
     base: "custom-base",
     content: "custom-content",

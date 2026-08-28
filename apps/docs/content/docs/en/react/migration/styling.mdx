@@ -1,17 +1,17 @@
 ---
 title: Styling & Theming
-description: Complete guide to styling changes and theming system migration from SY UI v2 to v3
+description: Complete guide to styling changes and theming system migration from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  This guide covers all styling-related changes between SY UI v2 and v3, including utility classes, component styles, theme system architecture, and visual differences. For component-specific API changes, see individual component migration guides.
+  This guide covers all styling-related changes between SY INC v2 and v3, including utility classes, component styles, theme system architecture, and visual differences. For component-specific API changes, see individual component migration guides.
 </Callout>
 
 **Note:** The `classNames` prop has been replaced with `className` prop in v3. All components now use the standard React `className` prop instead of the `classNames` object prop from v2.
 
 ## Overview
 
-SY UI v3 introduces significant changes to the styling system:
+SY INC v3 introduces significant changes to the styling system:
 
 - **CSS-First Architecture**: Replaces Tailwind plugin with pure CSS files
 - **Standard Tailwind Utilities**: Custom utilities replaced with standard Tailwind classes
@@ -51,7 +51,7 @@ SY UI v3 introduces significant changes to the styling system:
 
 ### Text Utilities
 
-SY UI v2 provided custom text size utilities that mapped to CSS variables. v3 uses standard Tailwind text size classes.
+SY INC v2 provided custom text size utilities that mapped to CSS variables. v3 uses standard Tailwind text size classes.
 
 **v2 Text Utilities:**
 
@@ -210,11 +210,11 @@ v2 used a Tailwind CSS plugin that:
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-inc/react");
+const {sy-inc} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
-    sy-ui({
+    sy-inc({
       layout: {
         fontSize: {
           tiny: "0.75rem",
@@ -261,7 +261,7 @@ v3 uses a pure CSS approach:
 
 **No Tailwind Config Required:**
 
-If you only use SY UI, you can remove `tailwind.config.js` entirely. If you have custom Tailwind config, keep it but remove the SY UI plugin.
+If you only use SY INC, you can remove `tailwind.config.js` entirely. If you have custom Tailwind config, keep it but remove the SY INC plugin.
 
 ### Architecture Comparison
 
@@ -278,17 +278,17 @@ If you only use SY UI, you can remove `tailwind.config.js` entirely. If you have
 
 ### Variable Naming Changes
 
-v2 used the pattern `--sy-ui-{property}-{scale}` while v3 uses `--{property}` or `--color-{property}`.
+v2 used the pattern `--sy-inc-{property}-{scale}` while v3 uses `--{property}` or `--color-{property}`.
 
 **v2 CSS Variables:**
 
 ```css
---sy-ui-font-size-tiny: 0.75rem;
---sy-ui-font-size-small: 0.875rem;
---sy-ui-radius-small: 8px;
---sy-ui-radius-medium: 12px;
---sy-ui-border-width-medium: 2px;
---sy-ui-disabled-opacity: 0.5;
+--sy-inc-font-size-tiny: 0.75rem;
+--sy-inc-font-size-small: 0.875rem;
+--sy-inc-radius-small: 8px;
+--sy-inc-radius-medium: 12px;
+--sy-inc-border-width-medium: 2px;
+--sy-inc-disabled-opacity: 0.5;
 ```
 
 **v3 CSS Variables:**
@@ -319,9 +319,9 @@ v2 used the pattern `--sy-ui-{property}-{scale}` while v3 uses `--{property}` or
 **v2 Color Structure:**
 
 ```css
---sy-ui-primary: 210 100% 50%;
---sy-ui-primary-50: 210 100% 95%;
---sy-ui-primary-100: 210 100% 90%;
+--sy-inc-primary: 210 100% 50%;
+--sy-inc-primary-50: 210 100% 95%;
+--sy-inc-primary-100: 210 100% 90%;
 /* ... more shades ... */
 ```
 
@@ -495,9 +495,9 @@ v2 provided `content1`, `content2`, `content3`, and `content4` colors for layere
 **v2 Layout Tokens:**
 
 ```css
---sy-ui-divider-weight: 1px;
---sy-ui-disabled-opacity: 0.5;
---sy-ui-hover-opacity: 0.8;
+--sy-inc-divider-weight: 1px;
+--sy-inc-disabled-opacity: 0.5;
+--sy-inc-hover-opacity: 0.8;
 ```
 
 **v3 Layout Tokens:**
@@ -517,9 +517,9 @@ v2 provided `content1`, `content2`, `content3`, and `content4` colors for layere
 **v2 Shadows:**
 
 ```css
---sy-ui-box-shadow-small: 0px 0px 5px 0px rgb(0 0 0 / 0.02), ...;
---sy-ui-box-shadow-medium: 0px 0px 15px 0px rgb(0 0 0 / 0.03), ...;
---sy-ui-box-shadow-large: 0px 0px 30px 0px rgb(0 0 0 / 0.04), ...;
+--sy-inc-box-shadow-small: 0px 0px 5px 0px rgb(0 0 0 / 0.02), ...;
+--sy-inc-box-shadow-medium: 0px 0px 15px 0px rgb(0 0 0 / 0.03), ...;
+--sy-inc-box-shadow-large: 0px 0px 30px 0px rgb(0 0 0 / 0.04), ...;
 ```
 
 **v3 Shadows:**
@@ -670,11 +670,11 @@ v3 uses more consistent gap spacing:
   <Tab value="v2">
     ```js
     // tailwind.config.js
-    const {sy-ui} = require("@sy-inc/react");
+    const {sy-inc} = require("@sy-inc/react");
 
     module.exports = {
       plugins: [
-        sy-ui({
+        sy-inc({
           themes: {
             light: {
               colors: {

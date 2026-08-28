@@ -1,17 +1,17 @@
 ---
 title: Theming
-description: Customize SY UI Native's design system with CSS variables and global styles
+description: Customize SY INC Native's design system with CSS variables and global styles
 icon: palette
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI Native uses CSS variables for theming. Customize everything from colors to component styles using standard CSS.
+SY INC Native uses CSS variables for theming. Customize everything from colors to component styles using standard CSS.
 
 ## How It Works
 
-SY UI Native's theming system is built on top of [Tailwind CSS v4](https://tailwindcss.com/docs/theme)'s theme via [Uniwind](https://uniwind.dev/). When you import `sy-ui-native/styles`, it uses Tailwind's built-in color palettes, maps them to semantic variables, automatically switches between light and dark themes, and uses CSS layers and the `@theme` directive for organization.
+SY INC Native's theming system is built on top of [Tailwind CSS v4](https://tailwindcss.com/docs/theme)'s theme via [Uniwind](https://uniwind.dev/). When you import `sy-inc-native/styles`, it uses Tailwind's built-in color palettes, maps them to semantic variables, automatically switches between light and dark themes, and uses CSS layers and the `@theme` directive for organization.
 
 **Naming pattern:**
 
@@ -32,11 +32,11 @@ import { View, Text } from 'react-native';
 
 **Switch themes:**
 
-SY UI Native automatically supports dark mode through [Uniwind](https://docs.uniwind.dev/theming/basics). The theme switches between light and dark variants based on system preferences or manual selection:
+SY INC Native automatically supports dark mode through [Uniwind](https://docs.uniwind.dev/theming/basics). The theme switches between light and dark variants based on system preferences or manual selection:
 
 ```tsx
 import { Uniwind, useUniwind } from 'uniwind';
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 
 function ThemeToggle() {
   const { theme } = useUniwind();
@@ -240,7 +240,7 @@ Apply themes in your app:
 
 ```tsx
 import { Uniwind } from 'uniwind';
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 
 function App() {
   return (
@@ -295,7 +295,7 @@ First, load your custom fonts (using Expo's `useFonts` hook for example):
 
 ```tsx
 import { useFonts } from 'expo-font';
-import { SyUINativeProvider } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
 import {
   YourFont_400Regular,
   YourFont_500Medium,
@@ -313,7 +313,7 @@ export default function App() {
     return null; // Or return a loading screen
   }
 
-  return <SyUINativeProvider>{/* Your app content */}</SyUINativeProvider>;
+  return <SyIncNativeProvider>{/* Your app content */}</SyIncNativeProvider>;
 }
 ```
 
@@ -331,21 +331,21 @@ After loading the fonts, override the font CSS variables in your `global.css` fi
 
 **Note:** The font names in CSS variables should match the PostScript names of your loaded fonts. Check your font package documentation or use the font names exactly as they appear in your `useFonts` hook.
 
-All SY UI Native components automatically use these font variables, ensuring consistent typography throughout your app.
+All SY INC Native components automatically use these font variables, ensuring consistent typography throughout your app.
 
 ## Variables Reference
 
-SY UI defines three types of variables:
+SY INC defines three types of variables:
 
 1. **Base Variables** — Non-changing values like `--white`, `--black`
 2. **Theme Variables** — Colors that change between light/dark themes
 3. **Calculated Variables** — Automatically generated hover (pressed) states and size variants
 
-For a complete reference, see: [Colors Documentation](/docs/native/getting-started/colors), [Default Theme Variables](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/variables.css), [Shared Theme Utilities](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/theme.css)
+For a complete reference, see: [Colors Documentation](/docs/native/getting-started/colors), [Default Theme Variables](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/variables.css), [Shared Theme Utilities](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/theme.css)
 
 **Calculated variables (Tailwind):**
 
-We use Tailwind's `@theme` directive to automatically create calculated variables for hover (pressed) states and radius variants. These are defined in [theme.css](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/theme.css):
+We use Tailwind's `@theme` directive to automatically create calculated variables for hover (pressed) states and radius variants. These are defined in [theme.css](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/theme.css):
 <CollapsibleCode lang="css" code={`  @theme inline static {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -363,7 +363,7 @@ We use Tailwind's `@theme` directive to automatically create calculated variable
   --color-overlay: var(--overlay);
   --color-overlay-foreground: var(--overlay-foreground);
   --color-backdrop: var(--backdrop);
-  
+
 
   --color-muted: var(--muted);
 
@@ -418,7 +418,7 @@ We use Tailwind's `@theme` directive to automatically create calculated variable
   --color-warning-hover: color-mix(in oklab, var(--warning) 90%, var(--warning-foreground) 10%);
   --color-danger-hover: color-mix(in oklab, var(--danger) 90%, var(--danger-foreground) 10%);
 
-  /* Form Field Colors */ 
+  /* Form Field Colors */
   --color-field-hover: color-mix(in oklab, var(--field-background, var(--default)) 90%, var(--field-foreground, var(--foreground)) 2%);
   --color-field-focus: var(--field-background, var(--default));
   --color-field-border-hover: color-mix(in oklab, var(--field-border, var(--border)) 88%, var(--field-foreground, var(--foreground)) 10%);
@@ -469,12 +469,12 @@ Form controls now rely on the `--field-*` variables and their calculated hover/f
 
 ## Vibrant Palette
 
-By default, SY UI Native uses accessible soft foreground colors that mix the semantic color with the foreground for better contrast on soft backgrounds. If you prefer more saturated, vibrant soft foreground colors, import the optional `sy-ui-native/styles/vibrant` stylesheet alongside the base styles:
+By default, SY INC Native uses accessible soft foreground colors that mix the semantic color with the foreground for better contrast on soft backgrounds. If you prefer more saturated, vibrant soft foreground colors, import the optional `sy-inc-native/styles/vibrant` stylesheet alongside the base styles:
 
 ```css
 /* global.css */
-@import "sy-ui-native/styles";
-@import "sy-ui-native/styles/vibrant"; /* [!code highlight] */
+@import "sy-inc-native/styles";
+@import "sy-inc-native/styles/vibrant"; /* [!code highlight] */
 ```
 
 This switches all `*-soft-foreground` variables (accent, success, warning, danger) to use 92% of the semantic color with only 8% foreground mixed in — closer to the raw color but with a slight contrast boost. Components such as [Alert](/docs/native/components/alert), [Avatar](/docs/native/components/avatar), [Button](/docs/native/components/button), [Chip](/docs/native/components/chip), and [Toast](/docs/native/components/toast) automatically pick up the new soft foreground colors on their soft variants — no component prop changes are required.

@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "SY UI Typography",
+    children: "SY INC Typography",
     type: "body",
   },
 };
@@ -221,7 +221,7 @@ export const ArticleExample: Story = {
       <Typography.Heading level={3}>Building the Scale</Typography.Heading>
       <Typography.Paragraph>
         Start with a base size — <Typography.Code>16px</Typography.Code> (1rem) is the industry
-        standard — and derive heading sizes using a consistent ratio. SY UI uses a tracking-tight
+        standard — and derive heading sizes using a consistent ratio. SY INC uses a tracking-tight
         heading stack from <Typography.Code>text-base</Typography.Code> through{" "}
         <Typography.Code>text-4xl</Typography.Code>, giving six levels of hierarchy.
       </Typography.Paragraph>
@@ -233,7 +233,7 @@ export const ArticleExample: Story = {
       </Typography.Paragraph>
       <Typography.Paragraph color="muted" size="sm">
         Shorter paragraphs, generous whitespace, and intentional weight contrast all contribute to
-        readability. These defaults work out of the box with SY UI's Typography primitive.
+        readability. These defaults work out of the box with SY INC's Typography primitive.
       </Typography.Paragraph>
     </article>
   ),
@@ -242,9 +242,9 @@ export const ArticleExample: Story = {
 export const ProseBlock: Story = {
   render: () => (
     <Typography.Prose className="max-w-2xl">
-      <h1>Getting Started with SY UI</h1>
+      <h1>Getting Started with SY INC</h1>
       <p>
-        SY UI is a modern React component library built on top of <strong>Tailwind CSS v4</strong>{" "}
+        SY INC is a modern React component library built on top of <strong>Tailwind CSS v4</strong>{" "}
         and <strong>React Aria</strong>. It provides accessible, customizable primitives that you
         can compose into complex interfaces.
       </p>
@@ -300,7 +300,7 @@ export const ProseBlock: Story = {
 
       <h2>Next Steps</h2>
       <p>
-        Explore the <a href="https://sy-ui.com">component stories</a> in Storybook to see every
+        Explore the <a href="https://sy-inc.com">component stories</a> in Storybook to see every
         variant and composition in action. Each component ships with comprehensive documentation and
         live examples.
       </p>

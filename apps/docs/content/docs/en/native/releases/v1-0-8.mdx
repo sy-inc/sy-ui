@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">July 31, 2026</span>
 </div>
 
-SY UI Native v1.0.8 adds right-to-left layout support across the library. Component styles move from physical `left`/`right` to Yoga logical properties, and the JS-driven logic Yoga cannot cover — gesture deltas, animation offsets, popover alignment — now resolves direction through a new `isRTL` provider config, with a `LayoutDirectionScope` escape hatch for subtrees. This release also makes `sy-ui-native/styles` declare its own `@source`, so class scanning no longer depends on a hardcoded `node_modules` path in your app.
+SY INC Native v1.0.8 adds right-to-left layout support across the library. Component styles move from physical `left`/`right` to Yoga logical properties, and the JS-driven logic Yoga cannot cover — gesture deltas, animation offsets, popover alignment — now resolves direction through a new `isRTL` provider config, with a `LayoutDirectionScope` escape hatch for subtrees. This release also makes `sy-inc-native/styles` declare its own `@source`, so class scanning no longer depends on a hardcoded `node_modules` path in your app.
 
 ## Installation
 
@@ -19,28 +19,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -55,14 +55,14 @@ Components now mirror correctly when your app runs in a right-to-left locale. Co
 
 **Telling components which direction they render in:**
 
-`SyUINativeProvider` accepts `config.isRTL`, defaulting to `I18nManager.isRTL`:
+`SyIncNativeProvider` accepts `config.isRTL`, defaulting to `I18nManager.isRTL`:
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // Defaults to I18nManager.isRTL
   isRTL: true,
 };
@@ -70,9 +70,9 @@ const config: SyUINativeConfig = {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider config={config}>
+      <SyIncNativeProvider config={config}>
         {/* Your app content */}
-      </SyUINativeProvider>
+      </SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -85,7 +85,7 @@ Because the default already follows `I18nManager.isRTL`, apps that rely on the n
 The new `LayoutDirectionScope` export overrides direction for the components beneath it, which is what you want for a demo or preview area that must stay left-to-right inside a right-to-left app. It covers only the JavaScript side, so pair it with Uniwind's `LayoutDirection` for the `rtl:` variants and a `direction` style for Yoga layout:
 
 ```tsx
-import { LayoutDirectionScope, PortalHost } from 'sy-ui-native';
+import { LayoutDirectionScope, PortalHost } from 'sy-inc-native';
 import { LayoutDirection } from 'uniwind';
 import { View } from 'react-native';
 
@@ -121,13 +121,13 @@ The scope drives the direction reads that happen in JavaScript: gesture inversio
 
 The example app now ships `en`, `ar`, and `he` catalogs via Lingui with a runtime locale switcher, plus an `eslint-plugin-lingui` guard against untranslated strings. The release was verified manually on iOS and Android across all three locales, including scoped left-to-right previews inside a right-to-left app shell.
 
-**Related PR:** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**Related PR:** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ## Styling
 
 ### The Shipped Stylesheet Declares Its Own `@source`
 
-`sy-ui-native/styles` now points Tailwind at its own files:
+`sy-inc-native/styles` now points Tailwind at its own files:
 
 ```css
 @source "..";
@@ -139,20 +139,20 @@ Previously every app had to hardcode a filesystem path into `node_modules`:
 
 ```css
 /* Before — the app had to know where the package lives */
-@import 'sy-ui-native/styles';
-@source './node_modules/sy-ui-native/lib';
+@import 'sy-inc-native/styles';
+@source './node_modules/sy-inc-native/lib';
 
 /* After — the package declares its own scan path */
-@import 'sy-ui-native/styles';
+@import 'sy-inc-native/styles';
 ```
 
 The two directives never behaved the same way. `@import` goes through package exports and finds the package anywhere; `@source` is a filesystem glob that only works if the package sits at that literal path. Those agree in a single-package app and disagree in a workspace, where the installer — not the project layout — decides which `node_modules` holds the package. Bun's isolated linker puts it in the app, its hoisted linker puts it at the workspace root, and pnpm and yarn split the same way depending on hoisting.
 
-The failure was also silent: a missing `@source` directory is a no-op in Tailwind, with no warning or error. App-level classes kept working while classes used only inside SY UI's shipped components disappeared, so Avatar lost its sizing, Switch rendered invisible, and Popover backgrounds went transparent.
+The failure was also silent: a missing `@source` directory is a no-op in Tailwind, with no warning or error. App-level classes kept working while classes used only inside SY INC's shipped components disappeared, so Avatar lost its sizing, Switch rendered invisible, and Popover backgrounds went transparent.
 
 Existing app-level `@source` lines keep working — they are simply redundant now and can be removed.
 
-**Related PR:** [#455](https://github.com/sy-ui/sy-ui-native/pull/455)
+**Related PR:** [#455](https://github.com/sy-inc/sy-inc-native/pull/455)
 
 ## ⚠️ Breaking Changes
 
@@ -176,7 +176,7 @@ The change lives in CSS, so `items-stretch` restores the previous behavior:
 </Card.Header>
 ```
 
-**Related PR:** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**Related PR:** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ### TagGroup.List Applies an Inline Layout Style
 
@@ -196,23 +196,23 @@ Move those two properties from `className` to `style`, which is merged after the
 
 Other `className` overrides on [TagGroup](/docs/native/components/tag-group) are unaffected.
 
-**Related PR:** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**Related PR:** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #454](https://github.com/sy-ui/sy-ui-native/issues/454)**: Fixed class scanning breaking in monorepo layouts. `sy-ui-native/styles` did not declare an `@source` for its own files, so apps had to hardcode a path into `node_modules` that only resolved under some package-manager layouts — and when it was wrong, Tailwind scanned nothing and failed silently, leaving SY UI components rendering without their styles. The shipped stylesheet now declares its own scan path relative to itself.
+- **[Issue #454](https://github.com/sy-inc/sy-inc-native/issues/454)**: Fixed class scanning breaking in monorepo layouts. `sy-inc-native/styles` did not declare an `@source` for its own files, so apps had to hardcode a path into `node_modules` that only resolved under some package-manager layouts — and when it was wrong, Tailwind scanned nothing and failed silently, leaving SY INC components rendering without their styles. The shipped stylesheet now declares its own scan path relative to itself.
 
 **Related PRs:**
 
-- [#455](https://github.com/sy-ui/sy-ui-native/pull/455)
+- [#455](https://github.com/sy-inc/sy-inc-native/pull/455)
 
 ## Internal Changes
 
 This release also removes circular module dependencies: the `Surface` context is split into a leaf module, and shared `Toast` configuration is extracted into `toast.base-types`. Only internal import paths change — no public API is affected.
 
-**Related PR:** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**Related PR:** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ## Updated Documentation
 
@@ -224,7 +224,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

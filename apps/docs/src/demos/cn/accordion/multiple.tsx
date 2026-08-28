@@ -12,7 +12,7 @@ export function Multiple() {
         </Accordion.Heading>
         <Accordion.Panel>
           <Accordion.Body>
-            了解 SY UI 的基础知识，以及如何将其集成到你的 React
+            了解 SY INC 的基础知识，以及如何将其集成到你的 React
             项目中。本节涵盖安装、配置和你的第一个组件。
           </Accordion.Body>
         </Accordion.Panel>
@@ -27,7 +27,7 @@ export function Multiple() {
         </Accordion.Heading>
         <Accordion.Panel>
           <Accordion.Body>
-            理解 SY UI 背后的核心概念，包括复合组件模式、使用 Tailwind CSS
+            理解 SY INC 背后的核心概念，包括复合组件模式、使用 Tailwind CSS
             进行样式设计，以及无障碍特性。
           </Accordion.Body>
         </Accordion.Panel>
@@ -56,7 +56,7 @@ export function Multiple() {
         </Accordion.Heading>
         <Accordion.Panel>
           <Accordion.Body>
-            遵循我们建议的最佳实践，使用 SY UI 构建高性能、无障碍且易于维护的应用。
+            遵循我们建议的最佳实践，使用 SY INC 构建高性能、无障碍且易于维护的应用。
           </Accordion.Body>
         </Accordion.Panel>
       </Accordion.Item>

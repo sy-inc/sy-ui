@@ -10,7 +10,7 @@ export function GET(request: Request) {
   return new Response(JSON.stringify(agentApiDocument(origin), null, 2), {
     headers: {
       ...OPENAPI_HEADERS,
-      Link: `<${absoluteUrl(origin, "/.well-known/openapi/sy-ui-agent-api.json")}>; rel="alternate"; type="application/vnd.oai.openapi+json"`,
+      Link: `<${absoluteUrl(origin, "/.well-known/openapi/sy-inc-agent-api.json")}>; rel="alternate"; type="application/vnd.oai.openapi+json"`,
     },
   });
 }

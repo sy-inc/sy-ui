@@ -3,11 +3,11 @@ import type {ReactElement, ReactNode} from "react";
 
 import {render as rtlRender} from "@testing-library/react";
 
-export type SyUIRenderOptions = Omit<RenderOptions, "wrapper"> & {
+export type SyIncRenderOptions = Omit<RenderOptions, "wrapper"> & {
   wrapper?: (props: {children: ReactNode}) => ReactNode;
 };
 
-export const render = (ui: ReactElement, options: SyUIRenderOptions = {}) => {
+export const render = (ui: ReactElement, options: SyIncRenderOptions = {}) => {
   const {wrapper, ...rest} = options;
 
   return rtlRender(ui, {

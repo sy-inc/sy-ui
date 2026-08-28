@@ -1,10 +1,10 @@
 ---
 title: Modal
-description: Modal 从 SY UI v2 到 v3 的迁移指南。
+description: Modal 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Modal 文档](/docs/react/components/modal)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Modal 文档](/docs/react/components/modal)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -62,12 +62,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 相互独立的组件（`Modal`、`ModalContent`、`ModalHeader`、`ModalBody`、`ModalFooter`）  
+**v2：** 相互独立的组件（`Modal`、`ModalContent`、`ModalHeader`、`ModalBody`、`ModalFooter`）
 **v3：** 复合组件（`Modal.Backdrop`、`Modal.Container`、`Modal.Dialog`、`Modal.Header`、`Modal.Body`、`Modal.Footer`）
 
 ### 2. 内置触发：`Modal.Trigger`
 
-**v2：** 需要 `useDisclosure`，并手动把 `onPress` 接到打开逻辑上。  
+**v2：** 需要 `useDisclosure`，并手动把 `onPress` 接到打开逻辑上。
 **v3：** 提供 `Modal.Trigger` 作为内置触发组件，按下即可自动打开模态框，无需自行管理状态。
 
 <Tabs items={["v2", "v3 (Button trigger)", "v3 (Modal.Trigger)"]}>
@@ -122,7 +122,7 @@ export default function App() {
 
 ### 3. 状态管理
 
-**v2：** 使用 `useDisclosure`。  
+**v2：** 使用 `useDisclosure`。
 **v3：** 内置触发场景下可不需要状态；也可在 `Modal.Backdrop` 上用受控的 `isOpen` / `onOpenChange`，或使用 `useOverlayState` 并把 `state` 传给根组件。
 
 #### `useOverlayState` 替代 `useDisclosure`
@@ -313,12 +313,12 @@ const state = useOverlayState();
     <Modal backdrop="blur">
       <ModalContent>{/* content */}</ModalContent>
     </Modal>
-    
+
     {/* Placement */}
     <Modal placement="top">
       <ModalContent>{/* content */}</ModalContent>
     </Modal>
-    
+
     {/* Scroll behavior */}
     <Modal scrollBehavior="outside">
       <ModalContent>{/* content */}</ModalContent>
@@ -333,14 +333,14 @@ const state = useOverlayState();
         <Modal.Dialog>{/* content */}</Modal.Dialog>
       </Modal.Container>
     </Modal.Backdrop>
-    
+
     {/* 位置：在 Container 上 */}
     <Modal.Backdrop>
       <Modal.Container placement="top">
         <Modal.Dialog>{/* content */}</Modal.Dialog>
       </Modal.Container>
     </Modal.Backdrop>
-    
+
     {/* 滚动：在 Container 上 */}
     <Modal.Backdrop>
       <Modal.Container scroll="outside">
@@ -360,7 +360,7 @@ const state = useOverlayState();
     <Modal hideCloseButton>
       <ModalContent>{/* content */}</ModalContent>
     </Modal>
-    
+
     {/* Custom close button */}
     <Modal closeButton={<CustomCloseIcon />}>
       <ModalContent>{/* content */}</ModalContent>
@@ -377,7 +377,7 @@ const state = useOverlayState();
         </Modal.Header>
       </Modal.Dialog>
     </Modal.Container>
-    
+
     {/* 自定义关闭按钮 */}
     <Modal.Container>
       <Modal.Dialog>

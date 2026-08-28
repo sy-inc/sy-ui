@@ -80,12 +80,12 @@ const config: NextConfig = {
     dangerouslyAllowLocalIP: true,
     remotePatterns: [
       {
-        hostname: "assets.sy-ui.com",
+        hostname: "assets.sy-inc.com",
         pathname: "/**",
         protocol: "https",
       },
       {
-        hostname: "img.sy-ui.chat",
+        hostname: "img.sy-inc.chat",
         pathname: "/**",
         protocol: "https",
       },

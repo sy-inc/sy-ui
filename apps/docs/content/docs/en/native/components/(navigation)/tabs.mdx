@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/tabs-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/tabs-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/tabs-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/tabs-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { Tabs } from 'sy-ui-native';
+import { Tabs } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -261,7 +261,7 @@ import {
   Label,
   Tabs,
   TextField,
-} from 'sy-ui-native';
+} from 'sy-inc-native';
 import { useState } from 'react';
 import { View, Text } from 'react-native';
 import Animated, {
@@ -365,7 +365,7 @@ export default function TabsExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/tabs.tsx>).
+You can find more examples in the [GitHub repository](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/tabs.tsx>).
 
 ## API Reference
 
@@ -514,7 +514,7 @@ Animation configuration for Tabs.Separator component. Can be:
 Hook to access tabs root context values within custom components or compound components.
 
 ```tsx
-import { useTabs } from 'sy-ui-native';
+import { useTabs } from 'sy-inc-native';
 
 const CustomComponent = () => {
   const { value, onValueChange, nativeID } = useTabs();
@@ -537,7 +537,7 @@ const CustomComponent = () => {
 Hook to access tab measurements context values for managing tab trigger positions and dimensions.
 
 ```tsx
-import { useTabsMeasurements } from 'sy-ui-native';
+import { useTabsMeasurements } from 'sy-inc-native';
 
 const CustomIndicator = () => {
   const { measurements, variant } = useTabsMeasurements();
@@ -568,7 +568,7 @@ const CustomIndicator = () => {
 Hook to access tab trigger context values within custom components or compound components.
 
 ```tsx
-import { useTabsTrigger } from 'sy-ui-native';
+import { useTabsTrigger } from 'sy-inc-native';
 
 const CustomLabel = () => {
   const { value, isSelected, nativeID } = useTabsTrigger();

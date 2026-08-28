@@ -262,21 +262,21 @@ export const WithPrefix: Story = {
         <TagGroup.List>
           <Tag>
             <Avatar className="size-4">
-              <Avatar.Image src="https://assets.sy-ui.com/avatars/blue.jpg" />
+              <Avatar.Image src="https://assets.sy-inc.com/avatars/blue.jpg" />
               <Avatar.Fallback>F</Avatar.Fallback>
             </Avatar>
             Fred
           </Tag>
           <Tag>
             <Avatar className="size-4">
-              <Avatar.Image src="https://assets.sy-ui.com/avatars/green.jpg" />
+              <Avatar.Image src="https://assets.sy-inc.com/avatars/green.jpg" />
               <Avatar.Fallback>M</Avatar.Fallback>
             </Avatar>
             Michael
           </Tag>
           <Tag>
             <Avatar className="size-4">
-              <Avatar.Image src="https://assets.sy-ui.com/avatars/purple.jpg" />
+              <Avatar.Image src="https://assets.sy-inc.com/avatars/purple.jpg" />
               <Avatar.Fallback>J</Avatar.Fallback>
             </Avatar>
             Jane
@@ -397,37 +397,37 @@ export const WithListData: Story = {
         {
           id: "fred",
           name: "Fred",
-          avatar: "https://assets.sy-ui.com/avatars/blue.jpg",
+          avatar: "https://assets.sy-inc.com/avatars/blue.jpg",
           fallback: "F",
         },
         {
           id: "michael",
           name: "Michael",
-          avatar: "https://assets.sy-ui.com/avatars/green.jpg",
+          avatar: "https://assets.sy-inc.com/avatars/green.jpg",
           fallback: "M",
         },
         {
           id: "jane",
           name: "Jane",
-          avatar: "https://assets.sy-ui.com/avatars/purple.jpg",
+          avatar: "https://assets.sy-inc.com/avatars/purple.jpg",
           fallback: "J",
         },
         {
           id: "alice",
           name: "Alice",
-          avatar: "https://assets.sy-ui.com/avatars/red.jpg",
+          avatar: "https://assets.sy-inc.com/avatars/red.jpg",
           fallback: "A",
         },
         {
           id: "bob",
           name: "Bob",
-          avatar: "https://assets.sy-ui.com/avatars/orange.jpg",
+          avatar: "https://assets.sy-inc.com/avatars/orange.jpg",
           fallback: "B",
         },
         {
           id: "charlie",
           name: "Charlie",
-          avatar: "https://assets.sy-ui.com/avatars/black.jpg",
+          avatar: "https://assets.sy-inc.com/avatars/black.jpg",
           fallback: "C",
         },
       ],

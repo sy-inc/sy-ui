@@ -1,10 +1,10 @@
 ---
 title: ScrollShadow
-description: ScrollShadow 从 SY UI v2 到 v3 的迁移指南。
+description: ScrollShadow 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 ScrollShadow 文档](/docs/react/components/scroll-shadow)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 ScrollShadow 文档](/docs/react/components/scroll-shadow)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -12,7 +12,7 @@ description: ScrollShadow 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`ScrollShadow` 是一个包装组件：
 
 ```tsx
-import { ScrollShadow } from "@sy-ui/scroll-shadow";
+import { ScrollShadow } from "@sy-inc/scroll-shadow";
 
 export default function App() {
   return (
@@ -41,17 +41,17 @@ export default function App() {
 
 ### 1. 导入路径
 
-**v2：** 从 `@sy-ui/scroll-shadow` 包导入  
+**v2：** 从 `@sy-inc/scroll-shadow` 包导入
 **v3：** 从统一封装的 `@sy-inc/react` 导入
 
 ### 2. 可见性控制
 
-**v2：** `visibility` prop 控制阴影位置  
+**v2：** `visibility` prop 控制阴影位置
 **v3：** `visibility` prop 选项更丰富，并新增 `onVisibilityChange` 回调
 
 ### 3. 阴影尺寸控制
 
-**v2：** 阴影尺寸固定，定制能力有限  
+**v2：** 阴影尺寸固定，定制能力有限
 **v3：** `size` prop 允许自定义阴影尺寸（单位：像素）
 
 ### 4. 增强的 prop
@@ -140,7 +140,7 @@ export default function App() {
 
 ## 总结
 
-- 将导入从 `@sy-ui/scroll-shadow` 更新为 `@sy-inc/react`
+- 将导入从 `@sy-inc/scroll-shadow` 更新为 `@sy-inc/react`
 - 增强的 API，提供更多配置项
 - 更好的阴影检测与可见性控制
 - 同样支持横向 / 纵向方向；统一从 `@sy-inc/react` 导入

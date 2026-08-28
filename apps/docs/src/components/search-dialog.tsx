@@ -44,7 +44,7 @@ const DEFAULT_SUGGESTIONS: Record<"native" | "web", string[]> = {
   ],
 };
 
-const PRO_URL = process.env["NEXT_PUBLIC_PRO_URL"] ?? "https://pro.sy-ui.com";
+const PRO_URL = process.env["NEXT_PUBLIC_PRO_URL"] ?? "https://pro.sy-inc.com";
 const PRO_SEARCH_DEBOUNCE_MS = 150;
 
 interface ProComponent {
@@ -285,7 +285,7 @@ export default function CustomSearchDialog(props: SharedProps) {
       ),
       onSelect: () =>
         window.open(
-          `${PRO_URL}${comp.slug}?utm_source=sy-ui_docs&utm_medium=search&utm_campaign=pro_components`,
+          `${PRO_URL}${comp.slug}?utm_source=sy-inc_docs&utm_medium=search&utm_campaign=pro_components`,
           "_blank",
         ),
       type: "action" as const,

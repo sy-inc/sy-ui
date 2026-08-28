@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/tag-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/tag-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/tag-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/tag-group-docs-dark.mp4"
 />
 
 ## 导入
 
 ```tsx
-import { TagGroup } from 'sy-ui-native';
+import { TagGroup } from 'sy-inc-native';
 ```
 
 ## 结构
@@ -238,7 +238,7 @@ const onRemove = (keys) => {
 ## 示例
 
 ```tsx
-import { TagGroup, Label, Description, FieldError } from 'sy-ui-native';
+import { TagGroup, Label, Description, FieldError } from 'sy-inc-native';
 import { useState, useMemo } from 'react';
 import { View } from 'react-native';
 
@@ -275,7 +275,7 @@ export default function TagGroupExample() {
 }
 ```
 
-更多示例见 [GitHub 仓库](<https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/tag-group.tsx>)。
+更多示例见 [GitHub 仓库](<https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/tag-group.tsx>)。
 
 ## API 参考
 
@@ -379,7 +379,7 @@ export default function TagGroupExample() {
 访问标签组根上下文，必须在 `TagGroup` 内使用。
 
 ```tsx
-import { useTagGroup } from 'sy-ui-native';
+import { useTagGroup } from 'sy-inc-native';
 
 const {
   selectedKeys,
@@ -411,7 +411,7 @@ const {
 访问单个标签上下文，必须在 `TagGroup.Item` 内使用。
 
 ```tsx
-import { useTagGroupItem } from 'sy-ui-native';
+import { useTagGroupItem } from 'sy-inc-native';
 
 const { id, isSelected, isDisabled, allowsRemoving } = useTagGroupItem();
 ```

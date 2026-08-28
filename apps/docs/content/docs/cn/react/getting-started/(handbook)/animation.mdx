@@ -1,14 +1,14 @@
 ---
 title: 动画
-description: 为 SY UI v3 组件添加流畅的动画和过渡
+description: 为 SY INC v3 组件添加流畅的动画和过渡
 icon: copy-transparent
 ---
 
-SY UI 组件支持多种动画方法：内置 CSS 过渡、自定义 CSS 动画以及 Framer Motion 等 JavaScript 库。
+SY INC 组件支持多种动画方法：内置 CSS 过渡、自定义 CSS 动画以及 Framer Motion 等 JavaScript 库。
 
 ## 内置动画
 
-SY UI 组件使用数据属性来公开其动画状态：
+SY INC 组件使用数据属性来公开其动画状态：
 
 ```css
 /* Popover entrance/exit */
@@ -82,7 +82,7 @@ SY UI 组件使用数据属性来公开其动画状态：
 
 ## Framer Motion
 
-SY UI 组件与 Framer Motion 无缝协作，实现高级动画。
+SY INC 组件与 Framer Motion 无缝协作，实现高级动画。
 
 **基本用法：**
 
@@ -159,12 +159,12 @@ function Tabs({ items, selected }) {
 
 ## 无障碍
 
-**尊重动态偏好：** SY UI 使用 Tailwind 的 motion-reduce 工具自动尊重用户动态效果偏好。当用户在系统设置中启用“减少动态效果”时，所有内置的过渡和动画效果都将被禁用。
+**尊重动态偏好：** SY INC 使用 Tailwind 的 motion-reduce 工具自动尊重用户动态效果偏好。当用户在系统设置中启用“减少动态效果”时，所有内置的过渡和动画效果都将被禁用。
 
-SY UI 扩展了 Tailwind 的 motion-reduce: 变体，以同时支持原生 `prefers-reduced-motion` 媒体查询和 `data-reduce-motion` 属性。
+SY INC 扩展了 Tailwind 的 motion-reduce: 变体，以同时支持原生 `prefers-reduced-motion` 媒体查询和 `data-reduce-motion` 属性。
 
 ```css
-/* SY UI pattern - uses Tailwind's motion-reduce: */
+/* SY INC pattern - uses Tailwind's motion-reduce: */
 .button {
   @apply transition-colors motion-reduce:transition-none;
 }
@@ -205,11 +205,11 @@ function AnimatedCard() {
 
 ```html
 <html data-reduce-motion="true">
-  <!-- All SY UI animations will be disabled -->
+  <!-- All SY INC animations will be disabled -->
 </html>
 ```
 
-SY UI自动检测用户的`prefers-reduced-motion: reduce`相应地设置并禁用动画。
+SY INC自动检测用户的`prefers-reduced-motion: reduce`相应地设置并禁用动画。
 
 ## 性能技巧
 

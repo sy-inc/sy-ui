@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">July 21, 2026</span>
 </div>
 
-SY UI Native v1.0.6 centralizes styling by migrating every component from inline Tailwind class strings to dedicated BEM-named CSS files under `src/styles/components`, keeping the `tv()` slots as thin references to those classes for easier overriding and maintenance. This release also fixes a `PortalHost` reconciliation bug where sheets, dialogs, and popovers could inherit each other's state across screens — producing "ghost" open sheets — by keying each portal subtree by its unique name.
+SY INC Native v1.0.6 centralizes styling by migrating every component from inline Tailwind class strings to dedicated BEM-named CSS files under `src/styles/components`, keeping the `tv()` slots as thin references to those classes for easier overriding and maintenance. This release also fixes a `PortalHost` reconciliation bug where sheets, dialogs, and popovers could inherit each other's state across screens — producing "ghost" open sheets — by keying each portal subtree by its unique name.
 
 ## Installation
 
@@ -19,28 +19,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -62,7 +62,7 @@ Every component's styling has moved from long inline Tailwind class strings insi
 
 Public component APIs are unchanged, so no code changes are required. Consumers must ensure `src/styles/index.css` is loaded for components to render correctly.
 
-**Related PR:** [#452](https://github.com/sy-ui/sy-ui-native/pull/452)
+**Related PR:** [#452](https://github.com/sy-inc/sy-inc-native/pull/452)
 
 ## Bug Fixes
 
@@ -74,14 +74,14 @@ Each portal subtree is now keyed by its unique portal name, so React tracks port
 
 This release includes fixes for the following issues:
 
-- **[Issue #441](https://github.com/sy-ui/sy-ui-native/issues/441)**: Fixed `PortalHost` rendering portals as an unkeyed array, which caused sheets and dialogs to inherit each other's state when a screen unmounted, resulting in "ghost" open sheets showing unrelated content. Portals are now keyed by name so each subtree is tracked by identity.
+- **[Issue #441](https://github.com/sy-inc/sy-inc-native/issues/441)**: Fixed `PortalHost` rendering portals as an unkeyed array, which caused sheets and dialogs to inherit each other's state when a screen unmounted, resulting in "ghost" open sheets showing unrelated content. Portals are now keyed by name so each subtree is tracked by identity.
 
-**Related PR:** [#442](https://github.com/sy-ui/sy-ui-native/pull/442)
+**Related PR:** [#442](https://github.com/sy-inc/sy-inc-native/pull/442)
 
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

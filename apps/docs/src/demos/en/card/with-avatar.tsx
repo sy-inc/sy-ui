@@ -8,7 +8,7 @@ export function WithAvatar() {
           alt="Indie Hackers community"
           className="pointer-events-none aspect-square w-14 rounded-2xl object-cover select-none"
           loading="lazy"
-          src="https://assets.sy-ui.com/docs/demo1.jpg"
+          src="https://assets.sy-inc.com/docs/demo1.jpg"
         />
         <Card.Header>
           <Card.Title>Indie Hackers</Card.Title>
@@ -18,7 +18,7 @@ export function WithAvatar() {
           <Avatar aria-label="Martha's profile picture" className="size-5">
             <Avatar.Image
               alt="Martha's avatar"
-              src="https://assets.sy-ui.com/avatars/red.jpg"
+              src="https://assets.sy-inc.com/avatars/red.jpg"
             />
             <Avatar.Fallback className="text-xs">IH</Avatar.Fallback>
           </Avatar>
@@ -31,7 +31,7 @@ export function WithAvatar() {
           alt="AI Builders community"
           className="pointer-events-none aspect-square w-14 rounded-2xl object-cover select-none"
           loading="lazy"
-          src="https://assets.sy-ui.com/docs/demo2.jpg"
+          src="https://assets.sy-inc.com/docs/demo2.jpg"
         />
         <Card.Header>
           <Card.Title>AI Builders</Card.Title>
@@ -41,7 +41,7 @@ export function WithAvatar() {
           <Avatar aria-label="John's profile picture" className="size-5">
             <Avatar.Image
               alt="John's avatar - blue themed"
-              src="https://assets.sy-ui.com/avatars/blue.jpg"
+              src="https://assets.sy-inc.com/avatars/blue.jpg"
             />
             <Avatar.Fallback className="text-xs">B</Avatar.Fallback>
           </Avatar>

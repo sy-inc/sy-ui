@@ -12,7 +12,7 @@ export function Multiple() {
         </Accordion.Heading>
         <Accordion.Panel>
           <Accordion.Body>
-            Learn the basics of SY UI and how to integrate it into your React project. This section
+            Learn the basics of SY INC and how to integrate it into your React project. This section
             covers installation, setup, and your first component.
           </Accordion.Body>
         </Accordion.Panel>
@@ -27,7 +27,7 @@ export function Multiple() {
         </Accordion.Heading>
         <Accordion.Panel>
           <Accordion.Body>
-            Understand the fundamental concepts behind SY UI, including the compound component
+            Understand the fundamental concepts behind SY INC, including the compound component
             pattern, styling with Tailwind CSS, and accessibility features.
           </Accordion.Body>
         </Accordion.Panel>
@@ -58,7 +58,7 @@ export function Multiple() {
         <Accordion.Panel>
           <Accordion.Body>
             Follow our recommended best practices for building performant, accessible, and
-            maintainable applications with SY UI components.
+            maintainable applications with SY INC components.
           </Accordion.Body>
         </Accordion.Panel>
       </Accordion.Item>

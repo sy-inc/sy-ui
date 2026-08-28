@@ -25,7 +25,7 @@ export interface ToastQueueOptions {
 /* ------------------------------------------------------------------------------------------------
  * Toast Queue
  * --------------------------------------------------------------------------------------------- */
-/** The underlying react-stately queue passed to `ToastRegion` (not the SY UI `ToastQueue` wrapper). */
+/** The underlying react-stately queue passed to `ToastRegion` (not the SY INC `ToastQueue` wrapper). */
 export type StatelyToastQueue<T extends object = ToastContentValue> = ToastQueuePrimitiveType<T>;
 
 export class ToastQueue<T extends object = ToastContentValue> {
@@ -131,7 +131,7 @@ export interface ToastContentValue {
   isLoading?: boolean | undefined;
 }
 
-export interface SyUIToastOptions {
+export interface SyIncToastOptions {
   description?: ReactNode;
   indicator?: ReactNode;
   variant?: ToastContentValue["variant"];
@@ -149,7 +149,7 @@ export interface ToastPromiseOptions<T = unknown> {
 
 // Helper function to create toast
 function createToastFunction(queue: ToastQueue<ToastContentValue>) {
-  const toastFn = (message: ReactNode, options?: SyUIToastOptions): string => {
+  const toastFn = (message: ReactNode, options?: SyIncToastOptions): string => {
     // Use default timeout if not provided, but respect explicit 0 (persistent toast)
     const timeout = options?.timeout !== undefined ? options.timeout : DEFAULT_TOAST_TIMEOUT;
 
@@ -174,19 +174,19 @@ function createToastFunction(queue: ToastQueue<ToastContentValue>) {
   };
 
   // Variant methods
-  toastFn.success = (message: ReactNode, options?: Omit<SyUIToastOptions, "variant">): string => {
+  toastFn.success = (message: ReactNode, options?: Omit<SyIncToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "success"});
   };
 
-  toastFn.danger = (message: ReactNode, options?: Omit<SyUIToastOptions, "variant">): string => {
+  toastFn.danger = (message: ReactNode, options?: Omit<SyIncToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "danger"});
   };
 
-  toastFn.info = (message: ReactNode, options?: Omit<SyUIToastOptions, "variant">): string => {
+  toastFn.info = (message: ReactNode, options?: Omit<SyIncToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "accent"});
   };
 
-  toastFn.warning = (message: ReactNode, options?: Omit<SyUIToastOptions, "variant">): string => {
+  toastFn.warning = (message: ReactNode, options?: Omit<SyIncToastOptions, "variant">): string => {
     return toastFn(message, {...options, variant: "warning"});
   };
 

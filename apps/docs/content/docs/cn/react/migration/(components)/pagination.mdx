@@ -1,10 +1,10 @@
 ---
 title: Pagination
-description: Pagination 从 SY UI v2 到 v3 的迁移指南。
+description: Pagination 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Pagination 文档](/docs/react/components/pagination)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Pagination 文档](/docs/react/components/pagination)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -65,12 +65,12 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单个 `Pagination` 组件，通过 `total` prop 自动生成页码项  
+**v2：** 单个 `Pagination` 组件，通过 `total` prop 自动生成页码项
 **v3：** 复合组件：`Pagination`、`Pagination.Summary`、`Pagination.Content`、`Pagination.Item`、`Pagination.Link`、`Pagination.Previous`、`Pagination.PreviousIcon`、`Pagination.Next`、`Pagination.NextIcon`、`Pagination.Ellipsis`
 
 ### 2. 页码生成
 
-**v2：** 由 `total`、`siblings`、`boundaries` 等 props 自动生成页码  
+**v2：** 由 `total`、`siblings`、`boundaries` 等 props 自动生成页码
 **v3：** 手动组合页码项，完全掌控布局与行为；可自行实现分页逻辑或使用分页 hook。
 
 ### 3. Prop 变更
@@ -101,7 +101,7 @@ export default function App() {
 
 ### 4. Hook 变化
 
-**v2：** 提供 `usePagination` hook，便于自定义实现  
+**v2：** 提供 `usePagination` hook，便于自定义实现
 **v3：** 无内置 hook——请直接组合分页项，或自行实现分页逻辑
 
 ## 迁移示例

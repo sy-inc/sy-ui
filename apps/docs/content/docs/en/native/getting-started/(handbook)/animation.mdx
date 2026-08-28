@@ -1,14 +1,14 @@
 ---
 title: Animation
-description: Add smooth animations and transitions to SY UI Native components
+description: Add smooth animations and transitions to SY INC Native components
 icon: copy-transparent
 ---
 
-All animations in SY UI Native are built with [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/) and gesture control is handled by [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/). It's worth familiarizing yourself with these libraries if you want more control over animations.
+All animations in SY INC Native are built with [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/) and gesture control is handled by [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/). It's worth familiarizing yourself with these libraries if you want more control over animations.
 
 ## The `animation` Prop
 
-Every animated component in SY UI Native exposes a single `animation` prop that controls all animations for that component. This prop allows you to modify animation values, timing configurations, layout animations, or completely disable animations.
+Every animated component in SY INC Native exposes a single `animation` prop that controls all animations for that component. This prop allows you to modify animation values, timing configurations, layout animations, or completely disable animations.
 
 **Approach**: If you're working with animations, first look for the `animation` prop on the component you're using.
 
@@ -21,7 +21,7 @@ You can customize animations by passing an object to the `animation` prop. Each 
 Modify animation values like scale, opacity, or colors:
 
 ```tsx
-import {Switch} from 'sy-ui-native';
+import {Switch} from 'sy-inc-native';
 
 <Switch
   animation={{
@@ -41,7 +41,7 @@ import {Switch} from 'sy-ui-native';
 Customize animation timing and easing:
 
 ```tsx
-import {Accordion} from 'sy-ui-native';
+import {Accordion} from 'sy-inc-native';
 
 <Accordion>
   <Accordion.Item value="1">
@@ -68,7 +68,7 @@ import {Accordion} from 'sy-ui-native';
 Customize entering and exiting animations using Reanimated's layout animations:
 
 ```tsx
-import {Accordion} from 'sy-ui-native';
+import {Accordion} from 'sy-inc-native';
 import {FadeInRight, FadeInLeft, ZoomIn} from 'react-native-reanimated';
 import {Easing} from 'react-native-reanimated';
 
@@ -91,7 +91,7 @@ import {Easing} from 'react-native-reanimated';
 The `state` prop allows you to disable animations while still customizing animation properties. This is useful when you want to fine-tune component behavior without enabling animations:
 
 ```tsx
-import {Switch} from 'sy-ui-native';
+import {Switch} from 'sy-inc-native';
 
 <Switch
   animation={{
@@ -156,17 +156,17 @@ The `"disable-all"` option is only available at the root level of compound compo
 
 ## Global Animation Configuration
 
-You can disable all SY UI Native animations globally using the `SyUINativeProvider`:
+You can disable all SY INC Native animations globally using the `SyIncNativeProvider`:
 
 ```tsx
-import {SyUINativeProvider} from 'sy-ui-native';
+import {SyIncNativeProvider} from 'sy-inc-native';
 
-<SyUINativeProvider
+<SyIncNativeProvider
   config={{
     animation: 'disable-all',
   }}>
   <App />
-</SyUINativeProvider>;
+</SyIncNativeProvider>;
 ```
 
 This will disable all animations across your entire application, regardless of individual component `animation` prop settings.
@@ -186,7 +186,7 @@ We keep disabled state of animations under control internally to ensure they loo
 Many components support a render function pattern for children, which is particularly handy when working with state like `isSelected`:
 
 ```tsx
-import {Switch} from 'sy-ui-native';
+import {Switch} from 'sy-inc-native';
 
 <Switch
   isSelected={isSelected}

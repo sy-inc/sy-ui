@@ -18,28 +18,28 @@ Beta 11 聚焦多块核心能力的可靠性与开发者体验：增强 Bottom S
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native@beta
+  npm i sy-inc-native@beta
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native@beta
+  pnpm add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native@beta
+  yarn add sy-inc-native@beta
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native@beta
+  bun add sy-inc-native@beta
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -59,7 +59,7 @@ Beta 11 聚焦多块核心能力的可靠性与开发者体验：增强 Bottom S
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -68,7 +68,7 @@ Beta 11 聚焦多块核心能力的可靠性与开发者体验：增强 Bottom S
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -87,7 +87,7 @@ Beta 11 聚焦多块核心能力的可靠性与开发者体验：增强 Bottom S
 
 Bottom Sheet 支持下滑、点遮罩、点关闭按钮或代码关闭。此前这些路径偶发冲突或表现不一致；本更新使各路径协调一致，体验更可预期。
 
-**相关 PR：** [#201](https://github.com/sy-ui/sy-ui-native/pull/201)
+**相关 PR：** [#201](https://github.com/sy-inc/sy-inc-native/pull/201)
 
 ### Dialog 侧滑关闭手势修复
 
@@ -102,7 +102,7 @@ Bottom Sheet 支持下滑、点遮罩、点关闭按钮或代码关闭。此前�
 
 Dialog 支持下滑关闭。本修复解决滑动过程中手势偶发无响应或行为异常的问题。
 
-**相关 PR：** [#193](https://github.com/sy-ui/sy-ui-native/pull/193)
+**相关 PR：** [#193](https://github.com/sy-inc/sy-inc-native/pull/193)
 
 ### TextField 样式与行为修复
 
@@ -118,7 +118,7 @@ Dialog 支持下滑关闭。本修复解决滑动过程中手势偶发无响应�
 
 确保 TextField 在聚焦、失焦、非法等状态下显示正确，并向用户提供一致的视觉反馈。
 
-**相关 PR：** [#202](https://github.com/sy-ui/sy-ui-native/pull/202)
+**相关 PR：** [#202](https://github.com/sy-inc/sy-inc-native/pull/202)
 
 ## API 增强
 
@@ -129,14 +129,14 @@ Dialog 支持下滑关闭。本修复解决滑动过程中手势偶发无响应�
 **新能力：**
 
 ```tsx
-import { SyUINativeProvider, PortalHost } from "sy-ui-native";
+import { SyIncNativeProvider, PortalHost } from "sy-inc-native";
 
 export function CustomLayout() {
   return (
     <>
-      <SyUINativeProvider>
+      <SyIncNativeProvider>
         {/* 应用内容 */}
-      </SyUINativeProvider>
+      </SyIncNativeProvider>
 
       {/* 在自定义位置手动挂载 PortalHost */}
       <PortalHost name="custom-host" />
@@ -145,7 +145,7 @@ export function CustomLayout() {
 }
 ```
 
-便于在自定义布局中手动挂载 Portal 宿主，例如需在 BottomSheet、Modal 或其他遮罩内指定渲染位置时。默认 `SyUINativeProvider` 已包含标准场景的 `PortalHost`；现可额外创建具名宿主以支持多宿主架构。
+便于在自定义布局中手动挂载 Portal 宿主，例如需在 BottomSheet、Modal 或其他遮罩内指定渲染位置时。默认 `SyIncNativeProvider` 已包含标准场景的 `PortalHost`；现可额外创建具名宿主以支持多宿主架构。
 
 **适用场景：**
 
@@ -154,30 +154,30 @@ export function CustomLayout() {
 - 自定义遮罩渲染
 - 多宿主 Portal 架构
 
-**相关 PR：** [#185](https://github.com/sy-ui/sy-ui-native/pull/185)
+**相关 PR：** [#185](https://github.com/sy-inc/sy-inc-native/pull/185)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #187](https://github.com/sy-ui/sy-ui-native/issues/187)**：修复通过滑动手势关闭后，需多次点击才能再次打开 Bottom Sheet 或 Dialog 的问题。内部状态现与关闭动画正确同步，无论以何种方式关闭均可立即再次打开。
+- **[Issue #187](https://github.com/sy-inc/sy-inc-native/issues/187)**：修复通过滑动手势关闭后，需多次点击才能再次打开 Bottom Sheet 或 Dialog 的问题。内部状态现与关闭动画正确同步，无论以何种方式关闭均可立即再次打开。
 
-- **[Issue #189](https://github.com/sy-ui/sy-ui-native/issues/189)**：修复含文本输入的 Dialog 在侧滑关闭时应用卡死的问题。
+- **[Issue #189](https://github.com/sy-inc/sy-inc-native/issues/189)**：修复含文本输入的 Dialog 在侧滑关闭时应用卡死的问题。
 
-- **[Issue #196](https://github.com/sy-ui/sy-ui-native/issues/196)**：修复 TextField 多行输入行为，与 React Native `TextInput` 多行语义一致。
+- **[Issue #196](https://github.com/sy-inc/sy-inc-native/issues/196)**：修复 TextField 多行输入行为，与 React Native `TextInput` 多行语义一致。
 
-- **[Issue #199](https://github.com/sy-ui/sy-ui-native/issues/199)**：修复 TextField Input 内占位符文字位置问题。
+- **[Issue #199](https://github.com/sy-inc/sy-inc-native/issues/199)**：修复 TextField Input 内占位符文字位置问题。
 
 **相关 PR：**
 
-- [#201](https://github.com/sy-ui/sy-ui-native/pull/201)
-- [#202](https://github.com/sy-ui/sy-ui-native/pull/202)
-- [#193](https://github.com/sy-ui/sy-ui-native/pull/193)
+- [#201](https://github.com/sy-inc/sy-inc-native/pull/201)
+- [#202](https://github.com/sy-inc/sy-inc-native/pull/202)
+- [#193](https://github.com/sy-inc/sy-inc-native/pull/193)
 
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

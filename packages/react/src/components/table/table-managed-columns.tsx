@@ -299,4 +299,4 @@ export const TableManagedColumns = React.forwardRef<HTMLDivElement, TableManaged
   },
 );
 
-TableManagedColumns.displayName = "SY UI.Table.ManagedColumns";
+TableManagedColumns.displayName = "SY INC.Table.ManagedColumns";

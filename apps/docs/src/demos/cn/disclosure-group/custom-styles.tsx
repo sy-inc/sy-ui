@@ -26,7 +26,7 @@ export function CustomStyles() {
         </Disclosure.Heading>
         <Disclosure.Content>
           <Disclosure.Body className="text-sm text-muted">
-            请通过 help@sy-ui.com 联系我们。通常会在一个工作日内回复。
+            请通过 help@sy-inc.com 联系我们。通常会在一个工作日内回复。
           </Disclosure.Body>
         </Disclosure.Content>
       </Disclosure>

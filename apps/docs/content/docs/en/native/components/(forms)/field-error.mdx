@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/field-error-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/field-error-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/field-error-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/field-error-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { FieldError } from 'sy-ui-native';
+import { FieldError } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -51,7 +51,7 @@ const [isInvalid, setIsInvalid] = useState(false);
 FieldError automatically consumes form state from TextField via the form-item-state context.
 
 ```tsx
-import { FieldError, Label, TextField } from 'sy-ui-native';
+import { FieldError, Label, TextField } from 'sy-inc-native';
 
 <TextField isRequired isInvalid={true}>
   <Label>Email</Label>
@@ -136,7 +136,7 @@ Pass additional props to the Text component when children is a string.
 ## Example
 
 ```tsx
-import { Description, FieldError, Label, TextField } from 'sy-ui-native';
+import { Description, FieldError, Label, TextField } from 'sy-inc-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -172,7 +172,7 @@ export default function FieldErrorExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/field-error.tsx).
+You can find more examples in the [GitHub repository](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/field-error.tsx).
 
 ## API Reference
 

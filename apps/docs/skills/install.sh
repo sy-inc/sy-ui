@@ -1,14 +1,14 @@
 #!/bin/bash
-# SY UI Skill Installer
-# Usage: curl -sSL https://sy-ui.com/install | bash -s [skill-name]
-# Default: sy-ui-react
-# Available skills: sy-ui-react, sy-ui-native, sy-ui-migration
-# https://sy-ui.com
+# SY INC Skill Installer
+# Usage: curl -sSL https://sy-inc.com/install | bash -s [skill-name]
+# Default: sy-inc-react
+# Available skills: sy-inc-react, sy-inc-native, sy-inc-migration
+# https://sy-inc.com
 
 set -e
 
-# Skill selection (default: sy-ui-react)
-SKILL_NAME="${1:-sy-ui-react}"
+# Skill selection (default: sy-inc-react)
+SKILL_NAME="${1:-sy-inc-react}"
 
 # URLs
 BASE_URL="${BASE_URL:-{{BASE_URL}}}"
@@ -19,7 +19,7 @@ CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 
 INSTALLED=0
 
-echo "Installing SY UI skill: ${SKILL_NAME}..."
+echo "Installing SY INC skill: ${SKILL_NAME}..."
 echo ""
 
 # Claude Code - Skill only (skills are auto-discovered, no command needed)
@@ -29,10 +29,10 @@ if [ -d "$HOME/.claude" ]; then
   echo "✓ Installed ${SKILL_NAME} skill for Claude Code"
   INSTALLED=$((INSTALLED + 1))
 
-  # Cleanup old sy-ui skill (only when installing sy-ui-react)
-  if [ "$SKILL_NAME" = "sy-ui-react" ] && [ -d "$HOME/.claude/skills/sy-ui" ]; then
-    rm -rf "$HOME/.claude/skills/sy-ui"
-    echo "✓ Removed old sy-ui skill"
+  # Cleanup old sy-inc skill (only when installing sy-inc-react)
+  if [ "$SKILL_NAME" = "sy-inc-react" ] && [ -d "$HOME/.claude/skills/sy-inc" ]; then
+    rm -rf "$HOME/.claude/skills/sy-inc"
+    echo "✓ Removed old sy-inc skill"
   fi
 fi
 
@@ -43,18 +43,18 @@ if [ -d "$HOME/.cursor" ]; then
   echo "✓ Installed ${SKILL_NAME} skill for Cursor"
   INSTALLED=$((INSTALLED + 1))
 
-  # Cleanup old sy-ui skill and command (only when installing sy-ui-react)
-  if [ "$SKILL_NAME" = "sy-ui-react" ]; then
+  # Cleanup old sy-inc skill and command (only when installing sy-inc-react)
+  if [ "$SKILL_NAME" = "sy-inc-react" ]; then
     OLD_SKILL_FOUND=0
-    if [ -d "$HOME/.cursor/skills/sy-ui" ]; then
-      rm -rf "$HOME/.cursor/skills/sy-ui"
-      echo "✓ Removed old sy-ui skill"
+    if [ -d "$HOME/.cursor/skills/sy-inc" ]; then
+      rm -rf "$HOME/.cursor/skills/sy-inc"
+      echo "✓ Removed old sy-inc skill"
       OLD_SKILL_FOUND=1
     fi
 
-    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$HOME/.cursor/commands/sy-ui.md" ]; then
-      rm -f "$HOME/.cursor/commands/sy-ui.md"
-      echo "✓ Removed old /sy-ui command"
+    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$HOME/.cursor/commands/sy-inc.md" ]; then
+      rm -f "$HOME/.cursor/commands/sy-inc.md"
+      echo "✓ Removed old /sy-inc command"
     fi
   fi
 fi
@@ -66,18 +66,18 @@ if command -v opencode &> /dev/null || [ -d "$HOME/.config/opencode" ]; then
   echo "✓ Installed ${SKILL_NAME} skill for OpenCode"
   INSTALLED=$((INSTALLED + 1))
 
-  # Cleanup old sy-ui skill and command (only when installing sy-ui-react)
-  if [ "$SKILL_NAME" = "sy-ui-react" ]; then
+  # Cleanup old sy-inc skill and command (only when installing sy-inc-react)
+  if [ "$SKILL_NAME" = "sy-inc-react" ]; then
     OLD_SKILL_FOUND=0
-    if [ -d "$HOME/.config/opencode/skill/sy-ui" ]; then
-      rm -rf "$HOME/.config/opencode/skill/sy-ui"
-      echo "✓ Removed old sy-ui skill"
+    if [ -d "$HOME/.config/opencode/skill/sy-inc" ]; then
+      rm -rf "$HOME/.config/opencode/skill/sy-inc"
+      echo "✓ Removed old sy-inc skill"
       OLD_SKILL_FOUND=1
     fi
 
-    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$HOME/.config/opencode/command/sy-ui.md" ]; then
-      rm -f "$HOME/.config/opencode/command/sy-ui.md"
-      echo "✓ Removed old /sy-ui command"
+    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$HOME/.config/opencode/command/sy-inc.md" ]; then
+      rm -f "$HOME/.config/opencode/command/sy-inc.md"
+      echo "✓ Removed old /sy-inc command"
     fi
   fi
 fi
@@ -89,18 +89,18 @@ if command -v codex &> /dev/null || [ -d "$CODEX_HOME" ]; then
   echo "✓ Installed ${SKILL_NAME} skill for Codex"
   INSTALLED=$((INSTALLED + 1))
 
-  # Cleanup old sy-ui skill and command (only when installing sy-ui-react)
-  if [ "$SKILL_NAME" = "sy-ui-react" ]; then
+  # Cleanup old sy-inc skill and command (only when installing sy-inc-react)
+  if [ "$SKILL_NAME" = "sy-inc-react" ]; then
     OLD_SKILL_FOUND=0
-    if [ -d "$CODEX_HOME/skills/sy-ui" ]; then
-      rm -rf "$CODEX_HOME/skills/sy-ui"
-      echo "✓ Removed old sy-ui skill"
+    if [ -d "$CODEX_HOME/skills/sy-inc" ]; then
+      rm -rf "$CODEX_HOME/skills/sy-inc"
+      echo "✓ Removed old sy-inc skill"
       OLD_SKILL_FOUND=1
     fi
 
-    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$CODEX_HOME/prompts/sy-ui.md" ]; then
-      rm -f "$CODEX_HOME/prompts/sy-ui.md"
-      echo "✓ Removed old /sy-ui command"
+    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$CODEX_HOME/prompts/sy-inc.md" ]; then
+      rm -f "$CODEX_HOME/prompts/sy-inc.md"
+      echo "✓ Removed old /sy-inc command"
     fi
   fi
 fi
@@ -112,18 +112,18 @@ if [ -d "$HOME/.gemini" ]; then
   echo "✓ Installed ${SKILL_NAME} skill for Antigravity"
   INSTALLED=$((INSTALLED + 1))
 
-  # Cleanup old sy-ui skill and command (only when installing sy-ui-react)
-  if [ "$SKILL_NAME" = "sy-ui-react" ]; then
+  # Cleanup old sy-inc skill and command (only when installing sy-inc-react)
+  if [ "$SKILL_NAME" = "sy-inc-react" ]; then
     OLD_SKILL_FOUND=0
-    if [ -d "$HOME/.gemini/antigravity/skills/sy-ui" ]; then
-      rm -rf "$HOME/.gemini/antigravity/skills/sy-ui"
-      echo "✓ Removed old sy-ui skill"
+    if [ -d "$HOME/.gemini/antigravity/skills/sy-inc" ]; then
+      rm -rf "$HOME/.gemini/antigravity/skills/sy-inc"
+      echo "✓ Removed old sy-inc skill"
       OLD_SKILL_FOUND=1
     fi
 
-    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$HOME/.gemini/antigravity/global_workflows/sy-ui.md" ]; then
-      rm -f "$HOME/.gemini/antigravity/global_workflows/sy-ui.md"
-      echo "✓ Removed old /sy-ui command"
+    if [ $OLD_SKILL_FOUND -eq 1 ] && [ -f "$HOME/.gemini/antigravity/global_workflows/sy-inc.md" ]; then
+      rm -f "$HOME/.gemini/antigravity/global_workflows/sy-inc.md"
+      echo "✓ Removed old /sy-inc command"
     fi
   fi
 fi

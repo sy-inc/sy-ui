@@ -1,10 +1,10 @@
 ---
 title: Card
-description: Card 从 SY UI v2 到 v3 的迁移指南。
+description: Card 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Card 文档](/docs/react/components/card)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Card 文档](/docs/react/components/card)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -48,7 +48,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 独立组件：`CardHeader`、`CardBody`、`CardFooter`  
+**v2：** 独立组件：`CardHeader`、`CardBody`、`CardFooter`
 **v3：** 复合组件：`Card.Header`、`Card.Title`、`Card.Description`、`Card.Content`、`Card.Footer`
 
 ### 2. 组件命名变化
@@ -78,7 +78,7 @@ export default function App() {
 
 ### 4. 变体
 
-**v2：** 无 `variant` prop（主要通过 shadow / radius 控制观感）  
+**v2：** 无 `variant` prop（主要通过 shadow / radius 控制观感）
 **v3：** 提供 `variant` prop：`transparent`、`default`、`secondary`、`tertiary`
 
 ## 迁移示例
@@ -94,7 +94,7 @@ export default function App() {
       <CardBody>Body content</CardBody>
       <CardFooter>Footer</CardFooter>
     </Card>
-    
+
     {/* With title and description */}
     <Card>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -116,7 +116,7 @@ export default function App() {
       <Card.Content>Body content</Card.Content>
       <Card.Footer>Footer</Card.Footer>
     </Card>
-    
+
     {/* 标题 + 描述 */}
     <Card>
       <Card.Header>
@@ -134,9 +134,9 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    <Card 
-      isPressable 
-      shadow="sm" 
+    <Card
+      isPressable
+      shadow="sm"
       onPress={() => console.log("pressed")}
     >
       <CardBody>Clickable card</CardBody>
@@ -269,7 +269,7 @@ export default function App() {
 ### v2：`classNames` prop
 
 ```tsx
-<Card 
+<Card
   classNames={{
     base: "custom-base",
     header: "custom-header",

@@ -9,14 +9,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/select-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/select-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/select-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/select-docs-dark.mp4"
 />
 
 ## 导入
 
 ```tsx
-import { Select } from 'sy-ui-native';
+import { Select } from 'sy-inc-native';
 ```
 
 ## 结构
@@ -378,7 +378,7 @@ const [isOpen, setIsOpen] = useState(false);
 ## 示例
 
 ```tsx
-import { Select, Separator } from 'sy-ui-native';
+import { Select, Separator } from 'sy-inc-native';
 import React, { useState } from 'react';
 
 type SelectOption = {
@@ -419,7 +419,7 @@ export default function SelectExample() {
 }
 ```
 
-更多示例见 [GitHub 仓库](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/select.tsx)。
+更多示例见 [GitHub 仓库](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/select.tsx)。
 
 ## API 参考
 
@@ -719,7 +719,7 @@ Select 根级动画配置，可为：
 用于读取 Select 根上下文，返回状态与控制方法。
 
 ```tsx
-import { useSelect } from 'sy-ui-native';
+import { useSelect } from 'sy-inc-native';
 
 const {
   isOpen,
@@ -761,7 +761,7 @@ const {
 用于在自定义或复合子组件中读取 Select 动画相关共享值。
 
 ```tsx
-import { useSelectAnimation } from 'sy-ui-native';
+import { useSelectAnimation } from 'sy-inc-native';
 
 const { selectState, progress, isDragging, isGestureReleaseAnimationRunning } =
   useSelectAnimation();
@@ -789,7 +789,7 @@ const { selectState, progress, isDragging, isGestureReleaseAnimationRunning } =
 用于读取 Select Item 上下文，返回当前项的值与标签。
 
 ```tsx
-import { useSelectItem } from 'sy-ui-native';
+import { useSelectItem } from 'sy-inc-native';
 
 const { itemValue, label } = useSelectItem();
 ```

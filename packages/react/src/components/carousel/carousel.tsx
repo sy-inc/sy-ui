@@ -463,7 +463,7 @@ const CarouselRoot = ({
   );
 };
 
-CarouselRoot.displayName = "SY UI.Carousel";
+CarouselRoot.displayName = "SY INC.Carousel";
 
 /* -------------------------------------------------------------------------------------------------
  * Carousel Content
@@ -489,7 +489,7 @@ const CarouselContent = ({className, ref, ...props}: CarouselContentProps) => {
   );
 };
 
-CarouselContent.displayName = "SY UI.Carousel.Content";
+CarouselContent.displayName = "SY INC.Carousel.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Carousel Item
@@ -561,7 +561,7 @@ const CarouselItem = ({
   );
 };
 
-CarouselItem.displayName = "SY UI.Carousel.Item";
+CarouselItem.displayName = "SY INC.Carousel.Item";
 
 /* -------------------------------------------------------------------------------------------------
  * Carousel Previous / Next
@@ -607,7 +607,7 @@ const CarouselPrevious = ({
   );
 };
 
-CarouselPrevious.displayName = "SY UI.Carousel.Previous";
+CarouselPrevious.displayName = "SY INC.Carousel.Previous";
 
 type CarouselNextProps = CarouselControlProps;
 
@@ -643,7 +643,7 @@ const CarouselNext = ({
   );
 };
 
-CarouselNext.displayName = "SY UI.Carousel.Next";
+CarouselNext.displayName = "SY INC.Carousel.Next";
 
 const CarouselAutoplayControl = ({
   pauseLabel = "Pause autoplay",
@@ -721,7 +721,7 @@ const CarouselPagination = ({children, className, ...props}: CarouselPaginationP
   );
 };
 
-CarouselPagination.displayName = "SY UI.Carousel.Pagination";
+CarouselPagination.displayName = "SY INC.Carousel.Pagination";
 
 export {
   CarouselContent,

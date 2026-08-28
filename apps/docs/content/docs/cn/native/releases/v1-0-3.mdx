@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">2026 年 5 月 11 日</span>
 </div>
 
-SY UI Native v1.0.3 引入全新的 `Text` 排版基元，提供面向标题、段落与内联代码的复合 API；同时为 `ScrollShadow` 在反向列表下的渲染、`Tabs` 指示器在 RTL 布局下的对齐、以及自定义 `Select.TriggerIndicator` `children` 时的动画问题带来重要修复。本版本还对 `Button`、`Chip`、`Input` 的视觉样式进行了微调，将 `Avatar` 的 `alt` 属性改为可选，并修正 `TextField` 与 `SearchField` 的内部内边距行为。
+SY INC Native v1.0.3 引入全新的 `Text` 排版基元，提供面向标题、段落与内联代码的复合 API；同时为 `ScrollShadow` 在反向列表下的渲染、`Tabs` 指示器在 RTL 布局下的对齐、以及自定义 `Select.TriggerIndicator` `children` 时的动画问题带来重要修复。本版本还对 `Button`、`Chip`、`Input` 的视觉样式进行了微调，将 `Avatar` 的 `alt` 属性改为可选，并修正 `TextField` 与 `SearchField` 的内部内边距行为。
 
 ## 安装
 
@@ -19,28 +19,28 @@ SY UI Native v1.0.3 引入全新的 `Text` 排版基元，提供面向标题、�
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 真机体验
@@ -62,8 +62,8 @@ SY UI Native v1.0.3 引入全新的 `Text` 排版基元，提供面向标题、�
 <NativeVideoPlayerView
   target="component"
   slug="text"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/text-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/text-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/text-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/text-docs-dark.mp4"
 />
 
 **特性：**
@@ -80,7 +80,7 @@ SY UI Native v1.0.3 引入全新的 `Text` 排版基元，提供面向标题、�
 **用法：**
 
 ```tsx
-import { Text } from "sy-ui-native";
+import { Text } from "sy-inc-native";
 import { View } from "react-native";
 
 export function Example() {
@@ -94,7 +94,7 @@ export function Example() {
       <Text.Paragraph color="muted" type="body-sm">
         Smaller supporting text for captions or footnotes.
       </Text.Paragraph>
-      <Text.Code>npm install sy-ui-native</Text.Code>
+      <Text.Code>npm install sy-inc-native</Text.Code>
     </View>
   );
 }
@@ -102,7 +102,7 @@ export function Example() {
 
 完整文档与示例见 [Text 组件页面](/docs/native/components/text)。
 
-**相关 PR：** [#400](https://github.com/sy-ui/sy-ui-native/pull/400)
+**相关 PR：** [#400](https://github.com/sy-inc/sy-inc-native/pull/400)
 
 ## 组件改进
 
@@ -118,7 +118,7 @@ export function Example() {
 
 此前，包裹反向列表时渐变阴影会渲染在顶部，而可滚动内容位于其下；即便仍有更多内容也不会出现底部阴影。修复后，反向 feed、聊天列表等反向滚动表面上的指示器方向已正确。
 
-**相关 PR：** [#398](https://github.com/sy-ui/sy-ui-native/pull/398)
+**相关 PR：** [#398](https://github.com/sy-inc/sy-inc-native/pull/398)
 
 ### Tabs RTL 指示器对齐
 
@@ -133,7 +133,7 @@ export function Example() {
 
 指示器使用绝对定位 `left` 锚点配合测量得到的 `translateX`。在 RTL 模式下，React Native 会自动翻转绝对锚点，但所测量的 transform 仍需手动镜像——本次修复内部完成了这一处理。固定与滚动两类标签列表均已修复，且公共 API 未变。
 
-**相关 PR：** [#396](https://github.com/sy-ui/sy-ui-native/pull/396)
+**相关 PR：** [#396](https://github.com/sy-inc/sy-inc-native/pull/396)
 
 ### Select 触发器指示器渲染统一
 
@@ -147,7 +147,7 @@ export function Example() {
 
 此前，向 `Select.TriggerIndicator` 传入自定义 `children` 会绕过旋转动画，导致开合时指示器保持静止。统一分支确保旋转动画始终生效，且公共 API 未变。
 
-**相关 PR：** [#409](https://github.com/sy-ui/sy-ui-native/pull/409)
+**相关 PR：** [#409](https://github.com/sy-inc/sy-inc-native/pull/409)
 
 ## API 增强
 
@@ -158,7 +158,7 @@ export function Example() {
 **新能力：**
 
 ```tsx
-import { Avatar } from "sy-ui-native";
+import { Avatar } from "sy-inc-native";
 
 <Avatar>
   <Avatar.Image source={{ uri: "https://example.com/avatar.jpg" }} />
@@ -168,7 +168,7 @@ import { Avatar } from "sy-ui-native";
 
 显式传入 `alt` 的既有代码继续正常工作——该属性仅在缺省时获得一个合理的默认值。`RootProps` 类型现已反映为 `alt?: string`，并通过 JSDoc 标注 `@default 'Avatar'`，组件文档同步更新。
 
-**相关 PR：** [#404](https://github.com/sy-ui/sy-ui-native/pull/404)
+**相关 PR：** [#404](https://github.com/sy-inc/sy-inc-native/pull/404)
 
 ## 样式修复
 
@@ -186,7 +186,7 @@ import { Avatar } from "sy-ui-native";
 
 Button `sm` 尺寸（+4px）与 Chip `md`/`lg` 内边距上的像素级差异建议进行视觉回归确认。无 API 变更——仅更新了 `button.styles.ts`、`chip.styles.ts`、`input.styles.ts` 中的样式令牌。
 
-**相关 PR：** [#406](https://github.com/sy-ui/sy-ui-native/pull/406)
+**相关 PR：** [#406](https://github.com/sy-inc/sy-inc-native/pull/406)
 
 ### TextField 与 SearchField 内部内边距修复
 
@@ -201,19 +201,19 @@ Button `sm` 尺寸（+4px）与 Chip `md`/`lg` 内边距上的像素级差异建
 
 此次变更仅涉及两处为 `FormFieldContext` 提供值的 `useMemo`。如果你此前依赖这一非预期的内部内边距，可通过为受影响的子组件添加 `className="px-1.5"` 恢复原有间距。
 
-**相关 PR：** [#407](https://github.com/sy-ui/sy-ui-native/pull/407)
+**相关 PR：** [#407](https://github.com/sy-inc/sy-inc-native/pull/407)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #334](https://github.com/sy-ui/sy-ui-native/issues/334)**：修复 RTL 布局下 `Tabs.Indicator` 的定位错乱。指示器以绝对定位 `left` 锚点配合测量的 `translateX` 实现位移；在 RTL 模式下 React Native 会自动翻转锚点，但测量得到的 transform 仍需手动镜像。tabs 测量上下文现会跟踪标签条宽度，仅当 `I18nManager.isRTL` 启用时镜像 `translateX`，固定与滚动两类标签列表均已修复。
-- **[Issue #393](https://github.com/sy-ui/sy-ui-native/issues/393)**：修复 `ScrollShadow` 忽略子组件 `inverted` 属性的问题。`ScrollShadowRoot` 现会读取可滚动子组件上的 `inverted`（沿用既有的 `childHorizontal` 自动检测），并交换驱动各视觉边缘的动画样式，使反向 feed 与聊天式列表上的渐变出现在正确的一侧。
+- **[Issue #334](https://github.com/sy-inc/sy-inc-native/issues/334)**：修复 RTL 布局下 `Tabs.Indicator` 的定位错乱。指示器以绝对定位 `left` 锚点配合测量的 `translateX` 实现位移；在 RTL 模式下 React Native 会自动翻转锚点，但测量得到的 transform 仍需手动镜像。tabs 测量上下文现会跟踪标签条宽度，仅当 `I18nManager.isRTL` 启用时镜像 `translateX`，固定与滚动两类标签列表均已修复。
+- **[Issue #393](https://github.com/sy-inc/sy-inc-native/issues/393)**：修复 `ScrollShadow` 忽略子组件 `inverted` 属性的问题。`ScrollShadowRoot` 现会读取可滚动子组件上的 `inverted`（沿用既有的 `childHorizontal` 自动检测），并交换驱动各视觉边缘的动画样式，使反向 feed 与聊天式列表上的渐变出现在正确的一侧。
 
 **相关 PR：**
 
-- [#396](https://github.com/sy-ui/sy-ui-native/pull/396)
-- [#398](https://github.com/sy-ui/sy-ui-native/pull/398)
+- [#396](https://github.com/sy-inc/sy-inc-native/pull/396)
+- [#398](https://github.com/sy-inc/sy-inc-native/pull/398)
 
 ## 文档更新
 
@@ -226,7 +226,7 @@ Button `sm` 尺寸（+4px）与 Chip `md`/`lg` 内边距上的像素级差异建
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

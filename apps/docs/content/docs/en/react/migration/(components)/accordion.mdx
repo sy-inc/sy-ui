@@ -1,10 +1,10 @@
 ---
 title: Accordion
-description: Migration guide for Accordion from SY UI v2 to v3
+description: Migration guide for Accordion from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Accordion documentation](/docs/react/components/accordion) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Accordion documentation](/docs/react/components/accordion) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -73,7 +73,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Single `AccordionItem` component with props  
+**v2:** Single `AccordionItem` component with props
 **v3:** Compound components: `Accordion.Item`, `Accordion.Heading`, `Accordion.Trigger`, `Accordion.Panel`, `Accordion.Body`, `Accordion.Indicator`
 
 ### 2. Prop Changes
@@ -96,7 +96,7 @@ export default function App() {
 
 ### 3. Variants
 
-**v2 Variants:** `light`, `shadow`, `bordered`, `splitted`  
+**v2 Variants:** `light`, `shadow`, `bordered`, `splitted`
 **v3 Variants:** `default`, `surface`
 
 The v3 variants are simplified. To achieve similar effects to v2 variants:
@@ -108,7 +108,7 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
 
 ### 4. Item Identification
 
-**v2:** React's `key` was used for both list reconciliation and expanded state.  
+**v2:** React's `key` was used for both list reconciliation and expanded state.
 **v3:** Use `id` on `Accordion.Item` for expanded state; keep React's `key` on items in lists.
 
 ## Migration Examples
@@ -123,8 +123,8 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
 
     const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
 
-    <Accordion 
-      selectedKeys={selectedKeys} 
+    <Accordion
+      selectedKeys={selectedKeys}
       onSelectionChange={setSelectedKeys}
     >
       <AccordionItem key="1" title="Item 1">
@@ -144,8 +144,8 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
 
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set(["1"]));
 
-    <Accordion 
-      expandedKeys={expandedKeys} 
+    <Accordion
+      expandedKeys={expandedKeys}
       onExpandedChange={setExpandedKeys}
     >
       <Accordion.Item id="1">
@@ -183,7 +183,7 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
     import { Icon } from "@iconify/react";
 
     <Accordion>
-      <AccordionItem 
+      <AccordionItem
         key="1"
         title="Accordion 1"
         subtitle="Press to expand"
@@ -227,7 +227,7 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
     import { Icon } from "@iconify/react";
 
     <Accordion>
-      <AccordionItem 
+      <AccordionItem
         key="1"
         title="Item 1"
         indicator={(props) => (
@@ -248,7 +248,7 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
 
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set());
 
-    <Accordion 
+    <Accordion
       expandedKeys={expandedKeys}
       onExpandedChange={setExpandedKeys}
     >
@@ -279,7 +279,7 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    <Accordion 
+    <Accordion
       defaultExpandedKeys={["1"]}
       disabledKeys={["2"]}
     >
@@ -327,7 +327,7 @@ The v3 variants are simplified. To achieve similar effects to v2 variants:
 ### v2: `classNames` Prop
 
 ```tsx
-<AccordionItem 
+<AccordionItem
   classNames={{
     base: "custom-base",
     title: "custom-title",

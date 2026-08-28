@@ -1,14 +1,14 @@
 blank_issues_enabled: true
 contact_links:
   - name: 💡 Feature Request
-    url: https://github.com/sy-ui/sy-ui/discussions/categories/feature-requests
+    url: https://github.com/sy-inc/sy-inc/discussions/categories/feature-requests
     about: 💡 Suggest a new component, improve an existing component and etc
   - name: 🤔 Long question or ideas?
-    url: https://github.com/sy-ui/sy-ui/discussions
+    url: https://github.com/sy-inc/sy-inc/discussions
     about: Ask long-form questions and discuss ideas.
   - name: 💬 Discord Community Chat
     url: https://discord.gg/9b6yyZKmH4
-    about: Ask quick questions or simply chat on the `SY UI` community Discord server.
+    about: Ask quick questions or simply chat on the `SY INC` community Discord server.
   - name: 💬 New Updates (X)
-    url: https://x.com/sy_ui
-    about: Link to our X account if you want to follow us and stay up to date with SY UI news
+    url: https://x.com/sy_inc
+    about: Link to our X account if you want to follow us and stay up to date with SY INC news

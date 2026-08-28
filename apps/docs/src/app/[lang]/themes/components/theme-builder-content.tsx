@@ -5,16 +5,16 @@ import {ScrollShadow} from "@sy-inc/react";
 import {useDictionary} from "@/hooks/use-dictionary";
 import {cn} from "@/utils/cn";
 
-import {SY_UI_PRO_URL} from "../constants";
+import {SY_INC_PRO_URL} from "../constants";
 import {usePreviewTab} from "../hooks";
 
 import {PreviewContainer} from "./preview-container";
 import {ThemeCodePanel} from "./theme-code-panel";
 
 function getProUrl(utm: {campaign?: string; content?: string; medium: string}) {
-  const url = new URL(SY_UI_PRO_URL);
+  const url = new URL(SY_INC_PRO_URL);
 
-  url.searchParams.set("utm_source", "sy-ui.com");
+  url.searchParams.set("utm_source", "sy-inc.com");
   url.searchParams.set("utm_medium", utm.medium);
   if (utm.campaign) url.searchParams.set("utm_campaign", utm.campaign);
   if (utm.content) url.searchParams.set("utm_content", utm.content);

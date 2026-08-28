@@ -29,7 +29,7 @@ function ComponentTitleContent({status, title}: {status?: StatusChipStatus; titl
 
 /**
  * Helper that picks between Next.js client routing (`NextLink`) and the
- * SY UI `<Link>` based on whether the destination should open in a new tab.
+ * SY INC `<Link>` based on whether the destination should open in a new tab.
  */
 function ConditionalLink({
   children,

@@ -10,8 +10,8 @@ export async function GET(request: Request) {
     authorization_endpoint: absoluteUrl(origin, "/.well-known/oauth/not-supported/authorize"),
     claims_supported: [],
     grant_types_supported: [],
-    sy_ui_public_api_authentication:
-      "SY UI public documentation and MCP data APIs are currently unauthenticated and read-only; no OpenID Connect sign-in flow is advertised for public API access.",
+    sy_inc_public_api_authentication:
+      "SY INC public documentation and MCP data APIs are currently unauthenticated and read-only; no OpenID Connect sign-in flow is advertised for public API access.",
     issuer: origin,
     jwks_uri: absoluteUrl(origin, "/.well-known/jwks.json"),
     response_types_supported: [],

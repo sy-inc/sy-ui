@@ -1,17 +1,17 @@
 ---
 title: Link
-description: Link 从 SY UI v2 到 v3 的迁移指南。
+description: Link 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Link 文档](/docs/react/components/link)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Link 文档](/docs/react/components/link)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 主要变化
 
 ### 1. 组件结构
 
-**v2：** 单个组件，通过 prop 配置图标  
+**v2：** 单个组件，通过 prop 配置图标
 **v3：** 复合组件：使用 `Link.Icon` 子组件渲染图标
 
 ### 2. Prop 变更
@@ -61,7 +61,7 @@ export default function App() {
     <Link showAnchorIcon href="#">
       External Link
     </Link>
-    
+
     {/* Custom icon */}
     <Link
       showAnchorIcon
@@ -79,7 +79,7 @@ export default function App() {
       External Link
       <Link.Icon />
     </Link>
-    
+
     {/* Custom icon */}
     <Link href="#">
       Custom Icon

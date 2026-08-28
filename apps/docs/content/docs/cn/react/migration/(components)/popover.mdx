@@ -1,10 +1,10 @@
 ---
 title: Popover
-description: Popover 从 SY UI v2 到 v3 的迁移指南。
+description: Popover 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Popover 文档](/docs/react/components/popover)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Popover 文档](/docs/react/components/popover)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -52,7 +52,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 独立的多个组件（`Popover`、`PopoverTrigger`、`PopoverContent`）  
+**v2：** 独立的多个组件（`Popover`、`PopoverTrigger`、`PopoverContent`）
 **v3：** 复合组件（`Popover`、`Popover.Trigger`、`Popover.Content`、`Popover.Dialog`、`Popover.Heading`、`Popover.Arrow`）
 
 ### 2. Prop 变更
@@ -85,13 +85,13 @@ export default function App() {
       <PopoverTrigger><Button>Open</Button></PopoverTrigger>
       <PopoverContent><div>Content</div></PopoverContent>
     </Popover>
-    
+
     {/* With placement */}
     <Popover placement="top">
       <PopoverTrigger><Button>Open</Button></PopoverTrigger>
       <PopoverContent><div>Content</div></PopoverContent>
     </Popover>
-    
+
     {/* With offset */}
     <Popover offset={10}>
       <PopoverTrigger><Button>Open</Button></PopoverTrigger>
@@ -111,7 +111,7 @@ export default function App() {
         </Popover.Dialog>
       </Popover.Content>
     </Popover>
-    
+
     {/* With placement - moved to Content */}
     <Popover>
       <Button>Open</Button>
@@ -122,7 +122,7 @@ export default function App() {
         </Popover.Dialog>
       </Popover.Content>
     </Popover>
-    
+
     {/* With offset - moved to Content */}
     <Popover>
       <Button>Open</Button>

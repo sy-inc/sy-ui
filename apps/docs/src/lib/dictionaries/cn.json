@@ -2,20 +2,20 @@
   "home": {
     "releaseBadges": [
       {
-        "label": "SY UI React v0.0.1 — 初始版本",
+        "label": "SY INC React v0.0.1 — 初始版本",
         "href": "/docs/react/getting-started/quick-start",
         "date": "2026-08-27"
       },
       {
-        "label": "SY UI Native v0.0.1 — 初始版本",
+        "label": "SY INC Native v0.0.1 — 初始版本",
         "href": "/docs/native/getting-started/quick-start",
         "date": "2026-08-27"
       }
     ],
     "titleMain": "开箱即用",
     "titleMuted": "设计灵活可定制",
-    "description": "SY UI 是面向网页与移动端的现代 UI 库，助你快速迭代、保持一致，并打造令人愉悦的用户体验。",
-    "metaTitle": "SY UI v0.0.1 — 开箱即用，设计灵活可定制。",
+    "description": "SY INC 是面向网页与移动端的现代 UI 库，助你快速迭代、保持一致，并打造令人愉悦的用户体验。",
+    "metaTitle": "SY INC v0.0.1 — 开箱即用，设计灵活可定制。",
     "metaDescription": "基于 React Aria 和 Tailwind CSS v4 构建的精美、无障碍 React UI 组件。用于构建生产级应用的现代化 MUI、Chakra UI 和 shadcn/ui 替代方案。",
     "getStarted": "快速开始",
     "viewComponents": "查看组件",
@@ -47,7 +47,7 @@
   },
   "blog": {
     "heading": "博客",
-    "metaTitle": "博客 | SY UI",
+    "metaTitle": "博客 | SY INC",
     "metaDescription": "面向现代 React 应用的指南、教程与资源。包含对比、最佳实践等内容。",
     "categoriesAriaLabel": "博客分类",
     "categories": {
@@ -64,7 +64,7 @@
   },
   "showcase": {
     "heading": "相关案例",
-    "description": "探索展示 SY UI 组件在真实场景中应用的互动示例。"
+    "description": "探索展示 SY INC 组件在真实场景中应用的互动示例。"
   },
   "footer": {
     "about": "关于",
@@ -121,8 +121,8 @@
   },
   "themes": {
     "heading": "主题编辑器",
-    "metaTitle": "SY UI 主题编辑器 – 自定义 React UI",
-    "metaDescription": "通过可视化控件自定义 SY UI React 主题，调整颜色、字体与圆角，实时预览组件并复制可用于生产环境的 SY UI CSS 变量。",
+    "metaTitle": "SY INC 主题编辑器 – 自定义 React UI",
+    "metaDescription": "通过可视化控件自定义 SY INC React 主题，调整颜色、字体与圆角，实时预览组件并复制可用于生产环境的 SY INC CSS 变量。",
     "theme": "主题",
     "custom": "自定义",
     "designTheme": "设计主题",
@@ -133,7 +133,7 @@
   },
   "themeBuilder": {
     "onboarding": {
-      "title": "为你的品牌定制 SY UI v0.0.1",
+      "title": "为你的品牌定制 SY INC v0.0.1",
       "description": "使用令牌系统自定义颜色、圆角与字体，让每个组件保持一致并可直接投入生产。",
       "moreComing": "更多功能与主题即将推出。",
       "continue": "继续"
@@ -231,7 +231,7 @@
     },
     "allowNotifications": {
       "label": "允许通知",
-      "description": "接收来自 SY UI 的推送通知"
+      "description": "接收来自 SY INC 的推送通知"
     },
     "buttons": {
       "clickMe": "点击我"

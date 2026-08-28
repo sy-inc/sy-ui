@@ -1,10 +1,10 @@
 ---
 title: 所有版本
-description: SY UI Native 的全部更新与变更，包括新功能、问题修复与破坏性变更。
+description: SY INC Native 的全部更新与变更，包括新功能、问题修复与破坏性变更。
 ---
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 最新版本
@@ -13,7 +13,7 @@ description: SY UI Native 的全部更新与变更，包括新功能、问题修
 
 **2026 年 7 月**
 
-本版本为整个库带来从右到左（RTL）布局支持：组件样式迁移到 Yoga 逻辑属性，Slider、Skeleton、Switch、Tabs、InputGroup、Popover 与 Menu 中对方向敏感的行为通过全新的 `isRTL` provider 配置解析，并提供 `LayoutDirectionScope` 作为子树的应急出口。同时让 `sy-ui-native/styles` 自行声明 `@source`，因此类名扫描不再依赖硬编码的 `node_modules` 路径。Card.Header 与 TagGroup.List 改变了子元素的对齐方式，两者均可用一行覆盖恢复。
+本版本为整个库带来从右到左（RTL）布局支持：组件样式迁移到 Yoga 逻辑属性，Slider、Skeleton、Switch、Tabs、InputGroup、Popover 与 Menu 中对方向敏感的行为通过全新的 `isRTL` provider 配置解析，并提供 `LayoutDirectionScope` 作为子树的应急出口。同时让 `sy-inc-native/styles` 自行声明 `@source`，因此类名扫描不再依赖硬编码的 `node_modules` 路径。Card.Header 与 TagGroup.List 改变了子元素的对齐方式，两者均可用一行覆盖恢复。
 
 [阅读完整更新说明 →](/docs/native/releases/v1-0-8)
 
@@ -53,9 +53,9 @@ description: SY UI Native 的全部更新与变更，包括新功能、问题修
 
 **2026 年 6 月**
 
-🎉 全新的 CLI，用于一键创建 SY UI Native 项目。`npx create-sy-ui-native-app@latest my-app` 即可生成一个完整的 Expo Router 应用，内置 SY UI Native、Uniwind、Tailwind CSS、所有必需的 peer 依赖以及 Provider 包装 —— 还可在单页面与 Tabs 两套起始模板中任选其一。
+🎉 全新的 CLI，用于一键创建 SY INC Native 项目。`npx create-sy-inc-native-app@latest my-app` 即可生成一个完整的 Expo Router 应用，内置 SY INC Native、Uniwind、Tailwind CSS、所有必需的 peer 依赖以及 Provider 包装 —— 还可在单页面与 Tabs 两套起始模板中任选其一。
 
-[阅读完整更新说明 →](/docs/native/releases/create-sy-ui-native-app)
+[阅读完整更新说明 →](/docs/native/releases/create-sy-inc-native-app)
 
 ---
 
@@ -63,7 +63,7 @@ description: SY UI Native 的全部更新与变更，包括新功能、问题修
 
 **2026 年 5 月**
 
-本补丁版本将 `Text` 排版组件重命名为 `Typography`（保留 `Text` 的弃用导出以兼容旧代码），调整 `Alert`、`Avatar`、`Button`、`Chip`、`Toast` 等组件的 soft 前景色主题令牌，并新增可选的 `sy-ui-native/styles/vibrant` 鲜亮配色；为 `Menu`、`Popover`、`Select` 补充 iOS 原生模态偏移的处理说明；将示例应用升级至 Expo 56 / React Native 0.85，并将 `@gorhom/bottom-sheet` 对等依赖升至 `^5.2.9`。
+本补丁版本将 `Text` 排版组件重命名为 `Typography`（保留 `Text` 的弃用导出以兼容旧代码），调整 `Alert`、`Avatar`、`Button`、`Chip`、`Toast` 等组件的 soft 前景色主题令牌，并新增可选的 `sy-inc-native/styles/vibrant` 鲜亮配色；为 `Menu`、`Popover`、`Select` 补充 iOS 原生模态偏移的处理说明；将示例应用升级至 Expo 56 / React Native 0.85，并将 `@gorhom/bottom-sheet` 对等依赖升至 `^5.2.9`。
 
 [阅读完整更新说明 →](/docs/native/releases/v1-0-4)
 
@@ -103,7 +103,7 @@ description: SY UI Native 的全部更新与变更，包括新功能、问题修
 
 **2026 年 3 月**
 
-🎉 SY UI Native 迎来首个稳定版本，从 beta 与候选发布阶段毕业。本里程碑包含全新 LinkButton 组件、子菜单冲突处理、可选的 `@gorhom/bottom-sheet` 对等依赖，以及更强的 `useThemeColor` 类型安全。
+🎉 SY INC Native 迎来首个稳定版本，从 beta 与候选发布阶段毕业。本里程碑包含全新 LinkButton 组件、子菜单冲突处理、可选的 `@gorhom/bottom-sheet` 对等依赖，以及更强的 `useThemeColor` 类型安全。
 
 [阅读完整更新说明 →](/docs/native/releases/v1-0-0)
 
@@ -143,7 +143,7 @@ description: SY UI Native 的全部更新与变更，包括新功能、问题修
 
 **2026 年 2 月**
 
-本版本引入含五种状态变体与无障碍原语的 Alert 复合组件；将 Radio 抽为可双模式运行的独立组件；新增带动画的 Select.TriggerIndicator。另提供用于精简包体的 SyUINativeProviderRaw、用于 iOS 调试的 `disableFullWindowOverlay`、六个组件统一的 `styles` 属性，以及以各主题显式定义取代计算型的 surface 主题变量重构。
+本版本引入含五种状态变体与无障碍原语的 Alert 复合组件；将 Radio 抽为可双模式运行的独立组件；新增带动画的 Select.TriggerIndicator。另提供用于精简包体的 SyIncNativeProviderRaw、用于 iOS 调试的 `disableFullWindowOverlay`、六个组件统一的 `styles` 属性，以及以各主题显式定义取代计算型的 surface 主题变量重构。
 
 [阅读完整更新说明 →](/docs/native/releases/rc-1)
 
@@ -191,11 +191,11 @@ description: SY UI Native 的全部更新与变更，包括新功能、问题修
 
 ## 发布周期
 
-SY UI Native 遵循常规发布周期：
+SY INC Native 遵循常规发布周期：
 
 - **稳定版**：v1.0.0 已于 2026 年第一季度发布
 - **补丁版**：按需发布问题修复与小幅改进
 
 ## 参与贡献
 
-发现问题或想参与贡献？请访问我们的 [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)。
+发现问题或想参与贡献？请访问我们的 [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)。

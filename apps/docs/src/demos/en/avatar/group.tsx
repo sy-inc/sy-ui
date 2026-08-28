@@ -3,27 +3,27 @@ import {Avatar} from "@sy-inc/react";
 const users = [
   {
     id: 1,
-    image: "https://assets.sy-ui.com/avatars/blue.jpg",
+    image: "https://assets.sy-inc.com/avatars/blue.jpg",
     name: "John Doe",
   },
   {
     id: 2,
-    image: "https://assets.sy-ui.com/avatars/green.jpg",
+    image: "https://assets.sy-inc.com/avatars/green.jpg",
     name: "Kate Wilson",
   },
   {
     id: 3,
-    image: "https://assets.sy-ui.com/avatars/purple.jpg",
+    image: "https://assets.sy-inc.com/avatars/purple.jpg",
     name: "Emily Chen",
   },
   {
     id: 4,
-    image: "https://assets.sy-ui.com/avatars/orange.jpg",
+    image: "https://assets.sy-inc.com/avatars/orange.jpg",
     name: "Michael Brown",
   },
   {
     id: 5,
-    image: "https://assets.sy-ui.com/avatars/red.jpg",
+    image: "https://assets.sy-inc.com/avatars/red.jpg",
     name: "Olivia Davis",
   },
 ];

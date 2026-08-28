@@ -2,7 +2,7 @@
   "name": "@sy-inc/standard",
   "private": true,
   "version": "0.0.1",
-  "description": "Standardized code style & lint rules for SY UI.",
+  "description": "Standardized code style & lint rules for SY INC.",
   "publishConfig": {
     "access": "public"
   }

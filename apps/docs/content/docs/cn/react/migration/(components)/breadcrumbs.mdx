@@ -1,10 +1,10 @@
 ---
 title: Breadcrumbs
-description: Breadcrumbs 从 SY UI v2 到 v3 的迁移指南。
+description: Breadcrumbs 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Breadcrumbs 文档](/docs/react/components/breadcrumbs)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Breadcrumbs 文档](/docs/react/components/breadcrumbs)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -45,17 +45,17 @@ export default function App() {
 
 ### 1. 组件名称：`BreadcrumbItem` → `BreadcrumbsItem`
 
-**v2：** 使用 `BreadcrumbItem`（单数）  
+**v2：** 使用 `BreadcrumbItem`（单数）
 **v3：** 使用 `BreadcrumbsItem`（复数）
 
 ### 2. 自定义分隔符
 
-**v2：** 通过 prop 自定义分隔符  
+**v2：** 通过 prop 自定义分隔符
 **v3：** 通过在 `Breadcrumbs` 根节点上设置 `separator` prop 自定义
 
 ### 3. 内置链接组件
 
-**v2：** 项目可以是链接或纯文本  
+**v2：** 项目可以是链接或纯文本
 **v3：** 当提供 `href` 时，项目会自动使用 `Link` 组件
 
 ### 4. Prop 变更
@@ -71,7 +71,7 @@ export default function App() {
 
 ### 5. 根节点上的 `isDisabled` prop
 
-**v2：** 根组件不支持 `isDisabled`  
+**v2：** 根组件不支持 `isDisabled`
 **v3：** `Breadcrumbs` 根节点支持 `isDisabled`，可立即禁用所有面包屑链接
 
 ### 6. 自动 `aria-current="page"` 行为

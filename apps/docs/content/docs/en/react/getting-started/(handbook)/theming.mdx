@@ -1,13 +1,13 @@
 ---
 title: Theming
-description: Customize SY UI's design system with CSS variables and global styles
+description: Customize SY INC's design system with CSS variables and global styles
 icon: palette
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI uses CSS variables and [BEM](https://getbem.com/) classes for theming. Customize everything from colors to component styles using standard CSS.
+SY INC uses CSS variables and [BEM](https://getbem.com/) classes for theming. Customize everything from colors to component styles using standard CSS.
 
 <Callout type="info">
   **Want to create your own theme?** Try the [Theme Builder](/themes) to visually customize colors, radius, fonts, and more — then export the CSS to use in your project.
@@ -15,7 +15,7 @@ SY UI uses CSS variables and [BEM](https://getbem.com/) classes for theming. Cus
 
 ## How It Works
 
-SY UI's theming system is built on top of [Tailwind CSS v4](https://tailwindcss.com/docs/theme)'s theme. When you import `@sy-inc/styles`, it uses Tailwind's built-in color palettes, maps them to semantic variables, automatically switches between light and dark themes, and uses CSS layers and the `@theme` directive for organization.
+SY INC's theming system is built on top of [Tailwind CSS v4](https://tailwindcss.com/docs/theme)'s theme. When you import `@sy-inc/styles`, it uses Tailwind's built-in color palettes, maps them to semantic variables, automatically switches between light and dark themes, and uses CSS layers and the `@theme` directive for organization.
 
 **Naming pattern:**
 - Colors without a suffix are backgrounds (e.g., `--accent`)
@@ -110,7 +110,7 @@ export function ThemeSwitch() {
 
 > **Note**: See [Colors](/docs/handbook/colors) for the complete color palette and visual reference.
 
-> **Dark mode**: For a complete setup guide with `next-themes` and SY UI's `useTheme` hook, see [Dark Mode](/docs/handbook/dark-mode).
+> **Dark mode**: For a complete setup guide with `next-themes` and SY INC's `useTheme` hook, see [Dark Mode](/docs/handbook/dark-mode).
 
 **Create your own theme:**
 
@@ -414,17 +414,17 @@ Now use it in your components:
 
 ## Variables Reference
 
-SY UI defines three types of variables in [`variables.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css):
+SY INC defines three types of variables in [`variables.css`](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css):
 
 1. **Base Variables** — Non-changing values like `--white`, `--black`, spacing, and typography
 2. **Theme Variables** — Colors that change between light/dark themes, plus scrollbar tokens (`--scrollbar-thumb`, `--scrollbar-width`, etc.)
 3. **Calculated Variables** — Hover states, soft variants, and border/separator levels (the **Calculated Colors** block in each light/dark theme, using `color-mix()`)
 
-For a complete reference, see: [Colors Documentation](/docs/handbook/colors), [Default Theme Variables](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css), [Shared Theme Utilities](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/shared/theme.css)
+For a complete reference, see: [Colors Documentation](/docs/handbook/colors), [Default Theme Variables](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css), [Shared Theme Utilities](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/shared/theme.css)
 
 **Tailwind theme bridge (`@theme inline`):**
 
-[`themes/shared/theme.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/shared/theme.css) maps semantic variables to Tailwind tokens (`--color-*`, `--radius-*`, `--ease-*`). Calculated colors reference underlying vars (e.g. `--surface-hover`, `--accent-soft`) from `variables.css` — they are not inlined with `color-mix()` in this file:
+[`themes/shared/theme.css`](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/shared/theme.css) maps semantic variables to Tailwind tokens (`--color-*`, `--radius-*`, `--ease-*`). Calculated colors reference underlying vars (e.g. `--surface-hover`, `--accent-soft`) from `variables.css` — they are not inlined with `color-mix()` in this file:
 <CollapsibleCode lang="css" code={`  @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -598,13 +598,13 @@ Form controls rely on `--field-*` theme variables. Hover, focus, and border vari
 
 ## Scrollbars
 
-SY UI applies a shared scrollbar style to component scroll areas (tables, popovers, drawers, and similar). Scrollbars use standard CSS properties (`scrollbar-width`, `scrollbar-color`, `scrollbar-gutter`) — no `::-webkit-scrollbar` overrides.
+SY INC applies a shared scrollbar style to component scroll areas (tables, popovers, drawers, and similar). Scrollbars use standard CSS properties (`scrollbar-width`, `scrollbar-color`, `scrollbar-gutter`) — no `::-webkit-scrollbar` overrides.
 
 **Modes** — set `data-scrollbar` on `<html>`, a component root, or a scroll slot:
 
 | Mode | `data-scrollbar` | Behavior |
 |------|------------------|----------|
-| SY UI thin | *(unset)* or `thin` | Thin thumb from theme tokens |
+| SY INC thin | *(unset)* or `thin` | Thin thumb from theme tokens |
 | OS / browser | `default` | Native scrollbars (`auto`) |
 | Hidden | `none` | No visible scrollbar (`scrollbar-width: none`) |
 
@@ -612,7 +612,7 @@ SY UI applies a shared scrollbar style to component scroll areas (tables, popove
 <!-- Native scrollbars everywhere -->
 <html data-scrollbar="default">
 
-<!-- Restore SY UI scrollbars in one subtree -->
+<!-- Restore SY INC scrollbars in one subtree -->
 <main data-scrollbar="thin">
   ...
 </main>
@@ -623,7 +623,7 @@ SY UI applies a shared scrollbar style to component scroll areas (tables, popove
 </div>
 ```
 
-**Theme variables** — defined in light and dark theme blocks in [`variables.css`](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css):
+**Theme variables** — defined in light and dark theme blocks in [`variables.css`](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css):
 
 | Variable | Description |
 |----------|-------------|
@@ -658,11 +658,11 @@ SY UI applies a shared scrollbar style to component scroll areas (tables, popove
 
 **Custom overflow areas** — use the `scrollbar`, `scrollbar-thin`, `scrollbar-default`, or `scrollbar-none` utilities from `@sy-inc/styles` on your own elements. See [Styling](/docs/handbook/styling) for class-based overrides.
 
-> **Note**: Some components hide scrollbars by default (date picker popovers, color picker, secondary tabs). Nested scroll slots (e.g. the calendar year picker inside a date picker) keep SY UI scrollbars because `scrollbar-none` only affects the element it is applied to, not descendants using `@apply scrollbar`.
+> **Note**: Some components hide scrollbars by default (date picker popovers, color picker, secondary tabs). Nested scroll slots (e.g. the calendar year picker inside a date picker) keep SY INC scrollbars because `scrollbar-none` only affects the element it is applied to, not descendants using `@apply scrollbar`.
 
 ## Vibrant Palette
 
-By default, SY UI uses accessible soft foreground colors that mix the semantic color with the foreground for better contrast. If you prefer more saturated, vibrant soft foreground colors, add the `data-vibrant-palette` attribute to your root element:
+By default, SY INC uses accessible soft foreground colors that mix the semantic color with the foreground for better contrast. If you prefer more saturated, vibrant soft foreground colors, add the `data-vibrant-palette` attribute to your root element:
 
 ```html
 <html data-vibrant-palette="true">

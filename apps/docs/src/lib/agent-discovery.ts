@@ -26,16 +26,16 @@ export const OPENAPI_HEADERS = {
 export const AGENT_API_VERSION = "3.0.5";
 export const MCP_PACKAGE_VERSION = "1.1.0";
 
-export const REACT_MCP_API_URL = "https://mcp-api.sy-ui.com";
-export const NATIVE_MCP_API_URL = "https://native-mcp-api.sy-ui.com";
+export const REACT_MCP_API_URL = "https://mcp-api.sy-inc.com";
+export const NATIVE_MCP_API_URL = "https://native-mcp-api.sy-inc.com";
 
 export const AGENT_SKILL_DESCRIPTIONS: Record<string, string> = {
-  "sy-ui-migration":
-    "Migrate projects from legacy v2 patterns to SY UI v3 with current guides and examples.",
-  "sy-ui-native":
-    "Build React Native applications with SY UI Native components, theme variables, and documentation lookup.",
-  "sy-ui-react":
-    "Build React applications with SY UI v3 components, theming, styling, and documentation lookup.",
+  "sy-inc-migration":
+    "Migrate projects from legacy v2 patterns to SY INC v3 with current guides and examples.",
+  "sy-inc-native":
+    "Build React Native applications with SY INC Native components, theme variables, and documentation lookup.",
+  "sy-inc-react":
+    "Build React applications with SY INC v3 components, theming, styling, and documentation lookup.",
 };
 
 export function normalizeOrigin(origin: string): string {

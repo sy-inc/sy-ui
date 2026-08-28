@@ -1,5 +1,5 @@
 ---
-title: SY UI v3 正式发布
+title: SY INC v3 正式发布
 description: 面向 React 与 React Native 的彻底重写。75+ Web 组件、37 个原生组件、Tailwind CSS v4、React Aria、复合组件架构，以及为 AI 辅助开发而打造的工具链。
 ---
 
@@ -8,7 +8,7 @@ description: 面向 React 与 React Native 的彻底重写。75+ Web 组件、37
 </div>
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-v3-release.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-v3-release.mp4"
   height={430}
   muted
 />
@@ -28,26 +28,26 @@ description: 面向 React 与 React Native 的彻底重写。75+ Web 组件、37
 37 个组件，共享同一套设计 token、采用复合组件模式、统一的动画 API，以及自适应的呈现模式。每个平台都基于原生实现，并通过 [Uniwind](https://uniwind.dev/) 提供 Tailwind CSS v4 的支持。
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-native-v1-release-.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-native-v1-release-.mp4"
   playMode="manual"
   height={430}
   muted
 />
 
-[查看详情](#sy-ui-native)
+[查看详情](#sy-inc-native)
 
-### SY UI Pro
+### SY INC Pro
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/sy-ui-pro@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/sy-ui-pro-dark@2x.jpg"
-  alt="SY UI Pro"
-  href="https://pro.sy-ui.com"
+  src="https://assets.sy-inc.com/docs/sy-inc-pro@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/sy-inc-pro-dark@2x.jpg"
+  alt="SY INC Pro"
+  href="https://pro.sy-inc.com"
 />
 
-面向 React 与 React Native 的高级组件、模板与 AI 工具。包含 Command Palette、Kanban、DataGrid、Dashboard 模板等。预售价格已上线 [pro.sy-ui.com](https://pro.sy-ui.com)。
+面向 React 与 React Native 的高级组件、模板与 AI 工具。包含 Command Palette、Kanban、DataGrid、Dashboard 模板等。预售价格已上线 [pro.sy-inc.com](https://pro.sy-inc.com)。
 
-[查看详情](#sy-ui-pro)
+[查看详情](#sy-inc-pro)
 
 ## 设计原则
 
@@ -231,7 +231,7 @@ Tailwind 的 `@theme` 指令会将这些 token 映射为工具类。`bg-accent`�
 
 ### Reduce Motion
 
-部分用户需要禁用动画。SY UI 扩展了 Tailwind 的 `motion-reduce:` 变体，使其同时支持系统级偏好和自定义 data 属性：
+部分用户需要禁用动画。SY INC 扩展了 Tailwind 的 `motion-reduce:` 变体，使其同时支持系统级偏好和自定义 data 属性：
 
 ```css
 .button {
@@ -243,7 +243,7 @@ Tailwind 的 `@theme` 指令会将这些 token 映射为工具类。`bg-accent`�
 
 ```html
 <html data-reduce-motion="true">
-  <!-- All SY UI animations are disabled -->
+  <!-- All SY INC animations are disabled -->
 </html>
 ```
 
@@ -251,7 +251,7 @@ data 属性的优先级高于系统设置。将其设为 `data-reduce-motion="fa
 
 ### 自带动画库也无妨
 
-Framer Motion、Motion One 或任何 CSS 动画库都可以与 SY UI 内置的过渡共存：
+Framer Motion、Motion One 或任何 CSS 动画库都可以与 SY INC 内置的过渡共存：
 
 ```tsx
 import { motion } from "framer-motion";
@@ -362,16 +362,16 @@ import { Table } from "@sy-inc/react/table";
 
 ## 面向 Agent 的 UI
 
-如今越来越多的开发者通过 prompt 来构建产品，而不是逐字阅读 API 文档。SY UI v3 为此做好了准备。
+如今越来越多的开发者通过 prompt 来构建产品，而不是逐字阅读 API 文档。SY INC v3 为此做好了准备。
 
 ### MCP 服务器
 
-SY UI MCP 服务器将 AI 编码助手（Cursor、Claude Code、VS Code Copilot、Windsurf、Zed）连接到组件文档、props、源码、CSS 样式与主题变量。AI 可以直接读取权威信息源，而不必再依赖训练数据进行猜测。
+SY INC MCP 服务器将 AI 编码助手（Cursor、Claude Code、VS Code Copilot、Windsurf、Zed）连接到组件文档、props、源码、CSS 样式与主题变量。AI 可以直接读取权威信息源，而不必再依赖训练数据进行猜测。
 
 ```json
 {
   "mcpServers": {
-    "sy-ui-react": {
+    "sy-inc-react": {
       "command": "npx",
       "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
@@ -379,27 +379,27 @@ SY UI MCP 服务器将 AI 编码助手（Cursor、Claude Code、VS Code Copilot�
 }
 ```
 
-对你的 AI 助手说一句「把 SY UI 升级到最新版本」，它就会自动对比版本、检查更新日志中的破坏性变更，并完成必要的代码更新。
+对你的 AI 助手说一句「把 SY INC 升级到最新版本」，它就会自动对比版本、检查更新日志中的破坏性变更，并完成必要的代码更新。
 
 ### Agent Skills
 
-面向 Cursor 与 Claude Code 提供可安装的知识包，覆盖组件模式、变体用法、主题说明以及升级指南。提前注入上下文，让 AI 第一次就能写出正确的 SY UI 代码。
+面向 Cursor 与 Claude Code 提供可安装的知识包，覆盖组件模式、变体用法、主题说明以及升级指南。提前注入上下文，让 AI 第一次就能写出正确的 SY INC 代码。
 
 ### LLMs.txt
 
-针对 AI 上下文窗口优化的结构化文档文件。这些文件发布在 `/llms.txt` 与 `/llms-components.txt`，为任何基于 LLM 的工具提供一份机器可读的 SY UI API 摘要。
+针对 AI 上下文窗口优化的结构化文档文件。这些文件发布在 `/llms.txt` 与 `/llms-components.txt`，为任何基于 LLM 的工具提供一份机器可读的 SY INC API 摘要。
 
-MCP 服务器、Agent Skills、LLMs.txt——三层组合让 AI 助手能像人类开发者从文档中获取信息一样，获得对 SY UI 的完整访问能力。
+MCP 服务器、Agent Skills、LLMs.txt——三层组合让 AI 助手能像人类开发者从文档中获取信息一样，获得对 SY INC 的完整访问能力。
 
-## SY UI Native
+## SY INC Native
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-native-v1-release-.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-native-v1-release-.mp4"
   height={430}
   muted
 />
 
-SY UI Native 是与 v3 网页版同时推出的全新组件库。渲染引擎不同，但心智模型一致。在平台差异较大的地方，API 也会贴合各自平台的原生体验。
+SY INC Native 是与 v3 网页版同时推出的全新组件库。渲染引擎不同，但心智模型一致。在平台差异较大的地方，API 也会贴合各自平台的原生体验。
 
 ### 在你的设备上试试
 
@@ -408,13 +408,13 @@ SY UI Native 是与 v3 网页版同时推出的全新组件库。渲染引擎不
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go QR Code"
   />
 </div>
 
 <div className="flex justify-center">
-  **[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+  **[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 </div>
 
 <Callout type="info">
@@ -426,7 +426,7 @@ SY UI Native 是与 v3 网页版同时推出的全新组件库。渲染引擎不
 涵盖表单、导航、浮层、反馈与布局。从 Button、Input、Checkbox，到 Dialog、BottomSheet、Select、Toast 与 InputOTP，所有组件都遵循复合组件模式：
 
 ```tsx
-import { Dialog, Button } from "sy-ui-native";
+import { Dialog, Button } from "sy-inc-native";
 
 <Dialog>
   <Dialog.Trigger asChild>
@@ -445,7 +445,7 @@ import { Dialog, Button } from "sy-ui-native";
 
 ### 跨平台一致的体验
 
-只要你熟悉 Web 版的 SY UI，大部分知识都能直接迁移过来。组件命名、点表示法与 prop 模式都尽可能保持一致。在平台差异较大的地方（布局基元、手势、导航等），API 会做出相应调整以贴近原生，但整体的心智模型保持一致：
+只要你熟悉 Web 版的 SY INC，大部分知识都能直接迁移过来。组件命名、点表示法与 prop 模式都尽可能保持一致。在平台差异较大的地方（布局基元、手势、导航等），API 会做出相应调整以贴近原生，但整体的心智模型保持一致：
 
 ```tsx
 // React (web)
@@ -485,7 +485,7 @@ import { View, Text } from "react-native";
 两个平台都使用 Tailwind CSS v4：Native 端通过 [Uniwind](https://uniwind.dev/)，Web 端使用标准 Tailwind。
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/native-v1-demo/v-1-demo-2.mp4"
+  src="https://assets.sy-inc.com/videos/native-v1-demo/v-1-demo-2.mp4"
   height={430}
   muted
 />
@@ -495,7 +495,7 @@ import { View, Text } from "react-native";
 每一个带动画的原生组件都只暴露一个 `animation` prop。数值、时长、弹簧参数、进出场过渡都集中在这里配置。底层由 Reanimated 负责计算，但你完全不需要直接接触它：
 
 ```tsx
-import { Switch } from "sy-ui-native";
+import { Switch } from "sy-inc-native";
 
 <Switch
   animation={{
@@ -517,9 +517,9 @@ import { Switch } from "sy-ui-native";
 <Card animation="disable-all">...</Card>
 
 // App-wide
-<SyUINativeProvider config={{ animation: "disable-all" }}>
+<SyIncNativeProvider config={{ animation: "disable-all" }}>
   <App />
-</SyUINativeProvider>
+</SyIncNativeProvider>
 ```
 
 Reduce Motion 全自动生效。当用户在系统设置中启用它时，所有动画都会停止，无需任何额外代码。
@@ -537,7 +537,7 @@ Popover、Select 与 Menu 通过一个 prop 即可在 popover、bottom-sheet 与
 目前还没有其他 React Native 组件库提供这一能力。
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/native-v1-demo/v-1-demo-3.mp4"
+  src="https://assets.sy-inc.com/videos/native-v1-demo/v-1-demo-3.mp4"
   height={430}
   muted
 />
@@ -547,36 +547,36 @@ Popover、Select 与 Menu 通过一个 prop 即可在 popover、bottom-sheet 与
 每一个原生组件都有自己的入口路径，只引入你实际用到的部分即可：
 
 ```tsx
-import { SyUINativeProvider } from "sy-ui-native/provider";
-import { Button } from "sy-ui-native/button";
-import { Card } from "sy-ui-native/card";
+import { SyIncNativeProvider } from "sy-inc-native/provider";
+import { Button } from "sy-inc-native/button";
+import { Card } from "sy-inc-native/card";
 ```
 
 ### Native 端的 AI 工具
 
-SY UI Native 也配套提供了自己的 MCP 服务器、Agent Skills 与 LLMs.txt，与 Web 组件库的工具链结构完全一致：
+SY INC Native 也配套提供了自己的 MCP 服务器、Agent Skills 与 LLMs.txt，与 Web 组件库的工具链结构完全一致：
 
 ```json
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
 ```
 
-## SY UI Pro
+## SY INC Pro
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/sy-ui-pro@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/sy-ui-pro-dark@2x.jpg"
-  alt="SY UI Pro"
-  href="https://pro.sy-ui.com"
+  src="https://assets.sy-inc.com/docs/sy-inc-pro@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/sy-inc-pro-dark@2x.jpg"
+  alt="SY INC Pro"
+  href="https://pro.sy-inc.com"
 />
 
-与 v3 同步，[SY UI Pro](https://pro.sy-ui.com) 的预售也已经上线。面向 React 与 React Native，提供高级组件、模板与 AI 工具。
+与 v3 同步，[SY INC Pro](https://pro.sy-inc.com) 的预售也已经上线。面向 React 与 React Native，提供高级组件、模板与 AI 工具。
 
 ### Pro 组件
 
@@ -592,7 +592,7 @@ Pro 许可包含高级版的 MCP 服务器与 Agent Skills，并内置 Pro 组�
 
 预售价格已上线。v2 Pro 用户可享受升级折扣，使用同一邮箱或联系客服即可。
 
-[访问 pro.sy-ui.com 查看套餐与定价](https://pro.sy-ui.com)
+[访问 pro.sy-inc.com 查看套餐与定价](https://pro.sy-inc.com)
 
 ## 快速上手
 
@@ -633,42 +633,42 @@ Pro 许可包含高级版的 MCP 服务器与 Agent Skills，并内置 Pro 组�
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm install sy-ui-native
+    npm install sy-inc-native
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add sy-ui-native
+    pnpm add sy-inc-native
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add sy-ui-native
+    yarn add sy-inc-native
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add sy-ui-native
+    bun add sy-inc-native
     ```
   </Tab>
 </Tabs>
 
 完整的安装指南请参阅 [React 文档](/docs/react/getting-started/quick-start) 与 [React Native 文档](/docs/native/getting-started/quick-start)（涵盖 peer dependencies、Uniwind 配置以及 Provider 设置）。
 
-**正在从 SY UI v2 升级？** 请按照 [迁移指南](/docs/react/migration) 一步步完成升级。
+**正在从 SY INC v2 升级？** 请按照 [迁移指南](/docs/react/migration) 一步步完成升级。
 
 ## Figma Kit v3
 
-SY UI v3 中的每一个组件在 Figma 中都有 1:1 的对应实现。变体、命名与结构完全一致。整套 Kit 全程采用 auto layout，使用与代码 token 直接对应的 Figma 变量（`--accent`、`--surface`、`--radius`），并借助 Figma 新推出的 [slots](https://help.figma.com/hc/en-us/articles/38231200344599-Use-slots-to-build-flexible-components-in-Figma) 来实现灵活的组件组合。设计师可以像开发者写代码一样，自由调整、替换与定制组件的各个部件。
+SY INC v3 中的每一个组件在 Figma 中都有 1:1 的对应实现。变体、命名与结构完全一致。整套 Kit 全程采用 auto layout，使用与代码 token 直接对应的 Figma 变量（`--accent`、`--surface`、`--radius`），并借助 Figma 新推出的 [slots](https://help.figma.com/hc/en-us/articles/38231200344599-Use-slots-to-build-flexible-components-in-Figma) 来实现灵活的组件组合。设计师可以像开发者写代码一样，自由调整、替换与定制组件的各个部件。
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/cover-figma@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/cover-figma-dark@2x.jpg"
-  alt="SY UI Figma Kit v3"
-  href="https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3"
+  src="https://assets.sy-inc.com/docs/cover-figma@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/cover-figma-dark@2x.jpg"
+  alt="SY INC Figma Kit v3"
+  href="https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3"
 />
 
-[获取 Figma Kit](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
+[获取 Figma Kit](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)
 
 ## 致谢
 
@@ -682,5 +682,5 @@ SY UI v3 中的每一个组件在 Figma 中都有 1:1 的对应实现。变体�
 - [React Native 文档](/docs/native/getting-started/quick-start)
 - [主题构建器](/themes)
 - [MCP 服务器](/docs/ui-for-agents/mcp-server)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui)
-- [Figma Kit v3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc)
+- [Figma Kit v3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)

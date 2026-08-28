@@ -10,12 +10,12 @@ github:
 </div>
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-native-v1-release-.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-native-v1-release-.mp4"
   height={430}
   muted
 />
 
-🎉 SY UI Native 正式发布 v1.0.0——这是首个稳定版本，标志着库已从 beta 与候选发布阶段毕业，成为可用于生产环境的 React Native 应用基础。伴随这一里程碑，本版本还包含全新的 LinkButton 组件、子菜单冲突处理、可选的 `@gorhom/bottom-sheet` 对等依赖，以及针对 `useThemeColor` 的更强类型安全。
+🎉 SY INC Native 正式发布 v1.0.0——这是首个稳定版本，标志着库已从 beta 与候选发布阶段毕业，成为可用于生产环境的 React Native 应用基础。伴随这一里程碑，本版本还包含全新的 LinkButton 组件、子菜单冲突处理、可选的 `@gorhom/bottom-sheet` 对等依赖，以及针对 `useThemeColor` 的更强类型安全。
 
 ## 安装
 
@@ -24,28 +24,28 @@ github:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -65,7 +65,7 @@ github:
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -74,7 +74,7 @@ github:
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -87,8 +87,8 @@ github:
 <NativeVideoPlayerView
   target="component"
   slug="link-button"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/link-button-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/link-button-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/link-button-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/link-button-docs-dark.mp4"
 />
 
 **特性：**
@@ -102,7 +102,7 @@ github:
 **用法：**
 
 ```tsx
-import { LinkButton } from "sy-ui-native";
+import { LinkButton } from "sy-inc-native";
 
 export function TermsLink() {
   return (
@@ -113,7 +113,7 @@ export function TermsLink() {
 }
 ```
 
-**相关 PR：** [#341](https://github.com/sy-ui/sy-ui-native/pull/341)
+**相关 PR：** [#341](https://github.com/sy-inc/sy-inc-native/pull/341)
 
 ## 组件改进
 
@@ -129,13 +129,13 @@ export function TermsLink() {
 - 打开的子菜单内容使用 `z-50`，关闭的为 `z-40`，避免层叠问题
 - 演示应用新增「两个子菜单」示例，展示同一菜单中的多个子菜单
 
-**相关 PR：** [#343](https://github.com/sy-ui/sy-ui-native/pull/343)
+**相关 PR：** [#343](https://github.com/sy-inc/sy-inc-native/pull/343)
 
 ### Button Label 的 ref 类型修复
 
 `ButtonLabel` 的 ref 类型已从 `View` 更正为 `TextRef`，并从 `button.tsx` 中移除了未使用的 `View` 导入，使 ref 类型与实际渲染元素一致。
 
-**相关 PR：** [#341](https://github.com/sy-ui/sy-ui-native/pull/341)
+**相关 PR：** [#341](https://github.com/sy-inc/sy-inc-native/pull/341)
 
 ## API 增强
 
@@ -146,7 +146,7 @@ export function TermsLink() {
 **新行为：**
 
 ```tsx
-import { useThemeColor } from "sy-ui-native";
+import { useThemeColor } from "sy-inc-native";
 
 // 正确 — 直接赋值
 const mutedColor = useThemeColor("muted");
@@ -157,7 +157,7 @@ const [color] = useThemeColor("muted"); // color: never
 
 `ThemeColorValue` 继承自 `string`，因此凡可接受 `string` 处均可赋值。现有调用点在运行时不受影响。`_colorValueBrand` 符号以 `declare const` 声明，无运行时体积。
 
-**相关 PR：** [#337](https://github.com/sy-ui/sy-ui-native/pull/337)
+**相关 PR：** [#337](https://github.com/sy-inc/sy-inc-native/pull/337)
 
 ### 公开钩子 `useBottomSheetAwareHandlers`
 
@@ -166,7 +166,7 @@ const [color] = useThemeColor("muted"); // color: never
 **用法：**
 
 ```tsx
-import { useBottomSheetAwareHandlers, Input } from "sy-ui-native";
+import { useBottomSheetAwareHandlers, Input } from "sy-inc-native";
 
 export function BottomSheetInput() {
   const { onFocus, onBlur } = useBottomSheetAwareHandlers();
@@ -175,7 +175,7 @@ export function BottomSheetInput() {
 }
 ```
 
-**相关 PR：** [#347](https://github.com/sy-ui/sy-ui-native/pull/347)
+**相关 PR：** [#347](https://github.com/sy-inc/sy-inc-native/pull/347)
 
 ## ⚠️ 破坏性变更
 
@@ -190,7 +190,7 @@ export function BottomSheetInput() {
 <Input isBottomSheetAware placeholder="Type here..." />
 
 // 之后
-import { useBottomSheetAwareHandlers } from "sy-ui-native";
+import { useBottomSheetAwareHandlers } from "sy-inc-native";
 
 const { onFocus, onBlur } = useBottomSheetAwareHandlers();
 <Input onFocus={onFocus} onBlur={onBlur} placeholder="Type here..." />
@@ -198,20 +198,20 @@ const { onFocus, onBlur } = useBottomSheetAwareHandlers();
 
 凡在 `BottomSheet` 内渲染的 `Input` 或 `InputOTP` 均需按此调整；在 Bottom Sheet 外使用的组件不受影响。
 
-**相关 PR：** [#347](https://github.com/sy-ui/sy-ui-native/pull/347)
+**相关 PR：** [#347](https://github.com/sy-inc/sy-inc-native/pull/347)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #330](https://github.com/sy-ui/sy-ui-native/issues/330)**：修复 `Input` 在模块顶层无条件导入 `@gorhom/bottom-sheet` 的问题，即使 `isBottomSheetAware` 为 `false`。现通过可选的 `try/catch` 包装懒加载该包，不使用 Bottom Sheet 的项目无需再安装它。
+- **[Issue #330](https://github.com/sy-inc/sy-inc-native/issues/330)**：修复 `Input` 在模块顶层无条件导入 `@gorhom/bottom-sheet` 的问题，即使 `isBottomSheetAware` 为 `false`。现通过可选的 `try/catch` 包装懒加载该包，不使用 Bottom Sheet 的项目无需再安装它。
 
-- **[Issue #340](https://github.com/sy-ui/sy-ui-native/issues/340)**：修复子菜单内容出现在同级子菜单触发器后方的问题。子菜单系统现按 ID 跟踪活动子菜单、强制单开，并应用正确的 z-index 分层（打开 `z-50`，关闭 `z-40`）。
+- **[Issue #340](https://github.com/sy-inc/sy-inc-native/issues/340)**：修复子菜单内容出现在同级子菜单触发器后方的问题。子菜单系统现按 ID 跟踪活动子菜单、强制单开，并应用正确的 z-index 分层（打开 `z-50`，关闭 `z-40`）。
 
 **相关 PR：**
 
-- [#347](https://github.com/sy-ui/sy-ui-native/pull/347)
-- [#343](https://github.com/sy-ui/sy-ui-native/pull/343)
+- [#347](https://github.com/sy-inc/sy-inc-native/pull/347)
+- [#343](https://github.com/sy-inc/sy-inc-native/pull/343)
 
 ## 文档更新
 
@@ -225,7 +225,7 @@ const { onFocus, onBlur } = useBottomSheetAwareHandlers();
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

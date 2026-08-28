@@ -39,13 +39,13 @@ export type TabLabel = (typeof tabLabels)[number];
 
 export const tabs = tabLabels.map((label) => ({disabled: false, label}));
 
-export const SY_UI_PRO_URL = env.NEXT_PUBLIC_PRO_URL ?? "https://pro.sy-ui.com";
+export const SY_INC_PRO_URL = env.NEXT_PUBLIC_PRO_URL ?? "https://pro.sy-inc.com";
 
 export const iframeTabs: Record<string, string> = {
-  chat: `${SY_UI_PRO_URL}/templates/chat`,
-  dashboard: `${SY_UI_PRO_URL}/templates/dashboard`,
-  finances: `${SY_UI_PRO_URL}/templates/finances`,
-  mail: `${SY_UI_PRO_URL}/templates/email`,
+  chat: `${SY_INC_PRO_URL}/templates/chat`,
+  dashboard: `${SY_INC_PRO_URL}/templates/dashboard`,
+  finances: `${SY_INC_PRO_URL}/templates/finances`,
+  mail: `${SY_INC_PRO_URL}/templates/email`,
 };
 
 /**

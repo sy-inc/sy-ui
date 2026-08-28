@@ -49,7 +49,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       description,
       images: siteConfig.ogImage,
-      site: "@sy_ui",
+      site: "@sy_inc",
       title,
     },
   };

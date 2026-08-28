@@ -7,13 +7,13 @@ import React from "react";
 const items = [
   {
     content:
-      "Learn the basics of SY UI and how to integrate it into your React project. This section covers installation, setup, and your first component.",
+      "Learn the basics of SY INC and how to integrate it into your React project. This section covers installation, setup, and your first component.",
     id: "getting-started",
     title: "Getting Started",
   },
   {
     content:
-      "Understand the fundamental concepts behind SY UI, including the compound component pattern, styling with Tailwind CSS, and accessibility features.",
+      "Understand the fundamental concepts behind SY INC, including the compound component pattern, styling with Tailwind CSS, and accessibility features.",
     id: "core-concepts",
     title: "Core Concepts",
   },

@@ -6,7 +6,7 @@ export function CustomStyles() {
       <Label htmlFor="workspace-slug">Workspace URL</Label>
       <Input id="workspace-slug" placeholder="acme" type="text" />
       <Description className="leading-relaxed tracking-wide" id="workspace-slug-hint">
-        Lowercase letters and hyphens only. Used in app.sy-ui.com/acme
+        Lowercase letters and hyphens only. Used in app.sy-inc.com/acme
       </Description>
     </div>
   );

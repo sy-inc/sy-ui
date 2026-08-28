@@ -26,7 +26,7 @@ function readOrigin(): string {
  * TryOnDevice
  *
  * Drop-in MDX section for release notes pages. Renders a QR code (desktop) or
- * a tap-to-open link (mobile) that deep-links into the SY UI Native app's
+ * a tap-to-open link (mobile) that deep-links into the SY INC Native app's
  * home screen via Universal Links.
  *
  * Below the QR code, App Store and Play Store buttons are shown so users

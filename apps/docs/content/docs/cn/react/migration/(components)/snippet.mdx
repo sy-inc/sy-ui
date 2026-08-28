@@ -1,17 +1,17 @@
 ---
 title: Snippet
-description: Snippet 从 SY UI v2 到 v3 的迁移指南。
+description: Snippet 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="warning">
-  Snippet 组件在 SY UI v3 中已**移除**。请使用原生 HTML 元素配合 Tailwind CSS，并通过 Clipboard API 自行实现复制能力。
+  Snippet 组件在 SY INC v3 中已**移除**。请使用原生 HTML 元素配合 Tailwind CSS，并通过 Clipboard API 自行实现复制能力。
 </Callout>
 
 ## 主要变化
 
 ### 1. 组件移除
 
-**v2：** 来自 `@sy-inc/react` 的 `<Snippet>` 组件  
+**v2：** 来自 `@sy-inc/react` 的 `<Snippet>` 组件
 **v3：** 原生 HTML 元素（`<pre>`、`<code>`）+ 手动实现复制逻辑
 
 ### 2. 功能对照
@@ -157,12 +157,12 @@ export default function App() {
     <Snippet variant="bordered" color="primary">
       npm install @sy-inc/react
     </Snippet>
-    
+
     {/* Without symbol */}
     <Snippet hideSymbol>
       npm install @sy-inc/react
     </Snippet>
-    
+
     {/* Without copy button */}
     <Snippet hideCopyButton>
       npm install @sy-inc/react
@@ -179,7 +179,7 @@ export default function App() {
       </pre>
       {/* Copy button */}
     </div>
-    
+
     {/* Without symbol */}
     <div className="flex items-center gap-2 rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
@@ -187,7 +187,7 @@ export default function App() {
       </pre>
       {/* Copy button */}
     </div>
-    
+
     {/* Without copy button */}
     <div className="rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">

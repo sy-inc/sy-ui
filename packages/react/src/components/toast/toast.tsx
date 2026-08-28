@@ -185,7 +185,7 @@ const Toast = <T extends object = ToastContentValue>({
   );
 };
 
-Toast.displayName = "SY UI.Toast";
+Toast.displayName = "SY INC.Toast";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Content
@@ -251,7 +251,7 @@ const ToastIndicator = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-ToastIndicator.displayName = "SY UI.ToastIndicator";
+ToastIndicator.displayName = "SY INC.ToastIndicator";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Title
@@ -273,7 +273,7 @@ const ToastTitle = ({children, className, ...rest}: ToastTitleProps) => {
   );
 };
 
-ToastTitle.displayName = "SY UI.ToastTitle";
+ToastTitle.displayName = "SY INC.ToastTitle";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Description
@@ -295,7 +295,7 @@ const ToastDescription = ({children, className, ...rest}: ToastDescriptionProps)
   );
 };
 
-ToastDescription.displayName = "SY UI.ToastDescription";
+ToastDescription.displayName = "SY INC.ToastDescription";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Close Button
@@ -315,7 +315,7 @@ const ToastCloseButton = ({className, ...rest}: ToastCloseButtonProps) => {
   );
 };
 
-ToastCloseButton.displayName = "SY UI.ToastCloseButton";
+ToastCloseButton.displayName = "SY INC.ToastCloseButton";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Action Button
@@ -336,7 +336,7 @@ const ToastActionButton = ({children, className, ...rest}: ToastActionButtonProp
   );
 };
 
-ToastActionButton.displayName = "SY UI.ToastActionButton";
+ToastActionButton.displayName = "SY INC.ToastActionButton";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Region
@@ -379,7 +379,7 @@ const ToastProvider = <T extends object = ToastContentValue>({
 
   const toastQueue = useMemo((): StatelyToastQueue<T> => {
     if (queueProp) {
-      // Region consumes the underlying react-stately queue, not the SY UI wrapper.
+      // Region consumes the underlying react-stately queue, not the SY INC wrapper.
       return queueProp.getQueue();
     }
 
@@ -505,7 +505,7 @@ const ToastProvider = <T extends object = ToastContentValue>({
   );
 };
 
-ToastProvider.displayName = "SY UI.ToastProvider";
+ToastProvider.displayName = "SY INC.ToastProvider";
 
 /* ------------------------------------------------------------------------------------------------
  * Exports

@@ -9,7 +9,7 @@ github:
   <span className="text-sm text-muted">2026 年 4 月 15 日</span>
 </div>
 
-SY UI Native v1.0.2 为 PressableFeedback 与 Surface 引入 `asChild` 插槽模式，为所有基于 Portal 的遮罩组件增加 VoiceOver 模态包容支持，并修复 Android 上 Button 某变体的样式问题。本版本还微调了 Input 与 Select 的视觉效果，并在 RadioGroup 文档中内嵌 API 参考表。
+SY INC Native v1.0.2 为 PressableFeedback 与 Surface 引入 `asChild` 插槽模式，为所有基于 Portal 的遮罩组件增加 VoiceOver 模态包容支持，并修复 Android 上 Button 某变体的样式问题。本版本还微调了 Input 与 Select 的视觉效果，并在 RadioGroup 文档中内嵌 API 参考表。
 
 ## 安装
 
@@ -18,28 +18,28 @@ SY UI Native v1.0.2 为 PressableFeedback 与 Surface 引入 `asChild` 插槽模
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -59,7 +59,7 @@ SY UI Native v1.0.2 为 PressableFeedback 与 Surface 引入 `asChild` 插槽模
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -68,7 +68,7 @@ SY UI Native v1.0.2 为 PressableFeedback 与 Surface 引入 `asChild` 插槽模
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -83,7 +83,7 @@ SY UI Native v1.0.2 为 PressableFeedback 与 Surface 引入 `asChild` 插槽模
 **新能力：**
 
 ```tsx
-import { PressableFeedback, Surface } from "sy-ui-native";
+import { PressableFeedback, Surface } from "sy-inc-native";
 
 // PressableFeedback 将按压处理合并到子元素
 <PressableFeedback asChild onPress={() => console.log("pressed")}>
@@ -98,7 +98,7 @@ import { PressableFeedback, Surface } from "sy-ui-native";
 
 `asChild` 默认为 `false`，保持既有行为，无需迁移。启用 `asChild` 时子节点须为单个 React 元素。两处实现均遵循代码库中已有的 Slot 原语模式。
 
-**相关 PR：** [#380](https://github.com/sy-ui/sy-ui-native/pull/380)
+**相关 PR：** [#380](https://github.com/sy-inc/sy-inc-native/pull/380)
 
 ### Portal 组件的 `unstable_accessibilityContainerViewIsModal`
 
@@ -116,7 +116,7 @@ import { PressableFeedback, Surface } from "sy-ui-native";
 **新能力：**
 
 ```tsx
-import { Dialog } from "sy-ui-native";
+import { Dialog } from "sy-inc-native";
 
 <Dialog>
   <Dialog.Portal unstable_accessibilityContainerViewIsModal>
@@ -129,7 +129,7 @@ import { Dialog } from "sy-ui-native";
 
 该属性默认为 `false`，保持既有行为。标记为 `unstable` 是因为它直接映射到 `react-native-screens` 中 `FullWindowOverlay` 的原生 `accessibilityViewIsModal`，未来可能随该库版本变化。
 
-**相关 PR：** [#383](https://github.com/sy-ui/sy-ui-native/pull/383)
+**相关 PR：** [#383](https://github.com/sy-inc/sy-inc-native/pull/383)
 
 ## 样式修复
 
@@ -144,20 +144,20 @@ import { Dialog } from "sy-ui-native";
 
 以上均为纯视觉调整，无 API 或行为变更。建议在 iOS 与 Android 上做视觉回归确认。
 
-**相关 PR：** [#381](https://github.com/sy-ui/sy-ui-native/pull/381)
+**相关 PR：** [#381](https://github.com/sy-inc/sy-inc-native/pull/381)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #363](https://github.com/sy-ui/sy-ui-native/issues/363)**：修复 Android 上 Button 的 outline 变体在通过条件属性切换到其他变体时边框仍残留的问题。Android 上的 React Native 在变体切换时有时会保留 `borderWidth`。除 `outline` 外的所有按钮变体现均包含显式 `border-0` 类，确保变体切换时将 `borderWidth` 重置为 `0`。
+- **[Issue #363](https://github.com/sy-inc/sy-inc-native/issues/363)**：修复 Android 上 Button 的 outline 变体在通过条件属性切换到其他变体时边框仍残留的问题。Android 上的 React Native 在变体切换时有时会保留 `borderWidth`。除 `outline` 外的所有按钮变体现均包含显式 `border-0` 类，确保变体切换时将 `borderWidth` 重置为 `0`。
 
-- **[Issue #357](https://github.com/sy-ui/sy-ui-native/issues/357)**：响应在 Card 上支持 `asChild` 以实现可按压卡片模式的诉求。PressableFeedback 与 Surface 上的新 `asChild` 插槽模式，使开发者可将按压与表面样式合并到单个子元素，无需额外包装节点。
+- **[Issue #357](https://github.com/sy-inc/sy-inc-native/issues/357)**：响应在 Card 上支持 `asChild` 以实现可按压卡片模式的诉求。PressableFeedback 与 Surface 上的新 `asChild` 插槽模式，使开发者可将按压与表面样式合并到单个子元素，无需额外包装节点。
 
 **相关 PR：**
 
-- [#370](https://github.com/sy-ui/sy-ui-native/pull/370)
-- [#380](https://github.com/sy-ui/sy-ui-native/pull/380)
+- [#370](https://github.com/sy-inc/sy-inc-native/pull/370)
+- [#380](https://github.com/sy-inc/sy-inc-native/pull/380)
 
 ## 文档
 
@@ -171,7 +171,7 @@ import { Dialog } from "sy-ui-native";
 - 补充 `RadioRenderProps`、`RadioRootAnimation`、`RadioIndicatorThumbAnimation` 类型说明
 - 将外链式 Markdown 链接统一为内联代码格式以保持一致性
 
-**相关 PR：** [#384](https://github.com/sy-ui/sy-ui-native/pull/384)
+**相关 PR：** [#384](https://github.com/sy-inc/sy-inc-native/pull/384)
 
 ## 文档更新
 
@@ -190,7 +190,7 @@ import { Dialog } from "sy-ui-native";
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

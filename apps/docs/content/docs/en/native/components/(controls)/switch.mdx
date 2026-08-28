@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/switch-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/switch-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/switch-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/switch-docs-dark.mp4"
 />
 
 ## Import
 
 ```tsx
-import { Switch } from 'sy-ui-native';
+import { Switch } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -139,7 +139,7 @@ Disable animations entirely or only for specific components.
 ## Example
 
 ```tsx
-import { Switch } from 'sy-ui-native';
+import { Switch } from 'sy-inc-native';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View } from 'react-native';
@@ -193,7 +193,7 @@ export default function SwitchExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/switch.tsx).
+You can find more examples in the [GitHub repository](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/switch.tsx).
 
 ## API Reference
 
@@ -303,7 +303,7 @@ A hook that provides access to the Switch context. This is useful when building 
 **Example:**
 
 ```tsx
-import { useSwitch } from 'sy-ui-native';
+import { useSwitch } from 'sy-inc-native';
 
 function CustomSwitchContent() {
   const { isSelected, isDisabled } = useSwitch();
@@ -342,7 +342,7 @@ Using `outline` keeps the border visual without impacting the switch's internal 
 The Switch component integrates seamlessly with ControlField for press state sharing:
 
 ```tsx
-import { Description, ControlField, Label } from 'sy-ui-native';
+import { Description, ControlField, Label } from 'sy-inc-native';
 
 <ControlField isSelected={isSelected} onSelectedChange={setIsSelected}>
   <View className="flex-1">

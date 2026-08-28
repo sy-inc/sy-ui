@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">July 28, 2026</span>
 </div>
 
-SY UI Native v1.0.7 makes component surfaces extensible: components now accept a `background` prop and expose a matching background compound part, so the layer behind a surface can be replaced with any node. It also adds the `GlassView` layer component, a `blur` overlay variant for Dialog and Bottom Sheet, and `expo-blur` as an optional peer dependency. These are extension points — the default theme registers no background content, so rendering is unchanged.
+SY INC Native v1.0.7 makes component surfaces extensible: components now accept a `background` prop and expose a matching background compound part, so the layer behind a surface can be replaced with any node. It also adds the `GlassView` layer component, a `blur` overlay variant for Dialog and Bottom Sheet, and `expo-blur` as an optional peer dependency. These are extension points — the default theme registers no background content, so rendering is unchanged.
 
 ## Installation
 
@@ -19,28 +19,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -54,7 +54,7 @@ Update to the latest version:
 Components previously rendered a fixed opaque surface straight from theme tokens. In v1.0.7, the surface-owning part accepts a `background` prop and exposes a background compound part named after the element it backs. Pass a node to replace the layer, or `null` to remove it.
 
 ```tsx
-import { Button, GlassView } from "sy-ui-native";
+import { Button, GlassView } from "sy-inc-native";
 
 <Button
   variant="secondary"
@@ -75,9 +75,9 @@ import { Button, GlassView } from "sy-ui-native";
 
 The prop and part pair up predictably — `background` sits on the root for Button, Avatar, Switch, Chip, Checkbox, Input, and SubMenu, and on the sub-part for `Radio.Indicator`, `Slider.Track`, `Tabs.List`, `TagGroup.Item`, `InputOTP.Slot`, and `Popover.Content`, whose parts are `Radio.IndicatorBackground`, `Slider.TrackBackground`, `Tabs.ListBackground`, `TagGroup.ItemBackground`, `InputOTP.SlotBackground`, and `Popover.ContentBackground`. Each background container is an absolute-fill view that inherits the host element's positioning and clipping, and accepts a `fallbackColor` theme token for platforms without native blur.
 
-Whether a default layer mounts is decided by the `--theme` CSS variable, with `useIsGlassTheme` and `useHasDefaultThemeBackground` available for detecting that case. The theme shipped with SY UI Native registers no background content, so nothing renders unless you inject it yourself; the `glass` theme that activates these layers is provided by `sy-ui-native-pro/themes/glass`.
+Whether a default layer mounts is decided by the `--theme` CSS variable, with `useIsGlassTheme` and `useHasDefaultThemeBackground` available for detecting that case. The theme shipped with SY INC Native registers no background content, so nothing renders unless you inject it yourself; the `glass` theme that activates these layers is provided by `sy-inc-native-pro/themes/glass`.
 
-**Related PR:** [#457](https://github.com/sy-ui/sy-ui-native/pull/457)
+**Related PR:** [#457](https://github.com/sy-inc/sy-inc-native/pull/457)
 
 ## ⚠️ Breaking Changes
 
@@ -104,7 +104,7 @@ No API changes are required. To restore the previous surface appearance, overrid
 <Select.Trigger className="rounded-2xl bg-surface border-0 shadow-surface" />
 ```
 
-**Related PR:** [#457](https://github.com/sy-ui/sy-ui-native/pull/457)
+**Related PR:** [#457](https://github.com/sy-inc/sy-inc-native/pull/457)
 
 ### Toast Overlay Token Swap
 
@@ -122,7 +122,7 @@ If you customized `--surface` for Toast, move that customization to `--overlay`,
 <Toast className="bg-surface" />
 ```
 
-**Related PR:** [#457](https://github.com/sy-ui/sy-ui-native/pull/457)
+**Related PR:** [#457](https://github.com/sy-inc/sy-inc-native/pull/457)
 
 ## Updated Documentation
 
@@ -135,7 +135,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

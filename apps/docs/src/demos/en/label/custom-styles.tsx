@@ -6,7 +6,7 @@ export function CustomStyles() {
       <Label className="text-xs font-semibold tracking-wide text-accent uppercase" htmlFor="repo">
         Repository
       </Label>
-      <Input className="w-64 bg-field" id="repo" placeholder="sy-ui/react" />
+      <Input className="w-64 bg-field" id="repo" placeholder="sy-inc/react" />
     </div>
   );
 }

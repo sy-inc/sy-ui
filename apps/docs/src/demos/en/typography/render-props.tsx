@@ -9,7 +9,7 @@ export const RenderProps = () => {
         H1 visual style, h2 semantic element
       </Typography>
       <Typography render={({children, ...domProps}) => <span {...domProps}>{children}</span>}>
-        The render prop can swap the underlying element while preserving SY UI props and styles.
+        The render prop can swap the underlying element while preserving SY INC props and styles.
       </Typography>
     </div>
   );

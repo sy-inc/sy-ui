@@ -14,9 +14,9 @@ github:
 ⚠️ **破坏性变更**：从 Tabs 中移除了 `hideSeparator`；`DateInputGroup` 与 `ColorInputGroup` 已分别合并到 `DateField.Group`、`TimeField.Group` 与 `ColorField.Group` 之下。
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/versions/beta-7-light@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/versions/beta-7-dark@2x.jpg"
-  alt="SY UI v3 Beta 7"
+  src="https://assets.sy-inc.com/docs/versions/beta-7-light@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/versions/beta-7-dark@2x.jpg"
+  alt="SY INC v3 Beta 7"
   href="/docs/changelog/v3-0-0-beta-7"
 />
 
@@ -48,7 +48,7 @@ github:
 </Tabs>
 
 <Callout type="info">
-  **正在使用 AI 助手？** 只需对它说一句「Hey Cursor，把 SY UI 升级到最新版本」，AI 助手就会自动对比版本并应用必要的变更。了解更多请参阅 [SY UI MCP 服务器](/docs/ui-for-agents/mcp-server)。
+  **正在使用 AI 助手？** 只需对它说一句「Hey Cursor，把 SY INC 升级到最新版本」，AI 助手就会自动对比版本并应用必要的变更。了解更多请参阅 [SY INC MCP 服务器](/docs/ui-for-agents/mcp-server)。
 </Callout>
 
 ## 新增功能
@@ -134,7 +134,7 @@ github:
 
 ### Switch.Content
 
-`Switch.Content` 用于将 label 与 description 组合到 Switch 控件旁边（[#6240](https://github.com/sy-ui/sy-ui/pull/6240)）。
+`Switch.Content` 用于将 label 与 description 组合到 Switch 控件旁边（[#6240](https://github.com/sy-inc/sy-inc/pull/6240)）。
 
 **之前：**
 ```tsx
@@ -153,7 +153,7 @@ import { Switch, Label, Description } from '@sy-inc/react';
 
 ### Tabs.Separator
 
-[Tabs](/docs/components/tabs) 组件现在新增了一个显式的 `Tabs.Separator` 子组件，用于在 Tab 之间添加视觉分隔线。它取代了之前自动生成的 CSS 伪元素分隔线以及 `hideSeparator` prop（[#6243](https://github.com/sy-ui/sy-ui/pull/6243)）。
+[Tabs](/docs/components/tabs) 组件现在新增了一个显式的 `Tabs.Separator` 子组件，用于在 Tab 之间添加视觉分隔线。它取代了之前自动生成的 CSS 伪元素分隔线以及 `hideSeparator` prop（[#6243](https://github.com/sy-inc/sy-inc/pull/6243)）。
 
 分隔线现在改为 **按需启用** —— 在希望出现分隔线的 `<Tabs.Tab>` 内部添加 `<Tabs.Separator />` 即可。
 
@@ -168,7 +168,7 @@ import { Switch, Label, Description } from '@sy-inc/react';
 
 ### Breadcrumbs 修复
 
-传给 `Breadcrumbs.Item` 的 props 现在会正确转发到底层的 `Link`（[#6233](https://github.com/sy-ui/sy-ui/pull/6233)）。
+传给 `Breadcrumbs.Item` 的 props 现在会正确转发到底层的 `Link`（[#6233](https://github.com/sy-inc/sy-inc/pull/6233)）。
 
 ## 样式修复
 
@@ -188,7 +188,7 @@ import { Switch, Label, Description } from '@sy-inc/react';
 
 ### Tabs —— 移除 `hideSeparator` prop
 
-`hideSeparator` prop 已从 Tabs 组件中移除。分隔线现在改为 **按需启用**，通过新增的 `<Tabs.Separator />` 子组件来添加，而不再通过 CSS 伪元素自动生成（[#6243](https://github.com/sy-ui/sy-ui/pull/6243)）。
+`hideSeparator` prop 已从 Tabs 组件中移除。分隔线现在改为 **按需启用**，通过新增的 `<Tabs.Separator />` 子组件来添加，而不再通过 CSS 伪元素自动生成（[#6243](https://github.com/sy-inc/sy-inc/pull/6243)）。
 
 **之前：**
 ```tsx
@@ -313,9 +313,9 @@ import {ColorField, Label, ColorSwatch} from '@sy-inc/react';
 ## 链接
 
 - [组件文档](/docs/react/components)
-- [设计系统 - Figma Kit v3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui)
-- [GitHub PR #6237](https://github.com/sy-ui/sy-ui/pull/6237)
+- [设计系统 - Figma Kit v3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc)
+- [GitHub PR #6237](https://github.com/sy-inc/sy-inc/pull/6237)
 
 ## 贡献者
 

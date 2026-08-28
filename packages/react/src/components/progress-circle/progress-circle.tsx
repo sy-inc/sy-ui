@@ -60,7 +60,7 @@ const ProgressCircleRoot = ({
   );
 };
 
-ProgressCircleRoot.displayName = "SY UI.ProgressCircle";
+ProgressCircleRoot.displayName = "SY INC.ProgressCircle";
 
 /* -------------------------------------------------------------------------------------------------
  * ProgressCircle Track
@@ -93,7 +93,7 @@ const ProgressCircleTrack = <E extends keyof React.JSX.IntrinsicElements = "svg"
   );
 };
 
-ProgressCircleTrack.displayName = "SY UI.ProgressCircle.Track";
+ProgressCircleTrack.displayName = "SY INC.ProgressCircle.Track";
 
 /* -------------------------------------------------------------------------------------------------
  * ProgressCircle TrackCircle
@@ -125,7 +125,7 @@ const ProgressCircleTrackCircle = <E extends keyof React.JSX.IntrinsicElements =
   );
 };
 
-ProgressCircleTrackCircle.displayName = "SY UI.ProgressCircle.TrackCircle";
+ProgressCircleTrackCircle.displayName = "SY INC.ProgressCircle.TrackCircle";
 
 /* -------------------------------------------------------------------------------------------------
  * ProgressCircle FillCircle
@@ -164,7 +164,7 @@ const ProgressCircleFillCircle = <E extends keyof React.JSX.IntrinsicElements = 
   );
 };
 
-ProgressCircleFillCircle.displayName = "SY UI.ProgressCircle.FillCircle";
+ProgressCircleFillCircle.displayName = "SY INC.ProgressCircle.FillCircle";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

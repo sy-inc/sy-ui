@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /**
- * Logger utility for SY UI Core
+ * Logger utility for SY INC Core
  * Provides formatted console output with levels and prefixes
  */
 
@@ -43,7 +43,7 @@ export class Logger {
 
   constructor(options: LoggerOptions = {}) {
     this.enabled = options.enabled ?? true;
-    this.prefix = options.prefix ?? "SY UI";
+    this.prefix = options.prefix ?? "SY INC";
   }
 
   private formatMessage(level: LogLevel, message: string): string {

@@ -4,7 +4,7 @@ import {InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function WithTextPrefix() {
   return (
-    <TextField className="w-full max-w-[280px]" defaultValue="sy-ui.com" name="website">
+    <TextField className="w-full max-w-[280px]" defaultValue="sy-inc.com" name="website">
       <Label>Website</Label>
       <InputGroup>
         <InputGroup.Prefix>https://</InputGroup.Prefix>

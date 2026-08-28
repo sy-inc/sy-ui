@@ -31,27 +31,27 @@ const defaultArgs: Avatar["RootProps"] = {};
 const users = [
   {
     id: 1,
-    image_url: "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=3",
+    image_url: "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=3",
     name: "John",
   },
   {
     id: 2,
-    image_url: "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5",
+    image_url: "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5",
     name: "Kate",
   },
   {
     id: 3,
-    image_url: "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=20",
+    image_url: "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=20",
     name: "Emily",
   },
   {
     id: 4,
-    image_url: "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=23",
+    image_url: "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=23",
     name: "Michael",
   },
   {
     id: 5,
-    image_url: "https://img.sy-ui.chat/image/avatar?w=400&h=400&u=16",
+    image_url: "https://img.sy-inc.chat/image/avatar?w=400&h=400&u=16",
     name: "Olivia",
   },
 ];
@@ -59,27 +59,27 @@ const users = [
 const circles = [
   {
     id: 1,
-    image_url: "https://assets.sy-ui.com/avatars/red.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/red.jpg",
     name: "R",
   },
   {
     id: 2,
-    image_url: "https://assets.sy-ui.com/avatars/orange.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/orange.jpg",
     name: "O",
   },
   {
     id: 3,
-    image_url: "https://assets.sy-ui.com/avatars/green.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/green.jpg",
     name: "G",
   },
   {
     id: 4,
-    image_url: "https://assets.sy-ui.com/avatars/white.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/white.jpg",
     name: "W",
   },
   {
     id: 5,
-    image_url: "https://assets.sy-ui.com/avatars/black.jpg",
+    image_url: "https://assets.sy-inc.com/avatars/black.jpg",
     name: "B",
   },
 ];
@@ -107,25 +107,25 @@ const Template = ({color, size}: Avatar["RootProps"]) => (
 
     <div className="flex flex-col gap-4">
       <Avatar color={color} size={size}>
-        <Avatar.Image alt="John Doe" src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=3" />
+        <Avatar.Image alt="John Doe" src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=3" />
         <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Junior Garcia"
-          src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=4"
+          src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=4"
         />
         <Avatar.Fallback delayMs={600}>JG</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Junior Garcia"
-          src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5"
+          src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5"
         />
         <Avatar.Fallback delayMs={600}>JG</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
-        <Avatar.Image alt="Paul" src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=8" />
+        <Avatar.Image alt="Paul" src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=8" />
         <Avatar.Fallback delayMs={600}>PG</Avatar.Fallback>
       </Avatar>
     </div>
@@ -134,35 +134,35 @@ const Template = ({color, size}: Avatar["RootProps"]) => (
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Red"
-          src="https://assets.sy-ui.com/avatars/red.jpg"
+          src="https://assets.sy-inc.com/avatars/red.jpg"
         />
         <Avatar.Fallback>R</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Orange"
-          src="https://assets.sy-ui.com/avatars/orange.jpg"
+          src="https://assets.sy-inc.com/avatars/orange.jpg"
         />
         <Avatar.Fallback>O</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Green"
-          src="https://assets.sy-ui.com/avatars/green.jpg"
+          src="https://assets.sy-inc.com/avatars/green.jpg"
         />
         <Avatar.Fallback>G</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="White"
-          src="https://assets.sy-ui.com/avatars/white.jpg"
+          src="https://assets.sy-inc.com/avatars/white.jpg"
         />
         <Avatar.Fallback>W</Avatar.Fallback>
       </Avatar>
       <Avatar color={color} size={size}>
         <Avatar.Image
           alt="Black"
-          src="https://assets.sy-ui.com/avatars/black.jpg"
+          src="https://assets.sy-inc.com/avatars/black.jpg"
         />
         <Avatar.Fallback>B</Avatar.Fallback>
       </Avatar>
@@ -183,7 +183,7 @@ const TemplateWithDelay = ({
     <div className="flex flex-col gap-4">
       <Avatar color={color} size={size}>
         <Avatar.Image
-          src={`https://app.requestly.io/delay/${delay}/https://img.sy-ui.chat/image/avatar?w=400&h=400&u=3`}
+          src={`https://app.requestly.io/delay/${delay}/https://img.sy-inc.chat/image/avatar?w=400&h=400&u=3`}
         />
       </Avatar>
     </div>
@@ -298,15 +298,15 @@ export const Sizes = {
   render: () => (
     <div className="flex items-center gap-4">
       <Avatar size="sm">
-        <Avatar.Image alt="Small" src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=3" />
+        <Avatar.Image alt="Small" src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=3" />
         <Avatar.Fallback>SM</Avatar.Fallback>
       </Avatar>
       <Avatar size="md">
-        <Avatar.Image alt="Medium" src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=4" />
+        <Avatar.Image alt="Medium" src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=4" />
         <Avatar.Fallback>MD</Avatar.Fallback>
       </Avatar>
       <Avatar size="lg">
-        <Avatar.Image alt="Large" src="https://img.sy-ui.chat/image/avatar?w=400&h=400&u=5" />
+        <Avatar.Image alt="Large" src="https://img.sy-inc.chat/image/avatar?w=400&h=400&u=5" />
         <Avatar.Fallback>LG</Avatar.Fallback>
       </Avatar>
     </div>
@@ -324,11 +324,11 @@ const VariantsTemplate = (props: AvatarRootProps) => {
       label: "img",
       type: "img",
       content: [
-        "https://assets.sy-ui.com/avatars/blue.jpg",
-        "https://assets.sy-ui.com/avatars/black.jpg",
-        "https://assets.sy-ui.com/avatars/green.jpg",
-        "https://assets.sy-ui.com/avatars/orange.jpg",
-        "https://assets.sy-ui.com/avatars/red.jpg",
+        "https://assets.sy-inc.com/avatars/blue.jpg",
+        "https://assets.sy-inc.com/avatars/black.jpg",
+        "https://assets.sy-inc.com/avatars/green.jpg",
+        "https://assets.sy-inc.com/avatars/orange.jpg",
+        "https://assets.sy-inc.com/avatars/red.jpg",
       ],
     },
   ] as const;

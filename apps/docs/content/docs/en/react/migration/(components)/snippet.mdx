@@ -1,17 +1,17 @@
 ---
 title: Snippet
-description: Migration guide for Snippet from SY UI v2 to v3
+description: Migration guide for Snippet from SY INC v2 to v3
 ---
 
 <Callout type="warning">
-  The Snippet component has been **removed** in SY UI v3. Use native HTML elements with Tailwind CSS classes and implement copy functionality manually using the Clipboard API.
+  The Snippet component has been **removed** in SY INC v3. Use native HTML elements with Tailwind CSS classes and implement copy functionality manually using the Clipboard API.
 </Callout>
 
 ## Key Changes
 
 ### 1. Component Removal
 
-**v2:** `<Snippet>` component from `@sy-inc/react`  
+**v2:** `<Snippet>` component from `@sy-inc/react`
 **v3:** Native HTML elements (`<pre>`, `<code>`) with manual copy implementation
 
 ### 2. Features Mapping
@@ -157,12 +157,12 @@ export default function App() {
     <Snippet variant="bordered" color="primary">
       npm install @sy-inc/react
     </Snippet>
-    
+
     {/* Without symbol */}
     <Snippet hideSymbol>
       npm install @sy-inc/react
     </Snippet>
-    
+
     {/* Without copy button */}
     <Snippet hideCopyButton>
       npm install @sy-inc/react
@@ -179,7 +179,7 @@ export default function App() {
       </pre>
       {/* Copy button */}
     </div>
-    
+
     {/* Without symbol */}
     <div className="flex items-center gap-2 rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
@@ -187,7 +187,7 @@ export default function App() {
       </pre>
       {/* Copy button */}
     </div>
-    
+
     {/* Without copy button */}
     <div className="rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">

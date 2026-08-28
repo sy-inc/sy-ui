@@ -1,10 +1,10 @@
 ---
 title: Input
-description: Input 从 SY UI v2 到 v3 的迁移指南。
+description: Input 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Input 文档](/docs/react/components/input)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Input 文档](/docs/react/components/input)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 关键变化：Input → TextField
@@ -69,7 +69,7 @@ export default function App() {
 
 ### 1. 组件拆分
 
-**v2：** 单一 `Input` 组件，承担所有职责  
+**v2：** 单一 `Input` 组件，承担所有职责
 **v3：** 拆分为 `Input`（原语）与 `TextField`（复合组件）
 
 ### 2. Prop 变更
@@ -104,7 +104,7 @@ export default function App() {
       label="Email"
       type="email"
     />
-    
+
     {/* With error message */}
     <Input
       errorMessage="Please enter a valid email"
@@ -112,7 +112,7 @@ export default function App() {
       label="Email"
       type="email"
     />
-    
+
     {/* Required */}
     <Input isRequired label="Email" type="email" />
     ```
@@ -128,7 +128,7 @@ export default function App() {
       <Description>We'll never share your email</Description>
       <FieldError />
     </TextField>
-    
+
     {/* With error message */}
     <TextField
       isInvalid
@@ -145,7 +145,7 @@ export default function App() {
       <Input />
       <FieldError />
     </TextField>
-    
+
     {/* Required */}
     <TextField isRequired name="email" type="email">
       <Label>Email</Label>

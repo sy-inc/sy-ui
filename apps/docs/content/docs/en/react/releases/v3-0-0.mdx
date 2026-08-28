@@ -1,5 +1,5 @@
 ---
-title: Introducing SY UI v3
+title: Introducing SY INC v3
 description: A ground-up rewrite for React and React Native. 75+ web components, 37 native components, Tailwind CSS v4, React Aria, compound architecture, and built for AI-assisted development.
 ---
 
@@ -8,7 +8,7 @@ description: A ground-up rewrite for React and React Native. 75+ web components,
 </div>
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-v3-release.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-v3-release.mp4"
   height={430}
   muted
 />
@@ -28,26 +28,26 @@ Every component rewritten. Every animation moved to CSS. Styles decoupled from i
 37 components with shared design tokens, compound pattern, unified animation API, and adaptive presentation modes. Built native on each platform with [Uniwind](https://uniwind.dev/) for Tailwind CSS v4 support.
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-native-v1-release-.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-native-v1-release-.mp4"
   playMode="manual"
   height={430}
   muted
 />
 
-[Jump to details](#sy-ui-native)
+[Jump to details](#sy-inc-native)
 
-### SY UI Pro
+### SY INC Pro
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/sy-ui-pro@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/sy-ui-pro-dark@2x.jpg"
-  alt="SY UI Pro"
-  href="https://pro.sy-ui.com"
+  src="https://assets.sy-inc.com/docs/sy-inc-pro@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/sy-inc-pro-dark@2x.jpg"
+  alt="SY INC Pro"
+  href="https://pro.sy-inc.com"
 />
 
-Premium components, templates, and AI tooling for React and React Native. Command palette, Kanban, DataGrid, Dashboard templates, and more. Pre-sale pricing at [pro.sy-ui.com](https://pro.sy-ui.com).
+Premium components, templates, and AI tooling for React and React Native. Command palette, Kanban, DataGrid, Dashboard templates, and more. Pre-sale pricing at [pro.sy-inc.com](https://pro.sy-inc.com).
 
-[Jump to details](#sy-ui-pro)
+[Jump to details](#sy-inc-pro)
 
 ## Design Principles
 
@@ -231,7 +231,7 @@ All component animations use CSS transitions and keyframes tied to data attribut
 
 ### Reduce Motion
 
-Some users need animations disabled. SY UI extends Tailwind's `motion-reduce:` variant to support both the system preference and a data attribute:
+Some users need animations disabled. SY INC extends Tailwind's `motion-reduce:` variant to support both the system preference and a data attribute:
 
 ```css
 .button {
@@ -243,7 +243,7 @@ This responds to the native `prefers-reduced-motion: reduce` media query. It als
 
 ```html
 <html data-reduce-motion="true">
-  <!-- All SY UI animations are disabled -->
+  <!-- All SY INC animations are disabled -->
 </html>
 ```
 
@@ -251,7 +251,7 @@ The data attribute overrides the system setting. Set `data-reduce-motion="false"
 
 ### Bring Your Own Animation Library
 
-Framer Motion, Motion One, or any CSS animation library works alongside SY UI's built-in transitions:
+Framer Motion, Motion One, or any CSS animation library works alongside SY INC's built-in transitions:
 
 ```tsx
 import { motion } from "framer-motion";
@@ -362,16 +362,16 @@ import { Table } from "@sy-inc/react/table";
 
 ## UI for Agents
 
-More developers build by prompting than by reading API docs. SY UI v3 accounts for that.
+More developers build by prompting than by reading API docs. SY INC v3 accounts for that.
 
 ### MCP Server
 
-The SY UI MCP Server connects AI coding assistants (Cursor, Claude Code, VS Code Copilot, Windsurf, Zed) to component docs, props, source code, CSS styles, and theme variables. The AI reads the source of truth directly instead of guessing from training data.
+The SY INC MCP Server connects AI coding assistants (Cursor, Claude Code, VS Code Copilot, Windsurf, Zed) to component docs, props, source code, CSS styles, and theme variables. The AI reads the source of truth directly instead of guessing from training data.
 
 ```json
 {
   "mcpServers": {
-    "sy-ui-react": {
+    "sy-inc-react": {
       "command": "npx",
       "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
@@ -379,27 +379,27 @@ The SY UI MCP Server connects AI coding assistants (Cursor, Claude Code, VS Code
 }
 ```
 
-Ask your AI assistant "update SY UI to the latest version" and it will compare versions, review the changelog for breaking changes, and apply the necessary code updates automatically.
+Ask your AI assistant "update SY INC to the latest version" and it will compare versions, review the changelog for breaking changes, and apply the necessary code updates automatically.
 
 ### Agent Skills
 
-Installable knowledge packs for Cursor and Claude Code. Component patterns, variant usage, theming instructions, and upgrade guides. Preloaded context so the AI writes correct SY UI code on the first attempt.
+Installable knowledge packs for Cursor and Claude Code. Component patterns, variant usage, theming instructions, and upgrade guides. Preloaded context so the AI writes correct SY INC code on the first attempt.
 
 ### LLMs.txt
 
-Structured documentation files optimized for AI context windows. Published at `/llms.txt` and `/llms-components.txt`, these give any LLM-powered tool a machine-readable summary of SY UI's API surface.
+Structured documentation files optimized for AI context windows. Published at `/llms.txt` and `/llms-components.txt`, these give any LLM-powered tool a machine-readable summary of SY INC's API surface.
 
-MCP server, agent skills, LLMs.txt. Three layers that give AI assistants the same access to SY UI that human developers get from docs.
+MCP server, agent skills, LLMs.txt. Three layers that give AI assistants the same access to SY INC that human developers get from docs.
 
-## SY UI Native
+## SY INC Native
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/sy-ui-native-v1-release-.mp4"
+  src="https://assets.sy-inc.com/videos/sy-inc-native-v1-release-.mp4"
   height={430}
   muted
 />
 
-SY UI Native is a brand-new library shipping alongside v3 for the web. Different rendering engine, same mental model. Where the platforms diverge, the APIs adapt to feel native on each.
+SY INC Native is a brand-new library shipping alongside v3 for the web. Different rendering engine, same mental model. Where the platforms diverge, the APIs adapt to feel native on each.
 
 ### Try It on Your Device
 
@@ -408,13 +408,13 @@ Scan the QR code with your device's camera or [Expo Go](https://expo.dev/go) to 
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go QR Code"
   />
 </div>
 
 <div className="flex justify-center">
-  **[📱 Open Demo App in Expo Go](https://link.sy-ui.com/native-demo)**
+  **[📱 Open Demo App in Expo Go](https://link.sy-inc.com/native-demo)**
 </div>
 
 <Callout type="info">
@@ -426,7 +426,7 @@ Scan the QR code with your device's camera or [Expo Go](https://expo.dev/go) to 
 Forms, navigation, overlays, feedback, layout. From Button, Input, and Checkbox to Dialog, BottomSheet, Select, Toast, and InputOTP. Components follow the compound pattern:
 
 ```tsx
-import { Dialog, Button } from "sy-ui-native";
+import { Dialog, Button } from "sy-inc-native";
 
 <Dialog>
   <Dialog.Trigger asChild>
@@ -445,7 +445,7 @@ import { Dialog, Button } from "sy-ui-native";
 
 ### Familiar Across Platforms
 
-If you know SY UI on the web, most of that knowledge carries over. Familiar component names, dot notation, and prop patterns wherever possible. Where the platforms diverge (layout primitives, gestures, navigation), the APIs adapt to feel native. The mental model stays the same:
+If you know SY INC on the web, most of that knowledge carries over. Familiar component names, dot notation, and prop patterns wherever possible. Where the platforms diverge (layout primitives, gestures, navigation), the APIs adapt to feel native. The mental model stays the same:
 
 ```tsx
 // React (web)
@@ -485,7 +485,7 @@ import { View, Text } from "react-native";
 Tailwind CSS v4 on both platforms. [Uniwind](https://uniwind.dev/) on native, standard Tailwind on web.
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/native-v1-demo/v-1-demo-2.mp4"
+  src="https://assets.sy-inc.com/videos/native-v1-demo/v-1-demo-2.mp4"
   height={430}
   muted
 />
@@ -495,7 +495,7 @@ Tailwind CSS v4 on both platforms. [Uniwind](https://uniwind.dev/) on native, st
 Every animated native component exposes a single `animation` prop. Values, timing, spring configs, enter/exit transitions controlled from one place. Reanimated powers the math, but you never touch it directly:
 
 ```tsx
-import { Switch } from "sy-ui-native";
+import { Switch } from "sy-inc-native";
 
 <Switch
   animation={{
@@ -517,9 +517,9 @@ Disable animations at any level. Per-component, per-tree, or globally:
 <Card animation="disable-all">...</Card>
 
 // App-wide
-<SyUINativeProvider config={{ animation: "disable-all" }}>
+<SyIncNativeProvider config={{ animation: "disable-all" }}>
   <App />
-</SyUINativeProvider>
+</SyIncNativeProvider>
 ```
 
 Reduce Motion is automatic. When a user enables it in system settings, all animations stop. No extra code.
@@ -537,7 +537,7 @@ Popover, Select, and Menu switch between popover, bottom-sheet, and dialog with 
 No other React Native component library does this.
 
 <VideoPlayer
-  src="https://assets.sy-ui.com/videos/native-v1-demo/v-1-demo-3.mp4"
+  src="https://assets.sy-inc.com/videos/native-v1-demo/v-1-demo-3.mp4"
   height={430}
   muted
 />
@@ -547,36 +547,36 @@ No other React Native component library does this.
 Each native component has its own entry point. Import only what you use:
 
 ```tsx
-import { SyUINativeProvider } from "sy-ui-native/provider";
-import { Button } from "sy-ui-native/button";
-import { Card } from "sy-ui-native/card";
+import { SyIncNativeProvider } from "sy-inc-native/provider";
+import { Button } from "sy-inc-native/button";
+import { Card } from "sy-inc-native/card";
 ```
 
 ### AI Tooling for Native
 
-SY UI Native ships with its own MCP Server, agent skills, and LLMs.txt. Same tooling structure as the web library:
+SY INC Native ships with its own MCP Server, agent skills, and LLMs.txt. Same tooling structure as the web library:
 
 ```json
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
 ```
 
-## SY UI Pro
+## SY INC Pro
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/sy-ui-pro@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/sy-ui-pro-dark@2x.jpg"
-  alt="SY UI Pro"
-  href="https://pro.sy-ui.com"
+  src="https://assets.sy-inc.com/docs/sy-inc-pro@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/sy-inc-pro-dark@2x.jpg"
+  alt="SY INC Pro"
+  href="https://pro.sy-inc.com"
 />
 
-Alongside v3, the pre-sale of [SY UI Pro](https://pro.sy-ui.com) is live. Premium components, templates, and AI tooling for both React and React Native.
+Alongside v3, the pre-sale of [SY INC Pro](https://pro.sy-inc.com) is live. Premium components, templates, and AI tooling for both React and React Native.
 
 ### Pro Components
 
@@ -592,7 +592,7 @@ Pro licenses include premium MCP servers and agent skills with Pro component doc
 
 Pre-sale pricing is live. v2 Pro customers get an upgrade discount. Use the same email or contact support.
 
-[See plans and pricing at pro.sy-ui.com](https://pro.sy-ui.com)
+[See plans and pricing at pro.sy-inc.com](https://pro.sy-inc.com)
 
 ## Get Started
 
@@ -633,42 +633,42 @@ Add two lines to your CSS:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm install sy-ui-native
+    npm install sy-inc-native
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add sy-ui-native
+    pnpm add sy-inc-native
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add sy-ui-native
+    yarn add sy-inc-native
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add sy-ui-native
+    bun add sy-inc-native
     ```
   </Tab>
 </Tabs>
 
 See the [React docs](/docs/react/getting-started/quick-start) and [React Native docs](/docs/native/getting-started/quick-start) for full setup guides (peer dependencies, Uniwind config, and provider setup).
 
-**Coming from SY UI v2?** Follow the [Migration Guide](/docs/react/migration) for step-by-step upgrade instructions.
+**Coming from SY INC v2?** Follow the [Migration Guide](/docs/react/migration) for step-by-step upgrade instructions.
 
 ## Figma Kit v3
 
-Every component in SY UI v3 has a 1:1 match in Figma. Same variants, same naming, same structure. The kit uses auto layout throughout, Figma variables that map directly to code tokens (`--accent`, `--surface`, `--radius`), and Figma's new [slots](https://help.figma.com/hc/en-us/articles/38231200344599-Use-slots-to-build-flexible-components-in-Figma) for flexible component composition. Designers rearrange, swap, and customize parts the same way developers do in code.
+Every component in SY INC v3 has a 1:1 match in Figma. Same variants, same naming, same structure. The kit uses auto layout throughout, Figma variables that map directly to code tokens (`--accent`, `--surface`, `--radius`), and Figma's new [slots](https://help.figma.com/hc/en-us/articles/38231200344599-Use-slots-to-build-flexible-components-in-Figma) for flexible component composition. Designers rearrange, swap, and customize parts the same way developers do in code.
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/cover-figma@2x.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/cover-figma-dark@2x.jpg"
-  alt="SY UI Figma Kit v3"
-  href="https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3"
+  src="https://assets.sy-inc.com/docs/cover-figma@2x.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/cover-figma-dark@2x.jpg"
+  alt="SY INC Figma Kit v3"
+  href="https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3"
 />
 
-[Get the Figma Kit](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
+[Get the Figma Kit](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)
 
 ## Acknowledgments
 
@@ -682,5 +682,5 @@ Thanks to every community member who filed issues, tested betas, and gave feedba
 - [React Native Docs](/docs/native/getting-started/quick-start)
 - [Theme Builder](/themes)
 - [MCP Server](/docs/ui-for-agents/mcp-server)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui)
-- [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-ui-figma-kit-v3)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc)
+- [Figma Kit V3](https://www.figma.com/community/file/1546526812159103429/sy-inc-figma-kit-v3)

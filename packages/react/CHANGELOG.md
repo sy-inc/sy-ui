@@ -15,7 +15,7 @@
 
 - v3.0.0
 
-- [`b2b1912`](https://github.com/sy-ui/sy-ui/commit/b2b19129ec5ae7bcd432bcd89f78c4c25c7ee9ae) Thanks [@jrgarciadev](https://github.com/jrgarciadev)! - Types fixed and removed needless folders from dist
+- [`b2b1912`](https://github.com/sy-inc/sy-inc/commit/b2b19129ec5ae7bcd432bcd89f78c4c25c7ee9ae) Thanks [@jrgarciadev](https://github.com/jrgarciadev)! - Types fixed and removed needless folders from dist
 
 - Updated dependencies []:
   - @sy-inc/styles@3.0.0

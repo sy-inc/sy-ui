@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-SY UI v3 is a modern React UI library built with Tailwind CSS v4, using a pnpm monorepo structure managed by Turborepo.
+SY INC v3 is a modern React UI library built with Tailwind CSS v4, using a pnpm monorepo structure managed by Turborepo.
 
 ### Key Technical Stack
 
@@ -63,7 +63,7 @@ pnpm typecheck
 
 - Suites: `packages/react/tests/components/<name>/` — `*.test.tsx` (jsdom), `*.ssr.test.tsx` (Client SSR via `ssrSmoke()`, not RSC), `*.browser.test.tsx` (Playwright for high-risk portals/overlays; not universal), optional `fixtures.tsx`
 - Harness: `@sy-inc/testing/helpers` (`render`, `setupUser`, `runAllTimers`, `ssrSmoke`, `User`); browser `render` from `@sy-inc/testing/browser`. Sources via `@/`. Pattern testers: `user.createTester(...)` — do not import `createTester` directly
-- Query/assert: role/label/text first; SY UI `data-*` + light BEM + documented `data-slot` on compound parts; no colors, full class lists, or RAC internals
+- Query/assert: role/label/text first; SY INC `data-*` + light BEM + documented `data-slot` on compound parts; no colors, full class lists, or RAC internals
 - Timers: fake timers per-suite only; wire `advanceTimers` into `setupUser` + `User`
 - Naming: `describe("Component")`; nested concern; `it` as `supports…` / `calls…` / `exposes…` / `renders…`. SSR: `"Component SSR"`; browser: `"Component (browser)"`
 - Intentional skips: internals (`rac`, `icons`), non-exported helpers (`color-input-group`, `date-input-group`), in-progress `calendar-year-picker`, parent-covered parts (`list-box-item`, `menu-item`, …), Toast SSR (client portal — jsdom + browser). Public `input-group` has its own suite. SSR/browser are risk-based
@@ -74,7 +74,7 @@ pnpm typecheck
 ### Package-Specific Commands
 
 - Use `--filter` flag with package name: `pnpm build --filter=@sy-inc/react`
-- Main packages: `@sy-inc/react`, `@sy-inc/styles`, `@sy-ui/docs`, `@sy-ui/storybook`
+- Main packages: `@sy-inc/react`, `@sy-inc/styles`, `@sy-inc/docs`, `@sy-inc/storybook`
 
 ## Git Commit Convention
 
@@ -140,7 +140,7 @@ component-name/
 
 ### CSS Class Naming Convention
 
-**IMPORTANT**: SY UI v3 uses BEM (Block Element Modifier) style for CSS classes to ensure predictable and maintainable styling:
+**IMPORTANT**: SY INC v3 uses BEM (Block Element Modifier) style for CSS classes to ensure predictable and maintainable styling:
 
 - **Block**: The main component class (e.g., `button`, `card`, `alert`)
 - **Modifier**: Variations of the component using double dashes (e.g., `button--primary`, `button--lg`, `button--icon-only`)
@@ -191,7 +191,7 @@ This ensures components work properly without explicit size classes:
 
 ### Core Component Design Principles
 
-**IMPORTANT**: SY UI v3 follows a compound component pattern similar to Radix UI, built on top of React Aria Components primitives. This enables maximum flexibility and customization for users.
+**IMPORTANT**: SY INC v3 follows a compound component pattern similar to Radix UI, built on top of React Aria Components primitives. This enables maximum flexibility and customization for users.
 
 ### React Aria Components Integration
 
@@ -278,7 +278,7 @@ export {ComponentRoot as Root, ComponentItem as Item, ...};
 2. **Component Features**:
    - Built on React Aria Components for accessibility
    - Use `forwardRef` for all components
-   - Display names follow: `SY UI.ComponentName` or `SY UI.Component.SubPart`
+   - Display names follow: `SY INC.ComponentName` or `SY INC.Component.SubPart`
    - Support render props from React Aria when available
 
 3. **Type Exports**:
@@ -332,7 +332,7 @@ export {ComponentRoot as Root, ComponentItem as Item, ...};
 
 6. **Composition Pattern with Existing Components**:
 
-   **CRITICAL**: SY UI follows a composition-based approach. Components should reuse existing primitives rather than creating component-specific versions.
+   **CRITICAL**: SY INC follows a composition-based approach. Components should reuse existing primitives rather than creating component-specific versions.
 
    **Key Principles**:
    - **DO NOT** create component-specific Label, Description, or FieldError components
@@ -408,7 +408,7 @@ export {ComponentRoot as Root, ComponentItem as Item, ...};
    - Review the plan for completeness and accuracy
    - Make necessary corrections or adjustments
    - Ensure all edge cases are considered
-   - Confirm the plan aligns with SY UI patterns and conventions
+   - Confirm the plan aligns with SY INC patterns and conventions
 
 4. **Execution Phase**:
    - Start executing the plan step by step
@@ -469,7 +469,7 @@ This workflow ensures thorough understanding, proper planning, and high-quality 
    This script will:
    - Create all necessary files with proper structure
    - Add the export to `src/components/index.ts`
-   - Generate boilerplate following SY UI patterns
+   - Generate boilerplate following SY INC patterns
    - Set up the component with TypeScript and proper exports
 
    After creating the component:
@@ -480,7 +480,7 @@ This workflow ensures thorough understanding, proper planning, and high-quality 
    ```
 
    **Implementation Steps**:
-   - Study existing SY UI components (accordion, alert) to understand the compound pattern
+   - Study existing SY INC components (accordion, alert) to understand the compound pattern
    - Use React Aria Components as the foundation for accessibility
    - Transform React Aria's API to match Radix UI patterns:
      - Single component → Multiple exported parts (Item, Trigger, Content, etc.)
@@ -501,7 +501,7 @@ This workflow ensures thorough understanding, proper planning, and high-quality 
      <Checkbox value="1">Option 1</Checkbox>
    </CheckboxGroup>
 
-   // SY UI: Compound pattern
+   // SY INC: Compound pattern
    <CheckboxGroup value={selected} onValueChange={setSelected}>
      <CheckboxGroup.Label>Options</CheckboxGroup.Label>
      <CheckboxGroup.Item value="1">
@@ -546,7 +546,7 @@ This workflow ensures thorough understanding, proper planning, and high-quality 
 3. **Documentation**:
    - Docs live in `apps/docs/content/`
    - Uses MDX format
-   - SY UI components are pre-imported
+   - SY INC components are pre-imported
 
 4. **Version Management**:
    - Uses [bumpp](https://github.com/antfu/bumpp) for version bumping
@@ -556,7 +556,7 @@ This workflow ensures thorough understanding, proper planning, and high-quality 
 
 ## Icon Library
 
-**IMPORTANT**: SY UI uses Iconify with gravity-ui as the default icon set.
+**IMPORTANT**: SY INC uses Iconify with gravity-ui as the default icon set.
 
 ## Important Notes
 
@@ -728,7 +728,7 @@ The Grep MCP searches for **literal code patterns**, not keywords. Use actual co
 
 3. **Monorepo Configurations**:
    - Search: `'pnpm-workspace.yaml'` with path='pnpm-workspace.yaml'
-   - Study monorepo setups similar to SY UI
+   - Study monorepo setups similar to SY INC
 
 4. **Tailwind CSS v4 Patterns**:
    - Search: `'@import "tailwindcss"'` with language=['CSS']
@@ -749,7 +749,7 @@ The Grep MCP searches for **literal code patterns**, not keywords. Use actual co
 
 ### For style-migrator and tailwind-v4-css-expert Agents
 
-When working with SY UI CSS components, follow these critical patterns:
+When working with SY INC CSS components, follow these critical patterns:
 
 #### Default Size Implementation
 

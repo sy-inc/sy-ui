@@ -13,7 +13,7 @@ export function Basic() {
     <div className="w-full max-w-md">
       <div className="flex flex-col gap-4 bg-transparent p-4">
         <DisclosureGroup expandedKeys={expandedKeys} onExpandedChange={setExpandedKeys}>
-          <Disclosure aria-label="Preview SY UI Native" id="preview">
+          <Disclosure aria-label="Preview SY INC Native" id="preview">
             <Disclosure.Heading>
               <Button
                 slot="trigger"
@@ -24,7 +24,7 @@ export function Basic() {
               >
                 <div className="flex w-full items-center justify-start gap-2">
                   <QrCode />
-                  Preview SY UI Native
+                  Preview SY INC Native
                 </div>
                 <Disclosure.Indicator className="text-muted" />
               </Button>
@@ -32,12 +32,12 @@ export function Basic() {
             <Disclosure.Content>
               <Disclosure.Body className="mx-2 flex flex-col items-center gap-2 p-4 text-center">
                 <p className="text-sm text-muted">
-                  Scan this QR code with your camera app to preview the SY UI native components.
+                  Scan this QR code with your camera app to preview the SY INC native components.
                 </p>
                 <img
                   alt="Expo Go QR Code"
                   className="aspect-square w-full max-w-54 object-cover"
-                  src="https://assets.sy-ui.com/images/qr-code-native.png"
+                  src="https://assets.sy-inc.com/images/qr-code-native.png"
                 />
                 <p className="text-sm text-muted">Expo must be installed on your device.</p>
                 <Button className="mt-4" variant="primary">
@@ -49,7 +49,7 @@ export function Basic() {
           </Disclosure>
           <Separator className="my-2" />
           <Disclosure id="download">
-            <Disclosure.Heading aria-label="Download SY UI Native">
+            <Disclosure.Heading aria-label="Download SY INC Native">
               <Button
                 slot="trigger"
                 variant={expandedKeys.has("download") ? "secondary" : "tertiary"}
@@ -67,13 +67,13 @@ export function Basic() {
             <Disclosure.Content>
               <Disclosure.Body className="mx-2 flex flex-col items-center gap-2 p-4 text-center">
                 <p className="text-sm text-muted">
-                  Download the SY UI native app to explore our mobile components directly on your
+                  Download the SY INC native app to explore our mobile components directly on your
                   device.
                 </p>
                 <img
                   alt="App Store QR Code"
                   className="aspect-square w-full max-w-54 object-cover"
-                  src="https://assets.sy-ui.com/images/qr-code-native.png"
+                  src="https://assets.sy-inc.com/images/qr-code-native.png"
                 />
                 <p className="text-sm text-muted">Available on iOS and Android devices.</p>
                 <Button className="mt-4" variant="primary">

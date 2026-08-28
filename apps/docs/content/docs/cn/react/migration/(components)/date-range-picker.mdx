@@ -1,10 +1,10 @@
 ---
 title: DateRangePicker
-description: DateRangePicker 从 SY UI v2 到 v3 的迁移指南。
+description: DateRangePicker 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 DateRangePicker 文档](/docs/react/components/date-range-picker)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 DateRangePicker 文档](/docs/react/components/date-range-picker)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -75,7 +75,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单一 `DateRangePicker`，两个输入、分隔符、日历、标签、popover 等主要由内部 prop 处理。  
+**v2：** 单一 `DateRangePicker`，两个输入、分隔符、日历、标签、popover 等主要由内部 prop 处理。
 **v3：** 组合式 API：将 `DateRangePicker`、`DateField`、`RangeCalendar` 与 `Label` 等组合在一起；两个 `DateField.Input` 分别使用 `slot="start"` 与 `slot="end"` 表示范围输入。
 
 ### 2. 组合结构说明

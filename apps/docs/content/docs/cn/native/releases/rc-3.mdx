@@ -18,28 +18,28 @@ RC 3 带来三个新组件：用于可选标签管理的 TagGroup、基于 Popov
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -59,7 +59,7 @@ RC 3 带来三个新组件：用于可选标签管理的 TagGroup、基于 Popov
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -68,7 +68,7 @@ RC 3 带来三个新组件：用于可选标签管理的 TagGroup、基于 Popov
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -89,8 +89,8 @@ TagGroup 以复合组件模式渲染可选标签组，并支持可选移除。�
 <NativeVideoPlayerView
   target="component"
   slug="tag-group"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/tag-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/tag-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/tag-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/tag-group-docs-dark.mp4"
 />
 
 **特性：**
@@ -108,7 +108,7 @@ TagGroup 以复合组件模式渲染可选标签组，并支持可选移除。�
 **用法：**
 
 ```tsx
-import { TagGroup } from "sy-ui-native";
+import { TagGroup } from "sy-inc-native";
 
 export function BasicTagGroup() {
   return (
@@ -148,7 +148,7 @@ export function RemovableTagGroup() {
 
 完整文档与示例见 [TagGroup 组件页](/docs/native/components/tag-group)。
 
-**相关 PR：** [#309](https://github.com/sy-ui/sy-ui-native/pull/309)
+**相关 PR：** [#309](https://github.com/sy-inc/sy-inc-native/pull/309)
 
 #### Menu
 
@@ -157,8 +157,8 @@ Menu 提供基于复合组件的下拉菜单，支持 Popover 与 Bottom Sheet �
 <NativeVideoPlayerView
   target="component"
   slug="menu"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/menu-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/menu-docs-dark.mp4"
 />
 
 **特性：**
@@ -175,7 +175,7 @@ Menu 提供基于复合组件的下拉菜单，支持 Popover 与 Bottom Sheet �
 **用法：**
 
 ```tsx
-import { Menu } from "sy-ui-native";
+import { Menu } from "sy-inc-native";
 
 export function BasicMenu() {
   return (
@@ -230,7 +230,7 @@ export function MenuWithSections() {
 
 完整文档与示例见 [Menu 组件页](/docs/native/components/menu)。
 
-**相关 PR：** [#312](https://github.com/sy-ui/sy-ui-native/pull/312)
+**相关 PR：** [#312](https://github.com/sy-inc/sy-inc-native/pull/312)
 
 #### InputGroup
 
@@ -239,8 +239,8 @@ InputGroup 提供装饰性文本输入，`Prefix` 与 `Suffix` 子组件绝对�
 <NativeVideoPlayerView
   target="component"
   slug="input-group"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/input-group-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/input-group-docs-dark.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/input-group-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/input-group-docs-dark.mp4"
 />
 
 **特性：**
@@ -254,7 +254,7 @@ InputGroup 提供装饰性文本输入，`Prefix` 与 `Suffix` 子组件绝对�
 **用法：**
 
 ```tsx
-import { InputGroup } from "sy-ui-native";
+import { InputGroup } from "sy-inc-native";
 
 export function SearchInput() {
   return (
@@ -284,7 +284,7 @@ export function DisabledInput() {
 
 完整文档与示例见 [InputGroup 组件页](/docs/native/components/input-group)。
 
-**相关 PR：** [#313](https://github.com/sy-ui/sy-ui-native/pull/313)
+**相关 PR：** [#313](https://github.com/sy-inc/sy-inc-native/pull/313)
 
 ## 组件改进
 
@@ -300,7 +300,7 @@ export function DisabledInput() {
 
 实现使用 React Native 的 `BackHandler` API，在 iOS 上为空操作，无需分平台分支。
 
-**相关 PR：** [#308](https://github.com/sy-ui/sy-ui-native/pull/308)
+**相关 PR：** [#308](https://github.com/sy-inc/sy-inc-native/pull/308)
 
 ### Slot 的 `combineStyles` 修复
 
@@ -312,7 +312,7 @@ Slot 原语的 `combineStyles` 现返回样式数组，而不再使用 `StyleShe
 - React Native 原生支持嵌套样式数组，对使用方行为无影响
 - 修复通过 Slot 原语组合的组件上的动画断裂问题
 
-**相关 PR：** [#314](https://github.com/sy-ui/sy-ui-native/pull/314)
+**相关 PR：** [#314](https://github.com/sy-inc/sy-inc-native/pull/314)
 
 ## 依赖
 
@@ -325,20 +325,20 @@ Slot 原语的 `combineStyles` 现返回样式数组，而不再使用 `StyleShe
 
 上述 `combineStyles` 修复是支持 Expo 55 的主要代码变更：此前 `StyleSheet.flatten` 会在新 SDK 下破坏 Reanimated 样式绑定。
 
-**相关 PR：** [#314](https://github.com/sy-ui/sy-ui-native/pull/314)
+**相关 PR：** [#314](https://github.com/sy-inc/sy-inc-native/pull/314)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #272](https://github.com/sy-ui/sy-ui-native/issues/272)**：解决 `FullWindowOverlay` 干扰 React Native 元素检查器的问题。
+- **[Issue #272](https://github.com/sy-inc/sy-inc-native/issues/272)**：解决 `FullWindowOverlay` 干扰 React Native 元素检查器的问题。
 
-- **[Issue #280](https://github.com/sy-ui/sy-ui-native/issues/280)**：修复 Expo 55 下 Avatar 等依赖 Reanimated 的组件失效。`combineStyles` 曾通过 `StyleSheet.flatten` 破坏动画绑定；现改为返回样式数组以保留 `SharedValue` 与 `useAnimatedStyle`。
+- **[Issue #280](https://github.com/sy-inc/sy-inc-native/issues/280)**：修复 Expo 55 下 Avatar 等依赖 Reanimated 的组件失效。`combineStyles` 曾通过 `StyleSheet.flatten` 破坏动画绑定；现改为返回样式数组以保留 `SharedValue` 与 `useAnimatedStyle`。
 
 **相关 PR：**
 
-- [#308](https://github.com/sy-ui/sy-ui-native/pull/308)
-- [#314](https://github.com/sy-ui/sy-ui-native/pull/314)
+- [#308](https://github.com/sy-inc/sy-inc-native/pull/308)
+- [#314](https://github.com/sy-inc/sy-inc-native/pull/314)
 
 ## 文档更新
 
@@ -351,7 +351,7 @@ Slot 原语的 `combineStyles` 现返回样式数组，而不再使用 `StyleShe
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

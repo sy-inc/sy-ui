@@ -6,7 +6,7 @@ export function CustomStyles() {
       <Label htmlFor="workspace-slug">工作区 URL</Label>
       <Input id="workspace-slug" placeholder="acme" type="text" />
       <Description className="leading-relaxed tracking-wide" id="workspace-slug-hint">
-        仅支持小写字母和连字符。将用于 app.sy-ui.com/acme
+        仅支持小写字母和连字符。将用于 app.sy-inc.com/acme
       </Description>
     </div>
   );

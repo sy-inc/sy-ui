@@ -8,14 +8,14 @@ links:
 
 <NativeVideoPlayerView
   target="auto"
-  srcLight="https://assets.sy-ui.com/docs/native/components/videos/accordion-docs-light.mp4"
-  srcDark="https://assets.sy-ui.com/docs/native/components/videos/accordion-docs-dark-1.mp4"
+  srcLight="https://assets.sy-inc.com/docs/native/components/videos/accordion-docs-light.mp4"
+  srcDark="https://assets.sy-inc.com/docs/native/components/videos/accordion-docs-dark-1.mp4"
 />
 
 ## Import
 
 ```tsx
-import { Accordion } from 'sy-ui-native';
+import { Accordion } from 'sy-inc-native';
 ```
 
 ## Anatomy
@@ -173,7 +173,7 @@ Apply custom styles using className, classNames, or styles props.
 Use `Accordion.Trigger` with `asChild` prop and wrap content with `PressableFeedback` to add custom press feedback animations.
 
 ```tsx
-import { Accordion, PressableFeedback } from 'sy-ui-native';
+import { Accordion, PressableFeedback } from 'sy-inc-native';
 import { View } from 'react-native';
 
 <Accordion>
@@ -197,7 +197,7 @@ import { View } from 'react-native';
 ## Example
 
 ```tsx
-import { Accordion, useThemeColor } from 'sy-ui-native';
+import { Accordion, useThemeColor } from 'sy-inc-native';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 
@@ -253,7 +253,7 @@ export default function AccordionExample() {
 }
 ```
 
-You can find more examples in the [GitHub repository](https://github.com/sy-ui/sy-ui-native/blob/main/example/src/app/(home)/components/accordion.tsx).
+You can find more examples in the [GitHub repository](https://github.com/sy-inc/sy-inc-native/blob/main/example/src/app/(home)/components/accordion.tsx).
 
 ## API Reference
 
@@ -392,7 +392,7 @@ Animation configuration for accordion content component. Can be:
 Hook to access the accordion root context. Must be used within an `Accordion` component.
 
 ```tsx
-import { useAccordion } from 'sy-ui-native';
+import { useAccordion } from 'sy-inc-native';
 
 const { value, onValueChange, selectionMode, isCollapsible, isDisabled } =
   useAccordion();
@@ -413,7 +413,7 @@ const { value, onValueChange, selectionMode, isCollapsible, isDisabled } =
 Hook to access the accordion item context. Must be used within an `Accordion.Item` component.
 
 ```tsx
-import { useAccordionItem } from 'sy-ui-native';
+import { useAccordionItem } from 'sy-inc-native';
 
 const { value, isExpanded, isDisabled, nativeID } = useAccordionItem();
 ```
@@ -432,7 +432,7 @@ const { value, isExpanded, isDisabled, nativeID } = useAccordionItem();
 When using the Accordion component alongside other components in the same view, you should import and apply `AccordionLayoutTransition` to those components to ensure smooth and consistent layout animations across the entire screen.
 
 ```jsx
-import { Accordion, AccordionLayoutTransition } from 'sy-ui-native';
+import { Accordion, AccordionLayoutTransition } from 'sy-inc-native';
 import Animated from 'react-native-reanimated';
 
 <Animated.ScrollView layout={AccordionLayoutTransition}>

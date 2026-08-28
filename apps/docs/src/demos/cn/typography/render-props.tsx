@@ -9,7 +9,7 @@ export const RenderProps = () => {
         H1 视觉样式，h2 语义元素
       </Typography>
       <Typography render={({children, ...domProps}) => <span {...domProps}>{children}</span>}>
-        render prop 可更换底层元素，同时保留 SY UI 的 props 与样式。
+        render prop 可更换底层元素，同时保留 SY INC 的 props 与样式。
       </Typography>
     </div>
   );

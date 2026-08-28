@@ -6,7 +6,7 @@ export function CustomStyles() {
       <Avatar>
         <Avatar.Image
           alt="凯特·威尔逊"
-          src="https://assets.sy-ui.com/avatars/blue.jpg"
+          src="https://assets.sy-inc.com/avatars/blue.jpg"
         />
         <Avatar.Fallback>KW</Avatar.Fallback>
       </Avatar>

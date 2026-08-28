@@ -5,7 +5,7 @@ export const Prose = () => {
     <Typography.Prose className="flex max-w-xl flex-col gap-3">
       <h1>Prose title</h1>
       <p>
-        Prose is for authored content where the markup is already semantic and SY UI applies the
+        Prose is for authored content where the markup is already semantic and SY INC applies the
         default typography rhythm.
       </p>
       <h2>Section title</h2>

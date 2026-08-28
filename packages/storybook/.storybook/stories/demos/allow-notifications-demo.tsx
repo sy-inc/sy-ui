@@ -8,7 +8,7 @@ export function AllowNotificationsDemo() {
         <div className="flex gap-8 p-4">
           <div className="-mt-0.5 flex flex-col justify-start gap-1">
             <Label className="w-fit text-sm font-medium">Allow notifications</Label>
-            <Description>Receive push notifications from SY UI</Description>
+            <Description>Receive push notifications from SY INC</Description>
           </div>
           <Switch.Control>
             <Switch.Thumb />

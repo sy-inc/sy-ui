@@ -1,10 +1,10 @@
 ---
 title: Card
-description: Migration guide for Card from SY UI v2 to v3
+description: Migration guide for Card from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Card documentation](/docs/react/components/card) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Card documentation](/docs/react/components/card) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -48,7 +48,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Separate components: `CardHeader`, `CardBody`, `CardFooter`  
+**v2:** Separate components: `CardHeader`, `CardBody`, `CardFooter`
 **v3:** Compound components: `Card.Header`, `Card.Title`, `Card.Description`, `Card.Content`, `Card.Footer`
 
 ### 2. Component Name Changes
@@ -78,7 +78,7 @@ export default function App() {
 
 ### 4. Variants
 
-**v2:** No variant prop (used shadow/radius for styling)  
+**v2:** No variant prop (used shadow/radius for styling)
 **v3:** Has `variant` prop: `transparent`, `default`, `secondary`, `tertiary`
 
 ## Migration Examples
@@ -94,7 +94,7 @@ export default function App() {
       <CardBody>Body content</CardBody>
       <CardFooter>Footer</CardFooter>
     </Card>
-    
+
     {/* With title and description */}
     <Card>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -116,7 +116,7 @@ export default function App() {
       <Card.Content>Body content</Card.Content>
       <Card.Footer>Footer</Card.Footer>
     </Card>
-    
+
     {/* With title and description */}
     <Card>
       <Card.Header>
@@ -134,9 +134,9 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    <Card 
-      isPressable 
-      shadow="sm" 
+    <Card
+      isPressable
+      shadow="sm"
       onPress={() => console.log("pressed")}
     >
       <CardBody>Clickable card</CardBody>
@@ -269,7 +269,7 @@ export default function App() {
 ### v2: `classNames` Prop
 
 ```tsx
-<Card 
+<Card
   classNames={{
     base: "custom-base",
     header: "custom-header",

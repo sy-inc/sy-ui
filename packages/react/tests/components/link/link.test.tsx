@@ -10,12 +10,12 @@ describe("Link", () => {
   });
 
   it("renders with role, accessible name, and href", () => {
-    render(<Link href="https://sy-ui.com">SY UI</Link>);
+    render(<Link href="https://sy-inc.com">SY INC</Link>);
 
-    const link = screen.getByRole("link", {name: "SY UI"});
+    const link = screen.getByRole("link", {name: "SY INC"});
 
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute("href", "https://sy-ui.com");
+    expect(link).toHaveAttribute("href", "https://sy-inc.com");
   });
 
   it("exposes BEM block and data-slot", () => {
@@ -103,8 +103,8 @@ describe("Link", () => {
   describe("Link.Icon", () => {
     it("exposes data-slot when composed", () => {
       render(
-        <Link href="https://sy-ui.com">
-          SY UI
+        <Link href="https://sy-inc.com">
+          SY INC
           <Link.Icon />
         </Link>,
       );
@@ -118,8 +118,8 @@ describe("Link", () => {
 
     it("supports custom icon children without default icon marker", () => {
       render(
-        <Link href="https://sy-ui.com">
-          SY UI
+        <Link href="https://sy-inc.com">
+          SY INC
           <Link.Icon>
             <span data-testid="custom-icon">→</span>
           </Link.Icon>

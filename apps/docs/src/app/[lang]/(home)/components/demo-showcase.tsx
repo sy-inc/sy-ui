@@ -11,7 +11,7 @@ import LinkRoot from "fumadocs-core/link";
 import {useTheme} from "next-themes";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 
-import {SY_UI_PRO_URL, iframeTabs, themeValuesById} from "@/app/[lang]/themes/constants";
+import {SY_INC_PRO_URL, iframeTabs, themeValuesById} from "@/app/[lang]/themes/constants";
 import {computeThemeVars} from "@/app/[lang]/themes/hooks";
 import {
   calculateAccentForeground,
@@ -50,9 +50,9 @@ const colors = [
 const toOklch = converter("oklch");
 
 function getProUrl(utm: {campaign?: string; content?: string; medium: string}) {
-  const url = new URL(SY_UI_PRO_URL);
+  const url = new URL(SY_INC_PRO_URL);
 
-  url.searchParams.set("utm_source", "sy-ui.com");
+  url.searchParams.set("utm_source", "sy-inc.com");
   url.searchParams.set("utm_medium", utm.medium);
   if (utm.campaign) url.searchParams.set("utm_campaign", utm.campaign);
   if (utm.content) url.searchParams.set("utm_content", utm.content);
@@ -176,13 +176,13 @@ export function DemoShowcase() {
     const iframe = iframeRef.current;
 
     if (!iframe?.contentWindow) return;
-    iframe.contentWindow.postMessage({theme: resolvedTheme ?? "dark", type: "sy-ui-theme"}, "*");
-    iframe.contentWindow.postMessage({type: "sy-ui-accent", vars: iframeThemeVars}, "*");
+    iframe.contentWindow.postMessage({theme: resolvedTheme ?? "dark", type: "sy-inc-theme"}, "*");
+    iframe.contentWindow.postMessage({type: "sy-inc-accent", vars: iframeThemeVars}, "*");
     iframe.contentWindow.postMessage(
       {
         cdnUrl: computedDesignThemeVars.fontMeta.cdnUrl,
         family: computedDesignThemeVars.fontMeta.family,
-        type: "sy-ui-font",
+        type: "sy-inc-font",
         variable: computedDesignThemeVars.fontMeta.variable,
       },
       "*",
@@ -197,7 +197,7 @@ export function DemoShowcase() {
   // Listen for iframe requesting initial state
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      if (event.data?.type === "sy-ui-ready") {
+      if (event.data?.type === "sy-inc-ready") {
         sendMessageToIframe();
       }
     }

@@ -12,7 +12,7 @@ import {
 import {useParams, useRouter, useSearchParams} from "next/navigation";
 import {useEffect} from "react";
 
-import {SyUILogo} from "@/components/sy-ui-logo";
+import {SyIncLogo} from "@/components/sy-inc-logo";
 import {Iconify} from "@/components/iconify";
 import {useCodePanel} from "@/hooks/use-code-panel";
 import {i18n} from "@/lib/i18n";
@@ -67,7 +67,7 @@ export function ShowcaseHeader() {
         </TooltipRoot>
       </div>
       <div className="flex flex-1 items-center justify-center">
-        <SyUILogo className="text-foreground/20" />
+        <SyIncLogo className="text-foreground/20" />
       </div>
       <div className="flex flex-1 items-center justify-end gap-2">
         <ShowcaseThemeSwitch />

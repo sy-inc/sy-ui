@@ -1,10 +1,10 @@
 ---
 title: Avatar
-description: Avatar 从 SY UI v2 到 v3 的迁移指南。
+description: Avatar 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Avatar 文档](/docs/react/components/avatar)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Avatar 文档](/docs/react/components/avatar)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -16,7 +16,7 @@ import { Avatar } from "@sy-inc/react";
 
 export default function App() {
   return (
-    <Avatar 
+    <Avatar
       src="https://example.com/avatar.jpg"
       name="John Doe"
       showFallback
@@ -44,7 +44,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单个带 props 的 `Avatar`  
+**v2：** 单个带 props 的 `Avatar`
 **v3：** 复合组件：`Avatar`、`Avatar.Image`、`Avatar.Fallback`
 
 ### 2. Prop 变更
@@ -71,7 +71,7 @@ export default function App() {
 
 ### 3. `variant` prop（v3 新增）
 
-**v2：** 无 `variant` prop，仅通过 `color` 控制样式  
+**v2：** 无 `variant` prop，仅通过 `color` 控制样式
 **v3：** 新增 `variant` prop，可选 `"default"` 与 `"soft"`。`"soft"` 使用更浅的背景样式。
 
 ```tsx
@@ -83,7 +83,7 @@ export default function App() {
 
 ### 4. `Avatar.Image` 响应式属性（v3 新增）
 
-**v2：** 仅支持 `src` 与 `onError`  
+**v2：** 仅支持 `src` 与 `onError`
 **v3：** `Avatar.Image` 现支持 `srcSet`、`sizes`、`loading`，用于响应式图片
 
 ```tsx
@@ -101,7 +101,7 @@ export default function App() {
 
 ### 5. `Avatar.Fallback` 的 `delayMs` prop（v3 新增）
 
-**v2：** 立即显示后备，或由 `showFallback` 控制  
+**v2：** 立即显示后备，或由 `showFallback` 控制
 **v3：** `Avatar.Fallback` 支持 `delayMs`，可延后渲染，避免图片很快加载完成时出现后备闪烁
 
 ```tsx
@@ -113,7 +113,7 @@ export default function App() {
 
 ### 6. 图片与后备内容
 
-**v2：** 使用 `src`、`name`、`showFallback`、`fallback` 等 props  
+**v2：** 使用 `src`、`name`、`showFallback`、`fallback` 等 props
 **v3：** 需显式渲染 `<Avatar.Image />` 与 `<Avatar.Fallback />`
 
 ### 7. `color` 映射
@@ -129,7 +129,7 @@ export default function App() {
 
 ### 8. `AvatarGroup` 已移除
 
-**v2：** 提供独立的 `AvatarGroup` 组件  
+**v2：** 提供独立的 `AvatarGroup` 组件
 **v3：** 无 `AvatarGroup` — 请用 CSS 类手动成组
 
 ## 迁移示例
@@ -159,7 +159,7 @@ export default function App() {
     ```tsx
     import { Icon } from "@iconify/react";
 
-    <Avatar 
+    <Avatar
       src="https://broken-url.com/image.jpg"
       showFallback
       fallback={<Icon icon="mdi:account" />}
@@ -171,8 +171,8 @@ export default function App() {
     import { Icon } from "@iconify/react";
 
     <Avatar>
-      <Avatar.Image 
-        src="https://broken-url.com/image.jpg" 
+      <Avatar.Image
+        src="https://broken-url.com/image.jpg"
         alt="User"
       />
       <Avatar.Fallback>
@@ -290,7 +290,7 @@ export default function App() {
 ### v2：`classNames` prop
 
 ```tsx
-<Avatar 
+<Avatar
   classNames={{
     base: "custom-base",
     img: "custom-img",

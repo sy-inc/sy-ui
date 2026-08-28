@@ -136,8 +136,8 @@ export async function getRedirects(): Promise<Redirect[]> {
   // project domain configuration, which must route `www` to this deployment for
   // the application-level permanent status to take effect.
   redirects.push({
-    destination: "https://sy-ui.com/:path*",
-    has: [{type: "host", value: "www.sy-ui.com"}],
+    destination: "https://sy-inc.com/:path*",
+    has: [{type: "host", value: "www.sy-inc.com"}],
     permanent: true,
     source: "/:path*",
   });
@@ -149,9 +149,9 @@ export async function getRedirects(): Promise<Redirect[]> {
     source: "/en",
   });
 
-  // SY UI Agents product page lives on pro.sy-ui.com. Docs and npm still link to
-  // sy-ui.com/agents, so send those legacy paths to the live product URL.
-  const agentsProductUrl = "https://pro.sy-ui.com/agents";
+  // SY INC Agents product page lives on pro.sy-inc.com. Docs and npm still link to
+  // sy-inc.com/agents, so send those legacy paths to the live product URL.
+  const agentsProductUrl = "https://pro.sy-inc.com/agents";
 
   redirects.push(
     {
@@ -191,8 +191,8 @@ export async function getRedirects(): Promise<Redirect[]> {
   // This post has no Chinese translation. Avoid serving English content at a
   // Chinese URL and point crawlers directly at the published English article.
   redirects.push({
-    destination: "/en/blog/styling-and-theming-in-sy-ui-native",
-    source: "/cn/blog/styling-and-theming-in-sy-ui-native",
+    destination: "/en/blog/styling-and-theming-in-sy-inc-native",
+    source: "/cn/blog/styling-and-theming-in-sy-inc-native",
     statusCode: 301,
   });
 

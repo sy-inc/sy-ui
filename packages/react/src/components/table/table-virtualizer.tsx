@@ -69,4 +69,4 @@ export const TableVirtualizer = React.forwardRef<HTMLDivElement, TableVirtualize
   },
 );
 
-TableVirtualizer.displayName = "SY UI.Table.Virtualizer";
+TableVirtualizer.displayName = "SY INC.Table.Virtualizer";

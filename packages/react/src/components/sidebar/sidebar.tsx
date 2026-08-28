@@ -364,11 +364,11 @@ const createPart = <E extends keyof React.JSX.IntrinsicElements>(
   return Part;
 };
 
-const SidebarHeader = createPart("header", "header", "SY UI.Sidebar.Header");
-const SidebarContent = createPart("div", "content", "SY UI.Sidebar.Content");
-const SidebarFooter = createPart("footer", "footer", "SY UI.Sidebar.Footer");
-const SidebarGroup = createPart("section", "group", "SY UI.Sidebar.Group");
-const SidebarInset = createPart("main", "inset", "SY UI.Sidebar.Inset");
+const SidebarHeader = createPart("header", "header", "SY INC.Sidebar.Header");
+const SidebarContent = createPart("div", "content", "SY INC.Sidebar.Content");
+const SidebarFooter = createPart("footer", "footer", "SY INC.Sidebar.Footer");
+const SidebarGroup = createPart("section", "group", "SY INC.Sidebar.Group");
+const SidebarInset = createPart("main", "inset", "SY INC.Sidebar.Inset");
 
 interface SidebarInputProps extends React.ComponentPropsWithRef<typeof Input> {}
 
@@ -443,7 +443,7 @@ const SidebarGroupContent = createMenuPart(
   "div",
   "groupContent",
   "sidebar-group-content",
-  "SY UI.Sidebar.GroupContent",
+  "SY INC.Sidebar.GroupContent",
 );
 
 interface SidebarGroupActionProps extends Omit<ButtonProps, "className"> {
@@ -463,7 +463,7 @@ const SidebarGroupAction = ({className, ...props}: SidebarGroupActionProps) => {
   );
 };
 
-const SidebarMenu = createMenuPart("ul", "menu", "sidebar-menu", "SY UI.Sidebar.Menu");
+const SidebarMenu = createMenuPart("ul", "menu", "sidebar-menu", "SY INC.Sidebar.Menu");
 
 export interface SidebarMenuItemProps extends SidebarElementProps<"li"> {
   /** Hides this item while the sidebar is collapsed. */
@@ -482,13 +482,13 @@ const SidebarMenuItem = ({className, hideCollapsed, ...props}: SidebarMenuItemPr
     />
   );
 };
-SidebarMenuItem.displayName = "SY UI.Sidebar.MenuItem";
+SidebarMenuItem.displayName = "SY INC.Sidebar.MenuItem";
 
 const SidebarMenuBadge = createMenuPart(
   "div",
   "menuBadge",
   "sidebar-menu-badge",
-  "SY UI.Sidebar.MenuBadge",
+  "SY INC.Sidebar.MenuBadge",
 );
 
 interface SidebarMenuActionProps extends Omit<ButtonProps, "className"> {
@@ -510,12 +510,12 @@ const SidebarMenuAction = ({className, showOnHover = false, ...props}: SidebarMe
   );
 };
 
-const SidebarMenuSub = createMenuPart("ul", "menuSub", "sidebar-menu-sub", "SY UI.Sidebar.MenuSub");
+const SidebarMenuSub = createMenuPart("ul", "menuSub", "sidebar-menu-sub", "SY INC.Sidebar.MenuSub");
 const SidebarMenuSubItem = createMenuPart(
   "li",
   "menuSubItem",
   "sidebar-menu-sub-item",
-  "SY UI.Sidebar.MenuSubItem",
+  "SY INC.Sidebar.MenuSubItem",
 );
 
 type SidebarButtonProps =
@@ -716,10 +716,10 @@ const SidebarIcon = () => (
   </svg>
 );
 
-SidebarRoot.displayName = "SY UI.Sidebar";
-SidebarPanel.displayName = "SY UI.Sidebar.Panel";
-SidebarTrigger.displayName = "SY UI.Sidebar.Trigger";
-SidebarRail.displayName = "SY UI.Sidebar.Rail";
+SidebarRoot.displayName = "SY INC.Sidebar";
+SidebarPanel.displayName = "SY INC.Sidebar.Panel";
+SidebarTrigger.displayName = "SY INC.Sidebar.Trigger";
+SidebarRail.displayName = "SY INC.Sidebar.Rail";
 
 export {
   SidebarRoot,

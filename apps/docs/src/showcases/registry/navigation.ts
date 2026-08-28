@@ -4,7 +4,7 @@ import {CORE_TEAM_AUTHORS} from "../authors";
 import AppleIPhoneCameraZoom from "../navigation/apple-iphone-camera-zoom";
 import AppleIPhoneDisclosure from "../navigation/apple-iphone-disclosure";
 
-const SHOWCASE_CDN_URL = "https://assets.sy-ui.com/docs/showcases";
+const SHOWCASE_CDN_URL = "https://assets.sy-inc.com/docs/showcases";
 
 export const navigationShowcases: ShowcaseItem[] = [
   {

@@ -1,17 +1,17 @@
 ---
 title: 主题
-description: 使用 CSS 变量与全局样式定制 SY UI Native 设计系统
+description: 使用 CSS 变量与全局样式定制 SY INC Native 设计系统
 icon: palette
 links:
   themes: true
   tailwind: theme
 ---
 
-SY UI Native 使用 CSS 变量实现主题化，可用标准 CSS 覆盖从颜色到组件样式的一切。
+SY INC Native 使用 CSS 变量实现主题化，可用标准 CSS 覆盖从颜色到组件样式的一切。
 
 ## 工作原理
 
-主题系统建立在 [Tailwind CSS v4](https://tailwindcss.com/docs/theme) 的主题能力之上，并通过 [Uniwind](https://uniwind.dev/) 接入 React Native。导入 `sy-ui-native/styles` 后，会使用 Tailwind 内置色板并映射到语义变量，自动在明暗主题间切换，并借助 CSS 层与 `@theme` 进行组织。
+主题系统建立在 [Tailwind CSS v4](https://tailwindcss.com/docs/theme) 的主题能力之上，并通过 [Uniwind](https://uniwind.dev/) 接入 React Native。导入 `sy-inc-native/styles` 后，会使用 Tailwind 内置色板并映射到语义变量，自动在明暗主题间切换，并借助 CSS 层与 `@theme` 进行组织。
 
 **命名约定：**
 
@@ -32,11 +32,11 @@ import { View, Text } from 'react-native';
 
 **切换主题：**
 
-通过 [Uniwind](https://docs.uniwind.dev/theming/basics)，SY UI Native 自动支持深色模式；可跟随系统，也可手动切换明暗变体：
+通过 [Uniwind](https://docs.uniwind.dev/theming/basics)，SY INC Native 自动支持深色模式；可跟随系统，也可手动切换明暗变体：
 
 ```tsx
 import { Uniwind, useUniwind } from 'uniwind';
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 
 function ThemeToggle() {
   const { theme } = useUniwind();
@@ -240,7 +240,7 @@ module.exports = withUniwindConfig(wrapWithReanimatedMetroConfig(config), {
 
 ```tsx
 import { Uniwind } from 'uniwind';
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 
 function App() {
   return (
@@ -295,7 +295,7 @@ import { View, Text } from 'react-native';
 
 ```tsx
 import { useFonts } from 'expo-font';
-import { SyUINativeProvider } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
 import {
   YourFont_400Regular,
   YourFont_500Medium,
@@ -313,7 +313,7 @@ export default function App() {
     return null; // Or return a loading screen
   }
 
-  return <SyUINativeProvider>{/* Your app content */}</SyUINativeProvider>;
+  return <SyIncNativeProvider>{/* Your app content */}</SyIncNativeProvider>;
 }
 ```
 
@@ -331,21 +331,21 @@ export default function App() {
 
 **说明：** CSS 变量中的字体名应与已加载字体的 PostScript 名称一致。请查阅字体包文档，或直接使用 `useFonts` 中出现的名称。
 
-所有 SY UI Native 组件会自动使用这些字体变量，以保持排版一致。
+所有 SY INC Native 组件会自动使用这些字体变量，以保持排版一致。
 
 ## 变量参考
 
-SY UI 定义三类变量：
+SY INC 定义三类变量：
 
 1. **基础变量** — 如 `--white`、`--black` 等不随主题切换的值
 2. **主题变量** — 随明暗主题切换的颜色
 3. **计算变量** — 自动生成的按压态（hover）与尺寸变体等
 
-完整参考：[颜色文档](/docs/native/getting-started/colors)、[默认主题变量](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/variables.css)、[共享主题工具](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/theme.css)
+完整参考：[颜色文档](/docs/native/getting-started/colors)、[默认主题变量](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/variables.css)、[共享主题工具](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/theme.css)
 
 **计算变量（Tailwind）：**
 
-我们通过 Tailwind 的 `@theme` 指令自动生成按压态与圆角等计算变量，定义见 [theme.css](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/theme.css)：
+我们通过 Tailwind 的 `@theme` 指令自动生成按压态与圆角等计算变量，定义见 [theme.css](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/theme.css)：
 <CollapsibleCode lang="css" code={`  @theme inline static {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -363,7 +363,7 @@ SY UI 定义三类变量：
   --color-overlay: var(--overlay);
   --color-overlay-foreground: var(--overlay-foreground);
   --color-backdrop: var(--backdrop);
-  
+
 
   --color-muted: var(--muted);
 
@@ -418,7 +418,7 @@ SY UI 定义三类变量：
   --color-warning-hover: color-mix(in oklab, var(--warning) 90%, var(--warning-foreground) 10%);
   --color-danger-hover: color-mix(in oklab, var(--danger) 90%, var(--danger-foreground) 10%);
 
-  /* Form Field Colors */ 
+  /* Form Field Colors */
   --color-field-hover: color-mix(in oklab, var(--field-background, var(--default)) 90%, var(--field-foreground, var(--foreground)) 2%);
   --color-field-focus: var(--field-background, var(--default));
   --color-field-border-hover: color-mix(in oklab, var(--field-border, var(--border)) 88%, var(--field-foreground, var(--foreground)) 10%);
@@ -469,12 +469,12 @@ SY UI 定义三类变量：
 
 ## 鲜亮配色
 
-默认情况下，SY UI Native 使用可读性更好的柔和前景色，即将语义色与前景色按比例混合，以在 soft 背景上获得更佳对比度。如果你偏好饱和度更高、更鲜亮的柔和前景色，可以在引入基础样式之后，额外导入可选的 `sy-ui-native/styles/vibrant` 样式：
+默认情况下，SY INC Native 使用可读性更好的柔和前景色，即将语义色与前景色按比例混合，以在 soft 背景上获得更佳对比度。如果你偏好饱和度更高、更鲜亮的柔和前景色，可以在引入基础样式之后，额外导入可选的 `sy-inc-native/styles/vibrant` 样式：
 
 ```css
 /* global.css */
-@import "sy-ui-native/styles";
-@import "sy-ui-native/styles/vibrant"; /* [!code highlight] */
+@import "sy-inc-native/styles";
+@import "sy-inc-native/styles/vibrant"; /* [!code highlight] */
 ```
 
 这会将所有 `*-soft-foreground` 变量（accent、success、warning、danger）切换为「语义色 92% + 前景色 8%」的混合配方——更贴近原始色调，但仍带有轻微的对比度增强。[Alert](/docs/native/components/alert)、[Avatar](/docs/native/components/avatar)、[Button](/docs/native/components/button)、[Chip](/docs/native/components/chip)、[Toast](/docs/native/components/toast) 等组件会自动在其 soft 变体上使用新的柔和前景色——无需修改任何组件属性。

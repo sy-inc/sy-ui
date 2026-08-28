@@ -2,20 +2,20 @@
   "home": {
     "releaseBadges": [
       {
-        "label": "SY UI React v0.0.1 — initial version",
+        "label": "SY INC React v0.0.1 — initial version",
         "href": "/docs/react/getting-started/quick-start",
         "date": "2026-08-27"
       },
       {
-        "label": "SY UI Native v0.0.1 — initial version",
+        "label": "SY INC Native v0.0.1 — initial version",
         "href": "/docs/native/getting-started/quick-start",
         "date": "2026-08-27"
       }
     ],
     "titleMain": "Beautiful by default.",
     "titleMuted": "Customizable by design.",
-    "description": "SY UI is the modern UI library for web and mobile, built to help you move fast, stay consistent, and deliver delightful user experiences.",
-    "metaTitle": "SY UI v0.0.1 — Beautiful by default, customizable by design.",
+    "description": "SY INC is the modern UI library for web and mobile, built to help you move fast, stay consistent, and deliver delightful user experiences.",
+    "metaTitle": "SY INC v0.0.1 — Beautiful by default, customizable by design.",
     "metaDescription": "Beautiful, accessible React UI components built on React Aria and Tailwind CSS v4. The modern alternative to MUI, Chakra UI, and shadcn/ui for building production-ready applications.",
     "getStarted": "Get started",
     "viewComponents": "View components",
@@ -47,8 +47,8 @@
   },
   "blog": {
     "heading": "Blog",
-    "metaTitle": "Blog | SY UI",
-    "metaDescription": "Guides, tutorials, and resources for building modern React applications with SY UI. Comparisons, best practices, and more.",
+    "metaTitle": "Blog | SY INC",
+    "metaDescription": "Guides, tutorials, and resources for building modern React applications with SY INC. Comparisons, best practices, and more.",
     "categoriesAriaLabel": "Blog categories",
     "categories": {
       "all": "All",
@@ -64,7 +64,7 @@
   },
   "showcase": {
     "heading": "Showcase",
-    "description": "Explore interactive examples showcasing SY UI components in real-world scenarios."
+    "description": "Explore interactive examples showcasing SY INC components in real-world scenarios."
   },
   "footer": {
     "about": "About",
@@ -121,8 +121,8 @@
   },
   "themes": {
     "heading": "Theme Builder",
-    "metaTitle": "SY UI Theme Builder – Customize React UI",
-    "metaDescription": "Customize SY UI React themes visually. Tune colors, typography, and radius, preview components live, and copy production-ready SY UI CSS variables.",
+    "metaTitle": "SY INC Theme Builder – Customize React UI",
+    "metaDescription": "Customize SY INC React themes visually. Tune colors, typography, and radius, preview components live, and copy production-ready SY INC CSS variables.",
     "theme": "Theme",
     "custom": "Custom",
     "designTheme": "Design theme",
@@ -133,7 +133,7 @@
   },
   "themeBuilder": {
     "onboarding": {
-      "title": "Adapt SY UI v0.0.1 to your brand",
+      "title": "Adapt SY INC v0.0.1 to your brand",
       "description": "Customize colors, radius, and typography using a token system that keeps every component consistent and production-ready.",
       "moreComing": "More features and themes coming soon.",
       "continue": "Continue"
@@ -231,7 +231,7 @@
     },
     "allowNotifications": {
       "label": "Allow notifications",
-      "description": "Receive push notifications from SY UI"
+      "description": "Receive push notifications from SY INC"
     },
     "buttons": {
       "clickMe": "Click me"

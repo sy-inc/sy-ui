@@ -50,10 +50,10 @@ export async function generateMetadata({
     title: {absolute: title},
     twitter: {
       card: "summary_large_image",
-      creator: "@sy_ui",
+      creator: "@sy_inc",
       description,
       images: [siteConfig.ogImage],
-      site: "@sy_ui",
+      site: "@sy_inc",
       title,
     },
   };
@@ -92,7 +92,7 @@ export default async function HomePage({params}: {params: Promise<{lang: string}
           </div>
           <a
             className="mt-2 flex items-center justify-around gap-2 text-xs text-muted transition-colors hover:text-foreground lg:mt-4"
-            href="https://github.com/sy-ui/sy-ui"
+            href="https://github.com/sy-inc/sy-inc"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -103,13 +103,13 @@ export default async function HomePage({params}: {params: Promise<{lang: string}
             </span>
           </a>
           <section
-            aria-labelledby="sy-ui-overview"
+            aria-labelledby="sy-inc-overview"
             className="sr-only"
             lang={lang === "cn" ? "en" : undefined}
           >
-            <h2 id="sy-ui-overview">Build accessible products with SY UI</h2>
+            <h2 id="sy-inc-overview">Build accessible products with SY INC</h2>
             <p>
-              SY UI is an open-source component library for React web and React Native
+              SY INC is an open-source component library for React web and React Native
               applications. The web library combines React Aria Components with Tailwind CSS v4 to
               provide accessible behavior, typed APIs, customizable composition, and polished
               defaults. Teams can inspect the source, use the free packages, and adapt each
@@ -117,11 +117,11 @@ export default async function HomePage({params}: {params: Promise<{lang: string}
             </p>
             <h3>Documentation for developers and coding agents</h3>
             <p>
-              The SY UI documentation includes installation guides, component APIs, examples,
+              The SY INC documentation includes installation guides, component APIs, examples,
               theming references, migration instructions, and an official CLI guide. Coding agents
               can use the generated llms.txt indexes, request documentation as markdown, search the
-              public Docs Agent API, read its OpenAPI specification, or connect the existing SY UI
-              React and SY UI Native MCP packages. These machine-readable resources expose the same
+              public Docs Agent API, read its OpenAPI specification, or connect the existing SY INC
+              React and SY INC Native MCP packages. These machine-readable resources expose the same
               public documentation without requiring a paid plan or weakening authentication for
               private services.
             </p>

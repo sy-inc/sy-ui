@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">July 2, 2026</span>
 </div>
 
-SY UI Native v1.0.5 resolves a long-standing `border-field` merge conflict by splitting the field border into separate width and color tokens and configuring `tailwind-variants` globally, migrating Input, InputOTP, Radio, and Checkbox to outline-based focus, active, and invalid states. This release also brings iOS Dynamic Type support to Typography, adds provider-level text input configuration, reworks Popover, Menu, and Select entering animations to mount content only once, aligns the Select check icon with the `accent-soft-foreground` token, and upgrades the toolchain to Expo 57 / React Native 0.86.
+SY INC Native v1.0.5 resolves a long-standing `border-field` merge conflict by splitting the field border into separate width and color tokens and configuring `tailwind-variants` globally, migrating Input, InputOTP, Radio, and Checkbox to outline-based focus, active, and invalid states. This release also brings iOS Dynamic Type support to Typography, adds provider-level text input configuration, reworks Popover, Menu, and Select entering animations to mount content only once, aligns the Select check icon with the `accent-soft-foreground` token, and upgrades the toolchain to Expo 57 / React Native 0.86.
 
 ## Installation
 
@@ -19,28 +19,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -62,7 +62,7 @@ The [Popover](/docs/native/components/popover), [Menu](/docs/native/components/m
 
 Public component APIs are unchanged — the single-mount path is entirely internal, and custom entering animations behave exactly as before. We recommend verifying enter and exit animations across all four placements, sub-menu transitions, and the disabled-animations case.
 
-**Related PR:** [#438](https://github.com/sy-ui/sy-ui-native/pull/438)
+**Related PR:** [#438](https://github.com/sy-inc/sy-inc-native/pull/438)
 
 ## Component Improvements
 
@@ -78,7 +78,7 @@ The [Typography](/docs/native/components/text) component now applies a default `
 
 This change is iOS-only and does not alter the Typography API. Apps that already pass `dynamicTypeRamp` directly continue to control scaling explicitly.
 
-**Related PR:** [#435](https://github.com/sy-ui/sy-ui-native/pull/435)
+**Related PR:** [#435](https://github.com/sy-inc/sy-inc-native/pull/435)
 
 ### Select Check Icon Color
 
@@ -91,22 +91,22 @@ The [Select](/docs/native/components/select) component's `Select.ItemIndicator` 
 
 Only the default icon color changes when `iconProps.color` is omitted — the API is unchanged and custom colors still work. Manual verification on light and dark themes is recommended to confirm indicator contrast.
 
-**Related PR:** [#436](https://github.com/sy-ui/sy-ui-native/pull/436)
+**Related PR:** [#436](https://github.com/sy-inc/sy-inc-native/pull/436)
 
 ## API Enhancements
 
 ### Provider Text Input Configuration
 
-The [SyUINativeProvider](/docs/native/getting-started/provider) (and `SyUINativeProviderRaw`) can now configure a subset of `TextInput` props globally through a new `textInputProps` config, starting with `allowFontScaling` and `maxFontSizeMultiplier`. This mirrors the existing global `textProps` pattern and keeps input font-scaling behavior consistent across the app.
+The [SyIncNativeProvider](/docs/native/getting-started/provider) (and `SyIncNativeProviderRaw`) can now configure a subset of `TextInput` props globally through a new `textInputProps` config, starting with `allowFontScaling` and `maxFontSizeMultiplier`. This mirrors the existing global `textProps` pattern and keeps input font-scaling behavior consistent across the app.
 
 **New Capability:**
 
 ```tsx
-import { SyUINativeProvider } from "sy-ui-native";
+import { SyIncNativeProvider } from "sy-inc-native";
 
 export function App() {
   return (
-    <SyUINativeProvider
+    <SyIncNativeProvider
       config={{
         textInputProps: {
           allowFontScaling: true,
@@ -115,20 +115,20 @@ export function App() {
       }}
     >
       {/* Your app */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
 
 **What's included:**
 
-- New `textInputProps` config on `SyUINativeConfig` and `SyUINativeConfigRaw` (`allowFontScaling`, `maxFontSizeMultiplier`)
+- New `textInputProps` config on `SyIncNativeConfig` and `SyIncNativeConfigRaw` (`allowFontScaling`, `maxFontSizeMultiplier`)
 - New `TextInputComponentProvider` / `useTextInputComponent` and a `HeroTextInput` helper that applies global props as overridable defaults
 - Applied across `Input` (and therefore `TextArea`, `SearchField`, and `InputGroup`) and the `InputOTP` primitive
 
 Global props are applied as defaults, so any prop passed directly to a component still overrides them.
 
-**Related PR:** [#437](https://github.com/sy-ui/sy-ui-native/pull/437)
+**Related PR:** [#437](https://github.com/sy-inc/sy-inc-native/pull/437)
 
 ## Dependencies
 
@@ -154,7 +154,7 @@ The project has been upgraded to the Expo 57 / React Native 0.86 toolchain. This
 
 Public APIs are unchanged, but consumers should align their peer versions with Expo 57 / React Native 0.86. Manual testing of overlay open/close animations on iOS and Android and input focus states is recommended.
 
-**Related PR:** [#439](https://github.com/sy-ui/sy-ui-native/pull/439)
+**Related PR:** [#439](https://github.com/sy-inc/sy-inc-native/pull/439)
 
 ## ⚠️ Breaking Changes
 
@@ -202,7 +202,7 @@ When using the field border width utility directly, rename it:
 
 If you rely on `--field-border` color to produce resting borders, set a non-zero `--field-border-width` default to restore that appearance.
 
-**Related PR:** [#434](https://github.com/sy-ui/sy-ui-native/pull/434)
+**Related PR:** [#434](https://github.com/sy-inc/sy-inc-native/pull/434)
 
 ## Updated Documentation
 
@@ -215,7 +215,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

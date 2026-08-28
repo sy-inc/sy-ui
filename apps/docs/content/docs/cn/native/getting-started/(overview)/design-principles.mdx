@@ -1,10 +1,10 @@
 ---
 title: 设计原则
-description: 指导 SY UI Native 设计与开发的核心理念
+description: 指导 SY INC Native 设计与开发的核心理念
 icon: book
 ---
 
-SY UI Native 遵循 9 条核心原则，强调清晰、无障碍、可定制与开发者体验。
+SY INC Native 遵循 9 条核心原则，强调清晰、无障碍、可定制与开发者体验。
 
 ## 核心原则
 
@@ -13,8 +13,8 @@ SY UI Native 遵循 9 条核心原则，强调清晰、无障碍、可定制与�
 使用语义化命名（primary、secondary、tertiary）而非纯视觉描述（solid、flat、bordered）。受 [Uber Base 设计系统](https://base.uber.com/6d2425e9f/p/756216-button) 启发，变体形成清晰层级：
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/emphasis.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/emphasis-dark.jpg"
+  src="https://assets.sy-inc.com/docs/emphasis.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/emphasis-dark.jpg"
   alt="Semantic Intent Hierarchy"
 />
 
@@ -38,7 +38,7 @@ SY UI Native 遵循 9 条核心原则，强调清晰、无障碍、可定制与�
 遵循移动端无障碍最佳实践，内置合理的触控可达性、焦点管理与读屏支持。所有组件提供适当的无障碍标签与语义结构，以支持 VoiceOver（iOS）与 TalkBack（Android）。
 
 ```tsx
-import { Tabs } from 'sy-ui-native';
+import { Tabs } from 'sy-inc-native';
 
 <Tabs value="profile" onValueChange={setActiveTab}>
   <Tabs.List>
@@ -61,7 +61,7 @@ import { Tabs } from 'sy-ui-native';
 
 ```tsx
 // 组合子部件得到所需结构
-import { Accordion } from 'sy-ui-native';
+import { Accordion } from 'sy-inc-native';
 
 <Accordion>
   <Accordion.Item value="1">
@@ -79,7 +79,7 @@ import { Accordion } from 'sy-ui-native';
 从简单开始，仅在需要时增加复杂度。组件在最少配置下即可工作，并随需求增长而扩展。
 
 ```tsx
-import { Button, Spinner } from 'sy-ui-native';
+import { Button, Spinner } from 'sy-inc-native';
 import { Feather } from '@expo/vector-icons';
 
 // Level 1: Minimal
@@ -109,7 +109,7 @@ import { Feather } from '@expo/vector-icons';
 跨组件保持一致：`sm` / `md` / `lg` 尺寸、变体体系与 `className` 支持。API 一致，行为一致。
 
 ```tsx
-import { Button, Chip, Avatar } from 'sy-ui-native';
+import { Button, Chip, Avatar } from 'sy-inc-native';
 
 // All components follow the same patterns
 <Button size="lg" variant="primary" className="custom">
@@ -128,7 +128,7 @@ import { Button, Chip, Avatar } from 'sy-ui-native';
 完整的 TypeScript 支持：智能提示、自动补全与编译期检查。可为自定义组件扩展类型。
 
 ```tsx
-import type { ButtonRootProps } from 'sy-ui-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 
 // Type-safe props and event handlers
 <Button
@@ -180,8 +180,8 @@ interface CustomButtonProps extends Omit<ButtonRootProps, 'variant'> {
 可包装、扩展与定制组件以匹配产品需求；也可用 `className` 应用自定义样式。
 
 ```tsx
-import { Button } from 'sy-ui-native';
-import type { ButtonRootProps } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
+import type { ButtonRootProps } from 'sy-inc-native';
 
 // Custom wrapper component
 interface CTAButtonProps extends Omit<ButtonRootProps, 'variant'> {
@@ -214,7 +214,7 @@ const CTAButton = ({
 **结合 tailwind-variants 扩展：**
 
 ```tsx
-import { Button } from 'sy-ui-native';
+import { Button } from 'sy-inc-native';
 import { tv } from 'tailwind-variants';
 
 // Extend button styles with custom variants

@@ -16,37 +16,37 @@ export function TagGroupWithListData() {
     getKey: (item) => item.id,
     initialItems: [
       {
-        avatar: "https://assets.sy-ui.com/avatars/blue.jpg",
+        avatar: "https://assets.sy-inc.com/avatars/blue.jpg",
         fallback: "F",
         id: "fred",
         name: "Fred",
       },
       {
-        avatar: "https://assets.sy-ui.com/avatars/green.jpg",
+        avatar: "https://assets.sy-inc.com/avatars/green.jpg",
         fallback: "M",
         id: "michael",
         name: "Michael",
       },
       {
-        avatar: "https://assets.sy-ui.com/avatars/purple.jpg",
+        avatar: "https://assets.sy-inc.com/avatars/purple.jpg",
         fallback: "J",
         id: "jane",
         name: "Jane",
       },
       {
-        avatar: "https://assets.sy-ui.com/avatars/red.jpg",
+        avatar: "https://assets.sy-inc.com/avatars/red.jpg",
         fallback: "A",
         id: "alice",
         name: "Alice",
       },
       {
-        avatar: "https://assets.sy-ui.com/avatars/orange.jpg",
+        avatar: "https://assets.sy-inc.com/avatars/orange.jpg",
         fallback: "B",
         id: "bob",
         name: "Bob",
       },
       {
-        avatar: "https://assets.sy-ui.com/avatars/black.jpg",
+        avatar: "https://assets.sy-inc.com/avatars/black.jpg",
         fallback: "C",
         id: "charlie",
         name: "Charlie",

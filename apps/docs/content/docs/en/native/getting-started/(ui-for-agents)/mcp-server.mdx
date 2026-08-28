@@ -1,21 +1,21 @@
 ---
 title: MCP Server
-description: Access SY UI Native documentation directly in your AI assistant
+description: Access SY INC Native documentation directly in your AI assistant
 ---
 
-The SY UI MCP Server gives AI assistants direct access to SY UI Native component documentation, making it easier to build with SY UI in AI-powered development environments.
+The SY INC MCP Server gives AI assistants direct access to SY INC Native component documentation, making it easier to build with SY INC in AI-powered development environments.
 
 <DocsImage
-  src="https://assets.sy-ui.com/docs/native/hero-native-mcp-light-new.jpg"
-  darkSrc="https://assets.sy-ui.com/docs/native/hero-native-mcp-dark-new.jpg"
-  alt="SY UI v3 MCP Server"
+  src="https://assets.sy-inc.com/docs/native/hero-native-mcp-light-new.jpg"
+  darkSrc="https://assets.sy-inc.com/docs/native/hero-native-mcp-dark-new.jpg"
+  alt="SY INC v3 MCP Server"
 />
 
 
-The MCP server currently supports **sy-ui-native** and [stdio transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio). Published at `@sy-ui/native-mcp` on npm. View the source code on [GitHub](https://github.com/sy-ui/sy-ui-mcp).
+The MCP server currently supports **sy-inc-native** and [stdio transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio). Published at `@sy-inc/native-mcp` on npm. View the source code on [GitHub](https://github.com/sy-inc/sy-inc-mcp).
 
 <Callout>
-  As we add more components to SY UI Native, they'll be available in the MCP server too.
+  As we add more components to SY INC Native, they'll be available in the MCP server too.
 </Callout>
 
 ## Quick Setup
@@ -24,7 +24,7 @@ The MCP server currently supports **sy-ui-native** and [stdio transport](https:/
 
 <div className="flex items-center gap-3 mb-4">
   <a
-    href="https://link.sy-ui.com/native-mcp-cursor-install"
+    href="https://link.sy-inc.com/native-mcp-cursor-install"
     className="button button--tertiary button--sm no-underline"
   >
     <svg viewBox="0 0 466.73 532.09" className="w-5 h-5 fill-current">
@@ -39,9 +39,9 @@ Or manually add to **Cursor Settings** → **Tools** → **MCP Servers**:
 ```json title=".cursor/mcp.json"
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -52,7 +52,7 @@ Alternatively, add the following to your `~/.cursor/mcp.json` file. To learn mor
 **Claude Code:** Run this command in your terminal:
 
 ```bash
-claude mcp add sy-ui-native -- npx -y @sy-ui/native-mcp@latest
+claude mcp add sy-inc-native -- npx -y @sy-inc/native-mcp@latest
 ```
 
 Or manually add to your project's `.mcp.json` file:
@@ -60,26 +60,26 @@ Or manually add to your project's `.mcp.json` file:
 ```json title=".mcp.json"
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
 ```
 
-After adding the configuration, restart Claude Code and run `/mcp` to see the SY UI MCP server in the list. If you see **Connected**, you're ready to use it.
+After adding the configuration, restart Claude Code and run `/mcp` to see the SY INC MCP server in the list. If you see **Connected**, you're ready to use it.
 
 See the [Claude Code MCP documentation](https://docs.claude.com/en/docs/claude-code/mcp) for more details.
 
-**Windsurf:** Add the SY UI server to your project's `.windsurf/mcp.json` configuration file:
+**Windsurf:** Add the SY INC server to your project's `.windsurf/mcp.json` configuration file:
 
 ```json title=".windsurf/mcp.json"
 {
   "mcpServers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -89,63 +89,63 @@ After adding the configuration, restart Windsurf to activate the MCP server.
 
 See the [Windsurf MCP documentation](https://docs.windsurf.com/windsurf/cascade/mcp) for more details.
 
-**Zed:** Add the SY UI server to your `settings.json` configuration file. Open settings via Command Palette (`zed: open settings`) or use `Cmd-,` (Mac) / `Ctrl-,` (Linux):
+**Zed:** Add the SY INC server to your `settings.json` configuration file. Open settings via Command Palette (`zed: open settings`) or use `Cmd-,` (Mac) / `Ctrl-,` (Linux):
 
 ```json title="settings.json"
 {
   "context_servers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"],
+      "args": ["-y", "@sy-inc/native-mcp@latest"],
       "env": {}
     }
   }
 }
 ```
 
-After adding the configuration, restart Zed and open the Agent Panel settings view. Check that the indicator dot next to the sy-ui-native server is green with "Server is active" tooltip.
+After adding the configuration, restart Zed and open the Agent Panel settings view. Check that the indicator dot next to the sy-inc-native server is green with "Server is active" tooltip.
 
 See the [Zed MCP documentation](https://zed.dev/docs/ai/mcp) for more details.
 
-**VS Code:** To configure MCP in VS Code with GitHub Copilot, add the SY UI server to your project's `.vscode/mcp.json` configuration file:
+**VS Code:** To configure MCP in VS Code with GitHub Copilot, add the SY INC server to your project's `.vscode/mcp.json` configuration file:
 
 ```json title=".vscode/mcp.json"
 {
   "servers": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@sy-ui/native-mcp@latest"]
+      "args": ["-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
 ```
 
-After adding the configuration, open `.vscode/mcp.json` and click **Start** next to the sy-ui-native server.
+After adding the configuration, open `.vscode/mcp.json` and click **Start** next to the sy-inc-native server.
 
 See the [VS Code MCP documentation](https://code.visualstudio.com/docs/copilot/customization/mcp-servers) for more details.
 
-**Codex:** Add the SY UI server to your `~/.codex/config.toml` (or a project-scoped `.codex/config.toml`):
+**Codex:** Add the SY INC server to your `~/.codex/config.toml` (or a project-scoped `.codex/config.toml`):
 
 ```toml title="config.toml"
-[mcp_servers.sy-ui-native]
+[mcp_servers.sy-inc-native]
 command = "npx"
-args = ["-y", "@sy-ui/native-mcp@latest"]
+args = ["-y", "@sy-inc/native-mcp@latest"]
 ```
 
 After adding the configuration, restart Codex and run `/mcp` in the TUI to verify the server is active.
 
 See the [Codex MCP documentation](https://developers.openai.com/codex/mcp) for more details.
 
-**OpenCode:** Add the SY UI server to your project's `opencode.json` configuration file:
+**OpenCode:** Add the SY INC server to your project's `opencode.json` configuration file:
 
 ```json title="opencode.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "sy-ui-native": {
+    "sy-inc-native": {
       "type": "local",
-      "command": ["npx", "-y", "@sy-ui/native-mcp@latest"]
+      "command": ["npx", "-y", "@sy-inc/native-mcp@latest"]
     }
   }
 }
@@ -159,18 +159,18 @@ See the [OpenCode MCP documentation](https://open-code.ai/docs/en/mcp-servers) f
 
 Once configured, ask your AI assistant questions like:
 
-- "Help me install SY UI Native in my Expo app"
-- "Show me all SY UI Native components"
+- "Help me install SY INC Native in my Expo app"
+- "Show me all SY INC Native components"
 - "What props does the Button component have?"
 - "Give me an example of using the Card component"
 - "What are the theme variables for dark mode?"
 
 ### Automatic Updates
 
-The MCP server can help you upgrade to the latest SY UI Native version:
+The MCP server can help you upgrade to the latest SY INC Native version:
 
 ```bash
-"Hey Cursor, update SY UI Native to the latest version"
+"Hey Cursor, update SY INC Native to the latest version"
 ```
 
 Your AI assistant will automatically:
@@ -186,20 +186,20 @@ The MCP server provides these tools to AI assistants:
 
 | Tool | Description |
 |------|-------------|
-| `list_components` | List all available SY UI Native components |
+| `list_components` | List all available SY INC Native components |
 | `get_component_docs` | Get complete component documentation including anatomy, props, examples, and usage patterns for one or more components |
 | `get_theme_variables` | Access theme variables for colors, typography, spacing with light/dark mode support |
-| `get_docs` | Browse the full SY UI Native documentation including guides and principles (use path `/docs/native/getting-started/quick-start` for installation instructions) |
+| `get_docs` | Browse the full SY INC Native documentation including guides and principles (use path `/docs/native/getting-started/quick-start` for installation instructions) |
 
 
 ## Troubleshooting
 
 **Requirements:** Node.js 22 or higher. The package will be automatically downloaded when using `npx`.
 
-**Need help?** [GitHub Issues](https://github.com/sy-ui/sy-ui-mcp/issues) | [Discord Community](https://discord.gg/sy-ui)
+**Need help?** [GitHub Issues](https://github.com/sy-inc/sy-inc-mcp/issues) | [Discord Community](https://discord.gg/sy-inc)
 
 ## Links
 
-- [npm Package](https://www.npmjs.com/package/@sy-ui/native-mcp)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-mcp)
-- [Contributing Guide](https://github.com/sy-ui/sy-ui-mcp/blob/main/CONTRIBUTING.md)
+- [npm Package](https://www.npmjs.com/package/@sy-inc/native-mcp)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-mcp)
+- [Contributing Guide](https://github.com/sy-inc/sy-inc-mcp/blob/main/CONTRIBUTING.md)

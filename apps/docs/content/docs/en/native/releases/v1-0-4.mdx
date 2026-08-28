@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">May 26, 2026</span>
 </div>
 
-SY UI Native v1.0.4 renames the `Text` typography primitive to `Typography` to free up React Native's `Text` name and align with semantic typography usage, while keeping the existing `Text` exports as deprecated aliases for a seamless upgrade. This release also refines soft-foreground color tokens across Alert, Avatar, Button, Chip, and Toast for better contrast on soft backgrounds, ships a new optional `sy-ui-native/styles/vibrant` palette, documents the iOS native-modal offset workaround for Menu, Popover, and Select, and upgrades the example app to Expo 56 / React Native 0.85.
+SY INC Native v1.0.4 renames the `Text` typography primitive to `Typography` to free up React Native's `Text` name and align with semantic typography usage, while keeping the existing `Text` exports as deprecated aliases for a seamless upgrade. This release also refines soft-foreground color tokens across Alert, Avatar, Button, Chip, and Toast for better contrast on soft backgrounds, ships a new optional `sy-inc-native/styles/vibrant` palette, documents the iOS native-modal offset workaround for Menu, Popover, and Select, and upgrades the example app to Expo 56 / React Native 0.85.
 
 ## Installation
 
@@ -19,28 +19,28 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **Using AI assistants?** Simply prompt "Hey Cursor, update SY UI Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY UI Native MCP Server](/docs/native/getting-started/mcp-server).
+  **Using AI assistants?** Simply prompt "Hey Cursor, update SY INC Native to the latest version" and your AI assistant will automatically compare versions and apply the necessary changes. Learn more about the [SY INC Native MCP Server](/docs/native/getting-started/mcp-server).
 </Callout>
 
 ## Try It on Your Device
@@ -54,7 +54,7 @@ Update to the latest version:
 The library's typography primitive has been renamed from `Text` to `Typography` to avoid clashing with React Native's built-in `Text` and to better describe its purpose as a semantic typography system. The component's API, variants, and behavior are unchanged — only the public name moves.
 
 ```tsx
-import { Typography } from "sy-ui-native";
+import { Typography } from "sy-inc-native";
 import { View } from "react-native";
 
 export function Example() {
@@ -68,7 +68,7 @@ export function Example() {
       <Typography.Paragraph color="muted" type="body-sm">
         Smaller supporting text for captions or footnotes.
       </Typography.Paragraph>
-      <Typography.Code>npm install sy-ui-native</Typography.Code>
+      <Typography.Code>npm install sy-inc-native</Typography.Code>
     </View>
   );
 }
@@ -83,29 +83,29 @@ export function Example() {
 - JSDoc and component docs updated to reference Typography and the new docs URL
 
 <Callout type="info">
-  **No migration required.** Existing `import { Text } from "sy-ui-native"` continues to work via deprecated re-exports. Migrate to `Typography` at your convenience before a future major release removes the deprecated aliases.
+  **No migration required.** Existing `import { Text } from "sy-inc-native"` continues to work via deprecated re-exports. Migrate to `Typography` at your convenience before a future major release removes the deprecated aliases.
 </Callout>
 
-**Related PR:** [#417](https://github.com/sy-ui/sy-ui-native/pull/417)
+**Related PR:** [#417](https://github.com/sy-inc/sy-inc-native/pull/417)
 
 ### Vibrant Theme Palette (Optional)
 
-A new optional `sy-ui-native/styles/vibrant` stylesheet is available for apps that prefer more saturated brand colors on soft variants. It keeps the readability improvements from the refined soft-foreground tokens while preserving high color saturation for icons and text on soft backgrounds.
+A new optional `sy-inc-native/styles/vibrant` stylesheet is available for apps that prefer more saturated brand colors on soft variants. It keeps the readability improvements from the refined soft-foreground tokens while preserving high color saturation for icons and text on soft backgrounds.
 
 **Usage:**
 
 ```ts
 // Default refined soft-foreground palette
-import "sy-ui-native/styles";
+import "sy-inc-native/styles";
 
 // Or, opt into the vibrant palette
-import "sy-ui-native/styles";
-import "sy-ui-native/styles/vibrant";
+import "sy-inc-native/styles";
+import "sy-inc-native/styles/vibrant";
 ```
 
-Import `sy-ui-native/styles/vibrant` after the base styles to override soft-foreground tokens with the more saturated values. No component code changes are required to opt in.
+Import `sy-inc-native/styles/vibrant` after the base styles to override soft-foreground tokens with the more saturated values. No component code changes are required to opt in.
 
-**Related PR:** [#420](https://github.com/sy-ui/sy-ui-native/pull/420)
+**Related PR:** [#420](https://github.com/sy-inc/sy-inc-native/pull/420)
 
 ## Component Improvements
 
@@ -117,12 +117,12 @@ The [Alert](/docs/native/components/alert), [Avatar](/docs/native/components/ava
 
 - Soft foreground tokens (`accent-soft-foreground`, `success-soft-foreground`, `warning-soft-foreground`, `danger-soft-foreground`, `default-soft-foreground`) are computed via `color-mix` in `theme.css` for improved readability on soft backgrounds
 - Alert, Avatar, Button, Chip, and Toast styles (and their internal hooks) consume the new soft-foreground tokens instead of raw semantic colors like `text-accent` or `text-success`
-- A new optional `sy-ui-native/styles/vibrant` export preserves saturated brand colors on soft variants for apps that want a more vivid look
+- A new optional `sy-inc-native/styles/vibrant` export preserves saturated brand colors on soft variants for apps that want a more vivid look
 - Example app demos for Alert, Avatar, Button, Chip, and Toast were updated to match the refined color usage
 
 Component props and public APIs are unchanged — only the color values applied to soft variants. Apps relying on the default theme will see softer, more legible icon and label colors on soft variants out of the box.
 
-**Related PR:** [#420](https://github.com/sy-ui/sy-ui-native/pull/420)
+**Related PR:** [#420](https://github.com/sy-inc/sy-inc-native/pull/420)
 
 ### TextArea Vertical Padding Fix
 
@@ -133,7 +133,7 @@ The [TextArea](/docs/native/components/text-area) component now applies proper i
 - `TextArea` now uses `h-32 py-2` for consistent inner spacing
 - No API changes — the fix is a styling-only update inside the component
 
-**Related PR:** [#421](https://github.com/sy-ui/sy-ui-native/pull/421)
+**Related PR:** [#421](https://github.com/sy-inc/sy-inc-native/pull/421)
 
 ## API Enhancements
 
@@ -144,7 +144,7 @@ The [`useThemeColor`](/docs/native/hooks/use-theme-color) hook now exposes addit
 **New Capability:**
 
 ```tsx
-import { useThemeColor } from "sy-ui-native";
+import { useThemeColor } from "sy-inc-native";
 
 const colors = useThemeColor([
   "default-soft",
@@ -162,13 +162,13 @@ const colors = useThemeColor([
 
 Apps using removed `useThemeColor` keys (`on-surface-*`) or the previous `overlay-backdrop` key should migrate to the updated token names. Component props and visual defaults are unchanged.
 
-**Related PR:** [#420](https://github.com/sy-ui/sy-ui-native/pull/420)
+**Related PR:** [#420](https://github.com/sy-inc/sy-inc-native/pull/420)
 
 ## Dependencies
 
 ### `@gorhom/bottom-sheet` Peer Range Updated
 
-The peer dependency range for `@gorhom/bottom-sheet` has been bumped from `^5.2.8` to `^5.2.9`. Apps that use SY UI Native's [BottomSheet](/docs/native/components/bottom-sheet) component (or any of `Menu` / `Popover` / `Select` with `presentation="bottom-sheet"`) should ensure they are on a compatible version:
+The peer dependency range for `@gorhom/bottom-sheet` has been bumped from `^5.2.8` to `^5.2.9`. Apps that use SY INC Native's [BottomSheet](/docs/native/components/bottom-sheet) component (or any of `Menu` / `Popover` / `Select` with `presentation="bottom-sheet"`) should ensure they are on a compatible version:
 
 ```bash
 npm i @gorhom/bottom-sheet@^5.2.9
@@ -176,7 +176,7 @@ npm i @gorhom/bottom-sheet@^5.2.9
 
 This is the only peer-dep change affecting consumers. The library's `react` (`>=19.0.0`) and `react-native` (`>=0.81.0`) peer ranges are unchanged.
 
-**Related PR:** [#421](https://github.com/sy-ui/sy-ui-native/pull/421)
+**Related PR:** [#421](https://github.com/sy-inc/sy-inc-native/pull/421)
 
 ### Example App Upgraded to Expo 56 / React Native 0.85
 
@@ -195,9 +195,9 @@ Additional housekeeping included in this upgrade:
 - Replaced deprecated `StyleSheet.absoluteFillObject` with `StyleSheet.absoluteFill` in input-otp and showcases
 - Migrated `useFocusEffect` / `useHeaderHeight` imports to `expo-router`
 - Removed unused `example/src/components/safe-area-view.tsx`, `eas.json`, and stale `newArchEnabled` / `edgeToEdgeEnabled` flags
-- Example app slug/bundle renamed to `sy-ui-native-oss`; Android `WithStateToggle` padding adjusted
+- Example app slug/bundle renamed to `sy-inc-native-oss`; Android `WithStateToggle` padding adjusted
 
-**Related PR:** [#421](https://github.com/sy-ui/sy-ui-native/pull/421)
+**Related PR:** [#421](https://github.com/sy-inc/sy-inc-native/pull/421)
 
 ## Documentation
 
@@ -215,7 +215,7 @@ The [Menu](/docs/native/components/menu), [Popover](/docs/native/components/popo
 
 ```tsx
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Popover } from "sy-ui-native";
+import { Popover } from "sy-inc-native";
 
 const insets = useSafeAreaInsets();
 
@@ -226,19 +226,19 @@ const insets = useSafeAreaInsets();
 
 This is a documentation-only change — no API or runtime behavior was modified.
 
-**Related PR:** [#419](https://github.com/sy-ui/sy-ui-native/pull/419)
+**Related PR:** [#419](https://github.com/sy-inc/sy-inc-native/pull/419)
 
 ## Bug Fixes
 
 This release includes fixes for the following issues:
 
-- **[Issue #405](https://github.com/sy-ui/sy-ui-native/issues/405)**: Documented the workaround for `Menu` rendering misaligned when opened inside a React Navigation native modal. The new **Native Modal (iOS)** section in the Menu docs explains the Fabric / `FullWindowOverlay` coordinate mismatch and shows how to compensate via `offset={insets.top}` with `useSafeAreaInsets`.
-- **[Issue #418](https://github.com/sy-ui/sy-ui-native/issues/418)**: Resolved Hermes crashes ("Maximum call stack size exceeded") and the invisible `BottomSheet` content seen after upgrading the example app to Expo 56. The example's `metro.config.js` now pins peer-dep resolution (`react`, `react-native`, `uniwind`, etc.) to the example's local `node_modules`, preventing duplicate copies from being loaded from the workspace root.
+- **[Issue #405](https://github.com/sy-inc/sy-inc-native/issues/405)**: Documented the workaround for `Menu` rendering misaligned when opened inside a React Navigation native modal. The new **Native Modal (iOS)** section in the Menu docs explains the Fabric / `FullWindowOverlay` coordinate mismatch and shows how to compensate via `offset={insets.top}` with `useSafeAreaInsets`.
+- **[Issue #418](https://github.com/sy-inc/sy-inc-native/issues/418)**: Resolved Hermes crashes ("Maximum call stack size exceeded") and the invisible `BottomSheet` content seen after upgrading the example app to Expo 56. The example's `metro.config.js` now pins peer-dep resolution (`react`, `react-native`, `uniwind`, etc.) to the example's local `node_modules`, preventing duplicate copies from being loaded from the workspace root.
 
 **Related PRs:**
 
-- [#419](https://github.com/sy-ui/sy-ui-native/pull/419)
-- [#421](https://github.com/sy-ui/sy-ui-native/pull/421)
+- [#419](https://github.com/sy-inc/sy-inc-native/pull/419)
+- [#421](https://github.com/sy-inc/sy-inc-native/pull/421)
 
 ## Deprecations
 
@@ -250,7 +250,7 @@ The `Text` component and related exports are now **deprecated** in favor of `Typ
 
 ```tsx
 // Deprecated (still works)
-import { Text, textClassNames, type TextProps } from "sy-ui-native";
+import { Text, textClassNames, type TextProps } from "sy-inc-native";
 
 <Text.Heading type="h1">Welcome</Text.Heading>;
 
@@ -259,12 +259,12 @@ import {
   Typography,
   typographyClassNames,
   type TypographyProps,
-} from "sy-ui-native";
+} from "sy-inc-native";
 
 <Typography.Heading type="h1">Welcome</Typography.Heading>;
 ```
 
-**Related PR:** [#417](https://github.com/sy-ui/sy-ui-native/pull/417)
+**Related PR:** [#417](https://github.com/sy-inc/sy-inc-native/pull/417)
 
 ## Updated Documentation
 
@@ -279,7 +279,7 @@ The following documentation pages have been updated to reflect the changes in th
 ## Links
 
 - [Component Documentation](../components)
-- [GitHub Repository](https://github.com/sy-ui/sy-ui-native)
+- [GitHub Repository](https://github.com/sy-inc/sy-inc-native)
 
 ## Contributors
 

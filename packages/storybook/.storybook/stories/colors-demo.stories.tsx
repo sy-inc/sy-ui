@@ -21,7 +21,7 @@ Default.parameters = {
   docs: {
     description: {
       story:
-        "An interactive color palette generator showcasing SY UI's color system. Adjust the base tone and gray chroma to see how colors change across light and dark themes.",
+        "An interactive color palette generator showcasing SY INC's color system. Adjust the base tone and gray chroma to see how colors change across light and dark themes.",
     },
   },
 };

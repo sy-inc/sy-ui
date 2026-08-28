@@ -1,15 +1,15 @@
 ---
 title: Hooks
-description: Migration guide for SY UI hooks from v2 to v3
+description: Migration guide for SY INC hooks from v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 component documentation](/docs/components-list) for complete API reference. This guide focuses on migrating hooks from SY UI v2.
+  Refer to the [v3 component documentation](/docs/components-list) for complete API reference. This guide focuses on migrating hooks from SY INC v2.
 </Callout>
 
 ## Overview
 
-SY UI v3 removes most component hooks that existed in v2, replacing them with compound components and a new hook for overlay state management. This guide covers:
+SY INC v3 removes most component hooks that existed in v2, replacing them with compound components and a new hook for overlay state management. This guide covers:
 
 - Component hooks removal (useSwitch, useInput, useCheckbox, etc.)
 - useDisclosure → useOverlayState migration
@@ -17,7 +17,7 @@ SY UI v3 removes most component hooks that existed in v2, replacing them with co
 
 ## Component Hooks Removal
 
-SY UI v2 provided component hooks (like `useSwitch`, `useInput`, `useCheckbox`, etc.) that returned prop getters (`getBaseProps`, `getWrapperProps`, `getThumbProps`, etc.) to customize component structure when users couldn't directly modify inner child components. SY UI v3 solves this with compound components, eliminating the need for hooks.
+SY INC v2 provided component hooks (like `useSwitch`, `useInput`, `useCheckbox`, etc.) that returned prop getters (`getBaseProps`, `getWrapperProps`, `getThumbProps`, etc.) to customize component structure when users couldn't directly modify inner child components. SY INC v3 solves this with compound components, eliminating the need for hooks.
 
 ### Why Hooks Existed in v2
 
@@ -50,7 +50,7 @@ import { useSwitch } from "@sy-inc/react";
 
 function CustomSwitch() {
   const { getBaseProps } = useSwitch();
-  
+
   return (
     <div {...getBaseProps()}>
       {/* No thumb element */}

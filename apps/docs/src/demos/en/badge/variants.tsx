@@ -1,7 +1,7 @@
 import {Avatar, Badge, Separator} from "@sy-inc/react";
 import React from "react";
 
-const AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";
+const AVATAR_URL = "https://assets.sy-inc.com/avatars/green.jpg";
 
 export function BadgeVariants() {
   const variants = ["primary", "secondary", "soft"] as const;

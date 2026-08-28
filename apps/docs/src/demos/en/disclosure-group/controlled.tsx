@@ -26,7 +26,7 @@ export function Controlled() {
     <div className="w-full max-w-md">
       <div className="flex flex-col gap-4 rounded-3xl p-4">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-lg font-semibold">SY UI Native</h3>
+          <h3 className="text-lg font-semibold">SY INC Native</h3>
           <div className="flex gap-2">
             <Button
               aria-label="Previous disclosure"
@@ -49,7 +49,7 @@ export function Controlled() {
           </div>
         </div>
         <DisclosureGroup expandedKeys={expandedKeys} onExpandedChange={setExpandedKeys}>
-          <Disclosure aria-label="Preview SY UI Native" id="preview">
+          <Disclosure aria-label="Preview SY INC Native" id="preview">
             <Disclosure.Heading>
               <Button
                 slot="trigger"
@@ -60,7 +60,7 @@ export function Controlled() {
               >
                 <div className="flex w-full items-center justify-start gap-2">
                   <QrCode />
-                  Preview SY UI Native
+                  Preview SY INC Native
                 </div>
                 <Disclosure.Indicator className="text-muted" />
               </Button>
@@ -68,12 +68,12 @@ export function Controlled() {
             <Disclosure.Content>
               <Disclosure.Body className="mx-2 flex flex-col items-center gap-2 p-4 text-center">
                 <p className="text-sm text-muted">
-                  Scan this QR code with your camera app to preview the SY UI native components.
+                  Scan this QR code with your camera app to preview the SY INC native components.
                 </p>
                 <img
                   alt="Expo Go QR Code"
                   className="aspect-square w-full max-w-54 object-cover"
-                  src="https://assets.sy-ui.com/images/qr-code-native.png"
+                  src="https://assets.sy-inc.com/images/qr-code-native.png"
                 />
                 <p className="text-sm text-muted">Expo must be installed on your device.</p>
                 <Button className="mt-4" variant="primary">
@@ -85,7 +85,7 @@ export function Controlled() {
           </Disclosure>
           <Separator className="my-2" />
           <Disclosure id="download">
-            <Disclosure.Heading aria-label="Download SY UI Native">
+            <Disclosure.Heading aria-label="Download SY INC Native">
               <Button
                 slot="trigger"
                 variant={expandedKeys.has("download") ? "secondary" : "tertiary"}
@@ -95,7 +95,7 @@ export function Controlled() {
               >
                 <div className="flex w-full items-center justify-start gap-2">
                   <Icon icon="tabler:brand-apple-filled" />
-                  Download SY UI Native
+                  Download SY INC Native
                 </div>
                 <Disclosure.Indicator className="text-muted" />
               </Button>
@@ -103,12 +103,12 @@ export function Controlled() {
             <Disclosure.Content>
               <Disclosure.Body className="mx-2 flex flex-col items-center gap-2 p-4 text-center">
                 <p className="text-sm text-muted">
-                  Scan this QR code with your camera app to preview the SY UI native components.
+                  Scan this QR code with your camera app to preview the SY INC native components.
                 </p>
                 <img
                   alt="Expo Go QR Code"
                   className="aspect-square w-full max-w-54 object-cover"
-                  src="https://assets.sy-ui.com/images/qr-code-native.png"
+                  src="https://assets.sy-inc.com/images/qr-code-native.png"
                 />
                 <p className="text-sm text-muted">Expo must be installed on your device.</p>
                 <Button className="mt-4" variant="primary">

@@ -23,7 +23,7 @@ Closes # <!-- Github issue # here -->
 
 ## 💣 Is this a breaking change (Yes/No):
 
-<!-- If Yes, please describe the impact and migration path for existing SY UI users. -->
+<!-- If Yes, please describe the impact and migration path for existing SY INC users. -->
 
 ## ✅ Testing
 

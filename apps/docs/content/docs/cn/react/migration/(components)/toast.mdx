@@ -1,10 +1,10 @@
 ---
 title: Toast
-description: Toast 从 SY UI v2 到 v3 的迁移指南。
+description: Toast 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Toast 文档](/docs/react/components/toast)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Toast 文档](/docs/react/components/toast)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -60,22 +60,22 @@ function MyComponent() {
 
 ### 1. Provider 模式
 
-**v2：** 必须使用 `ToastProvider` 包裹  
+**v2：** 必须使用 `ToastProvider` 包裹
 **v3：** 改用 `Toast.Provider` 组件（可放置在任意位置）
 
 ### 2. Hook → 函数
 
-**v2：** 使用 `useToast()` Hook  
+**v2：** 使用 `useToast()` Hook
 **v3：** 直接调用 `toast()` 函数
 
 ### 3. API 变更
 
-**v2：** 使用 `toast.show()` 方法  
+**v2：** 使用 `toast.show()` 方法
 **v3：** `toast()` 是带有辅助方法的函数（`toast.success()`、`toast.danger()` 等）
 
 ### 4. 变体名称
 
-**v2：** 变体如 `success`、`error`、`warning`、`info`  
+**v2：** 变体如 `success`、`error`、`warning`、`info`
 **v3：** 变体：`default`、`accent`、`success`、`warning`、`danger`
 
 ### 5. 复合组件结构

@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     types: {
       "application/rss+xml": [
         {
-          title: "SY UI RSS Feed",
+          title: "SY INC RSS Feed",
           url: "/rss.xml",
         },
       ],
@@ -99,7 +99,7 @@ export const metadata: Metadata = {
     "React",
     "Next.js",
     "Tailwind CSS",
-    "SY UI",
+    "SY INC",
     "React Aria",
     "Server Components",
     "React Components",
@@ -143,10 +143,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@sy_ui",
+    creator: "@sy_inc",
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    site: "@sy_ui",
+    site: "@sy_inc",
     title: siteConfig.fullName,
   },
 };

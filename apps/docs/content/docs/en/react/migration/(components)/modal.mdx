@@ -1,10 +1,10 @@
 ---
 title: Modal
-description: Migration guide for Modal from SY UI v2 to v3
+description: Migration guide for Modal from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Modal documentation](/docs/react/components/modal) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Modal documentation](/docs/react/components/modal) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -62,7 +62,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Separate components (`Modal`, `ModalContent`, `ModalHeader`, `ModalBody`, `ModalFooter`)  
+**v2:** Separate components (`Modal`, `ModalContent`, `ModalHeader`, `ModalBody`, `ModalFooter`)
 **v3:** Compound components (`Modal.Backdrop`, `Modal.Container`, `Modal.Dialog`, `Modal.Header`, `Modal.Body`, `Modal.Footer`)
 
 ### 2. Built-in Trigger with `Modal.Trigger`
@@ -313,12 +313,12 @@ const state = useOverlayState();
     <Modal backdrop="blur">
       <ModalContent>{/* content */}</ModalContent>
     </Modal>
-    
+
     {/* Placement */}
     <Modal placement="top">
       <ModalContent>{/* content */}</ModalContent>
     </Modal>
-    
+
     {/* Scroll behavior */}
     <Modal scrollBehavior="outside">
       <ModalContent>{/* content */}</ModalContent>
@@ -333,14 +333,14 @@ const state = useOverlayState();
         <Modal.Dialog>{/* content */}</Modal.Dialog>
       </Modal.Container>
     </Modal.Backdrop>
-    
+
     {/* Placement - on Container */}
     <Modal.Backdrop>
       <Modal.Container placement="top">
         <Modal.Dialog>{/* content */}</Modal.Dialog>
       </Modal.Container>
     </Modal.Backdrop>
-    
+
     {/* Scroll - on Container */}
     <Modal.Backdrop>
       <Modal.Container scroll="outside">
@@ -360,7 +360,7 @@ const state = useOverlayState();
     <Modal hideCloseButton>
       <ModalContent>{/* content */}</ModalContent>
     </Modal>
-    
+
     {/* Custom close button */}
     <Modal closeButton={<CustomCloseIcon />}>
       <ModalContent>{/* content */}</ModalContent>
@@ -377,7 +377,7 @@ const state = useOverlayState();
         </Modal.Header>
       </Modal.Dialog>
     </Modal.Container>
-    
+
     {/* Custom close button */}
     <Modal.Container>
       <Modal.Dialog>

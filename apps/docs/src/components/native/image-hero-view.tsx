@@ -19,7 +19,7 @@ import {pickNativeQRTarget} from "./qr-preview-popover/target";
 export type ImageHeroViewProps = NativeQRPreviewTarget;
 
 /**
- * ImageHeroView pairs the SY UI Native OG hero image with the QR popover.
+ * ImageHeroView pairs the SY INC Native OG hero image with the QR popover.
  * Used by the docs landing page to introduce the library while letting
  * desktop visitors jump straight into the app from the same surface.
  */
@@ -28,9 +28,9 @@ export const ImageHeroView = (props: ImageHeroViewProps) => {
     <div className="flex flex-col items-end gap-4">
       <QRPreviewPopover {...pickNativeQRTarget(props)} />
       <DocsImage
-        alt="SY UI Native Introduction"
-        darkSrc="https://assets.sy-ui.com/docs/native/sy-ui-native-og-dark-1.webp"
-        src="https://assets.sy-ui.com/docs/native/sy-ui-native-og-light-1.webp"
+        alt="SY INC Native Introduction"
+        darkSrc="https://assets.sy-inc.com/docs/native/sy-inc-native-og-dark-1.webp"
+        src="https://assets.sy-inc.com/docs/native/sy-inc-native-og-light-1.webp"
       />
     </div>
   );

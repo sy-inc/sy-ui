@@ -1,18 +1,18 @@
 ---
 title: Provider
-description: 配置 SY UI Native provider 的文本、文本输入、动画、toast 和布局方向设置
+description: 配置 SY INC Native provider 的文本、文本输入、动画、toast 和布局方向设置
 icon: chevrons-expand-horizontal
 ---
 
-`SyUINativeProvider` 是根 provider 组件，用于在你的 React Native 应用中配置和初始化 SY UI Native。它为你的应用提供全局配置和 portal 管理。
+`SyIncNativeProvider` 是根 provider 组件，用于在你的 React Native 应用中配置和初始化 SY INC Native。它为你的应用提供全局配置和 portal 管理。
 
 ## 概述
 
-该 provider 是 SY UI Native 的主要入口点，为你的应用包裹必要的上下文和配置：
+该 provider 是 SY INC Native 的主要入口点，为你的应用包裹必要的上下文和配置：
 
 - **安全区域内边距（Safe Area Insets）**：通过 `SafeAreaListener` 自动处理安全区域内边距的更新，并将其与 Uniwind 同步，以便在 Tailwind class 中使用（例如 `pb-safe-offset-3`）
-- **文本配置**：全局 Text 组件设置，确保所有 SY UI 组件保持一致
-- **文本输入配置**：全局文本输入设置，确保所有 SY UI 输入组件保持一致
+- **文本配置**：全局 Text 组件设置，确保所有 SY INC 组件保持一致
+- **文本输入配置**：全局文本输入设置，确保所有 SY INC 输入组件保持一致
 - **动画配置**：全局动画控制，可禁用整个应用中的所有动画
 - **Toast 配置**：全局 toast 系统配置，包括内边距、默认 props 和包裹组件
 - **布局方向**：全局的从右到左（RTL）标志，供在 JavaScript 而非样式中运行的组件逻辑使用
@@ -23,13 +23,13 @@ icon: chevrons-expand-horizontal
 用该 provider 包裹你的应用根节点：
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider>{/* 你的应用内容 */}</SyUINativeProvider>
+      <SyIncNativeProvider>{/* 你的应用内容 */}</SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -41,13 +41,13 @@ export default function App() {
 
 ### Text 组件配置
 
-SY UI Native 内所有 Text 组件的全局设置。这些 props 经过精心挑选，仅包含那些适合在应用中所有 Text 组件上进行全局配置的选项：
+SY INC Native 内所有 Text 组件的全局设置。这些 props 经过精心挑选，仅包含那些适合在应用中所有 Text 组件上进行全局配置的选项：
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     // 为无障碍禁用字体缩放
     allowFontScaling: false,
@@ -65,22 +65,22 @@ const config: SyUINativeConfig = {
 
 export default function App() {
   return (
-    <SyUINativeProvider config={config}>
+    <SyIncNativeProvider config={config}>
       {/* 你的应用内容 */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
 
 ### TextInput 组件配置
 
-SY UI Native 内所有基于 TextInput 的组件的全局设置（例如 Input、TextArea、SearchField、InputGroup、InputOTP）。这些 props 经过精心挑选，仅包含那些适合在应用中所有输入组件上进行全局配置的选项：
+SY INC Native 内所有基于 TextInput 的组件的全局设置（例如 Input、TextArea、SearchField、InputGroup、InputOTP）。这些 props 经过精心挑选，仅包含那些适合在应用中所有输入组件上进行全局配置的选项：
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textInputProps: {
     // 遵循 Text Size 无障碍设置
     allowFontScaling: false,
@@ -92,9 +92,9 @@ const config: SyUINativeConfig = {
 
 export default function App() {
   return (
-    <SyUINativeProvider config={config}>
+    <SyIncNativeProvider config={config}>
       {/* 你的应用内容 */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
@@ -108,7 +108,7 @@ export default function App() {
 整个应用的全局动画配置：
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // 禁用应用中的所有动画（级联到所有子组件）
   animation: 'disable-all',
 };
@@ -123,7 +123,7 @@ const config: SyUINativeConfig = {
 控制在控制台中显示的面向开发者的提示信息：
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   devInfo: {
     // 禁用样式原则提示信息
     stylingPrinciples: false,
@@ -142,7 +142,7 @@ const config: SyUINativeConfig = {
 **选项 1：禁用 Toast Provider**
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // 完全禁用 toast provider
   toast: false,
   // 或
@@ -159,7 +159,7 @@ const config: SyUINativeConfig = {
 ```tsx
 import { KeyboardAvoidingView } from 'react-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   toast: {
     // 全局 toast 配置（作为所有 toast 的默认值）
     defaultProps: {
@@ -193,12 +193,12 @@ const config: SyUINativeConfig = {
 
 ### 布局方向配置
 
-告诉 SY UI Native 组件它们渲染在哪个布局方向：
+告诉 SY INC Native 组件它们渲染在哪个布局方向：
 
 ```tsx
 import { I18nManager } from 'react-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   isRTL: I18nManager.isRTL,
 };
 ```
@@ -231,12 +231,12 @@ const config: SyUINativeConfig = {
 以下是展示所有配置选项的完整示例：
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 import { I18nManager } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // 全局文本配置
   textProps: {
     minimumFontScale: 0.5,
@@ -281,9 +281,9 @@ const config: SyUINativeConfig = {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider config={config}>
+      <SyIncNativeProvider config={config}>
         <YourApp />
-      </SyUINativeProvider>
+      </SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -295,11 +295,11 @@ export default function App() {
 
 ```tsx
 // app/_layout.tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 import { Stack } from 'expo-router';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     minimumFontScale: 0.5,
     maxFontSizeMultiplier: 1.5,
@@ -308,9 +308,9 @@ const config: SyUINativeConfig = {
 
 export default function RootLayout() {
   return (
-    <SyUINativeProvider config={config}>
+    <SyIncNativeProvider config={config}>
       <Stack />
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 ```
@@ -319,10 +319,10 @@ export default function RootLayout() {
 
 ### Provider 层级
 
-`SyUINativeProvider` 内部组合了多个 provider：
+`SyIncNativeProvider` 内部组合了多个 provider：
 
 ```
-SyUINativeProvider
+SyIncNativeProvider
 ├── SafeAreaListener（处理安全区域内边距更新）
 │   └── LayoutDirectionProvider（布局方向配置）
 │       └── GlobalAnimationSettingsProvider（动画配置）
@@ -343,11 +343,11 @@ SyUINativeProvider
 
 ## Raw Provider
 
-`SyUINativeProviderRaw` 是 `SyUINativeProvider` 的轻量级变体，为打包体积优化而设计。它不包含 `ToastProvider` 和 `PortalHost`，为你提供一个最精简的起点，让你只安装和添加真正需要的内容。它的 `SyUINativeConfigRaw` 配置接受与 `SyUINativeConfig` 相同的选项（`toast` 除外），因此 `textProps`、`textInputProps`、`animation`、`devInfo` 和 `isRTL` 的行为完全一致。
+`SyIncNativeProviderRaw` 是 `SyIncNativeProvider` 的轻量级变体，为打包体积优化而设计。它不包含 `ToastProvider` 和 `PortalHost`，为你提供一个最精简的起点，让你只安装和添加真正需要的内容。它的 `SyIncNativeConfigRaw` 配置接受与 `SyIncNativeConfig` 相同的选项（`toast` 除外），因此 `textProps`、`textInputProps`、`animation`、`devInfo` 和 `isRTL` 的行为完全一致。
 
 ### 何时使用
 
-当你想完全掌控打包体积中包含哪些依赖时，使用 `SyUINativeProviderRaw`。使用从 `sy-ui-native/provider-raw` 导入的 raw provider 时，以下依赖是可选的，仅在你使用对应组件时才需要：
+当你想完全掌控打包体积中包含哪些依赖时，使用 `SyIncNativeProviderRaw`。使用从 `sy-inc-native/provider-raw` 导入的 raw provider 时，以下依赖是可选的，仅在你使用对应组件时才需要：
 
 - **react-native-screens** —— 浮层组件（Popover、Dialog）所需
 - **@gorhom/bottom-sheet** —— BottomSheet 组件所需
@@ -357,12 +357,12 @@ SyUINativeProvider
 
 ```tsx
 import {
-  SyUINativeProviderRaw,
-  type SyUINativeConfigRaw,
-} from 'sy-ui-native/provider-raw';
+  SyIncNativeProviderRaw,
+  type SyIncNativeConfigRaw,
+} from 'sy-inc-native/provider-raw';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const config: SyUINativeConfigRaw = {
+const config: SyIncNativeConfigRaw = {
   textProps: {
     maxFontSizeMultiplier: 1.5,
   },
@@ -371,9 +371,9 @@ const config: SyUINativeConfigRaw = {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProviderRaw config={config}>
+      <SyIncNativeProviderRaw config={config}>
         {/* 你的应用内容 */}
-      </SyUINativeProviderRaw>
+      </SyIncNativeProviderRaw>
     </GestureHandlerRootView>
   );
 }
@@ -384,19 +384,19 @@ export default function App() {
 如果你在使用 raw provider 时需要 toast 或 portal 功能，请自行添加：
 
 ```tsx
-import { SyUINativeProviderRaw } from 'sy-ui-native/provider-raw';
-import { PortalHost } from 'sy-ui-native/portal';
-import { ToastProvider } from 'sy-ui-native/toast';
+import { SyIncNativeProviderRaw } from 'sy-inc-native/provider-raw';
+import { PortalHost } from 'sy-inc-native/portal';
+import { ToastProvider } from 'sy-inc-native/toast';
 
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProviderRaw>
+      <SyIncNativeProviderRaw>
         <ToastProvider>
           {/* 你的应用内容 */}
           <PortalHost />
         </ToastProvider>
-      </SyUINativeProviderRaw>
+      </SyIncNativeProviderRaw>
     </GestureHandlerRootView>
   );
 }
@@ -405,7 +405,7 @@ export default function App() {
 ### Provider 层级
 
 ```
-SyUINativeProviderRaw
+SyIncNativeProviderRaw
 ├── SafeAreaListener（处理安全区域内边距更新）
 │   └── LayoutDirectionProvider（布局方向配置）
 │       └── GlobalAnimationSettingsProvider（动画配置）
@@ -418,24 +418,24 @@ SyUINativeProviderRaw
 
 ### 1. 单一 Provider 实例
 
-始终在应用根部使用单个 `SyUINativeProvider`。不要嵌套多个 provider：
+始终在应用根部使用单个 `SyIncNativeProvider`。不要嵌套多个 provider：
 
 ```tsx
 // ❌ 不推荐
-<SyUINativeProvider>
+<SyIncNativeProvider>
   <SomeComponent>
-    <SyUINativeProvider> {/* 不要这样做 */}
+    <SyIncNativeProvider> {/* 不要这样做 */}
       <AnotherComponent />
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   </SomeComponent>
-</SyUINativeProvider>
+</SyIncNativeProvider>
 
 // ✅ 推荐
-<SyUINativeProvider>
+<SyIncNativeProvider>
   <SomeComponent>
     <AnotherComponent />
   </SomeComponent>
-</SyUINativeProvider>
+</SyIncNativeProvider>
 ```
 
 ### 2. 配置对象
@@ -446,7 +446,7 @@ SyUINativeProviderRaw
 // ❌ 不推荐
 function App() {
   return (
-    <SyUINativeProvider
+    <SyIncNativeProvider
       config={{
         textProps: {
           /* 内联配置 */
@@ -454,12 +454,12 @@ function App() {
       }}
     >
       {/* ... */}
-    </SyUINativeProvider>
+    </SyIncNativeProvider>
   );
 }
 
 // ✅ 推荐
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     maxFontSizeMultiplier: 1.5,
   },
@@ -467,7 +467,7 @@ const config: SyUINativeConfig = {
 
 function App() {
   return (
-    <SyUINativeProvider config={config}>{/* ... */}</SyUINativeProvider>
+    <SyIncNativeProvider config={config}>{/* ... */}</SyIncNativeProvider>
   );
 }
 ```
@@ -477,7 +477,7 @@ function App() {
 配置文本 props 时请考虑无障碍：
 
 ```tsx
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   textProps: {
     // 为无障碍允许字体缩放
     allowFontScaling: true,
@@ -492,9 +492,9 @@ const config: SyUINativeConfig = {
 该 provider 具有完整的类型定义。导入类型以获得更好的 IDE 支持：
 
 ```tsx
-import { SyUINativeProvider, type SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider, type SyIncNativeConfig } from 'sy-inc-native';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // 完整的类型安全和自动补全
   textProps: {
     allowFontScaling: true,

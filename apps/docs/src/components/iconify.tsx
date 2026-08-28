@@ -123,6 +123,6 @@ const Iconify = forwardRef<SVGSVGElement, IconifyProps>(({icon: iconProp, ...pro
   );
 });
 
-Iconify.displayName = "SY UI.Iconify";
+Iconify.displayName = "SY INC.Iconify";
 
 export {Iconify};

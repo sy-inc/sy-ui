@@ -1,9 +1,9 @@
 ---
 title: AGENTS.md
-description: 下载 AI 编码代理的 SY UI v2 到 v3 迁移文档
+description: 下载 AI 编码代理的 SY INC v2 到 v3 迁移文档
 ---
 
-将 SY UI v2 到 v3 的迁移文档直接下载到您的项目中，供 AI 助手参考。
+将 SY INC v2 到 v3 的迁移文档直接下载到您的项目中，供 AI 助手参考。
 
 <Callout>
   **注：** `agents-md --migration` 仅下载迁移文档；使用 `--react` 下载组件文档。一次只能选择一个库选项。
@@ -12,21 +12,21 @@ description: 下载 AI 编码代理的 SY UI v2 到 v3 迁移文档
 ### 用法
 
 ```bash
-npx sy-ui-cli@latest agents-md --migration
+npx sy-inc-cli@latest agents-md --migration
 ```
 
 或者指定输出文件：
 
 ```bash
-npx sy-ui-cli@latest agents-md --migration --output AGENTS.md
+npx sy-inc-cli@latest agents-md --migration --output AGENTS.md
 ```
 
 ### 它的作用
 
-- 将迁移文档下载到`.sy-ui-docs/migration/`
+- 将迁移文档下载到`.sy-inc-docs/migration/`
 - 生成索引 `AGENTS.md` 或 `CLAUDE.md`，包含迁移专用内容
 - 包括工作流程指南（完整和增量）、组件迁移指南、挂钩和样式
-- 添加`.sy-ui-docs/`到`.gitignore`自动地
+- 添加`.sy-inc-docs/`到`.gitignore`自动地
 
 ### 选项
 
@@ -36,7 +36,7 @@ npx sy-ui-cli@latest agents-md --migration --output AGENTS.md
 
 ### 要求
 
-迁移文档对于从 SY UI v2 迁移到 v3 的任何项目都很有用。目标项目需要：
+迁移文档对于从 SY INC v2 迁移到 v3 的任何项目都很有用。目标项目需要：
 
 - Tailwind CSS >= v4
 - React >= 19.0.0（对于 v3）
@@ -44,7 +44,7 @@ npx sy-ui-cli@latest agents-md --migration --output AGENTS.md
 
 ## 链接
 
-- [GitHub 存储库](https://github.com/sy-ui/sy-ui)
+- [GitHub 存储库](https://github.com/sy-inc/sy-inc)
 - [Discord社区](https://discord.gg/9b6yyZKmH4)
 - [代理.md](https://agents.md/)- 了解 AGENTS.md 格式
 - [Claude.md](https://code.claude.com/docs/en/best-practices#write-an-effective-claude-md) — Claude 侧的 AGENTS.md 等价物

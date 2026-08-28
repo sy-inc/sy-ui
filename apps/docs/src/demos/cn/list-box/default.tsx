@@ -7,13 +7,13 @@ export function Default() {
         <Avatar size="sm">
           <Avatar.Image
             alt="Bob"
-            src="https://assets.sy-ui.com/avatars/blue.jpg"
+            src="https://assets.sy-inc.com/avatars/blue.jpg"
           />
           <Avatar.Fallback>B</Avatar.Fallback>
         </Avatar>
         <div className="flex flex-col">
           <Label>Bob</Label>
-          <Description>bob@sy-ui.com</Description>
+          <Description>bob@sy-inc.com</Description>
         </div>
         <ListBox.ItemIndicator />
       </ListBox.Item>
@@ -21,13 +21,13 @@ export function Default() {
         <Avatar size="sm">
           <Avatar.Image
             alt="Fred"
-            src="https://assets.sy-ui.com/avatars/green.jpg"
+            src="https://assets.sy-inc.com/avatars/green.jpg"
           />
           <Avatar.Fallback>F</Avatar.Fallback>
         </Avatar>
         <div className="flex flex-col">
           <Label>Fred</Label>
-          <Description>fred@sy-ui.com</Description>
+          <Description>fred@sy-inc.com</Description>
         </div>
         <ListBox.ItemIndicator />
       </ListBox.Item>
@@ -35,13 +35,13 @@ export function Default() {
         <Avatar size="sm">
           <Avatar.Image
             alt="Martha"
-            src="https://assets.sy-ui.com/avatars/purple.jpg"
+            src="https://assets.sy-inc.com/avatars/purple.jpg"
           />
           <Avatar.Fallback>M</Avatar.Fallback>
         </Avatar>
         <div className="flex flex-col">
           <Label>Martha</Label>
-          <Description>martha@sy-ui.com</Description>
+          <Description>martha@sy-inc.com</Description>
         </div>
         <ListBox.ItemIndicator />
       </ListBox.Item>

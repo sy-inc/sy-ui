@@ -9,7 +9,7 @@ github:
   <span className="text-sm text-muted">2026 年 4 月 1 日</span>
 </div>
 
-SY UI Native v1.0.1 是一次侧重可靠性与开发者体验的补丁版本。它修复了 Toast 提供程序中导致动画值过期的竞态条件，将七个组件的禁用态样式改为使用原生 `disabled:` 修饰符，并为主题系统新增 `--backdrop` 变量，供遮罩类组件使用。
+SY INC Native v1.0.1 是一次侧重可靠性与开发者体验的补丁版本。它修复了 Toast 提供程序中导致动画值过期的竞态条件，将七个组件的禁用态样式改为使用原生 `disabled:` 修饰符，并为主题系统新增 `--backdrop` 变量，供遮罩类组件使用。
 
 ## 安装
 
@@ -18,28 +18,28 @@ SY UI Native v1.0.1 是一次侧重可靠性与开发者体验的补丁版本。
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 抢先体验
@@ -59,7 +59,7 @@ SY UI Native v1.0.1 是一次侧重可靠性与开发者体验的补丁版本。
 <div className="flex justify-center my-6">
   <img
     width="200"
-    src="https://assets.sy-ui.com/images/qr-code-native.png"
+    src="https://assets.sy-inc.com/images/qr-code-native.png"
     alt="Expo Go 二维码"
   />
 </div>
@@ -68,7 +68,7 @@ SY UI Native v1.0.1 是一次侧重可靠性与开发者体验的补丁版本。
 
 **方式二：点击链接**
 
-**[📱 在 Expo Go 中打开演示应用](https://link.sy-ui.com/native-demo)**
+**[📱 在 Expo Go 中打开演示应用](https://link.sy-inc.com/native-demo)**
 
 若设备已安装 Expo Go，将自动在其中打开应用。
 
@@ -81,7 +81,7 @@ SY UI Native v1.0.1 是一次侧重可靠性与开发者体验的补丁版本。
 **新能力：**
 
 ```tsx
-import { Dialog } from "sy-ui-native";
+import { Dialog } from "sy-inc-native";
 
 // Dialog 与 Bottom Sheet 遮罩现自动使用 bg-backdrop
 <Dialog>
@@ -93,7 +93,7 @@ import { Dialog } from "sy-ui-native";
 
 `--backdrop` 已纳入所有内置主题的浅色与深色模式，对应的 Tailwind 工具类 `bg-backdrop` 也可用于自定义组件样式。
 
-**相关 PR：** [#366](https://github.com/sy-ui/sy-ui-native/pull/366)
+**相关 PR：** [#366](https://github.com/sy-inc/sy-inc-native/pull/366)
 
 ## 样式修复
 
@@ -113,20 +113,20 @@ import { Dialog } from "sy-ui-native";
 
 所有 `isDisabled` 变体类现均使用 `disabled:` 前缀（例如 `disabled:opacity-disabled disabled:pointer-events-none`），正确限定在禁用伪状态，并在禁用态动态切换时消除样式冲突。
 
-**相关 PR：** [#361](https://github.com/sy-ui/sy-ui-native/pull/361)
+**相关 PR：** [#361](https://github.com/sy-inc/sy-inc-native/pull/361)
 
 ## 问题修复
 
 本版本包含以下修复：
 
-- **[Issue #359](https://github.com/sy-ui/sy-ui-native/issues/359)**：修复 Toast 提供程序中 `total` SharedValue 与实际 Toast 数量可能不同步的竞态。原先手动增减在 `hide` 与 `show` 同一帧执行、或自动消失与手动隐藏竞速时，易出现闭包陈旧导致不一致。`total` 现通过 `useEffect` 由 `toasts.length` 派生，使透明度、缩放、translateY 等插值始终反映真实数量。
+- **[Issue #359](https://github.com/sy-inc/sy-inc-native/issues/359)**：修复 Toast 提供程序中 `total` SharedValue 与实际 Toast 数量可能不同步的竞态。原先手动增减在 `hide` 与 `show` 同一帧执行、或自动消失与手动隐藏竞速时，易出现闭包陈旧导致不一致。`total` 现通过 `useEffect` 由 `toasts.length` 派生，使透明度、缩放、translateY 等插值始终反映真实数量。
 
-- **[Issue #356](https://github.com/sy-ui/sy-ui-native/issues/356)**：修复在 `isDisabled` 为 true 时禁用样式被无条件应用、阻碍开发者主题化或自定义禁用外观的问题。上述七个组件均已改为 `disabled:` 前缀，将样式正确限定在禁用伪状态。
+- **[Issue #356](https://github.com/sy-inc/sy-inc-native/issues/356)**：修复在 `isDisabled` 为 true 时禁用样式被无条件应用、阻碍开发者主题化或自定义禁用外观的问题。上述七个组件均已改为 `disabled:` 前缀，将样式正确限定在禁用伪状态。
 
 **相关 PR：**
 
-- [#360](https://github.com/sy-ui/sy-ui-native/pull/360)
-- [#361](https://github.com/sy-ui/sy-ui-native/pull/361)
+- [#360](https://github.com/sy-inc/sy-inc-native/pull/360)
+- [#361](https://github.com/sy-inc/sy-inc-native/pull/361)
 
 ## 文档更新
 
@@ -138,7 +138,7 @@ import { Dialog } from "sy-ui-native";
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

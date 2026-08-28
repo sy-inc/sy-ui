@@ -15,7 +15,7 @@ export function Default() {
               <Modal.Icon className="bg-default text-foreground">
                 <Rocket className="size-5" />
               </Modal.Icon>
-              <Modal.Heading>Welcome to SY UI</Modal.Heading>
+              <Modal.Heading>Welcome to SY INC</Modal.Heading>
             </Modal.Header>
             <Modal.Body>
               <p>

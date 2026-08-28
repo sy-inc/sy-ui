@@ -1,15 +1,15 @@
 ---
 title: Agent Migration Guide - Full Migration
-description: Full migration guide for AI assistants helping migrate SY UI v2 to v3
+description: Full migration guide for AI assistants helping migrate SY INC v2 to v3
 index: false
 ---
 
 ## Overview
 
-This guide is designed for AI assistants (agents) helping users migrate from SY UI v2 to v3. It implements a **full migration approach** that analyzes the project first and migrates components in manageable batches rather than all at once.
+This guide is designed for AI assistants (agents) helping users migrate from SY INC v2 to v3. It implements a **full migration approach** that analyzes the project first and migrates components in manageable batches rather than all at once.
 
 <Callout type="warning">
-  **Critical Constraint**: SY UI v2 and v3 **should not coexist** in the same project. The project will be broken during migration. Always work in a feature branch and migrate all component code before switching dependencies.
+  **Critical Constraint**: SY INC v2 and v3 **should not coexist** in the same project. The project will be broken during migration. Always work in a feature branch and migrate all component code before switching dependencies.
 </Callout>
 
 ## Key Principles
@@ -33,17 +33,17 @@ For detailed step-by-step instructions, see the [Full Migration Guide](/docs/rea
 
 - Dependency updates
 - Theming configuration changes
-- Removing SyUIProvider
+- Removing SyIncProvider
 - Component imports and migration
 - Hooks migration
 - Styling migration
 - Testing
 
-**Agent Note**: Dependency updates (React 19, Tailwind v4) can be done before switching SY UI (won't break project). However, the SY UI package switch should only happen AFTER all component code is migrated.
+**Agent Note**: Dependency updates (React 19, Tailwind v4) can be done before switching SY INC (won't break project). However, the SY INC package switch should only happen AFTER all component code is migrated.
 
 ## Hooks Migration
 
-SY UI v2 provided component hooks (like `useSwitch`, `useInput`, `useCheckbox`, etc.) and utility hooks like `useDisclosure`. SY UI v3 removes most component hooks in favor of compound components, and replaces `useDisclosure` with `useOverlayState`.
+SY INC v2 provided component hooks (like `useSwitch`, `useInput`, `useCheckbox`, etc.) and utility hooks like `useDisclosure`. SY INC v3 removes most component hooks in favor of compound components, and replaces `useDisclosure` with `useOverlayState`.
 
 **When to migrate hooks:**
 
@@ -66,7 +66,7 @@ See the [Full Migration Guide](/docs/react/migration/full-migration#step-5-updat
 <include>../index.mdx#step-6-component-migration-reference</include>
 
 <Callout type="info">
-  **Removed/In-Progress/Planned Components**: For components marked as ❌ Removed, 🔄 In Progress, or 📋 Planned, replace them with standard HTML elements during migration. You can migrate back to SY UI components once they become available in v3.
+  **Removed/In-Progress/Planned Components**: For components marked as ❌ Removed, 🔄 In Progress, or 📋 Planned, replace them with standard HTML elements during migration. You can migrate back to SY INC components once they become available in v3.
 </Callout>
 
 Use the `get_component_migration_guides` MCP tool to fetch detailed guides for each component.
@@ -105,28 +105,28 @@ See the [Full Migration Guide](/docs/react/migration/full-migration#step-9-styli
 
 1. **Create migration branch**
    - Create a feature branch for migration work
-   - Example: `git checkout -b migrate/sy-ui-v3`
+   - Example: `git checkout -b migrate/sy-inc-v3`
 
 2. **Verify Migration MCP is configured**
    - Check that Migration MCP server is connected
-   - Ensure `sy-ui-react` MCP is NOT connected (to avoid confusion)
+   - Ensure `sy-inc-react` MCP is NOT connected (to avoid confusion)
    - Verify MCP tools are available
 
 3. **Analyze the project and create a migration plan**
    - Use `get_migration_workflow` to fetch this guide
-   - Scan for SY UI v2 imports, identify all components and usage
+   - Scan for SY INC v2 imports, identify all components and usage
    - Map component dependencies
    - Create a phased migration plan (e.g., 3-5 components per phase, by-dependency strategy)
 
 ### Phase 1: Dependency Preparation (Before Code Changes)
 
-These steps can be done before switching SY UI dependencies and won't break the project:
+These steps can be done before switching SY INC dependencies and won't break the project:
 
 1. **Update React to v19** (if not already)
-   - This can be done before switching SY UI
+   - This can be done before switching SY INC
 
 2. **Update Tailwind CSS to v4** (if not already)
-   - This can be done before switching SY UI
+   - This can be done before switching SY INC
 
 3. **🛑 CHECKPOINT: Stop and wait for user approval**
    - **DO NOT proceed to next phase automatically**
@@ -167,12 +167,12 @@ For each component group in the migration plan:
 **Critical**: Only proceed when ALL components have been migrated to v3 API patterns.
 
 1. **Update dependencies**
-   - Remove `@sy-inc/react` and `@sy-ui/theme` (v2)
+   - Remove `@sy-inc/react` and `@sy-inc/theme` (v2)
    - Install `@sy-inc/react` and `@sy-inc/styles` (v3)
    - Remove `framer-motion` if present
    - Update CSS imports (add `@import "@sy-inc/styles";`)
-   - Remove SyUIProvider from app root
-   - Update Tailwind config (remove `sy-ui()` plugin)
+   - Remove SyIncProvider from app root
+   - Update Tailwind config (remove `sy-inc()` plugin)
 
 2. **Fix remaining issues**
    - Run typecheck/lint if available (do NOT build)
@@ -310,7 +310,7 @@ For each component group in the migration plan:
 After completing migration:
 
 1. Remove v2 dependencies (already done in dependency switch)
-2. Switch from Migration MCP to `sy-ui-react` MCP for v3 development
+2. Switch from Migration MCP to `sy-inc-react` MCP for v3 development
 3. Update documentation references
 4. Run final verification
 5. Merge migration branch to main

@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     " app, or download the app from the App Store or Google Play.",
   ].join(""),
   robots: {follow: false, index: false},
-  title: [`Open in ${NATIVE_APP.NAME}`, "SY UI"].join(" | "),
+  title: [`Open in ${NATIVE_APP.NAME}`, "SY INC"].join(" | "),
 };
 
 /**
  * Web fallback rendered when a user navigates to
- * `/docs/native-showcase/components/{slug}` without the SY UI Native app
+ * `/docs/native-showcase/components/{slug}` without the SY INC Native app
  * installed (e.g. they scan the QR from a non-iOS/Android device, or iOS
  * decides not to deep-link because the AASA glob didn't match).
  *

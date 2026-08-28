@@ -1,10 +1,10 @@
 ---
 title: Accordion
-description: Accordion 从 SY UI v2 到 v3 的迁移指南。
+description: Accordion 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="info">
-  完整的 API 参考、样式指南与高级示例请参阅 [v3 Accordion 文档](/docs/react/components/accordion)。本指南只关注从 SY UI v2 的迁移。
+  完整的 API 参考、样式指南与高级示例请参阅 [v3 Accordion 文档](/docs/react/components/accordion)。本指南只关注从 SY INC v2 的迁移。
 </Callout>
 
 ## 结构变化
@@ -73,7 +73,7 @@ export default function App() {
 
 ### 1. 组件结构
 
-**v2：** 单个带 props 的 `AccordionItem` 组件  
+**v2：** 单个带 props 的 `AccordionItem` 组件
 **v3：** 复合组件：`Accordion.Item`、`Accordion.Heading`、`Accordion.Trigger`、`Accordion.Panel`、`Accordion.Body`、`Accordion.Indicator`
 
 ### 2. Prop 变更
@@ -96,7 +96,7 @@ export default function App() {
 
 ### 3. 变体
 
-**v2 变体：** `light`、`shadow`、`bordered`、`splitted`  
+**v2 变体：** `light`、`shadow`、`bordered`、`splitted`
 **v3 变体：** `default`、`surface`
 
 v3 的变体更精简。若要接近 v2 的视觉效果：
@@ -108,7 +108,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
 
 ### 4. 条目标识
 
-**v2：** React 的 `key` 同时用于列表调和与展开状态。  
+**v2：** React 的 `key` 同时用于列表调和与展开状态。
 **v3：** 在 `Accordion.Item` 上使用 `id` 标识展开状态；列表中仍可为各项保留 React 的 `key`。
 
 ## 迁移示例
@@ -123,8 +123,8 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
 
     const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
 
-    <Accordion 
-      selectedKeys={selectedKeys} 
+    <Accordion
+      selectedKeys={selectedKeys}
       onSelectionChange={setSelectedKeys}
     >
       <AccordionItem key="1" title="Item 1">
@@ -144,8 +144,8 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
 
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set(["1"]));
 
-    <Accordion 
-      expandedKeys={expandedKeys} 
+    <Accordion
+      expandedKeys={expandedKeys}
       onExpandedChange={setExpandedKeys}
     >
       <Accordion.Item id="1">
@@ -183,7 +183,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
     import { Icon } from "@iconify/react";
 
     <Accordion>
-      <AccordionItem 
+      <AccordionItem
         key="1"
         title="Accordion 1"
         subtitle="Press to expand"
@@ -227,7 +227,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
     import { Icon } from "@iconify/react";
 
     <Accordion>
-      <AccordionItem 
+      <AccordionItem
         key="1"
         title="Item 1"
         indicator={(props) => (
@@ -248,7 +248,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
 
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set());
 
-    <Accordion 
+    <Accordion
       expandedKeys={expandedKeys}
       onExpandedChange={setExpandedKeys}
     >
@@ -279,7 +279,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    <Accordion 
+    <Accordion
       defaultExpandedKeys={["1"]}
       disabledKeys={["2"]}
     >
@@ -327,7 +327,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
 ### v2：`classNames` prop
 
 ```tsx
-<AccordionItem 
+<AccordionItem
   classNames={{
     base: "custom-base",
     title: "custom-title",

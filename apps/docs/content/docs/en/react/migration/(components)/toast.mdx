@@ -1,10 +1,10 @@
 ---
 title: Toast
-description: Migration guide for Toast from SY UI v2 to v3
+description: Migration guide for Toast from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Toast documentation](/docs/react/components/toast) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Toast documentation](/docs/react/components/toast) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -60,22 +60,22 @@ function MyComponent() {
 
 ### 1. Provider Pattern
 
-**v2:** Required `ToastProvider` wrapper  
+**v2:** Required `ToastProvider` wrapper
 **v3:** Uses `Toast.Provider` component (can be placed anywhere)
 
 ### 2. Hook → Function
 
-**v2:** Used `useToast()` hook  
+**v2:** Used `useToast()` hook
 **v3:** Uses `toast()` function directly
 
 ### 3. API Changes
 
-**v2:** Used `toast.show()` method  
+**v2:** Used `toast.show()` method
 **v3:** `toast()` is a function with helper methods (`toast.success()`, `toast.danger()`, etc.)
 
 ### 4. Variant Names
 
-**v2:** Variants like `success`, `error`, `warning`, `info`  
+**v2:** Variants like `success`, `error`, `warning`, `info`
 **v3:** Variants: `default`, `accent`, `success`, `warning`, `danger`
 
 ### 5. Compound Component Structure

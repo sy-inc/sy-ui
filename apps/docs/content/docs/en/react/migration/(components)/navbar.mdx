@@ -1,17 +1,17 @@
 ---
 title: Navbar
-description: Migration guide for Navbar from SY UI v2 to v3
+description: Migration guide for Navbar from SY INC v2 to v3
 ---
 
 <Callout type="warning">
-  The Navbar component has been **removed** in SY UI v3. Build navigation bars manually using native HTML elements and Tailwind CSS classes. This guide focuses on common patterns and simplifies complex features.
+  The Navbar component has been **removed** in SY INC v3. Build navigation bars manually using native HTML elements and Tailwind CSS classes. This guide focuses on common patterns and simplifies complex features.
 </Callout>
 
 ## Key Changes
 
 ### 1. Component Removal
 
-**v2:** `<Navbar>` and subcomponents (`NavbarBrand`, `NavbarContent`, `NavbarItem`, `NavbarMenu`, `NavbarMenuItem`, `NavbarMenuToggle`)  
+**v2:** `<Navbar>` and subcomponents (`NavbarBrand`, `NavbarContent`, `NavbarItem`, `NavbarMenu`, `NavbarMenuItem`, `NavbarMenuToggle`)
 **v3:** Manual composition using native HTML elements
 
 ### 2. Subcomponents Mapping
@@ -56,7 +56,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
         <NavbarItem><Link href="#">Pricing</Link></NavbarItem>
       </NavbarContent>
     </Navbar>
-    
+
     {/* With right-aligned content */}
     <Navbar>
       <NavbarBrand>Logo</NavbarBrand>
@@ -83,7 +83,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
         </ul>
       </header>
     </nav>
-    
+
     {/* With right-aligned content */}
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
       <header className="flex h-16 items-center justify-between px-6">

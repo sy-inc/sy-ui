@@ -1,10 +1,10 @@
 ---
 title: Tooltip
-description: Migration guide for Tooltip from SY UI v2 to v3
+description: Migration guide for Tooltip from SY INC v2 to v3
 ---
 
 <Callout type="info">
-  Refer to the [v3 Tooltip documentation](/docs/react/components/tooltip) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY UI v2.
+  Refer to the [v3 Tooltip documentation](/docs/react/components/tooltip) for complete API reference, styling guide, and advanced examples. This guide only focuses on migrating from SY INC v2.
 </Callout>
 
 ## Structure Changes
@@ -46,7 +46,7 @@ export default function App() {
 
 ### 1. Component Structure
 
-**v2:** Simple Tooltip with `content` prop and children as trigger  
+**v2:** Simple Tooltip with `content` prop and children as trigger
 **v3:** Compound components (`Tooltip.Trigger`, `Tooltip.Content`, `Tooltip.Arrow`)
 
 ### 2. Prop Changes
@@ -95,12 +95,12 @@ export default function App() {
     <Tooltip content="I am a tooltip" showArrow>
       <Button>Hover me</Button>
     </Tooltip>
-    
+
     {/* With placement */}
     <Tooltip content="Tooltip" placement="bottom">
       <Button>Hover me</Button>
     </Tooltip>
-    
+
     {/* With offset */}
     <Tooltip content="Tooltip" offset={12}>
       <Button>Hover me</Button>
@@ -119,7 +119,7 @@ export default function App() {
         <p>I am a tooltip</p>
       </Tooltip.Content>
     </Tooltip>
-    
+
     {/* With placement */}
     <Tooltip delay={0}>
       <Tooltip.Trigger>
@@ -129,7 +129,7 @@ export default function App() {
         <p>Tooltip</p>
       </Tooltip.Content>
     </Tooltip>
-    
+
     {/* With offset */}
     <Tooltip delay={0}>
       <Tooltip.Trigger>

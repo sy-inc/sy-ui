@@ -1,6 +1,6 @@
 ---
 title: Colors
-description: Color palette and theming system for SY UI Native
+description: Color palette and theming system for SY INC Native
 icon: bucket-paint
 links:
   themes: true
@@ -9,9 +9,9 @@ links:
 
 import {ColorSectionSideBySide, ColorSectionStacked, ColorSectionFormField, ColorSectionPrimitive} from "@/components/color-section";
 
-SY UI Native's color system is built around semantic intent, not visual abundance. Instead of exposing large raw palettes, the system defines a small, meaningful set of color roles that cover the majority of interface needs.
+SY INC Native's color system is built around semantic intent, not visual abundance. Instead of exposing large raw palettes, the system defines a small, meaningful set of color roles that cover the majority of interface needs.
 
-Most colors in the system are derived automatically from a limited number of base values. This allows SY UI to maintain consistent contrast, hierarchy, and theming behavior while keeping the system easy to reason about and modify.
+Most colors in the system are derived automatically from a limited number of base values. This allows SY INC to maintain consistent contrast, hierarchy, and theming behavior while keeping the system easy to reason about and modify.
 
 Colors should communicate purpose and state first. Visual variation comes from scale, emphasis, and context.
 
@@ -258,7 +258,7 @@ import { View, Text } from 'react-native';
 
 ## Default Theme
 
-The complete theme definition can be found in ([variables.css](https://github.com/sy-ui/sy-ui-native/blob/main/src/styles/variables.css)). This theme automatically switches between light and dark modes through [Uniwind's theming system](https://docs.uniwind.dev/theming/basics), which supports system preferences and programmatic theme switching.
+The complete theme definition can be found in ([variables.css](https://github.com/sy-inc/sy-inc-native/blob/main/src/styles/variables.css)). This theme automatically switches between light and dark modes through [Uniwind's theming system](https://docs.uniwind.dev/theming/basics), which supports system preferences and programmatic theme switching.
 
 <CollapsibleCode lang="css" code={`  @theme {
     /* Primitive Colors (Do not change between light and dark) */
@@ -459,7 +459,7 @@ The `useThemeColor` hook has been enhanced to support multiple colors selection,
 You can now select multiple colors at once, which is useful when you need to work with related color values together:
 
 ```tsx
-import { useThemeColor } from 'sy-ui-native';
+import { useThemeColor } from 'sy-inc-native';
 
 // Select multiple colors at once
 const [accent, accentForeground, success, danger] = useThemeColor([

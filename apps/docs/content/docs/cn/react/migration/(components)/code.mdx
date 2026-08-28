@@ -1,17 +1,17 @@
 ---
 title: Code
-description: Code 从 SY UI v2 到 v3 的迁移指南。
+description: Code 从 SY INC v2 到 v3 的迁移指南。
 ---
 
 <Callout type="warning">
-  Code 组件已在 SY UI v3 中**移除**。请改为使用原生 HTML `<code>` 元素，并配合 Tailwind CSS class 编写样式。
+  Code 组件已在 SY INC v3 中**移除**。请改为使用原生 HTML `<code>` 元素，并配合 Tailwind CSS class 编写样式。
 </Callout>
 
 ## 关键变化
 
 ### 1. 组件移除
 
-**v2：** 来自 `@sy-inc/react` 的 `<Code>` 组件  
+**v2：** 来自 `@sy-inc/react` 的 `<Code>` 组件
 **v3：** 原生 HTML `<code>` 元素与 Tailwind CSS class
 
 ### 2. 变体映射
@@ -69,7 +69,7 @@ export default function App() {
     {/* Colors */}
     <Code color="primary">Primary code</Code>
     <Code color="success">Success code</Code>
-    
+
     {/* Sizes */}
     <Code size="md">Medium code</Code>
     ```
@@ -83,7 +83,7 @@ export default function App() {
     <code className="px-2 py-1 h-fit font-mono font-normal inline-block whitespace-nowrap rounded-sm bg-success/20 text-success-700 text-sm">
       Success code
     </code>
-    
+
     {/* 尺寸 */}
     <code className="px-2 py-1 h-fit font-mono font-normal inline-block whitespace-nowrap rounded-sm bg-default/40 text-default-700 text-base">
       Medium code
@@ -197,7 +197,7 @@ export default function App() {
       return (
         <div className="space-y-4">
           <p>
-            Install SY UI with <Code>npm install @sy-inc/react</Code>
+            Install SY INC with <Code>npm install @sy-inc/react</Code>
           </p>
           <div className="flex gap-2">
             <Code color="primary">Primary</Code>
@@ -221,7 +221,7 @@ export default function App() {
       return (
         <div className="space-y-4">
           <p>
-            Install SY UI with{" "}
+            Install SY INC with{" "}
             <code className="px-2 py-1 h-fit font-mono font-normal inline-block whitespace-nowrap rounded-sm bg-default/40 text-default-700 text-sm">
               npm install @sy-inc/react
             </code>

@@ -33,7 +33,7 @@ async function copyCss() {
 
 async function minifyCss() {
   console.log("🗜️  Minifying CSS...");
-  execSync("npx @tailwindcss/cli -i ./dist/index.css -o dist/sy-ui.min.css --minify", {
+  execSync("npx @tailwindcss/cli -i ./dist/index.css -o dist/sy-inc.min.css --minify", {
     cwd: rootDir,
     stdio: "inherit",
   });

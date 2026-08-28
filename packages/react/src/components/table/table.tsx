@@ -105,7 +105,7 @@ const TableRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-TableRoot.displayName = "SY UI.Table";
+TableRoot.displayName = "SY INC.Table";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Scroll Container
@@ -133,7 +133,7 @@ const TableScrollContainer = <E extends keyof React.JSX.IntrinsicElements = "div
   );
 };
 
-TableScrollContainer.displayName = "SY UI.Table.ScrollContainer";
+TableScrollContainer.displayName = "SY INC.Table.ScrollContainer";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Content
@@ -185,7 +185,7 @@ function TableContent({className, onSortChange, sortDescriptor, style, ...props}
   );
 }
 
-(TableContent as React.FC).displayName = "SY UI.Table.Content";
+(TableContent as React.FC).displayName = "SY INC.Table.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Header
@@ -206,7 +206,7 @@ function TableHeader<T extends object>({className, ...props}: TableHeaderProps<T
   );
 }
 
-(TableHeader as React.FC).displayName = "SY UI.Table.Header";
+(TableHeader as React.FC).displayName = "SY INC.Table.Header";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Column
@@ -307,7 +307,7 @@ const TableColumn = ({
   );
 };
 
-TableColumn.displayName = "SY UI.Table.Column";
+TableColumn.displayName = "SY INC.Table.Column";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Body
@@ -328,7 +328,7 @@ function TableBody<T extends object>({className, ...props}: TableBodyProps<T>) {
   );
 }
 
-(TableBody as React.FC).displayName = "SY UI.Table.Body";
+(TableBody as React.FC).displayName = "SY INC.Table.Body";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Summary (native table footer row group)
@@ -367,7 +367,7 @@ function TableSummary<T extends object>({
   );
 }
 
-(TableSummary as React.FC).displayName = "SY UI.Table.Summary";
+(TableSummary as React.FC).displayName = "SY INC.Table.Summary";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Row
@@ -386,7 +386,7 @@ function TableRow<T extends object>({className, ...props}: TableRowProps<T>) {
   );
 }
 
-(TableRow as React.FC).displayName = "SY UI.Table.Row";
+(TableRow as React.FC).displayName = "SY INC.Table.Row";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Cell
@@ -424,7 +424,7 @@ const TableCell = ({className, ref, ...props}: TableCellProps) => {
   );
 };
 
-TableCell.displayName = "SY UI.Table.Cell";
+TableCell.displayName = "SY INC.Table.Cell";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Selection Checkbox
@@ -450,7 +450,7 @@ const TableSelectionCheckbox = ({className, ref, ...props}: TableSelectionCheckb
   </Checkbox>
 );
 
-TableSelectionCheckbox.displayName = "SY UI.Table.SelectionCheckbox";
+TableSelectionCheckbox.displayName = "SY INC.Table.SelectionCheckbox";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Overflow
@@ -599,7 +599,7 @@ const TableOverflow = ({
   );
 };
 
-TableOverflow.displayName = "SY UI.Table.Overflow";
+TableOverflow.displayName = "SY INC.Table.Overflow";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Footer
@@ -626,7 +626,7 @@ const TableFooter = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-TableFooter.displayName = "SY UI.Table.Footer";
+TableFooter.displayName = "SY INC.Table.Footer";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Resizable Container
@@ -666,7 +666,7 @@ const TableResizableContainer = ({
   );
 };
 
-TableResizableContainer.displayName = "SY UI.Table.ResizableContainer";
+TableResizableContainer.displayName = "SY INC.Table.ResizableContainer";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Column Resizer
@@ -686,7 +686,7 @@ const TableColumnResizer = ({className, ref, ...props}: TableColumnResizerProps)
   );
 };
 
-TableColumnResizer.displayName = "SY UI.Table.ColumnResizer";
+TableColumnResizer.displayName = "SY INC.Table.ColumnResizer";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Load More Item
@@ -706,7 +706,7 @@ const TableLoadMoreItem = ({className, ref, ...props}: TableLoadMoreItemProps) =
   );
 };
 
-TableLoadMoreItem.displayName = "SY UI.Table.LoadMore";
+TableLoadMoreItem.displayName = "SY INC.Table.LoadMore";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Load More Content
@@ -734,7 +734,7 @@ const TableLoadMoreContent = <E extends keyof React.JSX.IntrinsicElements = "div
   );
 };
 
-TableLoadMoreContent.displayName = "SY UI.Table.LoadMoreContent";
+TableLoadMoreContent.displayName = "SY INC.Table.LoadMoreContent";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Loading Overlay
@@ -762,7 +762,7 @@ const TableLoadingOverlay = <E extends keyof React.JSX.IntrinsicElements = "div"
   );
 };
 
-TableLoadingOverlay.displayName = "SY UI.Table.LoadingOverlay";
+TableLoadingOverlay.displayName = "SY INC.Table.LoadingOverlay";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Sortable Column Header
@@ -842,7 +842,7 @@ const TableSortableColumnHeader = ({
   );
 };
 
-TableSortableColumnHeader.displayName = "SY UI.Table.SortableColumnHeader";
+TableSortableColumnHeader.displayName = "SY INC.Table.SortableColumnHeader";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

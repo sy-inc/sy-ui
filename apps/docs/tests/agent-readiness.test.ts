@@ -59,9 +59,9 @@ function collectHeadingLevels(node: ReactNode): number[] {
   return [...(level === null ? [] : [level]), ...collectHeadingLevels(element.props.children)];
 }
 
-describe("SY UI agent readiness", () => {
+describe("SY INC agent readiness", () => {
   it("publishes a typed OpenAPI alias with unique documented operations", async () => {
-    const response = getOpenApi(new Request("https://sy-ui.com/openapi.json"));
+    const response = getOpenApi(new Request("https://sy-inc.com/openapi.json"));
     const document = (await response.json()) as {
       info: {title: string};
       openapi: string;
@@ -71,7 +71,7 @@ describe("SY UI agent readiness", () => {
     const operationIds = operations.map((operation) => operation.operationId);
 
     expect(response.headers.get("content-type")).toContain("application/vnd.oai.openapi+json");
-    expect(document.info.title).toBe("SY UI Docs Agent API");
+    expect(document.info.title).toBe("SY INC Docs Agent API");
     expect(document.openapi).toBe("3.1.0");
     expect(operations.every((operation) => Boolean(operation.description))).toBe(true);
     expect(new Set(operationIds).size).toBe(operationIds.length);
@@ -79,8 +79,8 @@ describe("SY UI agent readiness", () => {
 
   it("returns structured JSON errors from agent API routes", async () => {
     const responses = [
-      await searchAgentDocs(new NextRequest("https://sy-ui.com/api/agent/search")),
-      await getAgentPage(new NextRequest("https://sy-ui.com/api/agent/page")),
+      await searchAgentDocs(new NextRequest("https://sy-inc.com/api/agent/search")),
+      await getAgentPage(new NextRequest("https://sy-inc.com/api/agent/page")),
       getUnknownAgentEndpoint(),
     ];
 
@@ -99,51 +99,51 @@ describe("SY UI agent readiness", () => {
   });
 
   it("varies negotiated markdown by Accept and Accept-Encoding", async () => {
-    const request = new NextRequest("https://sy-ui.com/agent-markdown?path=/", {
+    const request = new NextRequest("https://sy-inc.com/agent-markdown?path=/", {
       headers: {
         accept: "text/markdown",
-        "x-sy-ui-markdown-path": "/",
+        "x-sy-inc-markdown-path": "/",
       },
     });
     const response = await getMarkdown(request);
 
     expect(response.headers.get("content-type")).toContain("text/markdown");
     expect(response.headers.get("vary")).toBe("Accept, Accept-Encoding");
-    expect(await response.text()).toContain("# SY UI");
+    expect(await response.text()).toContain("# SY INC");
   });
 
-  it("serves the existing SY UI MCP packages from the well-known handshake", async () => {
-    const response = getMcpHandshake(new Request("https://sy-ui.com/.well-known/mcp"));
+  it("serves the existing SY INC MCP packages from the well-known handshake", async () => {
+    const response = getMcpHandshake(new Request("https://sy-inc.com/.well-known/mcp"));
     const card = (await response.json()) as {
       endpoint: string;
       transports: {package: string; type: string}[];
     };
 
-    expect(card.endpoint).toBe("https://sy-ui.com/.well-known/mcp/server-card.json");
+    expect(card.endpoint).toBe("https://sy-inc.com/.well-known/mcp/server-card.json");
     expect(card.transports).toEqual(
       expect.arrayContaining([
         expect.objectContaining({package: "@sy-inc/react-mcp", type: "stdio"}),
-        expect.objectContaining({package: "@sy-ui/native-mcp", type: "stdio"}),
+        expect.objectContaining({package: "@sy-inc/native-mcp", type: "stdio"}),
       ]),
     );
   });
 
-  it("lists predictable SY UI developer resources in llms.txt", () => {
+  it("lists predictable SY INC developer resources in llms.txt", () => {
     const header = generateIndexHeader().join("\n");
 
-    expect(header).toContain("SY UI OpenAPI specification");
+    expect(header).toContain("SY INC OpenAPI specification");
     expect(header).toContain("/openapi.json");
     expect(header).toContain("/.well-known/mcp");
     expect(header).toContain("/docs/react/getting-started/cli");
   });
 
-  it("adds a verified SY UI support contact without fabricating an address", () => {
+  it("adds a verified SY INC support contact without fabricating an address", () => {
     const organization = getOrganizationJsonLd();
 
     expect(organization.contactPoint).toEqual({
       "@type": "ContactPoint",
       contactType: "customer support",
-      email: "sales@sy-ui.com",
+      email: "sales@sy-inc.com",
     });
     expect(organization).not.toHaveProperty("address");
   });
@@ -157,11 +157,11 @@ describe("SY UI agent readiness", () => {
     const contactText = extractText(ContactPage());
     const privacyText = extractText(PrivacyPage());
 
-    expect(contactText).toContain("sales@sy-ui.com");
-    expect(contactText).toContain("junior@sy-ui.com");
+    expect(contactText).toContain("sales@sy-inc.com");
+    expect(contactText).toContain("junior@sy-inc.com");
     expect(contactText).not.toContain("jrgarciadev@gmail.com");
-    expect(privacyText).toContain("sales@sy-ui.com");
-    expect(privacyText).toContain("junior@sy-ui.com");
+    expect(privacyText).toContain("sales@sy-inc.com");
+    expect(privacyText).toContain("junior@sy-inc.com");
     expect(privacyText).not.toContain("jrgarciadev@gmail.com");
     expect(privacyText).toContain("Vercel Analytics");
     expect(privacyText).toContain("PostHog");

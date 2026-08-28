@@ -77,7 +77,7 @@ jobs:
 
   continuous-release:
     name: Continuous Release
-    if: github.repository == 'sy-ui/sy-ui'
+    if: github.repository == 'sy-inc/sy-inc'
     runs-on: ubuntu-latest
     permissions:
       contents: read

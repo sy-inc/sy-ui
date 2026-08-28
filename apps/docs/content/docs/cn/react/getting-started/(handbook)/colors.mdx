@@ -1,6 +1,6 @@
 ---
 title: 颜色
-description: SY UI v3 的调色板与主题系统
+description: SY INC v3 的调色板与主题系统
 icon: bucket-paint
 links:
   themes: true
@@ -9,9 +9,9 @@ links:
 
 import {ColorSectionSideBySide, ColorSectionStacked, ColorSectionFormField, ColorSectionPrimitive} from "@/components/color-section";
 
-SY UI 的颜色体系围绕语义意图构建，而非堆砌视觉色板。系统不会暴露庞大的原始色表，而是定义一小套有意义的色彩角色，覆盖绝大多数界面需求。
+SY INC 的颜色体系围绕语义意图构建，而非堆砌视觉色板。系统不会暴露庞大的原始色表，而是定义一小套有意义的色彩角色，覆盖绝大多数界面需求。
 
-系统中的多数颜色会由少量基础值自动派生。这样 SY UI 能在保持对比度、层级与主题行为一致的同时，让整套体系易于理解与修改。
+系统中的多数颜色会由少量基础值自动派生。这样 SY INC 能在保持对比度、层级与主题行为一致的同时，让整套体系易于理解与修改。
 
 颜色应首先传达用途与状态；视觉变化来自尺度、强调与上下文。
 
@@ -306,10 +306,10 @@ SY UI 的颜色体系围绕语义意图构建，而非堆砌视觉色板。系�
 
 ## 默认主题
 
-完整主题定义见仓库中的 [variables.css](https://github.com/sy-ui/sy-ui/blob/v3/packages/styles/themes/default/variables.css)。该主题会根据 `class="dark"` 或 `data-theme="dark"` 属性在明暗模式间自动切换。
+完整主题定义见仓库中的 [variables.css](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/themes/default/variables.css)。该主题会根据 `class="dark"` 或 `data-theme="dark"` 属性在明暗模式间自动切换。
 
 <CollapsibleCode lang="css" code={`  @layer base {
-    /* SY UI 默认主题 */
+    /* SY INC 默认主题 */
     :root {
       color-scheme: light;
 

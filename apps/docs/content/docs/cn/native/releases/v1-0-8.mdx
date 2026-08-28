@@ -10,7 +10,7 @@ github:
   <span className="text-sm text-muted">2026 年 7 月 31 日</span>
 </div>
 
-SY UI Native v1.0.8 为整个库带来从右到左（RTL）布局支持。组件样式从物理的 `left`/`right` 迁移到 Yoga 的逻辑属性，而 Yoga 无法覆盖的 JS 驱动逻辑——手势位移、动画偏移、弹层对齐——现在通过全新的 `isRTL` provider 配置解析方向，并提供 `LayoutDirectionScope` 作为子树的应急出口。本版本还让 `sy-ui-native/styles` 自行声明 `@source`，因此类名扫描不再依赖于应用中硬编码的 `node_modules` 路径。
+SY INC Native v1.0.8 为整个库带来从右到左（RTL）布局支持。组件样式从物理的 `left`/`right` 迁移到 Yoga 的逻辑属性，而 Yoga 无法覆盖的 JS 驱动逻辑——手势位移、动画偏移、弹层对齐——现在通过全新的 `isRTL` provider 配置解析方向，并提供 `LayoutDirectionScope` 作为子树的应急出口。本版本还让 `sy-inc-native/styles` 自行声明 `@source`，因此类名扫描不再依赖于应用中硬编码的 `node_modules` 路径。
 
 ## 安装
 
@@ -19,28 +19,28 @@ SY UI Native v1.0.8 为整个库带来从右到左（RTL）布局支持。组件
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
 <Tab value="npm">
   ```bash
-  npm i sy-ui-native
+  npm i sy-inc-native
   ```
 </Tab>
 <Tab value="pnpm">
   ``` bash
-  pnpm add sy-ui-native
+  pnpm add sy-inc-native
   ```
 </Tab>
 <Tab value="yarn">
   ```bash
-  yarn add sy-ui-native
+  yarn add sy-inc-native
   ```
 </Tab>
 <Tab value="bun">
   ```bash
-  bun add sy-ui-native
+  bun add sy-inc-native
   ```
 </Tab>
 </Tabs>
 
 <Callout type="info">
-  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY UI Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY UI Native MCP 服务器](/docs/native/getting-started/mcp-server)。
+  **使用 AI 助手？** 直接提示「Hey Cursor，把 SY INC Native 升级到最新版本」，助手会自动比对版本并完成必要修改。了解更多请参见 [SY INC Native MCP 服务器](/docs/native/getting-started/mcp-server)。
 </Callout>
 
 ## 真机体验
@@ -55,14 +55,14 @@ SY UI Native v1.0.8 为整个库带来从右到左（RTL）布局支持。组件
 
 **告诉组件它们渲染在哪个方向：**
 
-`SyUINativeProvider` 接受 `config.isRTL`，默认为 `I18nManager.isRTL`：
+`SyIncNativeProvider` 接受 `config.isRTL`，默认为 `I18nManager.isRTL`：
 
 ```tsx
-import { SyUINativeProvider } from 'sy-ui-native';
-import type { SyUINativeConfig } from 'sy-ui-native';
+import { SyIncNativeProvider } from 'sy-inc-native';
+import type { SyIncNativeConfig } from 'sy-inc-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const config: SyUINativeConfig = {
+const config: SyIncNativeConfig = {
   // 默认为 I18nManager.isRTL
   isRTL: true,
 };
@@ -70,9 +70,9 @@ const config: SyUINativeConfig = {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SyUINativeProvider config={config}>
+      <SyIncNativeProvider config={config}>
         {/* 你的应用内容 */}
-      </SyUINativeProvider>
+      </SyIncNativeProvider>
     </GestureHandlerRootView>
   );
 }
@@ -85,7 +85,7 @@ export default function App() {
 新导出的 `LayoutDirectionScope` 会覆盖其下方组件的方向，这正是你在从右到左应用中希望某个演示或预览区域保持从左到右时所需要的。它只覆盖 JavaScript 一侧，因此需搭配 Uniwind 的 `LayoutDirection`（用于 `rtl:` 变体）以及 `direction` 样式（用于 Yoga 布局）：
 
 ```tsx
-import { LayoutDirectionScope, PortalHost } from 'sy-ui-native';
+import { LayoutDirectionScope, PortalHost } from 'sy-inc-native';
 import { LayoutDirection } from 'uniwind';
 import { View } from 'react-native';
 
@@ -121,13 +121,13 @@ import { View } from 'react-native';
 
 示例应用现在通过 Lingui 附带 `en`、`ar`、`he` 三套语言目录并配有运行时区域切换器，还加入了 `eslint-plugin-lingui` 以防止出现未翻译的字符串。本版本已在 iOS 与 Android 上针对全部三种区域设置进行手动验证，包括在从右到左的应用外壳内部限定为从左到右的预览。
 
-**相关 PR：** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**相关 PR：** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ## 样式
 
 ### 随包发布的样式表自行声明 `@source`
 
-`sy-ui-native/styles` 现在会将 Tailwind 指向它自身的文件：
+`sy-inc-native/styles` 现在会将 Tailwind 指向它自身的文件：
 
 ```css
 @source "..";
@@ -139,20 +139,20 @@ Tailwind v4 会相对于包含 `@source` 的 CSS 文件来解析它，因此在�
 
 ```css
 /* 之前——应用必须知道包所在的位置 */
-@import 'sy-ui-native/styles';
-@source './node_modules/sy-ui-native/lib';
+@import 'sy-inc-native/styles';
+@source './node_modules/sy-inc-native/lib';
 
 /* 之后——包自行声明其扫描路径 */
-@import 'sy-ui-native/styles';
+@import 'sy-inc-native/styles';
 ```
 
 这两条指令的行为从来就不一致。`@import` 会经由包的 exports 解析，能在任何位置找到包；而 `@source` 是一个文件系统 glob，只有当包位于该字面路径时才有效。二者在单包应用中一致，但在工作区中会产生分歧——因为决定包落在哪个 `node_modules` 的是安装器，而非项目布局。Bun 的隔离链接器会把它放进应用中，其提升（hoisted）链接器会放到工作区根部，而 pnpm 与 yarn 也会因是否提升而各自分裂。
 
-这种失败还是静默的：缺失的 `@source` 目录在 Tailwind 中是无操作，不会有任何警告或错误。应用级类名照常工作，而仅在 SY UI 随包组件内部使用的类名却消失了，于是 Avatar 失去了尺寸、Switch 渲染为不可见、Popover 背景变为透明。
+这种失败还是静默的：缺失的 `@source` 目录在 Tailwind 中是无操作，不会有任何警告或错误。应用级类名照常工作，而仅在 SY INC 随包组件内部使用的类名却消失了，于是 Avatar 失去了尺寸、Switch 渲染为不可见、Popover 背景变为透明。
 
 现有的应用级 `@source` 行仍可继续工作——它们只是变得多余，可以移除。
 
-**相关 PR：** [#455](https://github.com/sy-ui/sy-ui-native/pull/455)
+**相关 PR：** [#455](https://github.com/sy-inc/sy-inc-native/pull/455)
 
 ## ⚠️ 破坏性变更
 
@@ -176,7 +176,7 @@ Tailwind v4 会相对于包含 `@source` 的 CSS 文件来解析它，因此在�
 </Card.Header>
 ```
 
-**相关 PR：** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**相关 PR：** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ### TagGroup.List 应用内联布局样式
 
@@ -196,23 +196,23 @@ Tailwind v4 会相对于包含 `@source` 的 CSS 文件来解析它，因此在�
 
 对 [TagGroup](/docs/native/components/tag-group) 的其他 `className` 覆盖不受影响。
 
-**相关 PR：** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**相关 PR：** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ## 问题修复
 
 本版本包含以下问题的修复：
 
-- **[Issue #454](https://github.com/sy-ui/sy-ui-native/issues/454)**：修复了在 monorepo 布局下类名扫描失效的问题。`sy-ui-native/styles` 未为其自身文件声明 `@source`，因此应用必须把一个指向 `node_modules` 的路径硬编码进来，而该路径只在部分包管理器布局下才能解析——一旦出错，Tailwind 便什么都不扫描且静默失败，导致 SY UI 组件在没有样式的情况下渲染。随包发布的样式表现在会声明相对于自身的扫描路径。
+- **[Issue #454](https://github.com/sy-inc/sy-inc-native/issues/454)**：修复了在 monorepo 布局下类名扫描失效的问题。`sy-inc-native/styles` 未为其自身文件声明 `@source`，因此应用必须把一个指向 `node_modules` 的路径硬编码进来，而该路径只在部分包管理器布局下才能解析——一旦出错，Tailwind 便什么都不扫描且静默失败，导致 SY INC 组件在没有样式的情况下渲染。随包发布的样式表现在会声明相对于自身的扫描路径。
 
 **相关 PR：**
 
-- [#455](https://github.com/sy-ui/sy-ui-native/pull/455)
+- [#455](https://github.com/sy-inc/sy-inc-native/pull/455)
 
 ## 内部变更
 
 本版本还移除了循环模块依赖：`Surface` 上下文被拆分为一个叶子模块，共享的 `Toast` 配置被提取到 `toast.base-types`。仅内部导入路径发生变化——不影响任何公共 API。
 
-**相关 PR：** [#459](https://github.com/sy-ui/sy-ui-native/pull/459)
+**相关 PR：** [#459](https://github.com/sy-inc/sy-inc-native/pull/459)
 
 ## 更新的文档
 
@@ -224,7 +224,7 @@ Tailwind v4 会相对于包含 `@source` 的 CSS 文件来解析它，因此在�
 ## 链接
 
 - [组件文档](../components)
-- [GitHub 仓库](https://github.com/sy-ui/sy-ui-native)
+- [GitHub 仓库](https://github.com/sy-inc/sy-inc-native)
 
 ## 贡献者
 

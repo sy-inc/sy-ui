@@ -19,7 +19,7 @@ export function Variants() {
                 onPress: () => toast.clear(),
                 variant: "tertiary",
               },
-              description: "Bob sent you an invitation to join SY UI team",
+              description: "Bob sent you an invitation to join SY INC team",
               indicator: <Persons />,
               variant: "default",
             });
@@ -50,7 +50,7 @@ export function Variants() {
                 className: "bg-success text-success-foreground",
                 onPress: noop,
               },
-              description: "You can continue using SY UI Chat",
+              description: "You can continue using SY INC Chat",
             })
           }
         >
