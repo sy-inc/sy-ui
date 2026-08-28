@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: write
-      id-token: write
+      packages: write
 
     steps:
       - name: Checkout
@@ -27,14 +27,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node for GitHub Packages
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+
       - name: Install
         uses: ./.github/common-actions/install
 
       - name: Build packages
         run: pnpm build
-
-      - name: Ensure npm supports trusted publishing
-        run: npm install -g npm@11
 
       - name: Determine previous tag
         id: prev-tag
@@ -57,7 +60,9 @@ jobs:
           mkdir -p "$RUNNER_TEMP/sy-inc-release"
           PACKAGE_TARBALL="$(node -p "const pkg = require('./package.json'); pkg.name.replace('@', '').replace('/', '-') + '-' + pkg.version + '.tgz'")"
           pnpm pack --pack-destination "$RUNNER_TEMP/sy-inc-release"
-          npm publish "$RUNNER_TEMP/sy-inc-release/$PACKAGE_TARBALL" --access public ${{ inputs.dry_run && '--dry-run' || '' }}
+          npm publish "$RUNNER_TEMP/sy-inc-release/$PACKAGE_TARBALL" --registry=https://npm.pkg.github.com --access public ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish @sy-inc/react
         if: steps.publish-styles.outcome == 'success'
@@ -66,4 +71,6 @@ jobs:
           mkdir -p "$RUNNER_TEMP/sy-inc-release"
           PACKAGE_TARBALL="$(node -p "const pkg = require('./package.json'); pkg.name.replace('@', '').replace('/', '-') + '-' + pkg.version + '.tgz'")"
           pnpm pack --pack-destination "$RUNNER_TEMP/sy-inc-release"
-          npm publish "$RUNNER_TEMP/sy-inc-release/$PACKAGE_TARBALL" --access public ${{ inputs.dry_run && '--dry-run' || '' }}
+          npm publish "$RUNNER_TEMP/sy-inc-release/$PACKAGE_TARBALL" --registry=https://npm.pkg.github.com --access public ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

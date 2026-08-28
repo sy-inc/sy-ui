@@ -6,7 +6,7 @@
   "homepage": "https://sy-inc.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sy-inc/sy-inc.git",
+    "url": "https://github.com/sy-inc/sy-ui.git",
     "directory": "packages/styles"
   },
   "license": "MIT",
@@ -50,7 +50,8 @@
   },
   "clean-package": "./clean-package.config.json",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
     "tailwind-variants": "3.3.1",
