@@ -245,25 +245,42 @@
 }
 
 /* --------------------------------------------------------------------------
-   Sortable Column Indicator — chevron that flips based on `data-direction`.
-   Defaults to pointing up (ascending) and rotates 180° for descending.
+   Sortable Column Indicator — always-visible ascending/descending affordance.
    -------------------------------------------------------------------------- */
 .table__sortable-column-indicator {
-  @apply inline-grid size-3 transform place-content-center transition-transform duration-100 ease-out;
+  @apply relative inline-block h-5 w-3 shrink-0;
 
-  &:not([data-direction]) {
-    @apply opacity-0;
+  & [data-sort-icon] {
+    @apply absolute start-0 size-2.5 opacity-0 transition-opacity duration-200;
+  }
+
+  & [data-sort-icon="neutral-ascending"] {
+    @apply top-0;
+  }
+
+  & [data-sort-icon="neutral-descending"] {
+    @apply bottom-0;
+  }
+
+  & [data-sort-icon="active"] {
+    @apply inset-0 m-auto size-3;
+    transform: rotate(0deg);
+  }
+
+  &:not([data-direction]) [data-sort-icon^="neutral-"] {
+    @apply opacity-60;
+  }
+
+  &[data-direction] {
+    & [data-sort-icon="active"] {
+      @apply opacity-100 transition-[opacity,transform];
+    }
   }
 
   &[data-direction="descending"] {
-    @apply rotate-180;
-  }
-}
-
-@media (hover: hover) {
-  .table__column[data-allows-sorting="true"]:is(:hover, [data-hovered="true"])
-    .table__sortable-column-indicator:not([data-direction]) {
-    @apply opacity-60;
+    & [data-sort-icon="active"] {
+      transform: rotate(180deg);
+    }
   }
 }
 

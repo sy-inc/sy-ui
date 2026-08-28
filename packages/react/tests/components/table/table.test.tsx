@@ -1,4 +1,5 @@
 import type {Selection, SortDescriptor} from "react-aria-components/Table";
+import {useState} from "react";
 
 import {
   User,
@@ -26,7 +27,7 @@ const renderTable = (
     selectedKeys?: Selection;
     onSelectionChange?: (keys: Selection) => void;
     sortDescriptor?: SortDescriptor;
-    onSortChange?: (descriptor: SortDescriptor) => void;
+    onSortChange?: (descriptor: SortDescriptor | undefined) => void;
   } = {},
 ) => {
   return render(
@@ -254,13 +255,77 @@ describe("Table", () => {
     );
   });
 
-  it("exposes an unsorted indicator affordance for sortable columns", () => {
+  it("exposes the appropriate indicator affordance for each sort state", () => {
     renderTable();
 
-    const indicator = document.querySelector('[data-slot="table-sortable-column-indicator"]');
+    let indicator = document.querySelector('[data-slot="table-sortable-column-indicator"]');
 
     expect(indicator).not.toBeNull();
     expect(indicator).not.toHaveAttribute("data-direction");
+    expect(indicator?.querySelectorAll('[data-sort-icon^="neutral-"]')).toHaveLength(2);
+
+    cleanup();
+    renderTable({sortDescriptor: {column: "name", direction: "ascending"}});
+    indicator = document.querySelector('[data-slot="table-sortable-column-indicator"]');
+
+    expect(indicator).toHaveAttribute("data-direction", "ascending");
+    expect(indicator?.querySelectorAll('[data-sort-icon="active"]')).toHaveLength(1);
+    expect(indicator?.querySelectorAll('[data-sort-icon^="neutral-"]')).toHaveLength(2);
+
+    cleanup();
+    renderTable({sortDescriptor: {column: "name", direction: "descending"}});
+    indicator = document.querySelector('[data-slot="table-sortable-column-indicator"]');
+
+    expect(indicator).toHaveAttribute("data-direction", "descending");
+    expect(indicator?.querySelectorAll('[data-sort-icon="active"]')).toHaveLength(1);
+  });
+
+  it("cycles sortable columns through ascending, descending, and unsorted", async () => {
+    const onSortChange = vi.fn();
+
+    function SortableTable() {
+      const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor | undefined>();
+
+      return (
+        <Table>
+          <Table.Content
+            aria-label="Sortable team"
+            sortDescriptor={sortDescriptor}
+            onSortChange={(descriptor) => {
+              onSortChange(descriptor);
+              setSortDescriptor(descriptor);
+            }}
+          >
+            <Table.Header>
+              <Table.Column allowsSorting isRowHeader id="name">
+                {({sortDirection}) => (
+                  <Table.SortableColumnHeader sortDirection={sortDirection}>
+                    Member
+                  </Table.SortableColumnHeader>
+                )}
+              </Table.Column>
+            </Table.Header>
+            <Table.Body />
+          </Table.Content>
+        </Table>
+      );
+    }
+
+    render(<SortableTable />);
+    const tester = testUtilUser.createTester("Table", {
+      root: screen.getByRole("grid", {name: "Sortable team"}),
+      advanceTimer: vi.advanceTimersByTime,
+    });
+
+    await tester.toggleSort({column: "Member"});
+    await tester.toggleSort({column: "Member"});
+    await tester.toggleSort({column: "Member"});
+
+    expect(onSortChange.mock.calls.map(([descriptor]) => descriptor)).toEqual([
+      {column: "name", direction: "ascending"},
+      {column: "name", direction: "descending"},
+      undefined,
+    ]);
   });
 
   it("supports managed widths and logical native pinning", async () => {

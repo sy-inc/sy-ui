@@ -3,6 +3,7 @@
 import type {DOMRenderProps} from "../../utils/dom";
 import type {TableVariants} from "@sy-ui/styles";
 import type {CSSProperties, ComponentPropsWithRef, ReactNode} from "react";
+import type {SortDescriptor} from "react-aria-components/Table";
 
 import {mergeRefs} from "@react-aria/utils";
 import {tableVariants} from "@sy-ui/styles";
@@ -33,7 +34,7 @@ import {cx} from "tailwind-variants";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {Checkbox} from "../checkbox";
-import {IconChevronUp} from "../icons";
+import {IconChevronDown, IconChevronUp} from "../icons";
 import {Tooltip} from "../tooltip";
 
 import {TableGeometryModeContext, TableManagedColumnsContext} from "./table-context";
@@ -139,14 +140,27 @@ TableScrollContainer.displayName = "SY UI.Table.ScrollContainer";
  * -----------------------------------------------------------------------------------------------*/
 interface TableContentProps extends Omit<
   ComponentPropsWithRef<typeof TablePrimitive>,
-  "className"
+  "className" | "onSortChange"
 > {
   className?: string;
+  onSortChange?: (descriptor: SortDescriptor | undefined) => void;
 }
 
-function TableContent({className, style, ...props}: TableContentProps) {
+function TableContent({className, onSortChange, sortDescriptor, style, ...props}: TableContentProps) {
   const {slots} = use(TableContext);
   const managedColumns = use(TableManagedColumnsContext);
+  const handleSortChange = useCallback(
+    (nextDescriptor: SortDescriptor) => {
+      onSortChange?.(
+        sortDescriptor?.column === nextDescriptor.column &&
+          sortDescriptor.direction === "descending" &&
+          nextDescriptor.direction === "ascending"
+          ? undefined
+          : nextDescriptor,
+      );
+    },
+    [onSortChange, sortDescriptor],
+  );
   const managedStyle = managedColumns
     ? {
         minWidth: managedColumns.geometry.totalWidth,
@@ -165,6 +179,8 @@ function TableContent({className, style, ...props}: TableContentProps) {
           : {...managedStyle, ...style}
       }
       {...props}
+      sortDescriptor={sortDescriptor}
+      onSortChange={handleSortChange}
     />
   );
 }
@@ -328,7 +344,6 @@ function TableSummary<T extends object>({
   className,
   isSticky = true,
   onClickCapture,
-  onKeyDownCapture,
   onPointerDownCapture,
   ...props
 }: TableSummaryProps<T>) {
@@ -342,10 +357,6 @@ function TableSummary<T extends object>({
       onClickCapture={(event) => {
         event.stopPropagation();
         onClickCapture?.(event);
-      }}
-      onKeyDownCapture={(event) => {
-        event.stopPropagation();
-        onKeyDownCapture?.(event);
       }}
       onPointerDownCapture={(event) => {
         event.stopPropagation();
@@ -791,11 +802,15 @@ const TableSortableColumnHeader = ({
 
   if (indicator === undefined) {
     indicatorElement = (
-      <IconChevronUp
+      <span
         className={slots?.sortableColumnIndicator()}
         data-direction={sortDirection}
         data-slot="table-sortable-column-indicator"
-      />
+      >
+        <IconChevronUp aria-hidden="true" data-sort-icon="neutral-ascending" />
+        <IconChevronDown aria-hidden="true" data-sort-icon="neutral-descending" />
+        <IconChevronUp aria-hidden="true" data-sort-icon="active" />
+      </span>
     );
   } else if (React.isValidElement(indicator)) {
     const element = indicator as React.ReactElement<{

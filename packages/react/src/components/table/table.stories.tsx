@@ -232,12 +232,14 @@ const statusColorMap: Record<string, "success" | "danger" | "warning"> = {
  */
 function DefaultTableTemplate({variant = "primary"}: {variant?: "primary" | "secondary"}) {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set());
-  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor | undefined>({
     column: "name",
     direction: "ascending",
   });
 
   const sortedUsers = React.useMemo(() => {
+    if (!sortDescriptor) return users;
+
     return [...users].sort((a, b) => {
       const col = sortDescriptor.column as keyof User;
       const first = String(a[col]);
@@ -546,10 +548,7 @@ export const SelectionCheckboxes: Story = {
             {(user) => (
               <Table.Row>
                 <Table.Cell>
-                  <Table.SelectionCheckbox
-                    aria-label={`Select ${user.name}`}
-                    variant="secondary"
-                  />
+                  <Table.SelectionCheckbox aria-label={`Select ${user.name}`} variant="secondary" />
                 </Table.Cell>
                 <Table.Cell>{user.name}</Table.Cell>
                 <Table.Cell>{user.role}</Table.Cell>
@@ -789,12 +788,14 @@ const showcaseRows: ShowcaseRow[] = [
 
 function ShowcaseTableTemplate() {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set());
-  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor | undefined>({
     column: "employee",
     direction: "ascending",
   });
 
   const sortedRows = React.useMemo(() => {
+    if (!sortDescriptor) return showcaseRows;
+
     const column = String(sortDescriptor.column) as keyof ShowcaseRow;
 
     return [...showcaseRows].sort((a, b) => {

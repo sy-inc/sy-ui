@@ -1,5 +1,6 @@
 import {render} from "@sy-ui/testing/browser";
 import React from "react";
+import type {SortDescriptor} from "react-aria-components/Table";
 import {page} from "vitest/browser";
 
 import {Table} from "@/components/table";
@@ -44,7 +45,73 @@ function DynamicPinnedRows() {
   );
 }
 
+function SortableTable() {
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor | undefined>({
+    column: "name",
+    direction: "ascending",
+  });
+
+  return (
+    <Table>
+      <Table.Content
+        aria-label="Sortable team"
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
+      >
+        <Table.Header>
+          <Table.Column allowsSorting id="name" isRowHeader>
+            {({sortDirection}) => (
+              <Table.SortableColumnHeader sortDirection={sortDirection}>
+                Name
+              </Table.SortableColumnHeader>
+            )}
+          </Table.Column>
+        </Table.Header>
+        <Table.Body />
+      </Table.Content>
+    </Table>
+  );
+}
+
 describe("Table (browser)", () => {
+  it("rotates the active sort icon when the sort direction changes", async () => {
+    await render(<SortableTable />);
+
+    const icon = document.querySelector<SVGElement>('[data-sort-icon="active"]')!;
+    let transitionCount = 0;
+    icon.addEventListener("transitionstart", (event) => {
+      if (event.propertyName === "transform") transitionCount += 1;
+    });
+
+    await page.getByRole("columnheader", {name: "Name"}).click();
+    await new Promise<void>((resolve) => setTimeout(resolve, 150));
+
+    expect(icon.closest('[data-slot="table-sortable-column-indicator"]')).toHaveAttribute(
+      "data-direction",
+      "descending",
+    );
+    expect(transitionCount).toBeGreaterThan(0);
+  });
+
+  it("fades the neutral icons in when sorting is cleared", async () => {
+    await render(<SortableTable />);
+
+    const neutralIcons = document.querySelectorAll<SVGElement>('[data-sort-icon^="neutral-"]');
+    let transitionCount = 0;
+    neutralIcons.forEach((icon) => {
+      icon.addEventListener("transitionstart", (event) => {
+        if (event.propertyName === "opacity") transitionCount += 1;
+      });
+    });
+
+    const column = page.getByRole("columnheader", {name: "Name"});
+    await column.click();
+    await column.click();
+    await new Promise<void>((resolve) => setTimeout(resolve, 250));
+
+    expect(transitionCount).toBeGreaterThan(0);
+  });
+
   it("supports native header, body, and summary pinning while scrolling", async () => {
     await render(
       <Table>
