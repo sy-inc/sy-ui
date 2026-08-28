@@ -3,7 +3,7 @@
 import type {CodeBlockProps} from "fumadocs-ui/components/codeblock";
 import type {ComponentProps, RefObject} from "react";
 
-import {buttonVariants} from "@sy-ui/react";
+import {buttonVariants} from "@sy-inc/react";
 import {CodeBlock} from "fumadocs-ui/components/codeblock";
 import {useCopyButton} from "fumadocs-ui/utils/use-copy-button";
 import {useRef} from "react";

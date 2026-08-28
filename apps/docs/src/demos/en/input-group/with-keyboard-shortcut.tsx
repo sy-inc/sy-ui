@@ -1,6 +1,6 @@
 "use client";
 
-import {InputGroup, Kbd, TextField} from "@sy-ui/react";
+import {InputGroup, Kbd, TextField} from "@sy-inc/react";
 
 export function WithKeyboardShortcut() {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
-import type {ColorChannel, ColorSpace} from "@sy-ui/react";
+import type {ColorChannel, ColorSpace} from "@sy-inc/react";
 
-import {ColorPicker, ColorSlider, ColorSwatch, Label, ListBox, Select} from "@sy-ui/react";
+import {ColorPicker, ColorSlider, ColorSwatch, Label, ListBox, Select} from "@sy-inc/react";
 import {useState} from "react";
 
 export function WithSliders() {

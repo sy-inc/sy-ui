@@ -1,10 +1,10 @@
 "use client";
 
-import type {DateFieldVariants} from "@sy-ui/styles";
+import type {DateFieldVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {DateValue} from "react-aria-components/Calendar";
 
-import {dateFieldVariants} from "@sy-ui/styles";
+import {dateFieldVariants} from "@sy-inc/styles";
 import React from "react";
 import {DateField as DateFieldPrimitive} from "react-aria-components/DateField";
 

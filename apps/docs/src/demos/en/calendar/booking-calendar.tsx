@@ -2,7 +2,7 @@
 
 import type {CalendarDate, DateValue} from "@internationalized/date";
 
-import {Button, Calendar} from "@sy-ui/react";
+import {Button, Calendar} from "@sy-inc/react";
 import {getLocalTimeZone, isWeekend, today} from "@internationalized/date";
 import {useState} from "react";
 import {useLocale} from "react-aria-components";

@@ -34,7 +34,7 @@ curl -fsSL https://sy-ui.com/install | bash -s sy-ui-migration
 | Event handlers | `onClick`                 | `onPress`                              |
 | Styling       | `classNames` prop         | `className` prop                       |
 | Hooks         | `useSwitch`, `useDisclosure`, etc. | Compound components, `useOverlayState` |
-| Packages      | `@sy-ui/system`, `@sy-ui/theme` | `@sy-ui/react`, `@sy-ui/styles` |
+| Packages      | `@sy-ui/system`, `@sy-ui/theme` | `@sy-inc/react`, `@sy-inc/styles` |
 
 ---
 

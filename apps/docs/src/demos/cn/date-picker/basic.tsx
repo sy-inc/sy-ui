@@ -1,6 +1,6 @@
 "use client";
 
-import {Calendar, DateField, DatePicker, Label} from "@sy-ui/react";
+import {Calendar, DateField, DatePicker, Label} from "@sy-inc/react";
 
 export function Basic() {
   return (

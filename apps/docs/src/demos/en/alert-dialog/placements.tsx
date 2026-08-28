@@ -1,6 +1,6 @@
 "use client";
 
-import {AlertDialog, Button} from "@sy-ui/react";
+import {AlertDialog, Button} from "@sy-inc/react";
 
 export function Placements() {
   const placements = ["auto", "top", "center", "bottom"] as const;

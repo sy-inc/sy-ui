@@ -1,4 +1,4 @@
-import {Description, Switch} from "@sy-ui/react";
+import {Description, Switch} from "@sy-inc/react";
 
 export function WithDescription() {
   return (

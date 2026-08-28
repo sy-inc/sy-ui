@@ -25,7 +25,7 @@ import {
   Surface,
   Switch,
   Tabs,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 

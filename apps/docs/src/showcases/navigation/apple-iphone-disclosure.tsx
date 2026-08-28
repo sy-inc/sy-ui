@@ -1,9 +1,9 @@
 "use client";
 
-import type {ButtonProps} from "@sy-ui/react";
+import type {ButtonProps} from "@sy-inc/react";
 import type {SVGProps} from "react";
 
-import {Button, Disclosure, DisclosureGroup, useDisclosureGroupNavigation} from "@sy-ui/react";
+import {Button, Disclosure, DisclosureGroup, useDisclosureGroupNavigation} from "@sy-inc/react";
 import React from "react";
 import {cn} from "tailwind-variants";
 

@@ -1,4 +1,4 @@
-import {Switch} from "@sy-ui/react";
+import {Switch} from "@sy-inc/react";
 
 export function DefaultSelected() {
   return (

@@ -12,7 +12,7 @@ import {
   Label,
   TextArea,
   TextField,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 
 export function Basic() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

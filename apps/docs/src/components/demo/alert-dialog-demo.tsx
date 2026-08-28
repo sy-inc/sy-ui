@@ -1,6 +1,6 @@
 "use client";
 
-import {Avatar, Button, Card, CloseButton} from "@sy-ui/react";
+import {Avatar, Button, Card, CloseButton} from "@sy-inc/react";
 
 import {Iconify} from "@/components/iconify";
 import {useDictionary} from "@/hooks/use-dictionary";

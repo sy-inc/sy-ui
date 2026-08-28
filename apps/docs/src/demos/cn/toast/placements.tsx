@@ -1,8 +1,8 @@
 "use client";
 
-import type {ToastVariants} from "@sy-ui/react";
+import type {ToastVariants} from "@sy-inc/react";
 
-import {Button, Toast, ToastQueue} from "@sy-ui/react";
+import {Button, Toast, ToastQueue} from "@sy-inc/react";
 
 type Placement = NonNullable<ToastVariants["placement"]>;
 

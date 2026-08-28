@@ -1,7 +1,7 @@
 "use client";
 
 import {Calendar} from "@gravity-ui/icons";
-import {DateField, Label} from "@sy-ui/react";
+import {DateField, Label} from "@sy-inc/react";
 
 export function WithPrefixIcon() {
   return (

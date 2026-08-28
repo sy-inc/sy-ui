@@ -26,6 +26,6 @@ export type {TagRootProps, TagRemoveButtonProps} from "./tag";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {tagVariants} from "@sy-ui/styles";
+export {tagVariants} from "@sy-inc/styles";
 
-export type {TagVariants} from "@sy-ui/styles";
+export type {TagVariants} from "@sy-inc/styles";

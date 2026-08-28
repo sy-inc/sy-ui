@@ -1,4 +1,4 @@
-import {Avatar, Description, Label, ListBox} from "@sy-ui/react";
+import {Avatar, Description, Label, ListBox} from "@sy-inc/react";
 
 export function Default() {
   return (

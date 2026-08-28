@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Form, Input, Label, TextField} from "@sy-ui/react";
+import {Button, Form, Input, Label, TextField} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

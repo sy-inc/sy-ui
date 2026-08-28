@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Label, Tag, TagGroup} from "@sy-ui/react";
+import {Description, Label, Tag, TagGroup} from "@sy-inc/react";
 
 export function TagGroupDisabled() {
   return (

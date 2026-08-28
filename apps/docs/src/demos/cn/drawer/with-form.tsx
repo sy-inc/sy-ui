@@ -1,4 +1,4 @@
-import {Button, Drawer, Input, Label, TextField} from "@sy-ui/react";
+import {Button, Drawer, Input, Label, TextField} from "@sy-inc/react";
 
 export function WithForm() {
   return (

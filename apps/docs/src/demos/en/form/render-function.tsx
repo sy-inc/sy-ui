@@ -1,7 +1,7 @@
 "use client";
 
 import {Check} from "@gravity-ui/icons";
-import {Button, Description, FieldError, Form, Input, Label, TextField} from "@sy-ui/react";
+import {Button, Description, FieldError, Form, Input, Label, TextField} from "@sy-inc/react";
 
 export function RenderFunction() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

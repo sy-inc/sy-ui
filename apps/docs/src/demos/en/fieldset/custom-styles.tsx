@@ -12,7 +12,7 @@ import {
   Label,
   TextArea,
   TextField,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 
 const shell =
   "rounded-xl border border-border/70 bg-linear-to-b from-neutral-50/90 to-white p-4 ring-1 ring-black/5 dark:from-neutral-900/80 dark:to-neutral-900 dark:ring-white/10";

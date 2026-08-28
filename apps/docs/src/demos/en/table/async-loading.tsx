@@ -1,6 +1,6 @@
 "use client";
 
-import {Chip, Spinner, Table} from "@sy-ui/react";
+import {Chip, Spinner, Table} from "@sy-inc/react";
 import {useCallback, useRef, useState} from "react";
 
 interface User {

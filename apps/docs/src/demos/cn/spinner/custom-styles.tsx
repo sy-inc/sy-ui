@@ -1,4 +1,4 @@
-import {Spinner} from "@sy-ui/react";
+import {Spinner} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

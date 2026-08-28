@@ -1,9 +1,9 @@
 "use client";
 
-import type {InputGroupVariants} from "@sy-ui/styles";
+import type {InputGroupVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {inputGroupVariants} from "@sy-ui/styles";
+import {inputGroupVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Group as GroupPrimitive} from "react-aria-components/Group";
 import {Input as InputPrimitive} from "react-aria-components/Input";

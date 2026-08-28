@@ -1,4 +1,4 @@
-import {ColorField, Label} from "@sy-ui/react";
+import {ColorField, Label} from "@sy-inc/react";
 
 export function FullWidth() {
   return (

@@ -2,7 +2,7 @@
 
 import type {MotionProps} from "motion/react";
 
-import {Button, Modal, cn, useOverlayState} from "@sy-ui/react";
+import {Button, Modal, cn, useOverlayState} from "@sy-inc/react";
 import {motion} from "motion/react";
 import {useEffect} from "react";
 

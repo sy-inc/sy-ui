@@ -1,4 +1,4 @@
-import {SeparatorContent} from "@sy-ui/react";
+import {SeparatorContent} from "@sy-inc/react";
 
 export function WithContent() {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
-import type {Color} from "@sy-ui/react";
+import type {Color} from "@sy-inc/react";
 
-import {ColorArea, ColorSwatch, parseColor} from "@sy-ui/react";
+import {ColorArea, ColorSwatch, parseColor} from "@sy-inc/react";
 import {useState} from "react";
 
 export function ColorAreaControlled() {

@@ -1,6 +1,6 @@
 "use client";
 
-import {Checkbox, CheckboxGroup} from "@sy-ui/react";
+import {Checkbox, CheckboxGroup} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Indeterminate() {

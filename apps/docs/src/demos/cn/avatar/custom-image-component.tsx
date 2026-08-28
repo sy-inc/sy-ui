@@ -1,4 +1,4 @@
-import {Avatar} from "@sy-ui/react";
+import {Avatar} from "@sy-inc/react";
 import Image from "next/image";
 
 const SRC = "https://assets.sy-ui.com/avatars/blue.jpg";

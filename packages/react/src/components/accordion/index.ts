@@ -61,6 +61,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {accordionVariants} from "@sy-ui/styles";
+export {accordionVariants} from "@sy-inc/styles";
 
-export type {AccordionVariants} from "@sy-ui/styles";
+export type {AccordionVariants} from "@sy-inc/styles";

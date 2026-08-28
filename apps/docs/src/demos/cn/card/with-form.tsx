@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Card, Form, Input, Label, Link, TextField} from "@sy-ui/react";
+import {Button, Card, Form, Input, Label, Link, TextField} from "@sy-inc/react";
 
 export function WithForm() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

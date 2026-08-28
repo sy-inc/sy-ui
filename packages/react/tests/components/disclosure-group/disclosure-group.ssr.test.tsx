@@ -1,4 +1,4 @@
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 
 import {Disclosure} from "@/components/disclosure";
 import {DisclosureGroup} from "@/components/disclosure-group";

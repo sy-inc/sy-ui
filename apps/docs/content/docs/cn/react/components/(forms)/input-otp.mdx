@@ -11,7 +11,7 @@ links:
 ## 用法
 
 ```tsx
-import { InputOTP } from '@sy-ui/react';
+import { InputOTP } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="input-otp-basic" />
@@ -19,7 +19,7 @@ import { InputOTP } from '@sy-ui/react';
 ## 组件结构
 
 ```tsx
-import { InputOTP } from '@sy-ui/react';
+import { InputOTP } from '@sy-inc/react';
 
 export default () => (
   <InputOTP maxLength={6}>
@@ -229,7 +229,7 @@ InputOTP 基于 [input-otp](https://github.com/guilhermerodz/input-otp) 库构�
 SY UI 重新导出 input-otp 的常用正则模式以便使用：
 
 ```tsx
-import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from '@sy-ui/react';
+import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from '@sy-inc/react';
 
 // Use with pattern prop
 <InputOTP pattern={REGEXP_ONLY_DIGITS} maxLength={6}>

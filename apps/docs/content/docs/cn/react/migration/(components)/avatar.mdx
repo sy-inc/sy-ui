@@ -12,7 +12,7 @@ description: Avatar 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`Avatar` 是单个组件，通过 props 传入图片地址、姓名、后备内容等：
 
 ```tsx
-import { Avatar } from "@sy-ui/react";
+import { Avatar } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -28,7 +28,7 @@ export default function App() {
 在 v3 中，`Avatar` 采用显式子组件的复合组件模式：
 
 ```tsx
-import { Avatar } from "@sy-ui/react";
+import { Avatar } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -188,7 +188,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Avatar, AvatarGroup } from "@sy-ui/react";
+    import { Avatar, AvatarGroup } from "@sy-inc/react";
 
     <AvatarGroup isBordered>
       <Avatar src="https://example.com/1.jpg" />
@@ -199,7 +199,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     <div className="flex -space-x-2">
       <Avatar className="ring-2 ring-background">
@@ -224,7 +224,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Avatar, AvatarGroup } from "@sy-ui/react";
+    import { Avatar, AvatarGroup } from "@sy-inc/react";
 
     <AvatarGroup max={3}>
       <Avatar src="https://example.com/1.jpg" />
@@ -237,7 +237,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     const users = [
       { id: 1, src: "https://example.com/1.jpg", name: "User 1" },

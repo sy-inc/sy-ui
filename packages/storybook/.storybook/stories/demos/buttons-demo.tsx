@@ -1,4 +1,4 @@
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import React from "react";
 
 export const ButtonsDemo = () => {

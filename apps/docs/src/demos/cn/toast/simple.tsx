@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, toast} from "@sy-ui/react";
+import {Button, toast} from "@sy-inc/react";
 
 export function Simple() {
   return (

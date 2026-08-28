@@ -1,7 +1,7 @@
 import type {ComponentType, SVGProps} from "react";
 
 import {Bars, Bell, Envelope, Gear, House, Magnifier, Person} from "@gravity-ui/icons";
-import {Button, Drawer} from "@sy-ui/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 export function Navigation() {
   const navItems: {icon: ComponentType<SVGProps<SVGSVGElement>>; label: string}[] = [

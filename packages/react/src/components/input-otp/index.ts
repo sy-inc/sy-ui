@@ -36,9 +36,9 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {inputOTPVariants} from "@sy-ui/styles";
+export {inputOTPVariants} from "@sy-inc/styles";
 
-export type {InputOTPVariants} from "@sy-ui/styles";
+export type {InputOTPVariants} from "@sy-inc/styles";
 
 //  ===================================
 // Regular Expressions

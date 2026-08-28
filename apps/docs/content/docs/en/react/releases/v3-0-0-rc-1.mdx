@@ -25,22 +25,22 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@rc @sy-ui/react@rc
+    npm i @sy-inc/styles@rc @sy-inc/react@rc
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@rc @sy-ui/react@rc
+    pnpm add @sy-inc/styles@rc @sy-inc/react@rc
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@rc @sy-ui/react@rc
+    yarn add @sy-inc/styles@rc @sy-inc/react@rc
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@rc @sy-ui/react@rc
+    bun add @sy-inc/styles@rc @sy-inc/react@rc
     ```
   </Tab>
 </Tabs>
@@ -183,7 +183,7 @@ New `ButtonGroup.Separator` sub-component adds an explicit visual divider betwee
 
 ### Table & ListBox Virtualization
 
-Table and ListBox now support virtualization via React Aria's `Virtualizer` for large datasets. `Virtualizer`, `TableLayout`, and `ListLayout` are re-exported from `@sy-ui/react`.
+Table and ListBox now support virtualization via React Aria's `Virtualizer` for large datasets. `Virtualizer`, `TableLayout`, and `ListLayout` are re-exported from `@sy-inc/react`.
 
 <ComponentPreview
   name="table-virtualization"
@@ -203,14 +203,14 @@ Focus rings on grouped buttons now use `ring-inset` so they stay within button b
 
 ### Granular Component Imports
 
-`@sy-ui/react` now supports per-component subpath entrypoints for more explicit imports ([#6301](https://github.com/sy-ui/sy-ui/pull/6301)):
+`@sy-inc/react` now supports per-component subpath entrypoints for more explicit imports ([#6301](https://github.com/sy-ui/sy-ui/pull/6301)):
 
 ```tsx
 // Before — root entrypoint
-import { Button } from "@sy-ui/react";
+import { Button } from "@sy-inc/react";
 
 // After — granular subpath import
-import { Button } from "@sy-ui/react/button";
+import { Button } from "@sy-inc/react/button";
 ```
 
 ## Dependencies

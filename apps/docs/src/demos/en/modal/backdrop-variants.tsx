@@ -1,7 +1,7 @@
 "use client";
 
 import {Rocket} from "@gravity-ui/icons";
-import {Button, Modal} from "@sy-ui/react";
+import {Button, Modal} from "@sy-inc/react";
 
 export function BackdropVariants() {
   const variants = ["opaque", "blur", "transparent"] as const;

@@ -28,15 +28,15 @@ SY UI v3 is a modern React UI library built with **Tailwind CSS v4**, organized 
 ├── apps/
 │   └── docs/              # Documentation site (Next.js + Fumadocs)
 ├── packages/
-│   ├── react/             # Main UI library (@sy-ui/react)
+│   ├── react/             # Main UI library (@sy-inc/react)
 │   │   ├── src/components/  # All components
 │   │   ├── src/utils/       # Shared utilities
 │   │   └── scripts/         # Build & codegen scripts
-│   ├── styles/            # CSS styles & variants (@sy-ui/styles)
+│   ├── styles/            # CSS styles & variants (@sy-inc/styles)
 │   │   └── src/components/  # Per-component .css files
 │   ├── standard/          # Shared ESLint, Prettier, TS configs
 │   ├── storybook/         # Storybook configuration
-│   └── testing/           # Shared test harness (@sy-ui/testing)
+│   └── testing/           # Shared test harness (@sy-inc/testing)
 ├── turbo.json
 └── pnpm-workspace.yaml
 ```
@@ -47,35 +47,35 @@ SY UI v3 is a modern React UI library built with **Tailwind CSS v4**, organized 
 |---|---|
 | Install dependencies | `pnpm i --hoist` |
 | Build all packages | `pnpm build` |
-| Build specific package | `pnpm build --filter=@sy-ui/react` |
+| Build specific package | `pnpm build --filter=@sy-inc/react` |
 | Dev (Storybook, port 6006) | `pnpm dev` |
 | Dev (Docs site, port 3000) | `pnpm dev:docs` |
 | Lint | `pnpm lint` |
 | Typecheck | `pnpm typecheck` |
 | Test all (jsdom + browser) | `pnpm test` |
-| Test one file (filter) | `pnpm --filter @sy-ui/react exec vitest run button` |
+| Test one file (filter) | `pnpm --filter @sy-inc/react exec vitest run button` |
 | Test with coverage | `pnpm test:coverage` (jsdom floors only — not “done”) |
-| Test changed files (local) | `pnpm --filter @sy-ui/react test:changed` (jsdom only; not a gate) |
+| Test changed files (local) | `pnpm --filter @sy-inc/react test:changed` (jsdom only; not a gate) |
 | Format | `pnpm run format` |
 | Bump version | `pnpm version:bump` |
 | Scaffold a new component | `cd packages/react && pnpm add:component ComponentName` |
 
-## Behavioral tests (`@sy-ui/react`)
+## Behavioral tests (`@sy-inc/react`)
 
 - Suites live in `packages/react/tests/components/<name>/`:
   - `*.test.tsx` — jsdom (~90% of contracts)
   - `*.ssr.test.tsx` — Client SSR smoke via `ssrSmoke()` (not RSC)
   - `*.browser.test.tsx` — Playwright (overlays + high-risk portals; not every component)
   - optional `fixtures.tsx` — shared JSX across layers
-- Import harness from `@sy-ui/testing/helpers` (`render`, `setupUser`, `runAllTimers`, `ssrSmoke`, `User`). Browser suites: `render` from `@sy-ui/testing/browser` (wraps `vitest-browser-react`; owned by `@sy-ui/testing`). Prefer `@/` for sources. Pattern testers: `const user = new User(...); user.createTester(...)` — not a top-level export.
+- Import harness from `@sy-inc/testing/helpers` (`render`, `setupUser`, `runAllTimers`, `ssrSmoke`, `User`). Browser suites: `render` from `@sy-inc/testing/browser` (wraps `vitest-browser-react`; owned by `@sy-inc/testing`). Prefer `@/` for sources. Pattern testers: `const user = new User(...); user.createTester(...)` — not a top-level export.
 - Query: `getByRole` / label / text first; `data-testid` when needed; avoid class-primary queries.
 - Assert: roles/names, SY UI `data-*` hooks, callbacks, focus, light BEM + documented `data-slot` on compound parts — not colors, full class lists, or RAC internals.
 - Fake timers: per-suite only; wire `advanceTimers` into `setupUser` + `User`; use `runAllTimers()`.
 - Pattern testers for groups / overlays / collections; skip for Button / Checkbox / Switch / TextField.
 - Naming: `describe("Component")`; nested concern; `it` as `supports…` / `calls…` / `exposes…` / `renders…`. SSR: `"Component SSR"`; browser: `"Component (browser)"`.
 - Intentional skips (no dedicated suite required): internals (`rac`, `icons`), non-exported helpers (`color-input-group`, `date-input-group`), in-progress `calendar-year-picker`, parent-covered parts (`list-box-item`, `menu-item`, `menu-section`, `list-box-section`), Toast SSR (client portal only — covered by jsdom + browser). Public `input-group` has its own suite. SSR and browser are risk-based, not universal.
-- Browser setup (once locally): `pnpm --filter @sy-ui/testing exec playwright install chromium` before `pnpm test`. CI uses `playwright install --with-deps chromium`, then `test:browser` + `test:coverage` (not a single `pnpm test`).
-- Commands: `pnpm test` (jsdom + browser, needs Chromium); filter with `pnpm --filter @sy-ui/react exec vitest run <name>`.
+- Browser setup (once locally): `pnpm --filter @sy-inc/testing exec playwright install chromium` before `pnpm test`. CI uses `playwright install --with-deps chromium`, then `test:browser` + `test:coverage` (not a single `pnpm test`).
+- Commands: `pnpm test` (jsdom + browser, needs Chromium); filter with `pnpm --filter @sy-inc/react exec vitest run <name>`.
 - Coverage (`pnpm test:coverage`): jsdom only; `src/components/**` minus barrels. Thresholds are **CI floors** (statements/lines can pass with thin smoke). Green coverage ≠ sufficient depth — still require role/callback/focus (and browser for high-risk portals).
 - `test:changed`: local jsdom-only shortcut (`vitest related --changed`). Does **not** run browser suites; never use it as the merge gate — use `pnpm test` / CI.
 
@@ -185,7 +185,7 @@ export {componentVariants, type ComponentVariants} from "./component.styles";
 ### Styling Rules
 
 1. **Styles go in `.styles.ts` files**, never in `.tsx` files. Use `tv()` from `tailwind-variants`.
-2. **Import from `tailwind-variants`**, never from `@sy-ui/standard`.
+2. **Import from `tailwind-variants`**, never from `@sy-inc/standard`.
 3. **Never use `twMerge` manually** — `tailwind-variants` already includes it.
 4. **Add `"use client"` directive** at the top of every component `.tsx` file.
 5. **Display names** follow: `SY UI.ComponentName` or `SY UI.Component.SubPart`.
@@ -296,13 +296,13 @@ calendar-year-picker
 
 ## Non-obvious Gotchas
 
-1. **`pnpm i` triggers builds** — The `postinstall` hook builds `@sy-ui/styles` and runs `typegen:docs` and `typegen:docs-cn`. If it fails, run `pnpm --filter @sy-ui/styles build` manually.
+1. **`pnpm i` triggers builds** — The `postinstall` hook builds `@sy-inc/styles` and runs `typegen:docs` and `typegen:docs-cn`. If it fails, run `pnpm --filter @sy-inc/styles build` manually.
 
-2. **Build order matters** — `@sy-ui/styles` must build before `@sy-ui/react`. Running `pnpm build` from root handles this via Turbo's `^build` dependency.
+2. **Build order matters** — `@sy-inc/styles` must build before `@sy-inc/react`. Running `pnpm build` from root handles this via Turbo's `^build` dependency.
 
 3. **Native addons allowlist** — `onlyBuiltDependencies` in root `pnpm-workspace.yaml` allows native compilation for `esbuild`, `@swc/core`, `@parcel/watcher`, etc. If this list is missing, you'll see "Ignored build scripts" warnings.
 
-4. **Behavioral tests** — see [Behavioral tests](#behavioral-tests-sy-uireact) above. Harness lives in `@sy-ui/testing`; suites in `packages/react/tests/`.
+4. **Behavioral tests** — see [Behavioral tests](#behavioral-tests-sy-uireact) above. Harness lives in `@sy-inc/testing`; suites in `packages/react/tests/`.
 
 5. **Commit hooks** — Husky runs `lint-staged` on pre-commit and `commitlint` on commit-msg. Non-conforming commits are rejected.
 

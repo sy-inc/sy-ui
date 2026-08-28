@@ -33,7 +33,7 @@ SY UI components provide flexible styling options: Tailwind CSS utilities, CSS w
 
 ## Scrollbars
 
-SY UI scroll slots use `@apply scrollbar` in component CSS. For your own overflow containers, use the utilities from `@sy-ui/styles`:
+SY UI scroll slots use `@apply scrollbar` in component CSS. For your own overflow containers, use the utilities from `@sy-inc/styles`:
 
 ```tsx
 <div className="scrollbar h-64 overflow-y-auto">
@@ -145,8 +145,8 @@ SY UI uses [BEM methodology](https://getbem.com/) for consistent class naming:
 Create reusable custom components using [tailwind-variants](https://tailwind-variants.org/)—a Tailwind CSS first-class variant API:
 
 ```tsx
-import { Button as HeroButton, type ButtonProps } from '@sy-ui/react';
-import { buttonVariants, tv, type VariantProps } from '@sy-ui/styles';
+import { Button as HeroButton, type ButtonProps } from '@sy-inc/react';
+import { buttonVariants, tv, type VariantProps } from '@sy-inc/styles';
 
 const customButtonVariants = tv({
   extend: buttonVariants,
@@ -192,7 +192,7 @@ export function CustomButton({ intent, size, className, ...props }: CustomButton
 
 ```tsx
 import styled from 'styled-components';
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 const StyledButton = styled(Button)`
   background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
@@ -210,7 +210,7 @@ const StyledButton = styled(Button)`
 
 ```tsx
 import { css } from '@emotion/css';
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 const buttonStyles = css`
   background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
@@ -281,7 +281,7 @@ For scoped styles, use CSS Modules:
 
 ```tsx
 import styles from './Button.module.css';
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 <Button className={styles.button}>
   Scoped Button
@@ -295,7 +295,7 @@ import { Button } from '@sy-ui/react';
 
 > **Note:** See component docs for complete class references: [Button](/docs/components/button#css-classes), [Accordion](/docs/components/accordion#css-classes)
 
-View all component classes in [@sy-ui/styles/components](https://github.com/sy-ui/sy-ui/tree/main/packages/styles/components).
+View all component classes in [@sy-inc/styles/components](https://github.com/sy-ui/sy-ui/tree/main/packages/styles/components).
 
 ## Next Steps
 

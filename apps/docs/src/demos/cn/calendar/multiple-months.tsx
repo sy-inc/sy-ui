@@ -1,6 +1,6 @@
 "use client";
 
-import {Calendar} from "@sy-ui/react";
+import {Calendar} from "@sy-inc/react";
 
 export function MultipleMonths() {
   return (

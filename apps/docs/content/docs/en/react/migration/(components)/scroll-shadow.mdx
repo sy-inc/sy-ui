@@ -26,7 +26,7 @@ export default function App() {
 In v3, `ScrollShadow` has the same basic structure but with more configuration options:
 
 ```tsx
-import { ScrollShadow } from "@sy-ui/react";
+import { ScrollShadow } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -42,7 +42,7 @@ export default function App() {
 ### 1. Import Path
 
 **v2:** Imported from `@sy-ui/scroll-shadow` package  
-**v3:** Imported from `@sy-ui/react` unified package
+**v3:** Imported from `@sy-inc/react` unified package
 
 ### 2. Visibility Control
 
@@ -98,7 +98,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { ScrollShadow } from "@sy-ui/react";
+    import { ScrollShadow } from "@sy-inc/react";
 
     function App() {
       const [visibility, setVisibility] = useState("none");
@@ -140,9 +140,9 @@ export default function App() {
 
 ## Summary
 
-- Update import from `@sy-ui/scroll-shadow` to `@sy-ui/react`
+- Update import from `@sy-ui/scroll-shadow` to `@sy-inc/react`
 - Enhanced API with more configuration options
 - Better shadow detection and visibility control
-- Same orientation support (vertical / horizontal); import from `@sy-ui/react`
+- Same orientation support (vertical / horizontal); import from `@sy-inc/react`
 - Customizable shadow size and variant (e.g. fade)
 - Improved performance and accessibility

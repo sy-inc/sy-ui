@@ -1,6 +1,6 @@
 "use client";
 
-import {Breadcrumbs} from "@sy-ui/react";
+import {Breadcrumbs} from "@sy-inc/react";
 
 export default function BreadcrumbsDisabled() {
   return (

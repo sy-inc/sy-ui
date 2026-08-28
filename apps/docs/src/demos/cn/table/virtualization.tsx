@@ -1,6 +1,6 @@
 "use client";
 
-import {Table, TableLayout, Virtualizer} from "@sy-ui/react";
+import {Table, TableLayout, Virtualizer} from "@sy-inc/react";
 
 interface User {
   id: number;

@@ -27,6 +27,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {errorMessageVariants} from "@sy-ui/styles";
+export {errorMessageVariants} from "@sy-inc/styles";
 
-export type {ErrorMessageVariants} from "@sy-ui/styles";
+export type {ErrorMessageVariants} from "@sy-inc/styles";

@@ -36,6 +36,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {meterVariants} from "@sy-ui/styles";
+export {meterVariants} from "@sy-inc/styles";
 
-export type {MeterVariants} from "@sy-ui/styles";
+export type {MeterVariants} from "@sy-inc/styles";

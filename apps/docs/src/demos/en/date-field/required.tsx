@@ -1,6 +1,6 @@
 "use client";
 
-import {DateField, Description, Label} from "@sy-ui/react";
+import {DateField, Description, Label} from "@sy-inc/react";
 
 export function Required() {
   return (

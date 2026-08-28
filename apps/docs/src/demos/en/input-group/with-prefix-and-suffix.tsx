@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, InputGroup, Label, TextField} from "@sy-ui/react";
+import {Description, InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function WithPrefixAndSuffix() {
   return (

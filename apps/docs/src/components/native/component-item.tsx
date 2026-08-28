@@ -3,7 +3,7 @@
 import type {StatusChipStatus} from "../status-chip";
 
 import {Link as LocalLinkIcon} from "@gravity-ui/icons";
-import {Link} from "@sy-ui/react";
+import {Link} from "@sy-inc/react";
 import LinkRoot from "fumadocs-core/link";
 
 import {useIsMobileDevice} from "@/hooks/use-is-mobile-device";

@@ -12,7 +12,7 @@ description: InputOTP 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，InputOtp 根据 `length` prop 自动渲染插槽：
 
 ```tsx
-import { InputOtp } from "@sy-ui/react";
+import { InputOtp } from "@sy-inc/react";
 
 export default function App() {
   return <InputOtp length={4} />;
@@ -22,7 +22,7 @@ export default function App() {
 在 v3 中，InputOTP 改为复合组件，需要手动声明插槽：
 
 ```tsx
-import { InputOTP } from "@sy-ui/react";
+import { InputOTP } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -103,7 +103,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { REGEXP_ONLY_CHARS } from "@sy-ui/react";
+    import { REGEXP_ONLY_CHARS } from "@sy-inc/react";
 
     <InputOTP maxLength={4} pattern={REGEXP_ONLY_CHARS}>
       <InputOTP.Group>
@@ -131,7 +131,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError } from "@sy-ui/react";
+    import { Description, FieldError } from "@sy-inc/react";
 
     {/* With description */}
     <div className="flex flex-col gap-2">
@@ -246,7 +246,7 @@ v3 引入了几个 v2 中没有的 prop：
 为方便使用，SY UI 从 input-otp 库再导出了几个常用的正则模式：
 
 ```tsx
-import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from "@sy-ui/react";
+import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_CHARS, REGEXP_ONLY_DIGITS_AND_CHARS } from "@sy-inc/react";
 
 // Use with the pattern prop
 <InputOTP pattern={REGEXP_ONLY_DIGITS} maxLength={6}>

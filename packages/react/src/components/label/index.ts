@@ -24,6 +24,6 @@ export type {LabelRootProps, LabelRootProps as LabelProps} from "./label";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {labelVariants} from "@sy-ui/styles";
+export {labelVariants} from "@sy-inc/styles";
 
-export type {LabelVariants} from "@sy-ui/styles";
+export type {LabelVariants} from "@sy-inc/styles";

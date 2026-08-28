@@ -1,4 +1,4 @@
-import {ComboBox, Input, Label, ListBox} from "@sy-ui/react";
+import {ComboBox, Input, Label, ListBox} from "@sy-inc/react";
 
 const itemClass =
   "rounded-lg data-[focused=true]:bg-muted/70 data-[selected=true]:font-medium data-[selected=true]:text-foreground";

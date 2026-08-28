@@ -1,4 +1,4 @@
-import {Switch, SwitchGroup} from "@sy-ui/react";
+import {Switch, SwitchGroup} from "@sy-inc/react";
 
 export function Group() {
   return (

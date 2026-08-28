@@ -1,4 +1,4 @@
-import {Input} from "@sy-ui/react";
+import {Input} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

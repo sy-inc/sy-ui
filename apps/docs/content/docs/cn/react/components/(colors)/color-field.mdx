@@ -11,7 +11,7 @@ links:
 ## 用法
 
 ```tsx
-import { ColorField, parseColor } from '@sy-ui/react';
+import { ColorField, parseColor } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="color-field-basic" />
@@ -19,7 +19,7 @@ import { ColorField, parseColor } from '@sy-ui/react';
 ## 组件结构
 
 ```tsx
-import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-ui/react';
+import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-inc/react';
 
 export default () => (
   <ColorField>
@@ -222,18 +222,18 @@ ColorField 继承 React Aria [ColorField](https://react-aria.adobe.com/ColorFiel
 
 ColorField 与以下需单独导入并直接使用的组件配合：
 
-- **Label** - 来自 `@sy-ui/react` 的字段标签组件
+- **Label** - 来自 `@sy-inc/react` 的字段标签组件
 - **ColorField.Group** - 颜色输入组组件（见下方文档）
 - **ColorField.Input** - ColorField.Group 内的 input 元素
 - **ColorField.Prefix** / **ColorField.Suffix** - 输入组的前缀与后缀 slot
-- **ColorSwatch** - 来自 `@sy-ui/react` 的颜色预览组件
-- **Description** - 来自 `@sy-ui/react` 的帮助文本组件
-- **FieldError** - 来自 `@sy-ui/react` 的验证错误消息
+- **ColorSwatch** - 来自 `@sy-inc/react` 的颜色预览组件
+- **Description** - 来自 `@sy-inc/react` 的帮助文本组件
+- **FieldError** - 来自 `@sy-inc/react` 的验证错误消息
 
 每个组件有各自的 props API。在 ColorField 内直接使用它们进行组合：
 
 ```tsx
-import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-ui/react';
+import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-inc/react';
 
 <ColorField
   isRequired
@@ -258,7 +258,7 @@ import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} fro
 ColorField 使用 React Aria Components 的 `Color` 对象：
 
 ```tsx
-import {parseColor} from '@sy-ui/react';
+import {parseColor} from '@sy-inc/react';
 
 // Parse from hex string
 const color = parseColor('#3B82F6');

@@ -12,7 +12,7 @@ description: Accordion 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`AccordionItem` 是一个独立组件，通过 props 接收标题、副标题、内容等元素：
 
 ```tsx
-import { Accordion, AccordionItem } from "@sy-ui/react";
+import { Accordion, AccordionItem } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -37,7 +37,7 @@ export default function App() {
 在 v3 中，Accordion 采用复合组件模式，并使用显式子组件进行组合：
 
 ```tsx
-import { Accordion } from "@sy-ui/react";
+import { Accordion } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -119,7 +119,7 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
   <Tab value="v2">
     ```tsx
     import { useState } from "react";
-    import { Accordion, AccordionItem } from "@sy-ui/react";
+    import { Accordion, AccordionItem } from "@sy-inc/react";
 
     const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
 
@@ -139,8 +139,8 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { Accordion } from "@sy-ui/react";
-    import type { Key } from "@sy-ui/react";
+    import { Accordion } from "@sy-inc/react";
+    import type { Key } from "@sy-inc/react";
 
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set(["1"]));
 
@@ -243,8 +243,8 @@ v3 的变体更精简。若要接近 v2 的视觉效果：
     ```tsx
     import { Icon } from "@iconify/react";
     import { useState } from "react";
-    import { Accordion } from "@sy-ui/react";
-    import type { Key } from "@sy-ui/react";
+    import { Accordion } from "@sy-inc/react";
+    import type { Key } from "@sy-inc/react";
 
     const [expandedKeys, setExpandedKeys] = useState<Set<Key>>(new Set());
 

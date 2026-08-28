@@ -1,4 +1,4 @@
-import {Skeleton} from "@sy-ui/react";
+import {Skeleton} from "@sy-inc/react";
 
 const bone = "animate-shine rounded-lg bg-neutral-200/90 dark:bg-neutral-800/90";
 

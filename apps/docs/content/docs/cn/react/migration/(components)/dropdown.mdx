@@ -12,7 +12,7 @@ description: Dropdown 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，Dropdown 使用相互独立的组件：`DropdownTrigger`、`DropdownMenu`、`DropdownItem`、`DropdownSection`：
 
 ```tsx
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@sy-ui/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -32,7 +32,7 @@ export default function App() {
 在 v3 中，Dropdown 采用复合组件模式，并提供显式的子组件结构：
 
 ```tsx
-import { Dropdown, Button, Label } from "@sy-ui/react";
+import { Dropdown, Button, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -156,7 +156,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { Icon } from "@iconify/react";
-    import { Label, Description, Kbd } from "@sy-ui/react";
+    import { Label, Description, Kbd } from "@sy-inc/react";
 
     {/* With icon */}
     <Dropdown.Item id="new" textValue="New file">
@@ -223,7 +223,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Header, Separator } from "@sy-ui/react";
+    import { Header, Separator } from "@sy-inc/react";
 
     <Dropdown.Menu>
       <Dropdown.Section>
@@ -330,7 +330,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Label, Kbd } from "@sy-ui/react";
+    import { Label, Kbd } from "@sy-inc/react";
 
     <Dropdown.Item id="copy" textValue="Copy">
       <Label>Copy</Label>
@@ -355,7 +355,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Label } from "@sy-ui/react";
+    import { Label } from "@sy-inc/react";
 
     <Dropdown.Menu>
       <Dropdown.Item id="copy-link" textValue="Copy Link">

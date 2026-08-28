@@ -1,4 +1,4 @@
-import {act, render, screen, setupUser, waitFor, within} from "@sy-ui/testing/helpers";
+import {act, render, screen, setupUser, waitFor, within} from "@sy-inc/testing/helpers";
 
 import {Disclosure} from "@/components/disclosure";
 import {Sidebar, useSidebar} from "@/components/sidebar";

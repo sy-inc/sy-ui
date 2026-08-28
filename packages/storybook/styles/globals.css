@@ -1,4 +1,4 @@
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 @source "../../react/src/components/**/*.{ts,tsx,js,jsx}";
 

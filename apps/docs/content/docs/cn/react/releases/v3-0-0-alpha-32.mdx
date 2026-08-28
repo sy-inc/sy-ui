@@ -16,22 +16,22 @@ description: Card 组件重新设计、CloseButton 组件，以及面向 AI 助�
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@alpha @sy-ui/react@alpha
+    npm i @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@alpha @sy-ui/react@alpha
+    pnpm add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@alpha @sy-ui/react@alpha
+    yarn add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@alpha @sy-ui/react@alpha
+    bun add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
 </Tabs>
@@ -65,7 +65,7 @@ SY UI 现已包含一个 [MCP 服务器](/docs/ui-for-agents/mcp-server)，可�
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -76,7 +76,7 @@ SY UI 现已包含一个 [MCP 服务器](/docs/ui-for-agents/mcp-server)，可�
 在终端中运行以下命令：
 
 ```bash
-claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
+claude mcp add sy-ui-react -- npx -y @sy-inc/react-mcp@latest
 ```
 
 [了解更多](/docs/ui-for-agents/mcp-server)
@@ -125,7 +125,7 @@ claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
 新增 [CloseButton 组件](/docs/components/close-button)，用于关闭对话框、模态框以及其他可关闭的元素。
 
 ```tsx
-import {CloseButton} from "@sy-ui/react";
+import {CloseButton} from "@sy-inc/react";
 
 // Basic usage
 <CloseButton onPress={() => console.log("Closed")} />
@@ -168,7 +168,7 @@ import {CloseButton} from "@sy-ui/react";
 3. **更新导入：**
    ```tsx
    // Add CloseButton if needed
-   import {Card, CloseButton} from "@sy-ui/react";
+   import {Card, CloseButton} from "@sy-inc/react";
    ```
 
 ## 链接

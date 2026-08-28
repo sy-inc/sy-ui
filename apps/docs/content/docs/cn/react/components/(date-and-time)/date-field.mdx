@@ -11,7 +11,7 @@ links:
 ## 用法
 
 ```tsx
-import { DateField } from '@sy-ui/react';
+import { DateField } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="date-field-basic" />
@@ -19,7 +19,7 @@ import { DateField } from '@sy-ui/react';
 ## 组件结构
 
 ```tsx
-import {DateField, Label, Description, FieldError} from '@sy-ui/react';
+import {DateField, Label, Description, FieldError} from '@sy-inc/react';
 
 export default () => (
   <DateField>
@@ -241,20 +241,20 @@ DateField 继承 React Aria [DateField](https://react-aria.adobe.com/DateField.m
 
 DateField 与以下独立组件配合使用，请分别导入并直接使用：
 
-- **Label** – 来自 `@sy-ui/react` 的字段标签
+- **Label** – 来自 `@sy-inc/react` 的字段标签
 - **DateField.Group** – 日期输入分组（详见下文）
-- **DateField.Input** – 来自 `@sy-ui/react` 的分段位编辑输入
+- **DateField.Input** – 来自 `@sy-inc/react` 的分段位编辑输入
 - **DateField.InputContainer** – 可横向滚动的容器，用于组合多个输入（例如开始/结束范围）
 - **DateField.Segment** – 单个日期段位（年、月、日等）
 - **DateField.Prefix** / **DateField.Suffix** – 输入组的前缀与后缀插槽
-- **Description** – 来自 `@sy-ui/react` 的辅助说明
-- **FieldError** – 来自 `@sy-ui/react` 的校验错误信息
+- **Description** – 来自 `@sy-inc/react` 的辅助说明
+- **FieldError** – 来自 `@sy-inc/react` 的校验错误信息
 
 这些组件各自有独立的 props API。在 DateField 中直接组合使用：
 
 ```tsx
 import {parseDate} from '@internationalized/date';
-import {DateField, Label, Description, FieldError} from '@sy-ui/react';
+import {DateField, Label, Description, FieldError} from '@sy-inc/react';
 
 <DateField
   isRequired

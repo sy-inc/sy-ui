@@ -1,9 +1,9 @@
 "use client";
 
-import type {TextFieldVariants} from "@sy-ui/styles";
+import type {TextFieldVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {textFieldVariants} from "@sy-ui/styles";
+import {textFieldVariants} from "@sy-inc/styles";
 import React, {createContext} from "react";
 import {TextField as TextFieldPrimitive} from "react-aria-components/TextField";
 

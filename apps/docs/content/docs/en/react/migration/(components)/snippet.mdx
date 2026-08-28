@@ -11,7 +11,7 @@ description: Migration guide for Snippet from SY UI v2 to v3
 
 ### 1. Component Removal
 
-**v2:** `<Snippet>` component from `@sy-ui/react`  
+**v2:** `<Snippet>` component from `@sy-inc/react`  
 **v3:** Native HTML elements (`<pre>`, `<code>`) with manual copy implementation
 
 ### 2. Features Mapping
@@ -34,12 +34,12 @@ The v2 Snippet component had the following features that need to be replaced:
 In v2, `Snippet` was a component wrapper with built-in copy functionality:
 
 ```tsx
-import { Snippet } from "@sy-ui/react";
+import { Snippet } from "@sy-inc/react";
 
 export default function App() {
   return (
     <Snippet symbol="$">
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
   );
 }
@@ -48,14 +48,14 @@ export default function App() {
 In v3, use native HTML elements with manual copy implementation:
 
 ```tsx
-import { Button, Tooltip } from "@sy-ui/react";
+import { Button, Tooltip } from "@sy-inc/react";
 import { useState } from "react";
 
 export default function App() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText("npm install @sy-ui/react");
+    await navigator.clipboard.writeText("npm install @sy-inc/react");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -64,7 +64,7 @@ export default function App() {
     <div className="flex items-center gap-2 rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
         <span className="text-default-500">$ </span>
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
       <Tooltip>
         <Button
@@ -92,24 +92,24 @@ export default function App() {
     ```tsx
     <Snippet symbol="$">
       {[
-        "npm install @sy-ui/react",
-        "yarn add @sy-ui/react",
-        "pnpm add @sy-ui/react"
+        "npm install @sy-inc/react",
+        "yarn add @sy-inc/react",
+        "pnpm add @sy-inc/react"
       ]}
     </Snippet>
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Button, Tooltip } from "@sy-ui/react";
+    import { Button, Tooltip } from "@sy-inc/react";
     import { useState } from "react";
 
     function MultiLineSnippet() {
       const [copied, setCopied] = useState(false);
       const lines = [
-        "npm install @sy-ui/react",
-        "yarn add @sy-ui/react",
-        "pnpm add @sy-ui/react"
+        "npm install @sy-inc/react",
+        "yarn add @sy-inc/react",
+        "pnpm add @sy-inc/react"
       ];
       const codeString = lines.join("\n");
 
@@ -155,17 +155,17 @@ export default function App() {
     ```tsx
     {/* With variants */}
     <Snippet variant="bordered" color="primary">
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     
     {/* Without symbol */}
     <Snippet hideSymbol>
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     
     {/* Without copy button */}
     <Snippet hideCopyButton>
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     ```
   </Tab>
@@ -175,7 +175,7 @@ export default function App() {
     <div className="flex items-center gap-2 rounded-lg border border-accent bg-transparent px-3 py-1.5">
       <pre className="text-sm font-mono text-accent">
         <span className="text-accent/60">$ </span>
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
       {/* Copy button */}
     </div>
@@ -183,7 +183,7 @@ export default function App() {
     {/* Without symbol */}
     <div className="flex items-center gap-2 rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
       {/* Copy button */}
     </div>
@@ -192,7 +192,7 @@ export default function App() {
     <div className="rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
         <span className="text-default-500">$ </span>
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
     </div>
     ```
@@ -206,7 +206,7 @@ Since Snippet functionality is commonly needed, here's a complete reusable compo
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Snippet } from "@sy-ui/react";
+    import { Snippet } from "@sy-inc/react";
 
     <Snippet
       symbol="$"
@@ -214,13 +214,13 @@ Since Snippet functionality is commonly needed, here's a complete reusable compo
       color="primary"
       size="md"
     >
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Button, Tooltip } from "@sy-ui/react";
+    import { Button, Tooltip } from "@sy-inc/react";
     import { useState, ReactNode } from "react";
     import { cn } from "@/lib/utils"; // or your cn utility
 
@@ -369,7 +369,7 @@ Since Snippet functionality is commonly needed, here's a complete reusable compo
       color="primary"
       size="md"
     >
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     ```
   </Tab>
@@ -378,7 +378,7 @@ Since Snippet functionality is commonly needed, here's a complete reusable compo
 ## Summary
 
 1. **Component Removed**: `Snippet` component no longer exists in v3
-2. **Import Change**: Remove `import { Snippet } from "@sy-ui/react"`
+2. **Import Change**: Remove `import { Snippet } from "@sy-inc/react"`
 3. **Use Native Elements**: Replace with native `<pre>` and `<code>` elements
 4. **Manual Copy**: Implement copy functionality using Clipboard API
 5. **Styling**: Apply Tailwind CSS classes directly for variants, colors, sizes
@@ -387,7 +387,7 @@ Since Snippet functionality is commonly needed, here's a complete reusable compo
 
 ## Migration Steps
 
-1. **Remove Import**: Remove `Snippet` from `@sy-ui/react` imports
+1. **Remove Import**: Remove `Snippet` from `@sy-inc/react` imports
 2. **Replace Component**: Replace all `<Snippet>` instances with native HTML elements
 3. **Add Copy Functionality**: Implement copy using `navigator.clipboard.writeText()`
 4. **Add Copy Button**: Use v3 Button component with Tooltip

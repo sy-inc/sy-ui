@@ -1,9 +1,9 @@
 "use client";
 
-import type {Selection} from "@sy-ui/react";
+import type {Selection} from "@sy-inc/react";
 
 import {Check} from "@gravity-ui/icons";
-import {Avatar, Description, Label, ListBox, Surface} from "@sy-ui/react";
+import {Avatar, Description, Label, ListBox, Surface} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Controlled() {

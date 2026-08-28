@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, InputOTP, Label} from "@sy-ui/react";
+import {Description, InputOTP, Label} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

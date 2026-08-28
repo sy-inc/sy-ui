@@ -34,7 +34,7 @@ You do not need to replace them to complete the migration. If you prefer to remo
 
 Choose your strategy based on how you currently import v2 components:
 
-- **Using `@sy-ui/react`**: Use Strategy A (pnpm aliases)
+- **Using `@sy-inc/react`**: Use Strategy A (pnpm aliases)
 - **Using component packages** (`@sy-ui/button`, `@sy-ui/card`, etc.): Use Strategy B (component packages)
 
 ## Strategy A: Using pnpm Aliases
@@ -48,18 +48,18 @@ This strategy uses pnpm package aliases to install v3 packages under different n
 ```json
 {
   "dependencies": {
-    "@sy-ui/react": "2.8.6",
+    "@sy-inc/react": "2.8.6",
     "@sy-ui/theme": "2.4.24",
-    "@sy-ui-v3/react": "npm:@sy-ui/react@latest",
-    "@sy-ui-v3/styles": "npm:@sy-ui/styles@latest"
+    "@sy-ui-v3/react": "npm:@sy-inc/react@latest",
+    "@sy-ui-v3/styles": "npm:@sy-inc/styles@latest"
   }
 }
 ```
 
-2. Import v2 components from `@sy-ui/react`:
+2. Import v2 components from `@sy-inc/react`:
 
 ```tsx
-import {Button} from "@sy-ui/react"; // v2
+import {Button} from "@sy-inc/react"; // v2
 ```
 
 3. Import v3 components from `@sy-ui-v3/react`:
@@ -83,9 +83,9 @@ import {Button} from "@sy-ui-v3/react"; // v3
    - If you want to remove v2 removed components later, use the [Component Migration Reference](/docs/react/migration#component-migration-reference) guides and ask your agent to help replace them with native HTML or manual implementations.
 
 3. **Once all components are migrated, switch to v3-only:**
-   - Remove v2 dependencies (`@sy-ui/react`, `@sy-ui/theme`)
+   - Remove v2 dependencies (`@sy-inc/react`, `@sy-ui/theme`)
    - Remove aliases
-   - Update all imports to `@sy-ui/react` (remove `-v3` suffix)
+   - Update all imports to `@sy-inc/react` (remove `-v3` suffix)
    - Complete styling migration
 
 ### Considerations
@@ -106,8 +106,8 @@ This strategy uses v2's component-specific packages alongside v3's unified packa
 ```json
 {
   "dependencies": {
-    "@sy-ui/react": "latest", // v3
-    "@sy-ui/styles": "latest", // v3
+    "@sy-inc/react": "latest", // v3
+    "@sy-inc/styles": "latest", // v3
     "@sy-ui/button": "2.8.6", // v2
     "@sy-ui/card": "2.8.6", // v2
     // ... other v2 component packages as needed
@@ -115,10 +115,10 @@ This strategy uses v2's component-specific packages alongside v3's unified packa
 }
 ```
 
-2. Import v3 components from `@sy-ui/react`:
+2. Import v3 components from `@sy-inc/react`:
 
 ```tsx
-import {Button} from "@sy-ui/react"; // v3
+import {Button} from "@sy-inc/react"; // v3
 ```
 
 3. Import v2 components from component packages:
@@ -129,11 +129,11 @@ import {Card} from "@sy-ui/card"; // v2
 
 ### Migration Process
 
-1. **Install v3 packages** (`@sy-ui/react`, `@sy-ui/styles`)
+1. **Install v3 packages** (`@sy-inc/react`, `@sy-inc/styles`)
 2. **Install v2 component packages** for components not yet migrated
 3. **Migrate one component at a time:**
    - Remove the v2 component package from dependencies
-   - Update imports to use `@sy-ui/react` (v3)
+   - Update imports to use `@sy-inc/react` (v3)
    - Update component code to v3 API
    - Test the migrated component
    - For v2 components with no v3 counterpart (Code, Image, Navbar, Ripple, Snippet, Spacer, User), leave them in place. They will continue to work during coexistence.
@@ -160,11 +160,11 @@ During coexistence, you'll need both CSS systems:
 /* (configured in tailwind.config.js) */
 
 /* v3 styles */
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 <Callout type="warning">
-  **Important:** Import order matters. Import `tailwindcss` first, then `@sy-ui/styles`.
+  **Important:** Import order matters. Import `tailwindcss` first, then `@sy-inc/styles`.
 </Callout>
 
 ## Tailwind Configuration
@@ -174,7 +174,7 @@ You'll need both Tailwind configs temporarily:
 **v2 Config (tailwind.config.js):**
 
 ```js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [sy-ui()],
@@ -193,8 +193,8 @@ For each component you migrate:
    - Check component-specific migration guides
 
 2. **Update imports**
-   - Strategy A: Change `@sy-ui/react` → `@sy-ui-v3/react`
-   - Strategy B: Change component package → `@sy-ui/react`
+   - Strategy A: Change `@sy-inc/react` → `@sy-ui-v3/react`
+   - Strategy B: Change component package → `@sy-inc/react`
 
 3. **Update component code**
    - Follow component migration guide
@@ -220,7 +220,7 @@ During coexistence, both v2 and v3 CSS systems will be loaded. Monitor for confl
    - Verify both CSS imports are present and in correct order
 
 2. **Guide conflict resolution**
-   - Ensure CSS import order: `tailwindcss` first, then `@sy-ui/styles`
+   - Ensure CSS import order: `tailwindcss` first, then `@sy-inc/styles`
    - Check Tailwind config has v2 plugin configured
    - Verify v3 CSS is imported correctly
 
@@ -234,18 +234,18 @@ During coexistence, both v2 and v3 CSS systems will be loaded. Monitor for confl
 Once all components are migrated:
 
 1. **Remove v2 dependencies:**
-   - Remove `@sy-ui/react` and `@sy-ui/theme` (Strategy A)
+   - Remove `@sy-inc/react` and `@sy-ui/theme` (Strategy A)
    - Remove all `@sy-ui/*` component packages (Strategy B)
    - Remove aliases (Strategy A)
    - If you left v2 removed components in place (Code, Image, Navbar, Ripple, Snippet, Spacer, User), you have two options: (1) Replace them per the migration guides before removing v2 dependencies, or (2) Keep v2 dependencies until you are ready to replace them. You may ask an agent to help remove them using the provided guides.
 
 2. **Update all imports:**
-   - Change `@sy-ui-v3/react` → `@sy-ui/react` (Strategy A)
-   - Change component package imports → `@sy-ui/react` (Strategy B)
+   - Change `@sy-ui-v3/react` → `@sy-inc/react` (Strategy A)
+   - Change component package imports → `@sy-inc/react` (Strategy B)
 
 3. **Update CSS:**
    - Remove v2 Tailwind plugin from config
-   - Keep only `@import "@sy-ui/styles";`
+   - Keep only `@import "@sy-inc/styles";`
 
 4. **Complete styling migration:**
    - Follow the [Styling Migration Guide](/docs/react/migration/styling)

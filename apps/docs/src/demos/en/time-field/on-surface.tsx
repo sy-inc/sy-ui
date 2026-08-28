@@ -1,7 +1,7 @@
 "use client";
 
 import {Clock} from "@gravity-ui/icons";
-import {Description, Label, Surface, TimeField} from "@sy-ui/react";
+import {Description, Label, Surface, TimeField} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

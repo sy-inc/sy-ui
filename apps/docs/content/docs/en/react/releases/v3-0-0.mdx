@@ -53,9 +53,9 @@ Premium components, templates, and AI tooling for React and React Native. Comman
 
 **Composition over configuration:** v2 components were black boxes. v3 adopts compound components: every internal piece is a real element you can style, move, swap, or remove.
 
-**Styles separated from implementation:** `@sy-ui/styles` is standalone CSS. `@sy-ui/react` handles behavior. Use the styles with React, plain HTML + Tailwind, or any framework. BEM class names make every slot customizable globally. Swap themes to change not just variables, but how components look and feel.
+**Styles separated from implementation:** `@sy-inc/styles` is standalone CSS. `@sy-inc/react` handles behavior. Use the styles with React, plain HTML + Tailwind, or any framework. BEM class names make every slot customizable globally. Swap themes to change not just variables, but how components look and feel.
 
-**Headless when you want it:** Remove the `@sy-ui/styles` import and you have a headless library. We maintain functionality and accessibility. You focus on your product.
+**Headless when you want it:** Remove the `@sy-inc/styles` import and you have a headless library. We maintain functionality and accessibility. You focus on your product.
 
 **Performance by default:** v2 used Framer Motion for every animation. v3 replaced it with native CSS transitions and keyframes. Lighter bundles, GPU-accelerated, no JS animation runtime.
 
@@ -156,7 +156,7 @@ No provider component. No JavaScript theme object. One CSS import, two lines:
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 ### BEM Classes
@@ -206,10 +206,10 @@ Import the full library or pick individual component styles:
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles/base" layer(base);
-@import "@sy-ui/styles/themes/default" layer(theme);
-@import "@sy-ui/styles/components/button.css" layer(components);
-@import "@sy-ui/styles/components/card.css" layer(components);
+@import "@sy-inc/styles/base" layer(base);
+@import "@sy-inc/styles/themes/default" layer(theme);
+@import "@sy-inc/styles/components/button.css" layer(components);
+@import "@sy-inc/styles/components/card.css" layer(components);
 ```
 
 Ship only the CSS you use. No unused component styles in production.
@@ -255,7 +255,7 @@ Framer Motion, Motion One, or any CSS animation library works alongside SY UI's 
 
 ```tsx
 import { motion } from "framer-motion";
-import { Button } from "@sy-ui/react";
+import { Button } from "@sy-inc/react";
 
 const MotionButton = motion(Button);
 
@@ -352,12 +352,12 @@ Import from the root or from per-component subpaths. Both work:
 
 ```tsx
 // Root import
-import { Button, Card, Table } from "@sy-ui/react";
+import { Button, Card, Table } from "@sy-inc/react";
 
 // Subpath import
-import { Button } from "@sy-ui/react/button";
-import { Card } from "@sy-ui/react/card";
-import { Table } from "@sy-ui/react/table";
+import { Button } from "@sy-inc/react/button";
+import { Card } from "@sy-inc/react/card";
+import { Table } from "@sy-inc/react/table";
 ```
 
 ## UI for Agents
@@ -373,7 +373,7 @@ The SY UI MCP Server connects AI coding assistants (Cursor, Claude Code, VS Code
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -601,22 +601,22 @@ Pre-sale pricing is live. v2 Pro customers get an upgrade discount. Use the same
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles @sy-ui/react
+    npm i @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles @sy-ui/react
+    pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles @sy-ui/react
+    yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles @sy-ui/react
+    bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
 </Tabs>
@@ -625,7 +625,7 @@ Add two lines to your CSS:
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 ### React Native

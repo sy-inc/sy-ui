@@ -1,7 +1,7 @@
 "use client";
 
 import {Envelope} from "@gravity-ui/icons";
-import {FieldError, InputGroup, Label, TextField} from "@sy-ui/react";
+import {FieldError, InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function Invalid() {
   return (

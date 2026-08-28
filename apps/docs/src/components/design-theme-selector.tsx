@@ -1,11 +1,11 @@
 "use client";
 
 import type {ThemeId} from "@/app/[lang]/themes/constants";
-import type {ButtonProps} from "@sy-ui/react";
+import type {ButtonProps} from "@sy-inc/react";
 import type {StaticImageData} from "next/image";
 
 import {BucketPaint, Palette} from "@gravity-ui/icons";
-import {Button, Description, Label, ListBox, Popover, Switch, buttonVariants} from "@sy-ui/react";
+import {Button, Description, Label, ListBox, Popover, Switch, buttonVariants} from "@sy-inc/react";
 import LinkRoot from "fumadocs-core/link";
 import Image from "next/image";
 import {useCallback, useEffect, useMemo, useState} from "react";

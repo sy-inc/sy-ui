@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Dropdown, Kbd, Label} from "@sy-ui/react";
+import {Button, Dropdown, Kbd, Label} from "@sy-inc/react";
 
 export function WithKeyboardShortcuts() {
   return (

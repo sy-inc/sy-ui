@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, FieldError, Form, Input, Label, Spinner, TextField} from "@sy-ui/react";
+import {Button, FieldError, Form, Input, Label, Spinner, TextField} from "@sy-inc/react";
 import {AnimatePresence, LazyMotion, domAnimation} from "motion/react";
 import * as m from "motion/react-m";
 import React from "react";

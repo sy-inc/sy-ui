@@ -1,4 +1,4 @@
-import {Chip, Separator} from "@sy-ui/react";
+import {Chip, Separator} from "@sy-inc/react";
 
 const variants = ["primary", "secondary", "tertiary", "soft"] as const;
 const colors = ["accent", "default", "success", "warning", "danger"] as const;

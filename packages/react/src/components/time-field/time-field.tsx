@@ -1,10 +1,10 @@
 "use client";
 
-import type {TimeFieldVariants} from "@sy-ui/styles";
+import type {TimeFieldVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {TimeValue} from "react-aria-components/TimeField";
 
-import {timeFieldVariants} from "@sy-ui/styles";
+import {timeFieldVariants} from "@sy-inc/styles";
 import React from "react";
 import {TimeField as TimeFieldPrimitive} from "react-aria-components/TimeField";
 

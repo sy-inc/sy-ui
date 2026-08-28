@@ -1,7 +1,7 @@
 import type {DateValue} from "@internationalized/date";
 import type {ComponentProps} from "react";
 
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {CalendarDate} from "@internationalized/date";
 
 import {DateField} from "@/components/date-field";

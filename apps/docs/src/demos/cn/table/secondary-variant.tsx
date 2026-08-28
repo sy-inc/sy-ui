@@ -1,4 +1,4 @@
-import {Table} from "@sy-ui/react";
+import {Table} from "@sy-inc/react";
 
 export function SecondaryVariant() {
   return (

@@ -1,4 +1,4 @@
-import baseConfig from "@sy-ui/standard/eslint/base.mjs";
+import baseConfig from "@sy-inc/standard/eslint/base.mjs";
 import {defineConfig} from "eslint/config";
 
 const config = defineConfig([

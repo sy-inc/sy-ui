@@ -11,7 +11,7 @@ links:
 ## Usage
 
 ```tsx
-import { ColorField, parseColor } from '@sy-ui/react';
+import { ColorField, parseColor } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="color-field-basic" />
@@ -19,7 +19,7 @@ import { ColorField, parseColor } from '@sy-ui/react';
 ## Anatomy
 
 ```tsx
-import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-ui/react';
+import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-inc/react';
 
 export default () => (
   <ColorField>
@@ -222,18 +222,18 @@ ColorField inherits all props from React Aria's [ColorField](https://react-aria.
 
 ColorField works with these separate components that should be imported and used directly:
 
-- **Label** - Field label component from `@sy-ui/react`
+- **Label** - Field label component from `@sy-inc/react`
 - **ColorField.Group** - Color input group component (documented below)
 - **ColorField.Input** - Input element within ColorField.Group
 - **ColorField.Prefix** / **ColorField.Suffix** - Prefix and suffix slots for the input group
-- **ColorSwatch** - Color preview component from `@sy-ui/react`
-- **Description** - Helper text component from `@sy-ui/react`
-- **FieldError** - Validation error message from `@sy-ui/react`
+- **ColorSwatch** - Color preview component from `@sy-inc/react`
+- **Description** - Helper text component from `@sy-inc/react`
+- **FieldError** - Validation error message from `@sy-inc/react`
 
 Each of these components has its own props API. Use them directly within ColorField for composition:
 
 ```tsx
-import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-ui/react';
+import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} from '@sy-inc/react';
 
 <ColorField
   isRequired
@@ -258,7 +258,7 @@ import {ColorField, Label, ColorSwatch, Description, FieldError, parseColor} fro
 ColorField uses `Color` objects from React Aria Components:
 
 ```tsx
-import {parseColor} from '@sy-ui/react';
+import {parseColor} from '@sy-inc/react';
 
 // Parse from hex string
 const color = parseColor('#3B82F6');

@@ -1,6 +1,6 @@
 "use client";
 
-import {Calendar} from "@sy-ui/react";
+import {Calendar} from "@sy-inc/react";
 import {getLocalTimeZone, isToday} from "@internationalized/date";
 
 const datesWithEvents = [3, 7, 12, 15, 21, 28];

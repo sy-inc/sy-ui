@@ -1,4 +1,4 @@
-import {User, cleanup, render, runAllTimers, screen} from "@sy-ui/testing/helpers";
+import {User, cleanup, render, runAllTimers, screen} from "@sy-inc/testing/helpers";
 
 import {DropdownFixture} from "./fixtures";
 

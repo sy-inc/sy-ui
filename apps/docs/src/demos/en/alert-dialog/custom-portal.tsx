@@ -1,6 +1,6 @@
 "use client";
 
-import {AlertDialog, Button} from "@sy-ui/react";
+import {AlertDialog, Button} from "@sy-inc/react";
 import {useCallback, useRef, useState} from "react";
 
 export function CustomPortal() {

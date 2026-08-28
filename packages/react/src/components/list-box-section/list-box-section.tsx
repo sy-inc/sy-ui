@@ -2,7 +2,7 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import {listboxSectionVariants} from "@sy-ui/styles";
+import {listboxSectionVariants} from "@sy-inc/styles";
 import React from "react";
 import {ListBoxSection as ListBoxSectionPrimitive} from "react-aria-components/ListBox";
 

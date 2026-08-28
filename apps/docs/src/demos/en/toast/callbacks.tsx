@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, toast} from "@sy-ui/react";
+import {Button, toast} from "@sy-inc/react";
 import React from "react";
 
 export function Callbacks() {

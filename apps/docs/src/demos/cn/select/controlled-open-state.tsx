@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Label, ListBox, Select} from "@sy-ui/react";
+import {Button, Label, ListBox, Select} from "@sy-inc/react";
 import {useState} from "react";
 
 export function ControlledOpenState() {

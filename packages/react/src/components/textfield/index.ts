@@ -29,6 +29,6 @@ export {TextFieldContext} from "./textfield";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {textFieldVariants} from "@sy-ui/styles";
+export {textFieldVariants} from "@sy-inc/styles";
 
-export type {TextFieldVariants} from "@sy-ui/styles";
+export type {TextFieldVariants} from "@sy-inc/styles";

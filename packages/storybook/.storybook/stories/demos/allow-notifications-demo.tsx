@@ -1,4 +1,4 @@
-import {Description, Label, Switch} from "@sy-ui/react";
+import {Description, Label, Switch} from "@sy-inc/react";
 import React from "react";
 
 export function AllowNotificationsDemo() {

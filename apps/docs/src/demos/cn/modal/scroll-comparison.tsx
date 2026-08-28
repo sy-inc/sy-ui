@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Modal, Radio, RadioGroup} from "@sy-ui/react";
+import {Button, Modal, Radio, RadioGroup} from "@sy-inc/react";
 import {useState} from "react";
 
 export function ScrollComparison() {

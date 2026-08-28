@@ -30,6 +30,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {colorAreaVariants} from "@sy-ui/styles";
+export {colorAreaVariants} from "@sy-inc/styles";
 
-export type {ColorAreaVariants} from "@sy-ui/styles";
+export type {ColorAreaVariants} from "@sy-inc/styles";

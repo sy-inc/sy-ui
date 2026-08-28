@@ -32,7 +32,7 @@ const config: NextConfig = {
   compress: true,
   experimental: {
     optimizePackageImports: [
-      "@sy-ui/react",
+      "@sy-inc/react",
       "@gravity-ui/icons",
       "@iconify/react",
       "lucide-react",
@@ -119,7 +119,7 @@ const config: NextConfig = {
     ];
   },
   trailingSlash: false,
-  transpilePackages: ["@sy-ui/react", "@sy-ui/styles"],
+  transpilePackages: ["@sy-inc/react", "@sy-inc/styles"],
   typedRoutes: true,
   typescript: {
     ignoreBuildErrors: true,

@@ -1,6 +1,6 @@
 "use client";
 
-import {Checkbox, Description} from "@sy-ui/react";
+import {Checkbox, Description} from "@sy-inc/react";
 
 export function RenderProps() {
   return (

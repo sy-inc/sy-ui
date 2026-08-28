@@ -1,6 +1,6 @@
 "use client";
 
-import {Label, TimeField} from "@sy-ui/react";
+import {Label, TimeField} from "@sy-inc/react";
 
 export function RenderFunction() {
   return (

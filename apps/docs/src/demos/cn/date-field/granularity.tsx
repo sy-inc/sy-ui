@@ -3,7 +3,7 @@
 import type {DateValue} from "@internationalized/date";
 
 import {CircleQuestion} from "@gravity-ui/icons";
-import {DateField, Label, ListBox, Select, Tooltip} from "@sy-ui/react";
+import {DateField, Label, ListBox, Select, Tooltip} from "@sy-inc/react";
 import {parseDate, parseZonedDateTime} from "@internationalized/date";
 import {useState} from "react";
 

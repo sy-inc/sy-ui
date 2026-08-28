@@ -1,6 +1,6 @@
 import type {FormEvent} from "react";
 
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Button} from "@/components/button";
 import {FieldError} from "@/components/field-error";

@@ -31,6 +31,6 @@ export type {SeparatorContentProps} from "./separator-content";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {separatorContentVariants, separatorVariants} from "@sy-ui/styles";
+export {separatorContentVariants, separatorVariants} from "@sy-inc/styles";
 
-export type {SeparatorContentVariants, SeparatorVariants} from "@sy-ui/styles";
+export type {SeparatorContentVariants, SeparatorVariants} from "@sy-inc/styles";

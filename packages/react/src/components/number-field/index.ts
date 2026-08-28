@@ -51,6 +51,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {numberFieldVariants} from "@sy-ui/styles";
+export {numberFieldVariants} from "@sy-inc/styles";
 
-export type {NumberFieldVariants} from "@sy-ui/styles";
+export type {NumberFieldVariants} from "@sy-inc/styles";

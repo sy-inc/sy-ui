@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SpinnerVariants} from "@sy-ui/styles";
+import type {SpinnerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {spinnerVariants} from "@sy-ui/styles";
+import {spinnerVariants} from "@sy-inc/styles";
 import React, {useId} from "react";
 
 import {dom} from "../../utils/dom";

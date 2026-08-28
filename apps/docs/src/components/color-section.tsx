@@ -1,6 +1,6 @@
 "use client";
 
-import {Chip, Tooltip, toast} from "@sy-ui/react";
+import {Chip, Tooltip, toast} from "@sy-inc/react";
 import {converter, parse} from "culori";
 import * as React from "react";
 

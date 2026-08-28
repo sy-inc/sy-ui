@@ -1,4 +1,4 @@
-import {Label, ProgressBar} from "@sy-ui/react";
+import {Label, ProgressBar} from "@sy-inc/react";
 
 const colors = ["default", "accent", "success", "warning", "danger"] as const;
 

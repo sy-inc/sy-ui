@@ -1,4 +1,4 @@
-import {Separator, Surface} from "@sy-ui/react";
+import {Separator, Surface} from "@sy-inc/react";
 
 export function WithSurface() {
   return (

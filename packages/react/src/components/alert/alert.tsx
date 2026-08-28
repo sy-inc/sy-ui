@@ -2,10 +2,10 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {AlertVariants} from "@sy-ui/styles";
+import type {AlertVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 
-import {alertVariants} from "@sy-ui/styles";
+import {alertVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 
 import {composeSlotClassName} from "../../utils/compose";

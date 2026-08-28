@@ -27,22 +27,22 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@beta @sy-ui/react@beta
+    npm i @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@beta @sy-ui/react@beta
+    pnpm add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@beta @sy-ui/react@beta
+    yarn add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@beta @sy-ui/react@beta
+    bun add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
 </Tabs>
@@ -138,7 +138,7 @@ Two date fields + popover range calendar.
 
 **Before:**
 ```tsx
-import { Switch, Label, Description } from '@sy-ui/react';
+import { Switch, Label, Description } from '@sy-inc/react';
 
 <Switch>
   <Switch.Control>
@@ -218,13 +218,13 @@ The `hideSeparator` prop has been removed from the Tabs component. Separators ar
 
 ### Field Sub-Component API Changes
 
-`DateInputGroup` and `ColorInputGroup` are no longer exported directly from `@sy-ui/react`. Their sub-components have been consolidated under their respective field components (`DateField`, `TimeField`, `ColorField`).
+`DateInputGroup` and `ColorInputGroup` are no longer exported directly from `@sy-inc/react`. Their sub-components have been consolidated under their respective field components (`DateField`, `TimeField`, `ColorField`).
 
 #### DateField Changes
 
 **Before:**
 ```tsx
-import {DateField, Label, DateInputGroup, Description} from '@sy-ui/react';
+import {DateField, Label, DateInputGroup, Description} from '@sy-inc/react';
 
 <DateField>
   <Label>Date</Label>
@@ -241,7 +241,7 @@ import {DateField, Label, DateInputGroup, Description} from '@sy-ui/react';
 
 **After:**
 ```tsx
-import {DateField, Label, Description} from '@sy-ui/react';
+import {DateField, Label, Description} from '@sy-inc/react';
 
 <DateField>
   <Label>Date</Label>
@@ -280,7 +280,7 @@ Same pattern as DateField:
 **Usage:**
 
 ```tsx
-import {ColorField, Label, ColorInputGroup, ColorSwatch} from '@sy-ui/react';
+import {ColorField, Label, ColorInputGroup, ColorSwatch} from '@sy-inc/react';
 
 <ColorField>
   <Label>Color</Label>
@@ -295,7 +295,7 @@ import {ColorField, Label, ColorInputGroup, ColorSwatch} from '@sy-ui/react';
 
 **After:**
 ```tsx
-import {ColorField, Label, ColorSwatch} from '@sy-ui/react';
+import {ColorField, Label, ColorSwatch} from '@sy-inc/react';
 
 <ColorField>
   <Label>Color</Label>

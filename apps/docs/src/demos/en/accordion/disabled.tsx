@@ -1,4 +1,4 @@
-import {Accordion} from "@sy-ui/react";
+import {Accordion} from "@sy-inc/react";
 
 export function Disabled() {
   return (

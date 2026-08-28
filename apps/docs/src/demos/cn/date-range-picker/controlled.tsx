@@ -2,7 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
-import {Button, DateField, DateRangePicker, Description, Label, RangeCalendar} from "@sy-ui/react";
+import {Button, DateField, DateRangePicker, Description, Label, RangeCalendar} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {useState} from "react";
 

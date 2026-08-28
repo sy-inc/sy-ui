@@ -1,8 +1,8 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
-import {Description, Label, Tag, TagGroup} from "@sy-ui/react";
+import {Description, Label, Tag, TagGroup} from "@sy-inc/react";
 import {useState} from "react";
 
 export function TagGroupSelectionModes() {

@@ -1,6 +1,6 @@
 "use client";
 
-import {CloseButton} from "@sy-ui/react";
+import {CloseButton} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Interactive() {

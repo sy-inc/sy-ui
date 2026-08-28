@@ -1,12 +1,12 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {AlertDialogVariants} from "@sy-ui/styles";
+import type {AlertDialogVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, HTMLAttributes, ReactNode} from "react";
 import type {ButtonProps as ButtonPrimitiveProps} from "react-aria-components/Button";
 import type {DialogProps as DialogPrimitiveProps} from "react-aria-components/Dialog";
 
-import {alertDialogVariants} from "@sy-ui/styles";
+import {alertDialogVariants} from "@sy-inc/styles";
 import {createContext, use, useMemo} from "react";
 import {
   DialogTrigger as AlertDialogTriggerPrimitive,

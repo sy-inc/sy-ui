@@ -1,4 +1,4 @@
-import {Button, Drawer} from "@sy-ui/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 export function Basic() {
   return (

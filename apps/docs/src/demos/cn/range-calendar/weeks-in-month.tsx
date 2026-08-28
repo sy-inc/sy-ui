@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, RangeCalendar} from "@sy-ui/react";
+import {Description, RangeCalendar} from "@sy-inc/react";
 
 export function WeeksInMonth() {
   return (

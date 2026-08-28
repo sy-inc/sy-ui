@@ -1,7 +1,7 @@
 "use client";
 
 import {ArrowUpFromLine, Sparkles} from "@gravity-ui/icons";
-import {Button, Modal} from "@sy-ui/react";
+import {Button, Modal} from "@sy-inc/react";
 import React from "react";
 
 const iconMap: Record<string, React.ComponentType<{className?: string}>> = {

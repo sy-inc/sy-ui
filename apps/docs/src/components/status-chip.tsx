@@ -1,6 +1,6 @@
 "use client";
 
-import {Chip} from "@sy-ui/react";
+import {Chip} from "@sy-inc/react";
 import * as React from "react";
 
 import {useDictionary} from "@/hooks/use-dictionary";

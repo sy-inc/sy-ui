@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {PaginationVariants} from "@sy-ui/styles";
+import type {PaginationVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {paginationVariants} from "@sy-ui/styles";
+import {paginationVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 

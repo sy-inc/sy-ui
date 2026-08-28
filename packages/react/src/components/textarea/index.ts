@@ -24,6 +24,6 @@ export type {TextAreaRootProps, TextAreaRootProps as TextAreaProps} from "./text
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {textAreaVariants} from "@sy-ui/styles";
+export {textAreaVariants} from "@sy-inc/styles";
 
-export type {TextAreaVariants} from "@sy-ui/styles";
+export type {TextAreaVariants} from "@sy-inc/styles";

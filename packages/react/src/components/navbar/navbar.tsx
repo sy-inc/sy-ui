@@ -1,10 +1,10 @@
 "use client";
 
-import type {NavbarVariants} from "@sy-ui/styles";
+import type {NavbarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ButtonProps} from "react-aria-components";
 
-import {navbarVariants} from "@sy-ui/styles";
+import {navbarVariants} from "@sy-inc/styles";
 import React from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 

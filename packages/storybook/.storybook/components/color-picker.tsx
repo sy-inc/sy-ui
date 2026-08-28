@@ -5,7 +5,7 @@ import type {
 } from "react-aria-components";
 
 import {ChevronLeft, ChevronRight, Shuffle} from "@gravity-ui/icons";
-import {Button, InputGroup, ListBox, Popover, Select, parseColor} from "@sy-ui/react";
+import {Button, InputGroup, ListBox, Popover, Select, parseColor} from "@sy-inc/react";
 import React, {useState} from "react";
 import {
   ColorArea as AriaColorArea,

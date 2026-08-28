@@ -1,8 +1,8 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
-import {Description, ErrorMessage, Label, Tag, TagGroup} from "@sy-ui/react";
+import {Description, ErrorMessage, Label, Tag, TagGroup} from "@sy-inc/react";
 import {useMemo, useState} from "react";
 
 export function ErrorMessageBasic() {

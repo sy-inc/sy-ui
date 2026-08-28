@@ -1,4 +1,4 @@
-import {Typography} from "@sy-ui/react";
+import {Typography} from "@sy-inc/react";
 
 const scale = [
   {
@@ -58,7 +58,7 @@ const scale = [
   {
     label: "code",
     meta: "14px / mono",
-    sample: "pnpm add @sy-ui/react",
+    sample: "pnpm add @sy-inc/react",
     type: "code" as const,
   },
 ] as const;

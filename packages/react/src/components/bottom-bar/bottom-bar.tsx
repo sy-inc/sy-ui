@@ -2,11 +2,11 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {TabsRootProps, TabProps as TabsTabProps} from "../tabs";
-import type {BottomBarVariants} from "@sy-ui/styles";
+import type {BottomBarVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 import type {TabRenderProps} from "react-aria-components/Tabs";
 
-import {bottomBarVariants} from "@sy-ui/styles";
+import {bottomBarVariants} from "@sy-inc/styles";
 import React from "react";
 
 import {composeSlotClassName} from "../../utils/compose";

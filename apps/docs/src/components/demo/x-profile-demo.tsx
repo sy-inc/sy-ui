@@ -1,6 +1,6 @@
 "use client";
 
-import {Avatar, Card} from "@sy-ui/react";
+import {Avatar, Card} from "@sy-inc/react";
 
 import {useDictionary} from "@/hooks/use-dictionary";
 import {VerifiedBadgeIcon} from "@/icons/verified-badge";

@@ -3,8 +3,8 @@
 import {composeRenderProps} from "react-aria-components/composeRenderProps";
 import {cx} from "tailwind-variants";
 
-// Re-export utility classes from @sy-ui/styles for backward compatibility
-export {disabledClasses, focusRingClasses, ariaDisabledClasses} from "@sy-ui/styles";
+// Re-export utility classes from @sy-inc/styles for backward compatibility
+export {disabledClasses, focusRingClasses, ariaDisabledClasses} from "@sy-inc/styles";
 
 function composeTwRenderProps<T>(
   className: string | ((v: T) => string) | undefined,

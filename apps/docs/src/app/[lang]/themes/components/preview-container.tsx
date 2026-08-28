@@ -1,6 +1,6 @@
 "use client";
 
-import {Spinner} from "@sy-ui/react";
+import {Spinner} from "@sy-inc/react";
 import {UNSAFE_PortalProvider} from "@react-aria/overlays";
 import {useTheme} from "next-themes";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";

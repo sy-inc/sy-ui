@@ -1,6 +1,6 @@
 "use client";
 
-import {Label, Tag, TagGroup} from "@sy-ui/react";
+import {Label, Tag, TagGroup} from "@sy-inc/react";
 
 export function TagGroupVariants() {
   return (

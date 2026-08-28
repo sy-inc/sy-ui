@@ -103,6 +103,6 @@ export type {YearPickerContextValue} from "../calendar-year-picker";
 /* -------------------------------------------------------------------------------------------------
 | * Variants
 | * -----------------------------------------------------------------------------------------------*/
-export {rangeCalendarVariants} from "@sy-ui/styles";
+export {rangeCalendarVariants} from "@sy-inc/styles";
 
-export type {RangeCalendarVariants} from "@sy-ui/styles";
+export type {RangeCalendarVariants} from "@sy-inc/styles";

@@ -1,6 +1,6 @@
 ---
 name: sy-ui-react
-description: "SY UI v3 React component library (Tailwind CSS v4 + React Aria). Use when building UIs with SY UI — creating Buttons, Modals, Forms, Cards; installing @sy-ui/react; configuring dark/light themes with oklch variables; or fetching component docs. Keywords: SY UI, SY UI, sy-ui, @sy-ui/react, @sy-ui/styles."
+description: "SY UI v3 React component library (Tailwind CSS v4 + React Aria). Use when building UIs with SY UI — creating Buttons, Modals, Forms, Cards; installing @sy-inc/react; configuring dark/light themes with oklch variables; or fetching component docs. Keywords: SY UI, SY UI, sy-ui, @sy-inc/react, @sy-inc/styles."
 metadata:
   author: sy-ui
   version: "3.0.1"
@@ -29,12 +29,12 @@ curl -fsSL https://sy-ui.com/install | bash -s sy-ui-react
 | Provider      | `<SyUIProvider>` required       | **No Provider needed**                      |
 | Animations    | `framer-motion` package           | CSS-based, no extra deps                    |
 | Component API | Flat props: `<Card title="x">`    | Compound: `<Card><Card.Header>`             |
-| Styling       | Tailwind v3 + `@sy-ui/theme`     | Tailwind v4 + `@sy-ui/styles`         	  |
-| Packages      | `@sy-ui/system`, `@sy-ui/theme` | `@sy-ui/react`, `@sy-ui/styles` 		  |
+| Styling       | Tailwind v3 + `@sy-ui/theme`     | Tailwind v4 + `@sy-inc/styles`         	  |
+| Packages      | `@sy-ui/system`, `@sy-ui/theme` | `@sy-inc/react`, `@sy-inc/styles` 		  |
 
 ```tsx
 // DO NOT DO THIS - v2 pattern
-import { SyUIProvider } from "@sy-ui/react";
+import { SyUIProvider } from "@sy-inc/react";
 import { motion } from "framer-motion";
 
 <SyUIProvider>
@@ -46,7 +46,7 @@ import { motion } from "framer-motion";
 
 ```tsx
 // DO THIS - v3 pattern (no provider, compound components)
-import { Card } from "@sy-ui/react";
+import { Card } from "@sy-inc/react";
 
 <Card>
 	<Card.Header>
@@ -117,7 +117,7 @@ Getting started guides: use a concrete topic URL such as `https://sy-ui.com/docs
 ### Quick Install
 
 ```bash
-npm i @sy-ui/styles @sy-ui/react tailwind-variants
+npm i @sy-inc/styles @sy-inc/react tailwind-variants
 ```
 
 ### Framework Setup (Next.js App Router - Recommended)
@@ -125,7 +125,7 @@ npm i @sy-ui/styles @sy-ui/react tailwind-variants
 1. **Install dependencies:**
 
 ```bash
-npm i @sy-ui/styles @sy-ui/react tailwind-variants tailwindcss @tailwindcss/postcss postcss
+npm i @sy-inc/styles @sy-inc/react tailwind-variants tailwindcss @tailwindcss/postcss postcss
 ```
 
 2. **Create/update `app/globals.css`:**
@@ -135,7 +135,7 @@ npm i @sy-ui/styles @sy-ui/react tailwind-variants tailwindcss @tailwindcss/post
 @import "tailwindcss";
 
 /* SY UI v3 styles - Must be after Tailwind */
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 3. **Import in `app/layout.tsx`:**

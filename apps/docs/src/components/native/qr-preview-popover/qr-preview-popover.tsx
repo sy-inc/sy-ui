@@ -2,7 +2,7 @@
 
 import type {NativeQRPreviewTarget} from "./target";
 
-import {Button, Popover} from "@sy-ui/react";
+import {Button, Popover} from "@sy-inc/react";
 import {usePathname} from "next/navigation";
 import {useState} from "react";
 

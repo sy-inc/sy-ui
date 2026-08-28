@@ -1,4 +1,4 @@
-import {Input, Surface} from "@sy-ui/react";
+import {Input, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

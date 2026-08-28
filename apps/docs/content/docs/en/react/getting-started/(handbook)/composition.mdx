@@ -8,17 +8,17 @@ SY UI uses composition patterns to create flexible, customizable components. Cha
 
 ## Framework-Agnostic Styles
 
-SY UI's variant functions are available in the `@sy-ui/styles` package, which can be used independently of React. This enables Vue, Svelte, and other frameworks to use SY UI's design system:
+SY UI's variant functions are available in the `@sy-inc/styles` package, which can be used independently of React. This enables Vue, Svelte, and other frameworks to use SY UI's design system:
 
 ```tsx
-// Import directly from @sy-ui/styles (framework-agnostic)
-import { buttonVariants } from '@sy-ui/styles';
+// Import directly from @sy-inc/styles (framework-agnostic)
+import { buttonVariants } from '@sy-inc/styles';
 
-// Or import from @sy-ui/react (re-exports the same functions)
-import { buttonVariants } from '@sy-ui/react';
+// Or import from @sy-inc/react (re-exports the same functions)
+import { buttonVariants } from '@sy-inc/react';
 ```
 
-Both imports work identically. Use `@sy-ui/styles` when building for non-React frameworks or when you want to avoid pulling in React dependencies.
+Both imports work identically. Use `@sy-inc/styles` when building for non-React frameworks or when you want to avoid pulling in React dependencies.
 
 ## Polymorphic Styling
 
@@ -29,7 +29,7 @@ Apply SY UI styles to any element using variant functions or BEM classes. Extend
 You can use `buttonVariants` to style a Link component with button styles:
 
 ```tsx
-import { buttonVariants } from '@sy-ui/styles';
+import { buttonVariants } from '@sy-inc/styles';
 import Link from 'next/link';
 
 // Style a Next.js Link as a primary button
@@ -65,8 +65,8 @@ import Link from 'next/link';
 When using a custom root element instead of SY UI's Root component, child components cannot access context slots. You can manually pass `className` to child components using variant functions or BEM classes:
 
 ```tsx
-import { Link } from '@sy-ui/react';
-import { linkVariants } from '@sy-ui/styles';
+import { Link } from '@sy-inc/react';
+import { linkVariants } from '@sy-inc/styles';
 import NextLink from 'next/link';
 
 // With custom root - pass className manually
@@ -115,13 +115,13 @@ This approach works because SY UI uses [BEM](https://getbem.com/) classes that c
 
 ## Using Variant Functions
 
-For more control and type safety, use variant functions to apply SY UI styles to framework-specific components or custom elements. Variant functions are available from both `@sy-ui/styles` (framework-agnostic) and `@sy-ui/react` (re-exports).
+For more control and type safety, use variant functions to apply SY UI styles to framework-specific components or custom elements. Variant functions are available from both `@sy-inc/styles` (framework-agnostic) and `@sy-inc/react` (re-exports).
 
 **With Next.js Link:**
 
 ```tsx
-import { Link } from '@sy-ui/react';
-import { linkVariants } from '@sy-ui/styles';
+import { Link } from '@sy-inc/react';
+import { linkVariants } from '@sy-inc/styles';
 import NextLink from 'next/link';
 
 const slots = linkVariants();
@@ -135,7 +135,7 @@ const slots = linkVariants();
 **With Button styles:**
 
 ```tsx
-import { buttonVariants } from '@sy-ui/styles';
+import { buttonVariants } from '@sy-inc/styles';
 import Link from 'next/link';
 
 <Link
@@ -146,7 +146,7 @@ import Link from 'next/link';
 </Link>
 ```
 
-**Available variant functions:** Each component exports its variant function (`buttonVariants`, `chipVariants`, `linkVariants`, `spinnerVariants`, and more) from `@sy-ui/styles`. Use them to apply SY UI's design system to any element while maintaining type safety.
+**Available variant functions:** Each component exports its variant function (`buttonVariants`, `chipVariants`, `linkVariants`, `spinnerVariants`, and more) from `@sy-inc/styles`. Use them to apply SY UI's design system to any element while maintaining type safety.
 
 ## Compound Components
 
@@ -155,7 +155,7 @@ SY UI components are built as compound components—they export multiple parts t
 **Option 1: Compound pattern (recommended)** — Use the main component directly without `.Root` suffix:
 
 ```tsx
-import { Alert } from '@sy-ui/react';
+import { Alert } from '@sy-inc/react';
 
 <Alert>
   <Alert.Icon />
@@ -170,7 +170,7 @@ import { Alert } from '@sy-ui/react';
 **Option 2: Compound pattern with .Root** — Use the `.Root` suffix if you prefer explicit naming:
 
 ```tsx
-import { Alert } from '@sy-ui/react';
+import { Alert } from '@sy-inc/react';
 
 <Alert.Root>
   <Alert.Icon />
@@ -192,7 +192,7 @@ import {
   AlertTitle,
   AlertDescription,
   AlertClose
-} from '@sy-ui/react';
+} from '@sy-inc/react';
 
 <AlertRoot>
   <AlertIcon />
@@ -207,7 +207,7 @@ import {
 **Mixed syntax:** Mix compound and named exports in the same component:
 
 ```tsx
-import { Alert, AlertTitle, AlertDescription } from '@sy-ui/react';
+import { Alert, AlertTitle, AlertDescription } from '@sy-inc/react';
 
 <Alert>
   <Alert.Icon />
@@ -222,7 +222,7 @@ import { Alert, AlertTitle, AlertDescription } from '@sy-ui/react';
 **Simple components:** Simple components like `Button` work the same way—no `.Root` needed:
 
 ```tsx
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 // Recommended - no .Root needed
 <Button>Click me</Button>
@@ -231,7 +231,7 @@ import { Button } from '@sy-ui/react';
 <Button.Root>Click me</Button.Root>
 
 // Or named export
-import { ButtonRoot } from '@sy-ui/react';
+import { ButtonRoot } from '@sy-inc/react';
 <ButtonRoot>Click me</ButtonRoot>
 ```
 
@@ -242,8 +242,8 @@ import { ButtonRoot } from '@sy-ui/react';
 You can combine variant functions from different components to create unique styles:
 
 ```tsx
-import { Link } from '@sy-ui/react';
-import { linkVariants, buttonVariants } from '@sy-ui/styles';
+import { Link } from '@sy-inc/react';
+import { linkVariants, buttonVariants } from '@sy-inc/styles';
 
 // Link styled with button variants
 const buttonStyles = buttonVariants({ variant: "tertiary", size: "md" });
@@ -261,8 +261,8 @@ const buttonStyles = buttonVariants({ variant: "tertiary", size: "md" });
 Create your own components by composing SY UI primitives:
 
 ```tsx
-import { Button, Tooltip } from '@sy-ui/react';
-import { buttonVariants } from '@sy-ui/styles';
+import { Button, Tooltip } from '@sy-inc/react';
+import { buttonVariants } from '@sy-inc/styles';
 
 // Link button component using variant functions
 function LinkButton({ href, children, variant = "primary", ...props }) {
@@ -297,11 +297,11 @@ function IconButton({ icon, label, ...props }) {
 Create custom variants by extending the component's variant function:
 
 ```tsx
-import type { ButtonRootProps } from "@sy-ui/react";
+import type { ButtonRootProps } from "@sy-inc/react";
 import type { VariantProps } from "tailwind-variants";
 
-import { Button } from "@sy-ui/react";
-import { buttonVariants, tv } from "@sy-ui/styles";
+import { Button } from "@sy-inc/react";
+import { buttonVariants, tv } from "@sy-inc/styles";
 
 const myButtonVariants = tv({
   extend: buttonVariants,
@@ -346,7 +346,7 @@ export function CustomVariants() {
 
 **Recommended — Named type imports:**
 ```tsx
-import type { ButtonRootProps, AvatarRootProps } from "@sy-ui/react";
+import type { ButtonRootProps, AvatarRootProps } from "@sy-inc/react";
 
 type MyButtonProps = ButtonRootProps;
 type MyAvatarProps = AvatarRootProps;
@@ -354,7 +354,7 @@ type MyAvatarProps = AvatarRootProps;
 
 **Alternative — Object-style syntax:**
 ```tsx
-import { Button, Avatar } from "@sy-ui/react";
+import { Button, Avatar } from "@sy-inc/react";
 
 type MyButtonProps = Button["RootProps"];
 type MyAvatarProps = Avatar["RootProps"];
@@ -369,7 +369,7 @@ Use the `render` prop on the following components to render a custom component i
 For example, you can render a [Motion](https://motion.dev/) button and use the state to drive an animation.
 
 ```tsx
-import {Button} from '@sy-ui/react';
+import {Button} from '@sy-inc/react';
 import {motion} from 'motion/react';
 
 <Button
@@ -385,7 +385,7 @@ import {motion} from 'motion/react';
 The `render` prop is also useful for rendering link components from client-side routers, or reusing existing presentational components.
 
 ```tsx
-import {Link} from '@sy-ui/react';
+import {Link} from '@sy-inc/react';
 import NextLink from 'next/link';
 
 <Link
@@ -409,7 +409,7 @@ Follow these rules to avoid breaking the behavior and accessibility of the compo
 
 Use variant functions for type-safe styling:
 ```tsx
-import { buttonVariants } from '@sy-ui/styles';
+import { buttonVariants } from '@sy-inc/styles';
 import Link from 'next/link';
 
 <Link
@@ -433,7 +433,7 @@ import Link from 'next/link';
 
 Use variant functions:
 ```tsx
-import { buttonVariants } from '@sy-ui/styles';
+import { buttonVariants } from '@sy-inc/styles';
 import { Link } from 'react-router-dom';
 
 <Link
@@ -455,10 +455,10 @@ import { Link } from 'react-router-dom';
 
 **With Vue, Svelte, or Other Frameworks:**
 
-Since `@sy-ui/styles` has no React dependencies, you can use it directly in any framework:
+Since `@sy-inc/styles` has no React dependencies, you can use it directly in any framework:
 ```vue
 <script setup>
-import { buttonVariants } from '@sy-ui/styles';
+import { buttonVariants } from '@sy-inc/styles';
 
 const primaryButton = buttonVariants({ variant: "primary" });
 </script>

@@ -51,7 +51,7 @@ Before reviewing or improving any documentation, you MUST:
 6. **Understand SY UI v3 Requirements**: 
    - **SY UI v3 is built on top of Tailwind CSS v4** - IT IS NOT OPTIONAL
    - **Check Tailwind CSS v4 setup is documented correctly**
-   - **The CSS import pattern is**: `@import "tailwindcss"` followed by `@import "@sy-ui/styles"`
+   - **The CSS import pattern is**: `@import "tailwindcss"` followed by `@import "@sy-inc/styles"`
 
 **Core Principles**:
 
@@ -172,7 +172,7 @@ The Button component is a fundamental UI element that allows users to trigger ac
 4. **Improve code examples**:
    ```tsx
    // ✅ Good: Complete, contextual example
-   import { TextField, Label, Description, FieldError } from '@sy-ui/react';
+   import { TextField, Label, Description, FieldError } from '@sy-inc/react';
    import { useState } from 'react';
    
    function EmailField() {

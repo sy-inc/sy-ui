@@ -28,7 +28,7 @@ curl -fsSL https://sy-ui.com/install | bash -s sy-ui-native
 | ------------ | -------------------- | ----------------------------------- |
 | **Styling**  | Tailwind CSS v4      | Uniwind (Tailwind for React Native) |
 | **Colors**   | oklch format         | HSL format                          |
-| **Package**  | `@sy-ui/react` 	  | `sy-ui-native`                     |
+| **Package**  | `@sy-inc/react` 	  | `sy-ui-native`                     |
 | **Platform** | Web browsers         | iOS & Android                       |
 
 ```tsx

@@ -1,6 +1,6 @@
 "use client";
 
-import {buttonVariants} from "@sy-ui/react";
+import {buttonVariants} from "@sy-inc/react";
 import {useEffect, useRef, useState} from "react";
 
 import {useCurrentFramework} from "@/hooks/use-current-framework";

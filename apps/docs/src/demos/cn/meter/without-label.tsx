@@ -1,4 +1,4 @@
-import {Meter} from "@sy-ui/react";
+import {Meter} from "@sy-inc/react";
 
 export function WithoutLabel() {
   return (

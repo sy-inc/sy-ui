@@ -1,4 +1,4 @@
-import {ScrollShadow} from "@sy-ui/react";
+import {ScrollShadow} from "@sy-inc/react";
 
 const entries = [
   "Reviewed quarterly goals with the design team.",

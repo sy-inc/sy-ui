@@ -2,7 +2,7 @@
 
 import type {ThemeId} from "../constants";
 
-import {ListBox, ScrollShadow} from "@sy-ui/react";
+import {ListBox, ScrollShadow} from "@sy-inc/react";
 import Image from "next/image";
 
 import {useDictionary} from "@/hooks/use-dictionary";

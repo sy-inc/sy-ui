@@ -1,4 +1,4 @@
-import {InputOTP, Label, Link} from "@sy-ui/react";
+import {InputOTP, Label, Link} from "@sy-inc/react";
 
 const slotClass =
   "rounded-lg border-border/80 bg-default data-[active=true]:border-accent/40 data-[active=true]:bg-accent-soft";

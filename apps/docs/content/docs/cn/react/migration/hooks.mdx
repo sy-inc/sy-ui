@@ -29,7 +29,7 @@ v3 采用了复合组件模式，让你可以直接访问组件的各个部分�
 
 ### 迁移策略
 
-1. **识别 Hook 用法**：在你的代码库中搜索来自 `@sy-ui/react` 的导入，找出包含 Hook 名称（`useSwitch`、`useInput`、`useCheckbox`、`useRadio` 等）的引用。
+1. **识别 Hook 用法**：在你的代码库中搜索来自 `@sy-inc/react` 的导入，找出包含 Hook 名称（`useSwitch`、`useInput`、`useCheckbox`、`useRadio` 等）的引用。
 2. **替换为复合组件**：使用复合组件模式，替代带有 prop getter 的 Hooks。
 3. **保留原有结构**：迁移时，尽量保持与原 Hook 实现一致的组件结构。例如：
    - 如果你之前用 `useSwitch` 创建了一个 **不带** thumb 的 Switch，那么在 v3 中也不要添加 `Switch.Thumb`
@@ -46,7 +46,7 @@ v3 采用了复合组件模式，让你可以直接访问组件的各个部分�
 
 **v2：不带 thumb 的 Switch**
 ```tsx
-import { useSwitch } from "@sy-ui/react";
+import { useSwitch } from "@sy-inc/react";
 
 function CustomSwitch() {
   const { getBaseProps } = useSwitch();
@@ -61,7 +61,7 @@ function CustomSwitch() {
 
 **v3：等效结构**
 ```tsx
-import { Switch } from "@sy-ui/react";
+import { Switch } from "@sy-inc/react";
 
 function CustomSwitch() {
   return (
@@ -94,7 +94,7 @@ const {isOpen, onOpen, onClose, onOpenChange, isControlled, getButtonProps, getD
 
 **示例：**
 ```tsx
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@sy-ui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@sy-inc/react";
 
 export default function App() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -138,7 +138,7 @@ const state = useOverlayState({
 
 **示例：**
 ```tsx
-import { Modal, Button, useOverlayState } from "@sy-ui/react";
+import { Modal, Button, useOverlayState } from "@sy-inc/react";
 
 export default function App() {
   const state = useOverlayState();
@@ -242,7 +242,7 @@ const state = useOverlayState({
 
 ```tsx
 import { useState } from "react";
-import { Modal, Button } from "@sy-ui/react";
+import { Modal, Button } from "@sy-inc/react";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);

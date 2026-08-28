@@ -1,6 +1,6 @@
 "use client";
 
-import {Input, Surface, TextArea} from "@sy-ui/react";
+import {Input, Surface, TextArea} from "@sy-inc/react";
 
 export function WithFormComponents() {
   return (

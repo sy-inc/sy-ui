@@ -1,4 +1,4 @@
-import {Description, InputOTP, Label, REGEXP_ONLY_CHARS} from "@sy-ui/react";
+import {Description, InputOTP, Label, REGEXP_ONLY_CHARS} from "@sy-inc/react";
 
 export function WithPattern() {
   return (

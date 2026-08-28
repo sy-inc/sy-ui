@@ -41,6 +41,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {progressBarVariants} from "@sy-ui/styles";
+export {progressBarVariants} from "@sy-inc/styles";
 
-export type {ProgressBarVariants} from "@sy-ui/styles";
+export type {ProgressBarVariants} from "@sy-inc/styles";

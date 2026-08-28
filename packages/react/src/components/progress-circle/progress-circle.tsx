@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {ProgressCircleVariants} from "@sy-ui/styles";
+import type {ProgressCircleVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ProgressBarRenderProps} from "react-aria-components/ProgressBar";
 
-import {progressCircleVariants} from "@sy-ui/styles";
+import {progressCircleVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {ProgressBar as ProgressBarPrimitive} from "react-aria-components/ProgressBar";
 

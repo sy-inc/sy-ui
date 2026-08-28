@@ -36,7 +36,7 @@ export function getSoftwareApplicationJsonLd() {
     "@type": "SoftwareApplication",
     applicationCategory: "DeveloperApplication",
     description: siteConfig.description,
-    downloadUrl: "https://www.npmjs.com/package/@sy-ui/react",
+    downloadUrl: "https://www.npmjs.com/package/@sy-inc/react",
     name: "SY UI",
     offers: {
       "@type": "Offer",

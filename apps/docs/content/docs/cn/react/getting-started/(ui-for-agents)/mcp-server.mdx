@@ -12,7 +12,7 @@ SY UI MCP 服务器让 AI 助手可以直接访问 SY UI v3 组件文档，从�
 />
 
 
-MCP 服务器目前仅支持 **@sy-ui/react v3**，并使用 [stdio 传输](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio)。已在 npm 上以 `@sy-ui/react-mcp` 发布。源代码请查看 [GitHub](https://github.com/sy-ui/sy-ui-mcp)。
+MCP 服务器目前仅支持 **@sy-inc/react v3**，并使用 [stdio 传输](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio)。已在 npm 上以 `@sy-inc/react-mcp` 发布。源代码请查看 [GitHub](https://github.com/sy-ui/sy-ui-mcp)。
 
 <Callout>
   随着我们向 SY UI v3 添加更多组件，它们也将在 MCP 服务器中可用。
@@ -41,7 +41,7 @@ MCP 服务器目前仅支持 **@sy-ui/react v3**，并使用 [stdio 传输](http
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -54,7 +54,7 @@ MCP 服务器目前仅支持 **@sy-ui/react v3**，并使用 [stdio 传输](http
 在终端中运行此命令：
 
 ```bash
-claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
+claude mcp add sy-ui-react -- npx -y @sy-inc/react-mcp@latest
 ```
 
 或者手动添加到你项目的 `.mcp.json` 文件：
@@ -64,7 +64,7 @@ claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -83,7 +83,7 @@ claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -102,7 +102,7 @@ claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
   "context_servers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"],
+      "args": ["-y", "@sy-inc/react-mcp@latest"],
       "env": {}
     }
   }
@@ -123,7 +123,7 @@ claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
     "sy-ui-react": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -140,7 +140,7 @@ claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
 ```toml title="config.toml"
 [mcp_servers.sy-ui-react]
 command = "npx"
-args = ["-y", "@sy-ui/react-mcp@latest"]
+args = ["-y", "@sy-inc/react-mcp@latest"]
 ```
 
 添加配置后，重启 Codex 并在 TUI 中运行 `/mcp`，以验证服务器是否处于活动状态。
@@ -157,7 +157,7 @@ args = ["-y", "@sy-ui/react-mcp@latest"]
   "mcp": {
     "sy-ui-react": {
       "type": "local",
-      "command": ["npx", "-y", "@sy-ui/react-mcp@latest"]
+      "command": ["npx", "-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -216,6 +216,6 @@ MCP 服务器为 AI 助手提供以下工具：
 
 ## 链接
 
-- [npm 包](https://www.npmjs.com/package/@sy-ui/react-mcp)
+- [npm 包](https://www.npmjs.com/package/@sy-inc/react-mcp)
 - [GitHub 仓库](https://github.com/sy-ui/sy-ui-mcp)
 - [贡献指南](https://github.com/sy-ui/sy-ui-mcp/blob/main/CONTRIBUTING.md)

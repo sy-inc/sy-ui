@@ -1,4 +1,4 @@
-import {ProgressCircle} from "@sy-ui/react";
+import {ProgressCircle} from "@sy-inc/react";
 
 const colors = ["default", "accent", "success", "warning", "danger"] as const;
 

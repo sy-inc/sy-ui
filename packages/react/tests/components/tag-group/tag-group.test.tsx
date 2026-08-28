@@ -1,6 +1,6 @@
 import type {Selection} from "react-aria-components";
 
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Label} from "@/components/label";
 import {Tag} from "@/components/tag";

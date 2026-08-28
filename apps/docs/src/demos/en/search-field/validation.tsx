@@ -1,4 +1,4 @@
-import {FieldError, Label, SearchField} from "@sy-ui/react";
+import {FieldError, Label, SearchField} from "@sy-inc/react";
 
 export function Validation() {
   return (

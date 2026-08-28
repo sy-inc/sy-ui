@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {MeterVariants} from "@sy-ui/styles";
+import type {MeterVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {MeterRenderProps} from "react-aria-components/Meter";
 
-import {meterVariants} from "@sy-ui/styles";
+import {meterVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Meter as MeterPrimitive} from "react-aria-components/Meter";
 

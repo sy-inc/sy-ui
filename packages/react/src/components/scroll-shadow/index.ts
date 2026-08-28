@@ -28,9 +28,9 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {scrollShadowVariants} from "@sy-ui/styles";
+export {scrollShadowVariants} from "@sy-inc/styles";
 
-export type {ScrollShadowVariants} from "@sy-ui/styles";
+export type {ScrollShadowVariants} from "@sy-inc/styles";
 
 /* -------------------------------------------------------------------------------------------------
  * Hooks

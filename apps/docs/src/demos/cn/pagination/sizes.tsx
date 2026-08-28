@@ -1,6 +1,6 @@
 "use client";
 
-import {Pagination} from "@sy-ui/react";
+import {Pagination} from "@sy-inc/react";
 import {useState} from "react";
 
 const SIZE_LABELS = {

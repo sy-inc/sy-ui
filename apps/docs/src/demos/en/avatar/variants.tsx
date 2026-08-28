@@ -1,5 +1,5 @@
 import {Person} from "@gravity-ui/icons";
-import {Avatar, Separator} from "@sy-ui/react";
+import {Avatar, Separator} from "@sy-inc/react";
 
 export function Variants() {
   const colors = ["accent", "default", "success", "warning", "danger"] as const;

@@ -1,8 +1,8 @@
 "use client";
 
-import type {TimeValue} from "@sy-ui/react";
+import type {TimeValue} from "@sy-inc/react";
 
-import {Button, Description, Label, TimeField} from "@sy-ui/react";
+import {Button, Description, Label, TimeField} from "@sy-inc/react";
 import {Time, getLocalTimeZone, now} from "@internationalized/date";
 import {useState} from "react";
 

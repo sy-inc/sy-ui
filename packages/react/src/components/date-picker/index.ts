@@ -41,6 +41,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {datePickerVariants} from "@sy-ui/styles";
+export {datePickerVariants} from "@sy-inc/styles";
 
-export type {DatePickerVariants} from "@sy-ui/styles";
+export type {DatePickerVariants} from "@sy-inc/styles";

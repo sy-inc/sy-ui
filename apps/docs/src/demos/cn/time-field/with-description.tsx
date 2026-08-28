@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Label, TimeField} from "@sy-ui/react";
+import {Description, Label, TimeField} from "@sy-inc/react";
 
 export function WithDescription() {
   return (

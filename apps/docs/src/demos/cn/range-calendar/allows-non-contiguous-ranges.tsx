@@ -2,7 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
-import {Description, RangeCalendar} from "@sy-ui/react";
+import {Description, RangeCalendar} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 
 export function AllowsNonContiguousRanges() {

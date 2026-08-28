@@ -12,7 +12,7 @@ description: Migration guide for Toast from SY UI v2 to v3
 In v2, Toast used a provider and hook pattern:
 
 ```tsx
-import { ToastProvider, useToast } from "@sy-ui/react";
+import { ToastProvider, useToast } from "@sy-inc/react";
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function MyComponent() {
 In v3, Toast uses a provider component and a global `toast()` function:
 
 ```tsx
-import { Toast } from "@sy-ui/react";
+import { Toast } from "@sy-inc/react";
 
 function App() {
   return (
@@ -111,7 +111,7 @@ function MyComponent() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { toast } from "@sy-ui/react";
+    import { toast } from "@sy-inc/react";
 
     toast.success("Success", {
       description: "Your changes have been saved"
@@ -135,7 +135,7 @@ function MyComponent() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { toast } from "@sy-ui/react";
+    import { toast } from "@sy-inc/react";
 
     toast.success("Success");
     toast.danger("Error");
@@ -164,7 +164,7 @@ function MyComponent() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { toast } from "@sy-ui/react";
+    import { toast } from "@sy-inc/react";
 
     const handleAsync = async () => {
       toast.promise(someAsyncOperation(), {
@@ -194,7 +194,7 @@ function MyComponent() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Toast, ToastContent, ToastTitle } from "@sy-ui/react";
+    import { Toast, ToastContent, ToastTitle } from "@sy-inc/react";
 
     <Toast.Provider>
       {({ toast: toastItem }) => (

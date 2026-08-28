@@ -1,6 +1,6 @@
 "use client";
 
-import {ComboBox, Header, Input, Label, ListBox, Separator} from "@sy-ui/react";
+import {ComboBox, Header, Input, Label, ListBox, Separator} from "@sy-inc/react";
 
 export function WithSections() {
   return (

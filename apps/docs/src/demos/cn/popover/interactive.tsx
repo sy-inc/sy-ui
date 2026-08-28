@@ -1,6 +1,6 @@
 "use client";
 
-import {Avatar, Button, Popover} from "@sy-ui/react";
+import {Avatar, Button, Popover} from "@sy-inc/react";
 import {useState} from "react";
 
 export function PopoverInteractive() {

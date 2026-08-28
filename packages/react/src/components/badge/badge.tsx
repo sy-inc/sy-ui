@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {BadgeVariants} from "@sy-ui/styles";
+import type {BadgeVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 
-import {badgeVariants} from "@sy-ui/styles";
+import {badgeVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {cx} from "tailwind-variants";
 

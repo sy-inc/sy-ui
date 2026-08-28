@@ -1,6 +1,6 @@
 "use client";
 
-import {ColorSlider, ColorSwatch, Label} from "@sy-ui/react";
+import {ColorSlider, ColorSwatch, Label} from "@sy-inc/react";
 import {useState} from "react";
 import {parseColor} from "react-aria-components";
 

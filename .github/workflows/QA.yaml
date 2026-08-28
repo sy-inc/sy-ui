@@ -59,10 +59,10 @@ jobs:
         uses: ./.github/common-actions/install
 
       - name: Install Playwright Chromium
-        run: pnpm --filter @sy-ui/testing exec playwright install --with-deps chromium
+        run: pnpm --filter @sy-inc/testing exec playwright install --with-deps chromium
 
       - name: Browser tests
-        run: pnpm --filter @sy-ui/react test:browser
+        run: pnpm --filter @sy-inc/react test:browser
 
       - name: Jsdom tests with coverage
         run: pnpm test:coverage

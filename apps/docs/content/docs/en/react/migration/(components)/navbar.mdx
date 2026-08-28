@@ -43,7 +43,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@sy-ui/react";
+    import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@sy-inc/react";
 
     {/* Basic */}
     <Navbar>
@@ -68,7 +68,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Link, Button } from "@sy-ui/react";
+    import { Link, Button } from "@sy-inc/react";
 
     {/* Basic */}
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
@@ -110,7 +110,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
       NavbarMenu,
       NavbarMenuItem,
       NavbarMenuToggle,
-    } from "@sy-ui/react";
+    } from "@sy-inc/react";
 
     function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -137,7 +137,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { Link, Button } from "@sy-ui/react";
+    import { Link, Button } from "@sy-inc/react";
 
     function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -224,7 +224,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
       NavbarMenuToggle,
       Link,
       Button,
-    } from "@sy-ui/react";
+    } from "@sy-inc/react";
 
     export default function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -276,7 +276,7 @@ description: Migration guide for Navbar from SY UI v2 to v3
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { Link, Button } from "@sy-ui/react";
+    import { Link, Button } from "@sy-inc/react";
 
     export default function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -378,7 +378,7 @@ Since navbars are commonly needed, here's a simplified reusable component:
 
 ```tsx
 import { useState, ReactNode } from "react";
-import { Link, Button } from "@sy-ui/react";
+import { Link, Button } from "@sy-inc/react";
 import { cn } from "@/lib/utils"; // or your cn utility
 
 interface NavbarItem {
@@ -587,7 +587,7 @@ useEffect(() => {
 ## Summary
 
 1. **Component Removed**: All Navbar components removed (`Navbar`, `NavbarBrand`, `NavbarContent`, `NavbarItem`, `NavbarMenu`, `NavbarMenuItem`, `NavbarMenuToggle`)
-2. **Import Change**: Remove all Navbar imports from `@sy-ui/react`
+2. **Import Change**: Remove all Navbar imports from `@sy-inc/react`
 3. **Manual Composition**: Build navbars using native HTML elements
 4. **Mobile Menu**: Implement mobile menu manually with state management
 5. **Styling**: Apply Tailwind CSS classes directly
@@ -623,7 +623,7 @@ useEffect(() => {
 ### With Dropdown (using v3 Dropdown)
 
 ```tsx
-import { Dropdown, Button, Label } from "@sy-ui/react";
+import { Dropdown, Button, Label } from "@sy-inc/react";
 
 <ul className="flex items-center gap-4">
   <li>

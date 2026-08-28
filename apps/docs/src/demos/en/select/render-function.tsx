@@ -1,6 +1,6 @@
 "use client";
 
-import {Label, ListBox, Select} from "@sy-ui/react";
+import {Label, ListBox, Select} from "@sy-inc/react";
 
 export function RenderFunction() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import {Calendar} from "@sy-ui/react";
+import {Calendar} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {I18nProvider} from "react-aria-components";
 

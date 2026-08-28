@@ -33,7 +33,7 @@ SY UI 组件提供灵活的样式方案：Tailwind CSS 工具类、配合 [BEM](
 
 ## 滚动条
 
-SY UI 的滚动插槽在组件 CSS 中使用 `@apply scrollbar`。对于你自己的溢出容器，可使用 `@sy-ui/styles` 提供的工具类：
+SY UI 的滚动插槽在组件 CSS 中使用 `@apply scrollbar`。对于你自己的溢出容器，可使用 `@sy-inc/styles` 提供的工具类：
 
 ```tsx
 <div className="scrollbar h-64 overflow-y-auto">
@@ -145,8 +145,8 @@ SY UI 使用 [BEM 方法论](https://getbem.com/) 来保持类名命名的一致
 使用 [tailwind-variants](https://tailwind-variants.org/) 创建可复用的自定义组件 —— 它是 Tailwind CSS 的一等公民变体 API：
 
 ```tsx
-import { Button as HeroButton, type ButtonProps } from '@sy-ui/react';
-import { buttonVariants, tv, type VariantProps } from '@sy-ui/styles';
+import { Button as HeroButton, type ButtonProps } from '@sy-inc/react';
+import { buttonVariants, tv, type VariantProps } from '@sy-inc/styles';
 
 const customButtonVariants = tv({
   extend: buttonVariants,
@@ -192,7 +192,7 @@ export function CustomButton({ intent, size, className, ...props }: CustomButton
 
 ```tsx
 import styled from 'styled-components';
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 const StyledButton = styled(Button)`
   background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
@@ -210,7 +210,7 @@ const StyledButton = styled(Button)`
 
 ```tsx
 import { css } from '@emotion/css';
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 const buttonStyles = css`
   background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
@@ -281,7 +281,7 @@ const buttonStyles = css`
 
 ```tsx
 import styles from './Button.module.css';
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 <Button className={styles.button}>
   Scoped Button
@@ -295,7 +295,7 @@ import { Button } from '@sy-ui/react';
 
 > **注意：** 完整的类名参考请查看各组件文档：[Button](/docs/components/button#css-classes)、[Accordion](/docs/components/accordion#css-classes)
 
-所有组件的类名请查看 [@sy-ui/styles/components](https://github.com/sy-ui/sy-ui/tree/main/packages/styles/components)。
+所有组件的类名请查看 [@sy-inc/styles/components](https://github.com/sy-ui/sy-ui/tree/main/packages/styles/components)。
 
 ## 下一步
 

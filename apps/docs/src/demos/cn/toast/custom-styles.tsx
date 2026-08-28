@@ -1,6 +1,6 @@
 "use client";
 
-import type {ToastContentValue} from "@sy-ui/react";
+import type {ToastContentValue} from "@sy-inc/react";
 
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   ToastIndicator,
   ToastQueue,
   ToastTitle,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 
 export function CustomStyles() {
   const queue = new ToastQueue();

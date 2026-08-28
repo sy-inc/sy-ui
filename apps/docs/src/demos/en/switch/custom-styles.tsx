@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Label, Switch} from "@sy-ui/react";
+import {Description, Label, Switch} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

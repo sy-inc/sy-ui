@@ -1,4 +1,4 @@
-import {Description, Label, NumberField, Surface} from "@sy-ui/react";
+import {Description, Label, NumberField, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

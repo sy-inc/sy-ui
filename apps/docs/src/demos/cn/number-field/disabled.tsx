@@ -1,4 +1,4 @@
-import {Description, Label, NumberField} from "@sy-ui/react";
+import {Description, Label, NumberField} from "@sy-inc/react";
 
 export function Disabled() {
   return (

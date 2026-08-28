@@ -12,7 +12,7 @@ links:
 ## 用法
 
 ```tsx
-import { ComboBox } from '@sy-ui/react';
+import { ComboBox } from '@sy-inc/react';
 ```
 
 <ComponentPreview
@@ -22,7 +22,7 @@ import { ComboBox } from '@sy-ui/react';
 ## 组件结构
 
 ```tsx
-import { ComboBox, Input, Label, Description, Header, ListBox, Separator } from '@sy-ui/react';
+import { ComboBox, Input, Label, Description, Header, ListBox, Separator } from '@sy-inc/react';
 
 export default () => (
   <ComboBox>
@@ -322,7 +322,7 @@ ComboBox 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy
 ### 基本用法
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 
 <ComboBox className="w-[256px]">
   <Label>Favorite Animal</Label>
@@ -348,7 +348,7 @@ import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
 ### 代码示例：分组选项
 
 ```tsx
-import { ComboBox, Input, Label, ListBox, Header, Separator } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox, Header, Separator } from '@sy-inc/react';
 
 <ComboBox className="w-[256px]">
   <Label>Country</Label>
@@ -381,9 +381,9 @@ import { ComboBox, Input, Label, ListBox, Header, Separator } from '@sy-ui/react
 ### 受控选择
 
 ```tsx
-import type { Key } from '@sy-ui/react';
+import type { Key } from '@sy-inc/react';
 
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 import { useState } from 'react';
 
 function ControlledComboBox() {
@@ -420,7 +420,7 @@ function ControlledComboBox() {
 ### 代码示例：受控输入值
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 import { useState } from 'react';
 
 function ControlledInputComboBox() {
@@ -457,7 +457,7 @@ function ControlledInputComboBox() {
 ### 代码示例：异步加载
 
 ```tsx
-import { Collection, ComboBox, EmptyState, Input, Label, ListBox, ListBoxLoadMoreItem, Spinner } from '@sy-ui/react';
+import { Collection, ComboBox, EmptyState, Input, Label, ListBox, ListBoxLoadMoreItem, Spinner } from '@sy-inc/react';
 import { useAsyncList } from '@react-stately/data';
 
 interface Character {
@@ -521,7 +521,7 @@ function AsyncComboBox() {
 ### 代码示例：自定义过滤
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 
 <ComboBox
   className="w-[256px]"
@@ -555,7 +555,7 @@ import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
 使用 `menuTrigger` prop 控制 Popover 何时打开：
 
 ```tsx
-import { ComboBox, Description, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Description, Input, Label, ListBox } from '@sy-inc/react';
 
 // 在聚焦时打开（默认）
 <ComboBox className="w-[256px]" menuTrigger="focus">
@@ -617,7 +617,7 @@ import { ComboBox, Description, Input, Label, ListBox } from '@sy-ui/react';
 使用 `formValue` prop 控制提交表单时提交选中项的 key 还是文本：
 
 ```tsx
-import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-ui/react';
+import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-inc/react';
 
 function FormValueExample() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -683,7 +683,7 @@ function FormValueExample() {
 使用 `validationBehavior` prop 控制校验信息的展示方式：
 
 ```tsx
-import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-ui/react';
+import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-inc/react';
 
 function ValidationExample() {
   return (
@@ -739,7 +739,7 @@ function ValidationExample() {
 使用 `validate` prop 添加自定义校验逻辑：
 
 ```tsx
-import { ComboBox, FieldError, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, FieldError, Input, Label, ListBox } from '@sy-inc/react';
 
 function CustomValidationExample() {
   return (
@@ -788,7 +788,7 @@ function CustomValidationExample() {
 使用 `isReadOnly` 将 ComboBox 设为只读：
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 
 <ComboBox className="w-[256px]" isReadOnly defaultSelectedKey="cat">
   <Label>Favorite Animal</Label>

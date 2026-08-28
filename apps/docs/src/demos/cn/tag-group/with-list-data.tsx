@@ -1,8 +1,8 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
-import {Avatar, Description, EmptyState, Label, Tag, TagGroup, useListData} from "@sy-ui/react";
+import {Avatar, Description, EmptyState, Label, Tag, TagGroup, useListData} from "@sy-inc/react";
 
 export function TagGroupWithListData() {
   type User = {

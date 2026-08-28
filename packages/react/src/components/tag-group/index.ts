@@ -30,6 +30,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {tagGroupVariants} from "@sy-ui/styles";
+export {tagGroupVariants} from "@sy-inc/styles";
 
-export type {TagGroupVariants} from "@sy-ui/styles";
+export type {TagGroupVariants} from "@sy-inc/styles";

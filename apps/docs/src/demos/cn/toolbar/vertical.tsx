@@ -6,7 +6,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Toolbar,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 
 export function Vertical() {
   return (

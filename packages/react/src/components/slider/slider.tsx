@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SliderVariants} from "@sy-ui/styles";
+import type {SliderVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {SliderRenderProps} from "react-aria-components/Slider";
 
-import {sliderVariants} from "@sy-ui/styles";
+import {sliderVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   SliderOutput as SliderOutputPrimitive,

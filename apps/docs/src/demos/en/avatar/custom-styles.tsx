@@ -1,4 +1,4 @@
-import {Avatar} from "@sy-ui/react";
+import {Avatar} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

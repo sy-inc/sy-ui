@@ -1,6 +1,6 @@
 import type {Theme} from "../../hooks/use-theme-toggle";
 
-import {Chip} from "@sy-ui/react";
+import {Chip} from "@sy-inc/react";
 import React, {forwardRef, useEffect} from "react";
 
 import {ComponentShowcase} from "./component-showcase";

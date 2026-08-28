@@ -20,7 +20,7 @@ description: CircularProgress 从 SY UI v2 到 v3（现在称为 ProgressCircle�
 在 v2 中，`CircularProgress` 是单个组件，通过 prop 进行配置：
 
 ```tsx
-import { CircularProgress } from "@sy-ui/react";
+import { CircularProgress } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -32,7 +32,7 @@ export default function App() {
 在 v3 中，`ProgressCircle` 改为复合组件模式：
 
 ```tsx
-import { ProgressCircle } from "@sy-ui/react";
+import { ProgressCircle } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -84,14 +84,14 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { CircularProgress } from "@sy-ui/react";
+    import { CircularProgress } from "@sy-inc/react";
 
     <CircularProgress aria-label="Loading..." value={60} />
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { ProgressCircle } from "@sy-ui/react";
+    import { ProgressCircle } from "@sy-inc/react";
 
     <ProgressCircle aria-label="Loading..." value={60}>
       <ProgressCircle.Track>
@@ -140,7 +140,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { ProgressCircle, Label } from "@sy-ui/react";
+    import { ProgressCircle, Label } from "@sy-inc/react";
 
     <div className="flex flex-col items-center gap-2">
       <ProgressCircle aria-label="Loading" value={70} size="lg">

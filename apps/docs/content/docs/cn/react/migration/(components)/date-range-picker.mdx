@@ -12,7 +12,7 @@ description: DateRangePicker 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`DateRangePicker` 是单一自包含组件，通过 prop 配置标签、输入、日历与时间字段等：
 
 ```tsx
-import { DateRangePicker } from "@sy-ui/react";
+import { DateRangePicker } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -24,7 +24,7 @@ export default function App() {
 在 v3 中，DateRangePicker 采用“组合优先”的 API，需要你显式组合 `DateField` 与 `RangeCalendar`：
 
 ```tsx
-import { DateField, DateRangePicker, Label, RangeCalendar } from "@sy-ui/react";
+import { DateField, DateRangePicker, Label, RangeCalendar } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -148,14 +148,14 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { DateRangePicker } from "@sy-ui/react";
+    import { DateRangePicker } from "@sy-inc/react";
 
     <DateRangePicker label="Trip dates" />
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { DateField, DateRangePicker, Label, RangeCalendar } from "@sy-ui/react";
+    import { DateField, DateRangePicker, Label, RangeCalendar } from "@sy-inc/react";
 
     <DateRangePicker>
       <Label>Trip dates</Label>
@@ -206,7 +206,7 @@ export default function App() {
   <Tab value="v2">
     ```tsx
     import { useState } from "react";
-    import { DateRangePicker } from "@sy-ui/react";
+    import { DateRangePicker } from "@sy-inc/react";
     import { parseDate } from "@internationalized/date";
 
     const [value, setValue] = useState({
@@ -224,7 +224,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { DateField, DateRangePicker, Label, RangeCalendar } from "@sy-ui/react";
+    import { DateField, DateRangePicker, Label, RangeCalendar } from "@sy-inc/react";
     import { parseDate } from "@internationalized/date";
 
     const [value, setValue] = useState({
@@ -287,7 +287,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { DateField, DateRangePicker, Label, Description, FieldError, RangeCalendar } from "@sy-ui/react";
+    import { DateField, DateRangePicker, Label, Description, FieldError, RangeCalendar } from "@sy-inc/react";
 
     <DateRangePicker isInvalid={isInvalid}>
       <Label>Trip dates</Label>

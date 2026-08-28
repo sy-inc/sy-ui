@@ -22,7 +22,7 @@ export function getMcpServerCard(origin: string) {
         absoluteUrl(origin, "/docs/native/getting-started/mcp-server"),
       ],
       npm: [
-        "https://www.npmjs.com/package/@sy-ui/react-mcp",
+        "https://www.npmjs.com/package/@sy-inc/react-mcp",
         "https://www.npmjs.com/package/@sy-ui/native-mcp",
       ],
       serverCard: absoluteUrl(origin, "/.well-known/mcp/server-card.json"),
@@ -38,32 +38,32 @@ export function getMcpServerCard(origin: string) {
       {
         description: "List all available SY UI v3 React components.",
         name: "list_components",
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
       },
       {
         description: "Get complete React component documentation.",
         name: "get_component_docs",
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
       },
       {
         description: "Get React component TypeScript source code.",
         name: "get_component_source_code",
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
       },
       {
         description: "Get React component CSS source styles.",
         name: "get_component_source_styles",
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
       },
       {
         description: "Get SY UI React theme variables.",
         name: "get_theme_variables",
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
       },
       {
         description: "Browse full SY UI React documentation.",
         name: "get_docs",
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
       },
       {
         description: "List all available SY UI Native components.",
@@ -88,10 +88,10 @@ export function getMcpServerCard(origin: string) {
     ],
     transports: [
       {
-        args: ["-y", "@sy-ui/react-mcp@latest"],
+        args: ["-y", "@sy-inc/react-mcp@latest"],
         command: "npx",
         dataApi: REACT_MCP_API_URL,
-        package: "@sy-ui/react-mcp",
+        package: "@sy-inc/react-mcp",
         type: "stdio",
       },
       {

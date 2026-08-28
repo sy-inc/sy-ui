@@ -1,9 +1,9 @@
 "use client";
 
-import type {ListBoxVariants} from "@sy-ui/styles";
+import type {ListBoxVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {listboxVariants} from "@sy-ui/styles";
+import {listboxVariants} from "@sy-inc/styles";
 import React from "react";
 import {ListBox as ListBoxPrimitive} from "react-aria-components/ListBox";
 

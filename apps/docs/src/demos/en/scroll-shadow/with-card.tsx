@@ -1,4 +1,4 @@
-import {Button, Card, ScrollShadow} from "@sy-ui/react";
+import {Button, Card, ScrollShadow} from "@sy-inc/react";
 
 export default function WithCard() {
   return (

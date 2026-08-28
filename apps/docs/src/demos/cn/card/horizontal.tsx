@@ -1,4 +1,4 @@
-import {Button, Card, CloseButton} from "@sy-ui/react";
+import {Button, Card, CloseButton} from "@sy-inc/react";
 
 export function Horizontal() {
   return (

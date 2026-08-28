@@ -1,4 +1,4 @@
-import {ColorField, Description, Label} from "@sy-ui/react";
+import {ColorField, Description, Label} from "@sy-inc/react";
 
 export function WithDescription() {
   return (

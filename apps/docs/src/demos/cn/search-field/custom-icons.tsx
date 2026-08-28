@@ -1,4 +1,4 @@
-import {Description, Label, SearchField} from "@sy-ui/react";
+import {Description, Label, SearchField} from "@sy-inc/react";
 
 export function CustomIcons() {
   return (

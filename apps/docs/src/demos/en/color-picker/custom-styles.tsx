@@ -1,4 +1,4 @@
-import {ColorArea, ColorPicker, ColorSlider, ColorSwatch, Label} from "@sy-ui/react";
+import {ColorArea, ColorPicker, ColorSlider, ColorSwatch, Label} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

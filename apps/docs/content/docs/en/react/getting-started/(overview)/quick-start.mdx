@@ -14,7 +14,7 @@ icon: rocket
 <CopyPrompt
   prompt={`Set up SY UI in this React project.
 
-Use the SY UI MCP server (@sy-ui/react-mcp) as the single source of truth for installation steps, peer dependencies, and component APIs. Start by retrieving the latest quick-start / installation guide from the MCP and follow it precisely — do not rely on memory for versions, package names, or setup steps.
+Use the SY UI MCP server (@sy-inc/react-mcp) as the single source of truth for installation steps, peer dependencies, and component APIs. Start by retrieving the latest quick-start / installation guide from the MCP and follow it precisely — do not rely on memory for versions, package names, or setup steps.
 
 Before making any changes:
 
@@ -24,10 +24,10 @@ Before making any changes:
 
 Then apply the setup:
 
-- Install @sy-ui/react and @sy-ui/styles plus any missing mandatory peer dependencies.
-- In the main Tailwind CSS entry file, add \`@import "@sy-ui/styles";\` immediately after \`@import "tailwindcss";\`. Import order matters — tailwindcss must be imported first.
+- Install @sy-inc/react and @sy-inc/styles plus any missing mandatory peer dependencies.
+- In the main Tailwind CSS entry file, add \`@import "@sy-inc/styles";\` immediately after \`@import "tailwindcss";\`. Import order matters — tailwindcss must be imported first.
 - Make sure the CSS entry file is loaded by the app (e.g. imported in the root layout / entry file for Next.js, Vite, Remix, etc.). SY UI v3 does not require a Provider, so no wrapper component is needed.
-- Add a small smoke test by rendering a \`<Button>\` from \`@sy-ui/react\` somewhere visible to confirm styles are applied.
+- Add a small smoke test by rendering a \`<Button>\` from \`@sy-inc/react\` somewhere visible to confirm styles are applied.
 
 When done, summarize the changes you made and tell me how to start the dev server.`}
 >
@@ -39,22 +39,22 @@ Install SY UI and required dependencies:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles @sy-ui/react
+    npm i @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles @sy-ui/react
+    pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles @sy-ui/react
+    yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles @sy-ui/react
+    bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
 </Tabs>
@@ -65,7 +65,7 @@ Add to your main CSS file `globals.css`:
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles"; /* [!code highlight]*/
+@import "@sy-inc/styles"; /* [!code highlight]*/
 ```
 
 <Callout type="warning">
@@ -75,7 +75,7 @@ Add to your main CSS file `globals.css`:
 ## Use Components
 
 ```tsx
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 function App() {
   return (

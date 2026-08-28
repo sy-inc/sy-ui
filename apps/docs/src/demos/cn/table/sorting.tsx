@@ -1,8 +1,8 @@
 "use client";
 
-import type {SortDescriptor} from "@sy-ui/react";
+import type {SortDescriptor} from "@sy-inc/react";
 
-import {Table} from "@sy-ui/react";
+import {Table} from "@sy-inc/react";
 import {useMemo, useState} from "react";
 
 interface User {

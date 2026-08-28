@@ -2,7 +2,7 @@
 
 import type {CodeBlockProps} from "fumadocs-ui/components/codeblock";
 
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import * as React from "react";
 
 import {FumadocsCustomCodeblock as BaseCodeBlock} from "@/mdx-components/fumadocs-custom-codeblock";

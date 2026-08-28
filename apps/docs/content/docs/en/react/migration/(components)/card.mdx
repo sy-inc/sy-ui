@@ -12,7 +12,7 @@ description: Migration guide for Card from SY UI v2 to v3
 In v2, Card used separate components: `CardHeader`, `CardBody`, and `CardFooter`:
 
 ```tsx
-import { Card, CardHeader, CardBody, CardFooter } from "@sy-ui/react";
+import { Card, CardHeader, CardBody, CardFooter } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -28,7 +28,7 @@ export default function App() {
 In v3, Card uses a compound component pattern with explicit subcomponents:
 
 ```tsx
-import { Card } from "@sy-ui/react";
+import { Card } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -201,7 +201,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Card, CardFooter, Image, Button } from "@sy-ui/react";
+    import { Card, CardFooter, Image, Button } from "@sy-inc/react";
 
     <Card isFooterBlurred className="border-none" radius="lg">
       <Image
@@ -222,7 +222,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Card, Button } from "@sy-ui/react";
+    import { Card, Button } from "@sy-inc/react";
 
     <Card className="border-none rounded-lg relative overflow-hidden">
       <img

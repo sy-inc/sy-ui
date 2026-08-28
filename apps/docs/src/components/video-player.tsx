@@ -3,7 +3,7 @@
 import type {FC} from "react";
 
 import {ArrowRotateLeft, VolumeFill, VolumeSlashFill} from "@gravity-ui/icons";
-import {Button, Spinner, Tooltip, cn} from "@sy-ui/react";
+import {Button, Spinner, Tooltip, cn} from "@sy-inc/react";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useIntersectionObserver} from "usehooks-ts";
 

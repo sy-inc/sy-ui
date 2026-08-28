@@ -2,7 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
-import {Calendar, Description} from "@sy-ui/react";
+import {Calendar, Description} from "@sy-inc/react";
 import {isWeekend} from "@internationalized/date";
 import {useLocale} from "react-aria-components";
 

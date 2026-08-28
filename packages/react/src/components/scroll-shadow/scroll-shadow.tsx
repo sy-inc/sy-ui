@@ -1,9 +1,9 @@
 "use client";
 
-import type {ScrollShadowVariants} from "@sy-ui/styles";
+import type {ScrollShadowVariants} from "@sy-inc/styles";
 import type {RefObject} from "react";
 
-import {scrollShadowVariants} from "@sy-ui/styles";
+import {scrollShadowVariants} from "@sy-inc/styles";
 import {mergeRefs} from "@react-aria/utils";
 import {useMemo, useRef} from "react";
 

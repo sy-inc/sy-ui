@@ -1,4 +1,4 @@
-import {Card, ScrollShadow} from "@sy-ui/react";
+import {Card, ScrollShadow} from "@sy-inc/react";
 
 const images = [
   "https://assets.sy-ui.com/docs/robot1.jpeg",

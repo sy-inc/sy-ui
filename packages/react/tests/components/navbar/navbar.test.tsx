@@ -1,4 +1,4 @@
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {describe, expect, it} from "vitest";
 
 import {Navbar} from "@/components/navbar";

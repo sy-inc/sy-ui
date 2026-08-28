@@ -12,7 +12,7 @@ description: Migration guide for Select from SY UI v2 to v3
 In v2, Select used a simple structure with props:
 
 ```tsx
-import { Select, SelectItem } from "@sy-ui/react";
+import { Select, SelectItem } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
 In v3, Select requires compound components and uses `ListBox` for items:
 
 ```tsx
-import { Select, Label, ListBox } from "@sy-ui/react";
+import { Select, Label, ListBox } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -132,7 +132,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import type { Key } from "@sy-ui/react";
+    import type { Key } from "@sy-inc/react";
 
     {/* Single selection */}
     const [singleValue, setSingleValue] = useState<Key | null>(null);
@@ -212,7 +212,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Label, Description, FieldError } from "@sy-ui/react";
+    import { Label, Description, FieldError } from "@sy-inc/react";
 
     {/* With description */}
     <Select placeholder="Choose one">
@@ -258,7 +258,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Select, SelectItem, SelectSection } from "@sy-ui/react";
+    import { Select, SelectItem, SelectSection } from "@sy-inc/react";
 
     <Select label="Select animal">
       <SelectSection title="Mammals">
@@ -274,7 +274,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Select, Label, ListBox, Header, Separator } from "@sy-ui/react";
+    import { Select, Label, ListBox, Header, Separator } from "@sy-inc/react";
 
     <Select placeholder="Choose one">
       <Label>Select animal</Label>
@@ -329,7 +329,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { Select, Label, ListBox } from "@sy-ui/react";
+    import { Select, Label, ListBox } from "@sy-inc/react";
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -361,7 +361,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Select, SelectItem } from "@sy-ui/react";
+    import { Select, SelectItem } from "@sy-inc/react";
 
     <Select label="Select animal" disabledKeys={["dog"]}>
       <SelectItem key="cat">Cat</SelectItem>
@@ -372,7 +372,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Select, Label, ListBox } from "@sy-ui/react";
+    import { Select, Label, ListBox } from "@sy-inc/react";
 
     <Select disabledKeys={["dog"]} placeholder="Choose one">
       <Label>Select animal</Label>
@@ -406,7 +406,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Select, SelectItem } from "@sy-ui/react";
+    import { Select, SelectItem } from "@sy-inc/react";
 
     <Select isRequired label="Select animal">
       <SelectItem key="cat">Cat</SelectItem>
@@ -416,7 +416,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Select, Label, ListBox } from "@sy-ui/react";
+    import { Select, Label, ListBox } from "@sy-inc/react";
 
     <Select isRequired placeholder="Choose one">
       <Label>Select animal</Label>

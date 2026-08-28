@@ -3,12 +3,12 @@
 import type {UseOverlayStateProps, UseOverlayStateReturn} from "../../hooks/use-overlay-state";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {ModalVariants} from "@sy-ui/styles";
+import type {ModalVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {Button as ButtonPrimitive} from "react-aria-components/Button";
 import type {DialogProps as DialogPrimitiveProps} from "react-aria-components/Dialog";
 
-import {modalVariants} from "@sy-ui/styles";
+import {modalVariants} from "@sy-inc/styles";
 import {mergeProps} from "@react-aria/utils";
 import {createContext, use, useMemo} from "react";
 import {

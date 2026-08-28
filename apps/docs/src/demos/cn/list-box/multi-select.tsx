@@ -1,4 +1,4 @@
-import {Avatar, Description, Label, ListBox, Surface} from "@sy-ui/react";
+import {Avatar, Description, Label, ListBox, Surface} from "@sy-inc/react";
 
 export function MultiSelect() {
   return (

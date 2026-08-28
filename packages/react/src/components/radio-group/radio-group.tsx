@@ -1,9 +1,9 @@
 "use client";
 
-import type {RadioGroupVariants} from "@sy-ui/styles";
+import type {RadioGroupVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {radioGroupVariants} from "@sy-ui/styles";
+import {radioGroupVariants} from "@sy-inc/styles";
 import React from "react";
 import {RadioGroup as RadioGroupPrimitive} from "react-aria-components/RadioGroup";
 

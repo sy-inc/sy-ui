@@ -1,5 +1,5 @@
 import {Bold, Italic, Underline} from "@gravity-ui/icons";
-import {ToggleButton, ToggleButtonGroup} from "@sy-ui/react";
+import {ToggleButton, ToggleButtonGroup} from "@sy-inc/react";
 
 const toggleClass =
   "rounded-lg text-muted data-[selected=true]:bg-accent-soft data-[selected=true]:text-accent-soft-foreground";

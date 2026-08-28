@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {InputGroup} from "@/components/input-group";
 import {Label} from "@/components/label";

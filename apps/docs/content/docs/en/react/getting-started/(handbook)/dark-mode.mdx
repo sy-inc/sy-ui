@@ -103,7 +103,7 @@ Use `useTheme` from `next-themes` inside a client component. Delay rendering unt
 // app/components/theme-switcher.tsx
 "use client";
 
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import {useTheme} from "next-themes";
 import {useEffect, useState} from "react";
 
@@ -187,11 +187,11 @@ When you pass a custom `themes` list, include `"light"` and `"dark"` if you stil
 
 Use SY UI's `useTheme` hook when you are building a plain React app, such as Vite or Create React App, and do not need `next-themes`.
 
-The hook is exported from `@sy-ui/react`. It stores the selected theme in `localStorage`, resolves `"system"` from the user's OS preference, and applies both the class and `data-theme` attribute to `<html>`.
+The hook is exported from `@sy-inc/react`. It stores the selected theme in `localStorage`, resolves `"system"` from the user's OS preference, and applies both the class and `data-theme` attribute to `<html>`.
 
 ```tsx
 // src/components/theme-switcher.tsx
-import {Button, useTheme} from "@sy-ui/react";
+import {Button, useTheme} from "@sy-inc/react";
 
 export function ThemeSwitcher() {
   const {resolvedTheme, setTheme, theme} = useTheme("system");
@@ -219,7 +219,7 @@ export function ThemeSwitcher() {
 ```
 
 <Callout type="warning">
-  Use one theme controller per app. In Next.js, prefer `next-themes` and its `useTheme` hook. In plain React apps, use `useTheme` from `@sy-ui/react`.
+  Use one theme controller per app. In Next.js, prefer `next-themes` and its `useTheme` hook. In plain React apps, use `useTheme` from `@sy-inc/react`.
 </Callout>
 
 ## Styling for both themes

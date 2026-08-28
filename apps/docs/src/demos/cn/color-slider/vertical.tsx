@@ -1,4 +1,4 @@
-import {ColorSlider} from "@sy-ui/react";
+import {ColorSlider} from "@sy-inc/react";
 
 export function Vertical() {
   return (

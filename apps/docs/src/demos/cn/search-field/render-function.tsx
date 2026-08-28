@@ -1,6 +1,6 @@
 "use client";
 
-import {Label, SearchField} from "@sy-ui/react";
+import {Label, SearchField} from "@sy-inc/react";
 
 export function RenderFunction() {
   return (

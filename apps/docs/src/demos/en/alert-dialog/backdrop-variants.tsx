@@ -1,6 +1,6 @@
 "use client";
 
-import {AlertDialog, Button} from "@sy-ui/react";
+import {AlertDialog, Button} from "@sy-inc/react";
 
 export function BackdropVariants() {
   const variants = ["opaque", "blur", "transparent"] as const;

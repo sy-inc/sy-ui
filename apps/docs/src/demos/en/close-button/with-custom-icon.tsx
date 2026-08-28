@@ -1,5 +1,5 @@
 import {CircleXmark, Xmark} from "@gravity-ui/icons";
-import {CloseButton} from "@sy-ui/react";
+import {CloseButton} from "@sy-inc/react";
 
 export function WithCustomIcon() {
   return (

@@ -10,7 +10,7 @@ import {
   ColorSwatchPicker,
   Label,
   parseColor,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 import {useState} from "react";
 

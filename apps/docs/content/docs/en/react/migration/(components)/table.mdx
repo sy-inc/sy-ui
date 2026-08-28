@@ -12,7 +12,7 @@ description: Migration guide for Table from SY UI v2 to v3
 In v2, Table used separate named imports for each part:
 
 ```tsx
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@sy-ui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -35,7 +35,7 @@ export default function App() {
 In v3, Table uses the compound component pattern with dot notation and adds `Table.ScrollContainer` and `Table.Content`:
 
 ```tsx
-import { Table } from "@sy-ui/react";
+import { Table } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -139,7 +139,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@sy-ui/react";
+    import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@sy-inc/react";
 
     <Table aria-label="Users">
       <TableHeader>
@@ -164,7 +164,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Table } from "@sy-ui/react";
+    import { Table } from "@sy-inc/react";
 
     <Table>
       <Table.ScrollContainer>
@@ -285,7 +285,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Table, Checkbox } from "@sy-ui/react";
+    import { Table, Checkbox } from "@sy-inc/react";
 
     const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
 

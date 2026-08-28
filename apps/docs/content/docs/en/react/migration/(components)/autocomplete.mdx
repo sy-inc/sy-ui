@@ -25,7 +25,7 @@ V3 provides two components that replace the v2 Autocomplete:
 In v2, Autocomplete was a single component that wrapped Input internally:
 
 ```tsx
-import { Autocomplete, AutocompleteItem } from "@sy-ui/react";
+import { Autocomplete, AutocompleteItem } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -42,7 +42,7 @@ export default function App() {
 ComboBox provides the most similar experience to the v2 Autocomplete, with an inline text input that filters options:
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from "@sy-ui/react";
+import { ComboBox, Input, Label, ListBox } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -74,7 +74,7 @@ export default function App() {
 Autocomplete provides a select-style trigger with a search/filter field inside the popover:
 
 ```tsx
-import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-ui/react";
+import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-inc/react";
 
 export default function App() {
   const { contains } = useFilter({ sensitivity: "base" });
@@ -168,10 +168,10 @@ The v3 Autocomplete uses `SearchField` inside `Autocomplete.Filter` for the sear
 
 ### 7. useFilter Hook
 
-The v3 Autocomplete uses the `useFilter` hook (from React Aria, re-exported by `@sy-ui/react`) to provide locale-aware filtering functions:
+The v3 Autocomplete uses the `useFilter` hook (from React Aria, re-exported by `@sy-inc/react`) to provide locale-aware filtering functions:
 
 ```tsx
-import { useFilter } from "@sy-ui/react";
+import { useFilter } from "@sy-inc/react";
 
 const { contains } = useFilter({ sensitivity: "base" });
 
@@ -257,7 +257,7 @@ The hook returns `contains`, `startsWith`, and `endsWith` functions. The `sensit
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import type { Key } from "@sy-ui/react";
+    import type { Key } from "@sy-inc/react";
 
     const [selectedKey, setSelectedKey] = useState<Key | null>("cat");
 
@@ -309,8 +309,8 @@ The hook returns `contains`, `startsWith`, and `endsWith` functions. The `sensit
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import type { Key } from "@sy-ui/react";
-    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-ui/react";
+    import type { Key } from "@sy-inc/react";
+    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-inc/react";
 
     const [value, setValue] = useState<Key | Key[] | null>("cat");
     const { contains } = useFilter({ sensitivity: "base" });
@@ -365,7 +365,7 @@ The hook returns `contains`, `startsWith`, and `endsWith` functions. The `sensit
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Header, Separator } from "@sy-ui/react";
+    import { Header, Separator } from "@sy-inc/react";
 
     <ComboBox>
       <Label>Country</Label>
@@ -415,7 +415,7 @@ The hook returns `contains`, `startsWith`, and `endsWith` functions. The `sensit
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-ui/react";
+    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-inc/react";
 
     function FilterExample() {
       const { contains } = useFilter({ sensitivity: "base" });
@@ -477,7 +477,7 @@ The hook returns `contains`, `startsWith`, and `endsWith` functions. The `sensit
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { FieldError, Form } from "@sy-ui/react";
+    import { FieldError, Form } from "@sy-inc/react";
 
     {/* Required field */}
     <Form>

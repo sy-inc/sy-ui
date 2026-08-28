@@ -1,8 +1,8 @@
 "use client";
 
-import type {Selection} from "@sy-ui/react";
+import type {Selection} from "@sy-inc/react";
 
-import {Checkbox, Table} from "@sy-ui/react";
+import {Checkbox, Table} from "@sy-inc/react";
 import {useState} from "react";
 
 const users = [

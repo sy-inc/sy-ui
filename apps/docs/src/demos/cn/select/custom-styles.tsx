@@ -1,4 +1,4 @@
-import {Label, ListBox, Select} from "@sy-ui/react";
+import {Label, ListBox, Select} from "@sy-inc/react";
 
 const itemClass =
   "rounded-lg data-[focused=true]:bg-accent/10 data-[selected=true]:text-foreground";

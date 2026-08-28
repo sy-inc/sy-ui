@@ -11,7 +11,7 @@ links:
 ## 用法
 
 ```tsx
-import { ListBox } from '@sy-ui/react';
+import { ListBox } from '@sy-inc/react';
 ```
 
 <ComponentPreview
@@ -21,7 +21,7 @@ import { ListBox } from '@sy-ui/react';
 ## 组件结构
 
 ```tsx
-import { ListBox, Label, Description, Header } from '@sy-ui/react';
+import { ListBox, Label, Description, Header } from '@sy-inc/react';
 
 export default () => (
   <ListBox>
@@ -221,7 +221,7 @@ ListBox 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-
 ### 基本用法
 
 ```tsx
-import { ListBox, Label, Description } from '@sy-ui/react';
+import { ListBox, Label, Description } from '@sy-inc/react';
 
 <ListBox aria-label="Users" selectionMode="single">
   <ListBox.Item id="1" textValue="Bob">
@@ -238,7 +238,7 @@ import { ListBox, Label, Description } from '@sy-ui/react';
 ### 分组选项
 
 ```tsx
-import { ListBox, Header, Separator } from '@sy-ui/react';
+import { ListBox, Header, Separator } from '@sy-inc/react';
 
 <ListBox aria-label="Actions" selectionMode="none" onAction={(key) => console.log(key)}>
   <ListBox.Section>
@@ -257,7 +257,7 @@ import { ListBox, Header, Separator } from '@sy-ui/react';
 ### 受控选择
 
 ```tsx
-import { ListBox, Selection } from '@sy-ui/react';
+import { ListBox, Selection } from '@sy-inc/react';
 import { useState } from 'react';
 
 function ControlledListBox() {
@@ -281,7 +281,7 @@ function ControlledListBox() {
 ### 自定义指示器
 
 ```tsx
-import { ListBox, ListBoxItemIndicator } from '@sy-ui/react';
+import { ListBox, ListBoxItemIndicator } from '@sy-inc/react';
 import { Icon } from '@iconify/react';
 
 <ListBox aria-label="Options" selectionMode="multiple">

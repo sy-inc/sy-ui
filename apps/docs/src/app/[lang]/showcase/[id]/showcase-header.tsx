@@ -8,7 +8,7 @@ import {
   TooltipContent,
   TooltipRoot,
   TooltipTrigger,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {useParams, useRouter, useSearchParams} from "next/navigation";
 import {useEffect} from "react";
 

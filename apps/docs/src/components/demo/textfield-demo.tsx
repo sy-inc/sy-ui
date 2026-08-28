@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, FieldError, Input, Label, TextField} from "@sy-ui/react";
+import {Description, FieldError, Input, Label, TextField} from "@sy-inc/react";
 
 import {useDictionary} from "@/hooks/use-dictionary";
 

@@ -1,4 +1,4 @@
-import {User, render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {User, render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Checkbox} from "@/components/checkbox";
 import {CheckboxGroup} from "@/components/checkbox-group";

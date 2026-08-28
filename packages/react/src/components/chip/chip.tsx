@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {ChipVariants} from "@sy-ui/styles";
+import type {ChipVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 
-import {chipVariants} from "@sy-ui/styles";
+import {chipVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 
 import {composeSlotClassName} from "../../utils/compose";

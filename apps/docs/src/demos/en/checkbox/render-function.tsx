@@ -1,6 +1,6 @@
 "use client";
 
-import {Checkbox, Label} from "@sy-ui/react";
+import {Checkbox, Label} from "@sy-inc/react";
 
 export function RenderFunction() {
   return (

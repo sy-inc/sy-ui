@@ -43,7 +43,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@sy-ui/react";
+    import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@sy-inc/react";
 
     {/* Basic */}
     <Navbar>
@@ -68,7 +68,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Link, Button } from "@sy-ui/react";
+    import { Link, Button } from "@sy-inc/react";
 
     {/* Basic */}
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
@@ -110,7 +110,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
       NavbarMenu,
       NavbarMenuItem,
       NavbarMenuToggle,
-    } from "@sy-ui/react";
+    } from "@sy-inc/react";
 
     function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -137,7 +137,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { Link, Button } from "@sy-ui/react";
+    import { Link, Button } from "@sy-inc/react";
 
     function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -224,7 +224,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
       NavbarMenuToggle,
       Link,
       Button,
-    } from "@sy-ui/react";
+    } from "@sy-inc/react";
 
     export default function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -276,7 +276,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { Link, Button } from "@sy-ui/react";
+    import { Link, Button } from "@sy-inc/react";
 
     export default function App() {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -378,7 +378,7 @@ description: Navbar 从 SY UI v2 到 v3 的迁移指南。
 
 ```tsx
 import { useState, ReactNode } from "react";
-import { Link, Button } from "@sy-ui/react";
+import { Link, Button } from "@sy-inc/react";
 import { cn } from "@/lib/utils"; // or your cn utility
 
 interface NavbarItem {
@@ -587,7 +587,7 @@ useEffect(() => {
 ## 总结
 
 1. **组件已移除**：`Navbar`、`NavbarBrand`、`NavbarContent`、`NavbarItem`、`NavbarMenu`、`NavbarMenuItem`、`NavbarMenuToggle` 均已移除。  
-2. **导入调整**：从 `@sy-ui/react` 中移除所有 Navbar 相关导入。  
+2. **导入调整**：从 `@sy-inc/react` 中移除所有 Navbar 相关导入。  
 3. **手动组合**：使用原生 HTML 搭建导航栏。  
 4. **移动菜单**：通过状态管理手动实现移动菜单。  
 5. **样式**：直接使用 Tailwind CSS 类。  
@@ -623,7 +623,7 @@ useEffect(() => {
 ### 搭配下拉（使用 v3 Dropdown）
 
 ```tsx
-import { Dropdown, Button, Label } from "@sy-ui/react";
+import { Dropdown, Button, Label } from "@sy-inc/react";
 
 <ul className="flex items-center gap-4">
   <li>

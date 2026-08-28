@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, toast} from "@sy-ui/react";
+import {Button, toast} from "@sy-inc/react";
 
 const uploadFile = (): Promise<{filename: string; size: number}> => {
   return new Promise<{filename: string; size: number}>((resolve) => {

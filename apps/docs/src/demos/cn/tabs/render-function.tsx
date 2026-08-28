@@ -1,6 +1,6 @@
 "use client";
 
-import {Tabs} from "@sy-ui/react";
+import {Tabs} from "@sy-inc/react";
 import Link from "next/link";
 
 export function RenderFunction() {

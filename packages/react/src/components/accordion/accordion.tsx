@@ -2,10 +2,10 @@
 
 import type {Booleanish} from "../../utils/assertion";
 import type {DOMRenderProps} from "../../utils/dom";
-import type {AccordionVariants} from "@sy-ui/styles";
+import type {AccordionVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {accordionVariants} from "@sy-ui/styles";
+import {accordionVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Button} from "react-aria-components/Button";
 import {

@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SurfaceVariants} from "@sy-ui/styles";
+import type {SurfaceVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 
-import {surfaceVariants} from "@sy-ui/styles";
+import {surfaceVariants} from "@sy-inc/styles";
 import React, {createContext} from "react";
 
 import {dom} from "../../utils/dom";

@@ -1,6 +1,6 @@
 "use client";
 
-import {AlertDialog, Button} from "@sy-ui/react";
+import {AlertDialog, Button} from "@sy-inc/react";
 
 export function Default() {
   return (

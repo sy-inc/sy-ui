@@ -12,7 +12,7 @@ description: Tabs 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，Tabs 使用 `Tab` 子组件，通过 `title` prop 设置标题，子节点作为面板内容：
 
 ```tsx
-import { Tabs, Tab } from "@sy-ui/react";
+import { Tabs, Tab } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -28,7 +28,7 @@ export default function App() {
 在 v3 中，Tabs 改为复合组件，Tab 与 Panel 分别独立：
 
 ```tsx
-import { Tabs } from "@sy-ui/react";
+import { Tabs } from "@sy-inc/react";
 
 export default function App() {
   return (

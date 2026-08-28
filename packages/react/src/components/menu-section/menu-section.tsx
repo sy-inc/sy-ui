@@ -2,7 +2,7 @@
 
 import type {ComponentPropsWithRef} from "react";
 
-import {menuSectionVariants} from "@sy-ui/styles";
+import {menuSectionVariants} from "@sy-inc/styles";
 import React from "react";
 import {MenuSection as MenuSectionPrimitive} from "react-aria-components/Menu";
 

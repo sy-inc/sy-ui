@@ -1,6 +1,6 @@
 "use client";
 
-import {InputGroup, Spinner, TextField} from "@sy-ui/react";
+import {InputGroup, Spinner, TextField} from "@sy-inc/react";
 
 export function WithLoadingSuffix() {
   return (

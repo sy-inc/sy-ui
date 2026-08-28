@@ -81,7 +81,7 @@ https://www.conventionalcommits.org/ or check out the
 3. Make and commit your changes following the
    [commit convention](https://github.com/sy-ui/sy-ui/blob/main/CONTRIBUTING.md#commit-convention).
    As you go, you can run `pnpm build --filter=<module>` and
-   `pnpm --filter @sy-ui/react exec vitest run <name>` e.g. `pnpm build --filter=@sy-ui/react && pnpm --filter @sy-ui/react exec vitest run avatar` to make sure everything works as expected.
+   `pnpm --filter @sy-inc/react exec vitest run <name>` e.g. `pnpm build --filter=@sy-inc/react && pnpm --filter @sy-inc/react exec vitest run avatar` to make sure everything works as expected.
 
    > To know more about the `--filter` option, please check the turborepo [docs](https://turborepo.org/docs/core-concepts/filtering).
 
@@ -150,23 +150,23 @@ git checkout -b fix/something
 4. If your code passes all the tests, then push your feature/fix branch:
 
 All commits that fix bugs or add features need a behavioral test when they change interactive component contracts.
-See Behavioral tests in [`AGENTS.md`](AGENTS.md): query by role/label, use `setupUser()` from `@sy-ui/testing/helpers`, assert `data-*` state hooks and callbacks — not CSS pixels.
+See Behavioral tests in [`AGENTS.md`](AGENTS.md): query by role/label, use `setupUser()` from `@sy-inc/testing/helpers`, assert `data-*` state hooks and callbacks — not CSS pixels.
 
 ```bash
 # One-time local Playwright install (required before browser suites / `pnpm test`)
-pnpm --filter @sy-ui/testing exec playwright install chromium
+pnpm --filter @sy-inc/testing exec playwright install chromium
 
 # Local: jsdom + browser (needs Chromium installed)
 pnpm test
 
 # Filter by file name (e.g. button.test.tsx)
-pnpm --filter @sy-ui/react exec vitest run button
+pnpm --filter @sy-inc/react exec vitest run button
 
 # Coverage report (jsdom project + CI floors only — not a depth bar)
 pnpm test:coverage
 
 # Optional local shortcut: related jsdom tests for changed files (skips browser)
-pnpm --filter @sy-ui/react test:changed
+pnpm --filter @sy-inc/react test:changed
 ```
 
 CI (`QA` Test job) installs Chromium with `--with-deps`, then runs `test:browser` and `test:coverage` separately. Do not treat `test:changed` or coverage floors alone as “fully tested.”

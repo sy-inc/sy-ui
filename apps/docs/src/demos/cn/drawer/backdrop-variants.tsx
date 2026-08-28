@@ -1,4 +1,4 @@
-import {Button, Drawer} from "@sy-ui/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 const VARIANT_LABELS = {
   blur: "模糊",

@@ -1,3 +1,3 @@
 export {CheckboxGroup} from "./checkbox-group";
 export type {CheckboxGroupProps} from "./checkbox-group";
-export {checkboxGroupVariants, type CheckboxGroupVariants} from "@sy-ui/styles";
+export {checkboxGroupVariants, type CheckboxGroupVariants} from "@sy-inc/styles";

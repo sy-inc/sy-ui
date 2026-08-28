@@ -1,6 +1,6 @@
 "use client";
 
-import {DateField, DateRangePicker, Description, Label, RangeCalendar} from "@sy-ui/react";
+import {DateField, DateRangePicker, Description, Label, RangeCalendar} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 
 export function Disabled() {

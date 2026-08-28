@@ -21,13 +21,13 @@ This post shows the Pro-first approach: start with `AppLayout`, `Sidebar`, `Navb
 Install SY UI and SY UI Pro packages:
 
 ```bash
-npm install @sy-ui/styles @sy-ui/react @sy-ui-pro/react
+npm install @sy-inc/styles @sy-inc/react @sy-ui-pro/react
 ```
 
 SY UI Pro requires access to the Pro package registry. The dashboard template uses these style imports:
 
 ```css
-@import "@sy-ui/styles/css";
+@import "@sy-inc/styles/css";
 @import "@sy-ui-pro/react/css";
 
 @source "../**/*.{ts,tsx}";
@@ -81,7 +81,7 @@ SY UI Pro ships a `Sidebar` compound component and a `Navbar` compound component
 "use client";
 
 import {Bell, Magnifier} from "@gravity-ui/icons";
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import {AppLayout, Navbar, Sidebar} from "@sy-ui-pro/react";
 
 export function DashboardNavbar({title}: {title: string}) {
@@ -201,7 +201,7 @@ SY UI Pro chart components keep chart styling aligned with the rest of the desig
 ```tsx
 "use client";
 
-import {Card} from "@sy-ui/react";
+import {Card} from "@sy-inc/react";
 import {LineChart, NumberValue, TrendChip} from "@sy-ui-pro/react";
 
 const data = [
@@ -270,7 +270,7 @@ Dashboards usually need dense, sortable tables. Use Pro `DataGrid` instead of co
 
 import type {DataGridColumn, DataGridSortDescriptor} from "@sy-ui-pro/react";
 
-import {Avatar, SearchField} from "@sy-ui/react";
+import {Avatar, SearchField} from "@sy-inc/react";
 import {DataGrid} from "@sy-ui-pro/react";
 import {useMemo, useState} from "react";
 

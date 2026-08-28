@@ -1,6 +1,6 @@
 "use client";
 
-import {Switch} from "@sy-ui/react";
+import {Switch} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

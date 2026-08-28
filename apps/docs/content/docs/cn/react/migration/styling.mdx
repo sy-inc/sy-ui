@@ -182,7 +182,7 @@ v2 提供了默认持续时间为 250ms、缓动函数为 `ease` 的自定义过
 
 **滚动条工具类：**
 
-v2 提供了 `.scrollbar-hide` 和 `.scrollbar-default` 工具类。v3 现在通过 `@sy-ui/styles` 暴露基于标准属性的滚动条工具类：`scrollbar`、`scrollbar-thin`、`scrollbar-default` 和 `scrollbar-none`。如需按子树控制，可在祖先元素上使用 `data-scrollbar="thin"`、`data-scrollbar="default"` 或 `data-scrollbar="none"`。
+v2 提供了 `.scrollbar-hide` 和 `.scrollbar-default` 工具类。v3 现在通过 `@sy-inc/styles` 暴露基于标准属性的滚动条工具类：`scrollbar`、`scrollbar-thin`、`scrollbar-default` 和 `scrollbar-none`。如需按子树控制，可在祖先元素上使用 `data-scrollbar="thin"`、`data-scrollbar="default"` 或 `data-scrollbar="none"`。
 
 **动画工具类：**
 
@@ -210,7 +210,7 @@ v2 采用了 Tailwind CSS 插件方式：
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
@@ -256,7 +256,7 @@ v3 采用纯 CSS 的方式：
 ```css
 /* globals.css */
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 **无需 Tailwind 配置：**
@@ -670,7 +670,7 @@ v3 使用更一致的间隙：
   <Tab value="v2">
     ```js
     // tailwind.config.js
-    const {sy-ui} = require("@sy-ui/react");
+    const {sy-ui} = require("@sy-inc/react");
 
     module.exports = {
       plugins: [
@@ -695,7 +695,7 @@ v3 使用更一致的间隙：
     ```css
     /* globals.css */
     @import "tailwindcss";
-    @import "@sy-ui/styles";
+    @import "@sy-inc/styles";
 
     :root {
       --accent: oklch(0.6204 0.195 253.83);

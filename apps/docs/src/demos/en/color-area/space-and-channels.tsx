@@ -1,8 +1,8 @@
 "use client";
 
-import type {ColorSpace, Key} from "@sy-ui/react";
+import type {ColorSpace, Key} from "@sy-inc/react";
 
-import {ColorArea, Label, ListBox, Select, parseColor} from "@sy-ui/react";
+import {ColorArea, Label, ListBox, Select, parseColor} from "@sy-inc/react";
 import {useState} from "react";
 
 type ColorChannel = "hue" | "saturation" | "brightness" | "lightness" | "red" | "green" | "blue";

@@ -11,7 +11,7 @@ import {
   FieldError,
   Form,
   Label,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {useState} from "react";
 

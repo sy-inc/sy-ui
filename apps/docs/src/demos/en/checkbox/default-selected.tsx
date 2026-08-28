@@ -1,4 +1,4 @@
-import {Checkbox} from "@sy-ui/react";
+import {Checkbox} from "@sy-inc/react";
 
 export function DefaultSelected() {
   return (

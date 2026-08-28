@@ -1,7 +1,7 @@
 "use client";
 
 import {Envelope} from "@gravity-ui/icons";
-import {Button, Input, Label, Modal, Surface, TextField} from "@sy-ui/react";
+import {Button, Input, Label, Modal, Surface, TextField} from "@sy-inc/react";
 
 export function WithForm() {
   return (

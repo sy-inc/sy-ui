@@ -3,7 +3,7 @@
 import type {ShowcaseItem as ShowcaseItemType} from "@/showcases";
 import type {UrlObject} from "url";
 
-import {chipVariants} from "@sy-ui/react";
+import {chipVariants} from "@sy-inc/react";
 import LinkRoot from "next/link";
 import {useParams, useSearchParams} from "next/navigation";
 import {Suspense} from "react";

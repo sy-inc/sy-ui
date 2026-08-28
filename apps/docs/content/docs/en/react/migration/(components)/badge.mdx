@@ -12,7 +12,7 @@ description: Migration guide for Badge from SY UI v2 to v3
 In v2, `Badge` was a wrapper component that positioned content relative to its children:
 
 ```tsx
-import { Badge, Avatar } from "@sy-ui/react";
+import { Badge, Avatar } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -26,7 +26,7 @@ export default function App() {
 In v3, Badge uses a compound component pattern with `Badge.Anchor` for positioning:
 
 ```tsx
-import { Badge, Avatar } from "@sy-ui/react";
+import { Badge, Avatar } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -104,7 +104,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Badge, Avatar } from "@sy-ui/react";
+    import { Badge, Avatar } from "@sy-inc/react";
 
     <Badge content="5" color="primary">
       <Avatar src="https://i.pravatar.cc/300" />
@@ -113,7 +113,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Badge, Avatar } from "@sy-ui/react";
+    import { Badge, Avatar } from "@sy-inc/react";
 
     <Badge.Anchor>
       <Avatar>

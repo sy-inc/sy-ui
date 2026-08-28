@@ -92,7 +92,7 @@ export const InlineCode: Story = {
   render: () => (
     <div className="flex max-w-2xl flex-col gap-4">
       <Typography.Paragraph>
-        Install the package with <Typography.Code>pnpm add @sy-ui/react</Typography.Code> and
+        Install the package with <Typography.Code>pnpm add @sy-inc/react</Typography.Code> and
         import <Typography.Code>{"<Typography>"}</Typography.Code> from the library.
       </Typography.Paragraph>
       <Typography.Paragraph size="sm">
@@ -252,10 +252,10 @@ export const ProseBlock: Story = {
       <h2>Installation</h2>
       <p>
         Add the library to your project using your preferred package manager. The{" "}
-        <code>@sy-ui/react</code> package includes every component:
+        <code>@sy-inc/react</code> package includes every component:
       </p>
       <pre>
-        <code>pnpm add @sy-ui/react</code>
+        <code>pnpm add @sy-inc/react</code>
       </pre>
 
       <h3>Quick Setup</h3>

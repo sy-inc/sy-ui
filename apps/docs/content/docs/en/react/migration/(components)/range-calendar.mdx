@@ -12,7 +12,7 @@ description: Migration guide for RangeCalendar from SY UI v2 to v3
 In v2, `RangeCalendar` was a single component configured entirely through props:
 
 ```tsx
-import { RangeCalendar } from "@sy-ui/react";
+import { RangeCalendar } from "@sy-inc/react";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
 In v3, RangeCalendar uses a compound component pattern with explicit subcomponents:
 
 ```tsx
-import { RangeCalendar } from "@sy-ui/react";
+import { RangeCalendar } from "@sy-inc/react";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
 export default function App() {
@@ -111,7 +111,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { RangeCalendar } from "@sy-ui/react";
+    import { RangeCalendar } from "@sy-inc/react";
     import { today, getLocalTimeZone } from "@internationalized/date";
 
     <RangeCalendar
@@ -125,7 +125,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { RangeCalendar } from "@sy-ui/react";
+    import { RangeCalendar } from "@sy-inc/react";
     import { today, getLocalTimeZone } from "@internationalized/date";
 
     <RangeCalendar
@@ -159,7 +159,7 @@ export default function App() {
   <Tab value="v2">
     ```tsx
     import { useState } from "react";
-    import { RangeCalendar } from "@sy-ui/react";
+    import { RangeCalendar } from "@sy-inc/react";
     import { parseDate } from "@internationalized/date";
 
     const [value, setValue] = useState({
@@ -177,7 +177,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { RangeCalendar } from "@sy-ui/react";
+    import { RangeCalendar } from "@sy-inc/react";
     import { parseDate } from "@internationalized/date";
 
     const [value, setValue] = useState({

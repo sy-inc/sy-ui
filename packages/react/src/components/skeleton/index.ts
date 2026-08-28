@@ -24,6 +24,6 @@ export type {SkeletonRootProps, SkeletonRootProps as SkeletonProps} from "./skel
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {skeletonVariants} from "@sy-ui/styles";
+export {skeletonVariants} from "@sy-inc/styles";
 
-export type {SkeletonVariants} from "@sy-ui/styles";
+export type {SkeletonVariants} from "@sy-inc/styles";

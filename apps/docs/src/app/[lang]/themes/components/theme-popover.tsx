@@ -3,7 +3,7 @@
 import type {ThemeId} from "../constants";
 
 import {BucketPaint, ChevronsExpandVertical} from "@gravity-ui/icons";
-import {Description, InputGroup, Kbd, Label, ListBox, Popover, Switch} from "@sy-ui/react";
+import {Description, InputGroup, Kbd, Label, ListBox, Popover, Switch} from "@sy-inc/react";
 import Image from "next/image";
 
 import {useDictionary} from "@/hooks/use-dictionary";

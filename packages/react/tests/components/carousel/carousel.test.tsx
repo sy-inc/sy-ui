@@ -1,7 +1,7 @@
 import type {EmblaCarouselType} from "embla-carousel";
 import type {ReactNode} from "react";
 
-import {act, fireEvent, render, screen} from "@sy-ui/testing/helpers";
+import {act, fireEvent, render, screen} from "@sy-inc/testing/helpers";
 import {useState} from "react";
 
 import {Carousel} from "@/components/carousel";

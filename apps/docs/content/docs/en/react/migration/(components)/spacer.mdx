@@ -11,7 +11,7 @@ description: Migration guide for Spacer from SY UI v2 to v3
 
 ### 1. Component Removal
 
-**v2:** `<Spacer>` component from `@sy-ui/react`  
+**v2:** `<Spacer>` component from `@sy-inc/react`  
 **v3:** Tailwind CSS margin utilities (`ml-*`, `mr-*`, `mt-*`, `mb-*`, `mx-*`, `my-*`)
 
 ### 2. Props Mapping
@@ -40,7 +40,7 @@ The spacing values in v2 match Tailwind's spacing scale:
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Spacer } from "@sy-ui/react";
+    import { Spacer } from "@sy-inc/react";
 
     {/* Vertical spacing */}
     <div>
@@ -81,7 +81,7 @@ For flex and grid layouts, using `gap` is often better than Spacer:
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Spacer } from "@sy-ui/react";
+    import { Spacer } from "@sy-inc/react";
 
     {/* Horizontal layout */}
     <div className="flex">
@@ -120,7 +120,7 @@ For flex and grid layouts, using `gap` is often better than Spacer:
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Spacer, Button } from "@sy-ui/react";
+    import { Spacer, Button } from "@sy-inc/react";
 
     export default function App() {
       return (
@@ -141,7 +141,7 @@ For flex and grid layouts, using `gap` is often better than Spacer:
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Button } from "@sy-ui/react";
+    import { Button } from "@sy-inc/react";
 
     export default function App() {
       return (
@@ -236,14 +236,14 @@ Apply margin directly to elements instead of using Spacer:
 ## Summary
 
 1. **Component Removed**: `Spacer` component no longer exists in v3
-2. **Import Change**: Remove `import { Spacer } from "@sy-ui/react"`
+2. **Import Change**: Remove `import { Spacer } from "@sy-inc/react"`
 3. **Use Tailwind Utilities**: Replace with margin utilities (`ml-*`, `mt-*`, `mx-*`, `my-*`)
 4. **Use Gap**: Prefer `gap-*` utilities for flex/grid layouts
 5. **Use Space**: Prefer `space-y-*` and `space-x-*` for consistent spacing
 
 ## Migration Steps
 
-1. **Remove Import**: Remove `Spacer` from `@sy-ui/react` imports
+1. **Remove Import**: Remove `Spacer` from `@sy-inc/react` imports
 2. **Replace Spacer**: Replace `<Spacer x={n} />` with `ml-{n}` or `mx-{n}` classes
 3. **Replace Spacer**: Replace `<Spacer y={n} />` with `mt-{n}` or `my-{n}` classes
 4. **Use Gap**: For flex/grid layouts, use `gap-{n}` instead of Spacer

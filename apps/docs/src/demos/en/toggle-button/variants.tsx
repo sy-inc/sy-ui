@@ -1,5 +1,5 @@
 import {Heart} from "@gravity-ui/icons";
-import {ToggleButton} from "@sy-ui/react";
+import {ToggleButton} from "@sy-inc/react";
 
 export function Variants() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Drawer, useOverlayState} from "@sy-ui/react";
+import {Button, Drawer, useOverlayState} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

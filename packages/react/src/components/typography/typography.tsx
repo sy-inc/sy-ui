@@ -1,9 +1,9 @@
 "use client";
 
-import type {TypographyVariants} from "@sy-ui/styles";
+import type {TypographyVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {typographyVariants} from "@sy-ui/styles";
+import {typographyVariants} from "@sy-inc/styles";
 import {Text as TextPrimitive} from "react-aria-components/Text";
 
 import {composeSlotClassName} from "../../utils/compose";

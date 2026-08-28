@@ -24,6 +24,6 @@ export type {ToolbarRootProps, ToolbarRootProps as ToolbarProps} from "./toolbar
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {toolbarVariants} from "@sy-ui/styles";
+export {toolbarVariants} from "@sy-inc/styles";
 
-export type {ToolbarVariants} from "@sy-ui/styles";
+export type {ToolbarVariants} from "@sy-inc/styles";

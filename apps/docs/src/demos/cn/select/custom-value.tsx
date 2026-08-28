@@ -8,7 +8,7 @@ import {
   Label,
   ListBox,
   Select,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 
 export function CustomValue() {
   const users = [

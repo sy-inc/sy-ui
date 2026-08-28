@@ -12,7 +12,7 @@ description: Drawer 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`Drawer` 与 `Modal` 共享相同的 API，使用 `DrawerContent`、`DrawerHeader`、`DrawerBody` 和 `DrawerFooter`，并采用渲染回调模式：
 
 ```tsx
-import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-ui/react";
+import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-inc/react";
 
 export default function App() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -43,7 +43,7 @@ export default function App() {
 在 v3 中，Drawer 改用复合组件模式，提供显式子组件与内置触发器支持：
 
 ```tsx
-import { Drawer, Button } from "@sy-ui/react";
+import { Drawer, Button } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -132,7 +132,7 @@ const state = useOverlayState();
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-ui/react";
+    import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-inc/react";
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -156,7 +156,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Drawer, Button } from "@sy-ui/react";
+    import { Drawer, Button } from "@sy-inc/react";
 
     <Drawer>
       <Button>Open</Button>
@@ -258,7 +258,7 @@ const state = useOverlayState();
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { useDisclosure } from "@sy-ui/react";
+    import { useDisclosure } from "@sy-inc/react";
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -282,7 +282,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { useOverlayState } from "@sy-ui/react";
+    import { useOverlayState } from "@sy-inc/react";
 
     const state = useOverlayState();
 

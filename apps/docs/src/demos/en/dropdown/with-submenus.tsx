@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Dropdown, Label} from "@sy-ui/react";
+import {Button, Dropdown, Label} from "@sy-inc/react";
 
 export function WithSubmenus() {
   return (

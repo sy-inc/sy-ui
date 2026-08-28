@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Modal} from "@sy-ui/react";
+import {Button, Modal} from "@sy-inc/react";
 import {useCallback, useRef, useState} from "react";
 
 export function CustomPortal() {

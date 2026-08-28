@@ -1,4 +1,4 @@
-import {render, screen} from "@sy-ui/testing/helpers";
+import {render, screen} from "@sy-inc/testing/helpers";
 
 import {FieldError} from "@/components/field-error";
 import {Input} from "@/components/input";

@@ -1,4 +1,4 @@
-import {FieldError, Input, Label, TextField} from "@sy-ui/react";
+import {FieldError, Input, Label, TextField} from "@sy-inc/react";
 
 export function WithError() {
   return (

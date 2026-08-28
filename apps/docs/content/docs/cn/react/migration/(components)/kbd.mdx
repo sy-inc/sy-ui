@@ -12,7 +12,7 @@ description: Kbd 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，Kbd 通过 `keys` prop 自动渲染键盘按键：
 
 ```tsx
-import { Kbd } from "@sy-ui/react";
+import { Kbd } from "@sy-inc/react";
 
 export default function App() {
   return <Kbd keys={["command"]}>K</Kbd>;
@@ -22,7 +22,7 @@ export default function App() {
 在 v3 中，Kbd 改为复合组件，需要手动声明各个按键：
 
 ```tsx
-import { Kbd } from "@sy-ui/react";
+import { Kbd } from "@sy-inc/react";
 
 export default function App() {
   return (

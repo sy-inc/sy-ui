@@ -1,6 +1,6 @@
 "use client";
 
-import {DateField, DateRangePicker, Label, RangeCalendar} from "@sy-ui/react";
+import {DateField, DateRangePicker, Label, RangeCalendar} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {I18nProvider} from "react-aria-components";
 

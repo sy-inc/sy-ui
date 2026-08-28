@@ -1,4 +1,4 @@
-import {Label, ListBox, Select} from "@sy-ui/react";
+import {Label, ListBox, Select} from "@sy-inc/react";
 import React from "react";
 
 export function SelectDemo() {

@@ -1,9 +1,9 @@
 "use client";
 
-import type {TextAreaVariants} from "@sy-ui/styles";
+import type {TextAreaVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {textAreaVariants} from "@sy-ui/styles";
+import {textAreaVariants} from "@sy-inc/styles";
 import React, {use} from "react";
 import {TextArea as TextAreaPrimitive} from "react-aria-components/TextArea";
 

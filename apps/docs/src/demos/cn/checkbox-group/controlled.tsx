@@ -1,6 +1,6 @@
 "use client";
 
-import {Checkbox, CheckboxGroup, Label} from "@sy-ui/react";
+import {Checkbox, CheckboxGroup, Label} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Controlled() {

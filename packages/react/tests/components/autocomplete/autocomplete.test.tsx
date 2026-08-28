@@ -1,6 +1,6 @@
 import type {Key} from "@react-types/shared";
 
-import {User, cleanup, render, runAllTimers, screen, setupUser} from "@sy-ui/testing/helpers";
+import {User, cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 import {useFilter} from "react-aria-components/Autocomplete";
 
 import {Autocomplete} from "@/components/autocomplete";

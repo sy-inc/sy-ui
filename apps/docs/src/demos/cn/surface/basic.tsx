@@ -1,4 +1,4 @@
-import {Surface} from "@sy-ui/react";
+import {Surface} from "@sy-inc/react";
 
 export function Basic() {
   return (

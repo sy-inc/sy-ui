@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from "@storybook/react";
 import type {Selection, SortDescriptor} from "react-aria-components/Table";
 
 import {Icon} from "@iconify/react";
-import {cn} from "@sy-ui/styles";
+import {cn} from "@sy-inc/styles";
 import React from "react";
 
 import {Avatar} from "../avatar";

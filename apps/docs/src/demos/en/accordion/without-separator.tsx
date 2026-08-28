@@ -1,5 +1,5 @@
 import {ChevronDown, CreditCard, Receipt, ShoppingBag} from "@gravity-ui/icons";
-import {Accordion} from "@sy-ui/react";
+import {Accordion} from "@sy-inc/react";
 
 const items = [
   {

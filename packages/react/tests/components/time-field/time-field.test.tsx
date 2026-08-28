@@ -1,7 +1,7 @@
 import type {ComponentProps} from "react";
 import type {TimeValue} from "react-aria-components";
 
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {Time} from "@internationalized/date";
 
 import {Description} from "@/components/description";

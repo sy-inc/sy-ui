@@ -1,8 +1,8 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
-import {ComboBox, Input, Label, ListBox} from "@sy-ui/react";
+import {ComboBox, Input, Label, ListBox} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Controlled() {

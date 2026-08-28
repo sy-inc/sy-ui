@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {MenuItemVariants} from "@sy-ui/styles";
+import type {MenuItemVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {MenuItemRenderProps} from "react-aria-components/Menu";
 
-import {menuItemVariants} from "@sy-ui/styles";
+import {menuItemVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {MenuItem as MenuItemPrimitive} from "react-aria-components/Menu";
 

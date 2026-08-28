@@ -1,4 +1,4 @@
-import {ColorField, Description, Label, Surface} from "@sy-ui/react";
+import {ColorField, Description, Label, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

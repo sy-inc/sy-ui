@@ -46,6 +46,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {progressCircleVariants} from "@sy-ui/styles";
+export {progressCircleVariants} from "@sy-inc/styles";
 
-export type {ProgressCircleVariants} from "@sy-ui/styles";
+export type {ProgressCircleVariants} from "@sy-inc/styles";

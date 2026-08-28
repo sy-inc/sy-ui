@@ -1,9 +1,9 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
 import {ChevronsDown, CircleChevronDown, Minus, Plus} from "@gravity-ui/icons";
-import {Accordion} from "@sy-ui/react";
+import {Accordion} from "@sy-inc/react";
 import React from "react";
 
 export function CustomIndicator() {

@@ -1,6 +1,6 @@
 "use client";
 
-import {Calendar, DateField, DatePicker, Description, Label} from "@sy-ui/react";
+import {Calendar, DateField, DatePicker, Description, Label} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 
 export function WithCustomIndicator() {

@@ -1,4 +1,4 @@
-import {ColorSwatch} from "@sy-ui/react";
+import {ColorSwatch} from "@sy-inc/react";
 
 export function ColorSwatchShapes() {
   return (

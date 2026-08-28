@@ -1,7 +1,7 @@
 "use client";
 
 import {CircleCheck} from "@gravity-ui/icons";
-import {Button, Modal, useOverlayState} from "@sy-ui/react";
+import {Button, Modal, useOverlayState} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

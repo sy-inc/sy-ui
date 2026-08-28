@@ -11,7 +11,7 @@ links:
 ## Usage
 
 ```tsx
-import { ListBox } from '@sy-ui/react';
+import { ListBox } from '@sy-inc/react';
 ```
 
 <ComponentPreview
@@ -21,7 +21,7 @@ import { ListBox } from '@sy-ui/react';
 ## Anatomy
 
 ```tsx
-import { ListBox, Label, Description, Header } from '@sy-ui/react';
+import { ListBox, Label, Description, Header } from '@sy-inc/react';
 
 export default () => (
   <ListBox>
@@ -226,7 +226,7 @@ When using render functions with ListBox.Item or ListBox.ItemIndicator, these va
 ### Basic Usage
 
 ```tsx
-import { ListBox, Label, Description } from '@sy-ui/react';
+import { ListBox, Label, Description } from '@sy-inc/react';
 
 <ListBox aria-label="Users" selectionMode="single">
   <ListBox.Item id="1" textValue="Bob">
@@ -243,7 +243,7 @@ import { ListBox, Label, Description } from '@sy-ui/react';
 ### With Sections
 
 ```tsx
-import { ListBox, Header, Separator } from '@sy-ui/react';
+import { ListBox, Header, Separator } from '@sy-inc/react';
 
 <ListBox aria-label="Actions" selectionMode="none" onAction={(key) => console.log(key)}>
   <ListBox.Section>
@@ -262,7 +262,7 @@ import { ListBox, Header, Separator } from '@sy-ui/react';
 ### Controlled Selection
 
 ```tsx
-import { ListBox, Selection } from '@sy-ui/react';
+import { ListBox, Selection } from '@sy-inc/react';
 import { useState } from 'react';
 
 function ControlledListBox() {
@@ -286,7 +286,7 @@ function ControlledListBox() {
 ### Custom Indicator
 
 ```tsx
-import { ListBox, ListBoxItemIndicator } from '@sy-ui/react';
+import { ListBox, ListBoxItemIndicator } from '@sy-inc/react';
 import { Icon } from '@iconify/react';
 
 <ListBox aria-label="Options" selectionMode="multiple">

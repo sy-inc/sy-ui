@@ -1,6 +1,6 @@
 import type {ComponentProps} from "react";
 
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Disclosure} from "@/components/disclosure";
 import {DisclosureGroup} from "@/components/disclosure-group";

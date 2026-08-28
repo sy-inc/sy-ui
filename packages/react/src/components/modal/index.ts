@@ -81,6 +81,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {modalVariants} from "@sy-ui/styles";
+export {modalVariants} from "@sy-inc/styles";
 
-export type {ModalVariants} from "@sy-ui/styles";
+export type {ModalVariants} from "@sy-inc/styles";

@@ -1,5 +1,5 @@
 import {Check, Star} from "@gravity-ui/icons";
-import {Button, Card} from "@sy-ui/react";
+import {Button, Card} from "@sy-inc/react";
 
 const PRO_FEATURES = ["无限项目与协作者", "优先支持，24 小时响应", "高级分析与导出"] as const;
 

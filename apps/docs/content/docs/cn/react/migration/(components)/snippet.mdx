@@ -11,7 +11,7 @@ description: Snippet 从 SY UI v2 到 v3 的迁移指南。
 
 ### 1. 组件移除
 
-**v2：** 来自 `@sy-ui/react` 的 `<Snippet>` 组件  
+**v2：** 来自 `@sy-inc/react` 的 `<Snippet>` 组件  
 **v3：** 原生 HTML 元素（`<pre>`、`<code>`）+ 手动实现复制逻辑
 
 ### 2. 功能对照
@@ -34,12 +34,12 @@ v2 的 Snippet 具备以下能力，需要在 v3 中分别替代：
 在 v2 中，`Snippet` 是带内置复制能力的包装组件：
 
 ```tsx
-import { Snippet } from "@sy-ui/react";
+import { Snippet } from "@sy-inc/react";
 
 export default function App() {
   return (
     <Snippet symbol="$">
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
   );
 }
@@ -48,14 +48,14 @@ export default function App() {
 在 v3 中，请使用原生 HTML 元素并手动实现复制：
 
 ```tsx
-import { Button, Tooltip } from "@sy-ui/react";
+import { Button, Tooltip } from "@sy-inc/react";
 import { useState } from "react";
 
 export default function App() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText("npm install @sy-ui/react");
+    await navigator.clipboard.writeText("npm install @sy-inc/react");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -64,7 +64,7 @@ export default function App() {
     <div className="flex items-center gap-2 rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
         <span className="text-default-500">$ </span>
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
       <Tooltip>
         <Button
@@ -92,24 +92,24 @@ export default function App() {
     ```tsx
     <Snippet symbol="$">
       {[
-        "npm install @sy-ui/react",
-        "yarn add @sy-ui/react",
-        "pnpm add @sy-ui/react"
+        "npm install @sy-inc/react",
+        "yarn add @sy-inc/react",
+        "pnpm add @sy-inc/react"
       ]}
     </Snippet>
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Button, Tooltip } from "@sy-ui/react";
+    import { Button, Tooltip } from "@sy-inc/react";
     import { useState } from "react";
 
     function MultiLineSnippet() {
       const [copied, setCopied] = useState(false);
       const lines = [
-        "npm install @sy-ui/react",
-        "yarn add @sy-ui/react",
-        "pnpm add @sy-ui/react"
+        "npm install @sy-inc/react",
+        "yarn add @sy-inc/react",
+        "pnpm add @sy-inc/react"
       ];
       const codeString = lines.join("\n");
 
@@ -155,17 +155,17 @@ export default function App() {
     ```tsx
     {/* With variants */}
     <Snippet variant="bordered" color="primary">
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     
     {/* Without symbol */}
     <Snippet hideSymbol>
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     
     {/* Without copy button */}
     <Snippet hideCopyButton>
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     ```
   </Tab>
@@ -175,7 +175,7 @@ export default function App() {
     <div className="flex items-center gap-2 rounded-lg border border-accent bg-transparent px-3 py-1.5">
       <pre className="text-sm font-mono text-accent">
         <span className="text-accent/60">$ </span>
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
       {/* Copy button */}
     </div>
@@ -183,7 +183,7 @@ export default function App() {
     {/* Without symbol */}
     <div className="flex items-center gap-2 rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
       {/* Copy button */}
     </div>
@@ -192,7 +192,7 @@ export default function App() {
     <div className="rounded-lg bg-default-100 px-3 py-1.5">
       <pre className="text-sm font-mono">
         <span className="text-default-500">$ </span>
-        npm install @sy-ui/react
+        npm install @sy-inc/react
       </pre>
     </div>
     ```
@@ -206,7 +206,7 @@ Snippet 类需求很常见，下面是一个完整的可复用组件示例：
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Snippet } from "@sy-ui/react";
+    import { Snippet } from "@sy-inc/react";
 
     <Snippet
       symbol="$"
@@ -214,13 +214,13 @@ Snippet 类需求很常见，下面是一个完整的可复用组件示例：
       color="primary"
       size="md"
     >
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Button, Tooltip } from "@sy-ui/react";
+    import { Button, Tooltip } from "@sy-inc/react";
     import { useState, ReactNode } from "react";
     import { cn } from "@/lib/utils"; // or your cn utility
 
@@ -369,7 +369,7 @@ Snippet 类需求很常见，下面是一个完整的可复用组件示例：
       color="primary"
       size="md"
     >
-      npm install @sy-ui/react
+      npm install @sy-inc/react
     </Snippet>
     ```
   </Tab>
@@ -378,7 +378,7 @@ Snippet 类需求很常见，下面是一个完整的可复用组件示例：
 ## 总结
 
 1. **组件已移除**：v3 不再提供 `Snippet` 组件。
-2. **导入调整**：移除 `import { Snippet } from "@sy-ui/react"`。
+2. **导入调整**：移除 `import { Snippet } from "@sy-inc/react"`。
 3. **使用原生元素**：改用原生 `<pre>`、`<code>` 等元素。
 4. **手动复制**：使用 Clipboard API 实现复制。
 5. **样式**：直接用 Tailwind CSS 类表达变体、颜色、尺寸。
@@ -387,7 +387,7 @@ Snippet 类需求很常见，下面是一个完整的可复用组件示例：
 
 ## 迁移步骤
 
-1. **移除导入**：从 `@sy-ui/react` 的导入中删除 `Snippet`。
+1. **移除导入**：从 `@sy-inc/react` 的导入中删除 `Snippet`。
 2. **替换组件**：将所有 `<Snippet>` 替换为原生 HTML 结构。
 3. **实现复制**：使用 `navigator.clipboard.writeText()` 等方法。
 4. **添加复制按钮**：使用 v3 的 Button 与 Tooltip。

@@ -81,6 +81,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {drawerVariants} from "@sy-ui/styles";
+export {drawerVariants} from "@sy-inc/styles";
 
-export type {DrawerVariants} from "@sy-ui/styles";
+export type {DrawerVariants} from "@sy-inc/styles";

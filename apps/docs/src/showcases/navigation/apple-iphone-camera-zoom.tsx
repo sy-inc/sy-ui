@@ -2,7 +2,7 @@
 
 import type {Key} from "react-aria-components";
 
-import {Tabs} from "@sy-ui/react";
+import {Tabs} from "@sy-inc/react";
 import React from "react";
 import {cn} from "tailwind-variants";
 

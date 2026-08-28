@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SeparatorContentVariants} from "@sy-ui/styles";
+import type {SeparatorContentVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 
-import {separatorContentVariants} from "@sy-ui/styles";
+import {separatorContentVariants} from "@sy-inc/styles";
 import React from "react";
 
 import {dom} from "../../utils/dom";

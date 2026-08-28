@@ -51,6 +51,6 @@ export {ComboBoxContext} from "./combo-box";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {comboBoxVariants} from "@sy-ui/styles";
+export {comboBoxVariants} from "@sy-inc/styles";
 
-export type {ComboBoxVariants} from "@sy-ui/styles";
+export type {ComboBoxVariants} from "@sy-inc/styles";

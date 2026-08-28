@@ -15,7 +15,7 @@ SY UI 使用 CSS 变量和 [BEM](https://getbem.com/) 类来实现主题化。�
 
 ## 工作原理
 
-SY UI 的主题系统构建于 [Tailwind CSS v4](https://tailwindcss.com/docs/theme) 的主题之上。当你导入 `@sy-ui/styles` 时，它会使用 Tailwind 的内置调色板，将其映射到语义化变量，自动在浅色和深色主题之间切换，并使用 CSS 层和 `@theme` 指令进行组织。
+SY UI 的主题系统构建于 [Tailwind CSS v4](https://tailwindcss.com/docs/theme) 的主题之上。当你导入 `@sy-inc/styles` 时，它会使用 Tailwind 的内置调色板，将其映射到语义化变量，自动在浅色和深色主题之间切换，并使用 CSS 层和 `@theme` 指令进行组织。
 
 **命名规则：**
 - 不带后缀的颜色用作背景（例如 `--accent`）
@@ -99,7 +99,7 @@ export function ThemeSwitch() {
 ```css
 /* app/globals.css */
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 :root {
   /* Override any color variable */
@@ -282,7 +282,7 @@ export function ThemeSwitch() {
 @layer theme, base, components, utilities;
 
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 @import "./src/themes/ocean.css" layer(theme); /* [!code highlight]*/
 ```
@@ -331,7 +331,7 @@ export function ThemeSwitch() {
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 **按需导入：** 只导入你需要的内容：
@@ -342,38 +342,38 @@ export function ThemeSwitch() {
 
 /* Base requirements */
 @import "tailwindcss";
-@import "@sy-ui/styles/base" layer(base);
+@import "@sy-inc/styles/base" layer(base);
 /* OR specific base file */
-@import "@sy-ui/styles/base/base.css" layer(base);
+@import "@sy-inc/styles/base/base.css" layer(base);
 
 /* Theme variables */
-@import "@sy-ui/styles/themes/shared/theme.css" layer(theme);
-@import "@sy-ui/styles/themes/default" layer(theme);
+@import "@sy-inc/styles/themes/shared/theme.css" layer(theme);
+@import "@sy-inc/styles/themes/default" layer(theme);
 /* OR specific theme files */
-@import "@sy-ui/styles/themes/default/index.css" layer(theme);
-@import "@sy-ui/styles/themes/default/variables.css" layer(theme);
+@import "@sy-inc/styles/themes/default/index.css" layer(theme);
+@import "@sy-inc/styles/themes/default/variables.css" layer(theme);
 
 /* Components (all components) */
-@import "@sy-ui/styles/components" layer(components);
+@import "@sy-inc/styles/components" layer(components);
 /* OR specific component files */
-@import "@sy-ui/styles/components/index.css" layer(components);
-@import "@sy-ui/styles/components/button.css" layer(components);
-@import "@sy-ui/styles/components/accordion.css" layer(components);
+@import "@sy-inc/styles/components/index.css" layer(components);
+@import "@sy-inc/styles/components/button.css" layer(components);
+@import "@sy-inc/styles/components/accordion.css" layer(components);
 
 /* Utilities (optional) */
-@import "@sy-ui/styles/utilities" layer(utilities);
+@import "@sy-inc/styles/utilities" layer(utilities);
 
 /* Variants (optional) */
-@import "@sy-ui/styles/variants" layer(utilities);
+@import "@sy-inc/styles/variants" layer(utilities);
 ```
 
-> **注意**：目录导入（例如 `@sy-ui/styles/components`）会自动解析为其对应的 `index.css` 文件。使用显式文件路径（例如 `@sy-ui/styles/components/button.css`）来导入单个组件的样式。
+> **注意**：目录导入（例如 `@sy-inc/styles/components`）会自动解析为其对应的 `index.css` 文件。使用显式文件路径（例如 `@sy-inc/styles/components/button.css`）来导入单个组件的样式。
 
 **Headless 模式：** 从头开始构建你自己的样式：
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles/base/base.css";
+@import "@sy-inc/styles/base/base.css";
 
 /* Your custom styles */
 .button {
@@ -656,7 +656,7 @@ SY UI 为组件中的滚动区域（表格、弹出框、抽屉等）应用统�
 <Calendar.YearPickerGrid data-scrollbar="none" />
 ```
 
-**自定义溢出区域** — 在自己的元素上使用 `@sy-ui/styles` 提供的 `scrollbar`、`scrollbar-thin`、`scrollbar-default` 或 `scrollbar-none` 工具类。基于类的覆盖方式详见 [样式](/docs/handbook/styling)。
+**自定义溢出区域** — 在自己的元素上使用 `@sy-inc/styles` 提供的 `scrollbar`、`scrollbar-thin`、`scrollbar-default` 或 `scrollbar-none` 工具类。基于类的覆盖方式详见 [样式](/docs/handbook/styling)。
 
 > **注意**：部分组件默认隐藏滚动条（日期选择器弹出框、颜色选择器、次级标签页）。嵌套的滚动插槽（例如日期选择器内部的日历年份选择器）会保留 SY UI 滚动条，因为 `scrollbar-none` 只作用于其所在的元素本身，不会影响使用 `@apply scrollbar` 的后代元素。
 

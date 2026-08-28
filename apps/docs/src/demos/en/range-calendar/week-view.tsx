@@ -1,6 +1,6 @@
 "use client";
 
-import {Label, ListBox, RangeCalendar, Select} from "@sy-ui/react";
+import {Label, ListBox, RangeCalendar, Select} from "@sy-inc/react";
 import {useState} from "react";
 
 const weekOptions = [

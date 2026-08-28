@@ -16,22 +16,22 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@alpha @sy-ui/react@alpha
+    npm i @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@alpha @sy-ui/react@alpha
+    pnpm add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@alpha @sy-ui/react@alpha
+    yarn add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@alpha @sy-ui/react@alpha
+    bun add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
 </Tabs>
@@ -65,7 +65,7 @@ Or manually add to **Cursor Settings** → **Tools** → **MCP Servers**:
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -76,7 +76,7 @@ Or manually add to **Cursor Settings** → **Tools** → **MCP Servers**:
 Run this command in your terminal:
 
 ```bash
-claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
+claude mcp add sy-ui-react -- npx -y @sy-inc/react-mcp@latest
 ```
 
 [Learn more](/docs/ui-for-agents/mcp-server)
@@ -125,7 +125,7 @@ The [Card component](/docs/components/card) has been updated with a new variant 
 Added a [CloseButton component](/docs/components/close-button) for closing dialogs, modals, and other dismissible elements.
 
 ```tsx
-import {CloseButton} from "@sy-ui/react";
+import {CloseButton} from "@sy-inc/react";
 
 // Basic usage
 <CloseButton onPress={() => console.log("Closed")} />
@@ -168,7 +168,7 @@ import {CloseButton} from "@sy-ui/react";
 3. **Update imports:**
    ```tsx
    // Add CloseButton if needed
-   import {Card, CloseButton} from "@sy-ui/react";
+   import {Card, CloseButton} from "@sy-inc/react";
    ```
 
 ## Links

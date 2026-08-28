@@ -1,6 +1,6 @@
 "use client";
 
-import {Typography} from "@sy-ui/react";
+import {Typography} from "@sy-inc/react";
 
 export const RenderProps = () => {
   return (

@@ -13,7 +13,7 @@ description: All updates and changes to SY UI v3, including new features, fixes,
 
 **August 4, 2026**
 
-Patch release: the [Autocomplete](/docs/components/autocomplete) popover no longer clips its last options, backdrop clicks dismiss a [Modal](/docs/components/modal) with `scroll="outside"` again, [Tabs](/docs/components/tabs) chevron scrolling lands flush on the edges, `tailwind-variants` is upgraded to `3.3.1` to fix variant modifiers falling back to the wrong class after a re-render, React Aria is upgraded to `1.20.0` (`react-aria@3.51.0`), and `@sy-ui/react` gains a behavioral test suite.
+Patch release: the [Autocomplete](/docs/components/autocomplete) popover no longer clips its last options, backdrop clicks dismiss a [Modal](/docs/components/modal) with `scroll="outside"` again, [Tabs](/docs/components/tabs) chevron scrolling lands flush on the edges, `tailwind-variants` is upgraded to `3.3.1` to fix variant modifiers falling back to the wrong class after a re-render, React Aria is upgraded to `1.20.0` (`react-aria@3.51.0`), and `@sy-inc/react` gains a behavioral test suite.
 
 [Read full release notes →](/docs/react/releases/v3-2-4)
 
@@ -43,7 +43,7 @@ Patch release: upgrades to React Aria `1.19.0` (`react-aria@3.50.0`), adds overf
 
 **June 17, 2026**
 
-Patch release: `@sy-ui/react` no longer bundles its own copy of `react-aria`. The `react-aria` subpaths are externalized in the Rollup build, so consumers resolve to the single `react-aria` installed in their project instead of a vendored copy. Also fixes `SwitchGroup` horizontal layout.
+Patch release: `@sy-inc/react` no longer bundles its own copy of `react-aria`. The `react-aria` subpaths are externalized in the Rollup build, so consumers resolve to the single `react-aria` installed in their project instead of a vendored copy. Also fixes `SwitchGroup` horizontal layout.
 
 [Read full release notes →](/docs/react/releases/v3-2-1)
 
@@ -224,7 +224,7 @@ This release introduces a comprehensive **Color System** with six new components
 />
 
 <Callout type="warning">
-  **Critical Build Issue Fixed**: This version (beta.4) had a critical build issue that has been fixed in **beta.5**. Please upgrade to `@sy-ui/styles@3.0.0-beta.5` and `@sy-ui/react@3.0.0-beta.5` to ensure proper TypeScript declaration generation and export resolution.
+  **Critical Build Issue Fixed**: This version (beta.4) had a critical build issue that has been fixed in **beta.5**. Please upgrade to `@sy-inc/styles@3.0.0-beta.5` and `@sy-inc/react@3.0.0-beta.5` to ensure proper TypeScript declaration generation and export resolution.
 </Callout>
 
 This release introduces the new [Theme Builder](/themes) for visual theme customization, three new components ([Autocomplete](/docs/components/autocomplete), [Breadcrumbs](/docs/components/breadcrumbs), [Toast](/docs/components/toast)), secondary variant for [Tabs](/docs/components/tabs), primary/secondary variants for [Input](/docs/components/input) and [InputGroup](/docs/components/input-group), and ⚠️ **breaking changes** removing Link's underline variants and `isInSurface` prop from form components.

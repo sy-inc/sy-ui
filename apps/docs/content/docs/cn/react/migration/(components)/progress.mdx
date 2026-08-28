@@ -20,7 +20,7 @@ description: Progress 从 SY UI v2 到 v3（现在称为 ProgressBar）的迁移
 在 v2 中，`Progress` 是单个组件，通过 prop 进行配置：
 
 ```tsx
-import { Progress } from "@sy-ui/react";
+import { Progress } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -32,7 +32,7 @@ export default function App() {
 在 v3 中，`ProgressBar` 改为复合组件模式：
 
 ```tsx
-import { ProgressBar, Label } from "@sy-ui/react";
+import { ProgressBar, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -86,14 +86,14 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Progress } from "@sy-ui/react";
+    import { Progress } from "@sy-inc/react";
 
     <Progress label="Loading..." value={60} color="primary" />
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { ProgressBar, Label } from "@sy-ui/react";
+    import { ProgressBar, Label } from "@sy-inc/react";
 
     <ProgressBar value={60} color="accent">
       <Label>Loading...</Label>

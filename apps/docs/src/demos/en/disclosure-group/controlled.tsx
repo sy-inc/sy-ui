@@ -7,7 +7,7 @@ import {
   DisclosureGroup,
   Separator,
   useDisclosureGroupNavigation,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 import {cn} from "tailwind-variants";

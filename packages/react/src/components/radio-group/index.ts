@@ -24,6 +24,6 @@ export type {RadioGroupRootProps, RadioGroupRootProps as RadioGroupProps} from "
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {radioGroupVariants} from "@sy-ui/styles";
+export {radioGroupVariants} from "@sy-inc/styles";
 
-export type {RadioGroupVariants} from "@sy-ui/styles";
+export type {RadioGroupVariants} from "@sy-inc/styles";

@@ -1,6 +1,6 @@
 ---
 title: v3.2.4
-description: 补丁版本：修复 Autocomplete 弹层裁剪末尾选项的问题，恢复外部滚动模式下 Modal 点击遮罩关闭的行为，将 Tabs.ListContainer 的箭头滚动限制在可滚动范围内，将 tailwind-variants 升级到 3.3.1 以修复重新渲染后变体类名回退的问题，将 React Aria 升级到 1.20.0，并为 @sy-ui/react 添加行为测试套件。
+description: 补丁版本：修复 Autocomplete 弹层裁剪末尾选项的问题，恢复外部滚动模式下 Modal 点击遮罩关闭的行为，将 Tabs.ListContainer 的箭头滚动限制在可滚动范围内，将 tailwind-variants 升级到 3.3.1 以修复重新渲染后变体类名回退的问题，将 React Aria 升级到 1.20.0，并为 @sy-inc/react 添加行为测试套件。
 github:
   pull: 6758
 ---
@@ -9,7 +9,7 @@ github:
   <span className="text-sm text-muted">2026 年 8 月 4 日</span>
 </div>
 
-补丁版本：[Autocomplete](/docs/components/autocomplete) 弹层不再裁剪末尾选项，`scroll="outside"` 的 [Modal](/docs/components/modal) 重新支持点击遮罩关闭，[Tabs](/docs/components/tabs) 的箭头滚动现在会精确停在边缘，`tailwind-variants` 升级到 `3.3.1` 以修复重新渲染后变体修饰符回退到错误类名的问题，React Aria 升级到 `1.20.0`（`react-aria@3.51.0`），并为 `@sy-ui/react` 添加了行为测试套件。
+补丁版本：[Autocomplete](/docs/components/autocomplete) 弹层不再裁剪末尾选项，`scroll="outside"` 的 [Modal](/docs/components/modal) 重新支持点击遮罩关闭，[Tabs](/docs/components/tabs) 的箭头滚动现在会精确停在边缘，`tailwind-variants` 升级到 `3.3.1` 以修复重新渲染后变体修饰符回退到错误类名的问题，React Aria 升级到 `1.20.0`（`react-aria@3.51.0`），并为 `@sy-inc/react` 添加了行为测试套件。
 
 ## 安装
 
@@ -18,22 +18,22 @@ github:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@latest @sy-ui/react@latest
+    npm i @sy-inc/styles@latest @sy-inc/react@latest
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@latest @sy-ui/react@latest
+    pnpm add @sy-inc/styles@latest @sy-inc/react@latest
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@latest @sy-ui/react@latest
+    yarn add @sy-inc/styles@latest @sy-inc/react@latest
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@latest @sy-ui/react@latest
+    bun add @sy-inc/styles@latest @sy-inc/react@latest
     ```
   </Tab>
 </Tabs>
@@ -55,14 +55,14 @@ github:
 
 ## 测试
 
-`@sy-ui/react` 现已包含基于共享 `@sy-ui/testing` 测试工具的行为测试套件——提供 Vitest 配置、初始化设置以及 `render`、`setupUser`、`ssrSmoke`、定时器和滚动锁定等辅助函数。测试套件位于 `packages/react/tests/components/`，并拆分为两个 Vitest project：`react-jsdom` 负责行为测试与客户端 SSR 冒烟测试，`react-browser` 负责 Playwright 检查。CI 中的 QA 任务会运行两者，覆盖率下限仅对 jsdom 生效。
+`@sy-inc/react` 现已包含基于共享 `@sy-inc/testing` 测试工具的行为测试套件——提供 Vitest 配置、初始化设置以及 `render`、`setupUser`、`ssrSmoke`、定时器和滚动锁定等辅助函数。测试套件位于 `packages/react/tests/components/`，并拆分为两个 Vitest project：`react-jsdom` 负责行为测试与客户端 SSR 冒烟测试，`react-browser` 负责 Playwright 检查。CI 中的 QA 任务会运行两者，覆盖率下限仅对 jsdom 生效。
 
 - **行为测试**：新增测试工具包、各组件测试套件、双 Vitest project 以及 QA 任务 ([#6754](https://github.com/sy-ui/sy-ui/pull/6754))。
 
 ## 依赖
 
 - **React Aria**：升级到 [React Aria 1.20.0](https://react-aria.adobe.com/releases/v1-20-0)——`react-aria-components@1.20.0`、`react-aria@3.51.0`、`@react-types/shared@3.36.1` 以及 `@internationalized/date@3.12.3` ([#6752](https://github.com/sy-ui/sy-ui/pull/6752))。
-- **tailwind-variants**：将 `@sy-ui/react` 和 `@sy-ui/styles` 升级到 `tailwind-variants@3.3.1` ([#6760](https://github.com/sy-ui/sy-ui/pull/6760))。
+- **tailwind-variants**：将 `@sy-inc/react` 和 `@sy-inc/styles` 升级到 `tailwind-variants@3.3.1` ([#6760](https://github.com/sy-ui/sy-ui/pull/6760))。
 
 ## 链接
 

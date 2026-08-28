@@ -1,6 +1,6 @@
 "use client";
 
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 
 /**
  * 下面的 `gradient-border` 类依赖全局 utility。

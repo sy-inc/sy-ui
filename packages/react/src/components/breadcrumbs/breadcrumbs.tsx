@@ -1,10 +1,10 @@
 "use client";
 
 import type {LinkProps} from "../link";
-import type {BreadcrumbsVariants} from "@sy-ui/styles";
+import type {BreadcrumbsVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {breadcrumbsVariants} from "@sy-ui/styles";
+import {breadcrumbsVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   Breadcrumb as BreadcrumbPrimitive,

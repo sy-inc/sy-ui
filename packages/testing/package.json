@@ -1,5 +1,5 @@
 {
-  "name": "@sy-ui/testing",
+  "name": "@sy-inc/testing",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -35,7 +35,7 @@
     "vitest": "^4.1.0"
   },
   "devDependencies": {
-    "@sy-ui/standard": "workspace:*",
+    "@sy-inc/standard": "workspace:*",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "react": "19.2.8",

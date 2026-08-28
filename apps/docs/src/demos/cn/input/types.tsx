@@ -1,4 +1,4 @@
-import {Input, Label} from "@sy-ui/react";
+import {Input, Label} from "@sy-inc/react";
 
 export function Types() {
   return (

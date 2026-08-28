@@ -1,14 +1,14 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {CheckboxVariants} from "@sy-ui/styles";
+import type {CheckboxVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {
   CheckboxButtonRenderProps,
   CheckboxFieldRenderProps,
 } from "react-aria-components/Checkbox";
 
-import {checkboxVariants} from "@sy-ui/styles";
+import {checkboxVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   CheckboxButton as CheckboxButtonPrimitive,

@@ -2,10 +2,10 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {PopoverVariants} from "@sy-ui/styles";
+import type {PopoverVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {popoverVariants} from "@sy-ui/styles";
+import {popoverVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   Dialog as DialogPrimitive,

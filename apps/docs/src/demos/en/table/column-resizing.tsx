@@ -1,4 +1,4 @@
-import {Chip, Table} from "@sy-ui/react";
+import {Chip, Table} from "@sy-inc/react";
 
 export function ColumnResizing() {
   return (

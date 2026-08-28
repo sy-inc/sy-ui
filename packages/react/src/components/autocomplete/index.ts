@@ -61,6 +61,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {autocompleteVariants} from "@sy-ui/styles";
+export {autocompleteVariants} from "@sy-inc/styles";
 
-export type {AutocompleteVariants} from "@sy-ui/styles";
+export type {AutocompleteVariants} from "@sy-inc/styles";

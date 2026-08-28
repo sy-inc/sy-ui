@@ -12,7 +12,7 @@ description: CheckboxGroup 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`CheckboxGroup` 是单个组件，通过 `label` prop 描述分组，子项为简单的 `Checkbox`：
 
 ```tsx
-import { Checkbox, CheckboxGroup } from "@sy-ui/react";
+import { Checkbox, CheckboxGroup } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -28,7 +28,7 @@ export default function App() {
 在 v3 中，`CheckboxGroup` 仍是单个组件，但改为以 `Label` / `Description` 作为子节点，并使用全新的 Checkbox 复合结构：
 
 ```tsx
-import { CheckboxGroup, Checkbox, Label, Description } from "@sy-ui/react";
+import { CheckboxGroup, Checkbox, Label, Description } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -97,7 +97,7 @@ export default function App() {
   <Tab value="v2">
     ```tsx
     import { useState } from "react";
-    import { Checkbox, CheckboxGroup } from "@sy-ui/react";
+    import { Checkbox, CheckboxGroup } from "@sy-inc/react";
 
     const [selected, setSelected] = useState(["coding"]);
 
@@ -115,7 +115,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { CheckboxGroup, Checkbox, Label } from "@sy-ui/react";
+    import { CheckboxGroup, Checkbox, Label } from "@sy-inc/react";
 
     const [selected, setSelected] = useState(["coding"]);
 

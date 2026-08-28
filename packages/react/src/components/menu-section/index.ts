@@ -21,6 +21,6 @@ export type {MenuSectionRootProps, MenuSectionRootProps as MenuSectionProps} fro
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {menuSectionVariants} from "@sy-ui/styles";
+export {menuSectionVariants} from "@sy-inc/styles";
 
-export type {MenuSectionVariants} from "@sy-ui/styles";
+export type {MenuSectionVariants} from "@sy-inc/styles";

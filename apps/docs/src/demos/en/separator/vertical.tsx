@@ -1,4 +1,4 @@
-import {Separator} from "@sy-ui/react";
+import {Separator} from "@sy-inc/react";
 
 export function Vertical() {
   return (

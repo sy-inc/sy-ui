@@ -34,6 +34,6 @@ export type {MenuRootProps, MenuRootProps as MenuProps} from "./menu";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {menuVariants} from "@sy-ui/styles";
+export {menuVariants} from "@sy-inc/styles";
 
-export type {MenuVariants} from "@sy-ui/styles";
+export type {MenuVariants} from "@sy-inc/styles";

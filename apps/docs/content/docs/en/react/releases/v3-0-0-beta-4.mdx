@@ -10,7 +10,7 @@ github:
 </div>
 
 <Callout type="warning">
-  **Critical Build Issue Fixed**: This version (beta.4) had a critical build issue that has been fixed in **beta.5**. Please upgrade to `@sy-ui/styles@3.0.0-beta.5` and `@sy-ui/react@3.0.0-beta.5` to ensure proper TypeScript declaration generation and export resolution.
+  **Critical Build Issue Fixed**: This version (beta.4) had a critical build issue that has been fixed in **beta.5**. Please upgrade to `@sy-inc/styles@3.0.0-beta.5` and `@sy-inc/react@3.0.0-beta.5` to ensure proper TypeScript declaration generation and export resolution.
 </Callout>
 
 This release introduces the new [Theme Builder](/themes) for visual theme customization, three new components ([Autocomplete](/docs/components/autocomplete), [Breadcrumbs](/docs/components/breadcrumbs), [Toast](/docs/components/toast)), adds secondary variant to [Tabs](/docs/components/tabs), primary/secondary variants to [Input](/docs/components/input) and [InputGroup](/docs/components/input-group), TextArea support for InputGroup, and ⚠️ **breaking changes** removing Link's underline variants and the `isInSurface` prop from form components.
@@ -29,22 +29,22 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@beta @sy-ui/react@beta
+    npm i @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@beta @sy-ui/react@beta
+    pnpm add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@beta @sy-ui/react@beta
+    yarn add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@beta @sy-ui/react@beta
+    bun add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
 </Tabs>
@@ -300,7 +300,7 @@ SY UI now provides direct exports from react-aria-components for easier access t
 **i18n Utilities:**
 - `getLocalizationScript` - Get localization script for server-side rendering (from `react-aria-components/i18n`)
 
-All of these can be imported directly from `@sy-ui/react`:
+All of these can be imported directly from `@sy-inc/react`:
 
 ```tsx
 import {
@@ -310,7 +310,7 @@ import {
   useLocale,
   useFilter,
   getLocalizationScript
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 ```
 
 ## Links

@@ -1,4 +1,4 @@
-import {render} from "@sy-ui/testing/browser";
+import {render} from "@sy-inc/testing/browser";
 import {page, userEvent} from "vitest/browser";
 
 import {Button} from "@/components/button";

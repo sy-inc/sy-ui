@@ -35,7 +35,7 @@ pnpm dev:docs
 pnpm build
 
 # Build specific package
-pnpm build --filter=@sy-ui/react
+pnpm build --filter=@sy-inc/react
 
 # Run linting
 pnpm lint
@@ -44,13 +44,13 @@ pnpm lint
 pnpm test
 
 # Filter by file name (e.g. button.test.tsx)
-pnpm --filter @sy-ui/react exec vitest run button
+pnpm --filter @sy-inc/react exec vitest run button
 
 # Coverage (jsdom floors only — not a depth bar)
 pnpm test:coverage
 
 # Changed-set (local jsdom only; not a merge gate)
-pnpm --filter @sy-ui/react test:changed
+pnpm --filter @sy-inc/react test:changed
 
 # Run formatting
 pnpm run format
@@ -59,22 +59,22 @@ pnpm run format
 pnpm typecheck
 ```
 
-### Behavioral tests (`@sy-ui/react`)
+### Behavioral tests (`@sy-inc/react`)
 
 - Suites: `packages/react/tests/components/<name>/` — `*.test.tsx` (jsdom), `*.ssr.test.tsx` (Client SSR via `ssrSmoke()`, not RSC), `*.browser.test.tsx` (Playwright for high-risk portals/overlays; not universal), optional `fixtures.tsx`
-- Harness: `@sy-ui/testing/helpers` (`render`, `setupUser`, `runAllTimers`, `ssrSmoke`, `User`); browser `render` from `@sy-ui/testing/browser`. Sources via `@/`. Pattern testers: `user.createTester(...)` — do not import `createTester` directly
+- Harness: `@sy-inc/testing/helpers` (`render`, `setupUser`, `runAllTimers`, `ssrSmoke`, `User`); browser `render` from `@sy-inc/testing/browser`. Sources via `@/`. Pattern testers: `user.createTester(...)` — do not import `createTester` directly
 - Query/assert: role/label/text first; SY UI `data-*` + light BEM + documented `data-slot` on compound parts; no colors, full class lists, or RAC internals
 - Timers: fake timers per-suite only; wire `advanceTimers` into `setupUser` + `User`
 - Naming: `describe("Component")`; nested concern; `it` as `supports…` / `calls…` / `exposes…` / `renders…`. SSR: `"Component SSR"`; browser: `"Component (browser)"`
 - Intentional skips: internals (`rac`, `icons`), non-exported helpers (`color-input-group`, `date-input-group`), in-progress `calendar-year-picker`, parent-covered parts (`list-box-item`, `menu-item`, …), Toast SSR (client portal — jsdom + browser). Public `input-group` has its own suite. SSR/browser are risk-based
 - Browser setup (once locally): `playwright install chromium` before `pnpm test`. CI: `--with-deps`, then `test:browser` + `test:coverage`
-- Commands: `pnpm test` (jsdom + browser, needs Chromium); filter with `pnpm --filter @sy-ui/react exec vitest run <name>`
+- Commands: `pnpm test` (jsdom + browser, needs Chromium); filter with `pnpm --filter @sy-inc/react exec vitest run <name>`
 - Coverage: jsdom-only floors — green ≠ depth. `test:changed`: local jsdom shortcut only, not a merge gate
 
 ### Package-Specific Commands
 
-- Use `--filter` flag with package name: `pnpm build --filter=@sy-ui/react`
-- Main packages: `@sy-ui/react`, `@sy-ui/styles`, `@sy-ui/docs`, `@sy-ui/storybook`
+- Use `--filter` flag with package name: `pnpm build --filter=@sy-inc/react`
+- Main packages: `@sy-inc/react`, `@sy-inc/styles`, `@sy-ui/docs`, `@sy-ui/storybook`
 
 ## Git Commit Convention
 
@@ -115,11 +115,11 @@ git commit -m "ci: add Claude Code GitHub Action workflow"
 ├── apps/
 │   └── docs/          # Documentation site (Next.js + Fumadocs)
 ├── packages/
-│   ├── react/         # Main UI component library (@sy-ui/react)
-│   ├── styles/        # CSS styles & variants (@sy-ui/styles)
+│   ├── react/         # Main UI component library (@sy-inc/react)
+│   ├── styles/        # CSS styles & variants (@sy-inc/styles)
 │   ├── standard/      # Shared ESLint, Prettier, TypeScript configs
 │   ├── storybook/     # Storybook configuration
-│   └── testing/       # Shared test harness (@sy-ui/testing)
+│   └── testing/       # Shared test harness (@sy-inc/testing)
 ├── turbo.json         # Turborepo configuration
 └── pnpm-workspace.yaml # Workspace definition
 ```
@@ -148,7 +148,7 @@ component-name/
 
 **Migration to CSS-based Styling**:
 
-- The `button` component has been migrated to use CSS styles from `@sy-ui/styles/src/components/button.css`
+- The `button` component has been migrated to use CSS styles from `@sy-inc/styles/src/components/button.css`
 - This approach allows for better customization through CSS utilities and `@utility` directives
 - Other components will gradually be migrated to follow this CSS-based pattern
 - Components use `tv()` from `tailwind-variants` to map variant props to BEM class names
@@ -262,7 +262,7 @@ export {ComponentRoot as Root, ComponentItem as Item, ...};
 
 1. **Styling with Tailwind Variants**:
    - Styles defined in `.styles.ts` files using `tv()` function from `tailwind-variants`
-   - **IMPORTANT**: Always import from `tailwind-variants`, never from `@sy-ui/standard` (which doesn't exist)
+   - **IMPORTANT**: Always import from `tailwind-variants`, never from `@sy-inc/standard` (which doesn't exist)
    - **CRITICAL**: tailwind-variants already includes `twMerge` functionality, so NEVER manually use `twMerge`
    - **RULE**: All component styles MUST be defined in separate `.styles.ts` files, NOT in the component implementation files
    - Component implementation files (`.tsx`) should only contain logic and React Aria primitives
@@ -539,7 +539,7 @@ This workflow ensures thorough understanding, proper planning, and high-quality 
 
 2. **Testing**:
    - Follow Behavioral tests conventions above (semantics-first, `setupUser`, `data-*` state hooks)
-   - Run `pnpm test` for jsdom + browser; filter with `pnpm --filter @sy-ui/react exec vitest run <name>`
+   - Run `pnpm test` for jsdom + browser; filter with `pnpm --filter @sy-inc/react exec vitest run <name>`
    - Place tests under `packages/react/tests/components/<name>/` (`*.test.tsx` / `*.ssr.test.tsx` / `*.browser.test.tsx`, optional `fixtures.tsx`)
    - Prefer arrow functions for harness helpers and test fixtures
 

@@ -15,7 +15,7 @@ SY UI uses CSS variables and [BEM](https://getbem.com/) classes for theming. Cus
 
 ## How It Works
 
-SY UI's theming system is built on top of [Tailwind CSS v4](https://tailwindcss.com/docs/theme)'s theme. When you import `@sy-ui/styles`, it uses Tailwind's built-in color palettes, maps them to semantic variables, automatically switches between light and dark themes, and uses CSS layers and the `@theme` directive for organization.
+SY UI's theming system is built on top of [Tailwind CSS v4](https://tailwindcss.com/docs/theme)'s theme. When you import `@sy-inc/styles`, it uses Tailwind's built-in color palettes, maps them to semantic variables, automatically switches between light and dark themes, and uses CSS layers and the `@theme` directive for organization.
 
 **Naming pattern:**
 - Colors without a suffix are backgrounds (e.g., `--accent`)
@@ -99,7 +99,7 @@ export function ThemeSwitch() {
 ```css
 /* app/globals.css */
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 :root {
   /* Override any color variable */
@@ -282,7 +282,7 @@ Use your theme:
 @layer theme, base, components, utilities;
 
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 @import "./src/themes/ocean.css" layer(theme); /* [!code highlight]*/
 ```
@@ -331,7 +331,7 @@ Apply your theme:
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 **Selective import:** Import only what you need:
@@ -342,38 +342,38 @@ Apply your theme:
 
 /* Base requirements */
 @import "tailwindcss";
-@import "@sy-ui/styles/base" layer(base);
+@import "@sy-inc/styles/base" layer(base);
 /* OR specific base file */
-@import "@sy-ui/styles/base/base.css" layer(base);
+@import "@sy-inc/styles/base/base.css" layer(base);
 
 /* Theme variables */
-@import "@sy-ui/styles/themes/shared/theme.css" layer(theme);
-@import "@sy-ui/styles/themes/default" layer(theme);
+@import "@sy-inc/styles/themes/shared/theme.css" layer(theme);
+@import "@sy-inc/styles/themes/default" layer(theme);
 /* OR specific theme files */
-@import "@sy-ui/styles/themes/default/index.css" layer(theme);
-@import "@sy-ui/styles/themes/default/variables.css" layer(theme);
+@import "@sy-inc/styles/themes/default/index.css" layer(theme);
+@import "@sy-inc/styles/themes/default/variables.css" layer(theme);
 
 /* Components (all components) */
-@import "@sy-ui/styles/components" layer(components);
+@import "@sy-inc/styles/components" layer(components);
 /* OR specific component files */
-@import "@sy-ui/styles/components/index.css" layer(components);
-@import "@sy-ui/styles/components/button.css" layer(components);
-@import "@sy-ui/styles/components/accordion.css" layer(components);
+@import "@sy-inc/styles/components/index.css" layer(components);
+@import "@sy-inc/styles/components/button.css" layer(components);
+@import "@sy-inc/styles/components/accordion.css" layer(components);
 
 /* Utilities (optional) */
-@import "@sy-ui/styles/utilities" layer(utilities);
+@import "@sy-inc/styles/utilities" layer(utilities);
 
 /* Variants (optional) */
-@import "@sy-ui/styles/variants" layer(utilities);
+@import "@sy-inc/styles/variants" layer(utilities);
 ```
 
-> **Note**: Directory imports (e.g., `@sy-ui/styles/components`) automatically resolve to their `index.css` file. Use explicit file paths (e.g., `@sy-ui/styles/components/button.css`) to import individual component styles.
+> **Note**: Directory imports (e.g., `@sy-inc/styles/components`) automatically resolve to their `index.css` file. Use explicit file paths (e.g., `@sy-inc/styles/components/button.css`) to import individual component styles.
 
 **Headless mode:** Build your own styles from scratch:
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles/base/base.css";
+@import "@sy-inc/styles/base/base.css";
 
 /* Your custom styles */
 .button {
@@ -656,7 +656,7 @@ SY UI applies a shared scrollbar style to component scroll areas (tables, popove
 <Calendar.YearPickerGrid data-scrollbar="none" />
 ```
 
-**Custom overflow areas** — use the `scrollbar`, `scrollbar-thin`, `scrollbar-default`, or `scrollbar-none` utilities from `@sy-ui/styles` on your own elements. See [Styling](/docs/handbook/styling) for class-based overrides.
+**Custom overflow areas** — use the `scrollbar`, `scrollbar-thin`, `scrollbar-default`, or `scrollbar-none` utilities from `@sy-inc/styles` on your own elements. See [Styling](/docs/handbook/styling) for class-based overrides.
 
 > **Note**: Some components hide scrollbars by default (date picker popovers, color picker, secondary tabs). Nested scroll slots (e.g. the calendar year picker inside a date picker) keep SY UI scrollbars because `scrollbar-none` only affects the element it is applied to, not descendants using `@apply scrollbar`.
 

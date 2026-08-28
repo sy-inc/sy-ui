@@ -53,6 +53,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {tabsVariants} from "@sy-ui/styles";
+export {tabsVariants} from "@sy-inc/styles";
 
-export type {TabsVariants} from "@sy-ui/styles";
+export type {TabsVariants} from "@sy-inc/styles";

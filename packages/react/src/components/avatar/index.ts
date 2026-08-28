@@ -33,6 +33,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {avatarVariants} from "@sy-ui/styles";
+export {avatarVariants} from "@sy-inc/styles";
 
-export type {AvatarVariants} from "@sy-ui/styles";
+export type {AvatarVariants} from "@sy-inc/styles";

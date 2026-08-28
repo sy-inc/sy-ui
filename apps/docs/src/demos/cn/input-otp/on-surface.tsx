@@ -1,4 +1,4 @@
-import {InputOTP, Label, Link, Surface} from "@sy-ui/react";
+import {InputOTP, Label, Link, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

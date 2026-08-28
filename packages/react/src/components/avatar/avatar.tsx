@@ -1,9 +1,9 @@
 "use client";
 
-import type {AvatarVariants} from "@sy-ui/styles";
+import type {AvatarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {avatarVariants} from "@sy-ui/styles";
+import {avatarVariants} from "@sy-inc/styles";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import React, {createContext} from "react";
 

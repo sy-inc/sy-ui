@@ -30,6 +30,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {breadcrumbsVariants} from "@sy-ui/styles";
+export {breadcrumbsVariants} from "@sy-inc/styles";
 
-export type {BreadcrumbsVariants} from "@sy-ui/styles";
+export type {BreadcrumbsVariants} from "@sy-inc/styles";

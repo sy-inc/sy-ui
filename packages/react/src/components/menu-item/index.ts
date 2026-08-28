@@ -33,5 +33,5 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {menuItemVariants} from "@sy-ui/styles";
-export type {MenuItemVariants} from "@sy-ui/styles";
+export {menuItemVariants} from "@sy-inc/styles";
+export type {MenuItemVariants} from "@sy-inc/styles";

@@ -1,4 +1,4 @@
-import baseReactConfig from "@sy-ui/standard/eslint/next.mjs";
+import baseReactConfig from "@sy-inc/standard/eslint/next.mjs";
 import {defineConfig} from "eslint/config";
 
 const config = defineConfig([...baseReactConfig]);

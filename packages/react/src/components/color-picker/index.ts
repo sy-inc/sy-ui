@@ -33,6 +33,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {colorPickerVariants} from "@sy-ui/styles";
+export {colorPickerVariants} from "@sy-inc/styles";
 
-export type {ColorPickerVariants} from "@sy-ui/styles";
+export type {ColorPickerVariants} from "@sy-inc/styles";

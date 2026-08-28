@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, Form, InputOTP, Label} from "@sy-ui/react";
+import {Button, Description, Form, InputOTP, Label} from "@sy-inc/react";
 import React from "react";
 
 export function WithValidation() {

@@ -42,6 +42,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {cardVariants} from "@sy-ui/styles";
+export {cardVariants} from "@sy-inc/styles";
 
-export type {CardVariants} from "@sy-ui/styles";
+export type {CardVariants} from "@sy-inc/styles";

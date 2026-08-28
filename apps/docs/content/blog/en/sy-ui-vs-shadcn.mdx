@@ -30,7 +30,7 @@ This isn't a "which is better" article. It's a guide to understanding the trade-
 
 ## The Fundamental Difference
 
-**SY UI** is a traditional component library. You install `@sy-ui/react`, import components, and use them. Updates come through npm. The library team maintains the components, fixes bugs, and adds features. You customize through props, slots, and Tailwind classes.
+**SY UI** is a traditional component library. You install `@sy-inc/react`, import components, and use them. Updates come through npm. The library team maintains the components, fixes bugs, and adds features. You customize through props, slots, and Tailwind classes.
 
 **shadcn/ui** is a component collection. You run `npx shadcn@latest add button`, and the component source code is copied into your project. There's no runtime dependency on shadcn. You own the code completely. Updates require manually re-running the CLI or copying changes.
 
@@ -41,11 +41,11 @@ This distinction drives every other difference between the two.
 ### SY UI: Installed Package
 
 ```bash
-npm install @sy-ui/styles @sy-ui/react
+npm install @sy-inc/styles @sy-inc/react
 ```
 
 ```tsx
-import { Button, Card, Table } from "@sy-ui/react";
+import { Button, Card, Table } from "@sy-inc/react";
 ```
 
 SY UI components live in `node_modules`. You import and use them like any other package. The library handles:
@@ -197,7 +197,7 @@ SY UI has more complex, self-contained components (especially date/time, color, 
 
 **SY UI:**
 ```bash
-npm install @sy-ui/styles @sy-ui/react
+npm install @sy-inc/styles @sy-inc/react
 ```
 
 Add the CSS import and you're ready. One package, one import path, one set of docs.
@@ -212,7 +212,7 @@ Each component is added individually. You choose which components to include. Th
 
 ### Updates
 
-**SY UI:** Run `npm update @sy-ui/react`. All components update together. Breaking changes are documented in release notes.
+**SY UI:** Run `npm update @sy-inc/react`. All components update together. Breaking changes are documented in release notes.
 
 **shadcn/ui:** There's no automatic update mechanism. To get improvements, you either re-run `npx shadcn@latest add` (which may overwrite your changes) or manually compare and merge upstream changes.
 

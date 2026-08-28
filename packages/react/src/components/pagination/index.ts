@@ -76,6 +76,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {paginationVariants} from "@sy-ui/styles";
+export {paginationVariants} from "@sy-inc/styles";
 
-export type {PaginationVariants} from "@sy-ui/styles";
+export type {PaginationVariants} from "@sy-inc/styles";

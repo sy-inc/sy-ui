@@ -1,7 +1,7 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {DateInputGroupVariants} from "@sy-ui/styles";
+import type {DateInputGroupVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {
   DateInputProps as DateInputPrimitiveProps,
@@ -10,7 +10,7 @@ import type {
   DateSegmentProps as TimeSegmentPrimitiveProps,
 } from "react-aria-components/DateField";
 
-import {dateInputGroupVariants} from "@sy-ui/styles";
+import {dateInputGroupVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   DateInput as DateInputPrimitive,

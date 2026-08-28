@@ -1,12 +1,12 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {RangeCalendarVariants} from "@sy-ui/styles";
+import type {RangeCalendarVariants} from "@sy-inc/styles";
 import type {CalendarIdentifier} from "@internationalized/date";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {DateValue} from "react-aria-components/Calendar";
 
-import {rangeCalendarVariants} from "@sy-ui/styles";
+import {rangeCalendarVariants} from "@sy-inc/styles";
 import {CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
 import {useControlledState} from "@react-stately/utils";
 import React, {createContext, use} from "react";

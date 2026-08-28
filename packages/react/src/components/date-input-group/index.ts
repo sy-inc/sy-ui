@@ -56,6 +56,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {dateInputGroupVariants} from "@sy-ui/styles";
+export {dateInputGroupVariants} from "@sy-inc/styles";
 
-export type {DateInputGroupVariants} from "@sy-ui/styles";
+export type {DateInputGroupVariants} from "@sy-inc/styles";

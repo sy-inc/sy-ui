@@ -1,11 +1,11 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 import type {Item, Node} from "fumadocs-core/page-tree";
 import type {SearchItemType, SharedProps} from "fumadocs-ui/components/dialog/search";
 import type {ComponentProps} from "react";
 
-import {Chip, Kbd, Tag, TagGroup} from "@sy-ui/react";
+import {Chip, Kbd, Tag, TagGroup} from "@sy-inc/react";
 import {useDocsSearch} from "fumadocs-core/search/client";
 import {
   SearchDialog,

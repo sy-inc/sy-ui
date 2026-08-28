@@ -12,7 +12,7 @@ description: Migration guide for NumberInput to NumberField from SY UI v2 to v3
 In v2, NumberInput was a single component with props:
 
 ```tsx
-import { NumberInput } from "@sy-ui/react";
+import { NumberInput } from "@sy-inc/react";
 
 export default function App() {
   return <NumberInput label="Amount" defaultValue={1024} />;
@@ -22,7 +22,7 @@ export default function App() {
 In v3, NumberField requires compound components:
 
 ```tsx
-import { NumberField, Label } from "@sy-ui/react";
+import { NumberField, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -96,7 +96,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError, Label } from "@sy-ui/react";
+    import { Description, FieldError, Label } from "@sy-inc/react";
 
     {/* With description */}
     <NumberField>

@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Switch, SwitchGroup} from "@sy-ui/react";
+import {Button, Switch, SwitchGroup} from "@sy-inc/react";
 import React from "react";
 
 export function Form() {

@@ -1,8 +1,8 @@
 "use client";
 
-import type {Selection, SortDescriptor} from "@sy-ui/react";
+import type {Selection, SortDescriptor} from "@sy-inc/react";
 
-import {Avatar, Button, Checkbox, Chip, Table} from "@sy-ui/react";
+import {Avatar, Button, Checkbox, Chip, Table} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 import {useMemo, useState} from "react";
 

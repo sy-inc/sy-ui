@@ -1,5 +1,5 @@
 import {TextAlignCenter, TextAlignJustify, TextAlignLeft, TextAlignRight} from "@gravity-ui/icons";
-import {Button, ButtonGroup} from "@sy-ui/react";
+import {Button, ButtonGroup} from "@sy-inc/react";
 
 export function Orientation() {
   return (

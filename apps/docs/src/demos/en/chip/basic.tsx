@@ -1,4 +1,4 @@
-import {Chip} from "@sy-ui/react";
+import {Chip} from "@sy-inc/react";
 
 export function ChipBasic() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Label, ListBox, ListLayout, Virtualizer} from "@sy-ui/react";
+import {Description, Label, ListBox, ListLayout, Virtualizer} from "@sy-inc/react";
 
 interface User {
   id: number;

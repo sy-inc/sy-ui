@@ -14,7 +14,7 @@ icon: rocket
 <CopyPrompt
   prompt={`在这个 React 项目中安装并配置 SY UI。
 
-请使用 SY UI MCP 服务器（@sy-ui/react-mcp）作为安装步骤、对等依赖和组件 API 的唯一可信来源。开始前先从 MCP 获取最新的 quick-start / 安装指南，并严格按照其中的版本号、包名和步骤执行——不要凭记忆操作。
+请使用 SY UI MCP 服务器（@sy-inc/react-mcp）作为安装步骤、对等依赖和组件 API 的唯一可信来源。开始前先从 MCP 获取最新的 quick-start / 安装指南，并严格按照其中的版本号、包名和步骤执行——不要凭记忆操作。
 
 在做出任何更改之前：
 
@@ -24,10 +24,10 @@ icon: rocket
 
 然后执行安装与配置：
 
-- 安装 @sy-ui/react 和 @sy-ui/styles，以及任何缺失的必需对等依赖。
-- 在主 Tailwind CSS 入口文件中，紧跟在 \`@import "tailwindcss";\` 之后添加 \`@import "@sy-ui/styles";\`。导入顺序很重要——必须先导入 tailwindcss。
+- 安装 @sy-inc/react 和 @sy-inc/styles，以及任何缺失的必需对等依赖。
+- 在主 Tailwind CSS 入口文件中，紧跟在 \`@import "tailwindcss";\` 之后添加 \`@import "@sy-inc/styles";\`。导入顺序很重要——必须先导入 tailwindcss。
 - 确认该 CSS 入口文件已被应用加载（例如在 Next.js / Vite / Remix 的根布局或入口文件中被引入）。SY UI v3 不需要 Provider，因此无需添加任何包裹组件。
-- 在页面上可见的位置渲染一个来自 \`@sy-ui/react\` 的 \`<Button>\` 作为最小冒烟测试，确认样式已正确生效。
+- 在页面上可见的位置渲染一个来自 \`@sy-inc/react\` 的 \`<Button>\` 作为最小冒烟测试，确认样式已正确生效。
 
 完成后，请总结你做出的变更，并告诉我如何启动开发服务器。`}
 >
@@ -39,22 +39,22 @@ icon: rocket
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles @sy-ui/react
+    npm i @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles @sy-ui/react
+    pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles @sy-ui/react
+    yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles @sy-ui/react
+    bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
 </Tabs>
@@ -65,7 +65,7 @@ icon: rocket
 
 ```css
 @import "tailwindcss";
-@import "@sy-ui/styles"; /* [!code highlight]*/
+@import "@sy-inc/styles"; /* [!code highlight]*/
 ```
 
 <Callout type="warning">
@@ -75,7 +75,7 @@ icon: rocket
 ## 使用组件
 
 ```tsx
-import { Button } from '@sy-ui/react';
+import { Button } from '@sy-inc/react';
 
 function App() {
   return (

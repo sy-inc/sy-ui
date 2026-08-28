@@ -1,6 +1,6 @@
 "use client";
 
-import {Label, ListBox, NumberField, ProgressBar, Select, Separator} from "@sy-ui/react";
+import {Label, ListBox, NumberField, ProgressBar, Select, Separator} from "@sy-inc/react";
 import {useState} from "react";
 
 const formatStyleOptions: {label: string; value: string}[] = [

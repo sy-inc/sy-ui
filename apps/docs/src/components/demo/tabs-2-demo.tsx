@@ -1,6 +1,6 @@
 "use client";
 
-import {Tabs} from "@sy-ui/react";
+import {Tabs} from "@sy-inc/react";
 
 import {Iconify} from "@/components/iconify";
 import {useDictionary} from "@/hooks/use-dictionary";

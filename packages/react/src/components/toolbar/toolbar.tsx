@@ -1,9 +1,9 @@
 "use client";
 
-import type {ToolbarVariants} from "@sy-ui/styles";
+import type {ToolbarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {toolbarVariants} from "@sy-ui/styles";
+import {toolbarVariants} from "@sy-inc/styles";
 import React from "react";
 import {SeparatorContext} from "react-aria-components/Separator";
 import {ToggleButtonGroupContext} from "react-aria-components/ToggleButtonGroup";

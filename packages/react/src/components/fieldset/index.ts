@@ -36,6 +36,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {fieldsetVariants} from "@sy-ui/styles";
+export {fieldsetVariants} from "@sy-inc/styles";
 
-export type {FieldsetVariants} from "@sy-ui/styles";
+export type {FieldsetVariants} from "@sy-inc/styles";

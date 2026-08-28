@@ -1,4 +1,4 @@
-import {Description, Label, SearchField, Surface} from "@sy-ui/react";
+import {Description, Label, SearchField, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

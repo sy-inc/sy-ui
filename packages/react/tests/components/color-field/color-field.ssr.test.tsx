@@ -1,4 +1,4 @@
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 
 import {ColorField} from "@/components/color-field";
 import {Label} from "@/components/label";

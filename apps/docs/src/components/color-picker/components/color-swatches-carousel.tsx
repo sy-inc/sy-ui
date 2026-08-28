@@ -3,7 +3,7 @@
 import type {ColorSwatchesCarouselProps} from "../types";
 
 import {ChevronLeft, ChevronRight} from "@gravity-ui/icons";
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import React, {useState} from "react";
 import {
   ColorSwatch as AriaColorSwatch,

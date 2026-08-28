@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 
 import {ChevronLeft} from "@gravity-ui/icons";
-import {Chip} from "@sy-ui/react";
+import {Chip} from "@sy-inc/react";
 import {rehypeCode, rehypeCodeDefaultOptions} from "fumadocs-core/mdx-plugins";
 import Link from "next/link";
 import {notFound} from "next/navigation";

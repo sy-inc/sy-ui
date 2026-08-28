@@ -40,6 +40,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {checkboxVariants} from "@sy-ui/styles";
+export {checkboxVariants} from "@sy-inc/styles";
 
-export type {CheckboxVariants} from "@sy-ui/styles";
+export type {CheckboxVariants} from "@sy-inc/styles";

@@ -1,7 +1,7 @@
 "use client";
 
 import {ShoppingBag} from "@gravity-ui/icons";
-import {Button, Disclosure} from "@sy-ui/react";
+import {Button, Disclosure} from "@sy-inc/react";
 import {useState} from "react";
 
 export function CustomStyles() {

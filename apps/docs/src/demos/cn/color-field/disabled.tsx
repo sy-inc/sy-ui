@@ -1,6 +1,6 @@
 "use client";
 
-import {ColorField, Description, Label} from "@sy-ui/react";
+import {ColorField, Description, Label} from "@sy-inc/react";
 
 export function Disabled() {
   return (

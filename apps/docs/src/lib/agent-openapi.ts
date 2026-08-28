@@ -249,7 +249,7 @@ function mcpApiDocument(kind: "react" | "native"): OpenAPIDocument {
       title,
       "1.1.0",
       serverUrl,
-      `Public, read-only data API used by the ${isReact ? "@sy-ui/react-mcp" : "@sy-ui/native-mcp"} package and SY UI agent skills.`,
+      `Public, read-only data API used by the ${isReact ? "@sy-inc/react-mcp" : "@sy-ui/native-mcp"} package and SY UI agent skills.`,
     ),
     paths: {
       "/health": {

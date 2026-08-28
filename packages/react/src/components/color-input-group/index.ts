@@ -41,6 +41,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {colorInputGroupVariants} from "@sy-ui/styles";
+export {colorInputGroupVariants} from "@sy-inc/styles";
 
-export type {ColorInputGroupVariants} from "@sy-ui/styles";
+export type {ColorInputGroupVariants} from "@sy-inc/styles";

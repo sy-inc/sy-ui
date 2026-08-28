@@ -53,5 +53,5 @@ export type {
   CarouselAutoplayInteraction,
 } from "./carousel";
 
-export {carouselVariants} from "@sy-ui/styles";
-export type {CarouselVariants} from "@sy-ui/styles";
+export {carouselVariants} from "@sy-inc/styles";
+export type {CarouselVariants} from "@sy-inc/styles";

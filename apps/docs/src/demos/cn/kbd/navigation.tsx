@@ -1,4 +1,4 @@
-import {Kbd} from "@sy-ui/react";
+import {Kbd} from "@sy-inc/react";
 
 export function NavigationKeys() {
   return (

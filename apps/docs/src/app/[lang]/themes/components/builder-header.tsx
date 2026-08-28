@@ -9,7 +9,7 @@ import {
   Link as LinkIcon,
   NodesRight,
 } from "@gravity-ui/icons";
-import {Button, Kbd, Separator, Tabs, Tooltip, toast} from "@sy-ui/react";
+import {Button, Kbd, Separator, Tabs, Tooltip, toast} from "@sy-inc/react";
 import Link from "next/link";
 import {useParams} from "next/navigation";
 

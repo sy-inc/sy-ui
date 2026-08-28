@@ -1,6 +1,6 @@
 import type {ReactNode} from "react";
 
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 import {Time} from "@internationalized/date";
 
 import {Description} from "@/components/description";

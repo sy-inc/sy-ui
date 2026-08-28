@@ -1,6 +1,6 @@
 "use client";
 
-import {Pagination, Table} from "@sy-ui/react";
+import {Pagination, Table} from "@sy-inc/react";
 import {useMemo, useState} from "react";
 
 const columns = [

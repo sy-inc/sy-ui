@@ -38,6 +38,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {bottomBarVariants} from "@sy-ui/styles";
+export {bottomBarVariants} from "@sy-inc/styles";
 
-export type {BottomBarVariants} from "@sy-ui/styles";
+export type {BottomBarVariants} from "@sy-inc/styles";

@@ -33,6 +33,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {badgeVariants} from "@sy-ui/styles";
+export {badgeVariants} from "@sy-inc/styles";
 
-export type {BadgeVariants} from "@sy-ui/styles";
+export type {BadgeVariants} from "@sy-inc/styles";

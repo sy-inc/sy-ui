@@ -1,6 +1,6 @@
 import type {Color} from "@react-types/color";
 
-import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-ui/testing/helpers";
+import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {ColorArea} from "@/components/color-area";
 import {ColorPicker} from "@/components/color-picker";

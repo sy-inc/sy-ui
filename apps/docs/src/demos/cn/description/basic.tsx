@@ -1,4 +1,4 @@
-import {Description, Input, Label} from "@sy-ui/react";
+import {Description, Input, Label} from "@sy-inc/react";
 
 export function Basic() {
   return (

@@ -97,7 +97,7 @@ v3 支持组合变体与颜色 class，以实现更精细的样式。下列复�
 在 v2 中，`Chip` 是一个通过大量 prop 控制样式的组件：
 
 ```tsx
-import { Chip } from "@sy-ui/react";
+import { Chip } from "@sy-inc/react";
 
 export default function App() {
   return <Chip>Chip</Chip>;
@@ -107,7 +107,7 @@ export default function App() {
 在 v3 中，`Chip` 的 API 更精简，变体更少：
 
 ```tsx
-import { Chip } from "@sy-ui/react";
+import { Chip } from "@sy-inc/react";
 
 export default function App() {
   return <Chip>Chip</Chip>;
@@ -187,7 +187,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     <Chip
       avatar={<Avatar name="JW" src="https://example.com/avatar.jpg" />}
@@ -199,7 +199,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar, Chip } from "@sy-ui/react";
+    import { Avatar, Chip } from "@sy-inc/react";
 
     <Chip variant="tertiary">
       <Avatar size="sm">
@@ -224,7 +224,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { CloseButton } from "@sy-ui/react";
+    import { CloseButton } from "@sy-inc/react";
 
     <Chip>
       Chip

@@ -12,7 +12,7 @@ description: Switch 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`Switch` 结构简单，children 作为标签：
 
 ```tsx
-import { Switch } from "@sy-ui/react";
+import { Switch } from "@sy-inc/react";
 
 export default function App() {
   return <Switch>Enable notifications</Switch>;
@@ -22,7 +22,7 @@ export default function App() {
 在 v3 中，`Switch` 需要复合组件：
 
 ```tsx
-import { Switch, Label } from "@sy-ui/react";
+import { Switch, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -187,7 +187,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Switch, Label, Description } from "@sy-ui/react";
+    import { Switch, Label, Description } from "@sy-inc/react";
 
     <Switch>
       <Switch.Content>
@@ -293,7 +293,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { SwitchGroup } from "@sy-ui/react";
+    import { SwitchGroup } from "@sy-inc/react";
 
     <SwitchGroup>
       <Switch name="notifications">

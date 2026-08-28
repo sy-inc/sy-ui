@@ -1,4 +1,4 @@
-import {Label, Slider} from "@sy-ui/react";
+import {Label, Slider} from "@sy-inc/react";
 import React from "react";
 
 export function SliderDemo() {

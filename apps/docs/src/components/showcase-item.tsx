@@ -4,7 +4,7 @@ import type {ShowcaseItem as ShowcaseItemType} from "@/showcases";
 import type {ReactNode} from "react";
 import type {UrlObject} from "url";
 
-import {chipVariants} from "@sy-ui/react";
+import {chipVariants} from "@sy-inc/react";
 import Link from "next/link";
 
 import {cn} from "@/utils/cn";

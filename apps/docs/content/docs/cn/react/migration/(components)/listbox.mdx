@@ -14,7 +14,7 @@ description: Listbox 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，Listbox 使用彼此独立的组件：
 
 ```tsx
-import { Listbox, ListboxItem, ListboxSection } from "@sy-ui/react";
+import { Listbox, ListboxItem, ListboxSection } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -30,7 +30,7 @@ export default function App() {
 在 v3 中，ListBox 使用复合组件：
 
 ```tsx
-import { ListBox, Label } from "@sy-ui/react";
+import { ListBox, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -111,7 +111,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import type { Selection } from "@sy-ui/react";
+    import type { Selection } from "@sy-inc/react";
 
     {/* Single selection */}
     const [singleSelected, setSingleSelected] = useState<Selection>(new Set(["text"]));
@@ -167,7 +167,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, Label } from "@sy-ui/react";
+    import { Description, Label } from "@sy-inc/react";
 
     <ListBox.Item id="new" textValue="New file">
       <Label>New file</Label>
@@ -218,7 +218,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Header, Label, Separator } from "@sy-ui/react";
+    import { Header, Label, Separator } from "@sy-inc/react";
 
     <ListBox>
       <ListBox.Section>

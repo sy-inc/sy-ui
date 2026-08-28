@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {ProgressBarVariants} from "@sy-ui/styles";
+import type {ProgressBarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ProgressBarRenderProps} from "react-aria-components/ProgressBar";
 
-import {progressBarVariants} from "@sy-ui/styles";
+import {progressBarVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {ProgressBar as ProgressBarPrimitive} from "react-aria-components/ProgressBar";
 

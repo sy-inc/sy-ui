@@ -24,6 +24,6 @@ export type {DescriptionRootProps, DescriptionRootProps as DescriptionProps} fro
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {descriptionVariants} from "@sy-ui/styles";
+export {descriptionVariants} from "@sy-inc/styles";
 
-export type {DescriptionVariants} from "@sy-ui/styles";
+export type {DescriptionVariants} from "@sy-inc/styles";

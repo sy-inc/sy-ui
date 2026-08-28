@@ -81,6 +81,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {alertDialogVariants} from "@sy-ui/styles";
+export {alertDialogVariants} from "@sy-inc/styles";
 
-export type {AlertDialogVariants} from "@sy-ui/styles";
+export type {AlertDialogVariants} from "@sy-inc/styles";

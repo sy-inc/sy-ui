@@ -1,4 +1,4 @@
-import {Description, Label, Radio, RadioGroup} from "@sy-ui/react";
+import {Description, Label, Radio, RadioGroup} from "@sy-inc/react";
 
 const options = [
   {description: "每月扣费 $12", label: "按月", value: "monthly"},

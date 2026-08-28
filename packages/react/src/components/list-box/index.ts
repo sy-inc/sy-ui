@@ -32,6 +32,6 @@ export type {ListBoxRootProps, ListBoxRootProps as ListBoxProps} from "./list-bo
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {listboxVariants} from "@sy-ui/styles";
+export {listboxVariants} from "@sy-inc/styles";
 
-export type {ListBoxVariants} from "@sy-ui/styles";
+export type {ListBoxVariants} from "@sy-inc/styles";

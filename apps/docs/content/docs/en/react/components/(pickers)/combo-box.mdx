@@ -12,7 +12,7 @@ links:
 ## Usage
 
 ```tsx
-import { ComboBox } from '@sy-ui/react';
+import { ComboBox } from '@sy-inc/react';
 ```
 
 <ComponentPreview
@@ -22,7 +22,7 @@ import { ComboBox } from '@sy-ui/react';
 ## Anatomy
 
 ```tsx
-import { ComboBox, Input, Label, Description, Header, ListBox, Separator } from '@sy-ui/react';
+import { ComboBox, Input, Label, Description, Header, ListBox, Separator } from '@sy-inc/react';
 
 export default () => (
   <ComboBox>
@@ -322,7 +322,7 @@ When using render functions with ComboBox, these values are provided:
 ### Basic Usage
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 
 <ComboBox className="w-[256px]">
   <Label>Favorite Animal</Label>
@@ -348,7 +348,7 @@ import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
 ### With Sections
 
 ```tsx
-import { ComboBox, Input, Label, ListBox, Header, Separator } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox, Header, Separator } from '@sy-inc/react';
 
 <ComboBox className="w-[256px]">
   <Label>Country</Label>
@@ -381,9 +381,9 @@ import { ComboBox, Input, Label, ListBox, Header, Separator } from '@sy-ui/react
 ### Controlled Selection
 
 ```tsx
-import type { Key } from '@sy-ui/react';
+import type { Key } from '@sy-inc/react';
 
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 import { useState } from 'react';
 
 function ControlledComboBox() {
@@ -420,7 +420,7 @@ function ControlledComboBox() {
 ### Controlled Input Value
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 import { useState } from 'react';
 
 function ControlledInputComboBox() {
@@ -457,7 +457,7 @@ function ControlledInputComboBox() {
 ### Asynchronous Loading
 
 ```tsx
-import { Collection, ComboBox, EmptyState, Input, Label, ListBox, ListBoxLoadMoreItem, Spinner } from '@sy-ui/react';
+import { Collection, ComboBox, EmptyState, Input, Label, ListBox, ListBoxLoadMoreItem, Spinner } from '@sy-inc/react';
 import { useAsyncList } from '@react-stately/data';
 
 interface Character {
@@ -521,7 +521,7 @@ function AsyncComboBox() {
 ### Custom Filtering
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 
 <ComboBox
   className="w-[256px]"
@@ -555,7 +555,7 @@ import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
 Control when the popover opens using the `menuTrigger` prop:
 
 ```tsx
-import { ComboBox, Description, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Description, Input, Label, ListBox } from '@sy-inc/react';
 
 // Opens on focus (default)
 <ComboBox className="w-[256px]" menuTrigger="focus">
@@ -617,7 +617,7 @@ import { ComboBox, Description, Input, Label, ListBox } from '@sy-ui/react';
 Use the `formValue` prop to control whether the selected item's key or text is submitted in forms:
 
 ```tsx
-import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-ui/react';
+import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-inc/react';
 
 function FormValueExample() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -683,7 +683,7 @@ function FormValueExample() {
 Control how validation is displayed using the `validationBehavior` prop:
 
 ```tsx
-import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-ui/react';
+import { Button, ComboBox, FieldError, Form, Input, Label, ListBox } from '@sy-inc/react';
 
 function ValidationExample() {
   return (
@@ -739,7 +739,7 @@ function ValidationExample() {
 Use the `validate` prop to add custom validation logic:
 
 ```tsx
-import { ComboBox, FieldError, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, FieldError, Input, Label, ListBox } from '@sy-inc/react';
 
 function CustomValidationExample() {
   return (
@@ -788,7 +788,7 @@ function CustomValidationExample() {
 Use the `isReadOnly` prop to make the comboBox read-only:
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from '@sy-ui/react';
+import { ComboBox, Input, Label, ListBox } from '@sy-inc/react';
 
 <ComboBox className="w-[256px]" isReadOnly defaultSelectedKey="cat">
   <Label>Favorite Animal</Label>

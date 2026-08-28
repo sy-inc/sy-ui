@@ -3,7 +3,7 @@
 import type {Time} from "@internationalized/date";
 
 import {Clock} from "@gravity-ui/icons";
-import {Button, Description, FieldError, Form, Label, TimeField} from "@sy-ui/react";
+import {Button, Description, FieldError, Form, Label, TimeField} from "@sy-inc/react";
 import {parseTime} from "@internationalized/date";
 import {useState} from "react";
 

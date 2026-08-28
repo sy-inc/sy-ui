@@ -30,5 +30,5 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {listboxItemVariants} from "@sy-ui/styles";
-export type {ListBoxItemVariants} from "@sy-ui/styles";
+export {listboxItemVariants} from "@sy-inc/styles";
+export type {ListBoxItemVariants} from "@sy-inc/styles";

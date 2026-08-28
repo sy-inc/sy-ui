@@ -12,7 +12,7 @@ description: Breadcrumbs 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`Breadcrumbs` 接受 `items` prop 或子节点：
 
 ```tsx
-import { Breadcrumbs, BreadcrumbItem } from "@sy-ui/react";
+import { Breadcrumbs, BreadcrumbItem } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -28,7 +28,7 @@ export default function App() {
 在 v3 中，Breadcrumbs 改为复合组件模式，由 `Breadcrumbs` 与 `BreadcrumbsItem` 组成：
 
 ```tsx
-import { Breadcrumbs, BreadcrumbsItem } from "@sy-ui/react";
+import { Breadcrumbs, BreadcrumbsItem } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -98,7 +98,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { Icon } from "@iconify/react";
-    import { Breadcrumbs, BreadcrumbsItem } from "@sy-ui/react";
+    import { Breadcrumbs, BreadcrumbsItem } from "@sy-inc/react";
 
     <Breadcrumbs separator={<Icon icon="gravity-ui:caret-right" />}>
       <BreadcrumbsItem href="#">Home</BreadcrumbsItem>

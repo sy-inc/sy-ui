@@ -1,4 +1,4 @@
-import {Avatar, Card} from "@sy-ui/react";
+import {Avatar, Card} from "@sy-inc/react";
 
 export function WithAvatar() {
   return (

@@ -131,8 +131,8 @@ export type {TableVirtualizerProps} from "./table-virtualizer";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {tableVariants} from "@sy-ui/styles";
+export {tableVariants} from "@sy-inc/styles";
 
-export type {TableVariants} from "@sy-ui/styles";
+export type {TableVariants} from "@sy-inc/styles";
 
 export type {TableColumnDefinition, TableColumnPinnedSide} from "./table-column-geometry";

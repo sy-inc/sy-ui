@@ -1,6 +1,6 @@
 "use client";
 
-import {Link} from "@sy-ui/react";
+import {Link} from "@sy-inc/react";
 import {ReactQRCode} from "@lglab/react-qr-code";
 
 import {NATIVE_APP} from "@/config/native-app";

@@ -12,7 +12,7 @@ description: Migration guide for Switch from SY UI v2 to v3
 In v2, Switch used a simple structure with children as label:
 
 ```tsx
-import { Switch } from "@sy-ui/react";
+import { Switch } from "@sy-inc/react";
 
 export default function App() {
   return <Switch>Enable notifications</Switch>;
@@ -22,7 +22,7 @@ export default function App() {
 In v3, Switch requires compound components:
 
 ```tsx
-import { Switch, Label } from "@sy-ui/react";
+import { Switch, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -187,7 +187,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Switch, Label, Description } from "@sy-ui/react";
+    import { Switch, Label, Description } from "@sy-inc/react";
 
     <Switch>
       <Switch.Content>
@@ -293,7 +293,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { SwitchGroup } from "@sy-ui/react";
+    import { SwitchGroup } from "@sy-inc/react";
 
     <SwitchGroup>
       <Switch name="notifications">

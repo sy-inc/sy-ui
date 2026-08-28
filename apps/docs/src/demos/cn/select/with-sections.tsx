@@ -1,4 +1,4 @@
-import {Header, Label, ListBox, Select, Separator} from "@sy-ui/react";
+import {Header, Label, ListBox, Select, Separator} from "@sy-inc/react";
 
 export function WithSections() {
   return (

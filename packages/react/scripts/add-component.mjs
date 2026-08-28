@@ -171,8 +171,8 @@ export {${componentName}Variants, type ${componentName}VariantProps} from "./${k
   console.log("\n🎯 Next steps:");
   console.log("   1. Run 'pnpm build' to generate the export in package.json");
   console.log("   2. The component will be available as:");
-  console.log(`      - import { ${componentName} } from "@sy-ui/react"`);
-  console.log(`      - import { ${componentName} } from "@sy-ui/react/${kebabName}"`);
+  console.log(`      - import { ${componentName} } from "@sy-inc/react"`);
+  console.log(`      - import { ${componentName} } from "@sy-inc/react/${kebabName}"`);
 }
 
 // Get component name from command line

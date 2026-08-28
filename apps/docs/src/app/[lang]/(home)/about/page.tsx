@@ -31,7 +31,7 @@ export default function AboutPage() {
         <p>
           SY UI source code is available in the{" "}
           <a href="https://github.com/sy-ui/sy-ui">official GitHub repository</a>. Official
-          packages include <code>@sy-ui/react</code>, <code>@sy-ui/react-mcp</code>, and{" "}
+          packages include <code>@sy-inc/react</code>, <code>@sy-inc/react-mcp</code>, and{" "}
           <code>@sy-ui/native-mcp</code>. The official <code>sy-ui-cli</code> is documented in the{" "}
           <a href="/docs/react/getting-started/cli">SY UI CLI guide</a>. Developers and coding
           agents can inspect the same public source and documentation rather than relying on an

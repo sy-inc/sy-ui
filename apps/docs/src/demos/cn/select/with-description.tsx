@@ -1,4 +1,4 @@
-import {Description, Label, ListBox, Select} from "@sy-ui/react";
+import {Description, Label, ListBox, Select} from "@sy-inc/react";
 
 export function WithDescription() {
   return (

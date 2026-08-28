@@ -1,5 +1,5 @@
 import {ChevronsExpandVertical} from "@gravity-ui/icons";
-import {Label, ListBox, Select} from "@sy-ui/react";
+import {Label, ListBox, Select} from "@sy-inc/react";
 
 export function CustomIndicator() {
   return (

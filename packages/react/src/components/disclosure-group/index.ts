@@ -27,9 +27,9 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {disclosureGroupVariants} from "@sy-ui/styles";
+export {disclosureGroupVariants} from "@sy-inc/styles";
 
-export type {DisclosureGroupVariants} from "@sy-ui/styles";
+export type {DisclosureGroupVariants} from "@sy-inc/styles";
 
 /* -------------------------------------------------------------------------------------------------
  * Hooks

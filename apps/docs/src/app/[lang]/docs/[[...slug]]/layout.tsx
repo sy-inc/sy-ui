@@ -1,6 +1,6 @@
 import type {CSSProperties, ReactNode} from "react";
 
-import {Separator} from "@sy-ui/react";
+import {Separator} from "@sy-inc/react";
 
 import {HeaderBanner, ProBanner} from "@/app/[lang]/(home)/components/pro-banner";
 import {SHOW_BANNER} from "@/app/[lang]/(home)/components/pro-constants";

@@ -54,7 +54,7 @@ The trade-off is that style props can make JSX verbose for complex layouts. A ca
 SY UI takes the opposite approach — components are styled with Tailwind CSS utility classes, and you customize them the same way you'd customize any Tailwind element:
 
 ```tsx
-import { Card, Button } from "@sy-ui/react";
+import { Card, Button } from "@sy-inc/react";
 
 <Card className="bg-blue-500 p-4 rounded-lg">
   <Card.Header>
@@ -107,7 +107,7 @@ This is where the day-to-day developer experience diverges most noticeably.
 SY UI uses a compound component pattern where a parent component exposes sub-components through dot notation:
 
 ```tsx
-import { Modal, Button } from "@sy-ui/react";
+import { Modal, Button } from "@sy-inc/react";
 
 <Modal>
   <Button>Open Modal</Button>

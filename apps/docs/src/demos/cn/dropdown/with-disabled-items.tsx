@@ -1,7 +1,7 @@
 "use client";
 
 import {Bars, Pencil, SquarePlus, TrashBin} from "@gravity-ui/icons";
-import {Button, Description, Dropdown, Header, Kbd, Label, Separator} from "@sy-ui/react";
+import {Button, Description, Dropdown, Header, Kbd, Label, Separator} from "@sy-inc/react";
 
 export function WithDisabledItems() {
   return (

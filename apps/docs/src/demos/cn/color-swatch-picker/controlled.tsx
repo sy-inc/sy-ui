@@ -1,6 +1,6 @@
 "use client";
 
-import {ColorSwatchPicker, parseColor} from "@sy-ui/react";
+import {ColorSwatchPicker, parseColor} from "@sy-inc/react";
 import {useState} from "react";
 
 const colors = ["#F43F5E", "#D946EF", "#8B5CF6", "#3B82F6", "#06B6D4", "#10B981", "#84CC16"];

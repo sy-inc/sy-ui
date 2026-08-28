@@ -1,4 +1,4 @@
-import {Description, Label, TextArea, TextField} from "@sy-ui/react";
+import {Description, Label, TextArea, TextField} from "@sy-inc/react";
 
 export function TextAreaExample() {
   return (

@@ -1,4 +1,4 @@
-import {User, cleanup, render, runAllTimers, screen, setupUser} from "@sy-ui/testing/helpers";
+import {User, cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {ModalFixture} from "./fixtures";
 

@@ -1,4 +1,4 @@
-import {Avatar, Badge} from "@sy-ui/react";
+import {Avatar, Badge} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

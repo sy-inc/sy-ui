@@ -1,4 +1,4 @@
-import {Description, Label, Radio, RadioGroup, Surface} from "@sy-ui/react";
+import {Description, Label, Radio, RadioGroup, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

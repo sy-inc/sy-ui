@@ -1,4 +1,4 @@
-import {Surface, TextArea} from "@sy-ui/react";
+import {Surface, TextArea} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

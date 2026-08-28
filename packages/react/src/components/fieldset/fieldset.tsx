@@ -3,7 +3,7 @@
 import type {DOMRenderProps} from "../../utils/dom";
 import type {ReactNode} from "react";
 
-import {fieldsetVariants} from "@sy-ui/styles";
+import {fieldsetVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   ButtonContext,

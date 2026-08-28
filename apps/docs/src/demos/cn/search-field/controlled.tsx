@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, Label, SearchField} from "@sy-ui/react";
+import {Button, Description, Label, SearchField} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

@@ -1,4 +1,4 @@
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 
 import {BottomBar} from "@/components/bottom-bar";
 

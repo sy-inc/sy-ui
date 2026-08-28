@@ -1,4 +1,4 @@
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 
 import {Description} from "@/components/description";
 import {Input} from "@/components/input";

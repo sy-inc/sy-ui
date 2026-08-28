@@ -43,6 +43,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {switchVariants} from "@sy-ui/styles";
+export {switchVariants} from "@sy-inc/styles";
 
-export type {SwitchVariants} from "@sy-ui/styles";
+export type {SwitchVariants} from "@sy-inc/styles";

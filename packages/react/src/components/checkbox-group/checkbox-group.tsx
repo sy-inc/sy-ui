@@ -1,10 +1,10 @@
 "use client";
 
 import type {CheckboxVariants} from "../checkbox";
-import type {CheckboxGroupVariants} from "@sy-ui/styles";
+import type {CheckboxGroupVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {checkboxGroupVariants} from "@sy-ui/styles";
+import {checkboxGroupVariants} from "@sy-inc/styles";
 import React, {createContext} from "react";
 import {CheckboxGroup as CheckboxGroupPrimitive} from "react-aria-components/CheckboxGroup";
 

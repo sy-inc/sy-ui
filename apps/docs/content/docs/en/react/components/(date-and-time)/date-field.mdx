@@ -12,7 +12,7 @@ links:
 ## Usage
 
 ```tsx
-import { DateField } from '@sy-ui/react';
+import { DateField } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="date-field-basic" />
@@ -20,7 +20,7 @@ import { DateField } from '@sy-ui/react';
 ## Anatomy
 
 ```tsx
-import {DateField, Label, Description, FieldError} from '@sy-ui/react';
+import {DateField, Label, Description, FieldError} from '@sy-inc/react';
 
 export default () => (
   <DateField>
@@ -242,20 +242,20 @@ DateField inherits all props from React Aria's [DateField](https://react-aria.ad
 
 DateField works with these separate components that should be imported and used directly:
 
-- **Label** - Field label component from `@sy-ui/react`
+- **Label** - Field label component from `@sy-inc/react`
 - **DateField.Group** - Date input group component (documented below)
-- **DateField.Input** - Input component with segmented editing from `@sy-ui/react`
+- **DateField.Input** - Input component with segmented editing from `@sy-inc/react`
 - **DateField.InputContainer** - Scrollable container for grouping multiple inputs (e.g. start/end range inputs) with horizontal overflow
 - **DateField.Segment** - Individual date segment (year, month, day, etc.)
 - **DateField.Prefix** / **DateField.Suffix** - Prefix and suffix slots for the input group
-- **Description** - Helper text component from `@sy-ui/react`
-- **FieldError** - Validation error message from `@sy-ui/react`
+- **Description** - Helper text component from `@sy-inc/react`
+- **FieldError** - Validation error message from `@sy-inc/react`
 
 Each of these components has its own props API. Use them directly within DateField for composition:
 
 ```tsx
 import {parseDate} from '@internationalized/date';
-import {DateField, Label, Description, FieldError} from '@sy-ui/react';
+import {DateField, Label, Description, FieldError} from '@sy-inc/react';
 
 <DateField
   isRequired

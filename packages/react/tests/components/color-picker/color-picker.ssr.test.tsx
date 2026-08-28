@@ -1,4 +1,4 @@
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 
 import {ColorArea} from "@/components/color-area";
 import {ColorPicker} from "@/components/color-picker";

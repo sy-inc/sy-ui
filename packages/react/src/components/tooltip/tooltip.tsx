@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {TooltipVariants} from "@sy-ui/styles";
+import type {TooltipVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {tooltipVariants} from "@sy-ui/styles";
+import {tooltipVariants} from "@sy-inc/styles";
 import {mergeProps} from "@react-aria/utils";
 import React, {createContext, use, useRef} from "react";
 import {useFocusable} from "react-aria/useFocusable";

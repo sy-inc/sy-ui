@@ -63,6 +63,6 @@ export {useCalendarOrRangeState} from "./use-calendar-state";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {calendarYearPickerVariants} from "@sy-ui/styles";
+export {calendarYearPickerVariants} from "@sy-inc/styles";
 
-export type {CalendarYearPickerVariants} from "@sy-ui/styles";
+export type {CalendarYearPickerVariants} from "@sy-inc/styles";

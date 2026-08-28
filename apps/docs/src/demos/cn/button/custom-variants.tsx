@@ -1,7 +1,7 @@
-import type {ButtonProps} from "@sy-ui/react";
+import type {ButtonProps} from "@sy-inc/react";
 import type {VariantProps} from "tailwind-variants";
 
-import {Button, buttonVariants} from "@sy-ui/react";
+import {Button, buttonVariants} from "@sy-inc/react";
 import {tv} from "tailwind-variants";
 
 const myButtonVariants = tv({

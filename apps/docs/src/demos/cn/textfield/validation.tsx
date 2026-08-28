@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, FieldError, Input, Label, TextArea, TextField} from "@sy-ui/react";
+import {Description, FieldError, Input, Label, TextArea, TextField} from "@sy-inc/react";
 import React from "react";
 
 export function Validation() {

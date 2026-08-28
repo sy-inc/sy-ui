@@ -1,4 +1,4 @@
-import {Alert, Button, CloseButton} from "@sy-ui/react";
+import {Alert, Button, CloseButton} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

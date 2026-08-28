@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {CalendarYearPickerVariants} from "@sy-ui/styles";
+import type {CalendarYearPickerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {CalendarHeadingProps, CalendarYearPickerProps} from "react-aria/useCalendar";
 
-import {calendarYearPickerVariants} from "@sy-ui/styles";
+import {calendarYearPickerVariants} from "@sy-inc/styles";
 import React from "react";
 import {useCalendarHeading, useCalendarYearPicker} from "react-aria/useCalendar";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";

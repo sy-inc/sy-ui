@@ -1,4 +1,4 @@
-import {TextArea} from "@sy-ui/react";
+import {TextArea} from "@sy-inc/react";
 
 export function FullWidth() {
   return (

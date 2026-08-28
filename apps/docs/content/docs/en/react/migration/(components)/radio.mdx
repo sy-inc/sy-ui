@@ -12,7 +12,7 @@ description: Migration guide for Radio from SY UI v2 to v3
 In v2, Radio used a simple structure with props:
 
 ```tsx
-import { RadioGroup, Radio } from "@sy-ui/react";
+import { RadioGroup, Radio } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
 In v3, Radio requires compound components:
 
 ```tsx
-import { RadioGroup, Radio, Label, Description } from "@sy-ui/react";
+import { RadioGroup, Radio, Label, Description } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -102,7 +102,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Label, Description, FieldError } from "@sy-ui/react";
+    import { Label, Description, FieldError } from "@sy-inc/react";
 
     {/* With description */}
     <RadioGroup>

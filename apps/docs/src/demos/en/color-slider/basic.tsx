@@ -1,4 +1,4 @@
-import {ColorSlider, Label} from "@sy-ui/react";
+import {ColorSlider, Label} from "@sy-inc/react";
 
 export function Basic() {
   return (

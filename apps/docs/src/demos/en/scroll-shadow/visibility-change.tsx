@@ -1,8 +1,8 @@
 "use client";
 
-import type {ScrollShadowVisibility} from "@sy-ui/react";
+import type {ScrollShadowVisibility} from "@sy-inc/react";
 
-import {Card, ScrollShadow} from "@sy-ui/react";
+import {Card, ScrollShadow} from "@sy-inc/react";
 import {useState} from "react";
 
 const images = [

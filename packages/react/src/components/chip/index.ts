@@ -26,6 +26,6 @@ export type {ChipRootProps, ChipRootProps as ChipProps, ChipLabelProps} from "./
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {chipVariants} from "@sy-ui/styles";
+export {chipVariants} from "@sy-inc/styles";
 
-export type {ChipVariants} from "@sy-ui/styles";
+export type {ChipVariants} from "@sy-inc/styles";

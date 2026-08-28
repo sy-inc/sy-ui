@@ -1,4 +1,4 @@
-import {Description, Radio, RadioGroup} from "@sy-ui/react";
+import {Description, Radio, RadioGroup} from "@sy-inc/react";
 
 export function Variants() {
   return (

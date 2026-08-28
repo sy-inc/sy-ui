@@ -1,6 +1,6 @@
 "use client";
 
-import {DateField, DateRangePicker, Label, RangeCalendar} from "@sy-ui/react";
+import {DateField, DateRangePicker, Label, RangeCalendar} from "@sy-inc/react";
 
 export function Basic() {
   return (

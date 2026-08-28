@@ -1,4 +1,4 @@
-import {ColorArea} from "@sy-ui/react";
+import {ColorArea} from "@sy-inc/react";
 
 export function ColorAreaDisabled() {
   return (

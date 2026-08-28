@@ -1,4 +1,4 @@
-import {Checkbox, FieldError} from "@sy-ui/react";
+import {Checkbox, FieldError} from "@sy-inc/react";
 
 export function Invalid() {
   return (

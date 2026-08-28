@@ -10,11 +10,11 @@ interface SetupPromptConfig {
   docsPath: string;
   /** Skill / MCP server / install identifier, e.g. `sy-ui-react`. */
   id: string;
-  /** One-line summary of what is being built, e.g. ``UIs with SY UI v3 (`@sy-ui/react`)``. */
+  /** One-line summary of what is being built, e.g. ``UIs with SY UI v3 (`@sy-inc/react`)``. */
   intro: string;
   /** Sentence describing what the MCP server exposes. */
   mcpAccess: string;
-  /** MCP npm package, e.g. `@sy-ui/react-mcp`. */
+  /** MCP npm package, e.g. `@sy-inc/react-mcp`. */
   mcpPackage: string;
   /** Short marketing name, e.g. `SY UI` or `SY UI Native`. */
   productName: string;
@@ -137,9 +137,9 @@ These instructions are published at https://sy-ui.com/docs/${docsPath}/getting-s
 const REACT_PROMPT = buildSetupPrompt({
   docsPath: "react",
   id: "sy-ui-react",
-  intro: "UIs with SY UI v3 (`@sy-ui/react`)",
+  intro: "UIs with SY UI v3 (`@sy-inc/react`)",
   mcpAccess: "component docs, source code, CSS, and theme variables",
-  mcpPackage: "@sy-ui/react-mcp",
+  mcpPackage: "@sy-inc/react-mcp",
   productName: "SY UI",
 });
 

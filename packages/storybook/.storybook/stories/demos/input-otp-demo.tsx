@@ -1,4 +1,4 @@
-import {InputOTP, Label, Link} from "@sy-ui/react";
+import {InputOTP, Label, Link} from "@sy-inc/react";
 import React, {useState} from "react";
 
 export function InputOTPDemo() {

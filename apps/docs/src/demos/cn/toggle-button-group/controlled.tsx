@@ -1,9 +1,9 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
 import {Bold, Italic, Strikethrough, Underline} from "@gravity-ui/icons";
-import {ToggleButton, ToggleButtonGroup} from "@sy-ui/react";
+import {ToggleButton, ToggleButtonGroup} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Controlled() {

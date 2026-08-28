@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {ToggleButtonGroupVariants, ToggleButtonVariants} from "@sy-ui/styles";
+import type {ToggleButtonGroupVariants, ToggleButtonVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {toggleButtonGroupVariants} from "@sy-ui/styles";
+import {toggleButtonGroupVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {useSlottedContext} from "react-aria-components/slots";
 import {

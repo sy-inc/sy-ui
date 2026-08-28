@@ -24,6 +24,6 @@ export type {EmptyStateRootProps, EmptyStateRootProps as EmptyStateProps} from "
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {emptyStateVariants} from "@sy-ui/styles";
+export {emptyStateVariants} from "@sy-inc/styles";
 
-export type {EmptyStateVariants} from "@sy-ui/styles";
+export type {EmptyStateVariants} from "@sy-inc/styles";

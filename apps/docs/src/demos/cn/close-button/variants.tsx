@@ -1,4 +1,4 @@
-import {CloseButton} from "@sy-ui/react";
+import {CloseButton} from "@sy-inc/react";
 
 export function Variants() {
   return (

@@ -1,4 +1,4 @@
-import {Description, FieldError, Input, Label, TextField} from "@sy-ui/react";
+import {Description, FieldError, Input, Label, TextField} from "@sy-inc/react";
 import React from "react";
 
 export function TextfieldDemo() {

@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Header, Kbd, Label, ListBox, Separator, Surface} from "@sy-ui/react";
+import {Description, Header, Kbd, Label, ListBox, Separator, Surface} from "@sy-inc/react";
 
 import {Iconify} from "@/components/iconify";
 import {useDictionary} from "@/hooks/use-dictionary";

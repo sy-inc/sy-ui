@@ -25,7 +25,7 @@ v3 提供两个组件来替代 v2 的 Autocomplete：
 在 v2 中，Autocomplete 是内部包装 Input 的单一组件：
 
 ```tsx
-import { Autocomplete, AutocompleteItem } from "@sy-ui/react";
+import { Autocomplete, AutocompleteItem } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -42,7 +42,7 @@ export default function App() {
 ComboBox 提供与 v2 Autocomplete 最接近的体验：内联文本输入并随输入筛选选项。
 
 ```tsx
-import { ComboBox, Input, Label, ListBox } from "@sy-ui/react";
+import { ComboBox, Input, Label, ListBox } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -74,7 +74,7 @@ export default function App() {
 Autocomplete 提供选择器式触发器，并在 Popover 内提供搜索 / 筛选字段：
 
 ```tsx
-import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-ui/react";
+import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-inc/react";
 
 export default function App() {
   const { contains } = useFilter({ sensitivity: "base" });
@@ -168,10 +168,10 @@ v3 Autocomplete 在 `Autocomplete.Filter` 内使用 `SearchField`，作为 Popov
 
 ### 7. useFilter Hook
 
-v3 Autocomplete 使用 `useFilter` hook（来自 React Aria，由 `@sy-ui/react` 再导出）提供带区域设置感知的筛选函数：
+v3 Autocomplete 使用 `useFilter` hook（来自 React Aria，由 `@sy-inc/react` 再导出）提供带区域设置感知的筛选函数：
 
 ```tsx
-import { useFilter } from "@sy-ui/react";
+import { useFilter } from "@sy-inc/react";
 
 const { contains } = useFilter({ sensitivity: "base" });
 
@@ -257,7 +257,7 @@ const { contains } = useFilter({ sensitivity: "base" });
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import type { Key } from "@sy-ui/react";
+    import type { Key } from "@sy-inc/react";
 
     const [selectedKey, setSelectedKey] = useState<Key | null>("cat");
 
@@ -309,8 +309,8 @@ const { contains } = useFilter({ sensitivity: "base" });
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import type { Key } from "@sy-ui/react";
-    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-ui/react";
+    import type { Key } from "@sy-inc/react";
+    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-inc/react";
 
     const [value, setValue] = useState<Key | Key[] | null>("cat");
     const { contains } = useFilter({ sensitivity: "base" });
@@ -365,7 +365,7 @@ const { contains } = useFilter({ sensitivity: "base" });
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Header, Separator } from "@sy-ui/react";
+    import { Header, Separator } from "@sy-inc/react";
 
     <ComboBox>
       <Label>Country</Label>
@@ -415,7 +415,7 @@ const { contains } = useFilter({ sensitivity: "base" });
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-ui/react";
+    import { Autocomplete, Label, SearchField, ListBox, useFilter } from "@sy-inc/react";
 
     function FilterExample() {
       const { contains } = useFilter({ sensitivity: "base" });
@@ -477,7 +477,7 @@ const { contains } = useFilter({ sensitivity: "base" });
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { FieldError, Form } from "@sy-ui/react";
+    import { FieldError, Form } from "@sy-inc/react";
 
     {/* Required field */}
     <Form>

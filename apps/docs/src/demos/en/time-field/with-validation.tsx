@@ -2,7 +2,7 @@
 
 import type {Time} from "@internationalized/date";
 
-import {Description, FieldError, Label, TimeField} from "@sy-ui/react";
+import {Description, FieldError, Label, TimeField} from "@sy-inc/react";
 import {parseTime} from "@internationalized/date";
 import {useState} from "react";
 

@@ -1,9 +1,9 @@
 "use client";
 
-import type {DisclosureGroupVariants} from "@sy-ui/styles";
+import type {DisclosureGroupVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {disclosureGroupVariants} from "@sy-ui/styles";
+import {disclosureGroupVariants} from "@sy-inc/styles";
 import React, {createContext} from "react";
 import {DisclosureGroup as DisclosureGroupPrimitive} from "react-aria-components/DisclosureGroup";
 

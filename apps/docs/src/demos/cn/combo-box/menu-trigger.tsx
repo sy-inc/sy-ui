@@ -1,6 +1,6 @@
 "use client";
 
-import {ComboBox, Description, Input, Label, ListBox} from "@sy-ui/react";
+import {ComboBox, Description, Input, Label, ListBox} from "@sy-inc/react";
 
 export function MenuTrigger() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
 import {
   Autocomplete,
@@ -13,7 +13,7 @@ import {
   ListBox,
   SearchField,
   useFilter,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {useState} from "react";
 
 export function UserSelection() {

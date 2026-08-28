@@ -2,10 +2,10 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {CardVariants} from "@sy-ui/styles";
+import type {CardVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
 
-import {cardVariants} from "@sy-ui/styles";
+import {cardVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 
 import {composeSlotClassName} from "../../utils/compose";

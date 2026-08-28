@@ -24,6 +24,6 @@ export type {ColorSwatchRootProps, ColorSwatchRootProps as ColorSwatchProps} fro
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {colorSwatchVariants} from "@sy-ui/styles";
+export {colorSwatchVariants} from "@sy-inc/styles";
 
-export type {ColorSwatchVariants} from "@sy-ui/styles";
+export type {ColorSwatchVariants} from "@sy-inc/styles";

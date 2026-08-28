@@ -29,6 +29,6 @@ export {SurfaceContext} from "./surface";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {surfaceVariants} from "@sy-ui/styles";
+export {surfaceVariants} from "@sy-inc/styles";
 
-export type {SurfaceVariants} from "@sy-ui/styles";
+export type {SurfaceVariants} from "@sy-inc/styles";

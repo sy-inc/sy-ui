@@ -1,9 +1,9 @@
 "use client";
 
-import type {NumberFieldVariants} from "@sy-ui/styles";
+import type {NumberFieldVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {numberFieldVariants} from "@sy-ui/styles";
+import {numberFieldVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 import {Group as GroupPrimitive} from "react-aria-components/Group";

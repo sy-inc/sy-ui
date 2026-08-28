@@ -1,6 +1,6 @@
 import type {ReactNode} from "react";
 
-import {ssrSmoke} from "@sy-ui/testing/helpers";
+import {ssrSmoke} from "@sy-inc/testing/helpers";
 import {CalendarDate} from "@internationalized/date";
 
 import {DateField} from "@/components/date-field";

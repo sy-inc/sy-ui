@@ -70,10 +70,10 @@ Options:
 
 Commands:
   init [options] [projectName]   Initializes a new project
-  install [options]              Installs @sy-ui/react and @sy-ui/styles to your project
-  upgrade [options]              Upgrades @sy-ui/react and @sy-ui/styles to the latest versions
-  uninstall [options]            Uninstall @sy-ui/react and @sy-ui/styles from the project
-  list [options]                 Lists installed SY UI packages (@sy-ui/react, @sy-ui/styles)
+  install [options]              Installs @sy-inc/react and @sy-inc/styles to your project
+  upgrade [options]              Upgrades @sy-inc/react and @sy-inc/styles to the latest versions
+  uninstall [options]            Uninstall @sy-inc/react and @sy-inc/styles from the project
+  list [options]                 Lists installed SY UI packages (@sy-inc/react, @sy-inc/styles)
   env [options]                  Displays debugging information for the local environment
   doctor [options]               Checks for issues in the project
   agents-md [options]            Downloads SY UI documentation for AI coding agents
@@ -161,7 +161,7 @@ npm run dev
 
 ### Install
 
-Install `@sy-ui/react` and `@sy-ui/styles` to your project, along with their peer dependencies. If they are already installed, the command does nothing.
+Install `@sy-inc/react` and `@sy-inc/styles` to your project, along with their peer dependencies. If they are already installed, the command does nothing.
 
 ```bash
 sy-ui install [options]
@@ -181,8 +181,8 @@ SY UI CLI <version>
 ╭─────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version        │   Status   │   Docs                 │
 │─────────────────────────────────────────────────────────────────────────────│
-│   @sy-ui/react    │   3.0.0          │   stable   │   https://sy-ui.com   │
-│   @sy-ui/styles   │   3.0.0          │   stable   │   https://sy-ui.com   │
+│   @sy-inc/react    │   3.0.0          │   stable   │   https://sy-ui.com   │
+│   @sy-inc/styles   │   3.0.0          │   stable   │   https://sy-ui.com   │
 ╰─────────────────────────────────────────────────────────────────────────────╯
 
 ╭─────────────── PeerDependencies ────────────────╮
@@ -194,13 +194,13 @@ SY UI CLI <version>
 ❯   Yes
     No
 
-✅ @sy-ui/react and @sy-ui/styles installed successfully
+✅ @sy-inc/react and @sy-inc/styles installed successfully
 ```
 
 ### upgrade
 
 
-Upgrade `@sy-ui/react` and `@sy-ui/styles` with their peer dependencies to the latest versions.
+Upgrade `@sy-inc/react` and `@sy-inc/styles` with their peer dependencies to the latest versions.
 
 ```bash
 sy-ui upgrade [options]
@@ -216,8 +216,8 @@ sy-ui upgrade [options]
 SY UI CLI <version>
 
 ╭──────────────────────────── Upgrade ────────────────────────────╮
-│  @sy-ui/react               ^3.0.0  ->  ^3.1.0                │
-│  @sy-ui/styles              ^3.0.0  ->  ^3.1.0                │
+│  @sy-inc/react               ^3.0.0  ->  ^3.1.0                │
+│  @sy-inc/styles              ^3.0.0  ->  ^3.1.0                │
 ╰─────────────────────────────────────────────────────────────────╯
 
 ? Would you like to proceed with the upgrade? › - Use arrow-keys. Return to submit.
@@ -229,7 +229,7 @@ SY UI CLI <version>
 
 ### uninstall
 
-Uninstall `@sy-ui/react` and `@sy-ui/styles` from your project. Peer dependencies will not be uninstalled.
+Uninstall `@sy-inc/react` and `@sy-inc/styles` from your project. Peer dependencies will not be uninstalled.
 
 ```bash
 sy-ui uninstall [options]
@@ -248,19 +248,19 @@ SY UI CLI <version>
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version   │   Status   │   Docs                               │
 │──────────────────────────────────────────────────────────────────────────────────────│
-│   @sy-ui/react    │   3.0.0     │   stable   │   https://sy-ui.com                 │
-│   @sy-ui/styles   │   3.0.0     │   stable   │   https://sy-ui.com                 │
+│   @sy-inc/react    │   3.0.0     │   stable   │   https://sy-ui.com                 │
+│   @sy-inc/styles   │   3.0.0     │   stable   │   https://sy-ui.com                 │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 ? Confirm uninstallation of these packages: › - Use arrow-keys. Return to submit.
 ❯   Yes
     No
 
-✅ Successfully uninstalled: @sy-ui/react, @sy-ui/styles
+✅ Successfully uninstalled: @sy-inc/react, @sy-inc/styles
 ```
 
 ### list
 
-List the installed SY UI packages (`@sy-ui/react`, `@sy-ui/styles`).
+List the installed SY UI packages (`@sy-inc/react`, `@sy-inc/styles`).
 
 ```bash
 sy-ui list [options]
@@ -280,15 +280,15 @@ Current installed packages:
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version          │   Status   │   Docs                        │
 │──────────────────────────────────────────────────────────────────────────────────────│
-│   @sy-ui/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
-│   @sy-ui/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-inc/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-inc/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ### doctor
 
 Check for issues in your project.
-- Check whether `@sy-ui/react` and `@sy-ui/styles` are installed
+- Check whether `@sy-inc/react` and `@sy-inc/styles` are installed
 - Check whether `required peer dependencies` are installed and matched minimal requirements in the project
 
 
@@ -312,7 +312,7 @@ SY UI CLI: ❌ Your project has 1 issue that require attention
 ❗️Issue 1: missingSyUIPackages
 
 The following SY UI packages are not installed:
-- @sy-ui/styles
+- @sy-inc/styles
 
 Run `sy-ui install` to install them.
 ```
@@ -347,8 +347,8 @@ Current installed packages:
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │   Package          │   Version          │   Status   │   Docs                        │
 │──────────────────────────────────────────────────────────────────────────────────────│
-│   @sy-ui/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
-│   @sy-ui/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-inc/react    │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
+│   @sy-inc/styles   │   3.0.0 🚀latest   │   stable   │   https://sy-ui.com          │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 
 Environment Info:

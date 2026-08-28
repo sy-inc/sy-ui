@@ -1,8 +1,8 @@
 "use client";
 
-import type {Selection} from "@sy-ui/react";
+import type {Selection} from "@sy-inc/react";
 
-import {Button, Table, cn} from "@sy-ui/react";
+import {Button, Table, cn} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 import {useState} from "react";
 

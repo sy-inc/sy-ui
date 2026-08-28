@@ -39,7 +39,7 @@ Use semantic naming (primary, secondary, tertiary) instead of visual description
 Built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) for WCAG 2.1 AA compliance. Automatic ARIA attributes, keyboard navigation, and screen reader support included.
 
 ```tsx
-import { Tabs, TabList, Tab, TabPanel } from '@sy-ui/react';
+import { Tabs, TabList, Tab, TabPanel } from '@sy-inc/react';
 
 <Tabs defaultSelectedKey="profile">
   <TabList aria-label="Settings">
@@ -65,7 +65,7 @@ import {
   AccordionIndicator,
   AccordionPanel,
   AccordionBody
-} from '@sy-ui/react';
+} from '@sy-inc/react';
 
 <Accordion>
   <AccordionItem id="1">
@@ -113,7 +113,7 @@ Consistent patterns across all components: sizes (`sm`, `md`, `lg`), variants, c
 <Avatar size="lg" className="custom" />
 
 // Compound components support both named exports and dot notation
-import { Alert, AlertIcon, CardHeader, AccordionTrigger } from '@sy-ui/react';
+import { Alert, AlertIcon, CardHeader, AccordionTrigger } from '@sy-inc/react';
 
 // Named exports
 <Alert>
@@ -131,7 +131,7 @@ import { Alert, AlertIcon, CardHeader, AccordionTrigger } from '@sy-ui/react';
 Full TypeScript support with IntelliSense, auto-completion, and compile-time error detection. Extend types for custom components.
 
 ```tsx
-import type { ButtonProps } from '@sy-ui/react';
+import type { ButtonProps } from '@sy-inc/react';
 
 // Type-safe props and event handlers
 <Button
@@ -150,7 +150,7 @@ interface CustomButtonProps extends Omit<ButtonProps, 'variant'> {
 
 ### 7. Separation of Styles and Logic
 
-Styles (`@sy-ui/styles`) are separate from logic (`@sy-ui/react`), enabling use with any framework or vanilla HTML. See [Tailwind Play example](https://play.tailwindcss.com/vMYXzKPyUx).
+Styles (`@sy-inc/styles`) are separate from logic (`@sy-inc/react`), enabling use with any framework or vanilla HTML. See [Tailwind Play example](https://play.tailwindcss.com/vMYXzKPyUx).
 
 ```html
 <!-- Use with plain HTML -->
@@ -161,7 +161,7 @@ or with React:
 
 ```tsx
 // Apply styles to any component
-import { buttonVariants } from '@sy-ui/styles';
+import { buttonVariants } from '@sy-inc/styles';
 
 <Link className={buttonVariants({ variant: "primary" })} href="/home">
   Home
@@ -202,8 +202,8 @@ Wrap, extend, and customize components to match your needs. Use variant function
 **Apply styles with variant functions:**
 
 ```tsx
-import { Link } from '@sy-ui/react';
-import { linkVariants } from '@sy-ui/styles';
+import { Link } from '@sy-inc/react';
+import { linkVariants } from '@sy-inc/styles';
 import NextLink from 'next/link';
 
 // Use variant functions to style framework-specific components
@@ -253,8 +253,8 @@ const CTAButton = ({
 **Extend with Tailwind Variants:**
 
 ```tsx
-import { Button } from '@sy-ui/react';
-import { buttonVariants, tv } from '@sy-ui/styles';
+import { Button } from '@sy-inc/react';
+import { buttonVariants, tv } from '@sy-inc/styles';
 
 // Extend button styles with custom variants
 const myButtonVariants = tv({

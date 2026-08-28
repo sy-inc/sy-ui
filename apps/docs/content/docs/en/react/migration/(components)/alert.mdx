@@ -12,7 +12,7 @@ description: Migration guide for Alert from SY UI v2 to v3
 In v2, `Alert` was a single component that accepted props for title, description, icon, and other elements:
 
 ```tsx
-import { Alert } from "@sy-ui/react";
+import { Alert } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
 In v3, Alert uses a compound component pattern with explicit subcomponents:
 
 ```tsx
-import { Alert } from "@sy-ui/react";
+import { Alert } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -142,7 +142,7 @@ To achieve v2 variant styles in v3:
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Alert, Button } from "@sy-ui/react";
+    import { Alert, Button } from "@sy-inc/react";
 
     <Alert
       title="You have no credits left"
@@ -157,7 +157,7 @@ To achieve v2 variant styles in v3:
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Alert, Button } from "@sy-ui/react";
+    import { Alert, Button } from "@sy-inc/react";
 
     <Alert status="warning">
       <Alert.Indicator />
@@ -189,7 +189,7 @@ To achieve v2 variant styles in v3:
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Alert, CloseButton } from "@sy-ui/react";
+    import { Alert, CloseButton } from "@sy-inc/react";
     import { useState } from "react";
 
     const [isVisible, setIsVisible] = useState(true);

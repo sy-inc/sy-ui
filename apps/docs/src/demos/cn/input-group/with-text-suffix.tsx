@@ -1,6 +1,6 @@
 "use client";
 
-import {InputGroup, Label, TextField} from "@sy-ui/react";
+import {InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function WithTextSuffix() {
   return (

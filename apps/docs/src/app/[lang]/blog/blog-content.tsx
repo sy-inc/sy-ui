@@ -3,7 +3,7 @@
 import type {BlogPost} from "@/lib/blog";
 import type {Dictionary} from "@/lib/dictionaries";
 
-import {Tag, TagGroup} from "@sy-ui/react";
+import {Tag, TagGroup} from "@sy-inc/react";
 import {parseAsStringLiteral, useQueryState} from "nuqs";
 import {useMemo} from "react";
 

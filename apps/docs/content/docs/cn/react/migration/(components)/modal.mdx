@@ -12,7 +12,7 @@ description: Modal 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，Modal 使用相互独立的组件：
 
 ```tsx
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@sy-ui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@sy-inc/react";
 
 export default function App() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -35,7 +35,7 @@ export default function App() {
 在 v3 中，Modal 使用复合组件：
 
 ```tsx
-import { Modal, Button } from "@sy-ui/react";
+import { Modal, Button } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -73,7 +73,7 @@ export default function App() {
 <Tabs items={["v2", "v3 (Button trigger)", "v3 (Modal.Trigger)"]}>
   <Tab value="v2">
     ```tsx
-    import { Modal, ModalContent, Button, useDisclosure } from "@sy-ui/react";
+    import { Modal, ModalContent, Button, useDisclosure } from "@sy-inc/react";
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -85,7 +85,7 @@ export default function App() {
   </Tab>
   <Tab value="v3 (Button trigger)">
     ```tsx
-    import { Modal, Button } from "@sy-ui/react";
+    import { Modal, Button } from "@sy-inc/react";
 
     {/* A Button placed as a direct child of Modal automatically becomes the trigger */}
     <Modal>
@@ -100,7 +100,7 @@ export default function App() {
   </Tab>
   <Tab value="v3 (Modal.Trigger)">
     ```tsx
-    import { Modal } from "@sy-ui/react";
+    import { Modal } from "@sy-inc/react";
 
     {/* Use Modal.Trigger for custom trigger elements (cards, links, etc.) */}
     <Modal>
@@ -130,7 +130,7 @@ export default function App() {
 `useOverlayState` 可直接替代 v2 的 `useDisclosure`，支持受控与非受控：
 
 ```tsx
-import { useOverlayState } from "@sy-ui/react";
+import { useOverlayState } from "@sy-inc/react";
 
 // 非受控（内部自管状态）
 const state = useOverlayState();
@@ -206,7 +206,7 @@ const state = useOverlayState();
 <Tabs items={["v2", "v3 (useState)", "v3 (useOverlayState)", "v3 (state prop)"]}>
   <Tab value="v2">
     ```tsx
-    import { useDisclosure } from "@sy-ui/react";
+    import { useDisclosure } from "@sy-inc/react";
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -249,7 +249,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3 (useOverlayState)">
     ```tsx
-    import { useOverlayState } from "@sy-ui/react";
+    import { useOverlayState } from "@sy-inc/react";
 
     const state = useOverlayState();
 
@@ -274,7 +274,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3 (state prop)">
     ```tsx
-    import { useOverlayState } from "@sy-ui/react";
+    import { useOverlayState } from "@sy-inc/react";
 
     // 将 state 直接传给 Modal 根组件，无需再手动连接 isOpen/onOpenChange
     const state = useOverlayState();
@@ -396,7 +396,7 @@ const state = useOverlayState();
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Modal, ModalContent, useDisclosure } from "@sy-ui/react";
+    import { Modal, ModalContent, useDisclosure } from "@sy-inc/react";
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
@@ -412,7 +412,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Modal } from "@sy-ui/react";
+    import { Modal } from "@sy-inc/react";
 
     {/* Modal.Trigger handles press events and accessibility automatically */}
     <Modal>

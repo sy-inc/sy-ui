@@ -1,7 +1,7 @@
 "use client";
 
 import {Shuffle} from "@gravity-ui/icons";
-import {AlertDialog, Button, Checkbox, Kbd, Label, Tooltip, useOverlayState} from "@sy-ui/react";
+import {AlertDialog, Button, Checkbox, Kbd, Label, Tooltip, useOverlayState} from "@sy-inc/react";
 import {useEffect, useRef, useState} from "react";
 
 import {useDictionary} from "@/hooks/use-dictionary";

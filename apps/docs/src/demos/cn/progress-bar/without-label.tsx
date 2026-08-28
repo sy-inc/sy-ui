@@ -1,4 +1,4 @@
-import {ProgressBar} from "@sy-ui/react";
+import {ProgressBar} from "@sy-inc/react";
 
 export function WithoutLabel() {
   return (

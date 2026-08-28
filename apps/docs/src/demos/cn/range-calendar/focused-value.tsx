@@ -2,7 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
-import {Button, Description, RangeCalendar} from "@sy-ui/react";
+import {Button, Description, RangeCalendar} from "@sy-inc/react";
 import {parseDate} from "@internationalized/date";
 import {useState} from "react";
 

@@ -1,4 +1,4 @@
-import {Button, Popover} from "@sy-ui/react";
+import {Button, Popover} from "@sy-inc/react";
 
 export function PopoverPlacement() {
   return (

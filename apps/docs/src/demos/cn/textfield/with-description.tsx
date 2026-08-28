@@ -1,4 +1,4 @@
-import {Description, Input, Label, TextField} from "@sy-ui/react";
+import {Description, Input, Label, TextField} from "@sy-inc/react";
 
 export function WithDescription() {
   return (

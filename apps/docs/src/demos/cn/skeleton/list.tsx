@@ -1,4 +1,4 @@
-import {Skeleton} from "@sy-ui/react";
+import {Skeleton} from "@sy-inc/react";
 
 export function List() {
   return (

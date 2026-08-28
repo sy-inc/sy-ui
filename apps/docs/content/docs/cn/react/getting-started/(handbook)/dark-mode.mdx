@@ -103,7 +103,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
 // app/components/theme-switcher.tsx
 "use client";
 
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import {useTheme} from "next-themes";
 import {useEffect, useState} from "react";
 
@@ -187,11 +187,11 @@ export default function App({Component, pageProps}: AppProps) {
 
 当你正在构建一个普通的 React 应用（例如 Vite 或 Create React App），并且不需要 `next-themes` 时，可以使用 SY UI 提供的 `useTheme` 钩子。
 
-该钩子从 `@sy-ui/react` 中导出。它会将当前选择的主题保存到 `localStorage`，根据用户的操作系统偏好解析 `"system"`，并同时把对应的类与 `data-theme` 属性应用到 `<html>` 上。
+该钩子从 `@sy-inc/react` 中导出。它会将当前选择的主题保存到 `localStorage`，根据用户的操作系统偏好解析 `"system"`，并同时把对应的类与 `data-theme` 属性应用到 `<html>` 上。
 
 ```tsx
 // src/components/theme-switcher.tsx
-import {Button, useTheme} from "@sy-ui/react";
+import {Button, useTheme} from "@sy-inc/react";
 
 export function ThemeSwitcher() {
   const {resolvedTheme, setTheme, theme} = useTheme("system");
@@ -219,7 +219,7 @@ export function ThemeSwitcher() {
 ```
 
 <Callout type="warning">
-  每个应用只应使用一个主题控制器。在 Next.js 中，推荐使用 `next-themes` 及其 `useTheme` 钩子；在普通的 React 应用中，请使用 `@sy-ui/react` 提供的 `useTheme`。
+  每个应用只应使用一个主题控制器。在 Next.js 中，推荐使用 `next-themes` 及其 `useTheme` 钩子；在普通的 React 应用中，请使用 `@sy-inc/react` 提供的 `useTheme`。
 </Callout>
 
 ## 同时为两种主题设置样式

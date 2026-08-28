@@ -1,4 +1,4 @@
-import {Checkbox, CheckboxGroup, Description, Label, Surface} from "@sy-ui/react";
+import {Checkbox, CheckboxGroup, Description, Label, Surface} from "@sy-inc/react";
 
 export function OnSurface() {
   return (

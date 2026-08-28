@@ -11,7 +11,7 @@ description: Image 从 SY UI v2 到 v3 的迁移指南。
 
 ### 1. 组件移除
 
-**v2：** `@sy-ui/react` 的 `<Image>` 组件  
+**v2：** `@sy-inc/react` 的 `<Image>` 组件  
 **v3：** 原生 HTML `img` 元素，或 Next.js `Image` 组件
 
 ### 2. 能力对照
@@ -33,7 +33,7 @@ v2 的 `Image` 提供的能力，在 v3 中需要分别替换：
 在 v2 中，`Image` 是对原生 `img` 的封装组件：
 
 ```tsx
-import { Image } from "@sy-ui/react";
+import { Image } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -72,7 +72,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Image } from "@sy-ui/react";
+    import { Image } from "@sy-inc/react";
 
     <Image
       src="/image.jpg"
@@ -275,7 +275,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Image } from "@sy-ui/react";
+    import { Image } from "@sy-inc/react";
 
     <Image
       src="..."
@@ -403,7 +403,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Image } from "@sy-ui/react";
+    import { Image } from "@sy-inc/react";
 
     export default function App() {
       return (
@@ -483,14 +483,14 @@ export default function App() {
 ## 总结
 
 1. **组件已移除**：v3 不再提供 `Image` 组件。
-2. **调整 import**：移除 `import { Image } from "@sy-ui/react"`。
+2. **调整 import**：移除 `import { Image } from "@sy-inc/react"`。
 3. **使用原生标签**：用原生 `img`，或 Next.js `Image`。
 4. **能力补齐**：模糊、悬停放大、骨架屏与回退图需自行组合实现。
 5. **样式方式**：圆角、阴影与视觉效果直接用 Tailwind CSS 类控制。
 
 ## 迁移步骤
 
-1. **移除 import**：从 `@sy-ui/react` 的 import 中删除 `Image`。
+1. **移除 import**：从 `@sy-inc/react` 的 import 中删除 `Image`。
 2. **替换标签**：把所有 `<Image>` 替换为 `img`（或 Next.js `Image`）。
 3. **补齐 Tailwind 类**：用等价类表达圆角、阴影等视觉样式。
 4. **按需实现行为**：如需模糊、放大、骨架屏、回退图，请自行实现。

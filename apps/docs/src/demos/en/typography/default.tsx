@@ -1,4 +1,4 @@
-import {Typography} from "@sy-ui/react";
+import {Typography} from "@sy-inc/react";
 
 export const Default = () => {
   return (
@@ -14,7 +14,7 @@ export const Default = () => {
       <Typography color="muted" type="body-sm">
         Smaller muted body copy for secondary descriptions.
       </Typography>
-      <Typography type="code">pnpm add @sy-ui/react</Typography>
+      <Typography type="code">pnpm add @sy-inc/react</Typography>
     </div>
   );
 };

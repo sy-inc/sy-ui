@@ -182,7 +182,7 @@ v2 provided custom transition utilities with a default duration of 250ms and `ea
 
 **Scrollbar Utilities:**
 
-v2 provided `.scrollbar-hide` and `.scrollbar-default` utilities. v3 now exposes standards-only scrollbar utilities from `@sy-ui/styles`: `scrollbar`, `scrollbar-thin`, `scrollbar-default`, and `scrollbar-none`. Use `data-scrollbar="thin"`, `data-scrollbar="default"`, or `data-scrollbar="none"` on an ancestor for subtree-level control.
+v2 provided `.scrollbar-hide` and `.scrollbar-default` utilities. v3 now exposes standards-only scrollbar utilities from `@sy-inc/styles`: `scrollbar`, `scrollbar-thin`, `scrollbar-default`, and `scrollbar-none`. Use `data-scrollbar="thin"`, `data-scrollbar="default"`, or `data-scrollbar="none"` on an ancestor for subtree-level control.
 
 **Animation Utilities:**
 
@@ -210,7 +210,7 @@ v2 used a Tailwind CSS plugin that:
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
@@ -256,7 +256,7 @@ v3 uses a pure CSS approach:
 ```css
 /* globals.css */
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 **No Tailwind Config Required:**
@@ -670,7 +670,7 @@ v3 uses more consistent gap spacing:
   <Tab value="v2">
     ```js
     // tailwind.config.js
-    const {sy-ui} = require("@sy-ui/react");
+    const {sy-ui} = require("@sy-inc/react");
 
     module.exports = {
       plugins: [
@@ -695,7 +695,7 @@ v3 uses more consistent gap spacing:
     ```css
     /* globals.css */
     @import "tailwindcss";
-    @import "@sy-ui/styles";
+    @import "@sy-inc/styles";
 
     :root {
       --accent: oklch(0.6204 0.195 253.83);

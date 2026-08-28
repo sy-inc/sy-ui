@@ -1,4 +1,4 @@
-import {ColorField, FieldError, Label} from "@sy-ui/react";
+import {ColorField, FieldError, Label} from "@sy-inc/react";
 
 export function Invalid() {
   return (

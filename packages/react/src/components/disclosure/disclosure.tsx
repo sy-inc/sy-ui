@@ -2,11 +2,11 @@
 
 import type {Booleanish} from "../../utils/assertion";
 import type {DOMRenderProps} from "../../utils/dom";
-import type {DisclosureVariants} from "@sy-ui/styles";
+import type {DisclosureVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ButtonProps} from "react-aria-components/Button";
 
-import {disclosureVariants} from "@sy-ui/styles";
+import {disclosureVariants} from "@sy-inc/styles";
 import React, {createContext, use, useRef} from "react";
 import {Button} from "react-aria-components/Button";
 import {

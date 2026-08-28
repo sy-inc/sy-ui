@@ -1,4 +1,4 @@
-import {Typography} from "@sy-ui/react";
+import {Typography} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

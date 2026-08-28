@@ -11,7 +11,7 @@ import {
   screen,
   setupUser,
   waitFor,
-} from "@sy-ui/testing/helpers";
+} from "@sy-inc/testing/helpers";
 
 import {Checkbox} from "@/components/checkbox";
 import {Table} from "@/components/table";

@@ -1,5 +1,5 @@
-import {render} from "@sy-ui/testing/browser";
-import {isDocumentScrollLocked} from "@sy-ui/testing/helpers";
+import {render} from "@sy-inc/testing/browser";
+import {isDocumentScrollLocked} from "@sy-inc/testing/helpers";
 import {page, userEvent} from "vitest/browser";
 
 import {DrawerFixture} from "./fixtures";

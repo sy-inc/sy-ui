@@ -1,5 +1,5 @@
 import {Ban, Check, CircleFill, CircleInfo, TriangleExclamation} from "@gravity-ui/icons";
-import {Chip} from "@sy-ui/react";
+import {Chip} from "@sy-inc/react";
 
 export function ChipStatuses() {
   return (

@@ -27,6 +27,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {toggleButtonVariants} from "@sy-ui/styles";
+export {toggleButtonVariants} from "@sy-inc/styles";
 
-export type {ToggleButtonVariants} from "@sy-ui/styles";
+export type {ToggleButtonVariants} from "@sy-inc/styles";

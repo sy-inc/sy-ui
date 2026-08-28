@@ -1,6 +1,6 @@
 import path from "path";
 
-import preset from "@sy-ui/standard/prettier/base.mjs";
+import preset from "@sy-inc/standard/prettier/base.mjs";
 
 /** @type {import("prettier").Config} */
 const config = {

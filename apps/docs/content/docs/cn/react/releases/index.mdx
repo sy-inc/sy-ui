@@ -13,7 +13,7 @@ description: SY UI v3 的所有更新与变更，包含新功能、修复以及�
 
 **2026 年 8 月 4 日**
 
-补丁版本：[Autocomplete](/docs/components/autocomplete) 弹层不再裁剪末尾选项，`scroll="outside"` 的 [Modal](/docs/components/modal) 重新支持点击遮罩关闭，[Tabs](/docs/components/tabs) 的箭头滚动会精确停在边缘，`tailwind-variants` 升级到 `3.3.1` 以修复重新渲染后变体修饰符回退到错误类名的问题，React Aria 升级到 `1.20.0`（`react-aria@3.51.0`），并为 `@sy-ui/react` 添加了行为测试套件。
+补丁版本：[Autocomplete](/docs/components/autocomplete) 弹层不再裁剪末尾选项，`scroll="outside"` 的 [Modal](/docs/components/modal) 重新支持点击遮罩关闭，[Tabs](/docs/components/tabs) 的箭头滚动会精确停在边缘，`tailwind-variants` 升级到 `3.3.1` 以修复重新渲染后变体修饰符回退到错误类名的问题，React Aria 升级到 `1.20.0`（`react-aria@3.51.0`），并为 `@sy-inc/react` 添加了行为测试套件。
 
 [阅读完整发布说明 →](/docs/react/releases/v3-2-4)
 
@@ -43,7 +43,7 @@ description: SY UI v3 的所有更新与变更，包含新功能、修复以及�
 
 **2026 年 6 月 17 日**
 
-补丁版本：`@sy-ui/react` 不再内置自己的 `react-aria` 副本。`react-aria` 的子路径在 Rollup 构建中被外部化，使消费方解析到项目中安装的单一 `react-aria`，而非内联副本。同时修复了 `SwitchGroup` 横向布局。
+补丁版本：`@sy-inc/react` 不再内置自己的 `react-aria` 副本。`react-aria` 的子路径在 Rollup 构建中被外部化，使消费方解析到项目中安装的单一 `react-aria`，而非内联副本。同时修复了 `SwitchGroup` 横向布局。
 
 [阅读完整发布说明 →](/docs/react/releases/v3-2-1)
 
@@ -226,7 +226,7 @@ description: SY UI v3 的所有更新与变更，包含新功能、修复以及�
 />
 
 <Callout type="warning">
-  **已修复关键构建问题**：此版本（beta.4）存在一个关键构建问题，已在 **beta.5** 中修复。请升级到 `@sy-ui/styles@3.0.0-beta.5` 与 `@sy-ui/react@3.0.0-beta.5`，以确保 TypeScript 声明文件能正确生成、导出能正确解析。
+  **已修复关键构建问题**：此版本（beta.4）存在一个关键构建问题，已在 **beta.5** 中修复。请升级到 `@sy-inc/styles@3.0.0-beta.5` 与 `@sy-inc/react@3.0.0-beta.5`，以确保 TypeScript 声明文件能正确生成、导出能正确解析。
 </Callout>
 
 此版本引入了用于可视化主题定制的全新[主题构建器](/themes)、三个新组件（[Autocomplete](/docs/components/autocomplete)、[Breadcrumbs](/docs/components/breadcrumbs)、[Toast](/docs/components/toast)），为 [Tabs](/docs/components/tabs) 添加了 secondary 变体，为 [Input](/docs/components/input) 与 [InputGroup](/docs/components/input-group) 添加了 primary / secondary 变体，以及 ⚠️ **破坏性变更**：移除了 Link 的下划线变体，并从表单组件中移除了 `isInSurface` prop。

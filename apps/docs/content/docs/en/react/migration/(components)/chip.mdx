@@ -97,7 +97,7 @@ You can also target any other combination (e.g., `.chip--secondary.chip--accent`
 In v2, `Chip` was a component that accepted various props for styling:
 
 ```tsx
-import { Chip } from "@sy-ui/react";
+import { Chip } from "@sy-inc/react";
 
 export default function App() {
   return <Chip>Chip</Chip>;
@@ -107,7 +107,7 @@ export default function App() {
 In v3, `Chip` has a simplified API with fewer variants:
 
 ```tsx
-import { Chip } from "@sy-ui/react";
+import { Chip } from "@sy-inc/react";
 
 export default function App() {
   return <Chip>Chip</Chip>;
@@ -187,7 +187,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     <Chip
       avatar={<Avatar name="JW" src="https://example.com/avatar.jpg" />}
@@ -199,7 +199,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar, Chip } from "@sy-ui/react";
+    import { Avatar, Chip } from "@sy-inc/react";
 
     <Chip variant="tertiary">
       <Avatar size="sm">
@@ -224,7 +224,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { CloseButton } from "@sy-ui/react";
+    import { CloseButton } from "@sy-inc/react";
 
     <Chip>
       Chip

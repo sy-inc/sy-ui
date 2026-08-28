@@ -24,6 +24,6 @@ export type {CloseButtonRootProps, CloseButtonRootProps as CloseButtonProps} fro
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {closeButtonVariants} from "@sy-ui/styles";
+export {closeButtonVariants} from "@sy-inc/styles";
 
-export type {CloseButtonVariants} from "@sy-ui/styles";
+export type {CloseButtonVariants} from "@sy-inc/styles";

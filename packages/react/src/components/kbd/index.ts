@@ -28,9 +28,9 @@ export type {KbdRootProps, KbdAbbrProps, KbdContentProps, KbdRootProps as KbdPro
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {kbdVariants} from "@sy-ui/styles";
+export {kbdVariants} from "@sy-inc/styles";
 
-export type {KbdVariants} from "@sy-ui/styles";
+export type {KbdVariants} from "@sy-inc/styles";
 
 /* -------------------------------------------------------------------------------------------------
  * Constants

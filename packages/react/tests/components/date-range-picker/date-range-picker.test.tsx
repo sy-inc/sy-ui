@@ -1,6 +1,6 @@
 import type {DateValue} from "@internationalized/date";
 
-import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-ui/testing/helpers";
+import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 import {CalendarDate} from "@internationalized/date";
 
 import {DateField} from "@/components/date-field";

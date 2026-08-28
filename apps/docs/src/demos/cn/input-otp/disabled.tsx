@@ -1,4 +1,4 @@
-import {Description, InputOTP, Label} from "@sy-ui/react";
+import {Description, InputOTP, Label} from "@sy-inc/react";
 
 export function Disabled() {
   return (

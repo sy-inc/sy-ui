@@ -26,6 +26,6 @@ export type {LinkRootProps, LinkIconProps, LinkRootProps as LinkProps} from "./l
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {linkVariants} from "@sy-ui/styles";
+export {linkVariants} from "@sy-inc/styles";
 
-export type {LinkVariants} from "@sy-ui/styles";
+export type {LinkVariants} from "@sy-inc/styles";

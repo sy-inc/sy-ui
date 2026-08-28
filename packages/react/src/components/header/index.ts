@@ -21,4 +21,4 @@ export type {HeaderRootProps, HeaderRootProps as HeaderProps} from "./header";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {headerVariants} from "@sy-ui/styles";
+export {headerVariants} from "@sy-inc/styles";

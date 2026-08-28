@@ -16,22 +16,22 @@ description: 复合组件支持 React Server Components、面向 React 19 的改
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@alpha @sy-ui/react@alpha
+    npm i @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@alpha @sy-ui/react@alpha
+    pnpm add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@alpha @sy-ui/react@alpha
+    yarn add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@alpha @sy-ui/react@alpha
+    bun add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
 </Tabs>
@@ -87,7 +87,7 @@ Switch 组件已经过重构，遵循与 Radio / RadioGroup 相同的清晰拆�
 
 **之前：**
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 <Avatar>
   <Avatar.Image src="/images/avatar.jpeg" alt="Junior Garcia" />
@@ -97,7 +97,7 @@ import { Avatar } from "@sy-ui/react"
 
 **之后：**
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 <Avatar.Root>
   <Avatar.Image src="/images/avatar.jpeg" alt="Junior Garcia" />
@@ -113,7 +113,7 @@ Switch 组件的分组 API 已经过重构，与 Radio / RadioGroup 模式保持
 
 **之前：**
 ```tsx
-import { Switch } from "@sy-ui/react"
+import { Switch } from "@sy-inc/react"
 
 <Switch.Group orientation="horizontal">
   <Switch.GroupItems>
@@ -135,7 +135,7 @@ import { Switch } from "@sy-ui/react"
 
 **之后：**
 ```tsx
-import { Switch, SwitchGroup } from "@sy-ui/react"
+import { Switch, SwitchGroup } from "@sy-inc/react"
 
 <SwitchGroup orientation="horizontal">
   <Switch.Root name="notifications">
@@ -162,7 +162,7 @@ import { Switch, SwitchGroup } from "@sy-ui/react"
 
 
 **迁移步骤：**
-1. 单独导入 `SwitchGroup`：`import { Switch, SwitchGroup } from "@sy-ui/react"`
+1. 单独导入 `SwitchGroup`：`import { Switch, SwitchGroup } from "@sy-inc/react"`
 2. 将 `<Switch.Group>` 替换为 `<SwitchGroup>`
 3. 移除嵌套的 `<Switch.GroupItems>` 包装
 4. 单个的 `Switch.Root` 组件保持不变
@@ -194,7 +194,7 @@ import { Switch, SwitchGroup } from "@sy-ui/react"
 
 **Card 示例：**
 ```tsx
-import { Card } from "@sy-ui/react"
+import { Card } from "@sy-inc/react"
 
 <Card.Root>
   <Card.Header>
@@ -212,7 +212,7 @@ import { Card } from "@sy-ui/react"
 
 **Tabs 示例：**
 ```tsx
-import { Tabs } from "@sy-ui/react"
+import { Tabs } from "@sy-inc/react"
 
 <Tabs.Root>
   <Tabs.ListWrapper>
@@ -230,7 +230,7 @@ import { Tabs } from "@sy-ui/react"
 
 **Avatar 示例：**
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 <Avatar.Root>
   <Avatar.Image alt="John Doe" src="..." />
@@ -253,7 +253,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@sy-ui/react"
+} from "@sy-inc/react"
 
 <CardRoot>
   <CardHeader>
@@ -271,7 +271,7 @@ import {
 
 **Tabs 示例：**
 ```tsx
-import { TabsRoot, TabListContainer, TabList, Tab, TabIndicator, TabPanel } from "@sy-ui/react"
+import { TabsRoot, TabListContainer, TabList, Tab, TabIndicator, TabPanel } from "@sy-inc/react"
 
 <TabsRoot>
   <TabListContainer>
@@ -287,7 +287,7 @@ import { TabsRoot, TabListContainer, TabList, Tab, TabIndicator, TabPanel } from
 
 **Avatar 示例：**
 ```tsx
-import { Avatar, AvatarImage, AvatarFallback } from "@sy-ui/react"
+import { Avatar, AvatarImage, AvatarFallback } from "@sy-inc/react"
 
 <Avatar>
   <AvatarImage alt="John Doe" src="..." />
@@ -359,7 +359,7 @@ sed -i 's/<\/Switch\.GroupItems>//g' **/*.tsx
 
 **重要事项：**
 - 使用自动替换时务必小心，确保只替换复合写法的用法，而不要影响命名导出。
-- Switch 的迁移完成后，请确认 `SwitchGroup` 已被导入：`import { Switch, SwitchGroup } from "@sy-ui/react"`
+- Switch 的迁移完成后，请确认 `SwitchGroup` 已被导入：`import { Switch, SwitchGroup } from "@sy-inc/react"`
 - 在执行完自动迁移后请测试代码，确认所有变更均符合预期。
 
 ## 为什么需要这次变更？

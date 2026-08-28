@@ -1,8 +1,8 @@
 import {dirname, join} from "node:path";
 import {fileURLToPath} from "node:url";
 
-import {browserConfig} from "@sy-ui/testing/configs/browser";
-import {uiConfig} from "@sy-ui/testing/configs/react";
+import {browserConfig} from "@sy-inc/testing/configs/browser";
+import {uiConfig} from "@sy-inc/testing/configs/react";
 import react from "@vitejs/plugin-react";
 import {defineConfig, mergeConfig} from "vitest/config";
 

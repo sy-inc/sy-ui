@@ -1,4 +1,4 @@
-import baseReactConfig from "@sy-ui/standard/eslint/react.mjs";
+import baseReactConfig from "@sy-inc/standard/eslint/react.mjs";
 import {defineConfig} from "eslint/config";
 
 const config = defineConfig([

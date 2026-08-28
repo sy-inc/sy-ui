@@ -18,22 +18,22 @@ github:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@beta @sy-ui/react@beta
+    npm i @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@beta @sy-ui/react@beta
+    pnpm add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@beta @sy-ui/react@beta
+    yarn add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@beta @sy-ui/react@beta
+    bun add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
 </Tabs>
@@ -172,7 +172,7 @@ SY UI 现在支持更灵活的组件写法。复合组件可以带 `.Root` 也�
 **可用模式：**
 
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 // 1. Compound pattern (no .Root needed) - recommended
 <Avatar>
@@ -187,7 +187,7 @@ import { Avatar } from "@sy-ui/react"
 </Avatar.Root>
 
 // 3. Named exports
-import { AvatarRoot, AvatarImage, AvatarFallback } from "@sy-ui/react"
+import { AvatarRoot, AvatarImage, AvatarFallback } from "@sy-inc/react"
 
 <AvatarRoot>
   <AvatarImage src="/avatar.jpg" alt="User" />
@@ -198,7 +198,7 @@ import { AvatarRoot, AvatarImage, AvatarFallback } from "@sy-ui/react"
 **简单组件**（如 Button）的写法也完全一致：
 
 ```tsx
-import { Button } from "@sy-ui/react"
+import { Button } from "@sy-inc/react"
 
 // No .Root needed
 <Button>Label</Button>
@@ -207,14 +207,14 @@ import { Button } from "@sy-ui/react"
 <Button.Root>Label</Button.Root>
 
 // Or named export
-import { ButtonRoot } from "@sy-ui/react"
+import { ButtonRoot } from "@sy-inc/react"
 <ButtonRoot>Label</ButtonRoot>
 ```
 
 **你也可以在同一个组件中混用复合写法与命名导出：**
 
 ```tsx
-import { Avatar, AvatarFallback } from "@sy-ui/react"
+import { Avatar, AvatarFallback } from "@sy-inc/react"
 
 <Avatar>
   <Avatar.Image src="/avatar.jpg" alt="User" />
@@ -420,14 +420,14 @@ Chip 组件的 `type` prop 已重命名为 `color`，同时新增 `size` prop，
 
 **之前：**
 ```tsx
-import { Chip } from "@sy-ui/react";
+import { Chip } from "@sy-inc/react";
 
 <Chip type="danger" variant="secondary">Label</Chip>
 ```
 
 **之后：**
 ```tsx
-import { Chip } from "@sy-ui/react";
+import { Chip } from "@sy-inc/react";
 
 <Chip color="danger" variant="soft" size="md">Label</Chip>
 ```
@@ -443,14 +443,14 @@ Link 组件现在支持 `underline` 与 `underlineOffset` prop，并加入了对
 
 **之前：**
 ```tsx
-import { Link } from "@sy-ui/react";
+import { Link } from "@sy-inc/react";
 
 <Link href="#">Link text</Link>
 ```
 
 **之后：**
 ```tsx
-import { Link } from "@sy-ui/react";
+import { Link } from "@sy-inc/react";
 
 <Link href="#" underline="hover" underlineOffset={4}>Link text</Link>
 ```
@@ -475,7 +475,7 @@ type AvatarProps = Avatar["RootProps"]
 
 **之后（方式 2 —— 具名类型导入，推荐）：**
 ```tsx
-import type { AvatarRootProps } from "@sy-ui/react"
+import type { AvatarRootProps } from "@sy-inc/react"
 
 type AvatarProps = AvatarRootProps
 ```
@@ -717,7 +717,7 @@ type ButtonProps = Button["RootProps"]
 
 **之后（方式 2 —— 具名导入，推荐）：**
 ```tsx
-import type { ButtonRootProps } from "@sy-ui/react"
+import type { ButtonRootProps } from "@sy-inc/react"
 
 type ButtonProps = ButtonRootProps
 ```
@@ -728,7 +728,7 @@ type ButtonProps = ButtonRootProps
 
 **之前：**
 ```tsx
-import { Tabs } from "@sy-ui/react"
+import { Tabs } from "@sy-inc/react"
 
 <Tabs.Root>
   <Tabs.ListWrapper>
@@ -742,7 +742,7 @@ import { Tabs } from "@sy-ui/react"
 
 **之后：**
 ```tsx
-import { Tabs } from "@sy-ui/react"
+import { Tabs } from "@sy-inc/react"
 
 <Tabs>
   <Tabs.ListContainer>

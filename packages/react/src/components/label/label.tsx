@@ -1,9 +1,9 @@
 "use client";
 
-import type {LabelVariants} from "@sy-ui/styles";
+import type {LabelVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {labelVariants} from "@sy-ui/styles";
+import {labelVariants} from "@sy-inc/styles";
 import {Label as LabelPrimitive} from "react-aria-components/Label";
 
 /* -------------------------------------------------------------------------------------------------

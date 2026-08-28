@@ -4,7 +4,7 @@ import type {DOMRenderProps} from "../../utils/dom";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {RadioButtonRenderProps, RadioFieldRenderProps} from "react-aria-components/RadioGroup";
 
-import {radioVariants} from "@sy-ui/styles";
+import {radioVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   RadioButton as RadioButtonPrimitive,

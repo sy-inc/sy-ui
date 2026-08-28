@@ -11,7 +11,7 @@ description: Spacer 从 SY UI v2 到 v3 的迁移指南。
 
 ### 1. 组件移除
 
-**v2：** 来自 `@sy-ui/react` 的 `<Spacer>` 组件  
+**v2：** 来自 `@sy-inc/react` 的 `<Spacer>` 组件  
 **v3：** Tailwind CSS margin 工具类（`ml-*`、`mr-*`、`mt-*`、`mb-*`、`mx-*`、`my-*`）
 
 ### 2. Prop 对应关系
@@ -41,7 +41,7 @@ v2 中的间距数值与 Tailwind 的 spacing 刻度一致：
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Spacer } from "@sy-ui/react";
+    import { Spacer } from "@sy-inc/react";
 
     {/* Vertical spacing */}
     <div>
@@ -82,7 +82,7 @@ v2 中的间距数值与 Tailwind 的 spacing 刻度一致：
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Spacer } from "@sy-ui/react";
+    import { Spacer } from "@sy-inc/react";
 
     {/* Horizontal layout */}
     <div className="flex">
@@ -121,7 +121,7 @@ v2 中的间距数值与 Tailwind 的 spacing 刻度一致：
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Spacer, Button } from "@sy-ui/react";
+    import { Spacer, Button } from "@sy-inc/react";
 
     export default function App() {
       return (
@@ -142,7 +142,7 @@ v2 中的间距数值与 Tailwind 的 spacing 刻度一致：
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Button } from "@sy-ui/react";
+    import { Button } from "@sy-inc/react";
 
     export default function App() {
       return (
@@ -237,14 +237,14 @@ Tailwind CSS spacing 刻度（与 v2 Spacer 数值对应）：
 ## 总结
 
 1. **组件已移除**：v3 中不再提供 `Spacer` 组件。
-2. **导入调整**：移除 `import { Spacer } from "@sy-ui/react"`。
+2. **导入调整**：移除 `import { Spacer } from "@sy-inc/react"`。
 3. **使用 Tailwind 工具类**：改用 margin 工具类（`ml-*`、`mt-*`、`mx-*`、`my-*` 等）。
 4. **优先使用 gap**：在 flex / grid 布局中优先使用 `gap-*`。
 5. **优先使用 space**：在列表中优先使用 `space-y-*` 与 `space-x-*` 保持一致的间距。
 
 ## 迁移步骤
 
-1. **移除导入**：从 `@sy-ui/react` 的导入中删除 `Spacer`。
+1. **移除导入**：从 `@sy-inc/react` 的导入中删除 `Spacer`。
 2. **替换 Spacer**：将 `<Spacer x={n} />` 替换为 `ml-{n}` 或 `mx-{n}` 等 class。
 3. **替换 Spacer**：将 `<Spacer y={n} />` 替换为 `mt-{n}` 或 `my-{n}` 等 class。
 4. **使用 gap**：在 flex / grid 布局中用 `gap-{n}` 替代 Spacer。

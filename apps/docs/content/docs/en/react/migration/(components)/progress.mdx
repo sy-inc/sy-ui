@@ -20,7 +20,7 @@ description: Migration guide for Progress from SY UI v2 to v3 (now ProgressBar)
 In v2, `Progress` was a single component configured with props:
 
 ```tsx
-import { Progress } from "@sy-ui/react";
+import { Progress } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -32,7 +32,7 @@ export default function App() {
 In v3, `ProgressBar` uses a compound component pattern:
 
 ```tsx
-import { ProgressBar, Label } from "@sy-ui/react";
+import { ProgressBar, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -86,14 +86,14 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Progress } from "@sy-ui/react";
+    import { Progress } from "@sy-inc/react";
 
     <Progress label="Loading..." value={60} color="primary" />
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { ProgressBar, Label } from "@sy-ui/react";
+    import { ProgressBar, Label } from "@sy-inc/react";
 
     <ProgressBar value={60} color="accent">
       <Label>Loading...</Label>

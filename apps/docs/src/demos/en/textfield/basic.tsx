@@ -1,4 +1,4 @@
-import {Input, Label, TextField} from "@sy-ui/react";
+import {Input, Label, TextField} from "@sy-inc/react";
 
 export function Basic() {
   return (

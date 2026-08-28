@@ -1,4 +1,4 @@
-import {ComboBox, Input, Label, ListBox} from "@sy-ui/react";
+import {ComboBox, Input, Label, ListBox} from "@sy-inc/react";
 
 export function FullWidth() {
   return (

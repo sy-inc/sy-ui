@@ -52,7 +52,7 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 
 **迁移策略：**
 
-1. **识别钩子用法**：搜索代码库以从以下位置导入`@sy-ui/react`包括钩子名称（`useSwitch`, `useInput`, `useCheckbox`, `useRadio`, `useDisclosure`， ETC。）
+1. **识别钩子用法**：搜索代码库以从以下位置导入`@sy-inc/react`包括钩子名称（`useSwitch`, `useInput`, `useCheckbox`, `useRadio`, `useDisclosure`， ETC。）
 2. **替换组件钩子**：使用复合组件而不是带有 prop getter 的钩子（在组件迁移期间完成）
 3. **替换 useDisclosure**：迁移到`useOverlayState`用于覆盖状态管理（使用`get_hooks_migration_guide`MCP 工具）
 4. **参考指南**：使用`get_hooks_migration_guide`用于钩子迁移的 MCP 工具，`get_component_migration_guides`特定于组件的指南
@@ -167,10 +167,10 @@ SY UI v2 提供了组件挂钩（例如`useSwitch`, `useInput`, `useCheckbox`等
 **关键**：仅当所有组件都已迁移到 v3 API 模式时才继续。
 
 1. **更新依赖关系**
-   - 消除`@sy-ui/react`和`@sy-ui/theme`（v2）
-   - 安装`@sy-ui/react`和`@sy-ui/styles`(v3)
+   - 消除`@sy-inc/react`和`@sy-ui/theme`（v2）
+   - 安装`@sy-inc/react`和`@sy-inc/styles`(v3)
    - 消除`framer-motion`如果存在
-   - 更新 CSS 导入（添加`@import "@sy-ui/styles";`)
+   - 更新 CSS 导入（添加`@import "@sy-inc/styles";`)
    - 从应用程序根目录中删除 SyUIProvider
    - 更新 Tailwind 配置（删除`sy-ui()`插件）
 

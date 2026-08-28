@@ -1,4 +1,4 @@
-import {fireEvent, render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {fireEvent, render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Button} from "@/components/button";
 

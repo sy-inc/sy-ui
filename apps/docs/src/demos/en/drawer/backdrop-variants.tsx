@@ -1,4 +1,4 @@
-import {Button, Drawer} from "@sy-ui/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 export function BackdropVariants() {
   const variants = ["opaque", "blur", "transparent"] as const;

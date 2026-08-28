@@ -12,7 +12,7 @@ description: TimeInput → TimeField 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，TimeInput 是单个组件，通过 prop 配置：
 
 ```tsx
-import { TimeInput } from "@sy-ui/react";
+import { TimeInput } from "@sy-inc/react";
 
 export default function App() {
   return <TimeInput label="Time" name="time" />;
@@ -22,7 +22,7 @@ export default function App() {
 在 v3 中，TimeField 改为复合组件，需要配合 DateInputGroup 与分段（segment）的 render prop：
 
 ```tsx
-import { TimeField, DateInputGroup, Label } from "@sy-ui/react";
+import { TimeField, DateInputGroup, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -101,7 +101,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError, Label } from "@sy-ui/react";
+    import { Description, FieldError, Label } from "@sy-inc/react";
 
     <TimeField className="w-[256px]" name="startTime">
       <Label>Start time</Label>

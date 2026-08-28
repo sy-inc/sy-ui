@@ -1,6 +1,6 @@
 "use client";
 
-import type {ColorChannel, ColorSpace} from "@sy-ui/react";
+import type {ColorChannel, ColorSpace} from "@sy-inc/react";
 
 import {
   ColorArea,
@@ -11,7 +11,7 @@ import {
   Label,
   ListBox,
   Select,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {useState} from "react";
 
 const CHANNEL_LABELS: Record<ColorChannel, string> = {

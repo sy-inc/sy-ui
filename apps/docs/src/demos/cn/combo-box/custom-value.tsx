@@ -9,7 +9,7 @@ import {
   Input,
   Label,
   ListBox,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 
 export function CustomValue() {
   const users = [

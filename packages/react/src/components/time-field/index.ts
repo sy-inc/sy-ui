@@ -45,6 +45,6 @@ export type {TimeFieldRootProps, TimeFieldRootProps as TimeFieldProps} from "./t
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {timeFieldVariants} from "@sy-ui/styles";
+export {timeFieldVariants} from "@sy-inc/styles";
 
-export type {TimeFieldVariants} from "@sy-ui/styles";
+export type {TimeFieldVariants} from "@sy-inc/styles";

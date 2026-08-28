@@ -1,4 +1,4 @@
-import {Link} from "@sy-ui/react";
+import {Link} from "@sy-inc/react";
 
 export function LinkUnderlineAndOffset() {
   return (

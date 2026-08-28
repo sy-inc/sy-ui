@@ -1,8 +1,8 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
-import {Label, ListBox, Select} from "@sy-ui/react";
+import {Label, ListBox, Select} from "@sy-inc/react";
 import React from "react";
 
 export function ControlledMultiple() {

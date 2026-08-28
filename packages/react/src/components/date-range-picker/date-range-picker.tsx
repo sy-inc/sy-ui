@@ -2,11 +2,11 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {DateRangePickerVariants} from "@sy-ui/styles";
+import type {DateRangePickerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {DateValue} from "react-aria-components/Calendar";
 
-import {dateRangePickerVariants} from "@sy-ui/styles";
+import {dateRangePickerVariants} from "@sy-inc/styles";
 import {mergeRefs} from "@react-aria/utils";
 import React, {createContext, use, useEffect, useRef} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";

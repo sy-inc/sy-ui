@@ -122,7 +122,7 @@ describe("SY UI agent readiness", () => {
     expect(card.endpoint).toBe("https://sy-ui.com/.well-known/mcp/server-card.json");
     expect(card.transports).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({package: "@sy-ui/react-mcp", type: "stdio"}),
+        expect.objectContaining({package: "@sy-inc/react-mcp", type: "stdio"}),
         expect.objectContaining({package: "@sy-ui/native-mcp", type: "stdio"}),
       ]),
     );

@@ -1,4 +1,4 @@
-import {render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {ToggleButton} from "@/components/toggle-button";
 import {ToggleButtonGroup} from "@/components/toggle-button-group";

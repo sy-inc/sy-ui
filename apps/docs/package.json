@@ -23,7 +23,7 @@
   "dependencies": {
     "@fumadocs/language": "0.0.1",
     "@gravity-ui/icons": "2.16.0",
-    "@sy-ui/react": "workspace:*",
+    "@sy-inc/react": "workspace:*",
     "@iconify-json/gravity-ui": "1.2.10",
     "@iconify/react": "6.0.2",
     "@internationalized/date": "3.12.3",
@@ -68,8 +68,8 @@
     "zod": "4.2.1"
   },
   "devDependencies": {
-    "@sy-ui/standard": "workspace:*",
-    "@sy-ui/styles": "workspace:*",
+    "@sy-inc/standard": "workspace:*",
+    "@sy-inc/styles": "workspace:*",
     "@tailwindcss/postcss": "4.3.0",
     "@types/color-convert": "2.0.4",
     "@types/culori": "4.0.1",

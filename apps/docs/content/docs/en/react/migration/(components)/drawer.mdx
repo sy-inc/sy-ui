@@ -12,7 +12,7 @@ description: Migration guide for Drawer from SY UI v2 to v3
 In v2, `Drawer` shared the same API as `Modal`, using `DrawerContent`, `DrawerHeader`, `DrawerBody`, and `DrawerFooter` with a render callback pattern:
 
 ```tsx
-import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-ui/react";
+import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-inc/react";
 
 export default function App() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -43,7 +43,7 @@ export default function App() {
 In v3, Drawer uses a compound component pattern with explicit subcomponents and built-in trigger support:
 
 ```tsx
-import { Drawer, Button } from "@sy-ui/react";
+import { Drawer, Button } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -132,7 +132,7 @@ const state = useOverlayState();
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-ui/react";
+    import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, Button, useDisclosure } from "@sy-inc/react";
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -156,7 +156,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Drawer, Button } from "@sy-ui/react";
+    import { Drawer, Button } from "@sy-inc/react";
 
     <Drawer>
       <Button>Open</Button>
@@ -258,7 +258,7 @@ const state = useOverlayState();
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { useDisclosure } from "@sy-ui/react";
+    import { useDisclosure } from "@sy-inc/react";
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -282,7 +282,7 @@ const state = useOverlayState();
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { useOverlayState } from "@sy-ui/react";
+    import { useOverlayState } from "@sy-inc/react";
 
     const state = useOverlayState();
 

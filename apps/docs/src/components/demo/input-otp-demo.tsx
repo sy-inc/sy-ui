@@ -1,6 +1,6 @@
 "use client";
 
-import {InputOTP, Label, Link} from "@sy-ui/react";
+import {InputOTP, Label, Link} from "@sy-inc/react";
 import {useState} from "react";
 
 import {useDictionary} from "@/hooks/use-dictionary";

@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, CloseButton, buttonVariants} from "@sy-ui/react";
+import {Button, CloseButton, buttonVariants} from "@sy-inc/react";
 import {Calligraph} from "calligraph";
 import {AnimatePresence, motion} from "motion/react";
 import {useEffect, useState, useSyncExternalStore} from "react";

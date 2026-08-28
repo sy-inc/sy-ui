@@ -12,7 +12,7 @@ description: Migration guide for DatePicker from SY UI v2 to v3
 In v2, `DatePicker` was a single self-contained component with props for label, description, calendar, and time input:
 
 ```tsx
-import { DatePicker } from "@sy-ui/react";
+import { DatePicker } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -24,7 +24,7 @@ export default function App() {
 In v3, DatePicker uses a composition-first API where you compose `DateField` and `Calendar` explicitly:
 
 ```tsx
-import { DatePicker, DateField, Calendar, Label } from "@sy-ui/react";
+import { DatePicker, DateField, Calendar, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -137,14 +137,14 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { DatePicker } from "@sy-ui/react";
+    import { DatePicker } from "@sy-inc/react";
 
     <DatePicker label="Birth date" />
     ```
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { DatePicker, DateField, Calendar, Label } from "@sy-ui/react";
+    import { DatePicker, DateField, Calendar, Label } from "@sy-inc/react";
 
     <DatePicker>
       <Label>Birth date</Label>
@@ -189,7 +189,7 @@ export default function App() {
   <Tab value="v2">
     ```tsx
     import { useState } from "react";
-    import { DatePicker } from "@sy-ui/react";
+    import { DatePicker } from "@sy-inc/react";
     import { parseDate } from "@internationalized/date";
 
     const [value, setValue] = useState(parseDate("2024-03-07"));
@@ -204,7 +204,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { DatePicker, DateField, Calendar, Label } from "@sy-ui/react";
+    import { DatePicker, DateField, Calendar, Label } from "@sy-inc/react";
     import { parseDate } from "@internationalized/date";
 
     const [value, setValue] = useState(parseDate("2024-03-07"));
@@ -258,7 +258,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { DatePicker, DateField, Calendar, Label, Description, FieldError } from "@sy-ui/react";
+    import { DatePicker, DateField, Calendar, Label, Description, FieldError } from "@sy-inc/react";
 
     <DatePicker isInvalid={isInvalid}>
       <Label>Event date</Label>

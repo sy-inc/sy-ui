@@ -12,7 +12,7 @@ description: Migration guide for TimeInput to TimeField from SY UI v2 to v3
 In v2, TimeInput was a single component with props:
 
 ```tsx
-import { TimeInput } from "@sy-ui/react";
+import { TimeInput } from "@sy-inc/react";
 
 export default function App() {
   return <TimeInput label="Time" name="time" />;
@@ -22,7 +22,7 @@ export default function App() {
 In v3, TimeField requires compound components with DateInputGroup and a render prop for segments:
 
 ```tsx
-import { TimeField, DateInputGroup, Label } from "@sy-ui/react";
+import { TimeField, DateInputGroup, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -101,7 +101,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError, Label } from "@sy-ui/react";
+    import { Description, FieldError, Label } from "@sy-inc/react";
 
     <TimeField className="w-[256px]" name="startTime">
       <Label>Start time</Label>

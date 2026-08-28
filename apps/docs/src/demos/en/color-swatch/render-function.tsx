@@ -1,6 +1,6 @@
 "use client";
 
-import {ColorSwatch} from "@sy-ui/react";
+import {ColorSwatch} from "@sy-inc/react";
 
 export function RenderFunction() {
   return (

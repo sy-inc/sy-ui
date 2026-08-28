@@ -56,6 +56,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {disclosureVariants} from "@sy-ui/styles";
+export {disclosureVariants} from "@sy-inc/styles";
 
-export type {DisclosureVariants} from "@sy-ui/styles";
+export type {DisclosureVariants} from "@sy-inc/styles";

@@ -49,6 +49,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {popoverVariants} from "@sy-ui/styles";
+export {popoverVariants} from "@sy-inc/styles";
 
-export type {PopoverVariants} from "@sy-ui/styles";
+export type {PopoverVariants} from "@sy-inc/styles";

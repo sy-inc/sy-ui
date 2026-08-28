@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, FieldError, Form, Label, Radio, RadioGroup} from "@sy-ui/react";
+import {Button, Description, FieldError, Form, Label, Radio, RadioGroup} from "@sy-inc/react";
 import React from "react";
 
 export function Validation() {

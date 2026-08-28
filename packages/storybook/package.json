@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@gravity-ui/icons": "2.16.0",
-    "@sy-ui/react": "workspace:*",
-    "@sy-ui/styles": "workspace:*",
+    "@sy-inc/react": "workspace:*",
+    "@sy-inc/styles": "workspace:*",
     "@iconify/react": "6.0.2",
     "apcach": "0.6.4",
     "culori": "4.0.2",
@@ -24,7 +24,7 @@
     "tailwind-variants": "3.3.1"
   },
   "devDependencies": {
-    "@sy-ui/standard": "workspace:*",
+    "@sy-inc/standard": "workspace:*",
     "@storybook/addon-a11y": "10.2.10",
     "@storybook/addon-docs": "10.2.10",
     "@storybook/icons": "2.0.1",

@@ -9,7 +9,7 @@ links:
 ## Usage
 
 ```tsx
-import { Form } from '@sy-ui/react';
+import { Form } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="form-basic" />
@@ -17,7 +17,7 @@ import { Form } from '@sy-ui/react';
 ## Anatomy
 
 ```tsx
-import {Form, Button} from '@sy-ui/react';
+import {Form, Button} from '@sy-inc/react';
 
 export default () => (
   <Form>
@@ -47,7 +47,7 @@ export default () => (
 To customize form layout and spacing, use the `className` prop on `<Form>` or add a project-level class with the `@layer components` directive.
 [Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).
 
-`Form` renders a native `<form>` element and focuses on validation and submission. It does not include dedicated BEM classes in `@sy-ui/styles`—apply container styles from global CSS, and use field components for control-level customization.
+`Form` renders a native `<form>` element and focuses on validation and submission. It does not include dedicated BEM classes in `@sy-inc/styles`—apply container styles from global CSS, and use field components for control-level customization.
 
 ```css
 @layer components {
@@ -67,7 +67,7 @@ For grouped fields with shared layout, use [Fieldset](./fieldset) and target `.f
 
 ## Styling Reference
 
-SY UI follows the [BEM](https://getbem.com/) methodology for components that ship styles in `@sy-ui/styles`.
+SY UI follows the [BEM](https://getbem.com/) methodology for components that ship styles in `@sy-inc/styles`.
 
 `Form` renders a native `<form>` element without dedicated BEM classes. Apply layout, spacing, and surface styles through `className`. Field appearance and validation states come from child components such as `TextField`, `Input`, `Label`, `Description`, and `FieldError`. For structured multi-field layouts, compose with [Fieldset](./fieldset).
 

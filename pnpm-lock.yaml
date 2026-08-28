@@ -48,7 +48,7 @@ importers:
       '@rollup/plugin-typescript':
         specifier: 12.3.0
         version: 12.3.0(rollup@4.59.0)(tslib@2.8.1)(typescript@5.9.3)
-      '@sy-ui/standard':
+      '@sy-inc/standard':
         specifier: workspace:*
         version: link:packages/standard
       '@types/node':
@@ -198,7 +198,7 @@ importers:
       '@react-stately/data':
         specifier: 3.16.1
         version: 3.16.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      '@sy-ui/react':
+      '@sy-inc/react':
         specifier: workspace:*
         version: link:../../packages/react
       '@t3-oss/env-nextjs':
@@ -310,10 +310,10 @@ importers:
         specifier: 4.2.1
         version: 4.2.1
     devDependencies:
-      '@sy-ui/standard':
+      '@sy-inc/standard':
         specifier: workspace:*
         version: link:../../packages/standard
-      '@sy-ui/styles':
+      '@sy-inc/styles':
         specifier: workspace:*
         version: link:../../packages/styles
       '@tailwindcss/postcss':
@@ -367,7 +367,7 @@ importers:
       '@react-types/shared':
         specifier: 3.36.1
         version: 3.36.1(react@19.2.8)
-      '@sy-ui/styles':
+      '@sy-inc/styles':
         specifier: workspace:*
         version: link:../styles
       embla-carousel:
@@ -410,10 +410,10 @@ importers:
       '@storybook/react':
         specifier: 10.1.10
         version: 10.1.10(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.7.4)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(typescript@5.9.3)
-      '@sy-ui/standard':
+      '@sy-inc/standard':
         specifier: workspace:*
         version: link:../standard
-      '@sy-ui/testing':
+      '@sy-inc/testing':
         specifier: workspace:*
         version: link:../testing
       '@types/fs-extra':
@@ -466,10 +466,10 @@ importers:
       '@iconify/react':
         specifier: 6.0.2
         version: 6.0.2(react@19.2.8)
-      '@sy-ui/react':
+      '@sy-inc/react':
         specifier: workspace:*
         version: link:../react
-      '@sy-ui/styles':
+      '@sy-inc/styles':
         specifier: workspace:*
         version: link:../styles
       apcach:
@@ -509,7 +509,7 @@ importers:
       '@storybook/react-vite':
         specifier: 10.2.10
         version: 10.2.10(esbuild@0.27.7)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rollup@4.62.4)(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.7.4)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(typescript@5.9.3)(vite@7.3.5(@types/node@25.0.3)(jiti@2.7.0)(lightningcss@1.33.0)(tsx@4.21.0)(yaml@2.9.0))
-      '@sy-ui/standard':
+      '@sy-inc/standard':
         specifier: workspace:*
         version: link:../standard
       '@tailwindcss/postcss':
@@ -552,7 +552,7 @@ importers:
         specifier: 1.4.0
         version: 1.4.0
     devDependencies:
-      '@sy-ui/standard':
+      '@sy-inc/standard':
         specifier: workspace:*
         version: link:../standard
       '@tailwindcss/cli':
@@ -607,7 +607,7 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@4.1.10)
     devDependencies:
-      '@sy-ui/standard':
+      '@sy-inc/standard':
         specifier: workspace:*
         version: link:../standard
       '@types/react':

@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Kbd, Label, SearchField} from "@sy-ui/react";
+import {Description, Kbd, Label, SearchField} from "@sy-inc/react";
 import React from "react";
 
 export function WithKeyboardShortcut() {

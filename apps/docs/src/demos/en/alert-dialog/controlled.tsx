@@ -1,6 +1,6 @@
 "use client";
 
-import {AlertDialog, Button, useOverlayState} from "@sy-ui/react";
+import {AlertDialog, Button, useOverlayState} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

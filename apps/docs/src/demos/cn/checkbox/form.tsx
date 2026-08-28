@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Checkbox} from "@sy-ui/react";
+import {Button, Checkbox} from "@sy-inc/react";
 import React from "react";
 
 export function Form() {

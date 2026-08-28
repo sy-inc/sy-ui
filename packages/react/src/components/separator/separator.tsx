@@ -1,9 +1,9 @@
 "use client";
 
-import type {SeparatorVariants} from "@sy-ui/styles";
+import type {SeparatorVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {separatorVariants} from "@sy-ui/styles";
+import {separatorVariants} from "@sy-inc/styles";
 import React from "react";
 import {SeparatorContext, Separator as SeparatorPrimitive} from "react-aria-components/Separator";
 import {useSlottedContext} from "react-aria-components/slots";

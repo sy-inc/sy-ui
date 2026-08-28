@@ -50,7 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      - name: Publish @sy-ui/styles
+      - name: Publish @sy-inc/styles
         id: publish-styles
         working-directory: packages/styles
         run: |
@@ -59,7 +59,7 @@ jobs:
           pnpm pack --pack-destination "$RUNNER_TEMP/sy-ui-release"
           npm publish "$RUNNER_TEMP/sy-ui-release/$PACKAGE_TARBALL" --access public ${{ inputs.dry_run && '--dry-run' || '' }}
 
-      - name: Publish @sy-ui/react
+      - name: Publish @sy-inc/react
         if: steps.publish-styles.outcome == 'success'
         working-directory: packages/react
         run: |

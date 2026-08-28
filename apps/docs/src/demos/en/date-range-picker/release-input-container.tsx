@@ -1,8 +1,8 @@
 "use client";
 
-import type {TimeValue} from "@sy-ui/react";
+import type {TimeValue} from "@sy-inc/react";
 
-import {DateField, DateRangePicker, Label, RangeCalendar, TimeField} from "@sy-ui/react";
+import {DateField, DateRangePicker, Label, RangeCalendar, TimeField} from "@sy-inc/react";
 import {getLocalTimeZone, parseZonedDateTime} from "@internationalized/date";
 
 export function InputContainer() {

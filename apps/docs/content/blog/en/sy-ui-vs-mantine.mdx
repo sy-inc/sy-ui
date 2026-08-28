@@ -48,7 +48,7 @@ Mantine ships a large number of components, though breadth comes with trade-offs
 SY UI takes a more focused approach. The core library covers the essential component set — buttons, forms, modals, tables, navigation, data display — with depth rather than breadth. Components like `Table` support sorting, selection, column resizing, and infinite scrolling out of the box:
 
 ```tsx
-import { Table } from "@sy-ui/react";
+import { Table } from "@sy-inc/react";
 
 <Table>
   <Table.ScrollContainer>
@@ -98,7 +98,7 @@ The downside is that you need to understand Mantine's internal class structure t
 SY UI components are styled with Tailwind CSS v4 utilities. You customize components the same way you style everything else in a Tailwind project — with `className`:
 
 ```tsx
-import { Button } from "@sy-ui/react";
+import { Button } from "@sy-inc/react";
 
 <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg">
   Click me
@@ -108,7 +108,7 @@ import { Button } from "@sy-ui/react";
 For component sub-parts, SY UI's compound component pattern lets you apply classes to any section:
 
 ```tsx
-import { Card } from "@sy-ui/react";
+import { Card } from "@sy-inc/react";
 
 <Card className="max-w-md">
   <Card.Header className="pb-0">
@@ -207,7 +207,7 @@ Both libraries have excellent TypeScript support. Components are fully typed, pr
 SY UI's compound component pattern means TypeScript can verify the structure of your component trees:
 
 ```tsx
-import { Tabs } from "@sy-ui/react";
+import { Tabs } from "@sy-inc/react";
 
 <Tabs>
   <Tabs.ListContainer>

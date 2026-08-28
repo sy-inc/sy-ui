@@ -159,7 +159,7 @@ export function generateMinimalCssVariables(
 
   return `/*
  * SY UI Theme Customization
- * Add this to your global.css after importing @sy-ui/styles
+ * Add this to your global.css after importing @sy-inc/styles
  * Only includes variables users need to customize
  * @see https://sy-ui.com/docs/react/getting-started/theming
  */

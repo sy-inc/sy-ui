@@ -12,7 +12,7 @@ description: NumberInput → NumberField 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，NumberInput 是单个组件，通过 prop 配置：
 
 ```tsx
-import { NumberInput } from "@sy-ui/react";
+import { NumberInput } from "@sy-inc/react";
 
 export default function App() {
   return <NumberInput label="Amount" defaultValue={1024} />;
@@ -22,7 +22,7 @@ export default function App() {
 在 v3 中，NumberField 改为复合组件：
 
 ```tsx
-import { NumberField, Label } from "@sy-ui/react";
+import { NumberField, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -96,7 +96,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError, Label } from "@sy-ui/react";
+    import { Description, FieldError, Label } from "@sy-inc/react";
 
     {/* With description */}
     <NumberField>

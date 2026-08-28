@@ -35,6 +35,6 @@ export {ToggleButtonGroupContext, TOGGLE_BUTTON_GROUP_CHILD} from "./toggle-butt
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {toggleButtonGroupVariants} from "@sy-ui/styles";
+export {toggleButtonGroupVariants} from "@sy-inc/styles";
 
-export type {ToggleButtonGroupVariants} from "@sy-ui/styles";
+export type {ToggleButtonGroupVariants} from "@sy-inc/styles";

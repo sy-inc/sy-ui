@@ -1,6 +1,6 @@
 "use client";
 
-import type {TimeValue} from "@sy-ui/react";
+import type {TimeValue} from "@sy-inc/react";
 import type {DateValue} from "@internationalized/date";
 
 import {
@@ -12,7 +12,7 @@ import {
   Select,
   Switch,
   TimeField,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {getLocalTimeZone, parseDate, parseZonedDateTime} from "@internationalized/date";
 import {useMemo, useState} from "react";
 

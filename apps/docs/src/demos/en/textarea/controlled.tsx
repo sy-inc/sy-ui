@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, TextArea} from "@sy-ui/react";
+import {Description, TextArea} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

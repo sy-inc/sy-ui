@@ -1,6 +1,6 @@
 "use client";
 
-import {Autocomplete, EmptyState, Label, ListBox, SearchField, Spinner} from "@sy-ui/react";
+import {Autocomplete, EmptyState, Label, ListBox, SearchField, Spinner} from "@sy-inc/react";
 import {useAsyncList} from "@react-stately/data";
 import {cn} from "tailwind-variants";
 

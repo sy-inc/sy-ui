@@ -1,5 +1,5 @@
 import {ChevronDown} from "@gravity-ui/icons";
-import {Button, ButtonGroup, Description, Dropdown, Label} from "@sy-ui/react";
+import {Button, ButtonGroup, Description, Dropdown, Label} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

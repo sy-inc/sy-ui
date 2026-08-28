@@ -38,6 +38,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {radioVariants} from "@sy-ui/styles";
+export {radioVariants} from "@sy-inc/styles";
 
-export type {RadioVariants} from "@sy-ui/styles";
+export type {RadioVariants} from "@sy-inc/styles";

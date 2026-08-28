@@ -1,6 +1,6 @@
 import type {Key} from "@react-types/shared";
 
-import {User, cleanup, render, runAllTimers, screen} from "@sy-ui/testing/helpers";
+import {User, cleanup, render, runAllTimers, screen} from "@sy-inc/testing/helpers";
 import {MenuTrigger, Popover} from "react-aria-components/Menu";
 
 import {Button} from "@/components/button";

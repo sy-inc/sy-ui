@@ -3,11 +3,11 @@
 import type {UseOverlayStateReturn} from "../../hooks";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {TooltipContentProps} from "../tooltip";
-import type {SidebarVariants} from "@sy-ui/styles";
+import type {SidebarVariants} from "@sy-inc/styles";
 import type {CSSProperties, ReactNode, SetStateAction} from "react";
 import type {ButtonProps, LinkProps} from "react-aria-components";
 
-import {sidebarVariants} from "@sy-ui/styles";
+import {sidebarVariants} from "@sy-inc/styles";
 import React from "react";
 
 import {useMediaQuery, useOverlayState} from "../../hooks";

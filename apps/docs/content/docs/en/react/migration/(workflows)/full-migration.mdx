@@ -69,26 +69,26 @@ v3 requires React 19+. Update your React version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm uninstall @sy-ui/react @sy-ui/theme
-    npm install @sy-ui/styles @sy-ui/react
+    npm uninstall @sy-inc/react @sy-ui/theme
+    npm install @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm remove @sy-ui/react @sy-ui/theme
-    pnpm add @sy-ui/styles @sy-ui/react
+    pnpm remove @sy-inc/react @sy-ui/theme
+    pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn remove @sy-ui/react @sy-ui/theme
-    yarn add @sy-ui/styles @sy-ui/react
+    yarn remove @sy-inc/react @sy-ui/theme
+    yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun remove @sy-ui/react @sy-ui/theme
-    bun add @sy-ui/styles @sy-ui/react
+    bun remove @sy-inc/react @sy-ui/theme
+    bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
 </Tabs>
@@ -159,7 +159,7 @@ Ensure you're using Tailwind CSS v4:
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   content: [
@@ -191,11 +191,11 @@ Remove the `sy-ui()` plugin from your Tailwind config. If you only used Tailwind
 ```css
 /* globals.css or main.css */
 @import "tailwindcss";
-@import "@sy-ui/styles"; /* [!code highlight]*/
+@import "@sy-inc/styles"; /* [!code highlight]*/
 ```
 
 <Callout type="warning">
-  Import order matters! Always import `tailwindcss` before `@sy-ui/styles`.
+  Import order matters! Always import `tailwindcss` before `@sy-inc/styles`.
 </Callout>
 
 #### Remove Theme Plugin File
@@ -218,7 +218,7 @@ v3 does not require a Provider component. Remove it from your application root.
 
 ```tsx
 // app.tsx or App.tsx
-import {SyUIProvider} from "@sy-ui/react";
+import {SyUIProvider} from "@sy-inc/react";
 
 function App() {
   return (
@@ -285,14 +285,14 @@ import {Button} from "@sy-ui/button";
 import {Card} from "@sy-ui/card";
 
 // Or from main package
-import {Button, Card} from "@sy-ui/react";
+import {Button, Card} from "@sy-inc/react";
 ```
 
 **v3 Imports:**
 
 ```tsx
 // All components from single package
-import {Button, Card} from "@sy-ui/react";
+import {Button, Card} from "@sy-inc/react";
 ```
 
 #### TypeScript Considerations
@@ -301,10 +301,10 @@ If you're using TypeScript, be aware of type changes in v3:
 
 ```tsx
 // Import types alongside components
-import {Button, type ButtonProps} from "@sy-ui/react";
+import {Button, type ButtonProps} from "@sy-inc/react";
 
 // Compound component types are properly exported
-import {Checkbox, type CheckboxProps} from "@sy-ui/react";
+import {Checkbox, type CheckboxProps} from "@sy-inc/react";
 
 // Type names may have changed - check component documentation
 type MyButtonProps = ButtonProps & {
@@ -345,7 +345,7 @@ If you had custom theme overrides in v2, you'll need to update them for v3's CSS
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
@@ -371,7 +371,7 @@ v3 uses CSS variables. Override them in your CSS:
 ```css
 /* globals.css */
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 :root {
   --color-primary: /* your color */;
@@ -465,7 +465,7 @@ Use this checklist to track your full migration progress:
 ### Application Code - Component Migration
 - Remove `SyUIProvider` wrapper
 - Handle Provider props migration (router, locale, animations)
-- Update all component imports to `@sy-ui/react`
+- Update all component imports to `@sy-inc/react`
 - Migrate renamed components (Divider → Separator, Autocomplete → Combobox, NumberInput → NumberField)
 - Update compound component patterns (Checkbox, Radio, Switch, Card, Modal, etc.)
 - Update group components (ButtonGroup, CheckboxGroup, RadioGroup)

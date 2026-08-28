@@ -69,26 +69,26 @@ v3 需要 React 19+。更新你的 React 版本：
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm uninstall @sy-ui/react @sy-ui/theme
-    npm install @sy-ui/styles @sy-ui/react
+    npm uninstall @sy-inc/react @sy-ui/theme
+    npm install @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm remove @sy-ui/react @sy-ui/theme
-    pnpm add @sy-ui/styles @sy-ui/react
+    pnpm remove @sy-inc/react @sy-ui/theme
+    pnpm add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn remove @sy-ui/react @sy-ui/theme
-    yarn add @sy-ui/styles @sy-ui/react
+    yarn remove @sy-inc/react @sy-ui/theme
+    yarn add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun remove @sy-ui/react @sy-ui/theme
-    bun add @sy-ui/styles @sy-ui/react
+    bun remove @sy-inc/react @sy-ui/theme
+    bun add @sy-inc/styles @sy-inc/react
     ```
   </Tab>
 </Tabs>
@@ -159,7 +159,7 @@ v3 不再需要 Framer Motion：
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   content: [
@@ -191,11 +191,11 @@ module.exports = {
 ```css
 /* globals.css or main.css */
 @import "tailwindcss";
-@import "@sy-ui/styles"; /* [!code highlight]*/
+@import "@sy-inc/styles"; /* [!code highlight]*/
 ```
 
 <Callout type="warning">
-  **重要提示：** 导入顺序很重要：先导入 `tailwindcss`，再导入 `@sy-ui/styles`。
+  **重要提示：** 导入顺序很重要：先导入 `tailwindcss`，再导入 `@sy-inc/styles`。
 </Callout>
 
 #### 删除主题插件文件
@@ -218,7 +218,7 @@ v3 不需要 Provider 组件。从应用程序根目录中删除它。
 
 ```tsx
 // app.tsx or App.tsx
-import {SyUIProvider} from "@sy-ui/react";
+import {SyUIProvider} from "@sy-inc/react";
 
 function App() {
   return (
@@ -285,14 +285,14 @@ import {Button} from "@sy-ui/button";
 import {Card} from "@sy-ui/card";
 
 // Or from main package
-import {Button, Card} from "@sy-ui/react";
+import {Button, Card} from "@sy-inc/react";
 ```
 
 **v3 导入：**
 
 ```tsx
 // All components from single package
-import {Button, Card} from "@sy-ui/react";
+import {Button, Card} from "@sy-inc/react";
 ```
 
 #### TypeScript 注意事项
@@ -301,10 +301,10 @@ import {Button, Card} from "@sy-ui/react";
 
 ```tsx
 // Import types alongside components
-import {Button, type ButtonProps} from "@sy-ui/react";
+import {Button, type ButtonProps} from "@sy-inc/react";
 
 // Compound component types are properly exported
-import {Checkbox, type CheckboxProps} from "@sy-ui/react";
+import {Checkbox, type CheckboxProps} from "@sy-inc/react";
 
 // Type names may have changed - check component documentation
 type MyButtonProps = ButtonProps & {
@@ -345,7 +345,7 @@ type MyButtonProps = ButtonProps & {
 
 ```js
 // tailwind.config.js
-const {sy-ui} = require("@sy-ui/react");
+const {sy-ui} = require("@sy-inc/react");
 
 module.exports = {
   plugins: [
@@ -371,7 +371,7 @@ v3 使用 CSS 变量。在 CSS 中覆盖它们：
 ```css
 /* globals.css */
 @import "tailwindcss";
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 
 :root {
   --color-primary: /* your color */;
@@ -465,7 +465,7 @@ v3 使用 CSS 变量。在 CSS 中覆盖它们：
 ### 应用程序代码-组件迁移
 - 消除`SyUIProvider`包装纸
 - 处理提供者道具迁移（路由器、区域设置、动画）
-- 将所有组件导入更新为`@sy-ui/react`
+- 将所有组件导入更新为`@sy-inc/react`
 - 迁移重命名组件（Divider → Separator、Autocomplete → Combobox、NumberInput → NumberField）
 - 更新复合组件模式（复选框、单选、开关、卡片、模态等）
 - 更新组组件（ButtonGroup、CheckboxGroup、RadioGroup）

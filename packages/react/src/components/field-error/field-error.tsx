@@ -1,9 +1,9 @@
 "use client";
 
-import type {FieldErrorVariants} from "@sy-ui/styles";
+import type {FieldErrorVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {fieldErrorVariants} from "@sy-ui/styles";
+import {fieldErrorVariants} from "@sy-inc/styles";
 import {FieldError as FieldErrorPrimitive} from "react-aria-components/FieldError";
 
 import {composeTwRenderProps} from "../../utils/compose";

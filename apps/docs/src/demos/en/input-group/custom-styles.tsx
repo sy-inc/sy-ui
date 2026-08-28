@@ -1,7 +1,7 @@
 "use client";
 
 import {Envelope} from "@gravity-ui/icons";
-import {InputGroup, Label, TextField} from "@sy-ui/react";
+import {InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import {FieldError, Label, TimeField} from "@sy-ui/react";
+import {FieldError, Label, TimeField} from "@sy-inc/react";
 
 export function Invalid() {
   return (

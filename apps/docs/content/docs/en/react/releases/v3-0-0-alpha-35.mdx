@@ -16,22 +16,22 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@alpha @sy-ui/react@alpha
+    npm i @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@alpha @sy-ui/react@alpha
+    pnpm add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@alpha @sy-ui/react@alpha
+    yarn add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@alpha @sy-ui/react@alpha
+    bun add @sy-inc/styles@alpha @sy-inc/react@alpha
     ```
   </Tab>
 </Tabs>
@@ -87,7 +87,7 @@ To support React Server Components, the compound component pattern has been rest
 
 **Before:**
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 <Avatar>
   <Avatar.Image src="/images/avatar.jpeg" alt="Junior Garcia" />
@@ -97,7 +97,7 @@ import { Avatar } from "@sy-ui/react"
 
 **After:**
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 <Avatar.Root>
   <Avatar.Image src="/images/avatar.jpeg" alt="Junior Garcia" />
@@ -113,7 +113,7 @@ The Switch component grouping API has been restructured to match the Radio/Radio
 
 **Before:**
 ```tsx
-import { Switch } from "@sy-ui/react"
+import { Switch } from "@sy-inc/react"
 
 <Switch.Group orientation="horizontal">
   <Switch.GroupItems>
@@ -135,7 +135,7 @@ import { Switch } from "@sy-ui/react"
 
 **After:**
 ```tsx
-import { Switch, SwitchGroup } from "@sy-ui/react"
+import { Switch, SwitchGroup } from "@sy-inc/react"
 
 <SwitchGroup orientation="horizontal">
   <Switch.Root name="notifications">
@@ -162,7 +162,7 @@ This change helps to:
 
 
 **Migration Steps:**
-1. Import `SwitchGroup` separately: `import { Switch, SwitchGroup } from "@sy-ui/react"`
+1. Import `SwitchGroup` separately: `import { Switch, SwitchGroup } from "@sy-inc/react"`
 2. Replace `<Switch.Group>` with `<SwitchGroup>`
 3. Remove the nested `<Switch.GroupItems>` wrapper
 4. Individual `Switch.Root` components remain unchanged
@@ -194,7 +194,7 @@ If you're using the compound pattern (dot notation), update your code to use `.R
 
 **Card Example:**
 ```tsx
-import { Card } from "@sy-ui/react"
+import { Card } from "@sy-inc/react"
 
 <Card.Root>
   <Card.Header>
@@ -212,7 +212,7 @@ import { Card } from "@sy-ui/react"
 
 **Tabs Example:**
 ```tsx
-import { Tabs } from "@sy-ui/react"
+import { Tabs } from "@sy-inc/react"
 
 <Tabs.Root>
   <Tabs.ListWrapper>
@@ -230,7 +230,7 @@ import { Tabs } from "@sy-ui/react"
 
 **Avatar Example:**
 ```tsx
-import { Avatar } from "@sy-ui/react"
+import { Avatar } from "@sy-inc/react"
 
 <Avatar.Root>
   <Avatar.Image alt="John Doe" src="..." />
@@ -253,7 +253,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@sy-ui/react"
+} from "@sy-inc/react"
 
 <CardRoot>
   <CardHeader>
@@ -271,7 +271,7 @@ import {
 
 **Tabs Example:**
 ```tsx
-import { TabsRoot, TabListContainer, TabList, Tab, TabIndicator, TabPanel } from "@sy-ui/react"
+import { TabsRoot, TabListContainer, TabList, Tab, TabIndicator, TabPanel } from "@sy-inc/react"
 
 <TabsRoot>
   <TabListContainer>
@@ -287,7 +287,7 @@ import { TabsRoot, TabListContainer, TabList, Tab, TabIndicator, TabPanel } from
 
 **Avatar Example:**
 ```tsx
-import { Avatar, AvatarImage, AvatarFallback } from "@sy-ui/react"
+import { Avatar, AvatarImage, AvatarFallback } from "@sy-inc/react"
 
 <Avatar>
   <AvatarImage alt="John Doe" src="..." />
@@ -359,7 +359,7 @@ sed -i 's/<\/Switch\.GroupItems>//g' **/*.tsx
 
 **Important:**
 - Be careful with automated replacements. Make sure you're only replacing compound pattern usage, not named exports.
-- For Switch migrations, verify that `SwitchGroup` is imported: `import { Switch, SwitchGroup } from "@sy-ui/react"`
+- For Switch migrations, verify that `SwitchGroup` is imported: `import { Switch, SwitchGroup } from "@sy-inc/react"`
 - Test your code after running automated migrations to ensure all changes are correct.
 
 ## Why This Change?

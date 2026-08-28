@@ -1,4 +1,4 @@
-# @sy-ui/styles
+# @sy-inc/styles
 
 The core SY UI styles package containing CSS files for components, themes, and utilities. This package provides the foundation for SY UI's design system using Tailwind CSS v4 and is framework-agnostic.
 
@@ -12,11 +12,11 @@ It's the [sy-ui.com](https://sy-ui.com) website for the latest version of SY UI.
 ## Installation
 
 ```bash
-npm install @sy-ui/styles
+npm install @sy-inc/styles
 # or
-pnpm add @sy-ui/styles
+pnpm add @sy-inc/styles
 # or
-yarn add @sy-ui/styles
+yarn add @sy-inc/styles
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ yarn add @sy-ui/styles
 Import the SY UI styles in your main CSS file:
 
 ```css
-@import "@sy-ui/styles";
+@import "@sy-inc/styles";
 ```
 
 This will import:
@@ -42,7 +42,7 @@ This will import:
 The package exports CSS files organized into:
 
 ```
-@sy-ui/styles/
+@sy-inc/styles/
 ├── index.css          # Main entry point
 ├── base/              # Base styles and CSS variables
 │   └── base.css       # Layout tokens, typography, scrollbar
@@ -74,11 +74,11 @@ Instead of importing everything, you can import only what you need:
 @import "tailwindcss";
 
 /* Import only specific components */
-@import "@sy-ui/styles/components/button.css" layer(components);
-@import "@sy-ui/styles/components/chip.css" layer(components);
+@import "@sy-inc/styles/components/button.css" layer(components);
+@import "@sy-inc/styles/components/chip.css" layer(components);
 
 /* Import theme */
-@import "@sy-ui/styles/themes/default" layer(base);
+@import "@sy-inc/styles/themes/default" layer(base);
 ```
 
 ### Component Classes
@@ -258,7 +258,7 @@ The package provides:
 
 ## Framework Integration
 
-This package is designed to work with any framework. For React-specific components, use `@sy-ui/react` which builds on top of these core styles.
+This package is designed to work with any framework. For React-specific components, use `@sy-inc/react` which builds on top of these core styles.
 
 ## License
 

@@ -49,6 +49,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {sliderVariants} from "@sy-ui/styles";
+export {sliderVariants} from "@sy-inc/styles";
 
-export type {SliderVariants} from "@sy-ui/styles";
+export type {SliderVariants} from "@sy-inc/styles";

@@ -1,4 +1,4 @@
-import {Label, NumberField} from "@sy-ui/react";
+import {Label, NumberField} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

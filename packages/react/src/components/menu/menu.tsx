@@ -1,9 +1,9 @@
 "use client";
 
-import type {MenuVariants} from "@sy-ui/styles";
+import type {MenuVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {menuVariants} from "@sy-ui/styles";
+import {menuVariants} from "@sy-inc/styles";
 import React from "react";
 import {Menu as MenuPrimitive} from "react-aria-components/Menu";
 

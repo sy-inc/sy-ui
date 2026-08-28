@@ -1,6 +1,6 @@
 "use client";
 
-import {Chip, InputGroup, TextField} from "@sy-ui/react";
+import {Chip, InputGroup, TextField} from "@sy-inc/react";
 
 export function WithBadgeSuffix() {
   return (

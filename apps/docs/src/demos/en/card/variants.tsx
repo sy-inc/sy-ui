@@ -1,4 +1,4 @@
-import {Card} from "@sy-ui/react";
+import {Card} from "@sy-inc/react";
 
 export function Variants() {
   return (

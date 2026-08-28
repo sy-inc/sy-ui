@@ -1,4 +1,4 @@
-import {Avatar, Badge, Separator} from "@sy-ui/react";
+import {Avatar, Badge, Separator} from "@sy-inc/react";
 import React from "react";
 
 const AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";

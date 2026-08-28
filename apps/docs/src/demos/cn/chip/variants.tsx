@@ -1,5 +1,5 @@
 import {CircleDashed} from "@gravity-ui/icons";
-import {Chip, Separator} from "@sy-ui/react";
+import {Chip, Separator} from "@sy-inc/react";
 import React from "react";
 
 const sizes = ["lg", "md", "sm"] as const;

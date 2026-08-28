@@ -5,7 +5,7 @@ You generate React code using **SY UI v3**, a component library built on React A
 ## Setup
 
 ```bash
-npm install @sy-ui/react
+npm install @sy-inc/react
 ```
 
 No Provider or context wrapper is needed — just import and use.
@@ -13,7 +13,7 @@ No Provider or context wrapper is needed — just import and use.
 ## Imports
 
 ```tsx
-import { Button, Card, Input, Modal } from "@sy-ui/react";
+import { Button, Card, Input, Modal } from "@sy-inc/react";
 ```
 
 Per-component: `import { Button } from "@sy-ui/button"`.
@@ -288,7 +288,7 @@ toast("Saved!"); toast.success("Done"); toast.error("Failed");
 ## Rules
 
 1. **Never** wrap in a SY UI Provider — not needed.
-2. **Never** import from legacy v2 packages — use `@sy-ui/react`.
+2. **Never** import from legacy v2 packages — use `@sy-inc/react`.
 3. **Never** use Tailwind v3 config. SY UI v3 uses Tailwind CSS v4 with CSS-based config.
 4. **Always** use dot notation: `Card.Header`, not `CardHeader`.
 5. **Always** use `onPress` on Button, not `onClick`.

@@ -51,6 +51,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {searchFieldVariants} from "@sy-ui/styles";
+export {searchFieldVariants} from "@sy-inc/styles";
 
-export type {SearchFieldVariants} from "@sy-ui/styles";
+export type {SearchFieldVariants} from "@sy-inc/styles";

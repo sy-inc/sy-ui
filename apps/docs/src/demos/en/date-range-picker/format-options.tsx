@@ -1,6 +1,6 @@
 "use client";
 
-import type {TimeValue} from "@sy-ui/react";
+import type {TimeValue} from "@sy-inc/react";
 import type {DateValue} from "@internationalized/date";
 
 import {
@@ -14,7 +14,7 @@ import {
   Switch,
   TimeField,
   useLocale,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import {
   DateFormatter,
   getLocalTimeZone,

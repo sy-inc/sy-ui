@@ -1,6 +1,6 @@
 "use client";
 
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 
 import {useDictionary} from "@/hooks/use-dictionary";
 

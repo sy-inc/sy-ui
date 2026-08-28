@@ -1,6 +1,6 @@
 "use client";
 
-import {Button} from "@sy-ui/react";
+import {Button} from "@sy-inc/react";
 import {Ripple} from "m3-ripple";
 
 import "m3-ripple/ripple.css";

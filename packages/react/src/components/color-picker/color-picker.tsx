@@ -1,11 +1,11 @@
 "use client";
 
 import type {SurfaceVariants} from "../surface";
-import type {ColorPickerVariants} from "@sy-ui/styles";
+import type {ColorPickerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {ColorPickerProps as ColorPickerPrimitiveProps} from "react-aria-components/ColorPicker";
 
-import {colorPickerVariants} from "@sy-ui/styles";
+import {colorPickerVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 import {ColorPicker as ColorPickerPrimitive} from "react-aria-components/ColorPicker";

@@ -71,6 +71,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {dropdownVariants} from "@sy-ui/styles";
+export {dropdownVariants} from "@sy-inc/styles";
 
-export type {DropdownVariants} from "@sy-ui/styles";
+export type {DropdownVariants} from "@sy-inc/styles";

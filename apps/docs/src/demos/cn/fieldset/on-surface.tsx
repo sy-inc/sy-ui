@@ -12,7 +12,7 @@ import {
   Surface,
   TextArea,
   TextField,
-} from "@sy-ui/react";
+} from "@sy-inc/react";
 import React from "react";
 
 export function OnSurface() {

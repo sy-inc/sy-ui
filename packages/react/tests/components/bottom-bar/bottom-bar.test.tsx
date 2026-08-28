@@ -1,7 +1,7 @@
 import type {BottomBarProps} from "@/components/bottom-bar";
 import type {AnchorHTMLAttributes, ReactElement, Ref} from "react";
 
-import {act, render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {act, render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {createRef} from "react";
 
 import {BottomBar} from "@/components/bottom-bar";

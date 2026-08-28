@@ -1,5 +1,5 @@
 import {Check, Star} from "@gravity-ui/icons";
-import {Button, Card} from "@sy-ui/react";
+import {Button, Card} from "@sy-inc/react";
 
 const PRO_FEATURES = [
   "Unlimited projects and collaborators",

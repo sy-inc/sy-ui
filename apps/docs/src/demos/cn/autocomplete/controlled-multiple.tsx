@@ -1,8 +1,8 @@
 "use client";
 
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
-import {Autocomplete, EmptyState, Label, ListBox, SearchField, useFilter} from "@sy-ui/react";
+import {Autocomplete, EmptyState, Label, ListBox, SearchField, useFilter} from "@sy-inc/react";
 import {useState} from "react";
 
 export function ControlledMultiple() {

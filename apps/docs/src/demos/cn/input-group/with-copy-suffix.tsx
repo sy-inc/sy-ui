@@ -1,7 +1,7 @@
 "use client";
 
 import {Copy} from "@gravity-ui/icons";
-import {Button, InputGroup, Label, TextField} from "@sy-ui/react";
+import {Button, InputGroup, Label, TextField} from "@sy-inc/react";
 
 export function WithCopySuffix() {
   return (

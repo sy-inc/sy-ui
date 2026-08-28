@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, FieldError, Form, Label, NumberField, Spinner} from "@sy-ui/react";
+import {Button, Description, FieldError, Form, Label, NumberField, Spinner} from "@sy-inc/react";
 import React from "react";
 
 export function FormExample() {

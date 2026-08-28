@@ -1,4 +1,4 @@
-import {Label} from "@sy-ui/react";
+import {Label} from "@sy-inc/react";
 import React, {useCallback, useRef} from "react";
 import {tv} from "tailwind-variants";
 

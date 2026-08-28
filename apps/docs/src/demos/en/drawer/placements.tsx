@@ -1,4 +1,4 @@
-import {Button, Drawer} from "@sy-ui/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 export function Placements() {
   const placements = ["bottom", "top", "left", "right"] as const;

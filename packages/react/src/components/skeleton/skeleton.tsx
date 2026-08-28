@@ -1,9 +1,9 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SkeletonVariants} from "@sy-ui/styles";
+import type {SkeletonVariants} from "@sy-inc/styles";
 
-import {skeletonVariants} from "@sy-ui/styles";
+import {skeletonVariants} from "@sy-inc/styles";
 import React from "react";
 
 import {useCSSVariable} from "../../hooks/use-css-variable";

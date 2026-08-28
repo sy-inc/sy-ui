@@ -43,6 +43,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {colorFieldVariants} from "@sy-ui/styles";
+export {colorFieldVariants} from "@sy-inc/styles";
 
-export type {ColorFieldVariants} from "@sy-ui/styles";
+export type {ColorFieldVariants} from "@sy-inc/styles";

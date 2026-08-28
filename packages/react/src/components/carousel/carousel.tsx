@@ -4,7 +4,7 @@ import type {EmblaCarouselType, EmblaOptionsType, EmblaPluginType} from "embla-c
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
 import {mergeRefs} from "@react-aria/utils";
-import {carouselVariants} from "@sy-ui/styles";
+import {carouselVariants} from "@sy-inc/styles";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import React, {createContext, use} from "react";

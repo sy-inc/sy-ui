@@ -11,7 +11,7 @@ description: Migration guide for Image from SY UI v2 to v3
 
 ### 1. Component Removal
 
-**v2:** `<Image>` component from `@sy-ui/react`  
+**v2:** `<Image>` component from `@sy-inc/react`  
 **v3:** Native HTML `<img>` element or Next.js `Image` component
 
 ### 2. Features Mapping
@@ -33,7 +33,7 @@ The v2 Image component had several features that need to be replaced:
 In v2, `Image` was a component wrapper around the native `<img>` element:
 
 ```tsx
-import { Image } from "@sy-ui/react";
+import { Image } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -72,7 +72,7 @@ If you're using Next.js, use the optimized `Image` component:
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Image } from "@sy-ui/react";
+    import { Image } from "@sy-inc/react";
 
     <Image
       src="/image.jpg"
@@ -275,7 +275,7 @@ If you frequently use images with similar features, you can create a reusable co
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Image } from "@sy-ui/react";
+    import { Image } from "@sy-inc/react";
 
     <Image
       src="..."
@@ -403,7 +403,7 @@ If you frequently use images with similar features, you can create a reusable co
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Image } from "@sy-ui/react";
+    import { Image } from "@sy-inc/react";
 
     export default function App() {
       return (
@@ -483,14 +483,14 @@ If you frequently use images with similar features, you can create a reusable co
 ## Summary
 
 1. **Component Removed**: `Image` component no longer exists in v3
-2. **Import Change**: Remove `import { Image } from "@sy-ui/react"`
+2. **Import Change**: Remove `import { Image } from "@sy-inc/react"`
 3. **Use Native Element**: Replace with native `<img>` HTML element or Next.js `Image`
 4. **Features**: Implement blur, zoom, skeleton, and fallback manually
 5. **Styling**: Apply Tailwind CSS classes directly for radius, shadow, and effects
 
 ## Migration Steps
 
-1. **Remove Import**: Remove `Image` from `@sy-ui/react` imports
+1. **Remove Import**: Remove `Image` from `@sy-inc/react` imports
 2. **Replace Component**: Replace all `<Image>` instances with `<img>` elements
 3. **Add Tailwind Classes**: Apply equivalent Tailwind classes for styling (radius, shadow)
 4. **Implement Features**: Add manual implementations for blur, zoom, skeleton, and fallback if needed

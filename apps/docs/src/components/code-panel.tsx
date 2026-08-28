@@ -2,7 +2,7 @@
 
 import type {ReactNode} from "react";
 
-import {Skeleton} from "@sy-ui/react";
+import {Skeleton} from "@sy-inc/react";
 import {useCopyButton} from "fumadocs-ui/utils/use-copy-button";
 import {AnimatePresence, LazyMotion, domAnimation, m} from "motion/react";
 import dynamic from "next/dynamic";

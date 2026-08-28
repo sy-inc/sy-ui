@@ -1,7 +1,7 @@
 "use client";
 
 import {ArrowRight} from "@gravity-ui/icons";
-import {Button, Dropdown, Label} from "@sy-ui/react";
+import {Button, Dropdown, Label} from "@sy-inc/react";
 
 export function WithCustomSubmenuIndicator() {
   return (

@@ -1,4 +1,4 @@
-import {render, screen} from "@sy-ui/testing/helpers";
+import {render, screen} from "@sy-inc/testing/helpers";
 
 import {Label} from "@/components/label";
 import {Meter} from "@/components/meter";

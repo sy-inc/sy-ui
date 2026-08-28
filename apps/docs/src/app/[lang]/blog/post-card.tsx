@@ -2,7 +2,7 @@
 
 import type {BlogPost} from "@/lib/blog";
 
-import {Chip} from "@sy-ui/react";
+import {Chip} from "@sy-inc/react";
 import Link from "next/link";
 import {useState} from "react";
 

@@ -1,10 +1,10 @@
 "use client";
 
-import type {ColorSliderVariants} from "@sy-ui/styles";
+import type {ColorSliderVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {ColorSliderRenderProps, ColorSpace} from "react-aria-components/ColorSlider";
 
-import {colorSliderVariants} from "@sy-ui/styles";
+import {colorSliderVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   ColorSlider as ColorSliderPrimitive,

@@ -1,4 +1,4 @@
-import {render} from "@sy-ui/testing/browser";
+import {render} from "@sy-inc/testing/browser";
 import {page} from "vitest/browser";
 
 import {Toast, ToastQueue} from "@/components/toast";

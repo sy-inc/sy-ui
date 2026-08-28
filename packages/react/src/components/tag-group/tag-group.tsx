@@ -3,7 +3,7 @@
 import type {TagVariants} from "../tag";
 import type {ComponentPropsWithRef} from "react";
 
-import {tagGroupVariants} from "@sy-ui/styles";
+import {tagGroupVariants} from "@sy-inc/styles";
 import React, {createContext, use, useMemo} from "react";
 import {
   TagGroup as TagGroupPrimitive,

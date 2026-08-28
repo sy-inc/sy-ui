@@ -1,9 +1,9 @@
 "use client";
 
-import type {SortDescriptor} from "@sy-ui/react";
+import type {SortDescriptor} from "@sy-inc/react";
 import type {SortingState} from "@tanstack/react-table";
 
-import {Chip, Pagination, Table} from "@sy-ui/react";
+import {Chip, Pagination, Table} from "@sy-inc/react";
 import {
   createColumnHelper,
   flexRender,

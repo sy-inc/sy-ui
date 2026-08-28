@@ -1,4 +1,4 @@
-import {Label, Meter} from "@sy-ui/react";
+import {Label, Meter} from "@sy-inc/react";
 
 export function Colors() {
   return (

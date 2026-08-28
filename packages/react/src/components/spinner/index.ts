@@ -24,6 +24,6 @@ export type {SpinnerRootProps, SpinnerRootProps as SpinnerProps} from "./spinner
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {spinnerVariants} from "@sy-ui/styles";
+export {spinnerVariants} from "@sy-inc/styles";
 
-export type {SpinnerVariants} from "@sy-ui/styles";
+export type {SpinnerVariants} from "@sy-inc/styles";

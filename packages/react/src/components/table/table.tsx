@@ -1,12 +1,12 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {TableVariants} from "@sy-ui/styles";
+import type {TableVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentPropsWithRef, ReactNode} from "react";
 import type {SortDescriptor} from "react-aria-components/Table";
 
 import {mergeRefs} from "@react-aria/utils";
-import {tableVariants} from "@sy-ui/styles";
+import {tableVariants} from "@sy-inc/styles";
 import React, {
   createContext,
   use,

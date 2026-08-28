@@ -64,9 +64,9 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {toastVariants} from "@sy-ui/styles";
+export {toastVariants} from "@sy-inc/styles";
 
-export type {ToastVariants} from "@sy-ui/styles";
+export type {ToastVariants} from "@sy-inc/styles";
 
 /* -------------------------------------------------------------------------------------------------
  * Utilities

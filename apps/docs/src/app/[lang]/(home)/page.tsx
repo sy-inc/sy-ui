@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 
-import {buttonVariants} from "@sy-ui/react";
+import {buttonVariants} from "@sy-inc/react";
 import LinkRoot from "fumadocs-core/link";
 import {notFound} from "next/navigation";
 

@@ -36,6 +36,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {tooltipVariants} from "@sy-ui/styles";
+export {tooltipVariants} from "@sy-inc/styles";
 
-export type {TooltipVariants} from "@sy-ui/styles";
+export type {TooltipVariants} from "@sy-inc/styles";

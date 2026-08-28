@@ -12,7 +12,7 @@ description: Radio 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，Radio 使用较为扁平的结构，通过 prop 配置：
 
 ```tsx
-import { RadioGroup, Radio } from "@sy-ui/react";
+import { RadioGroup, Radio } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
 在 v3 中，Radio 需要使用复合组件：
 
 ```tsx
-import { RadioGroup, Radio, Label, Description } from "@sy-ui/react";
+import { RadioGroup, Radio, Label, Description } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -102,7 +102,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Label, Description, FieldError } from "@sy-ui/react";
+    import { Label, Description, FieldError } from "@sy-inc/react";
 
     {/* 带描述 */}
     <RadioGroup>

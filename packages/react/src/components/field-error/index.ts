@@ -24,6 +24,6 @@ export type {FieldErrorRootProps, FieldErrorRootProps as FieldErrorProps} from "
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {fieldErrorVariants} from "@sy-ui/styles";
+export {fieldErrorVariants} from "@sy-inc/styles";
 
-export type {FieldErrorVariants} from "@sy-ui/styles";
+export type {FieldErrorVariants} from "@sy-inc/styles";

@@ -1,10 +1,10 @@
 "use client";
 
-import type {InputOTPVariants} from "@sy-ui/styles";
+import type {InputOTPVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {ValidationResult} from "react-aria-components/CheckboxGroup";
 
-import {inputOTPVariants} from "@sy-ui/styles";
+import {inputOTPVariants} from "@sy-inc/styles";
 import {OTPInput, OTPInputContext} from "input-otp";
 import React, {createContext, use} from "react";
 import {FieldErrorContext} from "react-aria-components/FieldError";

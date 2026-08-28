@@ -26,22 +26,22 @@ Update to the latest version:
 <Tabs items={["npm", "pnpm", "yarn", "bun"]}>
   <Tab value="npm">
     ```bash
-    npm i @sy-ui/styles@beta @sy-ui/react@beta
+    npm i @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add @sy-ui/styles@beta @sy-ui/react@beta
+    pnpm add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add @sy-ui/styles@beta @sy-ui/react@beta
+    yarn add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add @sy-ui/styles@beta @sy-ui/react@beta
+    bun add @sy-inc/styles@beta @sy-inc/react@beta
     ```
   </Tab>
 </Tabs>
@@ -218,20 +218,20 @@ Replace all instances of `Select.Content` with `Select.Popover`:
 
 ```tsx
 // Before
-import type { SelectContentProps } from "@sy-ui/react"
+import type { SelectContentProps } from "@sy-inc/react"
 
 // After
-import type { SelectPopoverProps } from "@sy-ui/react"
+import type { SelectPopoverProps } from "@sy-inc/react"
 ```
 
 **Named exports:**
 
 ```tsx
 // Before
-import { SelectContent } from "@sy-ui/react"
+import { SelectContent } from "@sy-inc/react"
 
 // After
-import { SelectPopover } from "@sy-ui/react"
+import { SelectPopover } from "@sy-inc/react"
 ```
 
 ### CSS Variables and Utilities: Divider → Separator

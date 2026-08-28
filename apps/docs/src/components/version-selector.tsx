@@ -1,6 +1,6 @@
 "use client";
 
-import {Popover, Separator} from "@sy-ui/react";
+import {Popover, Separator} from "@sy-inc/react";
 import Link from "next/link";
 import {useState} from "react";
 

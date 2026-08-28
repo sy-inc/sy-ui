@@ -1,10 +1,10 @@
 "use client";
 
-import type {ColorFieldVariants} from "@sy-ui/styles";
+import type {ColorFieldVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {Color} from "react-aria-components/ColorArea";
 
-import {colorFieldVariants} from "@sy-ui/styles";
+import {colorFieldVariants} from "@sy-inc/styles";
 import React from "react";
 import {ColorField as ColorFieldPrimitive} from "react-aria-components/ColorField";
 

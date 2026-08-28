@@ -1,9 +1,9 @@
 "use client";
 
-import type {ColorAreaVariants} from "@sy-ui/styles";
+import type {ColorAreaVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentPropsWithRef} from "react";
 
-import {colorAreaVariants} from "@sy-ui/styles";
+import {colorAreaVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   ColorArea as ColorAreaPrimitive,

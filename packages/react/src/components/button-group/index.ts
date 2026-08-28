@@ -35,6 +35,6 @@ export {ButtonGroupContext, BUTTON_GROUP_CHILD} from "./button-group";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {buttonGroupVariants} from "@sy-ui/styles";
+export {buttonGroupVariants} from "@sy-inc/styles";
 
-export type {ButtonGroupVariants} from "@sy-ui/styles";
+export type {ButtonGroupVariants} from "@sy-inc/styles";

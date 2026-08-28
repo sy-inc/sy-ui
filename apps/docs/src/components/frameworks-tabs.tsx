@@ -1,10 +1,10 @@
 "use client";
 
 import type {Framework} from "@/hooks/use-current-framework";
-import type {Key} from "@sy-ui/react";
+import type {Key} from "@sy-inc/react";
 
 import {Globe, Smartphone} from "@gravity-ui/icons";
-import {Tabs} from "@sy-ui/react";
+import {Tabs} from "@sy-inc/react";
 import {usePathname, useRouter} from "next/navigation";
 import {useCallback, useEffect, useRef, useState} from "react";
 

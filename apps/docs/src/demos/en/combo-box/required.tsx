@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, ComboBox, FieldError, Form, Input, Label, ListBox} from "@sy-ui/react";
+import {Button, ComboBox, FieldError, Form, Input, Label, ListBox} from "@sy-inc/react";
 
 export function Required() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {

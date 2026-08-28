@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Toast, ToastQueue} from "@sy-ui/react";
+import {Button, Toast, ToastQueue} from "@sy-inc/react";
 
 export function CustomQueue() {
   const notificationQueue = new ToastQueue({maxVisibleToasts: 2});

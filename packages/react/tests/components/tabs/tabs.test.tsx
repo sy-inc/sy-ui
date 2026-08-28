@@ -1,6 +1,6 @@
 import type {TabsProps} from "@/components/tabs";
 
-import {User, act, render, screen, waitFor} from "@sy-ui/testing/helpers";
+import {User, act, render, screen, waitFor} from "@sy-inc/testing/helpers";
 
 import {Tabs} from "@/components/tabs";
 

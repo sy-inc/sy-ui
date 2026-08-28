@@ -1,6 +1,6 @@
 "use client";
 
-import {Checkbox, CheckboxGroup, Description, Label} from "@sy-ui/react";
+import {Checkbox, CheckboxGroup, Description, Label} from "@sy-inc/react";
 
 export function WithCustomIndicator() {
   return (

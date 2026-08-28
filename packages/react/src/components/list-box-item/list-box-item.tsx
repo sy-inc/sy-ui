@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {ListBoxItemVariants} from "@sy-ui/styles";
+import type {ListBoxItemVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {ListBoxItemRenderProps} from "react-aria-components/ListBox";
 
-import {listboxItemVariants} from "@sy-ui/styles";
+import {listboxItemVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {ListBoxItem as ListBoxItemPrimitive} from "react-aria-components/ListBox";
 

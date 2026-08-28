@@ -1,6 +1,6 @@
 "use client";
 
-import {Checkbox, Radio, RadioGroup, Spinner, Switch} from "@sy-ui/react";
+import {Checkbox, Radio, RadioGroup, Spinner, Switch} from "@sy-inc/react";
 
 import {useDictionary} from "@/hooks/use-dictionary";
 

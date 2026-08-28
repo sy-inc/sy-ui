@@ -1,4 +1,4 @@
-import {Avatar, Link} from "@sy-ui/react";
+import {Avatar, Link} from "@sy-inc/react";
 import * as React from "react";
 
 import {siteConfig} from "@/config/site";

@@ -1,4 +1,4 @@
-import {Label, ProgressBar} from "@sy-ui/react";
+import {Label, ProgressBar} from "@sy-inc/react";
 
 const SIZE_LABELS = {
   lg: "大",

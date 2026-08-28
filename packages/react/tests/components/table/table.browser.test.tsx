@@ -1,4 +1,4 @@
-import {render} from "@sy-ui/testing/browser";
+import {render} from "@sy-inc/testing/browser";
 import React from "react";
 import type {SortDescriptor} from "react-aria-components/Table";
 import {page} from "vitest/browser";

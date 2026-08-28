@@ -1,11 +1,11 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SwitchVariants} from "@sy-ui/styles";
+import type {SwitchVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {SwitchButtonRenderProps, SwitchFieldRenderProps} from "react-aria-components/Switch";
 
-import {switchVariants} from "@sy-ui/styles";
+import {switchVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {
   SwitchButton as SwitchButtonPrimitive,

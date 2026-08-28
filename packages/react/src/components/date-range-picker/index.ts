@@ -51,6 +51,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {dateRangePickerVariants} from "@sy-ui/styles";
+export {dateRangePickerVariants} from "@sy-inc/styles";
 
-export type {DateRangePickerVariants} from "@sy-ui/styles";
+export type {DateRangePickerVariants} from "@sy-inc/styles";

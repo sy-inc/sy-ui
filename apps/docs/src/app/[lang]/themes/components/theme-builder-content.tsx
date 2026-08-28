@@ -1,6 +1,6 @@
 "use client";
 
-import {ScrollShadow} from "@sy-ui/react";
+import {ScrollShadow} from "@sy-inc/react";
 
 import {useDictionary} from "@/hooks/use-dictionary";
 import {cn} from "@/utils/cn";

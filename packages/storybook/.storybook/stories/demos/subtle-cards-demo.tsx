@@ -1,4 +1,4 @@
-import {Avatar, Card} from "@sy-ui/react";
+import {Avatar, Card} from "@sy-inc/react";
 import React from "react";
 import {tv} from "tailwind-variants";
 

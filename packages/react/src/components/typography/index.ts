@@ -30,6 +30,6 @@ export type {
   TypographyRootProps as TypographyProps,
 } from "./typography";
 
-export {typographyVariants} from "@sy-ui/styles";
+export {typographyVariants} from "@sy-inc/styles";
 
-export type {TypographyVariants} from "@sy-ui/styles";
+export type {TypographyVariants} from "@sy-inc/styles";

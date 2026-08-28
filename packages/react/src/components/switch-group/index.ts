@@ -24,6 +24,6 @@ export type {SwitchGroupRootProps, SwitchGroupRootProps as SwitchGroupProps} fro
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {switchGroupVariants} from "@sy-ui/styles";
+export {switchGroupVariants} from "@sy-inc/styles";
 
-export type {SwitchGroupVariants} from "@sy-ui/styles";
+export type {SwitchGroupVariants} from "@sy-inc/styles";

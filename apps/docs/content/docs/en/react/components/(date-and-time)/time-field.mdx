@@ -11,7 +11,7 @@ links:
 ## Usage
 
 ```tsx
-import { TimeField } from '@sy-ui/react';
+import { TimeField } from '@sy-inc/react';
 ```
 
 <ComponentPreview name="time-field-basic" />
@@ -19,7 +19,7 @@ import { TimeField } from '@sy-ui/react';
 ## Anatomy
 
 ```tsx
-import {TimeField, Label, Description, FieldError} from '@sy-ui/react';
+import {TimeField, Label, Description, FieldError} from '@sy-inc/react';
 
 export default () => (
   <TimeField>
@@ -226,19 +226,19 @@ TimeField inherits all props from React Aria's [TimeField](https://react-aria.ad
 
 TimeField works with these separate components that should be imported and used directly:
 
-- **Label** - Field label component from `@sy-ui/react`
+- **Label** - Field label component from `@sy-inc/react`
 - **TimeField.Group** - Time input group component (documented below)
-- **TimeField.Input** - Input component with segmented editing from `@sy-ui/react`
+- **TimeField.Input** - Input component with segmented editing from `@sy-inc/react`
 - **TimeField.Segment** - Individual time segment (hour, minute, second, etc.)
 - **TimeField.Prefix** / **TimeField.Suffix** - Prefix and suffix slots for the input group
-- **Description** - Helper text component from `@sy-ui/react`
-- **FieldError** - Validation error message from `@sy-ui/react`
+- **Description** - Helper text component from `@sy-inc/react`
+- **FieldError** - Validation error message from `@sy-inc/react`
 
 Each of these components has its own props API. Use them directly within TimeField for composition:
 
 ```tsx
 import {parseTime} from '@internationalized/date';
-import {TimeField, Label, Description, FieldError} from '@sy-ui/react';
+import {TimeField, Label, Description, FieldError} from '@sy-inc/react';
 
 <TimeField
   isRequired

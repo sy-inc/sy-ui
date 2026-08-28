@@ -9,10 +9,10 @@
 </p>
 <p align="center">
   <a href="https://github.com/sy-ui/sy-ui/blob/main/LICENSE">
-    <img src="https://img.shields.io/npm/l/@sy-ui/react?style=flat" alt="License">
+    <img src="https://img.shields.io/npm/l/@sy-inc/react?style=flat" alt="License">
   </a>
-  <a href="https://www.npmjs.com/package/@sy-ui/react">
-    <img src="https://img.shields.io/npm/dm/@sy-ui/react.svg?style=flat-round" alt="npm downloads">
+  <a href="https://www.npmjs.com/package/@sy-inc/react">
+    <img src="https://img.shields.io/npm/dm/@sy-inc/react.svg?style=flat-round" alt="npm downloads">
   </a>
 </p>
 
@@ -31,8 +31,8 @@ SY UI is a production-ready React component library that combines the accessibil
 
 | Package | Description |
 |---|---|
-| [`@sy-ui/react`](https://www.npmjs.com/package/@sy-ui/react) | Full component bundle |
-| [`@sy-ui/styles`](https://www.npmjs.com/package/@sy-ui/styles) | Styles / theme only |
+| [`@sy-inc/react`](https://www.npmjs.com/package/@sy-inc/react) | Full component bundle |
+| [`@sy-inc/styles`](https://www.npmjs.com/package/@sy-inc/styles) | Styles / theme only |
 | Individual packages | e.g. `@sy-ui/button`, `@sy-ui/modal` — tree-shakeable per-component imports |
 
 ## Getting Started
@@ -40,7 +40,7 @@ SY UI is a production-ready React component library that combines the accessibil
 Visit [sy-ui.com/docs/react/getting-started/quick-start](https://sy-ui.com/docs/react/getting-started/quick-start) to get started with SY UI.
 
 ```bash
-npm install @sy-ui/react
+npm install @sy-inc/react
 ```
 
 ## Who Is This For?
@@ -59,7 +59,7 @@ SY UI is built for the AI-assisted development workflow.
 
 | Tool | What it does |
 |---|---|
-| **MCP Server** (`@sy-ui/react-mcp`) | Components that understand your theme — install the server in Cursor, Claude Code, Windsurf, or any MCP-compatible editor |
+| **MCP Server** (`@sy-inc/react-mcp`) | Components that understand your theme — install the server in Cursor, Claude Code, Windsurf, or any MCP-compatible editor |
 | **llms.txt** | Available at [sy-ui.com/llms.txt](https://sy-ui.com/llms.txt) — structured context for LLMs about every component |
 | **Agent Skills** | Run `npx sy-ui-cli agents-md` to install skills for Cursor, Claude Code, and more |
 

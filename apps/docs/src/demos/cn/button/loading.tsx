@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Spinner} from "@sy-ui/react";
+import {Button, Spinner} from "@sy-inc/react";
 import React from "react";
 
 export function Loading() {

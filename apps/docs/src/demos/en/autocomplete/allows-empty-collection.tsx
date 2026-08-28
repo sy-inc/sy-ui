@@ -1,6 +1,6 @@
 "use client";
 
-import {Autocomplete, EmptyState, Label, ListBox, SearchField, useFilter} from "@sy-ui/react";
+import {Autocomplete, EmptyState, Label, ListBox, SearchField, useFilter} from "@sy-inc/react";
 
 export function AllowsEmptyCollection() {
   const {contains} = useFilter({sensitivity: "base"});

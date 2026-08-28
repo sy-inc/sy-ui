@@ -51,7 +51,7 @@ Before creating or updating any documentation, you MUST:
    - **SY UI v3 is built on top of Tailwind CSS v4** - IT IS NOT OPTIONAL
    - **Always require Tailwind CSS v4 installation and setup**
    - **Check the demo project at `/Users/juniorgarcia/workspace/examples/sy-ui-v3-alpha` for actual usage patterns**
-   - **The CSS import pattern is**: `@import "tailwindcss"` followed by `@import "@sy-ui/styles"`
+   - **The CSS import pattern is**: `@import "tailwindcss"` followed by `@import "@sy-inc/styles"`
 
 **Documentation Creation Workflow:**
 
@@ -104,7 +104,7 @@ Before creating or updating any documentation, you MUST:
    // IMPORTANT: Always add "use client" directive to all demo files to ensure they work correctly
    "use client";
 
-   import {ComponentName} from "@sy-ui/react";
+   import {ComponentName} from "@sy-inc/react";
    import {Icon} from "@iconify/react"; // If icons needed
 
    export function ComponentDemo() {
@@ -115,7 +115,7 @@ Before creating or updating any documentation, you MUST:
    ("use client");
 
    import {useState} from "react";
-   import {ComponentName} from "@sy-ui/react";
+   import {ComponentName} from "@sy-inc/react";
 
    export function ComponentDemo() {
      const [value, setValue] = useState("");
@@ -154,7 +154,7 @@ links:
 ## Import
 
 ```tsx
-import {ComponentName} from "@sy-ui/react";
+import {ComponentName} from "@sy-inc/react";
 ```
 ````
 
@@ -169,7 +169,7 @@ import {ComponentName} from "@sy-ui/react";
 Import all parts and piece them together.
 
 ```tsx
-import {ComponentName} from "@sy-ui/react";
+import {ComponentName} from "@sy-inc/react";
 
 export default () => (
   <ComponentName>
@@ -209,7 +209,7 @@ export default () => (
 ### Passing Tailwind CSS classes
 
 ```tsx
-import {ComponentName} from "@sy-ui/react";
+import {ComponentName} from "@sy-inc/react";
 
 function CustomComponent() {
   return <ComponentName className="custom-tailwind-classes">Content</ComponentName>;

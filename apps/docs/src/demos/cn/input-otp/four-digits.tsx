@@ -1,4 +1,4 @@
-import {InputOTP, Label} from "@sy-ui/react";
+import {InputOTP, Label} from "@sy-inc/react";
 
 export function FourDigits() {
   return (

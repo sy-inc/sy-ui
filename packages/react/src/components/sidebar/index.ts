@@ -130,5 +130,5 @@ export type {
   SidebarCollapsible,
 } from "./sidebar";
 
-export {sidebarVariants} from "@sy-ui/styles";
-export type {SidebarVariants} from "@sy-ui/styles";
+export {sidebarVariants} from "@sy-inc/styles";
+export type {SidebarVariants} from "@sy-inc/styles";

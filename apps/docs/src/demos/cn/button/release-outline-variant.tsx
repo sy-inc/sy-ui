@@ -1,4 +1,4 @@
-import {Button, ButtonGroup} from "@sy-ui/react";
+import {Button, ButtonGroup} from "@sy-inc/react";
 
 export function OutlineVariant() {
   return (

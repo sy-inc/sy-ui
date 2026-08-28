@@ -39,6 +39,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {selectVariants} from "@sy-ui/styles";
+export {selectVariants} from "@sy-inc/styles";
 
-export type {SelectVariants} from "@sy-ui/styles";
+export type {SelectVariants} from "@sy-inc/styles";

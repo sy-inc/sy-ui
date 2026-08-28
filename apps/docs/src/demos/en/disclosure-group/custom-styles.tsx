@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Disclosure, DisclosureGroup, Separator} from "@sy-ui/react";
+import {Button, Disclosure, DisclosureGroup, Separator} from "@sy-inc/react";
 
 export function CustomStyles() {
   return (

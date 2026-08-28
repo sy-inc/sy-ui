@@ -1,6 +1,6 @@
 "use client";
 
-import {FieldError, Input, Label, TextField} from "@sy-ui/react";
+import {FieldError, Input, Label, TextField} from "@sy-inc/react";
 import {useState} from "react";
 
 export function Basic() {

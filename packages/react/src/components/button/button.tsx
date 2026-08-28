@@ -1,9 +1,9 @@
 "use client";
 
-import type {ButtonVariants} from "@sy-ui/styles";
+import type {ButtonVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {buttonVariants} from "@sy-ui/styles";
+import {buttonVariants} from "@sy-inc/styles";
 import {use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 

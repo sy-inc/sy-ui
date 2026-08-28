@@ -12,7 +12,7 @@ description: Alert 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`Alert` 是单个组件，通过 prop 接收标题、描述、图标等内容：
 
 ```tsx
-import { Alert } from "@sy-ui/react";
+import { Alert } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
 在 v3 中，Alert 改为复合组件模式，子节点显式声明：
 
 ```tsx
-import { Alert } from "@sy-ui/react";
+import { Alert } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -142,7 +142,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { Alert, Button } from "@sy-ui/react";
+    import { Alert, Button } from "@sy-inc/react";
 
     <Alert
       title="You have no credits left"
@@ -157,7 +157,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Alert, Button } from "@sy-ui/react";
+    import { Alert, Button } from "@sy-inc/react";
 
     <Alert status="warning">
       <Alert.Indicator />
@@ -189,7 +189,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Alert, CloseButton } from "@sy-ui/react";
+    import { Alert, CloseButton } from "@sy-inc/react";
     import { useState } from "react";
 
     const [isVisible, setIsVisible] = useState(true);

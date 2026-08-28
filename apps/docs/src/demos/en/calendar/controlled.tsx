@@ -2,7 +2,7 @@
 
 import type {CalendarDate} from "@internationalized/date";
 
-import {Button, ButtonGroup, Calendar, Description} from "@sy-ui/react";
+import {Button, ButtonGroup, Calendar, Description} from "@sy-inc/react";
 import {
   getLocalTimeZone,
   parseDate,

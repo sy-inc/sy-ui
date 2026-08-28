@@ -12,7 +12,7 @@ The SY UI MCP Server gives AI assistants direct access to SY UI v3 component doc
 />
 
 
-The MCP server currently supports **@sy-ui/react v3** only and [stdio transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio). Published at `@sy-ui/react-mcp` on npm. View the source code on [GitHub](https://github.com/sy-ui/sy-ui-mcp).
+The MCP server currently supports **@sy-inc/react v3** only and [stdio transport](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports#stdio). Published at `@sy-inc/react-mcp` on npm. View the source code on [GitHub](https://github.com/sy-ui/sy-ui-mcp).
 
 <Callout>
   As we add more components to SY UI v3, they'll be available in the MCP server too.
@@ -41,7 +41,7 @@ Or manually add to **Cursor Settings** → **Tools** → **MCP Servers**:
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -54,7 +54,7 @@ Alternatively, add the following to your `~/.cursor/mcp.json` file. To learn mor
 Run this command in your terminal:
 
 ```bash
-claude mcp add sy-ui-react -- npx -y @sy-ui/react-mcp@latest
+claude mcp add sy-ui-react -- npx -y @sy-inc/react-mcp@latest
 ```
 
 Or manually add to your project's `.mcp.json` file:
@@ -64,7 +64,7 @@ Or manually add to your project's `.mcp.json` file:
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -83,7 +83,7 @@ Add the SY UI server to your project's `.windsurf/mcp.json` configuration file:
   "mcpServers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -102,7 +102,7 @@ Add the SY UI server to your `settings.json` configuration file. Open settings v
   "context_servers": {
     "sy-ui-react": {
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"],
+      "args": ["-y", "@sy-inc/react-mcp@latest"],
       "env": {}
     }
   }
@@ -123,7 +123,7 @@ To configure MCP in VS Code with GitHub Copilot, add the SY UI server to your pr
     "sy-ui-react": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@sy-ui/react-mcp@latest"]
+      "args": ["-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -140,7 +140,7 @@ Add the SY UI server to your `~/.codex/config.toml` (or a project-scoped `.codex
 ```toml title="config.toml"
 [mcp_servers.sy-ui-react]
 command = "npx"
-args = ["-y", "@sy-ui/react-mcp@latest"]
+args = ["-y", "@sy-inc/react-mcp@latest"]
 ```
 
 After adding the configuration, restart Codex and run `/mcp` in the TUI to verify the server is active.
@@ -157,7 +157,7 @@ Add the SY UI server to your project's `opencode.json` configuration file:
   "mcp": {
     "sy-ui-react": {
       "type": "local",
-      "command": ["npx", "-y", "@sy-ui/react-mcp@latest"]
+      "command": ["npx", "-y", "@sy-inc/react-mcp@latest"]
     }
   }
 }
@@ -216,6 +216,6 @@ The MCP server provides these tools to AI assistants:
 
 ## Links
 
-- [npm Package](https://www.npmjs.com/package/@sy-ui/react-mcp)
+- [npm Package](https://www.npmjs.com/package/@sy-inc/react-mcp)
 - [GitHub Repository](https://github.com/sy-ui/sy-ui-mcp)
 - [Contributing Guide](https://github.com/sy-ui/sy-ui-mcp/blob/main/CONTRIBUTING.md)

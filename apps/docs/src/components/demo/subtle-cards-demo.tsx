@@ -1,6 +1,6 @@
 "use client";
 
-import {Avatar, Card} from "@sy-ui/react";
+import {Avatar, Card} from "@sy-inc/react";
 import {tv} from "tailwind-variants";
 
 import {useDictionary} from "@/hooks/use-dictionary";

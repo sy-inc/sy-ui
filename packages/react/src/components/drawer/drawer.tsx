@@ -3,12 +3,12 @@
 import type {UseOverlayStateProps, UseOverlayStateReturn} from "../../hooks/use-overlay-state";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {DrawerVariants} from "@sy-ui/styles";
+import type {DrawerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ButtonProps as ButtonPrimitiveProps} from "react-aria-components/Button";
 import type {DialogProps as DialogPrimitiveProps} from "react-aria-components/Dialog";
 
-import {drawerVariants} from "@sy-ui/styles";
+import {drawerVariants} from "@sy-inc/styles";
 import {mergeProps} from "@react-aria/utils";
 import React, {createContext, use, useCallback, useMemo, useRef} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";

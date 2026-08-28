@@ -1,6 +1,6 @@
 import type {Color} from "@react-types/color";
 
-import {act, render, screen, setupUser} from "@sy-ui/testing/helpers";
+import {act, render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {ColorSlider} from "@/components/color-slider";
 import {Label} from "@/components/label";

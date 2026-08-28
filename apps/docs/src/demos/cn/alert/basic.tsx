@@ -1,4 +1,4 @@
-import {Alert, Button, CloseButton, Spinner} from "@sy-ui/react";
+import {Alert, Button, CloseButton, Spinner} from "@sy-inc/react";
 import React from "react";
 
 export function Basic() {

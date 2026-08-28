@@ -1,10 +1,10 @@
 "use client";
 
-import type {TagVariants} from "@sy-ui/styles";
+import type {TagVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 import type {Button as ButtonPrimitive} from "react-aria-components/Button";
 
-import {tagVariants} from "@sy-ui/styles";
+import {tagVariants} from "@sy-inc/styles";
 import React, {Children, createContext, use, useMemo} from "react";
 import {Tag as TagPrimitive} from "react-aria-components/TagGroup";
 

@@ -1,4 +1,4 @@
-import {act, cleanup, render, runAllTimers, screen, setupUser} from "@sy-ui/testing/helpers";
+import {act, cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Button} from "@/components/button";
 import {Tooltip} from "@/components/tooltip";

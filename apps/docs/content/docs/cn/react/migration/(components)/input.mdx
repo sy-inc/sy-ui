@@ -36,7 +36,7 @@ description: Input 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`Input` 是功能完备的组件，通过 prop 接收标签、描述、占位符等：
 
 ```tsx
-import { Input } from "@sy-ui/react";
+import { Input } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -52,7 +52,7 @@ export default function App() {
 在 v3 中，`Input` 是原语组件。对于带标签与校验的表单字段，请使用 `TextField`，将 `Input` 与 `Label`、`Description`、`FieldError` 组合在一起：
 
 ```tsx
-import { TextField, Label, Input, FieldError } from "@sy-ui/react";
+import { TextField, Label, Input, FieldError } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -119,7 +119,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description } from "@sy-ui/react";
+    import { Description } from "@sy-inc/react";
 
     {/* With description */}
     <TextField name="email" type="email">
@@ -172,7 +172,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { InputGroup } from "@sy-ui/react";
+    import { InputGroup } from "@sy-inc/react";
 
     <TextField name="price" type="number">
       <Label>Price</Label>
@@ -207,7 +207,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { CloseButton } from "@sy-ui/react";
+    import { CloseButton } from "@sy-inc/react";
 
     const [value, setValue] = useState("");
 

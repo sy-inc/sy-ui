@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, FieldError, Label, NumberField} from "@sy-ui/react";
+import {Description, FieldError, Label, NumberField} from "@sy-inc/react";
 import React from "react";
 
 export function WithValidation() {

@@ -45,6 +45,6 @@ export type {DateFieldRootProps, DateFieldRootProps as DateFieldProps} from "./d
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {dateFieldVariants} from "@sy-ui/styles";
+export {dateFieldVariants} from "@sy-inc/styles";
 
-export type {DateFieldVariants} from "@sy-ui/styles";
+export type {DateFieldVariants} from "@sy-inc/styles";

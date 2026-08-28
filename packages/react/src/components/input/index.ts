@@ -24,6 +24,6 @@ export type {InputRootProps, InputRootProps as InputProps} from "./input";
 /* -------------------------------------------------------------------------------------------------
  * Variants
  * -----------------------------------------------------------------------------------------------*/
-export {inputVariants} from "@sy-ui/styles";
+export {inputVariants} from "@sy-inc/styles";
 
-export type {InputVariants} from "@sy-ui/styles";
+export type {InputVariants} from "@sy-inc/styles";

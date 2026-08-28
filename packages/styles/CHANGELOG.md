@@ -1,4 +1,4 @@
-# @sy-ui/styles
+# @sy-inc/styles
 
 ## 3.0.1
 

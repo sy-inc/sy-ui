@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, TooltipArrow, TooltipContent, TooltipRoot, TooltipTrigger} from "@sy-ui/react";
+import {Button, TooltipArrow, TooltipContent, TooltipRoot, TooltipTrigger} from "@sy-inc/react";
 import React from "react";
 
 import {Iconify} from "@/components/iconify";

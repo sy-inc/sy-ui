@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Label, TimeField} from "@sy-ui/react";
+import {Description, Label, TimeField} from "@sy-inc/react";
 import {Time, getLocalTimeZone, now} from "@internationalized/date";
 
 export function Disabled() {

@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {SearchFieldVariants} from "@sy-ui/styles";
+import type {SearchFieldVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {searchFieldVariants} from "@sy-ui/styles";
+import {searchFieldVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Group as GroupPrimitive} from "react-aria-components/Group";
 import {Input as InputPrimitive} from "react-aria-components/Input";

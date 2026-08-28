@@ -36,7 +36,7 @@ Use `Input` when you need:
 In v2, `Input` was a full-featured component that accepted props for label, description, placeholder, and other elements:
 
 ```tsx
-import { Input } from "@sy-ui/react";
+import { Input } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -52,7 +52,7 @@ export default function App() {
 In v3, `Input` is a primitive component. For form fields with labels and validation, use `TextField` which wraps `Input` with `Label`, `Description`, and `FieldError`:
 
 ```tsx
-import { TextField, Label, Input, FieldError } from "@sy-ui/react";
+import { TextField, Label, Input, FieldError } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -119,7 +119,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description } from "@sy-ui/react";
+    import { Description } from "@sy-inc/react";
 
     {/* With description */}
     <TextField name="email" type="email">
@@ -172,7 +172,7 @@ For inputs with prefix or suffix content, use the **InputGroup** compound compon
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { InputGroup } from "@sy-ui/react";
+    import { InputGroup } from "@sy-inc/react";
 
     <TextField name="price" type="number">
       <Label>Price</Label>
@@ -207,7 +207,7 @@ For inputs with prefix or suffix content, use the **InputGroup** compound compon
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { CloseButton } from "@sy-ui/react";
+    import { CloseButton } from "@sy-inc/react";
 
     const [value, setValue] = useState("");
 

@@ -29,7 +29,7 @@ v3 uses compound component patterns that give you direct access to component par
 
 ### Migration Strategy
 
-1. **Identify hook usage**: Search your codebase for imports from `@sy-ui/react` that include hook names (`useSwitch`, `useInput`, `useCheckbox`, `useRadio`, etc.)
+1. **Identify hook usage**: Search your codebase for imports from `@sy-inc/react` that include hook names (`useSwitch`, `useInput`, `useCheckbox`, `useRadio`, etc.)
 2. **Replace with compound components**: Instead of using hooks with prop getters, use the compound component pattern
 3. **Preserve original structure**: When migrating, try to keep the same component structure you had with hooks. For example:
    - If you used `useSwitch` to create a switch **without** a thumb, don't add `Switch.Thumb` in v3
@@ -46,7 +46,7 @@ v3 uses compound component patterns that give you direct access to component par
 
 **v2: Switch without thumb**
 ```tsx
-import { useSwitch } from "@sy-ui/react";
+import { useSwitch } from "@sy-inc/react";
 
 function CustomSwitch() {
   const { getBaseProps } = useSwitch();
@@ -61,7 +61,7 @@ function CustomSwitch() {
 
 **v3: Equivalent structure**
 ```tsx
-import { Switch } from "@sy-ui/react";
+import { Switch } from "@sy-inc/react";
 
 function CustomSwitch() {
   return (
@@ -94,7 +94,7 @@ const {isOpen, onOpen, onClose, onOpenChange, isControlled, getButtonProps, getD
 
 **Example:**
 ```tsx
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@sy-ui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@sy-inc/react";
 
 export default function App() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -138,7 +138,7 @@ const state = useOverlayState({
 
 **Example:**
 ```tsx
-import { Modal, Button, useOverlayState } from "@sy-ui/react";
+import { Modal, Button, useOverlayState } from "@sy-inc/react";
 
 export default function App() {
   const state = useOverlayState();
@@ -242,7 +242,7 @@ For simple cases, you can also use React's `useState` directly:
 
 ```tsx
 import { useState } from "react";
-import { Modal, Button } from "@sy-ui/react";
+import { Modal, Button } from "@sy-inc/react";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);

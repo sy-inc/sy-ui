@@ -46,6 +46,6 @@ export type {
 /* -------------------------------------------------------------------------------------------------
 | * Variants
 | * -----------------------------------------------------------------------------------------------*/
-export {colorSwatchPickerVariants} from "@sy-ui/styles";
+export {colorSwatchPickerVariants} from "@sy-inc/styles";
 
-export type {ColorSwatchPickerVariants} from "@sy-ui/styles";
+export type {ColorSwatchPickerVariants} from "@sy-inc/styles";

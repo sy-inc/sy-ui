@@ -1,6 +1,6 @@
 "use client";
 
-import {Alert, Button} from "@sy-ui/react";
+import {Alert, Button} from "@sy-inc/react";
 
 import {useDictionary} from "@/hooks/use-dictionary";
 

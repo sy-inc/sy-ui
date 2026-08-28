@@ -1,10 +1,10 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {LinkVariants} from "@sy-ui/styles";
+import type {LinkVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {linkVariants} from "@sy-ui/styles";
+import {linkVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Link as LinkPrimitive} from "react-aria-components/Link";
 

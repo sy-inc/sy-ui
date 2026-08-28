@@ -12,7 +12,7 @@ description: DateInput 从 SY UI v2 到 v3 的迁移指南。
 在 v2 中，`DateInput` 是单个通过 props 配置的组件：
 
 ```tsx
-import { DateInput } from "@sy-ui/react";
+import { DateInput } from "@sy-inc/react";
 
 export default function App() {
   return <DateInput label="Date" name="date" />;
@@ -22,7 +22,7 @@ export default function App() {
 在 v3 中，`DateField` 需要配合 `DateInputGroup` 使用复合组件，并通过 render prop 渲染各段位（segment）：
 
 ```tsx
-import { DateField, DateInputGroup, Label } from "@sy-ui/react";
+import { DateField, DateInputGroup, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -123,7 +123,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError, Label } from "@sy-ui/react";
+    import { Description, FieldError, Label } from "@sy-inc/react";
 
     <DateField className="w-[256px]" name="birthdate">
       <Label>Birth date</Label>

@@ -1,6 +1,6 @@
 "use client";
 
-import {Calendar, Label, ListBox, Select} from "@sy-ui/react";
+import {Calendar, Label, ListBox, Select} from "@sy-inc/react";
 import {useState} from "react";
 
 const dayOptions = [

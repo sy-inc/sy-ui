@@ -1,4 +1,4 @@
-import {Tabs} from "@sy-ui/react";
+import {Tabs} from "@sy-inc/react";
 
 const listClassName = [
   "rounded-xl border border-accent/10 bg-accent-soft/30 p-1",

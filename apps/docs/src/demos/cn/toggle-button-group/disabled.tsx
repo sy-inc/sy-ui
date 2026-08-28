@@ -1,5 +1,5 @@
 import {Bold, Italic, Underline} from "@gravity-ui/icons";
-import {ToggleButton, ToggleButtonGroup} from "@sy-ui/react";
+import {ToggleButton, ToggleButtonGroup} from "@sy-inc/react";
 
 export function Disabled() {
   return (

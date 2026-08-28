@@ -1,9 +1,9 @@
 "use client";
 
-import type {CloseButtonVariants} from "@sy-ui/styles";
+import type {CloseButtonVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {closeButtonVariants} from "@sy-ui/styles";
+import {closeButtonVariants} from "@sy-inc/styles";
 import {useMemo} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 

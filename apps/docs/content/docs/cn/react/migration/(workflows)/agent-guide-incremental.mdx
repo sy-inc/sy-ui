@@ -41,12 +41,12 @@ index: false
 对于使用增量共存策略的项目，代理应该：
 
 1. **确定策略**：检查项目是否使用pnpm别名（策略A）或组件包（策略B）
-   - **策略 A**：寻找别名，例如`"@sy-ui-v3/react": "npm:@sy-ui/react@latest"`在 package.json 中
-   - **策略 B**：寻找特定于组件的包，例如`@sy-ui/button`, `@sy-ui/card`旁边`@sy-ui/react`
+   - **策略 A**：寻找别名，例如`"@sy-ui-v3/react": "npm:@sy-inc/react@latest"`在 package.json 中
+   - **策略 B**：寻找特定于组件的包，例如`@sy-ui/button`, `@sy-ui/card`旁边`@sy-inc/react`
 
 2. **验证设置**：确保共存设置正确：
-   - 策略A：两者兼而有之`@sy-ui/react`（v2）和`@sy-ui-v3/react`（v3 别名）已安装
-   - 策略B：`@sy-ui/react`(v3) 和组件包，例如`@sy-ui/button`(v2) 已安装
+   - 策略A：两者兼而有之`@sy-inc/react`（v2）和`@sy-ui-v3/react`（v3 别名）已安装
+   - 策略B：`@sy-inc/react`(v3) 和组件包，例如`@sy-ui/button`(v2) 已安装
    - CSS 已针对两个版本进行配置（请参阅 CSS 配置部分）
 
 ## 逐个组件的迁移指南
@@ -58,8 +58,8 @@ index: false
    - 使用`get_component_migration_guides`用于获取特定于组件的指南的 MCP 工具
 
 2. **更新导入**
-   - 将导入从 `@sy-ui/react` 改为 `@sy-ui-v3/react`
-   - 例子：`import {Button} from "@sy-ui/react"` → `import {Button} from "@sy-ui-v3/react"`
+   - 将导入从 `@sy-inc/react` 改为 `@sy-ui-v3/react`
+   - 例子：`import {Button} from "@sy-inc/react"` → `import {Button} from "@sy-ui-v3/react"`
 
 3. **更新组件代码**
    - 遵循组件迁移指南`get_component_migration_guides`工具
@@ -86,8 +86,8 @@ index: false
    - 更新package.json
 
 3. **更新导入**
-   - 将组件包中的导入更改为`@sy-ui/react`(v3)
-   - 例子：`import {Card} from "@sy-ui/card"` → `import {Card} from "@sy-ui/react"`
+   - 将组件包中的导入更改为`@sy-inc/react`(v3)
+   - 例子：`import {Card} from "@sy-ui/card"` → `import {Card} from "@sy-inc/react"`
 
 4. **更新组件代码**
    - 遵循组件迁移指南`get_component_migration_guides`工具
@@ -120,7 +120,7 @@ index: false
    - 验证两个 CSS 导入均存在且顺序正确
 
 2. **指导冲突解决**
-   - 确保 CSS 导入顺序：`tailwindcss`首先，然后`@sy-ui/styles`
+   - 确保 CSS 导入顺序：`tailwindcss`首先，然后`@sy-inc/styles`
    - 检查 Tailwind 配置是否配置了 v2 插件
    - 验证 v3 CSS 是否正确导入
 
@@ -144,17 +144,17 @@ index: false
 迁移所有组件后：
 
 1. **删除 v2 依赖项**
-   - 策略A：删除`@sy-ui/react`, `@sy-ui/theme`和别名
+   - 策略A：删除`@sy-inc/react`, `@sy-ui/theme`和别名
    - 策略B：删除所有剩余的`@sy-ui/*`组件包
    - 如果项目仍包含上述已移除 v2 组件（**Code**、**Image**、**Navbar**、**Ripple**、**Snippet**、**Spacer**、**User**），请告知用户：他们可稍后在代理协助下按指南移除或替换。
 
 2. **更新所有导入**
-   - 策略A：改变`@sy-ui-v3/react` → `@sy-ui/react`
-   - 策略 B：所有导入应已指向 `@sy-ui/react`（v3）
+   - 策略A：改变`@sy-ui-v3/react` → `@sy-inc/react`
+   - 策略 B：所有导入应已指向 `@sy-inc/react`（v3）
 
 3. **更新CSS配置**
    - 从配置中删除 v2 Tailwind 插件
-   - 仅保留`@import "@sy-ui/styles";`
+   - 仅保留`@import "@sy-inc/styles";`
    - 删除 v2 CSS 导入
 
 4. **完成样式迁移**
@@ -185,7 +185,7 @@ index: false
 - 可以快速迁移的较小项目
 - 可以接受临时破坏状态的项目
 - 喜欢一次性迁移的团队
-- 项目使用统一`@sy-ui/react`包（策略 A 可以工作，但完全迁移可能更简单）
+- 项目使用统一`@sy-inc/react`包（策略 A 可以工作，但完全迁移可能更简单）
 
 ## 代理最佳实践
 

@@ -1,9 +1,9 @@
 "use client";
 
-import type {InputVariants} from "@sy-ui/styles";
+import type {InputVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {inputVariants} from "@sy-ui/styles";
+import {inputVariants} from "@sy-inc/styles";
 import React, {use} from "react";
 import {Input as InputPrimitive} from "react-aria-components/Input";
 

@@ -1,4 +1,4 @@
-import {Tabs} from "@sy-ui/react";
+import {Tabs} from "@sy-inc/react";
 import React from "react";
 
 export function TabsDemo1() {

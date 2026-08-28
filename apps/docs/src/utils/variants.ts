@@ -1,4 +1,4 @@
-import {buttonVariants} from "@sy-ui/react";
+import {buttonVariants} from "@sy-inc/react";
 import {tv} from "tailwind-variants";
 
 export const docsButtonVariants = tv({

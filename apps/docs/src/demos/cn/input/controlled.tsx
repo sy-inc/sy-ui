@@ -1,6 +1,6 @@
 "use client";
 
-import {Input} from "@sy-ui/react";
+import {Input} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

@@ -1,7 +1,7 @@
 "use client";
 
 import {PlanetEarth, Rocket, ShoppingBag, SquareArticle} from "@gravity-ui/icons";
-import {Avatar, Description, Label, Tag, TagGroup} from "@sy-ui/react";
+import {Avatar, Description, Label, Tag, TagGroup} from "@sy-inc/react";
 
 export function TagGroupWithPrefix() {
   return (

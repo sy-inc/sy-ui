@@ -11,7 +11,7 @@ description: User 从 SY UI v2 到 v3 的迁移指南。
 
 ### 1. 组件已移除
 
-**v2：** 来自 `@sy-ui/react` 的 `<User>` 组件  
+**v2：** 来自 `@sy-inc/react` 的 `<User>` 组件  
 **v3：** 使用 `Avatar` + 文本元素手动组合
 
 ### 2. 功能映射
@@ -33,7 +33,7 @@ v2 User 组件包含以下需要替换的功能：
 在 v2 中，`User` 是一个将 Avatar 与名称组合在一起的便捷组件：
 
 ```tsx
-import { User } from "@sy-ui/react";
+import { User } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -52,7 +52,7 @@ export default function App() {
 在 v3 中，请使用 Avatar 和文本元素手动组合用户展示：
 
 ```tsx
-import { Avatar } from "@sy-ui/react";
+import { Avatar } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -77,7 +77,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { User } from "@sy-ui/react";
+    import { User } from "@sy-inc/react";
 
     <User
       name="Junior Garcia"
@@ -90,7 +90,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     <div className="inline-flex items-center gap-2">
       <Avatar>
@@ -114,7 +114,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { User } from "@sy-ui/react";
+    import { User } from "@sy-inc/react";
 
     <User
       name="Junior Garcia"
@@ -131,7 +131,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     function getInitials(name: string) {
       return name
@@ -155,7 +155,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { User, Link } from "@sy-ui/react";
+    import { User, Link } from "@sy-inc/react";
 
     <User
       name="Junior Garcia"
@@ -172,7 +172,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar, Link } from "@sy-ui/react";
+    import { Avatar, Link } from "@sy-inc/react";
 
     <div className="inline-flex items-center gap-2">
       <Avatar>
@@ -198,7 +198,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { User } from "@sy-ui/react";
+    import { User } from "@sy-inc/react";
 
     {/* Focusable */}
     <User
@@ -221,7 +221,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-ui/react";
+    import { Avatar } from "@sy-inc/react";
 
     {/* Focusable */}
     <button
@@ -262,7 +262,7 @@ export default function App() {
 <Tabs items={["v2", "v3"]}>
   <Tab value="v2">
     ```tsx
-    import { User } from "@sy-ui/react";
+    import { User } from "@sy-inc/react";
 
     <User
       name="Junior Garcia"
@@ -275,7 +275,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar, Link } from "@sy-ui/react";
+    import { Avatar, Link } from "@sy-inc/react";
     import { ReactNode } from "react";
     import { cn } from "@/lib/utils"; // 或你的 cn 工具函数
 
@@ -388,7 +388,7 @@ v2 User 组件使用了以下基础样式，迁移时可以按需复用：
 ## 总结
 
 1. **组件已移除**：v3 中不再提供 `User` 组件
-2. **导入变更**：移除 `import { User } from "@sy-ui/react"`
+2. **导入变更**：移除 `import { User } from "@sy-inc/react"`
 3. **手动组合**：使用 Avatar + 文本元素组合用户展示
 4. **Avatar 变更**：使用 v3 Avatar 的复合组件模式
 5. **样式**：直接应用 Tailwind CSS 类
@@ -396,7 +396,7 @@ v2 User 组件使用了以下基础样式，迁移时可以按需复用：
 
 ## 迁移步骤
 
-1. **移除导入**：从 `@sy-ui/react` 导入中移除 `User`
+1. **移除导入**：从 `@sy-inc/react` 导入中移除 `User`
 2. **替换组件**：将所有 `<User>` 实例替换为手动组合
 3. **使用 Avatar**：使用 v3 Avatar 复合组件模式
 4. **添加文本元素**：将名称和描述作为文本元素添加

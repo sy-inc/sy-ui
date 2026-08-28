@@ -12,7 +12,7 @@ description: Migration guide for DateInput to DateField from SY UI v2 to v3
 In v2, DateInput was a single component with props:
 
 ```tsx
-import { DateInput } from "@sy-ui/react";
+import { DateInput } from "@sy-inc/react";
 
 export default function App() {
   return <DateInput label="Date" name="date" />;
@@ -22,7 +22,7 @@ export default function App() {
 In v3, DateField requires compound components with DateInputGroup and a render prop for segments:
 
 ```tsx
-import { DateField, DateInputGroup, Label } from "@sy-ui/react";
+import { DateField, DateInputGroup, Label } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -123,7 +123,7 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Description, FieldError, Label } from "@sy-ui/react";
+    import { Description, FieldError, Label } from "@sy-inc/react";
 
     <DateField className="w-[256px]" name="birthdate">
       <Label>Birth date</Label>

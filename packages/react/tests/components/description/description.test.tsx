@@ -1,4 +1,4 @@
-import {render, screen} from "@sy-ui/testing/helpers";
+import {render, screen} from "@sy-inc/testing/helpers";
 
 import {Description} from "@/components/description";
 import {Input} from "@/components/input";

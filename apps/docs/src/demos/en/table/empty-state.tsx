@@ -1,6 +1,6 @@
 "use client";
 
-import {EmptyState, Table} from "@sy-ui/react";
+import {EmptyState, Table} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
 
 export function EmptyStateDemo() {

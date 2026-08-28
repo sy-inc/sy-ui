@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, Label, Radio, RadioGroup} from "@sy-ui/react";
+import {Description, Label, Radio, RadioGroup} from "@sy-inc/react";
 import React from "react";
 
 export function Controlled() {

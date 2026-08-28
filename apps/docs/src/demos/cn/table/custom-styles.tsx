@@ -1,4 +1,4 @@
-import {Table} from "@sy-ui/react";
+import {Table} from "@sy-inc/react";
 
 const headerCell = "text-xs font-semibold uppercase tracking-wide text-muted";
 

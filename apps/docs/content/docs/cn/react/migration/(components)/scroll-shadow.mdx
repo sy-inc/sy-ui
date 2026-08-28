@@ -26,7 +26,7 @@ export default function App() {
 在 v3 中，`ScrollShadow` 的基本结构相同，但提供了更多配置项：
 
 ```tsx
-import { ScrollShadow } from "@sy-ui/react";
+import { ScrollShadow } from "@sy-inc/react";
 
 export default function App() {
   return (
@@ -42,7 +42,7 @@ export default function App() {
 ### 1. 导入路径
 
 **v2：** 从 `@sy-ui/scroll-shadow` 包导入  
-**v3：** 从统一封装的 `@sy-ui/react` 导入
+**v3：** 从统一封装的 `@sy-inc/react` 导入
 
 ### 2. 可见性控制
 
@@ -98,7 +98,7 @@ export default function App() {
   <Tab value="v3">
     ```tsx
     import { useState } from "react";
-    import { ScrollShadow } from "@sy-ui/react";
+    import { ScrollShadow } from "@sy-inc/react";
 
     function App() {
       const [visibility, setVisibility] = useState("none");
@@ -140,9 +140,9 @@ export default function App() {
 
 ## 总结
 
-- 将导入从 `@sy-ui/scroll-shadow` 更新为 `@sy-ui/react`
+- 将导入从 `@sy-ui/scroll-shadow` 更新为 `@sy-inc/react`
 - 增强的 API，提供更多配置项
 - 更好的阴影检测与可见性控制
-- 同样支持横向 / 纵向方向；统一从 `@sy-ui/react` 导入
+- 同样支持横向 / 纵向方向；统一从 `@sy-inc/react` 导入
 - 可自定义阴影尺寸与变体（例如 fade）
 - 性能与无障碍均有改进

@@ -1,4 +1,4 @@
-import {Avatar, Badge} from "@sy-ui/react";
+import {Avatar, Badge} from "@sy-inc/react";
 
 const AVATAR_URL = "https://assets.sy-ui.com/avatars/green.jpg";
 

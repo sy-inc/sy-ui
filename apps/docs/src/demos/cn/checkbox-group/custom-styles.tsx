@@ -1,4 +1,4 @@
-import {Checkbox, CheckboxGroup, Description, Label} from "@sy-ui/react";
+import {Checkbox, CheckboxGroup, Description, Label} from "@sy-inc/react";
 
 const controlClassName = "bg-success-soft before:bg-success";
 const indicatorClassName =

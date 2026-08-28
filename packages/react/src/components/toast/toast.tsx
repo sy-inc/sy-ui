@@ -2,11 +2,11 @@
 
 import type {StatelyToastQueue, ToastContentValue} from "./toast-queue";
 import type {DOMRenderProps} from "../../utils/dom";
-import type {ToastVariants} from "@sy-ui/styles";
+import type {ToastVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentPropsWithRef, ReactNode} from "react";
 import type {QueuedToast, ToastProps as ToastPrimitiveProps} from "react-aria-components/Toast";
 
-import {toastVariants} from "@sy-ui/styles";
+import {toastVariants} from "@sy-inc/styles";
 import React, {
   createContext,
   use,

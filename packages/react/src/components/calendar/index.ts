@@ -114,8 +114,8 @@ export type {YearPickerContextValue} from "../calendar-year-picker";
 /* -------------------------------------------------------------------------------------------------
 | * Variants
 | * -----------------------------------------------------------------------------------------------*/
-export {calendarVariants} from "@sy-ui/styles";
+export {calendarVariants} from "@sy-inc/styles";
 
-export type {CalendarVariants} from "@sy-ui/styles";
+export type {CalendarVariants} from "@sy-inc/styles";
 
 export type {CalendarSelectionMode} from "react-aria-components/Calendar";
