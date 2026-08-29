@@ -4,7 +4,7 @@ import {page} from "vitest/browser";
 
 import {TimePicker} from "@/components/time-picker";
 
-import "../../../../styles/dist/sy-ui.min.css";
+import "../../../../styles/dist/sy-inc.min.css";
 
 describe("TimePicker (browser)", () => {
   it("selects the first, middle, and last hour", async () => {
