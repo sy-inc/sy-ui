@@ -9,9 +9,11 @@
  *   JSON with components array, latestVersion, and count
  */
 
+import {localComponents} from "./local_repo.mjs";
+
 const API_BASE = process.env.SY_INC_API_BASE || "https://mcp-api.sy-inc.com";
 const APP_PARAM = "app=react-skills";
-const LLMS_TXT_URL = "https://sy-inc.com/react/llms.txt";
+const LLMS_TXT_URL = `${process.env.SY_INC_DOCS_BASE || "https://sy-inc.com"}/react/llms.txt`;
 
 /**
  * Fetch data from SY INC API with app parameter for analytics.
@@ -109,7 +111,15 @@ async function fetchFallback() {
  * Main function to list all available SY INC v3 components.
  */
 async function main() {
-  let data = await fetchApi("/v1/components");
+  const components = localComponents();
+  let data = components && {
+    components,
+    count: components.length,
+    latestVersion: "local",
+    source: "local",
+  };
+
+  if (!data) data = await fetchApi("/v1/components");
 
   // Check if API returned valid data with components
   if (!data || !data.components || data.components.length === 0) {

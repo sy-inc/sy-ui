@@ -1,0 +1,89 @@
+---
+title: Sidebar
+description: A responsive application sidebar with collapsible desktop and drawer-based mobile behavior.
+links:
+  source: sidebar/sidebar.tsx
+  storybook: Components/Navigation/Sidebar
+---
+
+## Usage
+
+```tsx
+import {Sidebar} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <Sidebar collapsible="icon">
+      <Sidebar.Panel aria-label="Workspace navigation">
+        <Sidebar.Header>Acme</Sidebar.Header>
+        <Sidebar.Content>
+          <Sidebar.Group>
+            <Sidebar.GroupLabel>Workspace</Sidebar.GroupLabel>
+            <Sidebar.GroupContent>
+              <Sidebar.Menu>
+                <Sidebar.MenuItem>
+                  <Sidebar.MenuButton href="/dashboard" isActive tooltip="Dashboard">
+                    Dashboard
+                  </Sidebar.MenuButton>
+                </Sidebar.MenuItem>
+              </Sidebar.Menu>
+            </Sidebar.GroupContent>
+          </Sidebar.Group>
+        </Sidebar.Content>
+        <Sidebar.Rail />
+      </Sidebar.Panel>
+      <Sidebar.Inset><Sidebar.Trigger />Main content</Sidebar.Inset>
+    </Sidebar>
+  );
+}
+```
+
+## Anatomy
+
+```tsx
+<Sidebar>
+  <Sidebar.Panel>
+    <Sidebar.Header><Sidebar.Input /></Sidebar.Header>
+    <Sidebar.Content>
+      <Sidebar.Group>
+        <Sidebar.GroupLabel />
+        <Sidebar.GroupAction />
+        <Sidebar.GroupContent>
+          <Sidebar.Menu>
+            <Sidebar.MenuItem>
+              <Sidebar.MenuButton />
+              <Sidebar.MenuAction />
+              <Sidebar.MenuBadge />
+            </Sidebar.MenuItem>
+          </Sidebar.Menu>
+        </Sidebar.GroupContent>
+      </Sidebar.Group>
+    </Sidebar.Content>
+    <Sidebar.Footer />
+    <Sidebar.Rail />
+  </Sidebar.Panel>
+  <Sidebar.Inset><Sidebar.Trigger /></Sidebar.Inset>
+</Sidebar>
+```
+
+Submenus use `MenuSub`, `MenuSubItem`, and `MenuSubButton`; loading rows use `MenuSkeleton`.
+
+## Key props and behavior
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `collapsible` | `"offcanvas" \| "icon" \| "none"` | `"offcanvas"` | Desktop collapse mode. |
+| `side` | `"left" \| "right"` | `"left"` | Panel side. |
+| `variant` | `"sidebar" \| "floating" \| "inset"` | `"sidebar"` | Layout treatment. |
+| `width` / `collapsedWidth` / `mobileWidth` | `number \| string` | `16rem` / `3rem` / `18rem` | Panel widths; numbers are pixels. |
+| `defaultOpen` | `boolean` | `true` | Initial uncontrolled desktop state. |
+| `isOpen` / `onOpenChange` | controlled state | - | Controlled desktop state. |
+| `collapseBreakpoint` | `number` | - | Auto-collapse threshold for uncontrolled desktop state. |
+
+At 767px and below, a collapsible panel is rendered as a Drawer. `Sidebar.Trigger`, `Sidebar.Rail`, and `Ctrl/⌘ + B` toggle the appropriate desktop or mobile state. Desktop changes are persisted to the `sidebar_state` cookie. `useSidebar()` exposes the current state and state setters to custom children.
+
+`Sidebar.MenuButton` renders a link when `href` is supplied and a button otherwise. `isActive` adds `aria-current="page"` for links. Tooltips are shown only while the desktop sidebar is icon-collapsed.
+
+## Accessibility
+
+Give `Sidebar.Panel` a descriptive `aria-label`; on mobile its `description` labels the dialog description. Triggers automatically expose `aria-controls` and `aria-expanded`. Icon-only menu buttons should receive either `aria-label` or a string `tooltip`.

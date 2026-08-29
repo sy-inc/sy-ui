@@ -1,0 +1,58 @@
+---
+title: Bottom Bar 底部导航栏
+description: 用于主要目的地的紧凑型单选导航栏。
+links:
+  source: bottom-bar/bottom-bar.tsx
+  storybook: Components/Navigation/BottomBar
+---
+
+## 用法
+
+```tsx
+import {BottomBar} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <BottomBar aria-label="主要导航" defaultSelectedKey="home">
+      <BottomBar.Item id="home">
+        <BottomBar.Icon>⌂</BottomBar.Icon>
+        <BottomBar.Label>首页</BottomBar.Label>
+      </BottomBar.Item>
+      <BottomBar.Item id="search">
+        <BottomBar.Icon>⌕</BottomBar.Icon>
+        <BottomBar.Label>搜索</BottomBar.Label>
+      </BottomBar.Item>
+    </BottomBar>
+  );
+}
+```
+
+## 组件结构
+
+```tsx
+<BottomBar>
+  <BottomBar.Item id="destination">
+    <BottomBar.Icon />
+    <BottomBar.Label />
+  </BottomBar.Item>
+</BottomBar>
+```
+
+`BottomBar` 管理一个选中 key。若当前目的地由路由或应用状态管理，请使用 `selectedKey` 与 `onSelectionChange`。Item 刻意不接受 `href`，应在选中回调中执行导航。
+
+## 关键属性与行为
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `defaultSelectedKey` | `Key` | - | 非受控模式的初始选中项。 |
+| `selectedKey` | `Key` | - | 受控的选中项。 |
+| `onSelectionChange` | `(key: Key) => void` | - | 选中项变化时调用。 |
+| `position` | `"fixed" \| "sticky" \| "static"` | `"fixed"` | 定位方式。 |
+| `variant` | `"floating" \| "edge"` | `"floating"` | 容器外观。 |
+| `selectionStyle` | `"color" \| "indicator" \| "underline"` | `"indicator"` | 选中态样式。 |
+
+每个 `BottomBar.Item` 都必须提供稳定的 `id`，并支持 `isDisabled` 等 Tab 状态；其 children 也可使用接收 Tab 状态的渲染函数。
+
+## 无障碍
+
+根元素渲染为 `navigation` 地标，Item 使用可访问的 Tab 单选交互。根元素必须提供 `aria-label` 或 `aria-labelledby`；每个目的地应保留文本标签。`BottomBar.Icon` 会自动从辅助技术中隐藏，因此仅应用于装饰图标。

@@ -10,8 +10,10 @@
  *   Full TSX source code with GitHub URL for each component
  */
 
+import {kebab, readLocal} from "./local_repo.mjs";
+
 const API_BASE = process.env.SY_INC_API_BASE || "https://mcp-api.sy-inc.com";
-const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/sy-inc/sy-inc/refs/heads/v3";
+const GITHUB_RAW_BASE = process.env.SY_INC_GITHUB_RAW_BASE || "https://raw.githubusercontent.com/sy-inc/sy-inc/refs/heads/v3";
 const APP_PARAM = "app=react-skills";
 
 /**
@@ -103,11 +105,30 @@ async function main() {
 
   const components = args;
 
+  const localResults = components.map((component) => {
+    const slug = kebab(component);
+    const local = readLocal(`packages/react/src/components/${slug}/${slug}.tsx`);
+    return local && {component, filePath: local.path, source: "local", sourceCode: local.content};
+  });
+  if (localResults.every(Boolean)) {
+    const data = {results: localResults};
+    if (data.results.length === 1) {
+      console.log(`// File: ${data.results[0].filePath}`);
+      console.log();
+      console.log(data.results[0].sourceCode);
+    } else console.log(JSON.stringify(data, null, 2));
+    return;
+  }
+  const remoteComponents = components.filter((_, index) => !localResults[index]);
+
   // Try API first
-  console.error(`# Fetching source code for: ${components.join(", ")}...`);
-  const data = await fetchApi("/v1/components/source", "POST", {components});
+  console.error(`# Fetching source code for: ${remoteComponents.join(", ")}...`);
+  const data = await fetchApi("/v1/components/source", "POST", {components: remoteComponents});
 
   if (data && data.results) {
+    data.results = components.map((component, index) =>
+      localResults[index] || data.results.find((result) => result.component === component),
+    );
     for (const result of data.results) {
       result.source = "api";
     }
@@ -135,10 +156,8 @@ async function main() {
   console.error("# API failed, using GitHub fallback...");
   const results = [];
 
-  for (const component of components) {
-    const result = await fetchGithubFallback(component);
-
-    results.push(result);
+  for (const [index, component] of components.entries()) {
+    results.push(localResults[index] || await fetchGithubFallback(component));
   }
 
   if (results.length === 1) {

@@ -9,6 +9,8 @@
  *   Theme variables organized by common/light/dark with oklch color format
  */
 
+import {readLocal} from "./local_repo.mjs";
+
 const API_BASE = process.env.SY_INC_API_BASE || "https://mcp-api.sy-inc.com";
 const APP_PARAM = "app=react-skills";
 
@@ -103,6 +105,12 @@ function formatVariables(variables) {
  * Main function to get theme variables.
  */
 async function main() {
+  const local = readLocal("packages/styles/themes/default/variables.css");
+  if (local) {
+    console.error(`# Local theme: ${local.path}`);
+    console.log(local.content);
+    return;
+  }
   console.error("# Fetching theme variables...");
 
   const rawData = await fetchApi("/v1/themes/variables?theme=default");

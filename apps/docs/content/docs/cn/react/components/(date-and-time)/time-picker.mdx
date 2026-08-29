@@ -1,0 +1,48 @@
+---
+title: Time Picker 时间选择器
+description: 具有小时、分钟及可选秒列的 24 小时滚动时间选择器。
+links:
+  source: time-picker/time-picker.tsx
+  storybook: Components/TimePicker
+---
+
+## 用法
+
+```tsx
+import {Time} from '@internationalized/date';
+import {TimePicker} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <TimePicker
+      aria-label="预约时间"
+      defaultValue={new Time(9, 30)}
+      onChange={(time) => console.log(time.toString())}
+    />
+  );
+}
+```
+
+## 组件结构
+
+`TimePicker` 是单一组件，会按照 `granularity` 为启用的单位依次创建垂直循环轮播：小时、分钟、秒。
+
+```tsx
+<TimePicker granularity="second" defaultValue={new Time(14, 35, 20)} />
+```
+
+## API 与行为
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `value` | `Time` | - | 受控值。 |
+| `defaultValue` | `Time` | `new Time()` | 非受控初始值。 |
+| `onChange` | `(value: Time) => void` | - | 单位选择变化后调用。 |
+| `granularity` | `"hour" \| "minute" \| "second"` | `"minute"` | 显示的最小单位。 |
+| `isDisabled` | `boolean` | `false` | 阻止选择变化。 |
+
+小时范围为 00–23，分钟和秒范围为 00–59。修改其他单位时会保留毫秒。除 `children`、`value`、`defaultValue` 与原生 `onChange` 外，组件透传标准 `div` 属性。
+
+## 无障碍
+
+每个单位都是带名称（`hour`、`minute` 或 `second`）的轮播 region，其值按钮可通过键盘操作。若周围上下文未说明控件用途，请为根元素添加 `aria-label` 或 `aria-labelledby`。禁用状态通过 `aria-disabled` 暴露，并会阻止变化回调。

@@ -1,0 +1,48 @@
+---
+title: Time Picker
+description: A scrollable 24-hour time picker with hour, minute, and optional second columns.
+links:
+  source: time-picker/time-picker.tsx
+  storybook: Components/TimePicker
+---
+
+## Usage
+
+```tsx
+import {Time} from '@internationalized/date';
+import {TimePicker} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <TimePicker
+      aria-label="Appointment time"
+      defaultValue={new Time(9, 30)}
+      onChange={(time) => console.log(time.toString())}
+    />
+  );
+}
+```
+
+## Anatomy
+
+`TimePicker` is a single component. It creates one vertical, looping carousel for each unit enabled by `granularity`: hour, then minute, then second.
+
+```tsx
+<TimePicker granularity="second" defaultValue={new Time(14, 35, 20)} />
+```
+
+## API and behavior
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `Time` | - | Controlled value. |
+| `defaultValue` | `Time` | `new Time()` | Initial uncontrolled value. |
+| `onChange` | `(value: Time) => void` | - | Called after a unit selection changes. |
+| `granularity` | `"hour" \| "minute" \| "second"` | `"minute"` | Smallest displayed unit. |
+| `isDisabled` | `boolean` | `false` | Prevents selection changes. |
+
+Hours range from 00–23; minutes and seconds range from 00–59. The component preserves milliseconds when another unit changes and forwards standard `div` props except `children`, `value`, `defaultValue`, and the native `onChange`.
+
+## Accessibility
+
+Each unit is a labelled carousel region (`hour`, `minute`, or `second`) with keyboard-operable value buttons. Add an `aria-label` or `aria-labelledby` to the root when surrounding context does not already identify the control. Disabled state is exposed with `aria-disabled` and prevents change callbacks.

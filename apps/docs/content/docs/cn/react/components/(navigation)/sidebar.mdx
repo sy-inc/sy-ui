@@ -1,0 +1,89 @@
+---
+title: Sidebar 侧边栏
+description: 桌面端可折叠、移动端使用抽屉的响应式应用侧边栏。
+links:
+  source: sidebar/sidebar.tsx
+  storybook: Components/Navigation/Sidebar
+---
+
+## 用法
+
+```tsx
+import {Sidebar} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <Sidebar collapsible="icon">
+      <Sidebar.Panel aria-label="工作区导航">
+        <Sidebar.Header>Acme</Sidebar.Header>
+        <Sidebar.Content>
+          <Sidebar.Group>
+            <Sidebar.GroupLabel>工作区</Sidebar.GroupLabel>
+            <Sidebar.GroupContent>
+              <Sidebar.Menu>
+                <Sidebar.MenuItem>
+                  <Sidebar.MenuButton href="/dashboard" isActive tooltip="仪表盘">
+                    仪表盘
+                  </Sidebar.MenuButton>
+                </Sidebar.MenuItem>
+              </Sidebar.Menu>
+            </Sidebar.GroupContent>
+          </Sidebar.Group>
+        </Sidebar.Content>
+        <Sidebar.Rail />
+      </Sidebar.Panel>
+      <Sidebar.Inset><Sidebar.Trigger />主内容</Sidebar.Inset>
+    </Sidebar>
+  );
+}
+```
+
+## 组件结构
+
+```tsx
+<Sidebar>
+  <Sidebar.Panel>
+    <Sidebar.Header><Sidebar.Input /></Sidebar.Header>
+    <Sidebar.Content>
+      <Sidebar.Group>
+        <Sidebar.GroupLabel />
+        <Sidebar.GroupAction />
+        <Sidebar.GroupContent>
+          <Sidebar.Menu>
+            <Sidebar.MenuItem>
+              <Sidebar.MenuButton />
+              <Sidebar.MenuAction />
+              <Sidebar.MenuBadge />
+            </Sidebar.MenuItem>
+          </Sidebar.Menu>
+        </Sidebar.GroupContent>
+      </Sidebar.Group>
+    </Sidebar.Content>
+    <Sidebar.Footer />
+    <Sidebar.Rail />
+  </Sidebar.Panel>
+  <Sidebar.Inset><Sidebar.Trigger /></Sidebar.Inset>
+</Sidebar>
+```
+
+子菜单使用 `MenuSub`、`MenuSubItem` 和 `MenuSubButton`；加载占位行使用 `MenuSkeleton`。
+
+## 关键属性与行为
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `collapsible` | `"offcanvas" \| "icon" \| "none"` | `"offcanvas"` | 桌面端折叠模式。 |
+| `side` | `"left" \| "right"` | `"left"` | 面板所在侧。 |
+| `variant` | `"sidebar" \| "floating" \| "inset"` | `"sidebar"` | 布局外观。 |
+| `width` / `collapsedWidth` / `mobileWidth` | `number \| string` | `16rem` / `3rem` / `18rem` | 面板宽度；数字按像素处理。 |
+| `defaultOpen` | `boolean` | `true` | 非受控桌面状态初值。 |
+| `isOpen` / `onOpenChange` | 受控状态 | - | 受控桌面状态。 |
+| `collapseBreakpoint` | `number` | - | 非受控桌面状态自动折叠阈值。 |
+
+在 767px 及以下，允许折叠的面板会渲染为 Drawer。`Sidebar.Trigger`、`Sidebar.Rail` 与 `Ctrl/⌘ + B` 会切换当前桌面或移动端状态。桌面状态变化写入 `sidebar_state` cookie。自定义子组件可通过 `useSidebar()` 获取状态与 setter。
+
+`Sidebar.MenuButton` 有 `href` 时渲染链接，否则渲染按钮。链接的 `isActive` 会添加 `aria-current="page"`。Tooltip 仅在桌面端图标折叠状态显示。
+
+## 无障碍
+
+请为 `Sidebar.Panel` 提供明确的 `aria-label`；移动端可通过 `description` 设置对话框描述。Trigger 会自动暴露 `aria-controls` 与 `aria-expanded`。仅图标菜单按钮应提供 `aria-label` 或字符串 `tooltip`。

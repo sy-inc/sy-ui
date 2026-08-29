@@ -12,8 +12,10 @@
  * Note: For component docs, use get_component_docs.mjs instead.
  */
 
+import {findLocal} from "./local_repo.mjs";
+
 const API_BASE = process.env.SY_INC_API_BASE || "https://mcp-api.sy-inc.com";
-const FALLBACK_BASE = "https://sy-inc.com";
+const FALLBACK_BASE = process.env.SY_INC_DOCS_BASE || "https://sy-inc.com";
 const APP_PARAM = "app=react-skills";
 
 /**
@@ -111,6 +113,14 @@ async function main() {
   }
 
   const path = args[0];
+
+  const cleanPath = path.replace(/^\/docs\/(?:en\/)?/, "").replace(/\.mdx$/, "");
+  const parts = cleanPath.split("/");
+  const local = findLocal(`apps/docs/content/docs/en/${parts.slice(0, -1).join("/")}`, `${parts.at(-1)}.mdx`);
+  if (local) {
+    console.log(local.content);
+    return;
+  }
 
   // Check if user is trying to get component docs
   if (path.includes("/components/")) {

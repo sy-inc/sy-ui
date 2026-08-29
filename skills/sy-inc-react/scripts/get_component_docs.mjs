@@ -10,8 +10,10 @@
  *   MDX documentation including imports, usage, variants, props, examples
  */
 
+import {findLocal, kebab} from "./local_repo.mjs";
+
 const API_BASE = process.env.SY_INC_API_BASE || "https://mcp-api.sy-inc.com";
-const FALLBACK_BASE = "https://sy-inc.com";
+const FALLBACK_BASE = process.env.SY_INC_DOCS_BASE || "https://sy-inc.com";
 const APP_PARAM = "app=react-skills";
 
 /**
@@ -102,11 +104,25 @@ async function main() {
 
   const components = args;
 
+  const localResults = components.map((component) => {
+    const local = findLocal("apps/docs/content/docs/en/react/components", `${kebab(component)}.mdx`);
+    return local && {component, content: local.content, contentType: "mdx", path: local.path, source: "local"};
+  });
+  if (localResults.every(Boolean)) {
+    if (localResults.length === 1) console.log(localResults[0].content);
+    else console.log(JSON.stringify({results: localResults}, null, 2));
+    return;
+  }
+  const remoteComponents = components.filter((_, index) => !localResults[index]);
+
   // Try API first - use POST /v1/components/docs for batch requests
-  console.error(`# Fetching docs for: ${components.join(", ")}...`);
-  const data = await fetchApi("/v1/components/docs", "POST", {components});
+  console.error(`# Fetching docs for: ${remoteComponents.join(", ")}...`);
+  const data = await fetchApi("/v1/components/docs", "POST", {components: remoteComponents});
 
   if (data && data.results) {
+    data.results = components.map((component, index) =>
+      localResults[index] || data.results.find((result) => result.component === component),
+    );
     // Output results
     if (data.results.length === 1) {
       // Single component - output content directly for easier reading
@@ -132,10 +148,8 @@ async function main() {
   console.error("# API failed, using fallback...");
   const results = [];
 
-  for (const component of components) {
-    const result = await fetchFallback(component);
-
-    results.push(result);
+  for (const [index, component] of components.entries()) {
+    results.push(localResults[index] || await fetchFallback(component));
   }
 
   // Output results

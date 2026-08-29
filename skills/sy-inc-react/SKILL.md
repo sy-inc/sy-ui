@@ -56,7 +56,7 @@ import { Card } from "@sy-inc/react";
 </Card>;
 ```
 
-**Always fetch v3 docs before implementing.**
+**Always inspect the current fork's v3 docs and implementation before implementing.**
 
 ---
 
@@ -71,7 +71,18 @@ import { Card } from "@sy-inc/react";
 
 ## Accessing Documentation & Component Information
 
-**For component details, examples, props, and implementation patterns, always fetch documentation:**
+**For component details, examples, props, and implementation patterns, use the scripts below. They resolve this monorepo first and only contact a remote source when the requested artifact is absent locally.**
+
+Local resolution starts at `SY_INC_REPO_ROOT` when set; otherwise the scripts walk upward from their own directory until they find `pnpm-workspace.yaml` and `packages/react`.
+
+| Artifact | Local source of truth |
+| --- | --- |
+| Component list | `packages/react/src/components/*/*.tsx` |
+| Component MDX | `apps/docs/content/docs/en/react/components/**/<slug>.mdx` |
+| Guides/releases | `apps/docs/content/docs/en/**/<slug>.mdx` |
+| React source | `packages/react/src/components/<slug>/<slug>.tsx` |
+| Component styles | `packages/styles/components/<slug>.css`, then `packages/styles/src/components/<slug>/<slug>.styles.ts`, then `packages/react/src/components/<slug>/<slug>.styles.ts` |
+| Theme | `packages/styles/themes/default/variables.css` |
 
 ### Using Scripts
 
@@ -98,6 +109,12 @@ node scripts/get_docs.mjs /docs/react/getting-started/theming
 
 ### Direct MDX URLs
 
+Use direct URLs only as a fallback when the file is not present in the current fork. Remote endpoints are configurable with:
+
+- `SY_INC_API_BASE` for the component/docs API
+- `SY_INC_DOCS_BASE` for direct MDX
+- `SY_INC_GITHUB_RAW_BASE` for source and style files
+
 Component docs: fetch `.mdx` with a concrete kebab-case slug. Run `node scripts/list_components.mjs` when the slug is unknown, and never fetch a URL that still contains a placeholder.
 
 Examples:
@@ -108,7 +125,7 @@ Examples:
 
 Getting started guides: use a concrete topic URL such as `https://sy-inc.com/docs/react/getting-started/quick-start.mdx`.
 
-**Important:** Always fetch component docs before implementing. The MDX docs include complete examples, props, anatomy, and API references.
+**Important:** Always inspect component docs before implementing. Prefer the fork's MDX because it matches the source being edited; use the configured remote fallback only when local documentation is missing.
 
 ---
 

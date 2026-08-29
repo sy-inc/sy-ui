@@ -1,0 +1,65 @@
+---
+title: Carousel 轮播
+description: 支持响应式尺寸、控件、分页与自动播放的无障碍水平或垂直轮播。
+links:
+  source: carousel/carousel.tsx
+  storybook: Components/Carousel
+---
+
+## 用法
+
+```tsx
+import {Carousel} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <Carousel aria-label="精选文章" itemsPerView={1} gap={12}>
+      <Carousel.Content>
+        {['一', '二', '三'].map((label, index) => (
+          <Carousel.Item key={label} aria-label={`${index + 1} / 3`}>
+            {label}
+          </Carousel.Item>
+        ))}
+      </Carousel.Content>
+      <Carousel.Previous />
+      <Carousel.Next />
+      <Carousel.Pagination aria-label="选择文章" />
+    </Carousel>
+  );
+}
+```
+
+## 组件结构
+
+```tsx
+<Carousel>
+  <Carousel.Content><Carousel.Item /></Carousel.Content>
+  <Carousel.Previous />
+  <Carousel.Next />
+  <Carousel.Pagination />
+  <Carousel.AutoplayControl />
+  <Carousel.AutoplayProgress />
+</Carousel>
+```
+
+## 关键属性与行为
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | 滚动轴与方向键方向。 |
+| `itemsPerView` | `number \| {base?, sm?, md?, lg?, xl?}` | `1` | 每个视口完整可见的项目数。 |
+| `gap` / `peek` | 响应式 `number \| string` | - | 项目间距与两侧预览；数字按像素处理。 |
+| `slidesToScroll` | `number` | `itemsPerView` | 每次吸附前进的项目数。 |
+| `clickable` | `boolean` | `false` | 允许点击、Enter 或 Space 选择项目。 |
+| `wheelNavigation` | `boolean` | `false` | 启用滚轮导航。 |
+| `autoplay` | `boolean \| {delay?, pauseLabel?, playLabel?}` | - | 启用托管自动播放；默认间隔 4000ms。 |
+| `autoplayInteraction` | `"resume" \| "stop"` | `"resume"` | 指针交互后的自动播放行为。 |
+| `options` / `plugins` | Embla 配置/插件 | - | 高级 Embla 配置；轴始终由 `orientation` 决定。 |
+| `onApiChange` | `(api) => void` | - | 接收初始化后的 Embla API。 |
+| `onSelectionChange` | `(index, value?) => void` | - | 返回选中吸附点及首个项目的 `value`。 |
+
+`Carousel.Pagination` 接受 `({index, isSelected}) => ReactNode` 渲染函数。无法继续移动时，前后按钮会自动禁用。自动播放在未显式设置 `options.loop` 时默认循环，会尊重减少动态效果偏好，并可搭配自动播放按钮与进度条。
+
+## 无障碍
+
+根元素是带轮播语义和名称的 region，每个 Item 暴露为 slide。请提供明确的根标签，并通过 `aria-label` 描述每张幻灯片的位置或内容。键盘支持方向键、Home 与 End，水平方向键会适配 RTL。指针位于轮播区域内时自动播放会暂停；渲染 `Carousel.AutoplayControl` 后可显式播放或暂停。

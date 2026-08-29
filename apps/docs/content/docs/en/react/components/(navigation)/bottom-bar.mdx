@@ -1,0 +1,58 @@
+---
+title: Bottom Bar
+description: A compact, single-selection navigation bar for primary destinations.
+links:
+  source: bottom-bar/bottom-bar.tsx
+  storybook: Components/Navigation/BottomBar
+---
+
+## Usage
+
+```tsx
+import {BottomBar} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <BottomBar aria-label="Primary navigation" defaultSelectedKey="home">
+      <BottomBar.Item id="home">
+        <BottomBar.Icon>⌂</BottomBar.Icon>
+        <BottomBar.Label>Home</BottomBar.Label>
+      </BottomBar.Item>
+      <BottomBar.Item id="search">
+        <BottomBar.Icon>⌕</BottomBar.Icon>
+        <BottomBar.Label>Search</BottomBar.Label>
+      </BottomBar.Item>
+    </BottomBar>
+  );
+}
+```
+
+## Anatomy
+
+```tsx
+<BottomBar>
+  <BottomBar.Item id="destination">
+    <BottomBar.Icon />
+    <BottomBar.Label />
+  </BottomBar.Item>
+</BottomBar>
+```
+
+`BottomBar` owns one selected key. Use `selectedKey` and `onSelectionChange` when a router or application state owns the current destination. Items intentionally do not accept `href`; perform navigation from the selection change handler.
+
+## Key props and behavior
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `defaultSelectedKey` | `Key` | - | Initial selection for uncontrolled usage. |
+| `selectedKey` | `Key` | - | Controlled selected item. |
+| `onSelectionChange` | `(key: Key) => void` | - | Called when the selected item changes. |
+| `position` | `"fixed" \| "sticky" \| "static"` | `"fixed"` | Placement strategy. |
+| `variant` | `"floating" \| "edge"` | `"floating"` | Container treatment. |
+| `selectionStyle` | `"color" \| "indicator" \| "underline"` | `"indicator"` | Selected-item treatment. |
+
+Each `BottomBar.Item` requires a stable `id` and supports tab state such as `isDisabled`. Its children may be a render function receiving the tab render state.
+
+## Accessibility
+
+The root renders a `navigation` landmark and the items use accessible tab selection behavior. Always provide `aria-label` or `aria-labelledby` on the root, keep a text label for every destination, and treat `BottomBar.Icon` as decorative—it is automatically hidden from assistive technology.

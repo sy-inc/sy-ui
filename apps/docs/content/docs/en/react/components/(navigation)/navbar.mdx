@@ -1,0 +1,49 @@
+---
+title: Navbar
+description: A responsive navigation header with brand, desktop content, and a toggleable menu.
+links:
+  source: navbar/navbar.tsx
+  storybook: Components/Navbar
+---
+
+## Usage
+
+```tsx
+import {Navbar} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <Navbar aria-label="Main navigation">
+      <Navbar.Brand>Acme</Navbar.Brand>
+      <Navbar.Content justify="end">
+        <Navbar.Item><a href="/docs">Docs</a></Navbar.Item>
+      </Navbar.Content>
+      <Navbar.MenuToggle />
+      <Navbar.Menu>
+        <Navbar.MenuItem><a href="/docs">Docs</a></Navbar.MenuItem>
+      </Navbar.Menu>
+    </Navbar>
+  );
+}
+```
+
+## Anatomy
+
+```tsx
+<Navbar>
+  <Navbar.Brand />
+  <Navbar.Content><Navbar.Item /></Navbar.Content>
+  <Navbar.MenuToggle />
+  <Navbar.Menu><Navbar.MenuItem /></Navbar.Menu>
+</Navbar>
+```
+
+## Key props and behavior
+
+The menu can be uncontrolled with `defaultIsMenuOpen`, or controlled with `isMenuOpen` and `onMenuOpenChange`. `Navbar.Content` accepts `justify="start" | "center" | "end"`. The root forwards native `nav` props and defaults its accessible name to “Main navigation”.
+
+`Navbar.MenuToggle` accepts React Aria button props, calls a supplied `onPress` after toggling, and may receive `isMenuOpen` to override the visual expanded state locally.
+
+## Accessibility
+
+The toggle is a button with `aria-expanded` and `aria-controls` connected to the generated menu id. Provide meaningful link text, and set a specific `aria-label` on the root and toggle when their defaults do not describe your navigation.

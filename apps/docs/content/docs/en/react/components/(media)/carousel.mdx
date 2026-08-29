@@ -1,0 +1,65 @@
+---
+title: Carousel
+description: An accessible horizontal or vertical carousel with responsive sizing, controls, pagination, and autoplay.
+links:
+  source: carousel/carousel.tsx
+  storybook: Components/Carousel
+---
+
+## Usage
+
+```tsx
+import {Carousel} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <Carousel aria-label="Featured articles" itemsPerView={1} gap={12}>
+      <Carousel.Content>
+        {['One', 'Two', 'Three'].map((label, index) => (
+          <Carousel.Item key={label} aria-label={`${index + 1} of 3`}>
+            {label}
+          </Carousel.Item>
+        ))}
+      </Carousel.Content>
+      <Carousel.Previous />
+      <Carousel.Next />
+      <Carousel.Pagination aria-label="Choose an article" />
+    </Carousel>
+  );
+}
+```
+
+## Anatomy
+
+```tsx
+<Carousel>
+  <Carousel.Content><Carousel.Item /></Carousel.Content>
+  <Carousel.Previous />
+  <Carousel.Next />
+  <Carousel.Pagination />
+  <Carousel.AutoplayControl />
+  <Carousel.AutoplayProgress />
+</Carousel>
+```
+
+## Key props and behavior
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Scroll axis and arrow-key direction. |
+| `itemsPerView` | `number \| {base?, sm?, md?, lg?, xl?}` | `1` | Complete items visible per viewport. |
+| `gap` / `peek` | responsive `number \| string` | - | Inter-item gap and symmetric edge preview. Numbers are pixels. |
+| `slidesToScroll` | `number` | `itemsPerView` | Items advanced by one snap. |
+| `clickable` | `boolean` | `false` | Makes items selectable by click, Enter, or Space. |
+| `wheelNavigation` | `boolean` | `false` | Enables wheel navigation. |
+| `autoplay` | `boolean \| {delay?, pauseLabel?, playLabel?}` | - | Enables managed autoplay; default delay is 4000ms. |
+| `autoplayInteraction` | `"resume" \| "stop"` | `"resume"` | Behavior after pointer interaction. |
+| `options` / `plugins` | Embla options/plugins | - | Advanced Embla configuration. Axis always follows `orientation`. |
+| `onApiChange` | `(api) => void` | - | Receives the initialized Embla API. |
+| `onSelectionChange` | `(index, value?) => void` | - | Reports selected snap and the lead item's `value`. |
+
+`Carousel.Pagination` accepts a render function `({index, isSelected}) => ReactNode`. Previous/next controls disable themselves when movement is unavailable. Autoplay defaults to looping unless `options.loop` is supplied, pauses for reduced-motion users, and can be paired with the autoplay control and progress parts.
+
+## Accessibility
+
+The root is a labelled region with carousel semantics and each item is exposed as a slide. Supply a specific root label and an `aria-label` describing each slide's position or content. Keyboard navigation supports Arrow keys, Home, and End; horizontal arrows respect RTL. Autoplay pauses while the pointer is inside the carousel and provides an explicit play/pause control when `Carousel.AutoplayControl` is rendered.

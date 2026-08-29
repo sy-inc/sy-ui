@@ -38,6 +38,7 @@
     "typecheck:react": "turbo typecheck --filter=@sy-inc/react",
     "typecheck:storybook": "dotenv -- turbo typecheck --filter=@sy-inc/storybook",
     "test": "turbo test",
+    "check:component-docs": "pnpm --filter @sy-inc/docs check:component-docs",
     "test:coverage": "turbo test:coverage --filter=@sy-inc/react",
     "typegen:docs": "dotenv -- pnpm --filter @sy-inc/docs typegen",
     "typegen:docs-cn": "dotenv -- pnpm --filter @sy-inc/docs-cn typegen",

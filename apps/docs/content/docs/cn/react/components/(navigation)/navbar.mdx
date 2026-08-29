@@ -1,0 +1,49 @@
+---
+title: Navbar 导航栏
+description: 包含品牌、桌面内容与可切换菜单的响应式导航页眉。
+links:
+  source: navbar/navbar.tsx
+  storybook: Components/Navbar
+---
+
+## 用法
+
+```tsx
+import {Navbar} from '@sy-inc/react';
+
+export default function Example() {
+  return (
+    <Navbar aria-label="主导航">
+      <Navbar.Brand>Acme</Navbar.Brand>
+      <Navbar.Content justify="end">
+        <Navbar.Item><a href="/docs">文档</a></Navbar.Item>
+      </Navbar.Content>
+      <Navbar.MenuToggle />
+      <Navbar.Menu>
+        <Navbar.MenuItem><a href="/docs">文档</a></Navbar.MenuItem>
+      </Navbar.Menu>
+    </Navbar>
+  );
+}
+```
+
+## 组件结构
+
+```tsx
+<Navbar>
+  <Navbar.Brand />
+  <Navbar.Content><Navbar.Item /></Navbar.Content>
+  <Navbar.MenuToggle />
+  <Navbar.Menu><Navbar.MenuItem /></Navbar.Menu>
+</Navbar>
+```
+
+## 关键属性与行为
+
+菜单可通过 `defaultIsMenuOpen` 非受控使用，也可通过 `isMenuOpen` 与 `onMenuOpenChange` 受控使用。`Navbar.Content` 接受 `justify="start" | "center" | "end"`。根组件透传原生 `nav` 属性，默认无障碍名称为 “Main navigation”。
+
+`Navbar.MenuToggle` 接受 React Aria 按钮属性，在切换后调用传入的 `onPress`；也可通过 `isMenuOpen` 局部覆盖其展开视觉状态。
+
+## 无障碍
+
+切换按钮通过 `aria-expanded` 和 `aria-controls` 关联自动生成 id 的菜单。链接应使用有意义的文本；默认名称不能准确描述导航时，请为根元素和切换按钮设置明确的 `aria-label`。

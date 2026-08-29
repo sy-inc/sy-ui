@@ -10,6 +10,8 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
+    "test:component-docs": "node --test scripts/check-component-docs.test.mjs",
+    "check:component-docs": "node scripts/check-component-docs.mjs",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
