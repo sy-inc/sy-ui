@@ -369,8 +369,23 @@ describe("Carousel", () => {
       vi.useRealTimers();
     });
 
-    it("autoplays with loop enabled and exposes a pause control", async () => {
+    it("does not render an autoplay control by default", () => {
       render(<CarouselFixture autoplay />);
+
+      expect(screen.queryByRole("button", {name: /autoplay/})).not.toBeInTheDocument();
+    });
+
+    it("renders an explicitly requested autoplay control", () => {
+      render(<CarouselFixture autoplay showAutoplayControl />);
+
+      expect(screen.getByRole("button", {name: "Pause autoplay"})).toHaveAttribute(
+        "data-slot",
+        "carousel-autoplay",
+      );
+    });
+
+    it("autoplays with loop enabled and exposes a pause control", async () => {
+      render(<CarouselFixture autoplay showAutoplayControl />);
 
       const pause = screen.getByRole("button", {name: "Pause autoplay"});
 
@@ -398,7 +413,7 @@ describe("Carousel", () => {
     });
 
     it("pauses and resumes autoplay from its accessible control", async () => {
-      render(<CarouselFixture autoplay={{delay: 1000}} />);
+      render(<CarouselFixture autoplay={{delay: 1000}} showAutoplayControl />);
       const pause = screen.getByRole("button", {name: "Pause autoplay"});
 
       fireEvent.click(pause);
@@ -573,7 +588,7 @@ describe("Carousel", () => {
     });
 
     it("keeps an explicit pause when the pointer leaves", async () => {
-      render(<CarouselFixture autoplay={{delay: 1000}} />);
+      render(<CarouselFixture autoplay={{delay: 1000}} showAutoplayControl />);
       const root = screen.getByRole("region", {name: "Featured content"});
 
       fireEvent.click(screen.getByRole("button", {name: "Pause autoplay"}));
@@ -603,7 +618,11 @@ describe("Carousel", () => {
 
       try {
         const {unmount} = render(
-          <CarouselFixture autoplay={{delay: 1000}} onApiChange={(nextApi) => (api = nextApi)} />,
+          <CarouselFixture
+            autoplay={{delay: 1000}}
+            onApiChange={(nextApi) => (api = nextApi)}
+            showAutoplayControl
+          />,
         );
 
         expect(screen.getByRole("button", {name: "Play autoplay"})).toBeInTheDocument();

@@ -55,7 +55,7 @@ export function Sorting() {
           aria-label="Sortable table"
           className="min-w-[600px]"
           sortDescriptor={sortDescriptor}
-          onSortChange={setSortDescriptor}
+          onSortChange={(descriptor) => descriptor && setSortDescriptor(descriptor)}
         >
           <Table.Header>
             <Table.Column allowsSorting isRowHeader id="name">

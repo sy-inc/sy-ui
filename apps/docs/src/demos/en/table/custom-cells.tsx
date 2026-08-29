@@ -96,7 +96,7 @@ export function CustomCells() {
           selectionMode="multiple"
           sortDescriptor={sortDescriptor}
           onSelectionChange={setSelectedKeys}
-          onSortChange={setSortDescriptor}
+          onSortChange={(descriptor) => descriptor && setSortDescriptor(descriptor)}
         >
           <Table.Header>
             <Table.Column className="pe-2">

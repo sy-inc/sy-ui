@@ -10,12 +10,16 @@ export function CarouselFixture({
   onApiChange,
   options,
   orientation = "horizontal",
+  showAutoplayControl = false,
+  showAutoplayProgress = false,
   wheelNavigation = false,
 }: {
   autoplay?: boolean | {delay?: number};
   onApiChange?: (api: EmblaCarouselType) => void;
   orientation?: "horizontal" | "vertical";
   options?: {duration?: number; loop?: boolean; draggable?: boolean};
+  showAutoplayControl?: boolean;
+  showAutoplayProgress?: boolean;
   wheelNavigation?: boolean;
   clickable?: boolean;
 }) {
@@ -40,6 +44,8 @@ export function CarouselFixture({
       <Carousel.Previous />
       <Carousel.Next />
       <Carousel.Pagination aria-label="Choose slide" />
+      {showAutoplayControl ? <Carousel.AutoplayControl /> : null}
+      {showAutoplayProgress ? <Carousel.AutoplayProgress /> : null}
     </Carousel>
   );
 }

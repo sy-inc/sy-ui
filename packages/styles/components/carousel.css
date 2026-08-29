@@ -98,6 +98,19 @@
   }
 }
 
+/* No slide beyond one view means nothing to peek at and nowhere to scroll: drop the side
+   insets so a short set fills the viewport instead of floating between blank gutters, and
+   hide the scroll chrome that could only ever render disabled. */
+.carousel[data-scrollable="false"] {
+  --carousel-peek: 0px;
+
+  .carousel__previous,
+  .carousel__next,
+  .carousel__pagination {
+    @apply hidden;
+  }
+}
+
 .carousel__item {
   @apply min-w-0 shrink-0 grow-0 basis-full;
   flex-basis: calc(
@@ -222,6 +235,18 @@
   @apply start-3 bottom-3;
 }
 
+.carousel__autoplay-progress.progress-bar {
+  @apply pointer-events-none absolute inset-x-0 top-0 z-2 gap-0 opacity-50;
+
+  .carousel__autoplay-progress-track {
+    @apply h-1 rounded-full;
+  }
+
+  .carousel__autoplay-progress-fill {
+    @apply rounded-full;
+  }
+}
+
 .carousel__pagination {
   @apply absolute z-2 flex items-center justify-center gap-1;
 }
@@ -230,6 +255,11 @@
   @apply relative inline-flex size-4 items-center justify-center rounded-full outline-none no-highlight;
 
   cursor: var(--cursor-interactive);
+
+  /* A single page needs no pager. */
+  &:only-child {
+    @apply hidden;
+  }
 
   /* Expands the hit area to the 44px minimum touch target without growing the visible dot. */
   &::before {

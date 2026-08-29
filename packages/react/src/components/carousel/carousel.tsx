@@ -12,6 +12,7 @@ import {Button as ButtonPrimitive} from "react-aria-components/Button";
 
 import {composeTwRenderProps} from "../../utils";
 import {IconChevronDown, IconChevronLeft, IconChevronRight, IconChevronUp} from "../icons";
+import {ProgressBar} from "../progress-bar";
 
 type CarouselOrientation = "horizontal" | "vertical";
 type CarouselBreakpoint = "base" | "sm" | "md" | "lg" | "xl";
@@ -29,7 +30,11 @@ const RESPONSIVE_BREAKPOINTS: Record<Exclude<CarouselBreakpoint, "base">, number
   xl: 1280,
 };
 
-/** Turns a `CarouselResponsive<T>` value into `--carousel-<name>[-<breakpoint>]` CSS variables. */
+/**
+ * Turns a `CarouselResponsive<T>` value into `--carousel-<name>-<breakpoint>` CSS variables.
+ * Scalars become the `base` breakpoint rather than the final variable: an inline final value
+ * would outrank every stylesheet rule, including the data-scrollable degrade override.
+ */
 const responsiveStyle = (
   name: string,
   value: CarouselResponsive<number | string> | undefined,
@@ -39,7 +44,7 @@ const responsiveStyle = (
   const format = (v: number | string) => (unit ? unit(v) : `${v}`);
 
   if (typeof value === "number" || typeof value === "string") {
-    return {[`--carousel-${name}`]: format(value)} as React.CSSProperties;
+    return {[`--carousel-${name}-base`]: format(value)} as React.CSSProperties;
   }
 
   return Object.fromEntries(
@@ -60,6 +65,7 @@ export type CarouselAutoplayInteraction = "resume" | "stop";
 
 type CarouselContextValue = {
   api?: EmblaCarouselType;
+  autoplayAvailable: boolean;
   autoplayPlaying: boolean;
   toggleAutoplay: () => void;
   canScrollNext: boolean;
@@ -113,7 +119,9 @@ interface CarouselRootProps extends Omit<ComponentPropsWithRef<"section">, "chil
   gap?: CarouselGap;
   /**
    * Symmetric edge inset that reveals the previous/next item at both sides of the current one.
-   * Drives the built-in scroll alignment — do not also pass `options.align`.
+   * Drives the built-in scroll alignment — do not also pass `options.align`. Dropped automatically
+   * while there are no slides beyond one view (`data-scrollable="false"`), so a short set fills
+   * the viewport instead of floating between blank gutters.
    */
   peek?: CarouselPeek;
   /** Number of cards advanced by one snap. Defaults to itemsPerView. */
@@ -227,6 +235,9 @@ const CarouselRoot = ({
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [canScrollPrevious, setCanScrollPrevious] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
+  const [scrollable, setScrollable] = React.useState<boolean>();
+  const [looping, setLooping] = React.useState<boolean>();
+  const [autoplayAvailable, setAutoplayAvailable] = React.useState(false);
   const [autoplayPlaying, setAutoplayPlaying] = React.useState(false);
   const userPausedRef = React.useRef(false);
   const pointerInsideRef = React.useRef(false);
@@ -326,6 +337,19 @@ const CarouselRoot = ({
     setSelectedIndex(emblaApi.selectedSnap());
     setCanScrollPrevious(emblaApi.canGoToPrev());
     setCanScrollNext(emblaApi.canGoToNext());
+    // Embla silently rebuilds without loop when the slides cannot cover a looped view; mirror the
+    // engine's decision so loop-only CSS (the seam gap) never applies to a fallback carousel.
+    setLooping(!!emblaApi.internalEngine().options.loop);
+    // "More slides than one view" rather than canGoToNext/Prev: the CSS drops the peek insets on
+    // data-scrollable="false", and a scrollability predicate could flip back once the widened
+    // slides overflow — this one is independent of peek. Per-view count comes from the resolved
+    // custom property so breakpoint resolution keeps one source of truth, like peekAlign.
+    const root = rootRef.current;
+    const perView = root
+      ? parseFloat(getComputedStyle(root).getPropertyValue("--carousel-items-per-view")) || 1
+      : 1;
+
+    setScrollable(emblaApi.slideNodes().length > perView);
   }, []);
 
   React.useEffect(() => {
@@ -361,11 +385,23 @@ const CarouselRoot = ({
     const autoplay = api?.plugins()?.autoplay;
     const root = rootRef.current;
 
-    if (!autoplay || !root) return;
+    if (!root) return;
+    if (!autoplay) {
+      setAutoplayAvailable(autoplayEnabled && reducedMotion);
+
+      return;
+    }
     // The plugin owns the running state; mirror its transitions instead of tracking them in
     // parallel. It emits before flipping its own flag, so read the event, not isPlaying().
     const onPlay = () => setAutoplayPlaying(true);
     const onStop = () => setAutoplayPlaying(false);
+    const syncAutoplay = () => {
+      const available = api.snapList().length > 1;
+
+      setAutoplayAvailable(available);
+      if (!available || userPausedRef.current || pointerInsideRef.current) autoplay.pause();
+      else autoplay.play();
+    };
     // Pointer-in pauses, pointer-out resumes. Dragging always happens pointer-in, so it needs no
     // rule of its own. An explicit pause from the toggle outranks pointer-out.
     // Pointer events rather than mouse events so the one rule covers touch too: a touch pointer
@@ -379,30 +415,30 @@ const CarouselRoot = ({
     };
     const onPointerLeave = () => {
       pointerInsideRef.current = false;
-      if (autoplayInteraction === "resume" && !userPausedRef.current) autoplay.play();
+      if (autoplayInteraction === "resume" && !userPausedRef.current && api.snapList().length > 1) {
+        autoplay.play();
+      }
     };
 
-    api.on("autoplay:play", onPlay).on("autoplay:stop", onStop);
-    setAutoplayPlaying(autoplay.isPlaying());
-    if (userPausedRef.current || pointerInsideRef.current) autoplay.pause();
-    else autoplay.play();
+    api.on("autoplay:play", onPlay).on("autoplay:stop", onStop).on("reinit", syncAutoplay);
+    syncAutoplay();
     root.addEventListener("pointerenter", onPointerEnter);
     root.addEventListener("pointerdown", onPointerDown);
     root.addEventListener("pointerleave", onPointerLeave);
 
     return () => {
-      api.off("autoplay:play", onPlay).off("autoplay:stop", onStop);
+      api.off("autoplay:play", onPlay).off("autoplay:stop", onStop).off("reinit", syncAutoplay);
       root.removeEventListener("pointerenter", onPointerEnter);
       root.removeEventListener("pointerdown", onPointerDown);
       root.removeEventListener("pointerleave", onPointerLeave);
       autoplay.stop();
     };
-  }, [api, autoplayInteraction, autoplayPlugin]);
+  }, [api, autoplayEnabled, autoplayInteraction, autoplayPlugin, reducedMotion]);
 
   const toggleAutoplay = React.useCallback(() => {
     const autoplay = api?.plugins()?.autoplay;
 
-    if (!autoplay) return;
+    if (!autoplay || api.snapList().length <= 1) return;
     userPausedRef.current = autoplayPlaying;
     if (autoplayPlaying) autoplay.pause();
     else {
@@ -414,6 +450,7 @@ const CarouselRoot = ({
   const context = React.useMemo<CarouselContextValue>(
     () => ({
       api,
+      autoplayAvailable,
       autoplayPlaying,
       canScrollNext,
       canScrollPrevious,
@@ -426,6 +463,7 @@ const CarouselRoot = ({
     }),
     [
       api,
+      autoplayAvailable,
       autoplayPlaying,
       canScrollNext,
       canScrollPrevious,
@@ -445,19 +483,16 @@ const CarouselRoot = ({
         aria-label={ariaLabel}
         aria-roledescription="carousel"
         className={slots.base({className})}
-        data-loop={resolvedOptions.loop ? "true" : undefined}
+        // Requested loop until the engine reports back: the seam-gap margin this attribute enables
+        // must already be in place when Embla first measures the slides.
+        data-loop={(looping ?? resolvedOptions.loop) ? "true" : undefined}
         data-orientation={orientation}
+        data-scrollable={scrollable === undefined ? undefined : scrollable ? "true" : "false"}
         data-slot="carousel"
         style={{...itemsPerViewStyle, ...gapStyle, ...peekStyle, ...style}}
         {...props}
       >
         {children}
-        {autoplayEnabled ? (
-          <CarouselAutoplayControl
-            pauseLabel={autoplayOptions.pauseLabel}
-            playLabel={autoplayOptions.playLabel}
-          />
-        ) : null}
       </section>
     </CarouselContext>
   );
@@ -645,11 +680,15 @@ const CarouselNext = ({
 
 CarouselNext.displayName = "SY INC.Carousel.Next";
 
+type CarouselAutoplayControlProps = Pick<CarouselAutoplayOptions, "pauseLabel" | "playLabel">;
+
 const CarouselAutoplayControl = ({
   pauseLabel = "Pause autoplay",
   playLabel = "Play autoplay",
-}: Pick<CarouselAutoplayOptions, "pauseLabel" | "playLabel">) => {
-  const {autoplayPlaying, slots, toggleAutoplay} = useCarouselContext();
+}: CarouselAutoplayControlProps) => {
+  const {autoplayAvailable, autoplayPlaying, slots, toggleAutoplay} = useCarouselContext();
+
+  if (!autoplayAvailable) return null;
 
   return (
     <ButtonPrimitive
@@ -662,6 +701,79 @@ const CarouselAutoplayControl = ({
     </ButtonPrimitive>
   );
 };
+
+CarouselAutoplayControl.displayName = "SY INC.Carousel.AutoplayControl";
+
+/* -------------------------------------------------------------------------------------------------
+ * Carousel Autoplay Progress
+ * -----------------------------------------------------------------------------------------------*/
+type CarouselAutoplayProgressProps = Omit<
+  ComponentPropsWithRef<typeof ProgressBar>,
+  "children" | "value"
+>;
+
+const CarouselAutoplayProgress = ({className, ...props}: CarouselAutoplayProgressProps) => {
+  const {api, autoplayAvailable, slots} = useCarouselContext();
+  const indicatorRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const autoplay = api?.plugins()?.autoplay;
+    const indicator = indicatorRef.current;
+
+    if (!autoplay || !indicator || !autoplayAvailable) return;
+    let animation: Animation | undefined;
+    const onTimerSet = () => {
+      if (animation?.playState === "paused") {
+        animation.play();
+
+        return;
+      }
+
+      const duration = autoplay.timeUntilNext();
+
+      if (duration === null) return;
+      animation?.cancel();
+      animation = indicator.animate([{transform: "scaleX(0)"}, {transform: "scaleX(1)"}], {
+        duration,
+        easing: "linear",
+        fill: "forwards",
+      });
+    };
+    const onTimerStopped = () => animation?.pause();
+
+    api.on("autoplay:timerset", onTimerSet).on("autoplay:timerstopped", onTimerStopped);
+    if (autoplay.isPlaying()) onTimerSet();
+
+    return () => {
+      api.off("autoplay:timerset", onTimerSet).off("autoplay:timerstopped", onTimerStopped);
+      animation?.cancel();
+    };
+  }, [api, autoplayAvailable]);
+
+  if (!autoplayAvailable || !api?.plugins()?.autoplay) return null;
+
+  return (
+    <ProgressBar
+      aria-hidden="true"
+      aria-label="Autoplay progress"
+      className={composeTwRenderProps(className, slots.autoplayProgress())}
+      data-slot="carousel-autoplay-progress"
+      value={100}
+      {...props}
+    >
+      <ProgressBar.Track className={slots.autoplayProgressTrack()}>
+        <ProgressBar.Fill
+          ref={indicatorRef}
+          className={slots.autoplayProgressFill()}
+          data-slot="carousel-autoplay-progress-indicator"
+          style={{transformOrigin: "left"}}
+        />
+      </ProgressBar.Track>
+    </ProgressBar>
+  );
+};
+
+CarouselAutoplayProgress.displayName = "SY INC.Carousel.AutoplayProgress";
 
 /* -------------------------------------------------------------------------------------------------
  * Carousel Pagination
@@ -724,6 +836,8 @@ const CarouselPagination = ({children, className, ...props}: CarouselPaginationP
 CarouselPagination.displayName = "SY INC.Carousel.Pagination";
 
 export {
+  CarouselAutoplayControl,
+  CarouselAutoplayProgress,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -733,6 +847,8 @@ export {
 };
 
 export type {
+  CarouselAutoplayControlProps,
+  CarouselAutoplayProgressProps,
   CarouselContentProps,
   CarouselItemProps,
   CarouselNextProps,

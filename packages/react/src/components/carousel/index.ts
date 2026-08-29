@@ -1,6 +1,8 @@
 import type {ComponentProps} from "react";
 
 import {
+  CarouselAutoplayControl,
+  CarouselAutoplayProgress,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -10,6 +12,8 @@ import {
 } from "./carousel";
 
 export const Carousel = Object.assign(CarouselRoot, {
+  AutoplayControl: CarouselAutoplayControl,
+  AutoplayProgress: CarouselAutoplayProgress,
   Content: CarouselContent,
   Item: CarouselItem,
   Next: CarouselNext,
@@ -19,6 +23,8 @@ export const Carousel = Object.assign(CarouselRoot, {
 });
 
 export type Carousel = {
+  AutoplayControlProps: ComponentProps<typeof CarouselAutoplayControl>;
+  AutoplayProgressProps: ComponentProps<typeof CarouselAutoplayProgress>;
   ContentProps: ComponentProps<typeof CarouselContent>;
   ItemProps: ComponentProps<typeof CarouselItem>;
   NextProps: ComponentProps<typeof CarouselNext>;
@@ -29,6 +35,8 @@ export type Carousel = {
 };
 
 export {
+  CarouselAutoplayControl,
+  CarouselAutoplayProgress,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -38,6 +46,8 @@ export {
 };
 
 export type {
+  CarouselAutoplayControlProps,
+  CarouselAutoplayProgressProps,
   CarouselContentProps,
   CarouselItemProps,
   CarouselNextProps,

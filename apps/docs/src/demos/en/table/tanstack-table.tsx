@@ -126,7 +126,7 @@ export function TanstackTable() {
           aria-label="TanStack Table example"
           className="min-w-[600px]"
           sortDescriptor={sortDescriptor}
-          onSortChange={(d) => setSorting(toSortingState(d))}
+          onSortChange={(descriptor) => descriptor && setSorting(toSortingState(descriptor))}
         >
           <Table.Header>
             {table.getHeaderGroups()[0]!.headers.map((header) => (

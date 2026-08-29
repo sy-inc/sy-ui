@@ -51,6 +51,7 @@ const renderCarousel = (
     <Carousel.Previous />
     <Carousel.Next />
     <Carousel.Pagination aria-label="Choose slide" />
+    {autoplay ? <Carousel.AutoplayProgress /> : null}
   </Carousel>
 );
 
@@ -150,6 +151,39 @@ export const Peek: Story = {
       <Carousel.Next />
       <Carousel.Pagination aria-label="Choose slide" />
     </Carousel>
+  ),
+};
+
+// Too few slides to scroll: the peek insets are dropped and the controls hide themselves.
+export const FewSlides: Story = {
+  render: () => (
+    <div className="grid w-[min(64rem,calc(100vw-2rem))] gap-8 md:grid-cols-2">
+      {[1, 2].map((count) => (
+        <Carousel
+          key={count}
+          aria-label={`${count} slide carousel`}
+          gap={8}
+          itemsPerView={count === 2 ? 2 : 1}
+          peek="10%"
+        >
+          <Carousel.Content>
+            {slides.slice(0, count).map((slide, index) => (
+              <Carousel.Item key={slide.label} aria-label={`${index + 1} of ${count}`}>
+                <div
+                  className="flex h-48 items-center justify-center rounded-3xl text-lg font-semibold"
+                  style={{backgroundColor: slide.color}}
+                >
+                  {slide.label} of {count}
+                </div>
+              </Carousel.Item>
+            ))}
+          </Carousel.Content>
+          <Carousel.Previous />
+          <Carousel.Next />
+          <Carousel.Pagination aria-label={`Choose slide in ${count} slide carousel`} />
+        </Carousel>
+      ))}
+    </div>
   ),
 };
 

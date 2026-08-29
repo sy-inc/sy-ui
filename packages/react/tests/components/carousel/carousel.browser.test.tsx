@@ -200,6 +200,88 @@ describe("Carousel (browser)", () => {
     await expect.element(previous).not.toBeDisabled();
   });
 
+  it("fills the viewport with a single slide and hides the scroll chrome", async () => {
+    await render(
+      <Carousel aria-label="Single slide" peek="10%" style={{width: 400}}>
+        <Carousel.Content>
+          <Carousel.Item>Only slide</Carousel.Item>
+        </Carousel.Content>
+        <Carousel.Previous />
+        <Carousel.Next />
+        <Carousel.Pagination aria-label="Choose slide" />
+      </Carousel>,
+    );
+
+    const root = page.getByRole("region").element();
+
+    await expect.poll(() => root.getAttribute("data-scrollable")).toBe("false");
+    // The peek insets are dropped: the only slide takes the full 400px instead of 320px.
+    const item = root.querySelector('[data-slot="carousel-item"]')!;
+
+    expect(item.getBoundingClientRect().width).toBeCloseTo(400, -1);
+    // display: none removes the disabled-only controls from the accessibility tree.
+    expect(page.getByRole("button", {name: "Previous slide"}).query()).toBeNull();
+    expect(page.getByRole("button", {name: "Next slide"}).query()).toBeNull();
+    expect(page.getByRole("button", {name: "Go to slide 1"}).query()).toBeNull();
+  });
+
+  it("drops the peek gutters when the slides do not overflow one view", async () => {
+    await render(
+      <Carousel aria-label="Short set" gap={8} itemsPerView={2} peek="10%" style={{width: 400}}>
+        <Carousel.Content>
+          {[1, 2].map((value) => (
+            <Carousel.Item key={value}>{value}</Carousel.Item>
+          ))}
+        </Carousel.Content>
+        <Carousel.Previous />
+        <Carousel.Next />
+      </Carousel>,
+    );
+
+    const root = page.getByRole("region").element();
+
+    await expect.poll(() => root.getAttribute("data-scrollable")).toBe("false");
+    const items = [...root.querySelectorAll('[data-slot="carousel-item"]')];
+
+    // Both cards split the full width minus the gap: (400 - 8) / 2, not (400 - 80 - 8) / 2.
+    expect(items[0]!.getBoundingClientRect().width).toBeCloseTo(196, -1);
+    expect(items[1]!.getBoundingClientRect().width).toBeCloseTo(196, -1);
+    expect(page.getByRole("button", {name: "Next slide"}).query()).toBeNull();
+  });
+
+  it("drops data-loop and the seam margin when the slides cannot loop", async () => {
+    await render(
+      <Carousel
+        aria-label="Loop fallback"
+        gap={8}
+        options={{loop: true}}
+        peek="10%"
+        style={{width: 400}}
+      >
+        <Carousel.Content>
+          {[1, 2].map((value) => (
+            <Carousel.Item key={value}>{value}</Carousel.Item>
+          ))}
+        </Carousel.Content>
+        <Carousel.Previous />
+        <Carousel.Next />
+      </Carousel>,
+    );
+
+    const root = page.getByRole("region").element();
+
+    // Two 320px slides cannot cover a looped 400px view: Embla rebuilds without loop, and the
+    // attribute must follow the engine so the seam margin does not dangle after the last slide.
+    await expect.poll(() => root.getAttribute("data-loop")).toBeNull();
+    expect(root).toHaveAttribute("data-scrollable", "true");
+    const items = [...root.querySelectorAll('[data-slot="carousel-item"]')];
+
+    expect(parseFloat(getComputedStyle(items[1]!).marginInlineEnd)).toBe(0);
+    // Bounded semantics take over: edges disable instead of wrapping.
+    await expect.element(page.getByRole("button", {name: "Previous slide"})).toBeDisabled();
+    await expect.element(page.getByRole("button", {name: "Next slide"})).not.toBeDisabled();
+  });
+
   it("notifies once with the configured start index", async () => {
     const selections: number[] = [];
 
@@ -287,7 +369,7 @@ describe("Carousel (browser)", () => {
     outside.style.cssText = "position: fixed; left: 1000px; top: 700px; width: 10px; height: 10px";
     document.body.append(outside);
     await page.getByTestId("carousel-outside").hover();
-    await render(<CarouselFixture autoplay={{delay: 150}} />);
+    await render(<CarouselFixture autoplay={{delay: 150}} showAutoplayControl />);
     const toggle = page.getByRole("button", {name: /autoplay/});
 
     await expect.element(toggle).toHaveAttribute("aria-label", "Pause autoplay");
@@ -298,5 +380,51 @@ describe("Carousel (browser)", () => {
 
     await toggle.click();
     await expect.element(toggle).toHaveAttribute("aria-label", "Pause autoplay");
+  });
+
+  it("pauses and resumes autoplay progress with pointer interaction", async () => {
+    const outside = document.createElement("div");
+
+    outside.setAttribute("data-testid", "autoplay-progress-outside");
+    outside.style.cssText = "position: fixed; left: 1000px; top: 700px; width: 10px; height: 10px";
+    document.body.append(outside);
+    await render(<CarouselFixture autoplay={{delay: 1000}} showAutoplayProgress />);
+
+    const root = page.getByRole("region");
+    const rootRect = root.element().getBoundingClientRect();
+    const progress = root
+      .element()
+      .querySelector<HTMLElement>('[data-slot="carousel-autoplay-progress"]')!;
+    const track = progress.querySelector<HTMLElement>('[data-slot="progress-bar-track"]')!;
+    const indicator = root
+      .element()
+      .querySelector<HTMLElement>('[data-slot="carousel-autoplay-progress-indicator"]')!;
+
+    expect(progress.getBoundingClientRect().top).toBeCloseTo(rootRect.top, 0);
+    expect(getComputedStyle(progress).opacity).toBe("0.5");
+    expect(track.getBoundingClientRect().height).toBe(4);
+    expect(parseFloat(getComputedStyle(track).borderRadius)).toBeGreaterThan(0);
+    await expect.poll(() => indicator.getAnimations()[0]?.playState).toBe("running");
+    await root.hover();
+    await expect.poll(() => indicator.getAnimations()[0]?.playState).toBe("paused");
+    await page.getByTestId("autoplay-progress-outside").hover();
+    await expect.poll(() => indicator.getAnimations()[0]?.playState).toBe("running");
+  });
+
+  it("disables autoplay when a responsive breakpoint leaves one snap", async () => {
+    await page.viewport(1200, 600);
+    await render(
+      <Carousel autoplay itemsPerView={{base: 1, lg: 3, md: 2}}>
+        <Carousel.Content>
+          {[1, 2, 3].map((value) => (
+            <Carousel.Item key={value}>{value}</Carousel.Item>
+          ))}
+        </Carousel.Content>
+        <Carousel.AutoplayControl />
+      </Carousel>,
+    );
+
+    await expect.element(page.getByRole("region")).toBeInTheDocument();
+    expect(page.getByRole("button", {name: /autoplay/}).query()).toBeNull();
   });
 });
