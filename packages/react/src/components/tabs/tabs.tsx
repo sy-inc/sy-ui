@@ -2,7 +2,7 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {TabsVariants} from "@sy-inc/styles";
-import type {ComponentPropsWithRef, ReactNode} from "react";
+import type {ComponentPropsWithRef} from "react";
 
 import {tabsVariants} from "@sy-inc/styles";
 import React, {createContext, use, useCallback, useRef} from "react";
@@ -36,7 +36,7 @@ const TabsContext = createContext<TabsContext>({});
 type ListContainerInjectedProps = {
   className?: string;
   render?: DOMRenderProps<"div", undefined>["render"];
-} & Record<string, unknown>;
+} & React.ComponentPropsWithRef<"div">;
 
 const listContainerSlot = createCollectionSlot<ListContainerInjectedProps>("tabs.listContainer");
 
@@ -74,24 +74,16 @@ const TabsRoot = ({
 /* -------------------------------------------------------------------------------------------------
  * Tabs List Container
  * -----------------------------------------------------------------------------------------------*/
-interface TabListContainerProps<
-  E extends keyof React.JSX.IntrinsicElements = "div",
-> extends DOMRenderProps<E, undefined> {
-  children?: ReactNode;
-  className?: string;
-}
+interface TabListContainerProps extends ListContainerInjectedProps {}
 
-const TabListContainer = <E extends keyof React.JSX.IntrinsicElements = "div">({
+const TabListContainer = ({
   children,
   className,
   render,
   ...containerProps
-}: TabListContainerProps<E> &
-  Omit<React.JSX.IntrinsicElements[E], keyof TabListContainerProps<E>>) => {
+}: TabListContainerProps) => {
   return (
-    <listContainerSlot.Injector
-      {...({...containerProps, className, render} as ListContainerInjectedProps)}
-    >
+    <listContainerSlot.Injector {...containerProps} className={className} render={render}>
       {children}
     </listContainerSlot.Injector>
   );
@@ -184,8 +176,8 @@ const TabList = ({children, className, ...props}: TabListProps) => {
           <dom.div
             className={composeSlotClassName(slots?.tabListContainer, containerClassName)}
             data-slot="tabs-list-container"
-            render={containerRender as DOMRenderProps<"div", undefined>["render"]}
-            {...(containerRest as React.HTMLAttributes<HTMLDivElement>)}
+            render={containerRender}
+            {...containerRest}
           >
             <ScrollShadow
               ref={scrollerRef}
@@ -235,7 +227,7 @@ interface TabProps extends ComponentPropsWithRef<typeof TabPrimitive> {
 }
 
 const Tab = ({children, className, onFocus, ...props}: TabProps) => {
-  const {slots} = use(TabsContext);
+  const {orientation = "horizontal", slots} = use(TabsContext);
 
   return (
     <TabPrimitive
@@ -251,9 +243,26 @@ const Tab = ({children, className, onFocus, ...props}: TabProps) => {
           : "smooth";
 
         requestAnimationFrame(() => {
-          if (typeof tab.scrollIntoView !== "function") return;
+          const scroller = tab
+            .closest('[data-slot="tabs-list-container"]')
+            ?.querySelector<HTMLElement>(':scope > [data-slot="scroll-shadow"]');
 
-          tab.scrollIntoView({behavior, block: "nearest", inline: "nearest"});
+          if (!scroller) {
+            tab.scrollIntoView?.({behavior, block: "nearest", inline: "nearest"});
+            return;
+          }
+
+          const tabRect = tab.getBoundingClientRect();
+          const scrollerRect = scroller.getBoundingClientRect();
+          const [axis, end] =
+            orientation === "vertical"
+              ? (["top", "bottom"] as const)
+              : (["left", "right"] as const);
+          const delta =
+            Math.min(0, tabRect[axis] - scrollerRect[axis]) ||
+            Math.max(0, tabRect[end] - scrollerRect[end]);
+
+          if (delta) scroller.scrollBy({behavior, [axis]: delta});
         });
       }}
     >

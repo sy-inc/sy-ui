@@ -4,6 +4,7 @@ import {Icon} from "@iconify/react";
 import React from "react";
 
 import {Disclosure} from "../disclosure";
+import {Tabs} from "../tabs";
 
 import {Sidebar} from "./index";
 
@@ -169,6 +170,60 @@ const CookiePersistedSidebar = (props: React.ComponentProps<typeof Sidebar>) => 
 
 export const Default: Story = {
   render: (args) => <CookiePersistedSidebar {...args} />,
+};
+
+export const HeaderTrigger: Story = {
+  args: {collapsible: "icon"},
+  render: (args) => (
+    <Sidebar {...args} className="h-svh min-h-[640px]">
+      <Sidebar.Panel aria-label="Workspace navigation">
+        <Sidebar.Header className="flex-row items-center">
+          <span className="group-data-[state=collapsed]/sidebar:hidden">Workspace</span>
+          <Sidebar.Trigger className="ml-auto" />
+        </Sidebar.Header>
+      </Sidebar.Panel>
+      <Sidebar.Inset className="p-4" />
+    </Sidebar>
+  ),
+};
+
+export const TabsInPanel: Story = {
+  args: {collapsible: "icon"},
+  render: (args) => (
+    <Sidebar {...args} className="h-svh min-h-[640px]" width="270px">
+      <Sidebar.Panel aria-label="Workspace navigation">
+        <Sidebar.Header>Workspace</Sidebar.Header>
+        <Sidebar.Content>
+          <Tabs>
+            <Tabs.ListContainer>
+              <Tabs.List aria-label="Workspace options">
+                <Tabs.Tab id="navigation">
+                  Navigation111
+                  <Tabs.Indicator />
+                </Tabs.Tab>
+                <Tabs.Tab id="language">
+                  Language22222
+                  <Tabs.Indicator />
+                </Tabs.Tab>
+              </Tabs.List>
+            </Tabs.ListContainer>
+            <Tabs.Panel className="p-2" id="navigation">
+              Navigation settings
+            </Tabs.Panel>
+            <Tabs.Panel className="p-2" id="language">
+              Language settings
+            </Tabs.Panel>
+            <Tabs.Panel className="p-2" id="appearance">
+              Appearance settings
+            </Tabs.Panel>
+          </Tabs>
+        </Sidebar.Content>
+      </Sidebar.Panel>
+      <Sidebar.Inset className="p-4">
+        <Sidebar.Trigger />
+      </Sidebar.Inset>
+    </Sidebar>
+  ),
 };
 
 export const CollapseBreakpoint: Story = {

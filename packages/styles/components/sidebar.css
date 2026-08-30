@@ -101,6 +101,10 @@
   @apply flex shrink-0 flex-col gap-2 p-2;
 }
 
+.sidebar--collapsible-icon.sidebar--collapsed .sidebar__header > .sidebar__trigger {
+  @apply mx-auto size-8;
+}
+
 .sidebar__content {
   @apply flex min-h-0 flex-1 scrollbar flex-col overflow-y-auto overscroll-contain;
 }
@@ -135,7 +139,7 @@
 }
 
 .sidebar__menu {
-  @apply flex w-full min-w-0 list-none flex-col gap-0 p-0;
+  @apply flex w-full min-w-0 list-none flex-col gap-2 p-0;
 }
 
 .sidebar__menu-item,
@@ -187,6 +191,11 @@
 .sidebar__menu-button > svg,
 .sidebar__menu-button > [data-icon] {
   @apply size-4 shrink-0;
+}
+
+.sidebar__menu-button.button > svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+  margin-inline: 0;
+  margin-block: 0;
 }
 
 .sidebar__menu-button > span:last-child,

@@ -6,6 +6,8 @@ import {page, userEvent} from "vitest/browser";
 import "../../../../styles/dist/sy-inc.min.css";
 
 import {SidebarFixture} from "./fixtures";
+import {Sidebar} from "@/components/sidebar";
+import {Tabs} from "@/components/tabs";
 
 describe("Sidebar (browser)", () => {
   const originalMatchMedia = window.matchMedia.bind(window);
@@ -100,9 +102,136 @@ describe("Sidebar (browser)", () => {
     expect(getComputedStyle(page.getByText("Models").element()).display).toBe("none");
 
     const menuButton = page.getByRole("button", {name: "Playground"});
+    const icon = menuButton.element().querySelector("svg")!;
+
+    expect(getComputedStyle(icon).marginInline).toBe("0px");
 
     await userEvent.hover(menuButton.element());
     await expect.element(page.getByRole("tooltip")).toHaveTextContent("Playground");
+  });
+
+  it("clips horizontal overflow without becoming horizontally scrollable", async () => {
+    window.matchMedia = (query) => ({
+      ...originalMatchMedia(query),
+      addEventListener: () => undefined,
+      matches: false,
+      media: query,
+      removeEventListener: () => undefined,
+    });
+    await render(
+      <div style={{height: 398, width: 800}}>
+        <SidebarFixture />
+      </div>,
+    );
+
+    const panel = document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!;
+
+    panel.style.display = "flex";
+    panel.append(Object.assign(document.createElement("div"), {style: "width: 280px; flex: none"}));
+    panel.scrollLeft = 8;
+
+    expect(getComputedStyle(panel).overflowX).toBe("clip");
+    expect(panel.scrollLeft).toBe(0);
+  });
+
+  it("keeps focused overflowing tabs inside their own scroller", async () => {
+    window.matchMedia = (query) => ({
+      ...originalMatchMedia(query),
+      addEventListener: () => undefined,
+      matches: query === "(prefers-reduced-motion: reduce)",
+      media: query,
+      removeEventListener: () => undefined,
+    });
+    await render(
+      <Sidebar collapsible="none" width={220}>
+        <Sidebar.Panel aria-label="Workspace navigation" style={{overflowX: "auto", width: 220}}>
+          <Sidebar.Content style={{flex: "none", width: 560}}>
+            <Tabs style={{width: 220}}>
+              <Tabs.ListContainer>
+                <Tabs.List aria-label="Workspace options">
+                  {["Overview", "Activity", "Integrations", "Notifications"].map((label) => (
+                    <Tabs.Tab key={label} id={label}>
+                      {label}
+                      <Tabs.Indicator />
+                    </Tabs.Tab>
+                  ))}
+                </Tabs.List>
+              </Tabs.ListContainer>
+              <Tabs.Panel id="Overview">Overview panel</Tabs.Panel>
+              <Tabs.Panel id="Activity">Activity panel</Tabs.Panel>
+              <Tabs.Panel id="Integrations">Integrations panel</Tabs.Panel>
+              <Tabs.Panel id="Notifications">Notifications panel</Tabs.Panel>
+            </Tabs>
+            <div data-testid="sidebar-marker">Other sidebar content</div>
+          </Sidebar.Content>
+        </Sidebar.Panel>
+      </Sidebar>,
+    );
+
+    const panel = document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!;
+    const marker = page.getByTestId("sidebar-marker").element();
+    const markerLeft = marker.getBoundingClientRect().left;
+    const rightTab = page.getByRole("tab", {name: "Notifications"});
+    const leftTab = page.getByRole("tab", {name: "Overview"});
+    const scroller = rightTab
+      .element()
+      .closest('[data-slot="tabs-list-container"]')!
+      .querySelector<HTMLElement>('[data-slot="scroll-shadow"]')!;
+
+    expect(scroller.scrollWidth).toBeGreaterThan(scroller.clientWidth);
+
+    rightTab.element().focus();
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    expect(scroller.scrollLeft).toBeGreaterThan(0);
+    expect(panel.scrollLeft).toBe(0);
+    expect(marker.getBoundingClientRect().left).toBe(markerLeft);
+
+    leftTab.element().focus();
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    expect(scroller.scrollLeft).toBe(0);
+    expect(panel.scrollLeft).toBe(0);
+    expect(marker.getBoundingClientRect().left).toBe(markerLeft);
+  });
+
+  it("supports a collapsible header trigger composition", async () => {
+    window.matchMedia = (query) => ({
+      ...originalMatchMedia(query),
+      addEventListener: () => undefined,
+      matches: false,
+      media: query,
+      removeEventListener: () => undefined,
+    });
+    await render(
+      <Sidebar collapsible="icon">
+        <Sidebar.Panel aria-label="Workspace navigation">
+          <Sidebar.Header className="flex-row items-center">
+            <span className="group-data-[state=collapsed]/sidebar:hidden">Workspace</span>
+            <Sidebar.Trigger className="ml-auto" />
+          </Sidebar.Header>
+        </Sidebar.Panel>
+        <Sidebar.Inset />
+      </Sidebar>,
+    );
+
+    const panel = document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!;
+    const trigger = page.getByRole("button", {name: "Toggle sidebar"});
+
+    panel.style.display = "flex";
+    await trigger.click();
+    await new Promise((resolve) => window.setTimeout(resolve, 250));
+
+    expect(trigger.element().getBoundingClientRect().width).toBe(32);
+    expect(trigger.element().getBoundingClientRect().left).toBe(
+      panel.getBoundingClientRect().left + 8,
+    );
+    expect(trigger.element()).toHaveAttribute("aria-expanded", "false");
+
+    trigger.element().focus();
+    await userEvent.keyboard("{Enter}");
+
+    expect(trigger.element()).toHaveAttribute("aria-expanded", "true");
   });
 
   it("renders floating geometry within the declared sidebar width", async () => {

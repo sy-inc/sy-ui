@@ -1,8 +1,8 @@
 "use client";
 
-import type {ComponentType, ForwardedRef, ReactElement, ReactNode} from "react";
+import type {ReactElement, ReactNode} from "react";
 
-import React, {Children, createContext, forwardRef, isValidElement, useContext} from "react";
+import React, {Children, createContext, isValidElement, useContext} from "react";
 
 import {Logger} from "./logger";
 
@@ -72,74 +72,9 @@ export const createCollectionSlot = <T extends object>(name: string) => {
 
   Injector.displayName = `SY INC.CollectionSlot(${name})`;
 
-  type WithSlotProps<P> = P & {children?: ReactNode};
-
-  const withSlot = <P extends object>(
-    Primitive: ComponentType<WithSlotProps<P>>,
-    defaultRender?: (
-      props: WithSlotProps<P>,
-      injected: T,
-      forwardedRef: ForwardedRef<unknown>,
-    ) => ReactElement,
-  ) => {
-    const Wrapped = forwardRef<unknown, WithSlotProps<P>>(
-      function CollectionSlotTarget(props, forwardedRef) {
-        const [injected, rest] = useSlot(props);
-        const {children, ...restProps} = rest;
-
-        if (!injected) {
-          return (
-            <Primitive {...(restProps as P)} ref={forwardedRef as never}>
-              {children}
-            </Primitive>
-          );
-        }
-
-        if (defaultRender) {
-          // eslint-disable-next-line react-hooks/refs -- forward ref into chrome factory; `.current` is not read here
-          return defaultRender({...(restProps as P), children}, injected, forwardedRef);
-        }
-
-        const {
-          className: containerClassName,
-          render: customRender,
-          ...containerRest
-        } = injected as T & {
-          className?: string;
-          render?: (props: Record<string, unknown>) => ReactElement;
-        };
-
-        return (
-          <Primitive {...(restProps as P)} ref={forwardedRef as never}>
-            {customRender ? (
-              customRender({children, className: containerClassName, ...containerRest})
-            ) : (
-              <div
-                className={containerClassName}
-                data-slot={`${name}-container`}
-                {...containerRest}
-              >
-                {children}
-              </div>
-            )}
-          </Primitive>
-        );
-      },
-    );
-
-    Wrapped.displayName = `SY INC.withCollectionSlot(${Primitive.displayName || Primitive.name || name})`;
-
-    return Wrapped;
-  };
-
   return {
-    key,
-    inject,
-    consume,
     useSlot,
     Injector,
-    withSlot,
-    Context: SlotContext,
   } as const;
 };
 

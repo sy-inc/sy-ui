@@ -100,13 +100,20 @@ describe("Tabs", () => {
     expect(tester.getSelectedTab()).toHaveTextContent("Analytics");
   });
 
-  it("scrolls a focused tab into view", async () => {
+  it("keeps native focus scrolling without a ListContainer", async () => {
     const scrollIntoView = vi.fn();
     const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
     HTMLElement.prototype.scrollIntoView = scrollIntoView;
 
     try {
-      await renderTabs();
+      render(
+        <Tabs>
+          <Tabs.List aria-label="Options">
+            <Tabs.Tab id="overview">Overview</Tabs.Tab>
+            <Tabs.Tab id="analytics">Analytics</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>,
+      );
       screen.getByRole("tab", {name: "Analytics"}).focus();
 
       await waitFor(() => {
