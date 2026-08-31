@@ -1,0 +1,52 @@
+---
+title: Text Shimmer
+description: Animated text for loading and generation states
+links:
+  source: text-shimmer/text-shimmer.tsx
+  styles: text-shimmer.css
+  storybook: Components/Feedback/TextShimmer
+---
+
+## Usage
+
+Use Text Shimmer for short loading or generation messages. It remains a semantic `span`, so provide any status semantics from the surrounding UI when needed.
+
+```tsx
+import {TextShimmer} from "@sy-inc/react";
+
+<TextShimmer>Thinking...</TextShimmer>;
+```
+
+## Customization
+
+Text Shimmer accepts standard `span` props, including `className`, `ref`, `data-*`, and `aria-*`. Its root has `data-slot="text-shimmer"` for stable styling and testing.
+
+```tsx
+<TextShimmer className="text-accent font-medium">
+  Generating response...
+</TextShimmer>
+```
+
+The highlight sweeps at a constant speed rather than a constant duration, so a long
+label takes proportionally longer and every shimmer reads as the same light source.
+Tune it with these custom properties on `.text-shimmer`:
+
+| Property | Default | Purpose |
+| --- | --- | --- |
+| `--shimmer-width` | `192` | Approximate text width in px, as a **unitless number**. Only feeds the duration. |
+| `--shimmer-spread` | `112` | Width of the highlight band in px, as a unitless number. |
+| `--shimmer-speed` | `200` | Sweep speed in px per second. |
+| `--shimmer-angle` | `105deg` | Tilt of the highlight. |
+
+Duration is derived as `(width + spread) / speed` seconds. Set `--shimmer-width` when the
+label is much longer or shorter than the default, otherwise every label animates as if it
+were 192px wide:
+
+```tsx
+<TextShimmer style={{"--shimmer-width": 420} as React.CSSProperties}>
+  Generating a much longer response for you...
+</TextShimmer>
+```
+
+When users prefer reduced motion, or under forced colors, the gradient and animation are
+dropped and the text renders in plain `currentColor`.

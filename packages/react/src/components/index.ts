@@ -46,6 +46,7 @@ export * from "./scroll-shadow";
 export * from "./separator";
 export * from "./skeleton";
 export * from "./spinner";
+export * from "./text-shimmer";
 export * from "./surface";
 export * from "./time-picker";
 export * from "./toast";

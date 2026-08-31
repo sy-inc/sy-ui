@@ -1,0 +1,59 @@
+.text-shimmer {
+  /* Motion knobs. Unitless px so the duration stays plain arithmetic in every engine. */
+  --shimmer-width: 192; /* approximate text width; only feeds the duration */
+  --shimmer-spread: 112; /* width of the travelling highlight band */
+  --shimmer-speed: 200; /* px per second */
+  --shimmer-angle: 105deg;
+
+  --_spread: calc(var(--shimmer-spread) * 1px);
+  --_hi: currentColor;
+  --_dim: color-mix(in oklab, currentColor 45%, transparent);
+
+  @apply inline-block w-fit;
+
+  /* Track is 2x the box plus one band, so the highlight enters at -spread/2 and
+     leaves at width + spread/2 — the text is fully dim at both ends of the sweep. */
+  background: linear-gradient(
+      var(--shimmer-angle),
+      var(--_dim) calc(50% - var(--_spread) / 2),
+      var(--_hi) 50%,
+      var(--_dim) calc(50% + var(--_spread) / 2)
+    )
+    0 0 / calc(200% + var(--_spread)) 100% no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Constant speed, not constant duration: a long label takes proportionally
+     longer, so every shimmer reads as the same light source. */
+  animation-name: text-shimmer;
+  animation-duration: calc(
+    (var(--shimmer-width) + var(--shimmer-spread)) / var(--shimmer-speed) * 1s
+  );
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* A highlight that only dims reads as dead on a dark surface — lift it instead. */
+:is(.dark, [data-theme="dark"]) .text-shimmer {
+  --_hi: color-mix(in oklab, currentColor, white 35%);
+}
+
+@keyframes text-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .text-shimmer {
+    background: none;
+    -webkit-background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
+    animation: none;
+  }
+}
