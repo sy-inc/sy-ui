@@ -1,0 +1,322 @@
+---
+title: Sheet
+description: Draggable overlay panel for focused content and actions
+
+links:
+  rac: Modal
+  source: sheet/sheet.tsx
+  styles: sheet.css
+  storybook: Components/Sheet
+---
+
+## Usage
+
+Use `Sheet` for a panel that enters from an edge of the viewport. It supports pointer dragging,
+optional snap points, nested sheets, and modal or non-modal presentation.
+
+```tsx
+import {Button, Sheet} from "@sy-inc/react";
+```
+
+<ComponentPreview name="sheet-basic" />
+
+## Anatomy
+
+```tsx
+import {Sheet} from "@sy-inc/react";
+
+export default () => (
+  <Sheet>
+    <Sheet.Trigger>
+      <Button variant="secondary">Open Sheet</Button>
+    </Sheet.Trigger>
+    <Sheet.Backdrop>
+      <Sheet.Content>
+        <Sheet.Dialog>
+          <Sheet.Handle /> {/* Optional drag handle */}
+          <Sheet.CloseTrigger /> {/* Optional close button */}
+          <Sheet.Header>
+            <Sheet.Heading>Sheet title</Sheet.Heading>
+          </Sheet.Header>
+          <Sheet.Body>Sheet content</Sheet.Body>
+          <Sheet.Footer>Sheet actions</Sheet.Footer>
+        </Sheet.Dialog>
+      </Sheet.Content>
+    </Sheet.Backdrop>
+  </Sheet>
+);
+```
+
+`Sheet` is also available as `Sheet.Root`. Use `Sheet.NestedRoot` inside an open sheet when a
+second sheet should participate in the parent sheet's nested state.
+
+## Examples
+
+### Placement
+
+`placement` controls the edge from which the sheet enters. The default is `bottom`.
+
+<ComponentPreview name="sheet-placements" />
+
+### Backdrop
+
+`Sheet.Backdrop` uses `opaque` by default. Use `blur` to blur the page behind the sheet or
+`transparent` when a visual scrim is not wanted; all three retain the same dismissal behavior.
+
+### Snap Points
+
+Snap points describe the visible extent of the dialog along its active axis:
+
+- A number must be between `0` and `1` and is a relative fraction (`0.5` is `50%`).
+- A value ending in `%` is relative to the sheet dimension.
+- A value ending in `px` is an absolute dimension.
+- Points must be strictly increasing and a list cannot mix `px` with relative values (numbers or
+  `%`).
+
+When `defaultActiveSnapPoint` is omitted, the last snap point is selected. Pass
+`activeSnapPoint` with `onActiveSnapPointChange` for a controlled snap point.
+
+<ComponentPreview name="sheet-snap-points" />
+
+### Advanced
+
+The advanced example matches the official three-level nested composition. Each parent panel scales
+and shifts while its child is open.
+
+<ComponentPreview name="sheet-advanced" />
+
+## Customization
+
+### Tailwind CSS
+
+Every compound part accepts `className`, so local utility classes can be applied without replacing
+the component structure.
+
+### Global CSS
+
+Customize Sheet classes with the `@layer components` directive.
+
+[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).
+
+```css
+@layer components {
+  .sheet__dialog {
+    @apply border border-border/80 bg-surface;
+  }
+
+  .sheet__heading {
+    @apply text-lg font-semibold;
+  }
+
+  .sheet__handle-bar {
+    @apply w-12 bg-accent;
+  }
+}
+```
+
+## Styling Reference
+
+SY INC follows the [BEM](https://getbem.com/) methodology so component parts and states can be
+customized consistently.
+
+### CSS Classes
+
+The Sheet component uses these classes ([View source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/sheet.css)):
+
+#### Base Classes [!toc]
+
+- `.sheet__backdrop` - Overlay layer behind the sheet
+- `.sheet__content` - Fixed positioning wrapper for the panel
+- `.sheet__dialog` - The sheet panel itself
+- `.sheet__header` - Header section for titles
+- `.sheet__heading` - Main title text
+- `.sheet__body` - Scrollable body content
+- `.sheet__footer` - Action area
+- `.sheet__handle` - Drag handle container
+- `.sheet__handle-bar` - Visible handle bar
+- `.sheet__close-trigger` - Close button element
+
+#### Placement Classes [!toc]
+
+- `.sheet__content--bottom` / `.sheet__dialog--bottom` - Enters from the bottom (default)
+- `.sheet__content--top` / `.sheet__dialog--top` - Enters from the top
+- `.sheet__content--left` / `.sheet__dialog--left` - Enters from the left
+- `.sheet__content--right` / `.sheet__dialog--right` - Enters from the right
+
+### Data Attributes and States
+
+The parts expose state through data attributes including:
+
+- `[data-placement]` - Current placement (`top`, `bottom`, `left`, or `right`)
+- `[data-entering]` and `[data-exiting]` - Open and close transitions
+- `[data-active-snap-point]` and `[data-snap-points]` - Current and configured snap points
+- `[data-dragging]` - Pointer dragging is active
+- `[data-detached]`, `[data-handle-only]`, `[data-modal]`, and `[data-nested]` - Root modes
+- `[data-sheet-snap-points="true"]` and `--snap-point-height` - Snap-point layout state
+- `[data-sheet-background-scaled="true"]` - A background target is scaled while a sheet is open
+
+## API Reference
+
+### Sheet / Sheet.Root
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Trigger and overlay parts |
+| `isOpen` | `boolean` | - | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial uncontrolled open state |
+| `onOpenChange` | `(isOpen: boolean) => void` | - | Called when the open state changes |
+| `placement` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Edge from which the panel enters |
+| `snapPoints` | `readonly SheetSnapPoint[]` | `[]` | Strictly increasing panel extents |
+| `fadeFromIndex` | `number` | Last snap-point index | First snap point that shows the backdrop |
+| `defaultActiveSnapPoint` | `SheetSnapPoint` | Last point | Initial uncontrolled snap point |
+| `activeSnapPoint` | `SheetSnapPoint` | - | Controlled active snap point |
+| `onActiveSnapPointChange` | `(point: SheetSnapPoint) => void` | - | Called when the active point changes |
+| `closeThreshold` | `number` (`0` to `1`) | `0.25` | Drag distance fraction required to dismiss |
+| `isDetached` | `boolean` | `false` | Adds an inset margin and rounded corners |
+| `isDismissable` | `boolean` | `true` | Allows backdrop, Escape, and drag dismissal |
+| `isHandleOnly` | `boolean` | `false` | Restricts dragging to `Sheet.Handle` |
+| `isModal` | `boolean` | `true` | Uses modal focus and backdrop behavior |
+| `shouldScaleBackground` | `boolean` | `false` | Scales elements marked `data-sheet-background` |
+| `onDrag` / `onRelease` | `(event) => void` | - | Called for sheet pointer drag and release events |
+| `onClose` | `() => void` | - | Called after the root requests closing |
+| `onAnimationEnd` | `(event) => void` | - | Called when the panel animation ends |
+| `state` | `UseOverlayStateReturn` | - | Controls open state externally |
+
+`Sheet.NestedRoot` accepts the same root props and marks the sheet as nested. It connects the
+nested-open state to its nearest parent Sheet.
+
+### Sheet.Trigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactElement` | - | A pressable element, normally the shared `Button` |
+
+`Sheet.Trigger` is a composition-only part. It does not render or style an extra DOM element.
+
+### Sheet.Backdrop
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Content wrapper and dialog |
+| `className` | `string \| (values) => string` | - | Backdrop CSS classes |
+| `variant` | `"opaque" \| "blur" \| "transparent"` | `"opaque"` | Visual backdrop treatment |
+| `onClick` | `(event) => void` | - | Additional click handler |
+
+React Aria ModalOverlay props are forwarded in modal mode. Dismissal is configured on the root
+with `isDismissable`.
+
+### Sheet.Content
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Dialog container content |
+| `className` | `string \| (values) => string` | - | Content CSS classes |
+
+React Aria Modal props are forwarded.
+
+### Sheet.Dialog
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Panel content |
+| `className` | `string` | - | Dialog CSS classes |
+| `style` | `CSSProperties` | - | Additional inline styles |
+| `aria-label` / `aria-labelledby` | `string` | - | Accessible name for the dialog |
+
+The content panel receives the active snap point as its height (top/bottom) or width (left/right).
+
+### Sheet.Handle
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Handle CSS classes |
+| `aria-label` | `string` | `"Adjust sheet size"` | Accessible name for keyboard resizing |
+
+The handle has `role="button"` and `tabIndex={0}`. Click or use Arrow Up/Right to move to the next
+snap point, or Arrow Down/Left to move to the previous point.
+
+### Sheet.Header, Sheet.Body, and Sheet.Footer
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Part content |
+| `className` | `string` | - | Part CSS classes |
+
+These parts are div-like elements and accept the corresponding DOM attributes.
+
+### Sheet.Heading
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Accessible dialog title |
+| `className` | `string` | - | Heading CSS classes |
+
+The heading is rendered in React Aria's `title` slot.
+
+### Sheet.CloseTrigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | Built-in close icon | Close button content |
+| `className` | `string \| (values) => string` | - | Close button CSS classes |
+| `onPress` | `(event) => void` | - | Additional press handler |
+
+Pressing it closes the current sheet.
+
+### Controlled State
+
+Use `useOverlayState` with the root `state` prop when a parent owns the open state:
+
+The Root also exposes `isOpen`, `defaultOpen`, and `onOpenChange` directly for controlled or
+uncontrolled open state when a separate `useOverlayState` object is not needed.
+
+```tsx
+"use client";
+
+import {Button, Sheet, useOverlayState} from "@sy-inc/react";
+
+export function ControlledSheet() {
+  const state = useOverlayState({defaultOpen: false});
+
+  return (
+    <>
+      <Button onPress={state.open}>Open Sheet</Button>
+      <Sheet state={state}>
+        <Sheet.Trigger>
+          <Button variant="secondary">Open Sheet</Button>
+        </Sheet.Trigger>
+        <Sheet.Backdrop>
+          <Sheet.Content>
+            <Sheet.Dialog>
+              <Sheet.Heading>Controlled Sheet</Sheet.Heading>
+              <Sheet.CloseTrigger />
+            </Sheet.Dialog>
+          </Sheet.Content>
+        </Sheet.Backdrop>
+      </Sheet>
+    </>
+  );
+}
+```
+
+The returned state exposes `isOpen`, `open()`, `close()`, `toggle()`, and `setOpen()`.
+
+## Accessibility
+
+Sheet is built on React Aria's dialog and modal primitives:
+
+- **Dialog semantics**: Use `Sheet.Heading` or an explicit `aria-label`/`aria-labelledby` so the
+  panel has an accessible name.
+- **Focus and keyboard behavior**: Modal sheets use the React Aria focus containment behavior;
+  `Escape` dismisses when `isDismissable` is `true`.
+- **Keyboard resizing**: `Sheet.Handle` is a labeled button-like control with arrow-key snap point
+  navigation.
+- **Reduced motion**: Sheet transitions are disabled when `prefers-reduced-motion: reduce` is set.
+- **Non-modal mode**: Set `isModal={false}` intentionally when background content should remain
+  interactive; the backdrop becomes transparent and pointer-events are disabled.
+- **Drag safety**: Text fields, links, buttons, and `Sheet.Body` are excluded from regular drag
+  starts. Set `isHandleOnly` when only the handle should begin a drag.
+
+## Related Components
+
+<RelatedComponents component="sheet" />

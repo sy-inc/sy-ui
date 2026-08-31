@@ -34,6 +34,7 @@ export * from "./date-input-group";
 // TimePicker owns its v3 styles in packages/react.
 export * from "./description";
 export * from "./drawer";
+export * from "./sheet";
 export * from "./disclosure";
 export * from "./disclosure-group";
 export * from "./dropdown";

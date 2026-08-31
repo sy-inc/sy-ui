@@ -1195,6 +1195,24 @@ export const demos: Record<string, DemoItem> = {
     file: "en/drawer/custom-styles.tsx",
   },
 
+  // Sheet Demo
+  "sheet-basic": {
+    loader: () => import("./sheet/basic").then((m) => m.Basic),
+    file: "en/sheet/basic.tsx",
+  },
+  "sheet-placements": {
+    loader: () => import("./sheet/placements").then((m) => m.Placements),
+    file: "en/sheet/placements.tsx",
+  },
+  "sheet-snap-points": {
+    loader: () => import("./sheet/snap-points").then((m) => m.SnapPoints),
+    file: "en/sheet/snap-points.tsx",
+  },
+  "sheet-advanced": {
+    loader: () => import("./sheet/advanced").then((m) => m.Advanced),
+    file: "en/sheet/advanced.tsx",
+  },
+
   // Dropdown Demo
   "dropdown-default": {
     loader: () => import("./dropdown/default").then((m) => m.Default),

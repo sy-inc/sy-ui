@@ -11,6 +11,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "time-picker",
   "stepper",
   "rich-text-editor",
+  "sheet",
 ];
 
 const LANGUAGES = ["en", "cn"];
