@@ -1,0 +1,315 @@
+---
+title: Sheet 抽屉面板
+description: 用于聚焦内容与操作的可拖拽覆盖面板
+
+links:
+  rac: Modal
+  source: sheet/sheet.tsx
+  styles: sheet.css
+  storybook: Components/Sheet
+---
+
+## 用法
+
+`Sheet` 用于从视口边缘进入的面板。它支持指针拖拽、可选的 snap points、嵌套面板，以及模态或
+非模态展示。
+
+```tsx
+import {Button, Sheet} from "@sy-inc/react";
+```
+
+<ComponentPreview name="sheet-basic" />
+
+## 组件结构
+
+```tsx
+import {Sheet} from "@sy-inc/react";
+
+export default () => (
+  <Sheet>
+    <Sheet.Trigger>
+      <Button variant="secondary">Open Sheet</Button>
+    </Sheet.Trigger>
+    <Sheet.Backdrop>
+      <Sheet.Content>
+        <Sheet.Dialog>
+          <Sheet.Handle /> {/* 可选拖拽手柄 */}
+          <Sheet.CloseTrigger /> {/* 可选关闭按钮 */}
+          <Sheet.Header>
+            <Sheet.Heading>Sheet title</Sheet.Heading>
+          </Sheet.Header>
+          <Sheet.Body>Sheet content</Sheet.Body>
+          <Sheet.Footer>Sheet actions</Sheet.Footer>
+        </Sheet.Dialog>
+      </Sheet.Content>
+    </Sheet.Backdrop>
+  </Sheet>
+);
+```
+
+`Sheet` 也可以写成 `Sheet.Root`。当需要让第二个面板参与父 Sheet 的嵌套状态时，在打开的面板内
+使用 `Sheet.NestedRoot`。
+
+## 示例
+
+### 弹出位置
+
+`placement` 控制 Sheet 从哪个边缘进入，默认值为 `bottom`。
+
+<ComponentPreview name="sheet-placements" />
+
+### 背景层
+
+`Sheet.Backdrop` 默认使用 `opaque` 变体。需要模糊 Sheet 后方页面时使用 `blur`，不需要视觉遮罩时
+使用 `transparent`；三种变体的关闭行为相同。
+
+### Snap Points
+
+Snap points 描述 dialog 在当前轴上的可见范围：
+
+- 数字必须在 `0` 到 `1` 之间，并表示相对比例（`0.5` 即 `50%`）。
+- 以 `%` 结尾的值表示相对于 Sheet 尺寸的比例。
+- 以 `px` 结尾的值表示绝对尺寸。
+- points 必须严格递增，同一个列表不能混合 `px` 与相对值（数字或 `%`）。
+
+省略 `defaultActiveSnapPoint` 时，默认选中最后一个 snap point。受控模式可同时传入
+`activeSnapPoint` 与 `onActiveSnapPointChange`。
+
+<ComponentPreview name="sheet-snap-points" />
+
+### 高级用法
+
+高级示例对齐官方的三层嵌套结构。子层打开时，每个父面板都会缩小并产生位移。
+
+<ComponentPreview name="sheet-advanced" />
+
+## 自定义样式
+
+### Tailwind CSS
+
+每个复合部件都支持 `className`，可以添加局部工具类而不改变组件结构。
+
+### 全局 CSS
+
+可使用 `@layer components` 指令自定义 Sheet 类。
+
+[了解更多](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes)。
+
+```css
+@layer components {
+  .sheet__dialog {
+    @apply border border-border/80 bg-surface;
+  }
+
+  .sheet__heading {
+    @apply text-lg font-semibold;
+  }
+
+  .sheet__handle-bar {
+    @apply w-12 bg-accent;
+  }
+}
+```
+
+## 样式参考
+
+SY INC 遵循 [BEM](https://getbem.com/) 方法论，使组件部件与状态可以一致地自定义。
+
+### CSS 类
+
+Sheet 组件使用以下类（[查看源码样式](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/sheet.css)）：
+
+#### 基础类 [!toc]
+
+- `.sheet__backdrop` - Sheet 背后的覆盖层
+- `.sheet__content` - 面板的固定定位包裹层
+- `.sheet__dialog` - Sheet 面板本身
+- `.sheet__header` - 标题区域
+- `.sheet__heading` - 主标题文本
+- `.sheet__body` - 可滚动的主体内容
+- `.sheet__footer` - 操作区域
+- `.sheet__handle` - 拖拽手柄容器
+- `.sheet__handle-bar` - 可见的手柄条
+- `.sheet__close-trigger` - 关闭按钮元素
+
+#### 位置类 [!toc]
+
+- `.sheet__content--bottom` / `.sheet__dialog--bottom` - 从底部进入（默认）
+- `.sheet__content--top` / `.sheet__dialog--top` - 从顶部进入
+- `.sheet__content--left` / `.sheet__dialog--left` - 从左侧进入
+- `.sheet__content--right` / `.sheet__dialog--right` - 从右侧进入
+
+### 数据属性与状态
+
+各部件会通过数据属性暴露状态，包括：
+
+- `[data-placement]` - 当前位置（`top`、`bottom`、`left` 或 `right`）
+- `[data-entering]` 与 `[data-exiting]` - 打开与关闭过渡
+- `[data-active-snap-point]` 与 `[data-snap-points]` - 当前及配置的 snap points
+- `[data-dragging]` - 当前正在进行指针拖拽
+- `[data-sheet-snap-points="true"]` 与 `--snap-point-height` - snap point 布局状态
+- `[data-detached]`、`[data-handle-only]`、`[data-modal]` 与 `[data-nested]` - Root 模式
+- `[data-sheet-background-scaled="true"]` - Sheet 打开时被缩放的背景目标
+
+## API 参考
+
+### Sheet / Sheet.Root
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 触发器与覆盖层部件 |
+| `isOpen` | `boolean` | - | 受控打开状态 |
+| `defaultOpen` | `boolean` | `false` | 非受控模式的初始打开状态 |
+| `onOpenChange` | `(isOpen: boolean) => void` | - | 打开状态变化时调用 |
+| `placement` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | 面板进入的边缘 |
+| `snapPoints` | `readonly SheetSnapPoint[]` | `[]` | 严格递增的面板范围列表 |
+| `fadeFromIndex` | `number` | 最后一个 snap-point 索引 | 开始显示背景层的第一个 snap point |
+| `defaultActiveSnapPoint` | `SheetSnapPoint` | 最后一个 point | 非受控模式的初始 snap point |
+| `activeSnapPoint` | `SheetSnapPoint` | - | 受控的当前 snap point |
+| `onActiveSnapPointChange` | `(point: SheetSnapPoint) => void` | - | 当前 point 变化时调用 |
+| `closeThreshold` | `number`（`0` 到 `1`） | `0.25` | 触发关闭所需的拖拽距离比例 |
+| `isDetached` | `boolean` | `false` | 添加内边距与圆角 |
+| `isDismissable` | `boolean` | `true` | 允许通过 backdrop、Escape 与拖拽关闭 |
+| `isHandleOnly` | `boolean` | `false` | 仅允许从 `Sheet.Handle` 开始拖拽 |
+| `isModal` | `boolean` | `true` | 使用模态焦点与 backdrop 行为 |
+| `shouldScaleBackground` | `boolean` | `false` | 缩放标记为 `data-sheet-background` 的元素 |
+| `onDrag` / `onRelease` | `(event) => void` | - | Sheet 指针拖拽与释放时调用 |
+| `onClose` | `() => void` | - | Root 请求关闭后调用 |
+| `onAnimationEnd` | `(event) => void` | - | 面板动画结束时调用 |
+| `state` | `UseOverlayStateReturn` | - | 从外部控制打开状态 |
+
+`Sheet.NestedRoot` 接受相同的 Root props，并将 Sheet 标记为嵌套。它会把嵌套打开状态连接到最近
+的父 Sheet。
+
+### Sheet.Trigger
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactElement` | - | 可按压元素，通常使用共享的 `Button` |
+
+`Sheet.Trigger` 只负责组合，不会额外渲染或设置 DOM 元素样式。
+
+### Sheet.Backdrop
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Content 包裹层与 dialog |
+| `className` | `string \| (values) => string` | - | backdrop CSS 类 |
+| `variant` | `"opaque" \| "blur" \| "transparent"` | `"opaque"` | 背景层视觉效果 |
+| `onClick` | `(event) => void` | - | 额外的点击处理函数 |
+
+模态模式下会继续传递 React Aria ModalOverlay props。关闭行为通过 Root 的 `isDismissable` 配置。
+
+### Sheet.Content
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Dialog 容器内容 |
+| `className` | `string \| (values) => string` | - | Content CSS 类 |
+
+React Aria Modal props 会继续传递。
+
+### Sheet.Dialog
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 面板内容 |
+| `className` | `string` | - | Dialog CSS 类 |
+| `style` | `CSSProperties` | - | 额外的行内样式 |
+| `aria-label` / `aria-labelledby` | `string` | - | Dialog 的无障碍名称 |
+
+Content 面板会根据当前 snap point 设置高度（顶部/底部）或宽度（左侧/右侧）。
+
+### Sheet.Handle
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Handle CSS 类 |
+| `aria-label` | `string` | `"Adjust sheet size"` | 键盘调整大小时的无障碍名称 |
+
+Handle 具有 `role="button"` 与 `tabIndex={0}`。点击或使用 Arrow Up/Right 可切换到下一个 snap point，
+使用 Arrow Down/Left 可切换到上一个 snap point。
+
+### Sheet.Header、Sheet.Body 与 Sheet.Footer
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 部件内容 |
+| `className` | `string` | - | 部件 CSS 类 |
+
+这些部件是类似 div 的元素，并接受对应的 DOM 属性。
+
+### Sheet.Heading
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Dialog 的无障碍标题 |
+| `className` | `string` | - | Heading CSS 类 |
+
+Heading 会渲染到 React Aria 的 `title` slot。
+
+### Sheet.CloseTrigger
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | 内置关闭图标 | 关闭按钮内容 |
+| `className` | `string \| (values) => string` | - | 关闭按钮 CSS 类 |
+| `onPress` | `(event) => void` | - | 额外的按压处理函数 |
+
+按下它会关闭当前 Sheet。
+
+### 受控状态
+
+当父组件拥有打开状态时，可将 `useOverlayState` 与 Root 的 `state` prop 一起使用：
+
+当不需要单独的 `useOverlayState` 对象时，也可以直接使用 Root 暴露的 `isOpen`、`defaultOpen` 与
+`onOpenChange` 控制受控或非受控的打开状态。
+
+```tsx
+"use client";
+
+import {Button, Sheet, useOverlayState} from "@sy-inc/react";
+
+export function ControlledSheet() {
+  const state = useOverlayState({defaultOpen: false});
+
+  return (
+    <>
+      <Button onPress={state.open}>Open Sheet</Button>
+      <Sheet state={state}>
+        <Sheet.Trigger>
+          <Button variant="secondary">Open Sheet</Button>
+        </Sheet.Trigger>
+        <Sheet.Backdrop>
+          <Sheet.Content>
+            <Sheet.Dialog>
+              <Sheet.Heading>Controlled Sheet</Sheet.Heading>
+              <Sheet.CloseTrigger />
+            </Sheet.Dialog>
+          </Sheet.Content>
+        </Sheet.Backdrop>
+      </Sheet>
+    </>
+  );
+}
+```
+
+返回的 state 提供 `isOpen`、`open()`、`close()`、`toggle()` 与 `setOpen()`。
+
+## 无障碍
+
+Sheet 基于 React Aria 的 dialog 与 modal 原语构建：
+
+- **Dialog 语义**：使用 `Sheet.Heading` 或明确的 `aria-label`/`aria-labelledby`，为面板提供无障碍名称。
+- **焦点与键盘行为**：模态 Sheet 使用 React Aria 的焦点约束；`isDismissable` 为 `true` 时可用
+  `Escape` 关闭。
+- **键盘调整大小**：`Sheet.Handle` 是带标签的类按钮控件，可用方向键切换 snap point。
+- **减少动画**：设置 `prefers-reduced-motion: reduce` 时会禁用 Sheet 过渡动画。
+- **非模态模式**：当背景内容需要保持可交互时，明确设置 `isModal={false}`；此时 backdrop 透明且
+  禁用指针事件。
+- **拖拽安全**：文本框、链接、按钮与 `Sheet.Body` 不会在普通模式下开始拖拽。仅允许手柄时使用
+  `isHandleOnly`。
+
+## 相关组件
+
+<RelatedComponents component="sheet" />

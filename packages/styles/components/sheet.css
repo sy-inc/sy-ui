@@ -1,0 +1,174 @@
+/* Shared motion: the backdrop fade and the panel transform must land together,
+   so both read the same duration/easing. Also consumed by the drag-release and
+   nested-sheet transitions set inline in sheet.tsx. */
+.sheet__backdrop,
+.sheet__content {
+  --sheet-duration: 250ms;
+  --sheet-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+.sheet__backdrop {
+  @apply fixed inset-0 z-50 h-(--visual-viewport-height) w-full;
+  opacity: 1;
+  transition: opacity 150ms var(--ease-out-quart);
+
+  &[data-entering="true"],
+  &[data-sheet-backdrop-visible="false"] {
+    opacity: 0;
+  }
+
+  &[data-exiting="true"] {
+    opacity: 0;
+    transition-duration: var(--sheet-duration);
+    transition-timing-function: var(--sheet-ease);
+  }
+
+  &[data-entering="true"],
+  &[data-exiting="true"] {
+    will-change: opacity;
+  }
+
+  &[data-modal="false"] {
+    @apply pointer-events-none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+.sheet__backdrop--opaque {
+  @apply bg-backdrop;
+}
+.sheet__backdrop--blur {
+  @apply bg-backdrop backdrop-blur-md;
+}
+.sheet__backdrop--transparent {
+  @apply bg-transparent;
+}
+.sheet__content {
+  @apply pointer-events-auto fixed z-50 flex min-w-0;
+  transition: transform var(--sheet-duration) var(--sheet-ease);
+  will-change: transform;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+.sheet__content--bottom {
+  @apply inset-x-0 bottom-0 mx-auto max-h-[96vh] w-full;
+  border-start-start-radius: min(32px, var(--radius-2xl));
+  border-start-end-radius: min(32px, var(--radius-2xl));
+}
+.sheet__content--top {
+  @apply inset-x-0 top-0 mx-auto max-h-[96vh] w-full;
+  border-end-start-radius: min(32px, var(--radius-2xl));
+  border-end-end-radius: min(32px, var(--radius-2xl));
+}
+.sheet__content--left {
+  @apply inset-y-0 left-0 h-(--visual-viewport-height) w-full max-w-[96vw];
+  border-end-end-radius: min(32px, var(--radius-2xl));
+  border-start-end-radius: min(32px, var(--radius-2xl));
+}
+.sheet__content--right {
+  @apply inset-y-0 right-0 h-(--visual-viewport-height) w-full max-w-[96vw];
+  border-end-start-radius: min(32px, var(--radius-2xl));
+  border-start-start-radius: min(32px, var(--radius-2xl));
+}
+.sheet__dialog {
+  @apply relative flex w-full flex-col bg-overlay shadow-overlay outline-none;
+  &[data-placement="bottom"],
+  &[data-placement="top"] {
+    @apply max-h-[96vh] w-full;
+  }
+  &[data-placement="bottom"] {
+    border-start-start-radius: min(32px, var(--radius-2xl));
+    border-start-end-radius: min(32px, var(--radius-2xl));
+  }
+  &[data-placement="top"] {
+    border-end-start-radius: min(32px, var(--radius-2xl));
+    border-end-end-radius: min(32px, var(--radius-2xl));
+  }
+  &[data-placement="left"],
+  &[data-placement="right"] {
+    @apply h-full;
+  }
+  &[data-placement="left"] {
+    border-end-end-radius: min(32px, var(--radius-2xl));
+    border-start-end-radius: min(32px, var(--radius-2xl));
+  }
+  &[data-placement="right"] {
+    border-end-start-radius: min(32px, var(--radius-2xl));
+    border-start-start-radius: min(32px, var(--radius-2xl));
+  }
+}
+.sheet__content--left[data-entering="true"],
+.sheet__content--left[data-exiting="true"] {
+  transform: translateX(-100%);
+}
+.sheet__content--right[data-entering="true"],
+.sheet__content--right[data-exiting="true"] {
+  transform: translateX(100%);
+}
+.sheet__content--top[data-entering="true"],
+.sheet__content--top[data-exiting="true"] {
+  transform: translateY(-100%);
+}
+.sheet__content--bottom[data-entering="true"],
+.sheet__content--bottom[data-exiting="true"] {
+  transform: translateY(100%);
+}
+.sheet__content--bottom[data-entering="true"][data-detached="true"],
+.sheet__content--bottom[data-exiting="true"][data-detached="true"] {
+  transform: translateY(calc(100% + 8px));
+}
+.sheet__content[data-sheet-snap-points="true"] .sheet__dialog {
+  @apply h-full;
+}
+.sheet__content[data-detached="true"] {
+  @apply m-2;
+}
+.sheet__content--top[data-detached="true"],
+.sheet__content--bottom[data-detached="true"] {
+  @apply w-auto;
+}
+.sheet__content--left[data-detached="true"],
+.sheet__content--right[data-detached="true"] {
+  @apply h-auto;
+}
+.sheet__content[data-detached="true"] .sheet__dialog {
+  border-radius: min(32px, var(--radius-2xl));
+}
+.sheet__header {
+  @apply flex flex-col gap-3 px-5 py-4;
+}
+.sheet__heading {
+  @apply text-lg font-semibold text-foreground;
+}
+.sheet__body {
+  @apply min-h-0 flex-1 scrollbar overflow-y-auto overscroll-contain px-5 text-sm leading-[1.43] text-muted;
+  -webkit-overflow-scrolling: touch;
+}
+.sheet__footer {
+  @apply flex items-center justify-end gap-2 px-5 py-4;
+}
+.sheet__handle {
+  @apply flex h-6 w-8 shrink-0 cursor-grab items-center justify-center self-center;
+  &:focus-visible {
+    @apply status-focused;
+  }
+}
+.sheet__handle > [data-slot="sheet-handle-bar"] {
+  @apply h-[0.3rem] w-8 rounded-full bg-default;
+}
+.sheet__close-trigger {
+  @apply absolute end-4 top-4 text-muted hover:text-foreground;
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+[data-sheet-background][data-sheet-background-scaled="true"] {
+  scale: 0.96;
+  transition: scale 250ms var(--ease-out-quart);
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

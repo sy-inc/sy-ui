@@ -32,6 +32,7 @@ export * from "./drawer";
 export * from "./navbar";
 export * from "./progress-bar";
 export * from "./progress-circle";
+export * from "./sheet";
 export * from "./sidebar";
 export * from "./stepper";
 export * from "./time-field";
