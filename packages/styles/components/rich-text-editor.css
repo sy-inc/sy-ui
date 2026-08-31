@@ -1,0 +1,97 @@
+.rich-text-editor {
+  @apply flex w-full flex-col;
+}
+.rich-text-editor[data-disabled="true"] {
+  @apply opacity-60;
+}
+.rich-text-editor__shell {
+  @apply flex flex-col overflow-hidden rounded-2xl bg-surface;
+}
+.rich-text-editor__toolbar {
+  @apply flex min-h-12 w-full flex-wrap gap-1 bg-surface p-2;
+}
+.rich-text-editor__toolbar-group {
+  @apply flex items-center gap-1;
+}
+.rich-text-editor__toolbar-button[data-active="true"] {
+  @apply bg-accent-soft text-accent-soft-foreground;
+}
+.rich-text-editor__toolbar-separator {
+  @apply mx-1 h-6 w-px bg-border;
+}
+.rich-text-editor__content {
+  @apply overflow-auto outline-none;
+}
+.rich-text-editor__prosemirror {
+  @apply min-h-[180px] px-4 py-3 text-sm leading-6 text-foreground outline-none;
+}
+.rich-text-editor__prosemirror:focus-visible {
+  @apply status-focused;
+}
+.rich-text-editor__prosemirror > * + * {
+  @apply mt-3;
+}
+.rich-text-editor__prosemirror h2 {
+  @apply m-0 text-xl leading-7 font-semibold;
+}
+.rich-text-editor__prosemirror h3 {
+  @apply m-0 text-lg leading-7 font-semibold;
+}
+.rich-text-editor__prosemirror p,
+.rich-text-editor__prosemirror li {
+  @apply m-0;
+}
+.rich-text-editor__prosemirror blockquote {
+  @apply m-0 border-s-2 border-border pl-4 text-muted;
+}
+.rich-text-editor__prosemirror ul {
+  @apply m-0 list-disc pl-6;
+}
+.rich-text-editor__prosemirror ol {
+  @apply m-0 list-decimal pl-6;
+}
+.rich-text-editor__prosemirror pre {
+  @apply m-0 rounded-xl bg-default p-3 font-mono text-sm leading-5;
+}
+.rich-text-editor__prosemirror pre code {
+  @apply bg-transparent p-0;
+}
+.rich-text-editor__prosemirror :not(pre) > code {
+  @apply rounded-md bg-default px-1.5 py-0.5 font-mono text-[0.9em];
+}
+.rich-text-editor__prosemirror a {
+  @apply underline;
+}
+.rich-text-editor__content .tiptap p.is-editor-empty:first-child::before {
+  @apply pointer-events-none float-left h-0 text-muted;
+  content: attr(data-placeholder);
+}
+.rich-text-editor__bubble-menu,
+.rich-text-editor__floating-menu,
+.rich-text-editor__suggestion-menu {
+  @apply rounded-lg border border-border bg-overlay p-1 shadow-overlay;
+}
+.rich-text-editor__suggestion-menu {
+  @apply max-h-96 overflow-auto;
+}
+.rich-text-editor__suggestion-menu-item {
+  @apply flex w-full items-center gap-2 rounded-md px-3 py-2 text-left hover:bg-default-hover focus-visible:bg-default-hover focus-visible:outline-none;
+}
+.rich-text-editor__suggestion-menu-item-content {
+  @apply flex flex-col;
+}
+.rich-text-editor__suggestion-menu-item-description {
+  @apply text-xs text-muted;
+}
+.rich-text-editor__footer {
+  @apply flex min-h-10 items-center justify-between gap-3 px-3 py-2 text-xs leading-4 text-muted;
+}
+.rich-text-editor__character-count[data-over-limit="true"] {
+  @apply text-danger;
+}
+.rich-text-editor__link-input {
+  @apply min-w-56;
+}
+.rich-text-editor__link-actions {
+  @apply flex justify-end gap-2;
+}

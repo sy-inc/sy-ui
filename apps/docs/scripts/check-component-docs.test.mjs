@@ -8,11 +8,13 @@ import {getComponentDocGaps, REQUIRED_COMPONENT_DOCS} from "./check-component-do
 test("reports missing and unregistered component documentation", async () => {
   const root = await mkdtemp(path.join(tmpdir(), "sy-docs-"));
   try {
+    const missingSlug = REQUIRED_COMPONENT_DOCS[0];
+    const registeredSlugs = REQUIRED_COMPONENT_DOCS.slice(1);
     for (const language of ["en", "cn"]) {
       const components = path.join(root, language, "react", "components");
       await mkdir(path.join(components, "(navigation)"), {recursive: true});
       await writeFile(path.join(components, "meta.json"), JSON.stringify({pages: []}));
-      for (const slug of REQUIRED_COMPONENT_DOCS.slice(1)) {
+      for (const slug of registeredSlugs) {
         await writeFile(
           path.join(components, "(navigation)", `${slug}.mdx`),
           "---\ntitle: Test\n---\n",
@@ -22,12 +24,12 @@ test("reports missing and unregistered component documentation", async () => {
 
     const gaps = await getComponentDocGaps(root);
     assert.deepEqual(gaps, [
-      "en: missing bottom-bar.mdx",
-      ...REQUIRED_COMPONENT_DOCS.slice(1).map(
+      `en: missing ${missingSlug}.mdx`,
+      ...registeredSlugs.map(
         (slug) => `en: (navigation)/${slug}.mdx is not registered in meta.json`,
       ),
-      "cn: missing bottom-bar.mdx",
-      ...REQUIRED_COMPONENT_DOCS.slice(1).map(
+      `cn: missing ${missingSlug}.mdx`,
+      ...registeredSlugs.map(
         (slug) => `cn: (navigation)/${slug}.mdx is not registered in meta.json`,
       ),
     ]);
