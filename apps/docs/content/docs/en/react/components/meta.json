@@ -45,6 +45,7 @@
     "(forms)/form",
     "(forms)/input",
     "(forms)/input-group",
+    "(forms)/input-phone",
     "(forms)/input-otp",
     "(typography)/kbd",
     "(forms)/label",

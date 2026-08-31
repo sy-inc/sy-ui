@@ -1,0 +1,82 @@
+/**
+ * InputPhone renders an `.input-group`, so the field chrome (border, background,
+ * hover/focus/invalid/disabled states, autofill handling) comes from input-group.css
+ * and the field keeps the same height as every other input in a form.
+ *
+ * The country popover renders in a portal, so its parts are styled as standalone
+ * blocks rather than as descendants of `.input-phone`.
+ */
+.input-phone {
+  /* No styles as the field chrome is entirely `.input-group`'s. */
+}
+
+/* Keep a long value from pushing the country trigger out of the group. */
+.input-phone__input {
+  @apply min-w-0;
+}
+
+/**
+ * The country trigger fills the prefix slot, so the prefix keeps only its border.
+ * `self-stretch` rather than `h-full`: the group's height is its content's, so a
+ * percentage height would collapse to the trigger's own line box and the ghost
+ * button's hover fill would end up a narrow stripe inside the field.
+ */
+.input-phone__country-prefix {
+  /* `h-auto` first: input-group's own `h-full` would otherwise defeat `self-stretch`. */
+  @apply h-auto self-stretch p-0;
+}
+
+.input-phone__country-trigger {
+  @apply h-auto shrink-0 gap-1 self-stretch rounded-s-field rounded-e-none px-3 text-sm text-field-foreground;
+
+  /* Retint the button's interaction tokens to the field palette. */
+  --button-bg-hover: var(--field-hover);
+  --button-bg-pressed: var(--field-focus);
+}
+
+.input-phone__country-flag {
+  @apply shrink-0 text-base leading-none;
+}
+
+.input-phone__country-code {
+  @apply text-field-placeholder;
+}
+
+.input-phone__country-popover {
+  @apply w-80 max-w-[calc(100vw-2rem)] overflow-hidden;
+}
+
+.input-phone__country-popover [data-slot="popover-dialog"] {
+  @apply p-2 outline-none;
+}
+
+/* The search box is a plain `.search-field`; it needs no phone-specific styling. */
+
+.input-phone__country-list {
+  /* `scrollbar` picks up the themed scrollbar and honours a `data-scrollbar` ancestor.
+   * `overscroll-contain` stops a flick past the last country from scrolling the page
+   * behind the popover, the same guard combo-box and select use. */
+  @apply mt-2 max-h-64 scrollbar overflow-y-auto overscroll-contain p-1 outline-none;
+}
+
+.input-phone__country-list [data-slot="list-box-item"] {
+  @apply flex items-center gap-2 px-2.5;
+}
+
+/**
+ * Virtualized rows: react-aria's Virtualizer wraps each row in an absolutely-positioned
+ * [role="presentation"] whose width equals the scroll container's clientWidth, which
+ * already includes the list's horizontal padding. Subtract it (2 x p-1 = 8px) so rows
+ * and their hover background stop at the padding instead of the popover edge.
+ */
+.input-phone__country-list [role="presentation"] > [data-slot="list-box-item"] {
+  width: calc(100% - var(--spacing) * 2);
+}
+
+.input-phone__country-name {
+  @apply min-w-0 flex-1 truncate;
+}
+
+.input-phone__country-dial-code {
+  @apply shrink-0 text-field-placeholder;
+}

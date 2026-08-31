@@ -1,0 +1,318 @@
+---
+title: InputPhone
+description: 使用 E.164 值和可搜索的国家/地区选择器输入国际电话号码
+links:
+  source: input-phone/input-phone.tsx
+  styles: input-phone.css
+  storybook: Components/InputPhone
+---
+
+## 用法
+
+```tsx
+import {InputPhone} from "@sy-inc/react";
+```
+
+<ComponentPreview name="input-phone-basic" />
+
+`InputPhone` 是一个复合字段。根组件持有电话号码与国家/地区，各个部件在共享的
+`InputGroup` 中渲染国家/地区选择器和电话输入框，因此该字段与表单里其它输入框
+高度一致。
+
+```tsx
+<InputPhone defaultCountry="CN">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="电话号码" placeholder="输入电话号码" />
+</InputPhone>
+```
+
+## 结构
+
+```text
+InputPhone                    持有 E.164 值、国家/地区以及字段外观
+├─ InputPhone.CountrySelect   前缀触发器 + 国家/地区弹层
+│  ├─ InputPhone.CountrySearch  按国家/地区名称或 `+` 区号过滤
+│  └─ InputPhone.CountryList    选择一个国家/地区
+└─ InputPhone.Input           `type="tel"` 输入框，以及隐藏的提交输入框
+```
+
+未传入 children 时，`CountrySelect` 会依次渲染 `CountrySearch` 和 `CountryList`，
+常见用法保持一行即可。传入 children 可以改写文案、调整顺序或包裹这些部件。
+
+## 国家/地区的确定
+
+国家/地区决定输入过程中显示的本地格式，按以下顺序解析：
+
+1. 受控的 `country` 属性。
+2. 当前 E.164 值自带的国家/地区。已保存的 `+442071838750` 会显示英国，
+   无论 `defaultCountry` 是什么。
+3. 用户最近在列表中选择的国家/地区。
+4. `defaultCountry`。
+
+选择其它国家/地区时，已输入的数字会重新挂到新的区号上：切换到德国后
+`+12025550123` 会变成 `+492025550123`。`onCountryChange` 会带着新国家/地区触发。
+
+```tsx
+import {useState} from "react";
+import {InputPhone} from "@sy-inc/react";
+import type {Country} from "react-phone-number-input";
+
+export function ProfilePhone() {
+  const [country, setCountry] = useState<Country | undefined>("CN");
+  const [value, setValue] = useState<string | undefined>();
+
+  return (
+    <InputPhone country={country} value={value} onChange={setValue} onCountryChange={setCountry}>
+      <InputPhone.CountrySelect />
+      <InputPhone.Input aria-label="电话号码" />
+    </InputPhone>
+  );
+}
+```
+
+国家/地区名称及其排序跟随 React Aria `I18nProvider` 的 locale，通过
+`Intl.DisplayNames` 解析。既不打包名称表，也不需要 `locale` 属性——把应用包在
+`<I18nProvider locale="zh-CN">` 中即可让列表本地化。
+
+### 非受控
+
+当字段自行管理状态时使用 `defaultValue`。表单提交的值是 E.164 电话号码，
+而不是用户输入过程中看到的格式化文本。
+
+```tsx
+<InputPhone defaultCountry="CN" defaultValue="+8613800138000" name="phone">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="电话号码" />
+</InputPhone>
+```
+
+### 受控
+
+当电话号码需要与应用状态保持同步时使用 `value` 和 `onChange`。字段被清空后
+`onChange` 会收到 `undefined`。
+
+```tsx
+const [value, setValue] = useState<string | undefined>("+442071838750");
+
+<InputPhone value={value} onChange={setValue}>
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="电话号码" />
+</InputPhone>;
+```
+
+## E.164 值
+
+`value`、`defaultValue` 以及传给 `onChange` 的参数都使用 E.164 电话号码格式：
+
+- 值以 `+` 开头。
+- `+` 之后是国家/地区区号和本地号码，不含空格、括号或任何格式化标点。
+  例如 `+12025550123` 是一个美国号码。
+- 被清空的字段报告为 `undefined`。
+
+请把 E.164 值保存在应用状态中，或直接通过字段的 `name` 提交。不要自行解析
+界面上显示的本地化格式。
+
+### 表单提交
+
+`name` 和 `form` 属于根组件。可见的格式化 `type="tel"` 输入框刻意不带 `name`；
+`InputPhone.Input` 会额外渲染一个同步的隐藏输入框，由它持有 `name` 并通过原生
+表单 API 提交 E.164 值。
+
+- 有值的字段提交 E.164 字符串，例如 `+12025550123`。
+- 空字段提交空字符串（`""`）。
+- 带 `isDisabled` 的字段不会出现在表单数据中。
+- `form` 可以把隐藏的提交控件关联到文档中其它位置的表单。
+
+```tsx
+<form id="profile-form" />
+<InputPhone defaultCountry="CN" form="profile-form" name="phone">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="个人电话号码" />
+</InputPhone>
+```
+
+## 示例
+
+### 与共享字段原语组合
+
+`InputPhone` 没有自己的 `Label`、`Description` 或 `FieldError`。请复用共享原语，
+并用 `htmlFor`、`id` 以及对应的 ARIA 关系把它们连接起来。
+
+```tsx
+import {Description, FieldError, InputPhone, Label} from "@sy-inc/react";
+
+export function ValidatedPhone() {
+  return (
+    <div>
+      <Label htmlFor="contact-phone">电话号码</Label>
+      <InputPhone defaultCountry="CN" isInvalid name="phone">
+        <InputPhone.CountrySelect />
+        <InputPhone.Input
+          aria-describedby="contact-phone-description"
+          aria-errormessage="contact-phone-error"
+          id="contact-phone"
+        />
+      </InputPhone>
+      <Description id="contact-phone-description">输入号码时请包含国家/地区区号。</Description>
+      <FieldError id="contact-phone-error">请输入有效的电话号码。</FieldError>
+    </div>
+  );
+}
+```
+
+### 尺寸
+
+没有 `size` 属性。每个部件都接受 `className`，而这正是旧的 size 变体所设置的全部内容
+——根组件上的高度与字号、触发器与输入框上的内边距与字号。任意高度都行，不限于三档预设。
+
+不要动输入框的水平内边距。起始侧的间距由国家/地区触发器提供，且只要存在前缀，
+`input-group` 就会把输入框自己的 `padding-inline-start` 清零。`px-*` 是 utility 类，
+层级高于那条规则，会把间距重新加回来——号码与区号之间会出现双倍距离。只设
+`py-*` 和字号即可。
+
+```tsx
+{/* 还要加 `min-h-8`：`.input-group` 给所有字段设了 `min-h-9` 下限。 */}
+<InputPhone className="h-8 min-h-8 text-xs" defaultCountry="CN">
+  <InputPhone.CountrySelect className="px-2 text-xs" />
+  <InputPhone.Input aria-label="电话号码" className="py-1 text-sm" />
+</InputPhone>
+
+<InputPhone className="h-12 text-base" defaultCountry="CN">
+  <InputPhone.CountrySelect className="px-4 text-base" />
+  <InputPhone.Input aria-label="电话号码" className="py-3 text-lg" />
+</InputPhone>
+```
+
+不动它时，字段与旁边的 `TextField` 高度完全一致。只有当某个字段确实需要打破这种对齐时
+才用这些类。
+
+### 改写国家/地区弹层文案
+
+弹层中的每一段文案都是渲染它的那个部件上的普通属性。
+
+```tsx
+<InputPhone defaultCountry="DE">
+  <InputPhone.CountrySelect aria-label="选择区号">
+    <InputPhone.CountrySearch aria-label="过滤国家/地区" placeholder="国家/地区或 +区号" />
+    <InputPhone.CountryList
+      aria-label="区号"
+      renderEmptyState={() => <EmptyState>没有匹配的结果</EmptyState>}
+    />
+  </InputPhone.CountrySelect>
+  <InputPhone.Input aria-label="电话号码" />
+</InputPhone>
+```
+
+### 虚拟化国家/地区列表
+
+`CountryList` 就是一个普通的 `ListBox`，因此无需新增属性就能从外部虚拟化。
+
+```tsx
+import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
+
+<InputPhone defaultCountry="CN">
+  <InputPhone.CountrySelect>
+    <InputPhone.CountrySearch />
+    <Virtualizer layout={ListLayout} layoutOptions={{rowHeight: 36}}>
+      <InputPhone.CountryList />
+    </Virtualizer>
+  </InputPhone.CountrySelect>
+  <InputPhone.Input aria-label="电话号码" />
+</InputPhone>;
+```
+
+### 禁用、只读和无效状态
+
+- `isDisabled` 阻止编辑、禁用国家/地区触发器，并把字段从表单数据中移除。
+- `isReadOnly` 阻止编辑并让国家/地区触发器不可用，同时仍允许聚焦和读取值。
+- `isInvalid` 给输入组打上 `data-invalid="true"`，并在电话输入框上设置
+  `aria-invalid="true"`。请与 `FieldError` 搭配使用。
+- `isRequired` 给电话输入框加上原生 `required` 属性。
+
+这四个都是根组件属性，因此不会出现某个部件与字段状态不一致的情况。
+
+## 样式与状态
+
+根组件渲染的就是 `.input-group`，因此边框、背景、悬停、聚焦、无效、禁用和自动填充
+状态全部来自共享字段样式——电话字段与旁边的 `TextField` 高度完全一致。只有国家/地区
+触发器、弹层和列表会追加电话专属样式。
+
+可以用以下 `data-slot` 值定位单个部件：
+
+| Slot | 元素 | 用途 |
+| --- | --- | --- |
+| `input-group` | 根元素 | 字段外壳，同时带有 `.input-phone` |
+| `input-phone-country-trigger` | 国家/地区触发器 | 打开国家/地区弹层 |
+| `input-phone-country-popover` | 国家/地区弹层 | 包含搜索框与列表 |
+| `input-phone-country-search` | 搜索输入框 | 按名称或区号过滤 |
+| `input-phone-country-list` | 国家/地区列表 | 选择一个国家/地区 |
+| `input-group-input` | 电话输入框 | 共享 InputGroup 字段样式 |
+
+根元素的状态钩子来自 React Aria：输入组上的 `[data-disabled="true"]`、
+`[data-readonly="true"]` 和 `[data-invalid="true"]`。
+
+## API 参考
+
+### InputPhone
+
+除下列属性外，还接受全部 `InputGroup` 属性，包括 `fullWidth`（默认 `true`）
+和 `variant`。
+
+| 属性 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 字段部件，通常是 `CountrySelect` 和 `Input`。 |
+| `country` | `Country` | - | 受控的 ISO 3166-1 alpha-2 国家/地区，优先级高于值自带的国家/地区。 |
+| `defaultCountry` | `Country` | - | 初始国家/地区，在值或用户选择覆盖它之前生效。 |
+| `onCountryChange` | `(country: Country) => void` | - | 用户选择国家/地区时调用。 |
+| `value` | `string` | - | 受控的 E.164 电话号码，需配合 `onChange` 更新。 |
+| `defaultValue` | `string` | - | 非受控的初始 E.164 电话号码。 |
+| `onChange` | `(value: string \| undefined) => void` | - | 带着下一个 E.164 电话号码调用，清空时为 `undefined`。 |
+| `name` | `string` | - | 通过表单提交 E.164 值时使用的名称。 |
+| `form` | `string` | - | 把提交的值关联到文档中其它位置的表单。 |
+| `isDisabled` | `boolean` | `false` | 阻止编辑与国家/地区选择。 |
+| `isReadOnly` | `boolean` | `false` | 阻止编辑，但值仍可读取。 |
+| `isInvalid` | `boolean` | `false` | 将字段标记为无效。 |
+| `isRequired` | `boolean` | `false` | 给电话输入框加上 `required`。 |
+
+### InputPhone.Input
+
+接受原生 `<input>` 属性，但不包括根组件持有的那些（`disabled`、`form`、`name`、
+`readOnly`、`required`、`value`、`defaultValue`、`onChange`）以及组件固定的那些
+（`autoComplete`、`type`）。`ref` 会转发到电话输入框。
+
+电话输入框始终以 `type="tel"` 和 `autoComplete="tel"` 渲染，以便移动端键盘和浏览器
+自动填充正常工作。根组件的 `onChange` 收到的是规范化后的 E.164 字符串而非 DOM 事件；
+`onFocus`、`onBlur`、`onKeyDown` 和 `onPaste` 照常转发到输入框。
+
+### InputPhone.CountrySelect
+
+接受全部 `Button` 属性。`aria-label` 默认为 `Change country, {name}`。`children`
+会替换弹层内容，默认是 `CountrySearch` 后跟 `CountryList`。
+
+### InputPhone.CountrySearch
+
+接受全部 `SearchField.Input` 属性，包括 `placeholder`。`aria-label` 默认为
+`Search countries`。
+
+### InputPhone.CountryList
+
+接受全部 `ListBox` 属性，但不包括绑定到国家/地区集合的那些（`children`、`items`、
+`selectedKeys`、`selectionMode`、`onSelectionChange`）。`aria-label` 默认为
+`Countries`，`renderEmptyState` 默认为 `No countries found`。
+
+## 无障碍
+
+### 标签与错误
+
+`InputPhone` 自身不提供标签。请给 `InputPhone.Input` 传 `aria-label`，或用
+`htmlFor` 与 `id` 连接一个 `Label`。字段无效时，让 `aria-errormessage` 指向
+`FieldError`，错误信息才会被朗读。
+
+### 键盘与焦点
+
+- 国家/地区触发器是带 `aria-haspopup="dialog"` 和 `aria-expanded` 的按钮，
+  用 `Enter` 或 `Space` 打开弹层。
+- 弹层打开时焦点进入搜索框。`ArrowDown` 和 `ArrowUp` 通过
+  `aria-activedescendant` 在过滤后的选项间移动，输入仍留在搜索框内。
+- `Enter` 选中当前项，`Escape` 关闭弹层，两种情况下焦点都回到国家/地区触发器。
+- 电话输入框是普通文本输入框，格式化在输入过程中完成且不会移动光标。

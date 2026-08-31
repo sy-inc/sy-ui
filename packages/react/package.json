@@ -71,6 +71,7 @@
     "embla-carousel-autoplay": "9.0.0-rc03",
     "embla-carousel-react": "9.0.0-rc03",
     "input-otp": "1.4.2",
+    "react-phone-number-input": "3.4.18",
     "tailwind-merge": "3.4.0",
     "tailwind-variants": "3.3.1"
   },

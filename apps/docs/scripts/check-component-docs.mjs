@@ -10,6 +10,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "carousel",
   "time-picker",
   "stepper",
+  "input-phone",
 ];
 
 const LANGUAGES = ["en", "cn"];
