@@ -46,6 +46,7 @@ const external = [
   ...Object.keys(packageJson.dependencies || {}),
   /^react($|\/)/,
   /^react-dom($|\/)/,
+  /^react-phone-number-input($|\/)/,
   /^@react-aria/,
   /^@react-stately/,
   /^@react-types\//,

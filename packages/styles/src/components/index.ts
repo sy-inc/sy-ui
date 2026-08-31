@@ -45,6 +45,7 @@ export * from "./fieldset";
 export * from "./header";
 export * from "./input";
 export * from "./input-group";
+export * from "./input-phone";
 export * from "./input-otp";
 export * from "./kbd";
 export * from "./label";

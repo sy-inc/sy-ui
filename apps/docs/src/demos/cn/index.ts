@@ -1331,6 +1331,13 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./input/custom-styles").then((m) => m.CustomStyles),
     file: "cn/input/custom-styles.tsx",
   },
+
+  // InputPhone Demo
+  "input-phone-basic": {
+    loader: () => import("./input-phone/basic").then((m) => m.Basic),
+    file: "cn/input-phone/basic.tsx",
+  },
+
   // InputGroup Demo
   "input-group-default": {
     loader: () => import("./input-group/default").then((m) => m.Default),

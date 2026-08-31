@@ -13,6 +13,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "text-shimmer",
   "rich-text-editor",
   "sheet",
+  "input-phone",
 ];
 
 const LANGUAGES = ["en", "cn"];

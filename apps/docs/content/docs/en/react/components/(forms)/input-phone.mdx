@@ -1,0 +1,339 @@
+---
+title: InputPhone
+description: Enter international phone numbers with E.164 values and a searchable country selector
+links:
+  source: input-phone/input-phone.tsx
+  styles: input-phone.css
+  storybook: Components/InputPhone
+---
+
+## Usage
+
+```tsx
+import {InputPhone} from "@sy-inc/react";
+```
+
+<ComponentPreview name="input-phone-basic" />
+
+`InputPhone` is a compound field. The root owns the phone number and the country;
+the parts render the country selector and the telephone input inside a shared
+`InputGroup`, so the field matches every other input in a form.
+
+```tsx
+<InputPhone defaultCountry="US">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="Phone number" placeholder="Enter phone number" />
+</InputPhone>
+```
+
+## Anatomy
+
+```text
+InputPhone                    Owns the E.164 value, the country, and the field chrome
+├─ InputPhone.CountrySelect   Prefix trigger + country popover
+│  ├─ InputPhone.CountrySearch  Filters by country name or `+` calling code
+│  └─ InputPhone.CountryList    Selects one country
+└─ InputPhone.Input           The `type="tel"` input, plus the hidden submission input
+```
+
+`CountrySelect` renders `CountrySearch` followed by `CountryList` when given no
+children, so the common case stays a single line. Pass children to relabel, reorder,
+or wrap those parts.
+
+## Country selection
+
+The country decides the national formatting shown while typing. It is resolved in
+this order:
+
+1. The `country` prop, when the country is controlled.
+2. The country of the current E.164 value. A stored `+442071838750` opens on the
+   United Kingdom, whatever `defaultCountry` says.
+3. The country the user last picked from the list.
+4. `defaultCountry`.
+
+Selecting a different country re-anchors any digits already entered to the new
+calling code, so `+12025550123` becomes `+492025550123` when the user switches to
+Germany. `onCountryChange` fires with the new country.
+
+```tsx
+import {useState} from "react";
+import {InputPhone} from "@sy-inc/react";
+import type {Country} from "react-phone-number-input";
+
+export function ProfilePhone() {
+  const [country, setCountry] = useState<Country | undefined>("US");
+  const [value, setValue] = useState<string | undefined>();
+
+  return (
+    <InputPhone country={country} value={value} onChange={setValue} onCountryChange={setCountry}>
+      <InputPhone.CountrySelect />
+      <InputPhone.Input aria-label="Phone number" />
+    </InputPhone>
+  );
+}
+```
+
+Country names and their order follow the locale from React Aria's `I18nProvider`,
+resolved with `Intl.DisplayNames`. No name table is bundled and no `locale` prop is
+needed — wrapping the app in `<I18nProvider locale="zh-CN">` localizes the list.
+
+### Uncontrolled
+
+Use `defaultValue` when the field owns its state. The value submitted by a form is
+the E.164 phone number, not the formatted text shown while the user types.
+
+```tsx
+<InputPhone defaultCountry="US" defaultValue="+12025550123" name="phone">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="Phone number" />
+</InputPhone>
+```
+
+### Controlled
+
+Use `value` and `onChange` when the phone number must stay in sync with application
+state. `onChange` receives `undefined` after the field is cleared.
+
+```tsx
+const [value, setValue] = useState<string | undefined>("+442071838750");
+
+<InputPhone value={value} onChange={setValue}>
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="Phone number" />
+</InputPhone>;
+```
+
+## E.164 values
+
+`value`, `defaultValue`, and the argument passed to `onChange` use the E.164 phone
+number format:
+
+- The value starts with `+`.
+- The `+` is followed by the country calling code and the national number, with no
+  spaces, parentheses, or formatting punctuation. For example, `+12025550123` is a
+  US number.
+- A cleared field is reported as `undefined`.
+
+Keep the E.164 value in application state or submit it directly with the field's
+`name`. Do not parse the displayed, localized formatting yourself.
+
+### Form submission
+
+`name` and `form` belong to the root. The visible formatted `type="tel"` input
+intentionally has no `name`; `InputPhone.Input` adds a synchronized hidden input that
+owns the `name` and submits the E.164 value through native form APIs.
+
+- A filled field submits its E.164 string, such as `+12025550123`.
+- An empty field submits an empty string (`""`).
+- A field with `isDisabled` is omitted from form data.
+- `form` associates the hidden submission control with a form elsewhere in the
+  document.
+
+```tsx
+<form id="profile-form" />
+<InputPhone defaultCountry="US" form="profile-form" name="phone">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="Profile phone number" />
+</InputPhone>
+```
+
+## Examples
+
+### Compose with shared field primitives
+
+`InputPhone` has no `Label`, `Description`, or `FieldError` of its own. Reuse the
+shared primitives and connect them with `htmlFor`, `id`, and the matching ARIA
+relationships.
+
+```tsx
+import {Description, FieldError, InputPhone, Label} from "@sy-inc/react";
+
+export function ValidatedPhone() {
+  return (
+    <div>
+      <Label htmlFor="contact-phone">Phone number</Label>
+      <InputPhone defaultCountry="US" isInvalid name="phone">
+        <InputPhone.CountrySelect />
+        <InputPhone.Input
+          aria-describedby="contact-phone-description"
+          aria-errormessage="contact-phone-error"
+          id="contact-phone"
+        />
+      </InputPhone>
+      <Description id="contact-phone-description">
+        Include the country code when you enter a number.
+      </Description>
+      <FieldError id="contact-phone-error">Enter a valid phone number.</FieldError>
+    </div>
+  );
+}
+```
+
+### Sizing
+
+There is no `size` prop. Each part takes a `className`, which is all the old size
+variants ever set — height and type scale on the root, padding and type scale on the
+trigger and the input. Any height works, not just three presets.
+
+Leave the input's horizontal padding alone. The country trigger already supplies the
+start padding, and `input-group` zeroes the input's own `padding-inline-start` whenever
+a prefix is present. A `px-*` class is a utility, so it outranks that rule and re-adds
+the gap — the number would sit twice as far from the calling code as it should. Set
+`py-*` and the type scale only.
+
+```tsx
+{/* `min-h-8` as well: `.input-group` floors every field at `min-h-9`. */}
+<InputPhone className="h-8 min-h-8 text-xs" defaultCountry="US">
+  <InputPhone.CountrySelect className="px-2 text-xs" />
+  <InputPhone.Input aria-label="Phone number" className="py-1 text-sm" />
+</InputPhone>
+
+<InputPhone className="h-12 text-base" defaultCountry="US">
+  <InputPhone.CountrySelect className="px-4 text-base" />
+  <InputPhone.Input aria-label="Phone number" className="py-3 text-lg" />
+</InputPhone>
+```
+
+Left alone, the field is exactly as tall as a `TextField` next to it. Reach for these
+classes only when a specific field has to break that alignment.
+
+### Relabel the country popover
+
+Every string in the popover is an ordinary prop on the part that renders it.
+
+```tsx
+<InputPhone defaultCountry="DE">
+  <InputPhone.CountrySelect aria-label="Choose a dialling code">
+    <InputPhone.CountrySearch aria-label="Filter countries" placeholder="Country or +code" />
+    <InputPhone.CountryList
+      aria-label="Dialling codes"
+      renderEmptyState={() => <EmptyState>Nothing matches that search</EmptyState>}
+    />
+  </InputPhone.CountrySelect>
+  <InputPhone.Input aria-label="Phone number" />
+</InputPhone>
+```
+
+### Virtualize the country list
+
+`CountryList` is a plain `ListBox`, so it can be virtualized from the outside without
+a component prop.
+
+```tsx
+import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
+
+<InputPhone defaultCountry="US">
+  <InputPhone.CountrySelect>
+    <InputPhone.CountrySearch />
+    <Virtualizer layout={ListLayout} layoutOptions={{rowHeight: 36}}>
+      <InputPhone.CountryList />
+    </Virtualizer>
+  </InputPhone.CountrySelect>
+  <InputPhone.Input aria-label="Phone number" />
+</InputPhone>;
+```
+
+### Disabled, read-only, and invalid states
+
+- `isDisabled` prevents editing, disables the country trigger, and drops the field
+  from form data.
+- `isReadOnly` prevents editing and keeps the country trigger unavailable, while
+  still allowing the value to be focused and read.
+- `isInvalid` marks the input group with `data-invalid="true"` and sets
+  `aria-invalid="true"` on the telephone input. Pair it with a `FieldError`.
+- `isRequired` applies the native `required` attribute to the telephone input.
+
+All four are root props, so a part never disagrees with the field about its state.
+
+## Styling and states
+
+The root renders an `.input-group`, so the border, background, hover, focus, invalid,
+disabled, and autofill states come from the shared field styles — a phone field is
+exactly as tall as a `TextField` beside it. Only the country trigger, popover, and
+list add phone-specific styling.
+
+Use these `data-slot` values to target an individual part:
+
+| Slot | Element | Purpose |
+| --- | --- | --- |
+| `input-group` | Root | The field shell, also carrying `.input-phone` |
+| `input-phone-country-trigger` | Country trigger | Opens the country popover |
+| `input-phone-country-popover` | Country popover | Contains the search and the list |
+| `input-phone-country-search` | Search input | Filters by name or calling code |
+| `input-phone-country-list` | Country list | Selects one country |
+| `input-group-input` | Telephone input | Shares the InputGroup field styles |
+
+Root state hooks are React Aria's: `[data-disabled="true"]`, `[data-readonly="true"]`,
+and `[data-invalid="true"]` on the input group.
+
+## API Reference
+
+### InputPhone
+
+Accepts every `InputGroup` prop — including `fullWidth` (default `true`) and
+`variant` — in addition to the props below.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | The field parts, typically `CountrySelect` and `Input`. |
+| `country` | `Country` | - | Controlled ISO 3166-1 alpha-2 country. Outranks the value's own country. |
+| `defaultCountry` | `Country` | - | Initial country, used until the value or the user picks another. |
+| `onCountryChange` | `(country: Country) => void` | - | Called when the user selects a country. |
+| `value` | `string` | - | Controlled E.164 phone number. Provide `onChange` to update it. |
+| `defaultValue` | `string` | - | Uncontrolled initial E.164 phone number. |
+| `onChange` | `(value: string \| undefined) => void` | - | Called with the next E.164 phone number, or `undefined` when cleared. |
+| `name` | `string` | - | Name used when the E.164 value is submitted with a form. |
+| `form` | `string` | - | Associates the submitted value with a form elsewhere in the document. |
+| `isDisabled` | `boolean` | `false` | Prevents editing and country selection. |
+| `isReadOnly` | `boolean` | `false` | Prevents editing while keeping the value readable. |
+| `isInvalid` | `boolean` | `false` | Marks the field invalid. |
+| `isRequired` | `boolean` | `false` | Applies `required` to the telephone input. |
+
+### InputPhone.Input
+
+Accepts native `<input>` props, except the ones the root owns (`disabled`, `form`,
+`name`, `readOnly`, `required`, `value`, `defaultValue`, `onChange`) and the ones the
+component fixes (`autoComplete`, `type`). `ref` is forwarded to the telephone input.
+
+The telephone input always renders with `type="tel"` and `autoComplete="tel"`, so
+mobile keyboards and browser autofill behave correctly. `onChange` on the root
+receives the normalized E.164 string, not a DOM event; `onFocus`, `onBlur`,
+`onKeyDown`, and `onPaste` are forwarded to the input as usual.
+
+### InputPhone.CountrySelect
+
+Accepts every `Button` prop. `aria-label` defaults to `Change country, {name}`.
+`children` replaces the popover body, which defaults to `CountrySearch` followed by
+`CountryList`.
+
+### InputPhone.CountrySearch
+
+Accepts every `SearchField.Input` prop, including `placeholder`. `aria-label`
+defaults to `Search countries`.
+
+### InputPhone.CountryList
+
+Accepts every `ListBox` prop except the ones bound to the country collection
+(`children`, `items`, `selectedKeys`, `selectionMode`, `onSelectionChange`).
+`aria-label` defaults to `Countries` and `renderEmptyState` defaults to
+`No countries found`.
+
+## Accessibility
+
+### Labeling and errors
+
+`InputPhone` provides no label of its own. Give `InputPhone.Input` an `aria-label`,
+or connect a `Label` with `htmlFor` and an `id`. When the field is invalid, point
+`aria-errormessage` at a `FieldError` so the message is announced.
+
+### Keyboard and focus
+
+- The country trigger is a button with `aria-haspopup="dialog"` and
+  `aria-expanded`, and it opens the popover with `Enter` or `Space`.
+- The search box takes focus when the popover opens. `ArrowDown` and
+  `ArrowUp` move through the filtered options via `aria-activedescendant`
+  while typing stays in the search box.
+- `Enter` selects the active country, `Escape` dismisses the
+  popover, and focus returns to the country trigger in both cases.
+- The telephone input is a normal text input; formatting is applied as the user
+  types without moving the caret.

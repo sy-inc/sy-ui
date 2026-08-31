@@ -1364,6 +1364,12 @@ export const demos: Record<string, DemoItem> = {
     file: "en/input/custom-styles.tsx",
   },
 
+  // InputPhone Demo
+  "input-phone-basic": {
+    loader: () => import("./input-phone/basic").then((m) => m.Basic),
+    file: "en/input-phone/basic.tsx",
+  },
+
   // InputGroup Demo
   "input-group-default": {
     loader: () => import("./input-group/default").then((m) => m.Default),
