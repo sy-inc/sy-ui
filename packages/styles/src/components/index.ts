@@ -74,6 +74,7 @@ export * from "./sidebar";
 export * from "./skeleton";
 export * from "./slider";
 export * from "./spinner";
+export * from "./text-shimmer";
 export * from "./stepper";
 export * from "./surface";
 export * from "./switch";

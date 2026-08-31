@@ -1,0 +1,49 @@
+---
+title: Text Shimmer 文字闪烁
+description: 用于加载和生成状态的动画文字
+links:
+  source: text-shimmer/text-shimmer.tsx
+  styles: text-shimmer.css
+  storybook: Components/Feedback/TextShimmer
+---
+
+## 用法
+
+Text Shimmer 适合简短的加载或生成提示。它保持语义透明的 `span`；如需状态语义，请由外围 UI 提供。
+
+```tsx
+import {TextShimmer} from "@sy-inc/react";
+
+<TextShimmer>Thinking...</TextShimmer>;
+```
+
+## 自定义
+
+Text Shimmer 支持标准 `span` 属性，包括 `className`、`ref`、`data-*` 和 `aria-*`。根元素固定提供 `data-slot="text-shimmer"`，便于稳定地定制样式和测试。
+
+```tsx
+<TextShimmer className="text-accent font-medium">
+  Generating response...
+</TextShimmer>
+```
+
+高光按**恒定速度**扫过，而不是恒定时长——长文案会按比例扫得更久，因此所有 shimmer
+看起来像同一束光。通过 `.text-shimmer` 上的这些自定义属性调节：
+
+| 属性 | 默认值 | 作用 |
+| --- | --- | --- |
+| `--shimmer-width` | `192` | 文字宽度近似值，单位 px 的**无单位数字**。仅用于计算时长。 |
+| `--shimmer-spread` | `112` | 高光带宽度，单位 px 的无单位数字。 |
+| `--shimmer-speed` | `200` | 扫过速度，px/秒。 |
+| `--shimmer-angle` | `105deg` | 高光倾角。 |
+
+时长按 `(width + spread) / speed` 秒推导。当文案明显长于或短于默认值时需要设置
+`--shimmer-width`，否则所有文案都会按 192px 宽来计算：
+
+```tsx
+<TextShimmer style={{"--shimmer-width": 420} as React.CSSProperties}>
+  Generating a much longer response for you...
+</TextShimmer>
+```
+
+用户启用减少动态效果时，或在强制颜色模式下，渐变和动画会被移除，文字以 `currentColor` 正常显示。

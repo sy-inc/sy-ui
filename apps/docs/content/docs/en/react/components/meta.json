@@ -72,6 +72,7 @@
     "(feedback)/skeleton",
     "(controls)/slider",
     "(feedback)/spinner",
+    "(feedback)/text-shimmer",
     "(layout)/surface",
     "(controls)/switch",
     "(data-display)/table",
