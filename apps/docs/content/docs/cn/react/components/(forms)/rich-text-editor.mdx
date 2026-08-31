@@ -1,0 +1,490 @@
+---
+title: RichTextEditor 富文本编辑器
+description: 可组合的 Tiptap 编辑器，提供工具栏、选区菜单、JSON 值更新和字符计数
+links:
+  source: rich-text-editor/rich-text-editor.tsx
+  styles: rich-text-editor.css
+  storybook: Components/Forms/RichTextEditor
+---
+
+## 用法
+
+RichTextEditor 是一个复合式 Tiptap 编辑器。请从组件子路径导入：
+
+```tsx
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+```
+
+子路径是有意这样设计的。RichTextEditor 使用可选的 `@tiptap/*` peer 依赖，因此将它与 package root 隔离后，不使用编辑器的应用无需安装 Tiptap。
+
+```tsx
+const documentJson = {
+  type: "doc",
+  content: [
+    {type: "heading", attrs: {level: 2}, content: [{type: "text", text: "Features"}]},
+    {type: "blockquote", content: [{type: "paragraph", content: [{type: "text", marks: [{type: "italic"}], text: "A composable rich text editor with toolbar controls, contextual menus, JSON persistence, and common writing shortcuts. Try markdown ** or keyboard shortcuts for common marks."}]}]},
+    {type: "paragraph", content: [{type: "text", text: "Select the phrase "}, {type: "text", marks: [{type: "bold"}], text: "contextual selection actions"}, {type: "text", text: " and use the bubble menu to apply bold, italic, underline, strike, or a link without leaving the document."}]},
+    {type: "heading", attrs: {level: 3}, content: [{type: "text", text: "What to try"}]},
+    {type: "bulletList", content: [
+      {type: "listItem", content: [{type: "paragraph", content: [{type: "text", text: "Use the toolbar to switch headings, lists, quotes, and code blocks."}]}]},
+      {type: "listItem", content: [{type: "paragraph", content: [{type: "text", text: "Add a link to "}, {type: "text", marks: [{type: "link", attrs: {href: "https://tiptap.dev"}}], text: "tiptap.dev"}, {type: "text", text: " or remove formatting with the clear actions."}]}]},
+      {type: "listItem", content: [{type: "paragraph", content: [{type: "text", text: "Notice how "}, {type: "text", marks: [{type: "code"}], text: "onValueChange"}, {type: "text", text: " can store JSON while still exposing HTML and text details."}]}]},
+    ]},
+    {type: "codeBlock", content: [{type: "text", text: "editor.chain().focus().toggleHeading({ level: 2 }).run()"}]},
+    {type: "paragraph"},
+  ],
+};
+
+<RichTextEditor defaultValue={documentJson}>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="Editor toolbar">
+      <RichTextEditor.ToolbarGroup aria-label="History">
+        <RichTextEditor.ActionButton action="undo" aria-label="Undo" isIconOnly size="sm" />
+        <RichTextEditor.ActionButton action="redo" aria-label="Redo" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Text style">
+        <RichTextEditor.ToggleButton command="bold" aria-label="Bold" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="italic" aria-label="Italic" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="underline" aria-label="Underline" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="strike" aria-label="Strikethrough" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="code" aria-label="Inline code" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Blocks">
+        <RichTextEditor.ToggleButton command="heading-1" aria-label="Heading 1" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="heading-2" aria-label="Heading 2" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="heading-3" aria-label="Heading 3" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="blockquote" aria-label="Blockquote" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="codeBlock" aria-label="Code block" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Lists and links">
+        <RichTextEditor.ToggleButton command="bulletList" aria-label="Bulleted list" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="orderedList" aria-label="Numbered list" isIconOnly size="sm" />
+        <RichTextEditor.LinkPopover>
+          <RichTextEditor.LinkPopover.Trigger aria-label="Link" isIconOnly size="sm" />
+          <RichTextEditor.LinkPopover.Content>
+            <RichTextEditor.LinkPopover.Input />
+            <RichTextEditor.LinkPopover.Actions><RichTextEditor.LinkPopover.UnsetButton /><RichTextEditor.LinkPopover.ApplyButton /></RichTextEditor.LinkPopover.Actions>
+          </RichTextEditor.LinkPopover.Content>
+        </RichTextEditor.LinkPopover>
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Clear">
+        <RichTextEditor.ActionButton action="clearFormatting" aria-label="Clear formatting" isIconOnly size="sm" />
+        <RichTextEditor.ActionButton action="clearContent" aria-label="Clear content" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+    <RichTextEditor.Footer>
+      <span>JSON-first editor state</span>
+      <RichTextEditor.CharacterCount showWords />
+    </RichTextEditor.Footer>
+  </RichTextEditor.Shell>
+</RichTextEditor>;
+```
+
+Default story 使用完整 JSON 示例并显示真实的字符数与词数，不会硬编码统计值。
+
+## 组件结构
+
+根组件拥有编辑器实例，并将其提供给复合部件。可以使用 `RichTextEditor` 或 `RichTextEditor.Root` 作为根组件。`Shell` 是编辑器表面，其余部件可以按需放置在其中。
+
+```tsx
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="文字格式">
+      <RichTextEditor.ToolbarGroup>
+        <RichTextEditor.ToggleButton command="bold" aria-label="粗体" />
+        <RichTextEditor.ActionButton action="undo" aria-label="撤销" />
+        <RichTextEditor.CommandButton
+          aria-label="插入日期"
+          onCommand={(editor) => editor.chain().focus().insertContent("27 May 2026").run()}
+        />
+        <RichTextEditor.ToolbarSeparator />
+      </RichTextEditor.ToolbarGroup>
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+    <RichTextEditor.BubbleMenu>
+      <RichTextEditor.ToggleButton command="bold" aria-label="将选区设为粗体" />
+    </RichTextEditor.BubbleMenu>
+    <RichTextEditor.FloatingMenu>
+      <RichTextEditor.ToggleButton command="bulletList" aria-label="项目符号列表" />
+    </RichTextEditor.FloatingMenu>
+    <RichTextEditor.SuggestionMenu char="/" items={() => []} />
+    <RichTextEditor.Footer>
+      <RichTextEditor.CharacterCount showWords />
+    </RichTextEditor.Footer>
+  </RichTextEditor.Shell>
+</RichTextEditor>;
+```
+
+可用部件包括：
+
+- `Root`（即 `RichTextEditor` 导出或 `RichTextEditor.Root`）和 `Shell`
+- `Toolbar`、`ToolbarGroup`、`ToggleButton`、`ActionButton`、`CommandButton` 和 `ToolbarSeparator`
+- `Content`、`BubbleMenu`、`FloatingMenu` 和 `SuggestionMenu`
+- `Footer` 和 `CharacterCount`
+- 带有 `Trigger`、`Content`、`Input`、`Actions`、`ApplyButton`、`UnsetButton` 的 `LinkPopover`
+
+## 示例
+
+### 受控 JSON 值
+
+`value` 和 `defaultValue` 都是 Tiptap JSON 文档。需要受控编辑器时使用 `value` 与 `onValueChange`。回调第一个参数是新的 JSON 文档，第二个参数是派生详情。
+
+```tsx
+import {useState} from "react";
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+
+const initialValue = {
+  type: "doc",
+  content: [{type: "paragraph", content: [{type: "text", text: "受控内容"}]}],
+};
+
+function ControlledEditor() {
+  const [value, setValue] = useState(initialValue);
+  const [summary, setSummary] = useState({html: "", text: "", isEmpty: true, characters: 0, words: 0});
+
+  return (
+    <>
+      <RichTextEditor
+        value={value}
+        onValueChange={(nextValue, details) => {
+          setValue(nextValue);
+          setSummary(details);
+        }}
+      >
+        <RichTextEditor.Shell>
+          <RichTextEditor.Toolbar aria-label="文字格式">
+            <RichTextEditor.ToolbarGroup>
+              <RichTextEditor.ToggleButton command="bold" aria-label="粗体" />
+              <RichTextEditor.ToggleButton command="italic" aria-label="斜体" />
+            </RichTextEditor.ToolbarGroup>
+          </RichTextEditor.Toolbar>
+          <RichTextEditor.Content />
+        </RichTextEditor.Shell>
+      </RichTextEditor>
+      <output>{summary.characters} 个字符，{summary.words} 个词</output>
+    </>
+  );
+}
+```
+
+`details` 包含 `html`、`text`、`isEmpty`、`characters` 和 `words`，因此预览、计数、校验和持久化可以复用同一次更新，而无需再次序列化编辑器。
+
+非受控编辑器只需提供 `defaultValue`；需要更新时监听 `onValueChange`：
+
+```tsx
+<RichTextEditor
+  defaultValue={initialValue}
+  onValueChange={(value, details) => {
+    console.log(value, details.html, details.text);
+  }}
+>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### 字符计数与长度限制
+
+在根组件设置 `maxLength`，并在 footer 中渲染 `CharacterCount`。`showWords` 会在默认输出中追加词数；需要自定义标签或布局时使用 `children`。
+
+```tsx
+<RichTextEditor maxLength={500}>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+    <RichTextEditor.Footer>
+      <RichTextEditor.CharacterCount showWords>
+        {({characters, words, isOverLimit}) =>
+          `${characters}/500 个字符 · ${words} 个词${isOverLimit ? " · 超出限制" : ""}`}
+      </RichTextEditor.CharacterCount>
+    </RichTextEditor.Footer>
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### 占位符
+
+默认占位符是 `Start writing...`。在根组件上覆盖它即可使用其他提示语。
+
+```tsx
+<RichTextEditor placeholder="添加描述……">
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### 禁用与只读
+
+`isDisabled` 会禁用编辑和编辑器控件。`isReadOnly` 会保留内容的聚焦与选择能力，但禁止编辑。两者默认值都是 `false`。
+
+```tsx
+<RichTextEditor isDisabled>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="文字格式">
+      <RichTextEditor.ToggleButton command="bold" aria-label="粗体" />
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+
+<RichTextEditor isReadOnly defaultValue={initialValue}>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### 自定义命令与菜单
+
+对于不是内置 toggle 或 action 的命令，使用 `CommandButton`。`onCommand` 会收到当前 Tiptap editor，也可以直接返回 command chain 的结果。
+
+```tsx
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="文档操作">
+      <RichTextEditor.CommandButton
+        aria-label="插入日期"
+        onCommand={(editor) => editor.chain().focus().insertContent("27 May 2026").run()}
+      />
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+    <RichTextEditor.BubbleMenu toolbarProps={{"aria-label": "选区格式"}}>
+      <RichTextEditor.CommandButton
+        aria-label="清除标记"
+        onCommand={(editor) => editor.chain().focus().unsetAllMarks().run()}
+      />
+    </RichTextEditor.BubbleMenu>
+    <RichTextEditor.FloatingMenu toolbarProps={{"aria-label": "插入块"}}>
+      <RichTextEditor.ToggleButton command="heading-2" aria-label="二级标题" />
+    </RichTextEditor.FloatingMenu>
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+当编辑器聚焦且存在非空文字选区时，`BubbleMenu` 默认显示。对于空的可编辑文本块，Tiptap 默认显示 `FloatingMenu`。使用 `toolbarProps` 可以给内部 toolbar 添加标签或传入其他配置。
+
+### 建议菜单
+
+`SuggestionMenu` 会注册 Tiptap suggestion plugin，可用于斜杠命令、提及、变量、片段和其他触发式菜单。items 可以同步返回，也可以异步返回。默认渲染器支持带有 `title`、`description`、`icon` 和 `command` 的 item。
+
+```tsx
+import {
+  RichTextEditor,
+  filterRichTextEditorSuggestionItems,
+} from "@sy-inc/react/rich-text-editor";
+
+const slashItems = ({query}) =>
+  filterRichTextEditorSuggestionItems(
+    [
+      {
+        title: "一级标题",
+        keywords: ["title", "h1"],
+        command: ({editor, range}) => {
+          editor.chain().focus().deleteRange(range).setNode("heading", {level: 1}).run();
+        },
+      },
+    ],
+    query,
+  );
+
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+    <RichTextEditor.SuggestionMenu char="/" items={slashItems} />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+使用 `children` 可以完全自定义菜单渲染；对于自定义 item 结构，使用 `onSelect` 处理选择。建议列表支持 `ArrowUp`、`ArrowDown`、`Enter` 和 `Escape`。
+
+### 链接
+
+在 toolbar group 中组合 `LinkPopover`。`Input` 编辑 URL，`ApplyButton` 对当前选区应用链接命令，`UnsetButton` 从当前选区移除链接。
+
+```tsx
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="文字格式">
+      <RichTextEditor.ToolbarGroup>
+        <RichTextEditor.LinkPopover>
+          <RichTextEditor.LinkPopover.Trigger aria-label="添加链接" />
+          <RichTextEditor.LinkPopover.Content>
+            <RichTextEditor.LinkPopover.Input aria-label="链接 URL" />
+            <RichTextEditor.LinkPopover.Actions>
+              <RichTextEditor.LinkPopover.UnsetButton />
+              <RichTextEditor.LinkPopover.ApplyButton />
+            </RichTextEditor.LinkPopover.Actions>
+          </RichTextEditor.LinkPopover.Content>
+        </RichTextEditor.LinkPopover>
+      </RichTextEditor.ToolbarGroup>
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+## CSS 类
+
+RichTextEditor 使用以下 BEM 类作为稳定的样式接缝：
+
+### 基础类
+
+- `.rich-text-editor` — 根包装器
+- `.rich-text-editor__shell` — 编辑器表面
+
+### 元素类
+
+- `.rich-text-editor__toolbar` — toolbar 容器
+- `.rich-text-editor__toolbar-group` — toolbar 分组
+- `.rich-text-editor__toolbar-button` — toolbar 按钮插槽
+- `.rich-text-editor__toolbar-separator` — toolbar 分隔符
+- `.rich-text-editor__content` — Tiptap 内容宿主
+- `.rich-text-editor__prosemirror` — ProseMirror 可编辑元素
+- `.rich-text-editor__bubble-menu` — 浮动选区 toolbar
+- `.rich-text-editor__bubble-menu-toolbar` — 浮动选区菜单内的 toolbar
+- `.rich-text-editor__floating-menu` — 浮动空行 toolbar
+- `.rich-text-editor__floating-menu-toolbar` — 浮动空行菜单内的 toolbar
+- `.rich-text-editor__suggestion-menu` — 触发式建议菜单
+- `.rich-text-editor__suggestion-menu-item` — 建议菜单项
+- `.rich-text-editor__footer` — footer 行
+- `.rich-text-editor__character-count` — 字符和词数
+- `.rich-text-editor__link-popover` — 链接 popover 表面
+- `.rich-text-editor__link-input` — 链接 URL 输入框
+
+当对应状态生效时，编辑器会提供以下状态 hooks：
+
+- 禁用：`.rich-text-editor` 上的 `[data-disabled="true"]`
+- 只读：`.rich-text-editor` 上的 `[data-readonly="true"]`
+- 超出限制：`.rich-text-editor__character-count` 上的 `[data-over-limit="true"]`
+- 激活命令：toolbar 按钮上的 `[data-active="true"]`
+
+已确认的根组件和结构部件 `data-slot` hooks 包括：`rich-text-editor`、`rich-text-editor-shell`、`rich-text-editor-toolbar`、`rich-text-editor-toolbar-group`、`rich-text-editor-toolbar-separator`、`rich-text-editor-toggle-button`、`rich-text-editor-action-button`、`rich-text-editor-command-button`、`rich-text-editor-content`、`rich-text-editor-bubble-menu`、`rich-text-editor-floating-menu`、`rich-text-editor-suggestion-menu`、`rich-text-editor-footer`、`rich-text-editor-character-count` 和 `rich-text-editor-link-actions`。LinkPopover 表面使用上文的 BEM 类；这里不承诺其他 `data-slot`。针对部件优先使用 BEM 类或已确认的 `data-slot`，针对状态使用状态属性选择器。
+
+## 无障碍
+
+- 通过可见标签或 `aria-label` 为每个 toolbar 提供无障碍名称。
+- `ToggleButton`、`ActionButton`、`CommandButton` 和链接控件若只有图标，必须传入 `aria-label`；同时为链接 URL `Input` 添加标签。
+- toolbar 控件支持键盘导航，并通过 pressed 状态暴露激活命令。
+- `BubbleMenu` 跟随编辑器选区，仅在存在非空选区时显示；`FloatingMenu` 跟随当前空文本块。
+- `SuggestionMenu` 支持 `ArrowUp`/`ArrowDown` 移动、`Enter` 选择和 `Escape` 关闭。自定义渲染器时请保持焦点和可见焦点指示清晰。
+- 禁用控件不可交互。只读内容仍可聚焦和选择，但不可编辑。
+
+## API 参考
+
+### RichTextEditor
+
+根 provider 拥有 Tiptap editor 实例，并发出 JSON-first 值更新。
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `value` | `JSONContent` | — | 受控的 Tiptap JSON 文档。 |
+| `defaultValue` | `JSONContent` | — | 非受控的初始 JSON 文档。 |
+| `onValueChange` | `(value: JSONContent, details: RichTextEditorDetails) => void` | — | 传入 JSON 以及 `html`、`text`、`isEmpty`、`characters`、`words`。 |
+| `placeholder` | `string` | `"Start writing..."` | 空内容的占位文本。 |
+| `maxLength` | `number` | — | `CharacterCount` 使用的字符限制。 |
+| `isDisabled` | `boolean` | `false` | 禁用编辑和控件。 |
+| `isReadOnly` | `boolean` | `false` | 保持内容可聚焦但不可编辑。 |
+| `extensions` | `Extensions` | — | 在默认扩展后追加的 Tiptap 扩展。 |
+| `editorOptions` | `Partial<EditorOptions>` | — | 高级 Tiptap editor options。 |
+
+`RichTextEditorDetails` 的结构为 `{html: string; text: string; isEmpty: boolean; characters: number; words: number}`。
+
+### RichTextEditor.ToggleButton
+
+运行内置格式化命令，并订阅编辑器的激活与禁用状态。
+
+| Prop | 类型 | 描述 |
+| --- | --- | --- |
+| `command` | `"bold" \| "italic" \| "underline" \| "strike" \| "code" \| "blockquote" \| "bulletList" \| "orderedList" \| "codeBlock" \| "heading-1" \| "heading-2" \| "heading-3"` | 格式化命令。 |
+
+### RichTextEditor.ActionButton
+
+运行编辑器 action。
+
+| Prop | 类型 | 描述 |
+| --- | --- | --- |
+| `action` | `"undo" \| "redo" \| "clearFormatting" \| "clearContent"` | 编辑器 action。 |
+
+### RichTextEditor.CommandButton
+
+使用当前 editor 运行自定义 Tiptap 命令。
+
+| Prop | 类型 | 描述 |
+| --- | --- | --- |
+| `onCommand` | `(editor) => void \| boolean` | 命令回调，会收到当前 editor。 |
+| `isActive` | `boolean \| (editor) => boolean` | 用于样式和 `aria-pressed` 的激活状态。 |
+| `isDisabled` | `boolean \| (editor) => boolean` | 命令专属的禁用状态。 |
+
+### RichTextEditor.Content
+
+为当前 editor 实例渲染 Tiptap 的 `EditorContent`。
+
+### RichTextEditor.BubbleMenu
+
+包装 Tiptap React BubbleMenu，并在 toolbar 中渲染子内容。默认在编辑器聚焦且存在非空文字选区时显示。
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `toolbarProps` | `ToolbarProps` | — | 传给内部选区 toolbar 的 props。 |
+
+### RichTextEditor.FloatingMenu
+
+包装 Tiptap React FloatingMenu，并在 toolbar 中渲染子内容。默认由 Tiptap 在空的可编辑文本块中显示。
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `toolbarProps` | `ToolbarProps` | — | 传给内部插入 toolbar 的 props。 |
+
+### RichTextEditor.SuggestionMenu
+
+为触发式菜单注册 Tiptap suggestion plugin。没有自定义渲染器时，具有 `title`、`description`、`icon` 和 `command` 的 item 使用默认菜单。
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `char` | `string` | `"/"` | 触发字符。 |
+| `items` | `({query, editor}) => SuggestionItem[] \| Promise<SuggestionItem[]>` | — | 建议项加载器。 |
+| `children` | `({items, selectedIndex}) => ReactNode` | — | 完整控制菜单的自定义渲染器。 |
+| `onSelect` | `(props) => void` | — | 自定义 item 结构的选择处理器。 |
+| `pluginKey` | `PluginKey` | — | 稳定的 ProseMirror plugin key。 |
+| `allowSpaces` | `boolean` | `false` | 是否允许 query 包含空格。 |
+| `allowedPrefixes` | `string[] \| null` | `[" "]` | trigger 前允许出现的前缀。 |
+| `startOfLine` | `boolean` | `false` | 是否限制为行首匹配。 |
+| `maxHeight` | `number` | `384` | 菜单最大高度（像素）。 |
+
+### Hooks 与过滤工具
+
+`useRichTextEditor()` 从最近的编辑器返回 `{editor, isDisabled, isReadOnly, maxLength}`。
+
+`useRichTextEditorState(selector, equalityFn)` 订阅选中的 Tiptap editor 状态，不会因无关 transaction 重新渲染。
+
+`filterRichTextEditorSuggestionItems(items, query)` 会在渲染前按 query 过滤建议项。从同一个 RichTextEditor 子路径导入。
+
+建议项可以提供 `title`、可选的 `description`、`keywords`、`icon` 和 `command`。过滤器会以不区分大小写的方式匹配 title 与 keywords。
+
+### RichTextEditor.CharacterCount
+
+显示 CharacterCount 扩展 storage 中的值。
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `showWords` | `boolean` | `false` | 在默认标签后追加词数。 |
+| `children` | `ReactNode \| (stats) => ReactNode` | — | 自定义计数渲染。 |
+
+### RichTextEditor.LinkPopover
+
+通过 Tiptap link 命令应用和移除链接。按[链接示例](#链接)组合 `Trigger`、`Content`、`Input`、`Actions`、`ApplyButton` 和 `UnsetButton`。
+
+## 相关组件
+
+- [Toolbar](/docs/components/toolbar)：独立 toolbar 组合。
+- [Button](/docs/components/button)：编辑器外的通用 action。

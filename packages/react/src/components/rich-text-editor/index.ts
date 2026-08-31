@@ -1,0 +1,93 @@
+import type {ComponentProps} from "react";
+import {
+  ActionButton,
+  ApplyButton,
+  BubbleMenu,
+  CharacterCount,
+  CommandButton,
+  Content,
+  FloatingMenu,
+  Footer,
+  LinkActions,
+  LinkContent,
+  LinkInput,
+  LinkPopover,
+  LinkTrigger,
+  RichTextEditorRoot,
+  Shell,
+  SuggestionMenu,
+  ToggleButtonPart,
+  ToolbarGroup,
+  ToolbarPart,
+  ToolbarSeparator,
+  UnsetButton,
+} from "./rich-text-editor";
+
+export const RichTextEditor = Object.assign(RichTextEditorRoot, {
+  Root: RichTextEditorRoot,
+  Shell,
+  Toolbar: ToolbarPart,
+  ToolbarGroup,
+  ToggleButton: ToggleButtonPart,
+  ActionButton,
+  CommandButton,
+  ToolbarSeparator,
+  Content,
+  BubbleMenu,
+  FloatingMenu,
+  SuggestionMenu,
+  Footer,
+  CharacterCount,
+  LinkPopover: Object.assign(LinkPopover, {
+    Trigger: LinkTrigger,
+    Content: LinkContent,
+    Input: LinkInput,
+    Actions: LinkActions,
+    ApplyButton,
+    UnsetButton,
+  }),
+});
+export type RichTextEditor = {
+  Props: ComponentProps<typeof RichTextEditorRoot>;
+  RootProps: ComponentProps<typeof RichTextEditorRoot>;
+};
+export {
+  ActionButton,
+  ApplyButton,
+  BubbleMenu,
+  CharacterCount,
+  CommandButton,
+  Content,
+  filterRichTextEditorSuggestionItems,
+  FloatingMenu,
+  Footer,
+  LinkActions,
+  LinkContent,
+  LinkInput,
+  LinkPopover,
+  LinkTrigger,
+  RichTextEditorRoot,
+  Shell,
+  SuggestionMenu,
+  ToggleButtonPart,
+  ToolbarGroup,
+  ToolbarPart,
+  ToolbarSeparator,
+  UnsetButton,
+  useRichTextEditor,
+  useRichTextEditorState,
+} from "./rich-text-editor";
+export type {
+  Action,
+  ActionButtonProps,
+  CharacterCountProps,
+  CommandButtonProps,
+  RichTextEditorDetails,
+  RichTextEditorProps,
+  SuggestionItem,
+  SuggestionMenuProps,
+  ToggleButtonProps,
+  ToggleCommand,
+} from "./rich-text-editor";
+export {richTextEditorVariants} from "@sy-inc/styles";
+export type {RichTextEditorVariants} from "@sy-inc/styles";

@@ -114,6 +114,7 @@
 @import "./textfield.css";
 @import "./search-field.css";
 @import "./textarea.css";
+@import "./rich-text-editor.css";
 
 /* ------------------------------------------------------------------------------------------------
 * Date & Time

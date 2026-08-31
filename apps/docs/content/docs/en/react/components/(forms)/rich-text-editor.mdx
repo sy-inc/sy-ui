@@ -1,0 +1,490 @@
+---
+title: RichTextEditor
+description: A composable Tiptap editor with toolbar controls, selection menus, JSON value updates, and character counts
+links:
+  source: rich-text-editor/rich-text-editor.tsx
+  styles: rich-text-editor.css
+  storybook: Components/Forms/RichTextEditor
+---
+
+## Usage
+
+RichTextEditor is a compound Tiptap editor. Import it from its component subpath:
+
+```tsx
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+```
+
+The subpath is intentional. RichTextEditor uses optional `@tiptap/*` peer dependencies, so keeping it out of the package root lets applications that do not use the editor avoid installing Tiptap.
+
+```tsx
+const documentJson = {
+  type: "doc",
+  content: [
+    {type: "heading", attrs: {level: 2}, content: [{type: "text", text: "Features"}]},
+    {type: "blockquote", content: [{type: "paragraph", content: [{type: "text", marks: [{type: "italic"}], text: "A composable rich text editor with toolbar controls, contextual menus, JSON persistence, and common writing shortcuts. Try markdown ** or keyboard shortcuts for common marks."}]}]},
+    {type: "paragraph", content: [{type: "text", text: "Select the phrase "}, {type: "text", marks: [{type: "bold"}], text: "contextual selection actions"}, {type: "text", text: " and use the bubble menu to apply bold, italic, underline, strike, or a link without leaving the document."}]},
+    {type: "heading", attrs: {level: 3}, content: [{type: "text", text: "What to try"}]},
+    {type: "bulletList", content: [
+      {type: "listItem", content: [{type: "paragraph", content: [{type: "text", text: "Use the toolbar to switch headings, lists, quotes, and code blocks."}]}]},
+      {type: "listItem", content: [{type: "paragraph", content: [{type: "text", text: "Add a link to "}, {type: "text", marks: [{type: "link", attrs: {href: "https://tiptap.dev"}}], text: "tiptap.dev"}, {type: "text", text: " or remove formatting with the clear actions."}]}]},
+      {type: "listItem", content: [{type: "paragraph", content: [{type: "text", text: "Notice how "}, {type: "text", marks: [{type: "code"}], text: "onValueChange"}, {type: "text", text: " can store JSON while still exposing HTML and text details."}]}]},
+    ]},
+    {type: "codeBlock", content: [{type: "text", text: "editor.chain().focus().toggleHeading({ level: 2 }).run()"}]},
+    {type: "paragraph"},
+  ],
+};
+
+<RichTextEditor defaultValue={documentJson}>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="Editor toolbar">
+      <RichTextEditor.ToolbarGroup aria-label="History">
+        <RichTextEditor.ActionButton action="undo" aria-label="Undo" isIconOnly size="sm" />
+        <RichTextEditor.ActionButton action="redo" aria-label="Redo" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Text style">
+        <RichTextEditor.ToggleButton command="bold" aria-label="Bold" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="italic" aria-label="Italic" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="underline" aria-label="Underline" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="strike" aria-label="Strikethrough" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="code" aria-label="Inline code" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Blocks">
+        <RichTextEditor.ToggleButton command="heading-1" aria-label="Heading 1" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="heading-2" aria-label="Heading 2" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="heading-3" aria-label="Heading 3" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="blockquote" aria-label="Blockquote" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="codeBlock" aria-label="Code block" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Lists and links">
+        <RichTextEditor.ToggleButton command="bulletList" aria-label="Bulleted list" isIconOnly size="sm" />
+        <RichTextEditor.ToggleButton command="orderedList" aria-label="Numbered list" isIconOnly size="sm" />
+        <RichTextEditor.LinkPopover>
+          <RichTextEditor.LinkPopover.Trigger aria-label="Link" isIconOnly size="sm" />
+          <RichTextEditor.LinkPopover.Content>
+            <RichTextEditor.LinkPopover.Input />
+            <RichTextEditor.LinkPopover.Actions><RichTextEditor.LinkPopover.UnsetButton /><RichTextEditor.LinkPopover.ApplyButton /></RichTextEditor.LinkPopover.Actions>
+          </RichTextEditor.LinkPopover.Content>
+        </RichTextEditor.LinkPopover>
+      </RichTextEditor.ToolbarGroup>
+      <RichTextEditor.ToolbarSeparator />
+      <RichTextEditor.ToolbarGroup aria-label="Clear">
+        <RichTextEditor.ActionButton action="clearFormatting" aria-label="Clear formatting" isIconOnly size="sm" />
+        <RichTextEditor.ActionButton action="clearContent" aria-label="Clear content" isIconOnly size="sm" />
+      </RichTextEditor.ToolbarGroup>
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+    <RichTextEditor.Footer>
+      <span>JSON-first editor state</span>
+      <RichTextEditor.CharacterCount showWords />
+    </RichTextEditor.Footer>
+  </RichTextEditor.Shell>
+</RichTextEditor>;
+```
+
+The Default story uses the complete JSON example and reports its real character and word count; it does not hard-code the displayed statistic.
+
+## Anatomy
+
+The root owns the editor instance and provides it to the compound parts. Use `RichTextEditor` or `RichTextEditor.Root` as the root. `Shell` is the editor surface; the other parts can be arranged inside it as needed.
+
+```tsx
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="Text formatting">
+      <RichTextEditor.ToolbarGroup>
+        <RichTextEditor.ToggleButton command="bold" aria-label="Bold" />
+        <RichTextEditor.ActionButton action="undo" aria-label="Undo" />
+        <RichTextEditor.CommandButton
+          aria-label="Insert date"
+          onCommand={(editor) => editor.chain().focus().insertContent("27 May 2026").run()}
+        />
+        <RichTextEditor.ToolbarSeparator />
+      </RichTextEditor.ToolbarGroup>
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+    <RichTextEditor.BubbleMenu>
+      <RichTextEditor.ToggleButton command="bold" aria-label="Bold selection" />
+    </RichTextEditor.BubbleMenu>
+    <RichTextEditor.FloatingMenu>
+      <RichTextEditor.ToggleButton command="bulletList" aria-label="Bulleted list" />
+    </RichTextEditor.FloatingMenu>
+    <RichTextEditor.SuggestionMenu char="/" items={() => []} />
+    <RichTextEditor.Footer>
+      <RichTextEditor.CharacterCount showWords />
+    </RichTextEditor.Footer>
+  </RichTextEditor.Shell>
+</RichTextEditor>;
+```
+
+Available parts are:
+
+- `Root` (the `RichTextEditor` export or `RichTextEditor.Root`) and `Shell`
+- `Toolbar`, `ToolbarGroup`, `ToggleButton`, `ActionButton`, `CommandButton`, and `ToolbarSeparator`
+- `Content`, `BubbleMenu`, `FloatingMenu`, and `SuggestionMenu`
+- `Footer` and `CharacterCount`
+- `LinkPopover` with `Trigger`, `Content`, `Input`, `Actions`, `ApplyButton`, and `UnsetButton`
+
+## Examples
+
+### Controlled JSON value
+
+`value` and `defaultValue` are Tiptap JSON documents. Use `value` with `onValueChange` when the document is controlled. The callback receives the next JSON document first and derived details second.
+
+```tsx
+import {useState} from "react";
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+
+const initialValue = {
+  type: "doc",
+  content: [{type: "paragraph", content: [{type: "text", text: "Controlled content"}]}],
+};
+
+function ControlledEditor() {
+  const [value, setValue] = useState(initialValue);
+  const [summary, setSummary] = useState({html: "", text: "", isEmpty: true, characters: 0, words: 0});
+
+  return (
+    <>
+      <RichTextEditor
+        value={value}
+        onValueChange={(nextValue, details) => {
+          setValue(nextValue);
+          setSummary(details);
+        }}
+      >
+        <RichTextEditor.Shell>
+          <RichTextEditor.Toolbar aria-label="Text formatting">
+            <RichTextEditor.ToolbarGroup>
+              <RichTextEditor.ToggleButton command="bold" aria-label="Bold" />
+              <RichTextEditor.ToggleButton command="italic" aria-label="Italic" />
+            </RichTextEditor.ToolbarGroup>
+          </RichTextEditor.Toolbar>
+          <RichTextEditor.Content />
+        </RichTextEditor.Shell>
+      </RichTextEditor>
+      <output>{summary.characters} characters, {summary.words} words</output>
+    </>
+  );
+}
+```
+
+`details` contains `html`, `text`, `isEmpty`, `characters`, and `words`, so previews, counters, validation, and persistence can use the same update without serializing the editor again.
+
+For an uncontrolled editor, provide only `defaultValue` and listen to `onValueChange` when you need updates:
+
+```tsx
+<RichTextEditor
+  defaultValue={initialValue}
+  onValueChange={(value, details) => {
+    console.log(value, details.html, details.text);
+  }}
+>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### Character count and limit
+
+Set `maxLength` on the root and render `CharacterCount` in the footer. `showWords` appends the word count to its default output. Use `children` when the label or layout needs to be customized.
+
+```tsx
+<RichTextEditor maxLength={500}>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+    <RichTextEditor.Footer>
+      <RichTextEditor.CharacterCount showWords>
+        {({characters, words, isOverLimit}) =>
+          `${characters}/500 characters · ${words} words${isOverLimit ? " · over limit" : ""}`}
+      </RichTextEditor.CharacterCount>
+    </RichTextEditor.Footer>
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### Placeholder
+
+The default placeholder is `Start writing...`. Override it on the root for a different prompt.
+
+```tsx
+<RichTextEditor placeholder="Add a description...">
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### Disabled and read-only
+
+`isDisabled` disables editing and editor controls. `isReadOnly` keeps the content focusable and selectable but prevents editing. Both default to `false`.
+
+```tsx
+<RichTextEditor isDisabled>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="Text formatting">
+      <RichTextEditor.ToggleButton command="bold" aria-label="Bold" />
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+
+<RichTextEditor isReadOnly defaultValue={initialValue}>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+### Custom commands and menus
+
+Use `CommandButton` for commands that are not one of the built-in toggles or actions. `onCommand` receives the current Tiptap editor and may return the result of a command chain.
+
+```tsx
+import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
+
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="Document actions">
+      <RichTextEditor.CommandButton
+        aria-label="Insert date"
+        onCommand={(editor) => editor.chain().focus().insertContent("27 May 2026").run()}
+      />
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+    <RichTextEditor.BubbleMenu toolbarProps={{"aria-label": "Selection formatting"}}>
+      <RichTextEditor.CommandButton
+        aria-label="Clear marks"
+        onCommand={(editor) => editor.chain().focus().unsetAllMarks().run()}
+      />
+    </RichTextEditor.BubbleMenu>
+    <RichTextEditor.FloatingMenu toolbarProps={{"aria-label": "Insert block"}}>
+      <RichTextEditor.ToggleButton command="heading-2" aria-label="Heading 2" />
+    </RichTextEditor.FloatingMenu>
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+`BubbleMenu` is shown for a non-empty text selection while the editor is focused. `FloatingMenu` is shown by Tiptap for an empty editable text block. Pass `toolbarProps` to label or otherwise configure the internal toolbar.
+
+### Suggestion menu
+
+`SuggestionMenu` registers a Tiptap suggestion plugin. It works for slash commands, mentions, variables, snippets, and other trigger-based menus. Items can be synchronous or asynchronous. The default renderer supports items with `title`, `description`, `icon`, and `command`.
+
+```tsx
+import {
+  RichTextEditor,
+  filterRichTextEditorSuggestionItems,
+} from "@sy-inc/react/rich-text-editor";
+
+const slashItems = ({query}) =>
+  filterRichTextEditorSuggestionItems(
+    [
+      {
+        title: "Heading 1",
+        keywords: ["title", "h1"],
+        command: ({editor, range}) => {
+          editor.chain().focus().deleteRange(range).setNode("heading", {level: 1}).run();
+        },
+      },
+    ],
+    query,
+  );
+
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Content />
+    <RichTextEditor.SuggestionMenu char="/" items={slashItems} />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+Use `children` to render the complete menu yourself and `onSelect` to handle custom item shapes. The suggestion list responds to `ArrowUp`, `ArrowDown`, `Enter`, and `Escape`.
+
+### Links
+
+Compose `LinkPopover` in a toolbar group. Its `Input` edits the URL; `ApplyButton` applies the link command and `UnsetButton` removes the link from the current selection.
+
+```tsx
+<RichTextEditor>
+  <RichTextEditor.Shell>
+    <RichTextEditor.Toolbar aria-label="Text formatting">
+      <RichTextEditor.ToolbarGroup>
+        <RichTextEditor.LinkPopover>
+          <RichTextEditor.LinkPopover.Trigger aria-label="Add link" />
+          <RichTextEditor.LinkPopover.Content>
+            <RichTextEditor.LinkPopover.Input aria-label="Link URL" />
+            <RichTextEditor.LinkPopover.Actions>
+              <RichTextEditor.LinkPopover.UnsetButton />
+              <RichTextEditor.LinkPopover.ApplyButton />
+            </RichTextEditor.LinkPopover.Actions>
+          </RichTextEditor.LinkPopover.Content>
+        </RichTextEditor.LinkPopover>
+      </RichTextEditor.ToolbarGroup>
+    </RichTextEditor.Toolbar>
+    <RichTextEditor.Content />
+  </RichTextEditor.Shell>
+</RichTextEditor>
+```
+
+## CSS classes
+
+RichTextEditor uses these BEM classes for stable styling seams:
+
+### Base classes
+
+- `.rich-text-editor` — Root wrapper
+- `.rich-text-editor__shell` — Editor surface
+
+### Element classes
+
+- `.rich-text-editor__toolbar` — Toolbar container
+- `.rich-text-editor__toolbar-group` — Toolbar group
+- `.rich-text-editor__toolbar-button` — Toolbar button slot
+- `.rich-text-editor__toolbar-separator` — Toolbar separator
+- `.rich-text-editor__content` — Tiptap content host
+- `.rich-text-editor__prosemirror` — ProseMirror editable element
+- `.rich-text-editor__bubble-menu` — Floating selection toolbar
+- `.rich-text-editor__bubble-menu-toolbar` — Toolbar inside the floating selection menu
+- `.rich-text-editor__floating-menu` — Floating empty-line toolbar
+- `.rich-text-editor__floating-menu-toolbar` — Toolbar inside the floating empty-line menu
+- `.rich-text-editor__suggestion-menu` — Triggered suggestion menu
+- `.rich-text-editor__suggestion-menu-item` — Suggestion menu item
+- `.rich-text-editor__footer` — Footer row
+- `.rich-text-editor__character-count` — Character and word count
+- `.rich-text-editor__link-popover` — Link popover surface
+- `.rich-text-editor__link-input` — Link URL input
+
+The editor exposes these state hooks when the corresponding state is active:
+
+- Disabled: `[data-disabled="true"]` on `.rich-text-editor`
+- Read-only: `[data-readonly="true"]` on `.rich-text-editor`
+- Over limit: `[data-over-limit="true"]` on `.rich-text-editor__character-count`
+- Active command: `[data-active="true"]` on toolbar buttons
+
+The rendered root and structural parts expose these confirmed `data-slot` hooks: `rich-text-editor`, `rich-text-editor-shell`, `rich-text-editor-toolbar`, `rich-text-editor-toolbar-group`, `rich-text-editor-toolbar-separator`, `rich-text-editor-toggle-button`, `rich-text-editor-action-button`, `rich-text-editor-command-button`, `rich-text-editor-content`, `rich-text-editor-bubble-menu`, `rich-text-editor-floating-menu`, `rich-text-editor-suggestion-menu`, `rich-text-editor-footer`, `rich-text-editor-character-count`, and `rich-text-editor-link-actions`. The LinkPopover surfaces use the BEM classes above; no additional `data-slot` contract is implied. Prefer the BEM class or a confirmed `data-slot` for a part, and use state attributes for state-specific selectors.
+
+## Accessibility
+
+- Give each toolbar an accessible name with a visible label or `aria-label`.
+- Icon-only `ToggleButton`, `ActionButton`, `CommandButton`, and link controls need an accessible name; pass `aria-label` when no visible text is present. Label the link URL `Input` as well.
+- Toolbar controls support keyboard navigation and expose active commands through their pressed state.
+- `BubbleMenu` follows the editor selection and is shown only when a non-empty selection is active. `FloatingMenu` follows the current empty block.
+- `SuggestionMenu` supports `ArrowUp`/`ArrowDown` to move, `Enter` to select, and `Escape` to dismiss. Keep focus and the visible focus indicator clear when customizing its renderer.
+- Disabled controls are unavailable to interaction. Read-only content remains focusable and selectable but is not editable.
+
+## API reference
+
+### RichTextEditor
+
+The root provider owns the Tiptap editor instance and emits JSON-first value updates.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `JSONContent` | — | Controlled Tiptap JSON document. |
+| `defaultValue` | `JSONContent` | — | Initial uncontrolled JSON document. |
+| `onValueChange` | `(value: JSONContent, details: RichTextEditorDetails) => void` | — | Called with JSON plus `html`, `text`, `isEmpty`, `characters`, and `words`. |
+| `placeholder` | `string` | `"Start writing..."` | Placeholder text for empty content. |
+| `maxLength` | `number` | — | Character limit used by `CharacterCount`. |
+| `isDisabled` | `boolean` | `false` | Disables editing and controls. |
+| `isReadOnly` | `boolean` | `false` | Keeps content focusable but not editable. |
+| `extensions` | `Extensions` | — | Additional Tiptap extensions appended after the defaults. |
+| `editorOptions` | `Partial<EditorOptions>` | — | Advanced Tiptap editor options. |
+
+`RichTextEditorDetails` has the shape `{html: string; text: string; isEmpty: boolean; characters: number; words: number}`.
+
+### RichTextEditor.ToggleButton
+
+Runs a built-in formatting command and subscribes to the editor's active and disabled state.
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `command` | `"bold" \| "italic" \| "underline" \| "strike" \| "code" \| "blockquote" \| "bulletList" \| "orderedList" \| "codeBlock" \| "heading-1" \| "heading-2" \| "heading-3"` | Formatting command. |
+
+### RichTextEditor.ActionButton
+
+Runs an editor action.
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `action` | `"undo" \| "redo" \| "clearFormatting" \| "clearContent"` | Editor action. |
+
+### RichTextEditor.CommandButton
+
+Runs a custom Tiptap command with the current editor.
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `onCommand` | `(editor) => void \| boolean` | Command callback. It receives the current editor. |
+| `isActive` | `boolean \| (editor) => boolean` | Active state for styling and `aria-pressed`. |
+| `isDisabled` | `boolean \| (editor) => boolean` | Command-specific disabled state. |
+
+### RichTextEditor.Content
+
+Renders Tiptap's `EditorContent` for the current editor instance.
+
+### RichTextEditor.BubbleMenu
+
+Wraps Tiptap's React BubbleMenu and renders its children inside a toolbar. By default, it is visible for non-empty text selections while the editor is focused.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `toolbarProps` | `ToolbarProps` | — | Props forwarded to the internal selection toolbar. |
+
+### RichTextEditor.FloatingMenu
+
+Wraps Tiptap's React FloatingMenu and renders its children inside a toolbar. By default, Tiptap shows it on an empty editable text block.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `toolbarProps` | `ToolbarProps` | — | Props forwarded to the internal insertion toolbar. |
+
+### RichTextEditor.SuggestionMenu
+
+Registers a Tiptap suggestion plugin for triggered menus. If no custom renderer is provided, items with `title`, `description`, `icon`, and `command` use the default menu.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `char` | `string` | `"/"` | Trigger character. |
+| `items` | `({query, editor}) => SuggestionItem[] \| Promise<SuggestionItem[]>` | — | Suggestion item loader. |
+| `children` | `({items, selectedIndex}) => ReactNode` | — | Custom renderer for complete menu control. |
+| `onSelect` | `(props) => void` | — | Selection handler for custom item shapes. |
+| `pluginKey` | `PluginKey` | — | Stable ProseMirror plugin key. |
+| `allowSpaces` | `boolean` | `false` | Allows spaces in the query. |
+| `allowedPrefixes` | `string[] \| null` | `[" "]` | Prefixes allowed before the trigger. |
+| `startOfLine` | `boolean` | `false` | Restricts matches to the start of a line. |
+| `maxHeight` | `number` | `384` | Maximum menu height in pixels. |
+
+### Hooks and filtering
+
+`useRichTextEditor()` returns `{editor, isDisabled, isReadOnly, maxLength}` from the nearest editor.
+
+`useRichTextEditorState(selector, equalityFn)` subscribes to selected Tiptap editor state without re-rendering for unrelated transactions.
+
+`filterRichTextEditorSuggestionItems(items, query)` filters suggestion items for a query before they are rendered. Import it from the same RichTextEditor subpath.
+
+Suggestion items can provide `title`, optional `description`, `keywords`, `icon`, and `command`. The filter matches the title and keywords case-insensitively.
+
+### RichTextEditor.CharacterCount
+
+Displays CharacterCount extension storage values.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `showWords` | `boolean` | `false` | Appends the word count to the default label. |
+| `children` | `ReactNode \| (stats) => ReactNode` | — | Custom count rendering. |
+
+### RichTextEditor.LinkPopover
+
+Applies and removes links through Tiptap link commands. Compose `Trigger`, `Content`, `Input`, `Actions`, `ApplyButton`, and `UnsetButton` as shown in the [links example](#links).
+
+## Related components
+
+- [Toolbar](/docs/components/toolbar) for standalone toolbar composition.
+- [Button](/docs/components/button) for general actions outside the editor.
