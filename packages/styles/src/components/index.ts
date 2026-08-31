@@ -64,6 +64,7 @@ export * from "./popover";
 export * from "./radio";
 export * from "./radio-group";
 export * from "./scroll-shadow";
+export * from "./segment";
 export * from "./search-field";
 export * from "./select";
 export * from "./separator";

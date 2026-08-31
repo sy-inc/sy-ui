@@ -1,0 +1,98 @@
+---
+title: Segment
+description: Segment switches between a small set of mutually exclusive options.
+links:
+  rac: ToggleButtonGroup
+  source: segment/segment.tsx
+  styles: segment.css
+  storybook: Components/Navigation/Segment
+---
+
+## Usage
+
+```tsx
+import {Segment} from "@sy-inc/react";
+```
+
+<ComponentPreview isBgSolid name="segment-basic" />
+
+## Anatomy
+
+```tsx
+<Segment aria-label="Dashboard navigation" defaultSelectedKey="dashboard" separators>
+  <Segment.Item id="dashboard">Dashboard</Segment.Item>
+  <Segment.Item id="analytics">Analytics</Segment.Item>
+</Segment>
+```
+
+`Segment.Item` automatically renders its selection indicator. Set `separators` on `Segment` to show CSS separators between items. Separators beside the selected item are hidden automatically.
+
+## Ghost
+
+<ComponentPreview isBgSolid name="segment-ghost" />
+
+## With Separators
+
+<ComponentPreview isBgSolid name="segment-separators" />
+
+## Controlled
+
+<ComponentPreview isBgSolid name="segment-controlled" />
+
+## Disabled
+
+<ComponentPreview isBgSolid name="segment-disabled" />
+
+## Disabled Item
+
+<ComponentPreview isBgSolid name="segment-disabled-item" />
+
+## Sizes
+
+<ComponentPreview isBgSolid name="segment-sizes" />
+
+## Theme Switcher
+
+<ComponentPreview isBgSolid name="segment-theme-switcher" />
+
+## With Icons
+
+<ComponentPreview isBgSolid name="segment-icons" />
+
+## Icon Expand
+
+<ComponentPreview isBgSolid name="segment-icon-expand" />
+
+Use the optional `.segment__item-label` and `.segment__item-label-inner` helpers to keep labels mounted while animating expansion.
+
+## CSS Classes
+
+Stable slots are `segment`, `segment-item`, and `segment-indicator`. The matching BEM classes are `.segment`, `.segment__item`, and `.segment__indicator`, with `--sm`, `--md`, `--lg`, `--ghost`, and `--separators` modifiers.
+
+## API Reference
+
+### Segment
+
+Built on React Aria `ToggleButtonGroup` and fixed to single selection. `selectedKey` is `Key | null`; `defaultSelectedKey` is `Key`; `onSelectionChange` receives only a `Key`. A selected item cannot be cleared by pressing it again, so the callback never receives `undefined`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "ghost"` | `"default"` | Visual treatment |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Item height: 28px, 32px, or 40px |
+| `selectedKey` | `Key \| null` | - | Controlled selection |
+| `defaultSelectedKey` | `Key` | - | Initial uncontrolled selection |
+| `onSelectionChange` | `(key: Key) => void` | - | Called with the new key |
+| `separators` | `boolean` | `false` | Shows CSS separators between items |
+| `isDisabled` | `boolean` | `false` | Disables every item |
+
+### Segment.Item
+
+Accepts React Aria ToggleButton props including `id`, `isDisabled`, `ref`, icons, and children as a React node or render function. Give icon-only items an `aria-label`.
+
+## Accessibility
+
+Segment uses a button-based radiogroup, not tabs. Give the group an accessible name with `aria-label` or `aria-labelledby`. Arrow keys move focus; Space and Enter select the focused option. Keyboard focus is visibly indicated.
+
+## Related Components
+
+Use `ToggleButtonGroup` for multiple independent toggle choices and `Tabs` when each choice controls a panel of content.

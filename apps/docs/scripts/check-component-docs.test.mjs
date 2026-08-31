@@ -6,6 +6,7 @@ import test from "node:test";
 import {getComponentDocGaps, REQUIRED_COMPONENT_DOCS} from "./check-component-docs.mjs";
 
 test("reports missing and unregistered component documentation", async () => {
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("segment"));
   const root = await mkdtemp(path.join(tmpdir(), "sy-docs-"));
   try {
     for (const language of ["en", "cn"]) {

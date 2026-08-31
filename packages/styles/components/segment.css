@@ -1,0 +1,95 @@
+.segment {
+  @apply relative inline-flex h-10 w-fit items-center rounded-[20px] bg-default p-1;
+}
+.segment--sm {
+  @apply h-9;
+}
+.segment--md {
+}
+.segment--lg {
+  @apply h-12;
+}
+.segment--ghost {
+  @apply h-8 bg-transparent p-0;
+}
+.segment__item {
+  @apply relative z-1 inline-flex h-8 min-w-0 items-center justify-center gap-1.5 rounded-3xl px-4 text-sm font-medium text-muted outline-none no-highlight;
+  cursor: var(--cursor-interactive);
+  transition:
+    color 150ms var(--ease-smooth),
+    opacity 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+  &:disabled,
+  &[data-disabled="true"],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+  @media (hover: hover) {
+    &:not([data-selected="true"]):hover,
+    &[data-hovered="true"]:not([data-selected="true"]) {
+      @apply opacity-70;
+    }
+  }
+  &:active,
+  &[data-pressed="true"] {
+    @apply opacity-70;
+  }
+  &[data-selected="true"] {
+    @apply text-segment-foreground;
+  }
+  & svg {
+    @apply pointer-events-none size-4 shrink-0;
+  }
+}
+.segment--separators .segment__item + .segment__item::before {
+  content: "";
+  @apply pointer-events-none absolute rounded-sm bg-muted/25;
+  transition: opacity 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+  @apply start-0 top-1/4 h-1/2 w-px;
+}
+.segment--separators .segment__item[data-selected="true"]::before,
+.segment--separators .segment__item[data-selected="true"] + .segment__item::before {
+  @apply opacity-0;
+}
+.segment__item--sm {
+  @apply h-7 px-3 text-xs;
+}
+.segment__item--md {
+  @apply px-4;
+}
+.segment__item--lg {
+  @apply h-10 px-5 text-base;
+}
+.segment__item--ghost[data-selected="true"] {
+  @apply text-accent-foreground;
+}
+.segment__item--ghost {
+  @apply gap-0;
+}
+.segment__item-label {
+  @apply inline-grid grid-cols-[0fr] opacity-0 transition-all duration-200 ease-out motion-reduce:transition-none;
+}
+.segment__item[data-selected="true"] .segment__item-label {
+  @apply grid-cols-[1fr] opacity-100;
+}
+.segment__item-label-inner {
+  @apply overflow-hidden whitespace-nowrap pl-0 transition-[padding] duration-200 ease-out motion-reduce:transition-none;
+}
+.segment__item[data-selected="true"] .segment__item-label-inner {
+  @apply pl-1.5;
+}
+.segment__indicator {
+  @apply absolute inset-0 -z-1 rounded-3xl bg-segment shadow-surface;
+  transition-duration: 250ms;
+  transition-property: translate, width, height;
+  transition-timing-function: var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+}
+.segment__indicator--ghost {
+  @apply bg-accent shadow-none;
+}

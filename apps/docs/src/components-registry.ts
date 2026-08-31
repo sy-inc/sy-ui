@@ -434,6 +434,13 @@ const componentsMap: Record<string, ComponentInfo> = {
     name: "tabs",
     title: "Tabs",
   },
+  segment: {
+    category: "navigation",
+    description: "Switch between a small set of mutually exclusive options",
+    href: "/docs/components/segment",
+    name: "segment",
+    title: "Segment",
+  },
   taggroup: {
     category: "display",
     description: "Focusable list of tags with selection and removal support",
@@ -773,7 +780,8 @@ const componentRelationships: Record<string, string[]> = {
   ],
   switch: ["label", "description", "button", "form"],
   table: ["pagination", "checkbox", "chip", "avatar", "button", "spinner"],
-  tabs: ["breadcrumbs"],
+  segment: ["togglebuttongroup", "tabs"],
+  tabs: ["breadcrumbs", "segment"],
   taggroup: ["tag", "label", "description", "errormessage", "closebutton"],
   textarea: ["textfield", "input", "label", "fielderror", "form", "surface", "description"],
   textfield: [
@@ -791,7 +799,7 @@ const componentRelationships: Record<string, string[]> = {
   timefield: ["label", "fielderror", "description", "form", "surface"],
   toast: ["button", "alert", "closebutton", "spinner"],
   togglebutton: ["button", "switch", "checkbox", "togglebuttongroup"],
-  togglebuttongroup: ["togglebutton", "buttongroup", "button"],
+  togglebuttongroup: ["togglebutton", "buttongroup", "button", "segment"],
   toolbar: ["buttongroup", "togglebuttongroup", "separator", "button"],
   tooltip: ["button", "popover"],
 };

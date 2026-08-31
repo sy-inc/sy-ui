@@ -59,6 +59,7 @@ const COMPONENT_GROUPS = [
       "(navigation)/disclosure-group",
       "(navigation)/link",
       "(navigation)/pagination",
+      "(navigation)/segment",
       "(navigation)/tabs",
     ],
   },

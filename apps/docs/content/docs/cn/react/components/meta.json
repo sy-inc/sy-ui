@@ -55,6 +55,7 @@
     "(overlays)/modal",
     "(forms)/number-field",
     "(navigation)/pagination",
+    "(navigation)/segment",
     "(overlays)/popover",
     "(feedback)/progress-bar",
     "(feedback)/progress-circle",

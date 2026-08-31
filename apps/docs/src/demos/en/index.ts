@@ -2723,6 +2723,48 @@ export const demos: Record<string, DemoItem> = {
     file: "en/toggle-button/custom-styles.tsx",
   },
 
+  // Segment Demo
+  "segment-basic": {
+    loader: () => import("./segment/basic").then((m) => m.Basic),
+    file: "en/segment/basic.tsx",
+  },
+  "segment-ghost": {
+    loader: () => import("./segment/variants").then((m) => m.Variants),
+    file: "en/segment/variants.tsx",
+  },
+  "segment-separators": {
+    loader: () => import("./segment/separators").then((m) => m.Separators),
+    file: "en/segment/separators.tsx",
+  },
+  "segment-controlled": {
+    loader: () => import("./segment/controlled").then((m) => m.Controlled),
+    file: "en/segment/controlled.tsx",
+  },
+  "segment-disabled": {
+    loader: () => import("./segment/disabled").then((m) => m.Disabled),
+    file: "en/segment/disabled.tsx",
+  },
+  "segment-sizes": {
+    loader: () => import("./segment/sizes").then((m) => m.Sizes),
+    file: "en/segment/sizes.tsx",
+  },
+  "segment-icons": {
+    loader: () => import("./segment/icons").then((m) => m.Icons),
+    file: "en/segment/icons.tsx",
+  },
+  "segment-disabled-item": {
+    loader: () => import("./segment/disabled-item").then((m) => m.DisabledItem),
+    file: "en/segment/disabled-item.tsx",
+  },
+  "segment-theme-switcher": {
+    loader: () => import("./segment/theme-switcher").then((m) => m.ThemeSwitcher),
+    file: "en/segment/theme-switcher.tsx",
+  },
+  "segment-icon-expand": {
+    loader: () => import("./segment/icon-expand").then((m) => m.IconExpand),
+    file: "en/segment/icon-expand.tsx",
+  },
+
   // ToggleButtonGroup Demo
   "toggle-button-group-basic": {
     loader: () => import("./toggle-button-group/basic").then((m) => m.Basic),

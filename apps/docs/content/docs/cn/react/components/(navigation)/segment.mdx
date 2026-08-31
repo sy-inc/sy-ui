@@ -1,0 +1,98 @@
+---
+title: Segment 分段控件
+description: Segment 用于在少量互斥选项之间切换。
+links:
+  rac: ToggleButtonGroup
+  source: segment/segment.tsx
+  styles: segment.css
+  storybook: Components/Navigation/Segment
+---
+
+## 用法
+
+```tsx
+import {Segment} from "@sy-inc/react";
+```
+
+<ComponentPreview isBgSolid name="segment-basic" />
+
+## 组件结构
+
+```tsx
+<Segment aria-label="仪表板导航" defaultSelectedKey="dashboard" separators>
+  <Segment.Item id="dashboard">仪表板</Segment.Item>
+  <Segment.Item id="analytics">分析</Segment.Item>
+</Segment>
+```
+
+`Segment.Item` 会自动渲染选中指示器。在 `Segment` 上设置 `separators` 即可显示 Item 之间的 CSS 分隔线。选中项相邻的分隔线会自动隐藏。
+
+## 幽灵样式
+
+<ComponentPreview isBgSolid name="segment-ghost" />
+
+## 带分隔线
+
+<ComponentPreview isBgSolid name="segment-separators" />
+
+## 受控
+
+<ComponentPreview isBgSolid name="segment-controlled" />
+
+## 禁用
+
+<ComponentPreview isBgSolid name="segment-disabled" />
+
+## 禁用单项
+
+<ComponentPreview isBgSolid name="segment-disabled-item" />
+
+## 尺寸
+
+<ComponentPreview isBgSolid name="segment-sizes" />
+
+## 主题切换器
+
+<ComponentPreview isBgSolid name="segment-theme-switcher" />
+
+## 带图标
+
+<ComponentPreview isBgSolid name="segment-icons" />
+
+## 图标展开
+
+<ComponentPreview isBgSolid name="segment-icon-expand" />
+
+可使用 `.segment__item-label` 与 `.segment__item-label-inner` 这两个可选辅助类，让标签保持挂载并实现展开动画。
+
+## CSS 类
+
+稳定 slots：`segment`、`segment-item`、`segment-indicator`。对应 BEM 类为 `.segment`、`.segment__item`、`.segment__indicator`，另有 `--sm`、`--md`、`--lg`、`--ghost` 与 `--separators` 修饰符。
+
+## API 参考
+
+### Segment
+
+基于 React Aria `ToggleButtonGroup`，固定为单选。`selectedKey` 类型为 `Key | null`，`defaultSelectedKey` 为 `Key`，`onSelectionChange` 只接收 `Key`。已选项再次按下不会清空，因此回调不会收到 `undefined`。
+
+| Prop | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "ghost"` | `"default"` | 视觉样式 |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Item 高度：28px、32px 或 40px |
+| `selectedKey` | `Key \| null` | - | 受控选中状态 |
+| `defaultSelectedKey` | `Key` | - | 非受控初始选中项 |
+| `onSelectionChange` | `(key: Key) => void` | - | 接收新 key 的回调 |
+| `separators` | `boolean` | `false` | 显示 Item 之间的 CSS 分隔线 |
+| `isDisabled` | `boolean` | `false` | 禁用所有 Item |
+
+### Segment.Item
+
+支持 React Aria ToggleButton props，包括 `id`、`isDisabled`、`ref`、图标，以及 React 节点或 render props 形式的 children。仅图标项必须提供 `aria-label`。
+
+## 无障碍
+
+Segment 使用基于 button 的 radiogroup，而不是 Tabs。请使用 `aria-label` 或 `aria-labelledby` 提供组名称。方向键仅移动焦点；Space 和 Enter 选中聚焦项；键盘焦点始终可见。
+
+## 相关组件
+
+多个独立开关请使用 `ToggleButtonGroup`；选项需要切换内容面板时请使用 `Tabs`。

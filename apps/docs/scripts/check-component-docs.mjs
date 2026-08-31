@@ -4,6 +4,7 @@ import {fileURLToPath} from "node:url";
 
 export const REQUIRED_COMPONENT_DOCS = [
   "bottom-bar",
+  "segment",
   "navbar",
   "sidebar",
   "carousel",
