@@ -33,6 +33,7 @@ export * from "./navbar";
 export * from "./progress-bar";
 export * from "./progress-circle";
 export * from "./sidebar";
+export * from "./stepper";
 export * from "./time-field";
 export * from "./disclosure";
 export * from "./disclosure-group";

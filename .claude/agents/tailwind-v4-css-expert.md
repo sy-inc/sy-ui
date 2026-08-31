@@ -141,9 +141,8 @@ All interactive components MUST support both pseudo-class and data-attribute app
     @apply [active-styles];
   }
 
-  /* Focus states - comprehensive fallback */
+  /* Focus states - native and React Aria */
   &:focus-visible,
-  &:focus:not(:focus-visible),
   &[data-focus-visible="true"] {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
@@ -166,7 +165,7 @@ When analyzing CSS files, ensure:
 - ✅ `--md` variants exist but are empty with explanatory comments
 - ✅ Interactive states support both `:hover` and `[data-hovered="true"]`
 - ✅ Interactive states support both `:active` and `[data-pressed="true"]`
-- ✅ Focus states include comprehensive fallbacks
+- ✅ Focus states use `:focus-visible` and `[data-focus-visible="true"]`
 - ✅ All disabled states use both `:disabled` and `[aria-disabled="true"]`
 
 ### Examples from SY INC

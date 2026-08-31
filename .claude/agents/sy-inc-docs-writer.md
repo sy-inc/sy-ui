@@ -49,8 +49,8 @@ Before creating or updating any documentation, you MUST:
 
 6. **Understand SY INC v3 Requirements**:
    - **SY INC v3 is built on top of Tailwind CSS v4** - IT IS NOT OPTIONAL
-   - **Always require Tailwind CSS v4 installation and setup**
-   - **Check the demo project at `/Users/juniorgarcia/workspace/examples/sy-inc-v3-alpha` for actual usage patterns**
+   - Component docs assume the repository's Tailwind CSS v4 setup; only installation guides explicitly requested by the user should explain setup
+   - Check current stories and `apps/docs/src/demos` for actual usage patterns; do not depend on an external checkout
    - **The CSS import pattern is**: `@import "tailwindcss"` followed by `@import "@sy-inc/styles"`
 
 **Documentation Creation Workflow:**

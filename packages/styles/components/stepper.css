@@ -1,0 +1,374 @@
+/* ==========================================================================
+   Stepper - Progress through a sequence of steps
+   ========================================================================== */
+
+.stepper {
+  @apply w-full;
+
+  --stepper-color: var(--accent);
+  --stepper-color-foreground: var(--accent-foreground);
+  --stepper-soft: var(--accent-soft);
+  --stepper-soft-foreground: var(--accent-soft-foreground);
+  --stepper-indicator-size: 1.75rem;
+  --stepper-separator-size: 2px;
+}
+
+.stepper__list {
+  @apply m-0 flex list-none p-0;
+}
+
+.stepper__item {
+  @apply flex min-w-0;
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.stepper__trigger {
+  @apply flex min-h-11 shrink-0 border-0 bg-transparent p-0 text-start text-foreground outline-none no-highlight;
+
+  transition: opacity 200ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &[data-current="true"] {
+    cursor: default;
+  }
+
+  &:not([data-current="true"]):not([data-disabled="true"]) {
+    cursor: var(--cursor-interactive);
+
+    @media (hover: hover) {
+      &:hover,
+      &[data-hovered="true"] {
+        opacity: 0.8;
+      }
+    }
+
+    &:active,
+    &[data-pressed="true"] {
+      opacity: 0.64;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+.stepper__indicator {
+  @apply flex shrink-0 items-center justify-center rounded-full border-2 border-border bg-transparent text-xs leading-4 font-semibold text-muted tabular-nums;
+
+  width: var(--stepper-indicator-size);
+  height: var(--stepper-indicator-size);
+  transition:
+    background-color 250ms var(--ease-out),
+    border-color 250ms var(--ease-out),
+    color 250ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  > svg {
+    @apply size-3.5;
+  }
+
+  &[data-status="error"] {
+    border-color: var(--danger);
+    background-color: var(--danger);
+    color: var(--danger-foreground);
+  }
+}
+
+/* Complete check draws itself in */
+.stepper [data-slot="stepper-check-icon"] path {
+  stroke-dasharray: 16;
+  stroke-dashoffset: 16;
+  animation: stepper-check-draw 300ms var(--ease-out) 100ms forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepper [data-slot="stepper-check-icon"] path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+@keyframes stepper-check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.stepper__content {
+  @apply flex min-w-0 flex-col;
+}
+
+.stepper__title {
+  @apply text-xs leading-[15px] font-medium text-muted;
+
+  transition: color 250ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+}
+
+.stepper__description {
+  @apply mt-0.5 text-xs leading-[16.5px] text-muted;
+}
+
+.stepper__item[data-current="true"] .stepper__title,
+.stepper__item[data-status="complete"] .stepper__title {
+  @apply text-foreground;
+}
+
+.stepper__item[data-status="error"] .stepper__title {
+  color: var(--danger);
+}
+
+/* Separator = muted track + animated progress fill */
+.stepper__separator {
+  @apply relative shrink-0 overflow-hidden rounded-full bg-border;
+}
+
+.stepper__separator-fill {
+  @apply absolute start-0 top-0 rounded-full;
+
+  background-color: var(--stepper-color);
+  transition:
+    width 300ms var(--ease-out),
+    height 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+}
+
+.stepper__spinner {
+  @apply size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none;
+}
+
+.stepper__status-label {
+  @apply sr-only;
+}
+
+/* Orientation */
+.stepper--horizontal {
+  @apply overflow-x-auto;
+
+  .stepper__list {
+    @apply w-full min-w-0 flex-row;
+  }
+
+  .stepper__item {
+    @apply relative flex-1 justify-center;
+  }
+
+  .stepper__trigger {
+    @apply w-full flex-col items-center gap-1.5 text-center;
+  }
+
+  .stepper__content {
+    @apply items-center text-center;
+  }
+
+  .stepper__separator {
+    @apply absolute rounded-none;
+
+    top: calc(var(--stepper-indicator-size) / 2 - var(--stepper-separator-size) / 2);
+    inset-inline-start: calc(50% + var(--stepper-indicator-size) / 2);
+    inset-inline-end: calc(-50% + var(--stepper-indicator-size) / 2);
+    height: var(--stepper-separator-size);
+  }
+
+  .stepper__separator-fill {
+    @apply h-full w-0;
+  }
+
+  .stepper__separator[data-status="complete"] .stepper__separator-fill {
+    @apply w-full;
+  }
+}
+
+.stepper--vertical {
+  .stepper__list {
+    @apply w-full flex-col;
+  }
+
+  .stepper__item {
+    @apply relative flex-col;
+
+    &:not(:last-child) {
+      @apply pb-4;
+    }
+  }
+
+  .stepper__trigger {
+    @apply w-full flex-row items-start gap-2.5;
+  }
+
+  .stepper__content {
+    @apply items-start;
+  }
+
+  .stepper__separator {
+    @apply absolute rounded-none;
+
+    inset-block-start: var(--stepper-indicator-size);
+    inset-block-end: 0;
+    inset-inline-start: calc(var(--stepper-indicator-size) / 2 - var(--stepper-separator-size) / 2);
+    width: var(--stepper-separator-size);
+  }
+
+  .stepper__separator-fill {
+    @apply h-0 w-full;
+  }
+
+  .stepper__separator[data-status="complete"] .stepper__separator-fill {
+    @apply h-full;
+  }
+}
+
+/* Sizes */
+.stepper--sm {
+  --stepper-indicator-size: 1.375rem;
+
+  .stepper__trigger {
+    @apply gap-2;
+  }
+
+  .stepper__indicator > svg {
+    @apply size-3;
+  }
+
+  .stepper__title,
+  .stepper__description {
+    @apply text-xs;
+  }
+}
+
+.stepper--md {
+  /* No styles as this is the default size */
+}
+
+.stepper--lg {
+  --stepper-indicator-size: 2.25rem;
+
+  .stepper__trigger {
+    @apply gap-3;
+  }
+
+  .stepper__indicator {
+    @apply text-sm;
+
+    > svg {
+      @apply size-4;
+    }
+  }
+
+  .stepper__title {
+    @apply text-base;
+  }
+
+  .stepper__description {
+    @apply text-sm;
+  }
+}
+
+/* Colors */
+.stepper--default {
+  --stepper-color: var(--default-foreground);
+  --stepper-color-foreground: var(--background);
+  --stepper-soft: var(--default-soft);
+  --stepper-soft-foreground: var(--default-soft-foreground);
+}
+
+.stepper--accent {
+  --stepper-color: var(--accent);
+  --stepper-color-foreground: var(--accent-foreground);
+  --stepper-soft: var(--accent-soft);
+  --stepper-soft-foreground: var(--accent-soft-foreground);
+}
+
+.stepper--success {
+  --stepper-color: var(--success);
+  --stepper-color-foreground: var(--success-foreground);
+  --stepper-soft: var(--success-soft);
+  --stepper-soft-foreground: var(--success-soft-foreground);
+}
+
+.stepper--warning {
+  --stepper-color: var(--warning);
+  --stepper-color-foreground: var(--warning-foreground);
+  --stepper-soft: var(--warning-soft);
+  --stepper-soft-foreground: var(--warning-soft-foreground);
+}
+
+.stepper--danger {
+  --stepper-color: var(--danger);
+  --stepper-color-foreground: var(--danger-foreground);
+  --stepper-soft: var(--danger-soft);
+  --stepper-soft-foreground: var(--danger-soft-foreground);
+}
+
+/* Variants */
+.stepper--primary {
+  .stepper__indicator:is([data-status="complete"], [data-status="loading"]) {
+    border-color: var(--stepper-color);
+    background-color: var(--stepper-color);
+    color: var(--stepper-color-foreground);
+  }
+
+  .stepper__indicator[data-status="current"] {
+    border-color: var(--stepper-color);
+    background-color: transparent;
+    color: var(--stepper-color);
+  }
+}
+
+.stepper--secondary {
+  .stepper__indicator:is(
+    [data-status="current"],
+    [data-status="complete"],
+    [data-status="loading"]
+  ) {
+    border-color: var(--stepper-color);
+    background-color: transparent;
+    color: var(--stepper-color);
+  }
+}
+
+.stepper--soft {
+  .stepper__indicator:is(
+    [data-status="current"],
+    [data-status="complete"],
+    [data-status="loading"]
+  ) {
+    border-color: transparent;
+    background-color: var(--stepper-soft);
+    color: var(--stepper-soft-foreground);
+  }
+}
+
+.stepper--dot {
+  --stepper-indicator-size: 0.625rem;
+
+  .stepper__indicator {
+    @apply border-0 bg-border p-0;
+  }
+
+  .stepper__indicator:is(
+    [data-status="current"],
+    [data-status="complete"],
+    [data-status="loading"]
+  ) {
+    background-color: var(--stepper-color);
+  }
+}
+
+/* Connector modes */
+.stepper--connected.stepper--horizontal .stepper__separator {
+  @apply mx-0;
+}
+
+.stepper--connected.stepper--vertical .stepper__separator {
+  @apply my-0;
+}
+
+.stepper--disabled {
+  @apply opacity-50;
+}

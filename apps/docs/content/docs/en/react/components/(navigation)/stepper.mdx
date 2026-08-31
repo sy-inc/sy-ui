@@ -1,0 +1,124 @@
+---
+title: Stepper
+description: Steppers show progress through a sequence and can optionally let users return to another step.
+icon: new
+links:
+  source: stepper/stepper.tsx
+  styles: stepper.css
+  storybook: Components/Navigation/Stepper
+---
+
+## Usage
+
+```tsx
+import {Stepper} from "@sy-inc/react";
+```
+
+```tsx
+const [currentKey, setCurrentKey] = React.useState<React.Key>("details");
+
+<Stepper
+  aria-label="Checkout progress"
+  currentKey={currentKey}
+  onCurrentChange={setCurrentKey}
+>
+  <Stepper.Item id="cart">
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title>Cart</Stepper.Title>
+      <Stepper.Description>Review your items</Stepper.Description>
+    </Stepper.Content>
+  </Stepper.Item>
+  <Stepper.Item id="details">
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title>Details</Stepper.Title>
+      <Stepper.Description>Add shipping information</Stepper.Description>
+    </Stepper.Content>
+  </Stepper.Item>
+  <Stepper.Item id="payment" isDisabled>
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title>Payment</Stepper.Title>
+    </Stepper.Content>
+  </Stepper.Item>
+</Stepper>;
+```
+
+Without `onCurrentChange`, steps render as a read-only ordered list. When the callback is present, each item uses an accessible button and reports the selected item `id`; the component remains controlled.
+
+`Stepper.Item` must be a direct child of the root; arrays and fragments are supported. This keeps order-based status inference deterministic.
+
+## Anatomy
+
+```tsx
+<Stepper>
+  <Stepper.Item>
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title />
+      <Stepper.Description />
+    </Stepper.Content>
+  </Stepper.Item>
+</Stepper>
+```
+
+## Statuses
+
+The active item is `current`, earlier items are `complete`, and later items are `pending`. Set `isComplete` on the root when the entire process is finished. An item can override its visual status with `pending`, `complete`, `error`, or `loading`.
+
+Provide `statusLabel` for localized error or loading announcements:
+
+```tsx
+<Stepper.Item id="payment" status="error" statusLabel="Payment failed">
+  <Stepper.Indicator />
+  <Stepper.Title>Payment</Stepper.Title>
+</Stepper.Item>
+```
+
+## Variants
+
+`variant` supports `primary`, `secondary`, `soft`, and `dot`. Use `orientation="vertical"` for narrow layouts, and `separatorMode="connected"` when the connector should meet each indicator.
+
+## Styling Reference
+
+Stepper exposes stable BEM classes and matching `data-slot` attributes:
+
+- `.stepper`
+- `.stepper__list`
+- `.stepper__item`
+- `.stepper__trigger`
+- `.stepper__indicator`
+- `.stepper__content`
+- `.stepper__title`
+- `.stepper__description`
+- `.stepper__separator`
+
+State is available through `data-status="pending|current|complete|error|loading"`, `data-current`, `data-disabled`, and `data-orientation`.
+
+## API Reference
+
+### Stepper
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `currentKey` | `React.Key` | - | Controlled current item id. Required unless `isComplete` is true. |
+| `isComplete` | `boolean` | `false` | Marks the entire sequence complete and removes the current step. |
+| `onCurrentChange` | `(key: React.Key) => void` | - | Enables item buttons and reports selection intent. |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction. |
+| `variant` | `"primary" \| "secondary" \| "soft" \| "dot"` | `"primary"` | Indicator style. |
+| `color` | `"default" \| "accent" \| "success" \| "warning" \| "danger"` | `"accent"` | Active color token. |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Indicator and text size. |
+| `separatorMode` | `"spaced" \| "connected"` | `"spaced"` | Connector spacing. |
+| `isDisabled` | `boolean` | `false` | Disables all interactive items. |
+
+### Stepper.Item
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `React.Key` | - | Stable item identifier. |
+| `status` | `"pending" \| "complete" \| "error" \| "loading"` | inferred | Overrides the inferred visual status. |
+| `statusLabel` | `ReactNode` | - | Localized assistive status text. |
+| `isDisabled` | `boolean` | `false` | Disables this item. |
+
+`Stepper.Indicator` accepts custom children or a render function with `index`, `total`, `status`, `isCurrent`, and `isDisabled`.

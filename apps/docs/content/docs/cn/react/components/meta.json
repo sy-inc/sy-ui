@@ -64,6 +64,7 @@
     "(forms)/search-field",
     "(pickers)/select",
     "(navigation)/sidebar",
+    "(navigation)/stepper",
     "(layout)/separator",
     "(feedback)/skeleton",
     "(controls)/slider",

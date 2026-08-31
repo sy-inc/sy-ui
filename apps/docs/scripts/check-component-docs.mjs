@@ -8,6 +8,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "sidebar",
   "carousel",
   "time-picker",
+  "stepper",
 ];
 
 const LANGUAGES = ["en", "cn"];

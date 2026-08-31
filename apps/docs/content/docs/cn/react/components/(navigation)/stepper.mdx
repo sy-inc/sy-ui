@@ -1,0 +1,124 @@
+---
+title: Stepper 步骤条
+description: Stepper 用于展示顺序流程的进度，也可以让用户返回其他步骤。
+icon: new
+links:
+  source: stepper/stepper.tsx
+  styles: stepper.css
+  storybook: Components/Navigation/Stepper
+---
+
+## 用法
+
+```tsx
+import {Stepper} from "@sy-inc/react";
+```
+
+```tsx
+const [currentKey, setCurrentKey] = React.useState<React.Key>("details");
+
+<Stepper
+  aria-label="结账进度"
+  currentKey={currentKey}
+  onCurrentChange={setCurrentKey}
+>
+  <Stepper.Item id="cart">
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title>购物车</Stepper.Title>
+      <Stepper.Description>检查商品</Stepper.Description>
+    </Stepper.Content>
+  </Stepper.Item>
+  <Stepper.Item id="details">
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title>资料</Stepper.Title>
+      <Stepper.Description>填写配送信息</Stepper.Description>
+    </Stepper.Content>
+  </Stepper.Item>
+  <Stepper.Item id="payment" isDisabled>
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title>付款</Stepper.Title>
+    </Stepper.Content>
+  </Stepper.Item>
+</Stepper>;
+```
+
+未提供 `onCurrentChange` 时，步骤会渲染为只读有序列表。提供回调后，每个步骤使用可访问的按钮并上报所选 `id`；组件本身仍保持受控。
+
+`Stepper.Item` 必须是根组件的直接子项；支持数组和 Fragment。这样可以保证按顺序推导状态时结果稳定。
+
+## 组件结构
+
+```tsx
+<Stepper>
+  <Stepper.Item>
+    <Stepper.Indicator />
+    <Stepper.Content>
+      <Stepper.Title />
+      <Stepper.Description />
+    </Stepper.Content>
+  </Stepper.Item>
+</Stepper>
+```
+
+## 状态
+
+当前项为 `current`，之前的项目自动为 `complete`，之后的项目为 `pending`。整个流程完成时，在根组件设置 `isComplete`。单个项目也可使用 `pending`、`complete`、`error` 或 `loading` 覆盖视觉状态。
+
+错误和加载状态应提供本地化的 `statusLabel`：
+
+```tsx
+<Stepper.Item id="payment" status="error" statusLabel="付款失败">
+  <Stepper.Indicator />
+  <Stepper.Title>付款</Stepper.Title>
+</Stepper.Item>
+```
+
+## 变体
+
+`variant` 支持 `primary`、`secondary`、`soft` 和 `dot`。窄布局可使用 `orientation="vertical"`；需要连接线贴合指示器时使用 `separatorMode="connected"`。
+
+## 样式参考
+
+Stepper 暴露稳定的 BEM 类名和对应的 `data-slot`：
+
+- `.stepper`
+- `.stepper__list`
+- `.stepper__item`
+- `.stepper__trigger`
+- `.stepper__indicator`
+- `.stepper__content`
+- `.stepper__title`
+- `.stepper__description`
+- `.stepper__separator`
+
+状态可通过 `data-status="pending|current|complete|error|loading"`、`data-current`、`data-disabled` 和 `data-orientation` 获取。
+
+## API 参考
+
+### Stepper
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `currentKey` | `React.Key` | - | 受控的当前项目 id；除非 `isComplete` 为 true，否则必填。 |
+| `isComplete` | `boolean` | `false` | 将整个流程标记为完成，并移除当前步骤。 |
+| `onCurrentChange` | `(key: React.Key) => void` | - | 启用项目按钮，并上报选择意图。 |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | 布局方向。 |
+| `variant` | `"primary" \| "secondary" \| "soft" \| "dot"` | `"primary"` | 指示器样式。 |
+| `color` | `"default" \| "accent" \| "success" \| "warning" \| "danger"` | `"accent"` | 激活状态的语义颜色。 |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | 指示器和文字尺寸。 |
+| `separatorMode` | `"spaced" \| "connected"` | `"spaced"` | 连接线间距。 |
+| `isDisabled` | `boolean` | `false` | 禁用所有可交互项目。 |
+
+### Stepper.Item
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `id` | `React.Key` | - | 稳定的项目标识。 |
+| `status` | `"pending" \| "complete" \| "error" \| "loading"` | 自动推导 | 覆盖自动推导的视觉状态。 |
+| `statusLabel` | `ReactNode` | - | 面向辅助技术的本地化状态文本。 |
+| `isDisabled` | `boolean` | `false` | 禁用当前项目。 |
+
+`Stepper.Indicator` 支持自定义 children，也支持接收 `index`、`total`、`status`、`isCurrent` 和 `isDisabled` 的渲染函数。

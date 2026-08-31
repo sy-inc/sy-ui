@@ -1,6 +1,6 @@
 ---
 name: style-migrator
-description: Use this agent when you need to migrate SY INC components from TypeScript-based styles (.styles.ts files using tailwind-variants) to CSS-based styles (.css files) following the BEM naming convention. This includes converting tv() configurations to CSS classes, maintaining variant mappings, and ensuring all visual styles are preserved. Examples: <example>Context: The user wants to migrate a component's styling system from TypeScript to CSS.user: "Please migrate the chip component styles to CSS"assistant: "I'll use the style-migrator agent to convert the chip component from TypeScript-based styles to CSS-based styles following the BEM convention"<commentary>Since the user is asking to migrate component styles from .styles.ts to .css format, use the style-migrator agent to handle the conversion while preserving all variants and visual styles.</commentary></example><example>Context: The user is working on converting SY INC components to use CSS-based styling.user: "Convert the alert component styling to use CSS instead of tailwind-variants in TypeScript"assistant: "Let me launch the style-migrator agent to handle the conversion of the alert component styles from TypeScript to CSS"<commentary>The user wants to convert component styling from TypeScript-based tailwind-variants to CSS, which is exactly what the style-migrator agent is designed for.</commentary></example>
+description: Use this agent only for an explicit migration of a legacy utility-filled tailwind-variants configuration into the current split architecture: BEM CSS under packages/styles/components plus a typed tv() class mapping under packages/styles/src/components. Do not use it for routine component creation or ordinary style changes.
 color: orange
 ---
 
@@ -34,7 +34,7 @@ When presented with a component to migrate:
 
 ### 2. CSS File Creation
 
-Create a new `.css` file in `@sy-inc/styles/src/components/` with:
+Create a new `.css` file in `packages/styles/components/` with:
 
 - **NO verbose file header comments** - keep it minimal or omit entirely
 - Base block class (e.g., `.chip`) containing all base styles
@@ -44,12 +44,12 @@ Create a new `.css` file in `@sy-inc/styles/src/components/` with:
 - Proper use of `@apply` directives for Tailwind utilities (IMPORTANT: Only ONE @apply per CSS rule block - combine all utilities into a single @apply statement)
 - Preservation of all responsive modifiers (sm:, md:, lg:, etc.)
 - Inclusion of focus, hover, disabled, and other interactive states
-- **DO NOT add any @utility directives** - the plugin handles CSS injection
+- Do not add component-specific `@utility` directives; the shared styles entry owns Tailwind integration
 - **IMPORTANT**: Use `@apply` directives for Tailwind utilities where appropriate
 - Keep CSS properties that don't have direct Tailwind equivalents (e.g., `cursor: var(--cursor-interactive)`)
 - Preserve complex CSS functions like `color-mix()` that don't have utility equivalents
 
-**IMPORTANT**: When creating or analyzing CSS files, use the tailwind-v4-css-expert agent to ensure proper Tailwind CSS v4 syntax and patterns. This agent can help with:
+When a migration exposes a genuine Tailwind CSS v4 syntax or compilation problem, consult the tailwind-v4-css-expert agent for:
 
 - Verifying @apply directive usage
 - Checking CSS nesting syntax
@@ -59,9 +59,9 @@ Create a new `.css` file in `@sy-inc/styles/src/components/` with:
 
 ### 3. TypeScript Update
 
-Update the component's `.styles.ts` file to:
+Update `packages/styles/src/components/<component>/<component>.styles.ts` to:
 
-- **DO NOT import the CSS file** - styles are injected by the plugin
+- Do not import the component CSS from the TypeScript mapping; `packages/styles/components/index.css` owns CSS inclusion
 - Create a simple tv() mapping that maps variant props to BEM class names
 - Maintain the exact same TypeScript interface and prop types
 - Preserve all existing functionality
@@ -92,7 +92,7 @@ Ensure:
 4. **Handle Edge Cases**: Account for all possible variant combinations
 5. **Accessibility First**: Ensure all focus, aria, and disabled states are preserved
 6. **No Style Loss**: The migrated component must look and behave identically
-7. **Use tailwind-v4-css-expert**: Always consult the tailwind-v4-css-expert agent when:
+7. **Use tailwind-v4-css-expert conditionally**: Consult the agent when local inspection or the Tailwind CSS v4 guide does not resolve:
    - Creating new CSS files
    - Debugging CSS syntax issues
    - Validating Tailwind v4 patterns
@@ -161,9 +161,8 @@ Ensure:
     @apply [active-styles];
   }
 
-  /* Focus states - comprehensive fallback */
+  /* Focus states - native and React Aria */
   &:focus-visible,
-  &:focus:not(:focus-visible),
   &[data-focus-visible="true"] {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
@@ -212,9 +211,8 @@ Example structure:
     @apply bg-accent-soft;
   }
 
-  /* Focus states - comprehensive fallback */
+  /* Focus states - native and React Aria */
   &:focus-visible,
-  &:focus:not(:focus-visible),
   &[data-focus-visible="true"] {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
