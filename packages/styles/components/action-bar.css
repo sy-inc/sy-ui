@@ -1,0 +1,23 @@
+/* Contextual actions anchored above the viewport safe area. */
+.action-bar.toolbar {
+  @apply fixed left-1/2 z-50 max-w-[calc(100vw-2rem)] overflow-x-auto border border-border px-3 py-1.5;
+
+  bottom: calc(var(--spacing) * 6 + env(safe-area-inset-bottom));
+  translate: -50% 0;
+
+  /* Frosted surface - mirrors .bottom-bar__list */
+  background-color: color-mix(in oklab, var(--surface) 72%, transparent);
+  -webkit-backdrop-filter: blur(4px) saturate(140%);
+  backdrop-filter: blur(4px) saturate(140%);
+
+  transition:
+    opacity 150ms var(--ease-smooth),
+    transform 200ms var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+}
+
+.action-bar[data-open="false"] {
+  @apply pointer-events-none opacity-0;
+
+  transform: translateY(calc(var(--spacing) * 2));
+}

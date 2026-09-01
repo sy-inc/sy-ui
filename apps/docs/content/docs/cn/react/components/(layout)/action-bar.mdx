@@ -1,0 +1,71 @@
+---
+title: ActionBar 操作栏
+description: 用于当前选区操作的浮动上下文工具栏。
+links:
+  source: action-bar/action-bar.tsx
+  styles: action-bar.css
+  storybook: Components/ActionBar
+---
+
+## 用法
+
+当选区出现一组紧凑的上下文操作时使用 ActionBar。组件可在 CSS 过渡期间保持挂载；但 `isOpen={false}` 会使其 inert，并从无障碍树中移除。
+
+```tsx
+import { ActionBar, Button, Chip, CloseButton, Separator } from '@sy-inc/react';
+```
+
+## 基础示例
+
+```tsx
+<ActionBar isOpen={selectedCount > 0}>
+  <Chip>{selectedCount} selected</Chip>
+  <Separator />
+  <Button onPress={archive}>Archive</Button>
+  <Button onPress={move}>Move</Button>
+  <Separator />
+  <CloseButton aria-label="Clear selection" onPress={clearSelection} />
+</ActionBar>
+```
+
+## 结构
+
+- `ActionBar` 是固定在视口底部的水平 attached Toolbar。
+- 直接将共享控件和 `Separator` 组合为 children。
+
+Toolbar 暴露 `data-slot="action-bar"` 与 `data-open`。
+
+## API 参考
+
+### ActionBar
+
+ActionBar 继承 React Aria Toolbar props，但该模式固定使用水平与 attached 布局，因此不暴露 `orientation` 和 `isAttached`。
+
+| Prop | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `isOpen` | `boolean` | 必填 | 控制可观察的 `data-open` 状态，以及工具栏是否可交互。 |
+| `aria-label` | `string` | `"Actions"` | 可见工具栏的无障碍名称。 |
+| `aria-labelledby` | `string` | — | 替代的无障碍名称引用。 |
+| `children` | `React.ReactNode` | — | Toolbar 控件与可选 section。 |
+| `className` | Toolbar className | — | 应用于 Toolbar。 |
+
+### 事件与键盘行为
+
+使用组合控件自己的回调，例如 Button 的 `onPress` 和 CloseButton 的 `onPress`。ActionBar 保留 Toolbar 的水平方向 ArrowLeft/ArrowRight 导航；清除选区时不会自行制定焦点恢复策略。
+
+## 无障碍
+
+- 可见节点具有 `role="toolbar"`，默认无障碍名称为 “Actions”。
+- 关闭时，已挂载的根节点具有 `aria-hidden`、`inert` 与 `data-open="false"`，控件不能被聚焦或激活。
+- 图标专用的组合控件必须有标签，例如 `aria-label="Clear selection"`。
+- 组合 Button 控件保留可见焦点环和无障碍名称。
+
+## 响应式样式
+
+ActionBar 固定在底部居中，默认偏移为 24px，并叠加 `env(safe-area-inset-bottom)`。它受到宽度约束并支持横向滚动，因此不会撑宽页面。
+
+## 组合
+
+可使用 `Chip` 表示选区上下文，`Button` 执行主要操作，`Separator` 分组，`CloseButton` 清除选区；图标专用控件需要可见的悬停/聚焦帮助时使用 `Tooltip`。
+
+<RelatedComponents component="toolbar" />

@@ -1,0 +1,71 @@
+---
+title: ActionBar
+description: A floating contextual toolbar for actions on the current selection.
+links:
+  source: action-bar/action-bar.tsx
+  styles: action-bar.css
+  storybook: Components/ActionBar
+---
+
+## Usage
+
+Use ActionBar when a selection exposes a compact set of contextual actions. It stays mounted for its CSS transition, but `isOpen={false}` makes it inert and removes it from the accessibility tree.
+
+```tsx
+import { ActionBar, Button, Chip, CloseButton, Separator } from '@sy-inc/react';
+```
+
+## Basic example
+
+```tsx
+<ActionBar isOpen={selectedCount > 0}>
+  <Chip>{selectedCount} selected</Chip>
+  <Separator />
+  <Button onPress={archive}>Archive</Button>
+  <Button onPress={move}>Move</Button>
+  <Separator />
+  <CloseButton aria-label="Clear selection" onPress={clearSelection} />
+</ActionBar>
+```
+
+## Anatomy
+
+- `ActionBar` is a fixed, horizontal, attached Toolbar.
+- Compose shared controls and `Separator` instances directly as children.
+
+The toolbar exposes `data-slot="action-bar"` and `data-open`.
+
+## API reference
+
+### ActionBar
+
+ActionBar inherits React Aria Toolbar props except `orientation` and `isAttached`, which are fixed for this pattern.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `isOpen` | `boolean` | required | Controls the observable `data-open` state and whether the toolbar is interactive. |
+| `aria-label` | `string` | `"Actions"` | Accessible name for the visible toolbar. |
+| `aria-labelledby` | `string` | — | Alternative accessible name reference. |
+| `children` | `React.ReactNode` | — | Toolbar controls and optional sections. |
+| `className` | Toolbar className | — | Applied to the Toolbar. |
+
+### Events and keyboard behavior
+
+Use the callbacks of composed controls, such as Button's `onPress` or CloseButton's `onPress`. ActionBar preserves Toolbar's horizontal ArrowLeft/ArrowRight navigation; it intentionally does not create a focus-restoration policy when a selection is cleared.
+
+## Accessibility
+
+- The visible node has `role="toolbar"` and defaults to the accessible name “Actions”.
+- When closed, the mounted root receives `aria-hidden`, `inert`, and `data-open="false"`, so controls cannot be focused or activated.
+- Keep icon-only composed controls labeled, for example `aria-label="Clear selection"`.
+- Composed Button controls retain their visible focus rings and accessible names.
+
+## Responsive styling
+
+ActionBar is fixed at the bottom center with a 24px default offset plus `env(safe-area-inset-bottom)`. It is width-constrained and horizontally scrollable so it cannot widen the page.
+
+## Composition
+
+Use `Chip` for selection context, `Button` for primary actions, `Separator` between groups, `CloseButton` for clearing, and `Tooltip` when an icon-only control needs visible hover/focus help.
+
+<RelatedComponents component="toolbar" />

@@ -1,5 +1,6 @@
 // Component variant exports
 export * from "./accordion";
+export * from "./action-bar";
 export * from "./alert";
 export * from "./alert-dialog";
 export * from "./autocomplete";

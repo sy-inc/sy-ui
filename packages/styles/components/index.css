@@ -45,6 +45,7 @@
 @import "./toggle-button.css";
 @import "./toggle-button-group.css";
 @import "./toolbar.css";
+@import "./action-bar.css";
 
 /* Composite navigation components that override shared Button/Link primitives */
 @import "./sidebar.css";

@@ -6,6 +6,7 @@ import test from "node:test";
 import {getComponentDocGaps, REQUIRED_COMPONENT_DOCS} from "./check-component-docs.mjs";
 
 test("reports missing and unregistered component documentation", async () => {
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("action-bar"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("segment"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("input-phone"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("text-shimmer"));
@@ -45,6 +46,7 @@ test("reports missing and unregistered component documentation", async () => {
         JSON.stringify({pages: REQUIRED_COMPONENT_DOCS.map((slug) => `(navigation)/${slug}`)}),
       );
       await writeFile(path.join(components, "(navigation)", "bottom-bar.mdx"), "");
+      await writeFile(path.join(components, "(navigation)", "action-bar.mdx"), "");
     }
     assert.deepEqual(await getComponentDocGaps(root), []);
   } finally {

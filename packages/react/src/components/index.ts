@@ -8,6 +8,7 @@
 
 // completed
 export * from "./accordion";
+export * from "./action-bar";
 export * from "./alert-dialog";
 export * from "./autocomplete";
 export * from "./avatar";
