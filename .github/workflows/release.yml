@@ -60,6 +60,10 @@ jobs:
           mkdir -p "$RUNNER_TEMP/sy-inc-release"
           PACKAGE_TARBALL="$(node -p "const pkg = require('./package.json'); pkg.name.replace('@', '').replace('/', '-') + '-' + pkg.version + '.tgz'")"
           pnpm pack --pack-destination "$RUNNER_TEMP/sy-inc-release"
+          if ! tar -tzf "$RUNNER_TEMP/sy-inc-release/$PACKAGE_TARBALL" | grep -q 'package/dist/index.d.ts$'; then
+            echo "Release tarball is missing TypeScript declarations"
+            exit 1
+          fi
           npm publish "$RUNNER_TEMP/sy-inc-release/$PACKAGE_TARBALL" --registry=https://npm.pkg.github.com --access public ${{ inputs.dry_run && '--dry-run' || '' }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

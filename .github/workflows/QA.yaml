@@ -61,6 +61,9 @@ jobs:
       - name: Install Playwright Chromium
         run: pnpm --filter @sy-inc/testing exec playwright install --with-deps chromium
 
+      - name: Build packages
+        run: pnpm build
+
       - name: Browser tests
         run: pnpm --filter @sy-inc/react test:browser
 

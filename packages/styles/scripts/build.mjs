@@ -13,6 +13,7 @@ const distDir = path.join(rootDir, "dist");
 async function clean() {
   console.log("🧹 Cleaning dist directory...");
   await fs.remove(distDir);
+  await fs.remove(path.join(rootDir, "tsconfig.tsbuildinfo"));
 }
 
 async function build() {
