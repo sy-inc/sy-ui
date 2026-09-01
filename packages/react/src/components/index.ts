@@ -32,6 +32,7 @@ export * from "./date-field";
 export * from "./date-picker";
 export * from "./date-range-picker";
 export * from "./drawer";
+export * from "./file-tree";
 export * from "./navbar";
 export * from "./progress-bar";
 export * from "./progress-circle";

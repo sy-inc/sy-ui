@@ -1,0 +1,189 @@
+.file-tree {
+  --file-tree-control-size: 1.25rem;
+  --file-tree-gap: 0.25rem;
+  --file-tree-row-padding-block: 0.25rem;
+  --file-tree-row-padding-inline: 0.5rem;
+  --file-tree-indent: 0.75rem;
+
+  /* Half a control column: a guide line lands on its ancestor's control centre
+     at any indent width. Derived, never overridden per size. */
+  --file-tree-guide-offset: calc(var(--file-tree-control-size) / 2);
+
+  @apply relative w-full bg-transparent p-1 text-sm leading-5 text-foreground;
+}
+
+.file-tree--sm {
+  --file-tree-control-size: 1rem;
+  --file-tree-row-padding-inline: 0.375rem;
+  --file-tree-indent: 0.625rem;
+
+  @apply text-xs leading-4;
+}
+
+.file-tree--md {
+  /* No styles as this is the default size */
+}
+
+.file-tree--lg {
+  --file-tree-control-size: 1.5rem;
+  --file-tree-gap: 0.375rem;
+  --file-tree-row-padding-block: 0.375rem;
+  --file-tree-row-padding-inline: 0.75rem;
+  --file-tree-indent: 1rem;
+
+  @apply text-base leading-6;
+}
+
+.file-tree__header {
+  @apply px-2 py-1 text-xs font-medium text-muted;
+}
+
+.file-tree__item {
+  @apply relative w-full outline-none;
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    .file-tree__item-content {
+      @apply status-focused;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover .file-tree__item-content,
+    &[data-hovered="true"] .file-tree__item-content {
+      @apply bg-default;
+    }
+  }
+
+  &[data-selected="true"] .file-tree__item-content,
+  &[aria-selected="true"] .file-tree__item-content {
+    @apply bg-default-hover text-default-foreground;
+  }
+
+  /* Adjacent selected rows read as one block. */
+  &[data-selected="true"]:has(+ .file-tree__item[data-selected="true"]) .file-tree__item-content {
+    @apply rounded-b-none;
+  }
+
+  &[data-selected="true"] + .file-tree__item[data-selected="true"] .file-tree__item-content {
+    @apply rounded-t-none;
+  }
+
+  &[data-disabled="true"] .file-tree__item-content {
+    @apply status-disabled;
+  }
+
+  &[data-dragging="true"] .file-tree__item-content {
+    @apply opacity-50;
+  }
+
+  &[data-drop-target="true"] .file-tree__item-content {
+    @apply bg-default-hover outline-2 -outline-offset-2 outline-focus;
+  }
+}
+
+.file-tree__item-content {
+  @apply relative flex w-full items-center overflow-clip rounded-lg text-start outline-none no-highlight;
+  gap: var(--file-tree-gap);
+  padding-block: var(--file-tree-row-padding-block);
+  padding-inline-end: var(--file-tree-row-padding-inline);
+  padding-inline-start: calc(
+    (var(--tree-item-level) - 1) * var(--file-tree-indent) + var(--file-tree-row-padding-inline)
+  );
+  transition: background-color 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Ancestor guide lines: one 1px line per indent step before this row's level,
+     each centred on that ancestor's control column. */
+  &::before {
+    content: "";
+    @apply pointer-events-none absolute opacity-10;
+    inset-block: 0;
+    inset-inline-start: var(--file-tree-row-padding-inline);
+    inline-size: calc((var(--tree-item-level) - 1) * var(--file-tree-indent));
+    background: repeating-linear-gradient(
+      to right,
+      transparent 0 var(--file-tree-guide-offset),
+      currentColor var(--file-tree-guide-offset) calc(var(--file-tree-guide-offset) + 1px),
+      transparent calc(var(--file-tree-guide-offset) + 1px) var(--file-tree-indent)
+    );
+    transition: opacity 150ms var(--ease-out);
+    @apply motion-reduce:transition-none;
+  }
+}
+
+.file-tree--no-guides .file-tree__item-content::before {
+  @apply hidden;
+}
+
+.file-tree--guides-hover .file-tree__item-content::before {
+  opacity: 0;
+}
+
+.file-tree--guides-hover:hover .file-tree__item-content::before {
+  opacity: 0.1;
+}
+
+/* Insertion indicator between rows, rendered by React Aria while dragging. */
+.file-tree .react-aria-DropIndicator {
+  @apply relative block h-0 outline-none;
+
+  &[data-drop-target="true"]::after {
+    content: "";
+    @apply pointer-events-none absolute bg-focus;
+    inset-block-start: -1px;
+    inset-inline-end: var(--file-tree-row-padding-inline);
+    block-size: 2px;
+    inset-inline-start: calc(
+      (var(--tree-item-level) - 1) * var(--file-tree-indent) + var(--file-tree-row-padding-inline)
+    );
+  }
+}
+
+.file-tree__chevron,
+.file-tree__drag-handle {
+  @apply flex shrink-0 items-center justify-center rounded p-0 text-muted;
+  block-size: var(--file-tree-control-size);
+  inline-size: var(--file-tree-control-size);
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+.file-tree__drag-handle {
+  @apply cursor-grab;
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply cursor-grabbing;
+  }
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply text-foreground;
+    }
+  }
+}
+
+.file-tree__indicator {
+  @apply flex size-4 items-center justify-center;
+  transition: rotate 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  .file-tree__item[data-expanded] & {
+    @apply rotate-90;
+  }
+}
+
+.file-tree__icon {
+  @apply flex shrink-0 items-center justify-center text-muted;
+  block-size: var(--file-tree-control-size);
+  inline-size: var(--file-tree-control-size);
+}
+
+.file-tree__label {
+  @apply min-w-0 flex-1 truncate px-0.5;
+}

@@ -1,0 +1,509 @@
+---
+title: FileTree
+description: A hierarchical tree for browsing and selecting nested items
+links:
+  rac: Tree
+  source: file-tree/file-tree.tsx
+  styles: file-tree.css
+  storybook: Components/FileTree
+---
+
+## Usage
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+```
+
+FileTree is a styled adapter around React Aria's `Tree`. It renders a
+hierarchy of sections and items while preserving the tree's keyboard,
+selection, expansion, collection, and drag-and-drop behavior.
+
+## Anatomy
+
+`FileTree` is the root component. Use `FileTree.Section` to group items and
+`FileTree.Header` to label a section. Each `FileTree.Item` receives its
+visible `title`; nested `FileTree.Item` elements become child items.
+
+The default expand/collapse chevron is provided automatically. To replace it,
+pass a `FileTree.Indicator` with custom content through the item's `indicator`
+prop.
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function FileTreeAnatomy() {
+  return (
+    <FileTree aria-label="Project files">
+      <FileTree.Section>
+        <FileTree.Header>Project</FileTree.Header>
+        <FileTree.Item id="src" title="src">
+          <FileTree.Item id="index" title="index.ts" />
+        </FileTree.Item>
+      </FileTree.Section>
+    </FileTree>
+  );
+}
+```
+
+## Examples
+
+### Basic usage
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function ProjectFiles() {
+  return (
+    <FileTree aria-label="Project files" defaultExpandedKeys={['src']}>
+      <FileTree.Section>
+        <FileTree.Header>Project</FileTree.Header>
+        <FileTree.Item id="src" title="src">
+          <FileTree.Item id="index" title="index.ts" />
+        </FileTree.Item>
+        <FileTree.Item id="package" title="package.json" />
+      </FileTree.Section>
+    </FileTree>
+  );
+}
+```
+
+### Sizes and guide lines
+
+The `size` variant is `md` by default. Guide lines are shown by default;
+pass `"hover"` to reveal them while the tree is hovered, or `false` to omit
+them.
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function FileTreeSizes() {
+  return (
+    <div>
+      <FileTree aria-label="Small files" size="sm">
+        <FileTree.Item id="small" title="Small tree" />
+      </FileTree>
+      <FileTree aria-label="Medium files" size="md">
+        <FileTree.Item id="medium" title="Medium tree" />
+      </FileTree>
+      <FileTree aria-label="Large files" size="lg" showGuideLines={false}>
+        <FileTree.Item id="large" title="Large tree" />
+      </FileTree>
+    </div>
+  );
+}
+```
+
+### Selection
+
+Selection props are passed to the React Aria tree. Choose `single` or
+`multiple` selection and handle changes with `onSelectionChange`.
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function SelectableFiles() {
+  return (
+    <FileTree
+      aria-label="Selectable files"
+      defaultSelectedKeys={['readme']}
+      selectionMode="multiple"
+      onSelectionChange={(keys) => console.log('selected keys', keys)}
+    >
+      <FileTree.Item id="readme" title="README.md" />
+      <FileTree.Item id="package" title="package.json" />
+    </FileTree>
+  );
+}
+```
+
+Use `disabledKeys` on the root, or the React Aria item disabled props, to
+prevent interaction with specific items.
+
+### With checkboxes
+
+Pass a checkbox through the item's `selection` prop and use the React Aria
+`selection` slot. This preserves the tree's multiple-selection behavior while
+giving every control an accessible name.
+
+```tsx
+import {Checkbox, FileTree} from '@sy-inc/react';
+
+export default function FileTreeWithCheckboxes() {
+  return (
+    <FileTree aria-label="Files" selectionMode="multiple">
+      <FileTree.Item
+        id="readme"
+        selection={
+          <Checkbox aria-label="Select README" slot="selection">
+            <Checkbox.Content>
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+            </Checkbox.Content>
+          </Checkbox>
+        }
+        title="README.md"
+      />
+    </FileTree>
+  );
+}
+```
+
+### Controlled expansion
+
+Use `expandedKeys` and `onExpandedChange` when expansion state is owned by
+your application. `defaultExpandedKeys` provides the initial state for an
+uncontrolled tree.
+
+```tsx
+import {useState} from 'react';
+import {FileTree} from '@sy-inc/react';
+
+export default function ControlledFileTree() {
+  const [expandedKeys, setExpandedKeys] = useState<Set<React.Key>>(
+    new Set(['src']),
+  );
+
+  return (
+    <FileTree
+      aria-label="Project files"
+      expandedKeys={expandedKeys}
+      onExpandedChange={setExpandedKeys}
+    >
+      <FileTree.Item id="src" title="src">
+        <FileTree.Item id="index" title="index.ts" />
+      </FileTree.Item>
+    </FileTree>
+  );
+}
+```
+
+### Dynamic collections
+
+Pass an `items` iterable and a render function when the tree comes from data.
+The render function returns a `FileTree.Item`; nested data can be represented
+by nested item elements just like static content.
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+const files = [
+  {id: 'package', name: 'package.json'},
+  {id: 'readme', name: 'README.md'},
+];
+
+export default function DynamicFiles() {
+  return (
+    <FileTree aria-label="Dynamic files" items={files}>
+      {(file) => <FileTree.Item id={file.id} title={file.name} />}
+    </FileTree>
+  );
+}
+```
+
+### Custom icon and indicator
+
+`icon` accepts a node or a render function. The `indicator` prop accepts a
+`FileTree.Indicator` element with custom icon content.
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+import {Icon} from '@iconify/react';
+
+export default function CustomFileTreeParts() {
+  return (
+    <FileTree aria-label="Files" defaultExpandedKeys={['src']}>
+      <FileTree.Item
+        id="src"
+        icon={<Icon aria-hidden="true" icon="gravity-ui:folder" />}
+        indicator={
+          <FileTree.Indicator>
+            <Icon aria-hidden="true" icon="gravity-ui:chevron-right" />
+          </FileTree.Indicator>
+        }
+        title="src"
+      >
+        <FileTree.Item id="index" title="index.ts" />
+      </FileTree.Item>
+    </FileTree>
+  );
+}
+```
+
+The indicator is composed through `FileTree.Item`'s `indicator` prop; it is
+not a separate child item. When no custom indicator is supplied, FileTree
+uses its built-in chevron.
+
+### Drag and drop passthrough
+
+FileTree forwards React Aria's `dragAndDropHooks` to the underlying tree. This
+keeps drag-and-drop behavior in the React Aria adapter while FileTree exposes
+an accessible drag button for items that can be dragged.
+
+`getItems` alone only makes items draggable. Nothing accepts a drop until you
+also pass at least one drop handler and move the data yourself. For a tree
+dragged onto itself, `onMove` is the one handler to reach for: it covers both
+dropping *on* a folder and reordering *between* siblings, and hands you the
+dragged keys directly. Reserve `onItemDrop`, `onInsert`, and `onRootDrop` for
+drops coming from outside the tree.
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+import {Collection, useDragAndDrop, useTreeData} from 'react-aria-components';
+
+export default function DraggableFiles() {
+  const tree = useTreeData({
+    getChildren: (item) => item.children ?? [],
+    getKey: (item) => item.id,
+    initialItems: [
+      {id: 'src', name: 'src', children: [{id: 'index', name: 'index.ts'}]},
+      {id: 'readme', name: 'README.md'},
+    ],
+  });
+
+  // `tree.move()` has no cycle guard: a folder dropped into its own subtree is lost.
+  const isSelfOrDescendant = (key, ancestorKey) => {
+    if (key === ancestorKey) return true;
+
+    const parentKey = tree.getItem(key)?.parentKey;
+
+    return parentKey == null ? false : isSelfOrDescendant(parentKey, ancestorKey);
+  };
+
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) =>
+      [...keys].map((key) => ({'text/plain': String(key)})),
+    // Only folders swallow a drop; everything else reorders between siblings.
+    shouldAcceptItemDrop: (target) =>
+      Boolean(tree.getItem(target.key)?.value.children),
+    onMove(event) {
+      const keys = [...event.keys].filter(
+        (key) => !isSelfOrDescendant(event.target.key, key),
+      );
+
+      if (event.target.dropPosition === 'on') {
+        for (const key of keys) tree.move(key, event.target.key, 0);
+      } else if (event.target.dropPosition === 'before') {
+        tree.moveBefore(event.target.key, keys);
+      } else {
+        tree.moveAfter(event.target.key, keys);
+      }
+    },
+  });
+
+  const renderNode = (node) => (
+    <FileTree.Item key={node.key} id={node.key} title={node.value.name}>
+      <Collection items={node.children ?? []}>{renderNode}</Collection>
+    </FileTree.Item>
+  );
+
+  return (
+    <FileTree
+      aria-label="Draggable files"
+      defaultExpandedKeys={['src']}
+      dragAndDropHooks={dragAndDropHooks}
+      items={tree.items}
+    >
+      {renderNode}
+    </FileTree>
+  );
+}
+```
+
+`onMove` fires *in addition to* `onItemDrop` and `onReorder`, so do not pair
+them for the same internal drag or every drop is applied twice.
+
+The accessible drag seam is available through the React Aria `drag` slot. The
+drag control can be styled with `.file-tree__drag-handle`, the hovered row with
+`[data-drop-target]`, and the insertion line between rows with
+`.react-aria-DropIndicator`.
+
+## Customization
+
+### Tailwind CSS
+
+Use `className` on the root or any public part to add Tailwind classes. Root
+classes are merged with FileTree's variant classes.
+
+### Global CSS
+
+To customize FileTree classes, use the `@layer components` directive.
+[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).
+
+```css
+@layer components {
+  .file-tree__item-content {
+    border-radius: 0.5rem;
+  }
+
+  .file-tree__drag-handle {
+    color: var(--muted);
+  }
+}
+```
+
+## Styling Reference
+
+SY INC follows the [BEM](https://getbem.com/) methodology so component
+classes and states can be customized without depending on React Aria
+internals.
+
+### CSS classes
+
+FileTree uses the following classes ([view source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/file-tree.css)):
+
+#### Base classes [!toc]
+
+- `.file-tree` - Root tree container.
+- `.file-tree__section` - Section container.
+- `.file-tree__header` - Section header.
+- `.file-tree__item` - Tree item row container.
+- `.file-tree__item-content` - Visible item content row.
+- `.file-tree__chevron` - Expand/collapse button.
+- `.file-tree__indicator` - Indicator content inside the chevron button.
+- `.file-tree__icon` - Optional item icon.
+- `.file-tree__label` - Item title label.
+- `.file-tree__item-content::before` - Ancestor guide lines, drawn as a repeating gradient.
+- `.file-tree__drag-handle` - Accessible drag button when dragging is enabled.
+
+#### Size and guide variants [!toc]
+
+- `.file-tree--sm` - Small size.
+- `.file-tree--md` - Medium size (default).
+- `.file-tree--lg` - Large size.
+- `.file-tree--guides-hover` - Guide lines shown while the tree is hovered.
+- `.file-tree--no-guides` - Guide lines hidden.
+
+#### State selectors [!toc]
+
+- `.file-tree__item:focus-visible` or `[data-focus-visible="true"]` - Keyboard focus.
+- `.file-tree__item:hover` or `[data-hovered="true"]` - Hovered item.
+- `.file-tree__item[data-selected="true"]` or `[aria-selected="true"]` - Selected item.
+- `.file-tree__item[data-disabled="true"]` - Disabled item.
+- `.file-tree__indicator[data-expanded="true"]` - Expanded item indicator.
+
+### Data slots
+
+Stable slots are available for targeted styling and testing:
+
+`file-tree`, `file-tree-section`, `file-tree-header`, `file-tree-item`,
+`file-tree-item-content`, `file-tree-chevron`, `file-tree-indicator`,
+`file-tree-icon`, `file-tree-label`, and
+`file-tree-drag-handle`.
+
+## API Reference
+
+### FileTree and FileTree.Root
+
+`FileTree` and `FileTree.Root` are the same root component. The root extends
+React Aria's [`TreeProps`](https://react-spectrum.adobe.com/react-aria/Tree.html#tree),
+so all supported tree props, events, render props, and ref behavior are
+forwarded.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Visual size of the tree. |
+| `showGuideLines` | `boolean \| "hover"` | `true` | Shows guide lines, only while hovered, or not at all. |
+| `selectionMode` | `"none" \| "single" \| "multiple"` | React Aria default | Selection behavior inherited from `TreeProps`. |
+| `selectedKeys` | `Selection` | - | Controlled selected item keys. |
+| `defaultSelectedKeys` | `Iterable<Key>` | - | Initial selected item keys. |
+| `onSelectionChange` | `(keys: Selection) => void` | - | Called when selection changes. |
+| `expandedKeys` | `Iterable<Key>` | - | Controlled expanded item keys. |
+| `defaultExpandedKeys` | `Iterable<Key>` | - | Initial expanded item keys. |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | - | Called when expansion changes. |
+| `disabledKeys` | `Iterable<Key>` | - | Keys of disabled items. |
+| `items` | `Iterable<T>` | - | Data for a dynamic collection. |
+| `children` | `ReactNode \| (item: T) => ReactNode` | - | Static sections/items or a dynamic item renderer. |
+| `dragAndDropHooks` | `DragAndDropHooks` | - | React Aria drag-and-drop behavior. |
+| `aria-label` / `aria-labelledby` | `string` | - | Accessible name for the tree. Provide one when no visible label names it. |
+| `className` | `string \| (values) => string` | - | Additional root classes or a render-prop class name. |
+
+### FileTree.Section
+
+`FileTree.Section` extends React Aria's
+[`TreeSectionProps`](https://react-spectrum.adobe.com/react-aria/Tree.html#treesection).
+It groups nested items and accepts the inherited `className`, `children`,
+ref, and DOM props.
+
+### FileTree.Header
+
+`FileTree.Header` extends React Aria's `TreeHeaderProps`. It renders the
+visible heading for a section and accepts inherited `children`, `className`,
+ref, and DOM props.
+
+### FileTree.Item
+
+`FileTree.Item` extends React Aria's
+[`TreeItemProps`](https://react-spectrum.adobe.com/react-aria/Tree.html#treeitem),
+except that FileTree supplies the visible row content. It accepts nested
+`FileTree.Item` elements as `children`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `ReactNode` | required | Visible item title. |
+| `id` | `Key` | - | React Aria item key. Use a stable key for static items and dynamic data. |
+| `icon` | `ReactNode \| (props: TreeItemContentRenderProps) => ReactNode` | - | Optional icon, or a render function receiving item content state. |
+| `indicator` | `ReactNode` | Built-in chevron | Replacement indicator. Wrap it in `FileTree.Indicator` to keep the expand rotation. |
+| `selection` | `ReactNode` | - | Optional checkbox or selection control using React Aria's `selection` slot. |
+| `textValue` | `string` | `title` when it is a string | Text value used by React Aria for accessibility and typeahead. |
+| `children` | `ReactNode` | - | Nested `FileTree.Item` elements. |
+| `className` | `string \| (values) => string` | - | Additional item classes or a render-prop class name. |
+| `isDisabled` | `boolean` | - | Disables this item through the inherited React Aria prop. |
+
+All other `TreeItemProps` are passed through, including item keys, DOM props,
+and React Aria render-prop state.
+
+### FileTree.Indicator
+
+Use `FileTree.Indicator` as the `indicator` value on a `FileTree.Item`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | Chevron icon | Custom indicator content. |
+| `className` | `string` | - | Additional indicator classes. |
+
+The indicator button receives an accessible collapse/expand label. It is
+disabled for leaf items and uses the `chevron` slot expected by React Aria.
+
+### Render props
+
+The `icon` render function receives React Aria's
+`TreeItemContentRenderProps`, including state such as `isExpanded`,
+`hasChildItems`, `isSelected`, `isDisabled`, `isFocused`, `isFocusVisible`,
+`isPressed`, `isHovered`, `allowsDragging`, and `level`.
+
+## Known limitations
+
+**FileTree does not provide a scroll container.** The root is `width: 100%` with
+no height cap, matching the other collection components. Wrap it yourself when
+you need a bounded, scrollable tree:
+
+```tsx
+<div className="max-h-[420px] w-[300px] overflow-auto">
+  <FileTree aria-label="Project files">{/* ... */}</FileTree>
+</div>
+```
+
+Expanding and collapsing is instant; only the indicator rotation animates, and
+it respects `prefers-reduced-motion`.
+
+## Accessibility and keyboard interaction
+
+FileTree preserves React Aria's treegrid semantics: the root exposes a
+`treegrid` role, items expose row semantics and hierarchy metadata, and the
+tree manages focus and selection state.
+
+- Give the root an `aria-label` or `aria-labelledby` unless another visible
+  label names the tree.
+- `ArrowRight` expands a collapsed item; `ArrowLeft` collapses an expanded
+  item or moves focus to its parent.
+- `ArrowDown` and `ArrowUp` move between visible items. Home and End move to
+  the first and last item according to React Aria tree behavior.
+- Use `textValue` when an item's title is not a string so typeahead and
+  assistive technology have a meaningful text representation.
+- Disabled items remain exposed to assistive technology with their disabled
+  state and cannot be selected.
+- When drag and drop is enabled, the accessible drag button is available to
+  keyboard and assistive-technology users.
+
+For the complete interaction contract, see the [React Aria Tree documentation](https://react-spectrum.adobe.com/react-aria/Tree.html).
