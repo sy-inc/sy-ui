@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+import babel from "@rollup/plugin-babel";
 import resolve from "@rollup/plugin-node-resolve";
-import typescript from "@rollup/plugin-typescript";
 import {defineConfig} from "rollup";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 
@@ -39,10 +39,11 @@ const plugins = [
   resolve({
     extensions: [".js", ".ts"],
   }),
-  typescript({
-    declaration: false,
-    exclude: ["node_modules", "dist"],
-    tsconfig: "./tsconfig.json",
+  babel({
+    babelHelpers: "bundled",
+    exclude: "node_modules/**",
+    extensions: [".js", ".ts"],
+    presets: ["@babel/preset-typescript"],
   }),
 ];
 
