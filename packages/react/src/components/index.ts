@@ -2,6 +2,10 @@
 //  Components
 //  ===================================
 
+// Subpath-only integrations:
+// @sy-inc/react/carousel, @sy-inc/react/input-phone, and @sy-inc/react/rich-text-editor.
+// Avatar, InputOTP, and TimePicker are intentionally root-exported exceptions.
+
 // completed
 export * from "./accordion";
 export * from "./alert-dialog";
@@ -13,7 +17,6 @@ export * from "./breadcrumbs";
 export * from "./button";
 export * from "./button-group";
 export * from "./card";
-export * from "./carousel";
 export * from "./checkbox";
 export * from "./checkbox-group";
 export * from "./chip";
@@ -29,7 +32,6 @@ export * from "./date-field";
 export * from "./date-picker";
 export * from "./date-range-picker";
 export * from "./drawer";
-export * from "./input-phone";
 export * from "./navbar";
 export * from "./progress-bar";
 export * from "./progress-circle";

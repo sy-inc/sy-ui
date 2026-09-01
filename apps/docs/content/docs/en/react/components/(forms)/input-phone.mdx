@@ -9,8 +9,14 @@ links:
 
 ## Usage
 
+InputPhone is a subpath-only integration because it uses the optional `react-phone-number-input` peer:
+
+```bash
+pnpm add react-phone-number-input
+```
+
 ```tsx
-import {InputPhone} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 ```
 
 <ComponentPreview name="input-phone-basic" />
@@ -57,7 +63,7 @@ Germany. `onCountryChange` fires with the new country.
 
 ```tsx
 import {useState} from "react";
-import {InputPhone} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 import type {Country} from "react-phone-number-input";
 
 export function ProfilePhone() {
@@ -146,7 +152,8 @@ shared primitives and connect them with `htmlFor`, `id`, and the matching ARIA
 relationships.
 
 ```tsx
-import {Description, FieldError, InputPhone, Label} from "@sy-inc/react";
+import {Description, FieldError, Label} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 
 export function ValidatedPhone() {
   return (

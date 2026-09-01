@@ -17,6 +17,10 @@ import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
 
 The subpath is intentional. RichTextEditor uses optional `@tiptap/*` peer dependencies, so keeping it out of the package root lets applications that do not use the editor avoid installing Tiptap.
 
+```bash
+pnpm add @tiptap/core @tiptap/extensions @tiptap/react @tiptap/starter-kit @tiptap/suggestion
+```
+
 ```tsx
 const documentJson = {
   type: "doc",

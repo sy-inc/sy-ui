@@ -7,7 +7,7 @@ export const __PROD__ = env.NEXT_PUBLIC_APP_ENV === "production";
 
 const getBaseURL = (): URL => {
   // default - dev
-  let host = "localhost:3000";
+  let host = "localhost:4000";
 
   // preview
   if (__PREVIEW__) host = "v3.sy-inc.com";

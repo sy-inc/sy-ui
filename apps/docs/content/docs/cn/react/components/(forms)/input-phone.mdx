@@ -9,8 +9,14 @@ links:
 
 ## 用法
 
+InputPhone 使用可选 peer `react-phone-number-input`，因此只提供子路径入口。使用前请安装：
+
+```bash
+pnpm add react-phone-number-input
+```
+
 ```tsx
-import {InputPhone} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 ```
 
 <ComponentPreview name="input-phone-basic" />
@@ -54,7 +60,7 @@ InputPhone                    持有 E.164 值、国家/地区以及字段外观
 
 ```tsx
 import {useState} from "react";
-import {InputPhone} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 import type {Country} from "react-phone-number-input";
 
 export function ProfilePhone() {
@@ -139,7 +145,8 @@ const [value, setValue] = useState<string | undefined>("+442071838750");
 并用 `htmlFor`、`id` 以及对应的 ARIA 关系把它们连接起来。
 
 ```tsx
-import {Description, FieldError, InputPhone, Label} from "@sy-inc/react";
+import {Description, FieldError, Label} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 
 export function ValidatedPhone() {
   return (

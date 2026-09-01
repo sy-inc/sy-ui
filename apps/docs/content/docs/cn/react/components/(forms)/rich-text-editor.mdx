@@ -17,6 +17,10 @@ import {RichTextEditor} from "@sy-inc/react/rich-text-editor";
 
 子路径是有意这样设计的。RichTextEditor 使用可选的 `@tiptap/*` peer 依赖，因此将它与 package root 隔离后，不使用编辑器的应用无需安装 Tiptap。
 
+```bash
+pnpm add @tiptap/core @tiptap/extensions @tiptap/react @tiptap/starter-kit @tiptap/suggestion
+```
+
 ```tsx
 const documentJson = {
   type: "doc",

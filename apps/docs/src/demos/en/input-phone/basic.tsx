@@ -1,4 +1,4 @@
-import {InputPhone} from "@sy-inc/react";
+import {InputPhone} from "@sy-inc/react/input-phone";
 
 export function Basic() {
   return (
