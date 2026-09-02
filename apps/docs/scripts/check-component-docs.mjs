@@ -18,6 +18,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "prompt-input",
   "sheet",
   "input-phone",
+  "widget",
   "radio-button-group",
   "list-view",
   "item-card",

@@ -1,0 +1,89 @@
+---
+title: Widget
+description: A compact surface for a titled data visualization, legend, and optional supporting content.
+links:
+  source: widget/widget.tsx
+  styles: widget.css
+  storybook: Components/Widget
+---
+
+## Usage
+
+Use Widget to group a compact chart, metric, or other data visualization with its title and legend.
+
+```tsx
+import { Description, Widget } from '@sy-inc/react';
+```
+
+## Basic example
+
+```tsx
+<Widget>
+  <Widget.Header>
+    <Widget.Title>Monthly revenue</Widget.Title>
+    <Widget.Legend>
+      <Widget.LegendItem color="var(--primary)">Revenue</Widget.LegendItem>
+    </Widget.Legend>
+  </Widget.Header>
+  <Widget.Content>
+    <svg aria-label="Monthly revenue chart" viewBox="0 0 320 160" />
+  </Widget.Content>
+</Widget>
+```
+
+## Anatomy
+
+- `Widget` and `Widget.Root` render the outer surface.
+- `Widget.Header` contains `Widget.Title` and an optional `Widget.Legend`.
+- `Widget.Content` holds the visualization. Pass `className="p-0"` to `Widget.Content` when it wraps a `Table` or other edge-to-edge content.
+- `Widget.LegendItem` renders its dot and label from its required `color` and children.
+
+## API reference
+
+### Widget and parts
+
+`Widget`, `Widget.Root`, `Widget.Header`, `Widget.Title`, `Widget.Content`, and `Widget.Legend` accept their native element props, `className`, and `render`. `Widget.Title` renders an `h3` by default; every other part renders a `div` by default.
+
+| Part | Default | Description |
+| --- | --- | --- |
+| `Widget` / `Widget.Root` | `div` | Outer secondary surface. |
+| `Widget.Header` | `div` | Title and legend row. |
+| `Widget.Title` | `h3` | Widget heading. |
+| `Widget.Content` | `div` | Inner visualization surface. |
+| `Widget.Legend` | `div` | Flex row of legend items. |
+
+### Widget.LegendItem
+
+| Prop | Type | Default | Description |
+| --- | --- | --- |
+| `color` | `string` | required | Any valid CSS color value for the 10px marker. |
+| `children` | `React.ReactNode` | required | Visible legend label. |
+| `className` | `string` | — | Additional classes for the item. |
+
+## Events
+
+Widget has no events of its own. Attach callbacks to interactive elements composed inside `Widget.Content`.
+
+## Accessibility
+
+- Widget is structural and has no implicit landmark or interactive role.
+- `Widget.Title` provides a semantic `h3` by default; select the heading level appropriate to the surrounding document.
+- Give an SVG or other visualization its own accessible name and description when it communicates information.
+- Do not use legend color as the only way to distinguish a data series; keep the visible text label.
+
+## Slots
+
+Widget exposes `data-slot` hooks: `widget`, `widget-header`, `widget-title`, `widget-content`, `widget-legend`, `widget-legend-item`, `widget-legend-item-dot`, and `widget-legend-item-label`.
+
+## Composition with Description
+
+Widget does not provide a description part. Compose the shared `Description` directly when supporting text is useful; it keeps its existing `data-slot="description"` and can use the 12/16 muted treatment.
+
+```tsx
+<Widget.Header>
+  <div>
+    <Widget.Title>Monthly revenue</Widget.Title>
+    <Description className="leading-4">Compared with the previous month.</Description>
+  </div>
+</Widget.Header>
+```

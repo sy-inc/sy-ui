@@ -92,6 +92,7 @@ export * from "./tabs/tabs.styles";
 export * from "./tag-group/tag-group.styles";
 export * from "./tag/tag.styles";
 export * from "./text-shimmer/text-shimmer.styles";
+export * from "./widget";
 export * from "./textarea/textarea.styles";
 export * from "./textfield/textfield.styles";
 export * from "./time-field/time-field.styles";
