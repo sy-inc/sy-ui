@@ -1,0 +1,50 @@
+/* Conversation container */
+.chat-message {
+  @apply flex w-full flex-col gap-8;
+}
+
+/* Message rows */
+.chat-message--user {
+  @apply flex w-full flex-col items-end;
+}
+
+.chat-message--assistant {
+  @apply flex w-full flex-row items-start gap-3 py-2;
+}
+
+.chat-message__avatar {
+  @apply shrink-0;
+}
+
+.chat-message__body {
+  @apply flex min-w-0 flex-1 flex-col gap-2 pe-12;
+}
+
+.chat-message__bubble {
+  @apply rounded-2xl bg-default px-4 py-2 text-foreground;
+}
+
+.chat-message__content {
+  @apply text-sm leading-relaxed wrap-anywhere text-foreground;
+}
+
+/* Actions fade in on hover / focus; composed Buttons inherit a muted foreground. */
+.chat-message__actions {
+  @apply flex items-start text-muted opacity-50 transition-opacity motion-reduce:transition-none;
+
+  .button {
+    --button-fg: var(--muted);
+  }
+}
+
+.chat-message--assistant:focus-within .chat-message__actions,
+.chat-message--user:focus-within .chat-message__actions {
+  @apply opacity-100;
+}
+
+@media (hover: hover) {
+  .chat-message--assistant:hover .chat-message__actions,
+  .chat-message--user:hover .chat-message__actions {
+    @apply opacity-100;
+  }
+}

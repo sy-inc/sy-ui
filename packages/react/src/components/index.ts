@@ -18,6 +18,7 @@ export * from "./breadcrumbs";
 export * from "./button";
 export * from "./button-group";
 export * from "./card";
+export * from "./chat-message";
 export * from "./checkbox";
 export * from "./checkbox-group";
 export * from "./chip";

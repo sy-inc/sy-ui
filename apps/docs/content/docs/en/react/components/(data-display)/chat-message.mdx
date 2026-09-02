@@ -1,0 +1,55 @@
+---
+title: Chat Message
+description: Composable layout parts for user and assistant messages
+links:
+  source: chat-message/chat-message.tsx
+  styles: chat-message.css
+  storybook: Components/ChatMessage
+---
+
+## Usage
+
+```tsx
+import {Avatar, ChatMessage} from "@sy-inc/react";
+```
+
+## Anatomy
+
+```tsx
+<ChatMessage>
+  <ChatMessage.Assistant>
+    <ChatMessage.Avatar>
+      <Avatar.Fallback>AI</Avatar.Fallback>
+    </ChatMessage.Avatar>
+    <ChatMessage.Body>
+      <ChatMessage.Content>How can I help?</ChatMessage.Content>
+      <ChatMessage.Actions>{/* existing Button controls */}</ChatMessage.Actions>
+    </ChatMessage.Body>
+  </ChatMessage.Assistant>
+
+  <ChatMessage.User>
+    <ChatMessage.Bubble>
+      <ChatMessage.Content>I need help.</ChatMessage.Content>
+    </ChatMessage.Bubble>
+  </ChatMessage.User>
+</ChatMessage>
+```
+
+## API Reference
+
+`ChatMessage` (Root) is the conversation container and `ChatMessage.Assistant` / `ChatMessage.User` are message rows; all accept native `div` props. `ChatMessage.Avatar` accepts the existing `Avatar` props and defaults to the compact `sm` size. `Body`, `Bubble`, `Content`, and `Actions` are composable layout parts that also accept native `div` props.
+
+## Accessibility
+
+ChatMessage only supplies layout. Give each icon-only action composed inside `ChatMessage.Actions` an accessible name, and use the existing `Button` and `Tooltip` components for interactive controls.
+
+## Styling Reference
+
+- `.chat-message` - Conversation container
+- `.chat-message--assistant` - Assistant message row
+- `.chat-message--user` - User message column
+- `.chat-message__avatar` - Assistant avatar
+- `.chat-message__body` - Assistant content stack
+- `.chat-message__bubble` - User message surface
+- `.chat-message__content` - Message content
+- `.chat-message__actions` - Composed action controls

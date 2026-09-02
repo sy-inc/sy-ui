@@ -13,6 +13,7 @@ export * from "./button-group";
 export * from "./calendar";
 export * from "./calendar-year-picker";
 export * from "./carousel";
+export * from "./chat-message";
 export * from "./range-calendar";
 export * from "./rich-text-editor";
 export * from "./card";

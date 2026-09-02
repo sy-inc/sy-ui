@@ -85,6 +85,7 @@
  * DataDisplay
  * ------------------------------------------------------------------------------------------------ */
 @import "./badge.css";
+@import "./chat-message.css";
 @import "./chip.css";
 @import "./table.css";
 

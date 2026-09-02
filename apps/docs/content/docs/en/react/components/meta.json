@@ -14,6 +14,7 @@
     "(pickers)/autocomplete",
     "(media)/avatar",
     "(data-display)/badge",
+    "(data-display)/chat-message",
     "(navigation)/breadcrumbs",
     "(navigation)/bottom-bar",
     "(buttons)/button",
