@@ -12,12 +12,15 @@ const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
 const componentDirs = fs.readdirSync("./src/components").filter((file) => {
   const fullPath = path.join("./src/components", file);
 
-  return fs.statSync(fullPath).isDirectory() && fs.existsSync(path.join(fullPath, "index.ts"));
+  return (
+    fs.statSync(fullPath).isDirectory() &&
+    fs.existsSync(path.join(fullPath, `${file}.styles.ts`))
+  );
 });
 
 // Create individual entry points for each component
 const componentEntries = componentDirs.reduce((acc, dir) => {
-  acc[`components/${dir}/index`] = `src/components/${dir}/index.ts`;
+  acc[`components/${dir}/${dir}.styles`] = `src/components/${dir}/${dir}.styles.ts`;
 
   return acc;
 }, {});

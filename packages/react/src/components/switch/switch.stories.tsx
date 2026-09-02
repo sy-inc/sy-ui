@@ -5,6 +5,8 @@ import React from "react";
 
 import {Description} from "../description";
 import {FieldError} from "../field-error";
+import {Label} from "../label";
+import {SwitchGroup} from "../switch-group";
 
 import {Switch} from "./index";
 
@@ -291,5 +293,56 @@ export const RenderProps: Story = {
         </Switch.Content>
       )}
     </Switch>
+  ),
+};
+
+export const Cell: Story = {
+  render: () => (
+    <div className="w-80">
+      <Switch variant="cell">
+        <Switch.Content>
+          <Label>Use Wi-Fi</Label>
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+        </Switch.Content>
+      </Switch>
+    </div>
+  ),
+};
+
+export const CellSecondary: Story = {
+  render: () => (
+    <div className="w-80">
+      <Switch defaultSelected variant="cell-secondary">
+        <Switch.Content>
+          <Label>Bluetooth</Label>
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+        </Switch.Content>
+      </Switch>
+    </div>
+  ),
+};
+
+export const CellGroup: Story = {
+  render: () => (
+    <SwitchGroup className="w-80 divide-y divide-default">
+      {[
+        {label: "Wi-Fi", props: {}},
+        {label: "Bluetooth", props: {defaultSelected: true}},
+        {label: "Background app refresh", props: {isDisabled: true}},
+      ].map(({label, props}) => (
+        <Switch key={label} variant="cell" {...props}>
+          <Switch.Content>
+            <Label>{label}</Label>
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+          </Switch.Content>
+        </Switch>
+      ))}
+    </SwitchGroup>
   ),
 };

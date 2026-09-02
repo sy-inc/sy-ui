@@ -30,7 +30,7 @@ export type {
 /* -------------------------------------------------------------------------------------------------
  * Context
  * -----------------------------------------------------------------------------------------------*/
-export {ToggleButtonGroupContext, TOGGLE_BUTTON_GROUP_CHILD} from "./toggle-button-group";
+export {ToggleButtonGroupContext} from "./toggle-button-group";
 
 /* -------------------------------------------------------------------------------------------------
  * Variants

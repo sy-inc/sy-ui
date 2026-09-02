@@ -17,10 +17,7 @@
     "typecheck": "tsc --noEmit",
     "typegen": "next typegen",
     "postinstall": "fumadocs-mdx",
-    "test:skills": "node test_skills_scripts.mjs",
-    "test:skills:dev": "node test_skills_scripts.mjs --env dev",
-    "test:skills:staging": "node test_skills_scripts.mjs --env staging",
-    "test:skills:prod": "node test_skills_scripts.mjs --env production"
+    "test:skills": "node test_skills_scripts.mjs"
   },
   "dependencies": {
     "@fumadocs/language": "0.0.1",
@@ -40,7 +37,6 @@
     "calligraph": "1.3.0",
     "clsx": "2.1.1",
     "color-convert": "3.1.3",
-    "color2k": "2.0.3",
     "culori": "4.0.2",
     "feed": "5.1.0",
     "fumadocs-core": "16.9.0",
@@ -48,7 +44,6 @@
     "fumadocs-typescript": "5.0.0",
     "fumadocs-ui": "16.9.0",
     "gray-matter": "4.0.3",
-    "lucide-react": "0.562.0",
     "m3-ripple": "1.1.3",
     "motion": "12.23.26",
     "next": "16.3.0",
@@ -63,7 +58,6 @@
     "remark-gfm": "4.0.1",
     "remark-mdx": "3.1.1",
     "shiki": "3.20.0",
-    "tailwind-merge": "3.4.0",
     "tailwind-variants": "3.3.1",
     "ts-morph": "27.0.2",
     "usehooks-ts": "3.1.1",

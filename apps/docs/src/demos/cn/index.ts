@@ -2275,6 +2275,10 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./switch/basic").then((m) => m.Basic),
     file: "cn/switch/basic.tsx",
   },
+  "switch-cell": {
+    loader: () => import("./switch/cell").then((m) => m.Cell),
+    file: "cn/switch/cell.tsx",
+  },
   "switch-sizes": {
     loader: () => import("./switch/sizes").then((m) => m.Sizes),
     file: "cn/switch/sizes.tsx",

@@ -28,8 +28,8 @@ const SwitchContext = createContext<SwitchContext>({});
 interface SwitchRootProps
   extends ComponentPropsWithRef<typeof SwitchFieldPrimitive>, SwitchVariants {}
 
-const SwitchRoot = ({children, className, size, ...props}: SwitchRootProps) => {
-  const slots = React.useMemo(() => switchVariants({size}), [size]);
+const SwitchRoot = ({children, className, size, variant, ...props}: SwitchRootProps) => {
+  const slots = React.useMemo(() => switchVariants({size, variant}), [size, variant]);
 
   return (
     <SwitchFieldPrimitive

@@ -2,11 +2,11 @@
 
 import type {ComponentProps} from "react";
 
+import {useIsHydrated} from "@sy-inc/react";
 import {useTheme} from "next-themes";
 import {tv} from "tailwind-variants";
 
 import {Airplay, Moon, Sun} from "@/components/fumadocs/ui/icons";
-import {useIsMounted} from "@/hooks/use-is-mounted";
 import {cn} from "@/utils/cn";
 
 const itemVariants = tv({
@@ -29,7 +29,7 @@ export function ThemeToggle({
   mode?: "light-dark" | "light-dark-system";
 }) {
   const {resolvedTheme, setTheme, theme} = useTheme();
-  const mounted = useIsMounted();
+  const mounted = useIsHydrated();
 
   const container = cn(
     "inline-flex cursor-(--cursor-interactive) items-center rounded-full border p-1",

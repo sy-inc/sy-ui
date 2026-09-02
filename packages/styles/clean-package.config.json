@@ -1,11 +1,17 @@
 {
-  "remove": ["devDependencies", "scripts", "clean-package"],
+  "remove": [
+    "devDependencies",
+    "scripts",
+    "clean-package"
+  ],
   "replace": {
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "style": "./dist/index.css",
     "browser": "./dist/sy-inc.min.css",
-    "sideEffects": ["*.css"],
+    "sideEffects": [
+      "*.css"
+    ],
     "exports": {
       ".": {
         "style": "./dist/index.css",
@@ -18,9 +24,9 @@
         "default": "./dist/index.css"
       },
       "./components/*": {
-        "types": "./dist/components/*/index.d.ts",
-        "import": "./dist/components/*/index.js",
-        "default": "./dist/components/*/index.js"
+        "types": "./dist/components/*/*.styles.d.ts",
+        "import": "./dist/components/*/*.styles.js",
+        "default": "./dist/components/*/*.styles.js"
       },
       "./base": "./dist/base/base.css",
       "./base/*.css": "./dist/base/*.css",

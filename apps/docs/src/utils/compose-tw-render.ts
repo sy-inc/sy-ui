@@ -1,9 +1,2 @@
-import {composeRenderProps} from "react-aria-components";
-import {twMerge} from "tailwind-merge";
-
-export function composeTailwindRenderProps<T>(
-  className: string | ((v: T) => string) | undefined,
-  tw: string,
-): string | ((v: T) => string) {
-  return composeRenderProps(className, (className) => twMerge(tw, className));
-}
+// Re-export from @sy-inc/react for convenience
+export {composeTwRenderProps as composeTailwindRenderProps} from "@sy-inc/react";

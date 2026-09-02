@@ -2,7 +2,7 @@
 
 import {useCallback, useRef, useState, useSyncExternalStore} from "react";
 
-import {useIsomorphicLayoutEffect} from "./use-isomorphic-layout-effect";
+import {useSafeLayoutEffect} from "./use-safe-layout-effect";
 
 const THEME_STORAGE_KEY = "sy-inc-theme";
 const PREFERS_DARK_MEDIA = "(prefers-color-scheme: dark)";
@@ -88,7 +88,7 @@ export function useTheme(defaultTheme: Theme = "system") {
 
   // Sync the document with the resolved theme.
   // Uses a layout effect so the DOM is updated before paint (no FOUC).
-  useIsomorphicLayoutEffect(() => {
+  useSafeLayoutEffect(() => {
     if (!resolvedTheme) return;
 
     applyThemeToDOM(resolvedTheme, appliedRef.current);
