@@ -63,6 +63,7 @@ export * from "./navbar/navbar.styles";
 export * from "./number-field/number-field.styles";
 export * from "./pagination/pagination.styles";
 export * from "./popover/popover.styles";
+export * from "./prompt-input";
 export * from "./pressable-feedback/pressable-feedback.styles";
 export * from "./progress-bar/progress-bar.styles";
 export * from "./progress-circle/progress-circle.styles";

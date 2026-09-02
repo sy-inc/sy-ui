@@ -43,6 +43,7 @@ export * from "./navbar";
 export * from "./pressable-feedback";
 export * from "./progress-bar";
 export * from "./progress-circle";
+export * from "./prompt-input";
 export * from "./radio-button-group";
 export * from "./segment";
 export * from "./sheet";

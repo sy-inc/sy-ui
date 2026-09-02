@@ -1,0 +1,230 @@
+---
+title: PromptInput 提示输入框
+description: 可组合的 AI 提示词输入组件，支持自适应高度、请求状态、附件与可排序队列
+links:
+  source: prompt-input/prompt-input.tsx
+  styles: prompt-input.css
+  storybook: Components/Forms/PromptInput
+---
+
+## 用法
+
+PromptInput 复用 SY INC 现有的 `TextArea`、`Button`、`Tooltip` 与 `Spinner`
+原语，组合成 AI 提示词输入区域。根节点是原生表单：Enter 提交，Shift+Enter
+换行。
+
+```tsx
+import {PromptInput} from "@sy-inc/react";
+import {useState} from "react";
+
+export function Example() {
+  const [value, setValue] = useState("");
+
+  return (
+    <PromptInput
+      value={value}
+      onValueChange={setValue}
+      onSubmit={() => {
+        sendPrompt(value);
+        setValue("");
+      }}
+    >
+      <PromptInput.Shell>
+        <PromptInput.Content>
+          <PromptInput.TextArea aria-label="消息输入" placeholder="你想了解什么？" />
+        </PromptInput.Content>
+        <PromptInput.Toolbar>
+          <PromptInput.ToolbarStart>
+            <PromptInput.Action
+              aria-label="添加附件"
+              isIconOnly={false}
+              tooltip="添加附件"
+            >
+              附件
+            </PromptInput.Action>
+          </PromptInput.ToolbarStart>
+          <PromptInput.ToolbarEnd>
+            <PromptInput.Send aria-label="发送消息" />
+          </PromptInput.ToolbarEnd>
+        </PromptInput.Toolbar>
+      </PromptInput.Shell>
+      <PromptInput.Footer>AI 可能会出错，请核对重要信息。</PromptInput.Footer>
+    </PromptInput>
+  );
+}
+```
+
+## 组件结构
+
+```text
+PromptInput
+├─ PromptInput.Queue
+│  └─ PromptInput.Queue.Item
+│     ├─ Handle
+│     ├─ Body
+│     │  ├─ Icon
+│     │  └─ Content
+│     └─ Actions
+│        ├─ Remove
+│        └─ More
+├─ PromptInput.Shell
+│  ├─ PromptInput.Content
+│  │  ├─ PromptInput.Attachments
+│  │  └─ PromptInput.TextArea
+│  └─ PromptInput.Toolbar
+│     ├─ PromptInput.ToolbarStart
+│     │  └─ PromptInput.Action
+│     └─ PromptInput.ToolbarEnd
+│        └─ PromptInput.Send
+└─ PromptInput.Footer
+```
+
+根组件管理文本值和请求状态。各个部件只负责渲染所需结构，因此操作按钮、模型
+选择器、附件和页脚都能继续使用普通 React 内容组合。
+
+## 值与提交
+
+受控模式使用 `value` 与 `onValueChange`；非受控模式使用 `defaultValue`。
+只有去除首尾空白后仍有内容，并且状态不是 `submitted` 或 `streaming` 时，
+`onSubmit` 才会执行。
+
+PromptInput 不会自动清空内容。应用接受提示词后，在 `onSubmit` 中清空值；
+这样乐观更新、排队请求和失败重试仍由应用控制。
+
+键盘行为：
+
+- Enter 提交原生表单。
+- Shift+Enter 插入换行。
+- 输入法组合输入不会被打断。
+- 除非应用主动移动焦点，提交后焦点仍停留在文本框。
+
+文本框会随内容增长，直到 `maxHeight`；默认值为 `240`。需要完全由 CSS
+控制高度时，在 `PromptInput.TextArea` 设置 `disableAutosize`。
+
+## 请求状态
+
+`status` 可设为 `ready`、`submitted`、`streaming` 或 `error`。
+
+- `ready` 显示发送操作；内容为空时禁用。
+- `submitted` 显示加载动画。
+- `streaming` 显示停止操作。
+- `error` 使用危险色，并允许重新提交。
+
+在 `submitted` 和 `streaming` 状态点击 `PromptInput.Send` 会调用 `onStop`。
+默认会锁定文本框；设置 `lockInputOnRun={false}` 可继续编辑。
+
+## 布局
+
+`layout="stacked"` 适合 640px 的助手输入框；`compact` 是可展开的单行入口；
+`inline` 将操作项保持在自适应文本框两侧。
+
+视觉变体为 `primary` 和 `secondary`，尺寸为 `sm`、`md`、`lg`。默认组合是
+`primary`、`md`、`stacked`。
+
+## 附件
+
+`PromptInput.Attachments` 是布局插槽。可以在其中渲染现有 Chip、文件卡片、
+上传进度或业务自定义的附件控件。
+
+## 可排序队列
+
+`PromptInput.Queue` 基于 React Aria 的 `GridList` 与 `useDragAndDrop`。把有序数组传给
+`values`，为每个值渲染一个 `Queue.Item`，并在 `onReorder` 中更新数组。整行都可以用指针
+或触屏拖动；`Queue.Item.Handle` 是键盘拖拽按钮：聚焦后按 Enter 拿起该行，用方向键移动，
+再按 Enter 放下。
+
+Item 按 key 匹配。默认 key 为 `String(value)`，因此 `values` 是对象时请传入 `getKey`，
+且 key 不能重复。
+
+```tsx
+const [files, setFiles] = useState(["brief.pdf", "notes.md"]);
+
+<PromptInput>
+  <PromptInput.Queue actionsVisibility="always" values={files} onReorder={setFiles}>
+    {files.map((file) => (
+      <PromptInput.Queue.Item key={file} value={file}>
+        <PromptInput.Queue.Item.Handle aria-label={"调整 " + file + " 的顺序"} />
+        <PromptInput.Queue.Item.Body>
+          <PromptInput.Queue.Item.Content>{file}</PromptInput.Queue.Item.Content>
+        </PromptInput.Queue.Item.Body>
+        <PromptInput.Queue.Item.Actions>
+          <PromptInput.Queue.Item.More aria-label="更多操作" />
+          <PromptInput.Queue.Item.Remove
+            aria-label={"删除 " + file}
+            onPress={() => setFiles((items) => items.filter((item) => item !== file))}
+          />
+        </PromptInput.Queue.Item.Actions>
+      </PromptInput.Queue.Item>
+    ))}
+  </PromptInput.Queue>
+</PromptInput>;
+```
+
+设置 `actionsVisibility="hover"` 可在悬停或聚焦时显示 Item 操作，设置
+`always` 则始终显示。默认值是 `hover`。
+
+## 无障碍
+
+通过 `aria-label` 或关联的共享 `Label` 为 `PromptInput.TextArea` 提供无障碍
+名称。仅图标按钮必须提供 `aria-label`。根节点是原生表单，因此辅助技术和外部
+提交控件都能获得标准表单语义。
+
+内置的发送、停止、排序、删除与更多操作都提供默认无障碍名称；当上下文需要更
+明确的描述时可以覆盖。
+
+`isDisabled` 会给 Shell 和 Queue 加上 `inert`，因此其中组合的模型选择器等内容
+会一并禁用，而 Footer 文案仍可被读屏软件读到。
+
+焦点环画在 `:focus-within` 的 `.prompt-input__shell` 上而不是文本框上，整个输入区
+读起来像一个控件。工具栏按钮保留各自的焦点环。
+
+## API 参考
+
+### PromptInput
+
+除原生 form 属性外：
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `value` | `string` | - | 受控文本值。 |
+| `defaultValue` | `string` | `""` | 非受控初始值。 |
+| `onValueChange` | `(value: string) => void` | - | 文本值改变时调用。 |
+| `onSubmit` | `(event: FormEvent<HTMLFormElement>) => void` | - | 有效 Enter 或表单提交时调用，原生默认行为已被阻止。 |
+| `onStop` | `() => void` | - | submitted 或 streaming 时由 Send 调用。 |
+| `status` | `"ready" \| "submitted" \| "streaming" \| "error"` | `"ready"` | 请求生命周期状态。 |
+| `isDisabled` | `boolean` | `false` | 禁用输入区域及其操作。 |
+| `lockInputOnRun` | `boolean` | `true` | 请求运行时禁用文本输入。 |
+| `maxHeight` | `number \| string` | `240` | 文本框自适应高度上限。 |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | 输入区域和操作按钮尺寸。 |
+| `variant` | `"primary" \| "secondary"` | `"primary"` | 表面视觉样式。 |
+| `layout` | `"stacked" \| "compact" \| "inline"` | `"stacked"` | 结构布局。 |
+
+### TextArea 与 Action
+
+`PromptInput.TextArea` 继承共享 `TextArea` 属性，并增加
+`disableAutosize?: boolean`；其值由根组件管理。
+
+`PromptInput.Action` 继承共享 `Button` 属性，并增加
+`tooltip?: React.ReactNode`。默认是仅图标的 tertiary 按钮。
+
+`PromptInput.Send` 继承共享 `Button` 属性，并根据根组件状态派生标签、图标、
+禁用状态与行为。
+
+### Queue
+
+| 部件 | 重要属性 |
+|---|---|
+| `Queue<T>` | `values?: T[]`、`onReorder?: (values: T[]) => void`、`getKey?: (value: T) => Key`、`actionsVisibility?: "always" \| "hover"`，以及 `GridList` 属性 |
+| `Queue.Item<T>` | `value?: T`，以及 `id`、`textValue` 等 `GridListItem` 属性 |
+
+`Queue.Item.Handle`、`Remove`、`More` 接受共享 `Button` 的属性；其余部件接受对应原生元素的属性。
+
+## 样式
+
+PromptInput 使用 `.prompt-input`、`.prompt-input__shell`、
+`.prompt-input__textarea`、`.prompt-input__toolbar`、
+`.prompt-input__send`、`.prompt-input__queue` 等 BEM 类名。局部定制可在任意
+部件上传入 `className`；全局视觉调整可在样式层覆盖对应组件类名。
+
+工具栏中的 `Select.Trigger` 可加上 `select__trigger--outline`，
+以获得与内置操作一致的尺寸和描边。

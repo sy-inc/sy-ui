@@ -1,0 +1,237 @@
+---
+title: PromptInput
+description: A composable AI prompt composer with autosizing input, lifecycle actions, attachments, and reorderable queues
+links:
+  source: prompt-input/prompt-input.tsx
+  styles: prompt-input.css
+  storybook: Components/Forms/PromptInput
+---
+
+## Usage
+
+PromptInput composes the existing SY INC `TextArea`, `Button`, `Tooltip`, and `Spinner`
+primitives into an AI prompt surface. The root is a native form: Enter submits, while
+Shift+Enter inserts a line break.
+
+```tsx
+import {PromptInput} from "@sy-inc/react";
+import {useState} from "react";
+
+export function Example() {
+  const [value, setValue] = useState("");
+
+  return (
+    <PromptInput
+      value={value}
+      onValueChange={setValue}
+      onSubmit={() => {
+        sendPrompt(value);
+        setValue("");
+      }}
+    >
+      <PromptInput.Shell>
+        <PromptInput.Content>
+          <PromptInput.TextArea
+            aria-label="Message input"
+            placeholder="What do you want to know?"
+          />
+        </PromptInput.Content>
+        <PromptInput.Toolbar>
+          <PromptInput.ToolbarStart>
+            <PromptInput.Action
+              aria-label="Attach file"
+              isIconOnly={false}
+              tooltip="Attach file"
+            >
+              Attach
+            </PromptInput.Action>
+          </PromptInput.ToolbarStart>
+          <PromptInput.ToolbarEnd>
+            <PromptInput.Send />
+          </PromptInput.ToolbarEnd>
+        </PromptInput.Toolbar>
+      </PromptInput.Shell>
+      <PromptInput.Footer>AI can make mistakes. Check important info.</PromptInput.Footer>
+    </PromptInput>
+  );
+}
+```
+
+## Anatomy
+
+```text
+PromptInput
+├─ PromptInput.Queue
+│  └─ PromptInput.Queue.Item
+│     ├─ Handle
+│     ├─ Body
+│     │  ├─ Icon
+│     │  └─ Content
+│     └─ Actions
+│        ├─ Remove
+│        └─ More
+├─ PromptInput.Shell
+│  ├─ PromptInput.Content
+│  │  ├─ PromptInput.Attachments
+│  │  └─ PromptInput.TextArea
+│  └─ PromptInput.Toolbar
+│     ├─ PromptInput.ToolbarStart
+│     │  └─ PromptInput.Action
+│     └─ PromptInput.ToolbarEnd
+│        └─ PromptInput.Send
+└─ PromptInput.Footer
+```
+
+The root owns the text value and request status. The parts only render the structure
+you choose, so actions, model selectors, attachments, and footers remain ordinary
+composable React content.
+
+## Value and submission
+
+Use `value` with `onValueChange` for a controlled composer, or `defaultValue` for an
+uncontrolled one. `onSubmit` runs only when the trimmed value is non-empty and the
+status is not `submitted` or `streaming`.
+
+PromptInput does not clear the value automatically. Clear it in `onSubmit` after the
+application accepts the prompt. This keeps optimistic, queued, and failed requests
+under application control.
+
+Keyboard behavior:
+
+- Enter submits the native form.
+- Shift+Enter inserts a newline.
+- Input method editor composition is not interrupted.
+- Focus remains in the text area after submission unless the application moves it.
+
+The text area grows with its content up to `maxHeight`, which defaults to `240`.
+Set `disableAutosize` on `PromptInput.TextArea` when CSS should own the height.
+
+## Request status
+
+`status` accepts `ready`, `submitted`, `streaming`, or `error`.
+
+- `ready` shows the send action and disables it for an empty value.
+- `submitted` shows a spinner.
+- `streaming` shows the stop action.
+- `error` uses the danger treatment and allows resubmission.
+
+`submitted` and `streaming` call `onStop` from `PromptInput.Send`. The text area is
+locked in those states by default; set `lockInputOnRun={false}` to keep it editable.
+
+## Layouts
+
+Use `layout="stacked"` for the 640px assistant composer, `compact` for a single-line
+entry that can expand, or `inline` to keep actions beside an autosizing input.
+
+The visual variants are `primary` and `secondary`, and sizes are `sm`, `md`, and
+`lg`. Defaults are `primary`, `md`, and `stacked`.
+
+## Attachments
+
+`PromptInput.Attachments` is a layout slot. Render existing chips, file cards, upload
+progress, or application-specific attachment controls inside it.
+
+## Reorderable queue
+
+`PromptInput.Queue` is a React Aria `GridList` with `useDragAndDrop`. Pass the ordered
+array to `values`, render a `Queue.Item` for each value, and update the array from
+`onReorder`. Rows can be dragged with a pointer or touch; `Queue.Item.Handle` is the
+keyboard drag button: focus it, press Enter to pick the row up, move it with the arrow
+keys, and press Enter again to drop.
+
+Items are matched by key. The default key is `String(value)`, so pass `getKey` when
+`values` holds objects, and never repeat a key.
+
+```tsx
+const [files, setFiles] = useState(["brief.pdf", "notes.md"]);
+
+<PromptInput>
+  <PromptInput.Queue actionsVisibility="always" values={files} onReorder={setFiles}>
+    {files.map((file) => (
+      <PromptInput.Queue.Item key={file} value={file}>
+        <PromptInput.Queue.Item.Handle aria-label={"Reorder " + file} />
+        <PromptInput.Queue.Item.Body>
+          <PromptInput.Queue.Item.Content>{file}</PromptInput.Queue.Item.Content>
+        </PromptInput.Queue.Item.Body>
+        <PromptInput.Queue.Item.Actions>
+          <PromptInput.Queue.Item.More />
+          <PromptInput.Queue.Item.Remove
+            onPress={() => setFiles((items) => items.filter((item) => item !== file))}
+          />
+        </PromptInput.Queue.Item.Actions>
+      </PromptInput.Queue.Item>
+    ))}
+  </PromptInput.Queue>
+</PromptInput>;
+```
+
+Set `actionsVisibility="hover"` to reveal item actions on hover or focus, or `always`
+to keep them visible. The default is `hover`.
+
+## Accessibility
+
+Give `PromptInput.TextArea` an accessible name with `aria-label` or an associated
+shared `Label`. Icon-only actions require an `aria-label`. Because the root is a
+native form, assistive technology and external submit controls receive standard form
+semantics.
+
+The built-in send, stop, reorder, remove, and more actions have default accessible
+names. Override them when the surrounding content needs more context.
+
+`isDisabled` marks the shell and the queue `inert`, so composed content such as a model
+selector is disabled with them. The footer stays readable.
+
+The focus ring sits on `.prompt-input__shell` at `:focus-within`, not on the text area, so
+the composer reads as one control. Toolbar actions keep their own rings.
+
+## API reference
+
+### PromptInput
+
+In addition to native form props:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | - | Controlled text value. |
+| `defaultValue` | `string` | `""` | Initial uncontrolled value. |
+| `onValueChange` | `(value: string) => void` | - | Called for managed text changes. |
+| `onSubmit` | `(event: FormEvent<HTMLFormElement>) => void` | - | Called for a valid Enter or form submission. The native default is already prevented. |
+| `onStop` | `() => void` | - | Called by Send while submitted or streaming. |
+| `status` | `"ready" \| "submitted" \| "streaming" \| "error"` | `"ready"` | Request lifecycle state. |
+| `isDisabled` | `boolean` | `false` | Disables the composer and its actions. |
+| `lockInputOnRun` | `boolean` | `true` | Disables text entry while a request runs. |
+| `maxHeight` | `number \| string` | `240` | Maximum autosized text area height. |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Composer and action size. |
+| `variant` | `"primary" \| "secondary"` | `"primary"` | Surface treatment. |
+| `layout` | `"stacked" \| "compact" \| "inline"` | `"stacked"` | Structural layout. |
+
+### TextArea and Action
+
+`PromptInput.TextArea` extends the shared `TextArea` props and adds
+`disableAutosize?: boolean`. Its value is managed by the root.
+
+`PromptInput.Action` extends shared `Button` props and adds
+`tooltip?: React.ReactNode`. It defaults to an icon-only tertiary button.
+
+`PromptInput.Send` extends shared `Button` props and derives its label, icon, disabled
+state, and action from the root status.
+
+### Queue
+
+| Part | Important props |
+|---|---|
+| `Queue<T>` | `values?: T[]`, `onReorder?: (values: T[]) => void`, `getKey?: (value: T) => Key`, `actionsVisibility?: "always" \| "hover"`, plus `GridList` props |
+| `Queue.Item<T>` | `value?: T`, plus `GridListItem` props such as `id` and `textValue` |
+
+`Queue.Item.Handle`, `Remove`, and `More` accept shared `Button` props. The remaining
+parts accept the props of the native element they render.
+
+## Styling
+
+PromptInput uses BEM classes including `.prompt-input`, `.prompt-input__shell`,
+`.prompt-input__textarea`, `.prompt-input__toolbar`, `.prompt-input__send`, and
+`.prompt-input__queue`. Use `className` on any part for local customization, or
+override the component CSS classes in a layer for a system-wide treatment.
+
+Add `select__trigger--outline` to a `Select.Trigger` rendered in the toolbar to size and
+outline it like the built-in actions.

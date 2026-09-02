@@ -14,6 +14,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "stepper",
   "text-shimmer",
   "rich-text-editor",
+  "prompt-input",
   "sheet",
   "input-phone",
   "radio-button-group",

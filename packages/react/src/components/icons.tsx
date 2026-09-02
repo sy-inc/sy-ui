@@ -298,6 +298,79 @@ export const IconCalendar = (props: IconProps) => (
   </svg>
 );
 
+export const IconArrowUp = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M8 13V3m0 0L4 7m4-4 4 4"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+export const IconStop = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <rect fill="currentColor" height="7" rx="1.25" width="7" x="4.5" y="4.5" />
+  </svg>
+);
+
+export const IconGrip = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="currentColor"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <circle cx="5" cy="4" r="1" />
+    <circle cx="11" cy="4" r="1" />
+    <circle cx="5" cy="8" r="1" />
+    <circle cx="11" cy="8" r="1" />
+    <circle cx="5" cy="12" r="1" />
+    <circle cx="11" cy="12" r="1" />
+  </svg>
+);
+
+export const IconEllipsis = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="currentColor"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <circle cx="3" cy="8" r="1.25" />
+    <circle cx="8" cy="8" r="1.25" />
+    <circle cx="13" cy="8" r="1.25" />
+  </svg>
+);
+
 export const IconGripVertical = (props: IconProps) => (
   <svg
     aria-hidden="true"

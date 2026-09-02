@@ -51,6 +51,7 @@
     "(forms)/form",
     "(forms)/input",
     "(forms)/input-group",
+    "(forms)/prompt-input",
     "(forms)/input-phone",
     "(forms)/input-otp",
     "(typography)/kbd",
