@@ -1,0 +1,488 @@
+---
+title: FileTree 文件树
+description: 用于浏览和选择嵌套项目的层级树
+links:
+  rac: Tree
+  source: file-tree/file-tree.tsx
+  styles: file-tree.css
+  storybook: Components/FileTree
+---
+
+## 用法
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+```
+
+FileTree 是 React Aria `Tree` 的样式化适配器。它渲染由区块和项目组成
+的层级结构，同时保留树组件的键盘、选择、展开、集合以及拖放行为。
+
+## 组件结构
+
+`FileTree` 是根组件。使用 `FileTree.Section` 对项目分组，使用
+`FileTree.Header` 标记区块。每个 `FileTree.Item` 接收可见的 `title`；
+嵌套的 `FileTree.Item` 会成为子项目。
+
+展开/折叠箭头会自动提供。若要替换它，请通过项目的 `indicator` 属性传入
+带有自定义内容的 `FileTree.Indicator`。
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function FileTreeAnatomy() {
+  return (
+    <FileTree aria-label="Project files">
+      <FileTree.Section>
+        <FileTree.Header>Project</FileTree.Header>
+        <FileTree.Item id="src" title="src">
+          <FileTree.Item id="index" title="index.ts" />
+        </FileTree.Item>
+      </FileTree.Section>
+    </FileTree>
+  );
+}
+```
+
+## 示例
+
+### 基本用法
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function ProjectFiles() {
+  return (
+    <FileTree aria-label="Project files" defaultExpandedKeys={['src']}>
+      <FileTree.Section>
+        <FileTree.Header>Project</FileTree.Header>
+        <FileTree.Item id="src" title="src">
+          <FileTree.Item id="index" title="index.ts" />
+        </FileTree.Item>
+        <FileTree.Item id="package" title="package.json" />
+      </FileTree.Section>
+    </FileTree>
+  );
+}
+```
+
+### 尺寸和引导线
+
+`size` 变体默认为 `md`。引导线默认显示；传入 `"hover"` 可仅在鼠标悬停
+树时显示，传入 `false` 则完全隐藏。
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function FileTreeSizes() {
+  return (
+    <div>
+      <FileTree aria-label="Small files" size="sm">
+        <FileTree.Item id="small" title="Small tree" />
+      </FileTree>
+      <FileTree aria-label="Medium files" size="md">
+        <FileTree.Item id="medium" title="Medium tree" />
+      </FileTree>
+      <FileTree aria-label="Large files" size="lg" showGuideLines={false}>
+        <FileTree.Item id="large" title="Large tree" />
+      </FileTree>
+    </div>
+  );
+}
+```
+
+### 选择
+
+选择属性会透传给 React Aria 树。使用 `single` 或 `multiple` 选择模式，
+并通过 `onSelectionChange` 处理变化。
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+export default function SelectableFiles() {
+  return (
+    <FileTree
+      aria-label="Selectable files"
+      defaultSelectedKeys={['readme']}
+      selectionMode="multiple"
+      onSelectionChange={(keys) => console.log('selected keys', keys)}
+    >
+      <FileTree.Item id="readme" title="README.md" />
+      <FileTree.Item id="package" title="package.json" />
+    </FileTree>
+  );
+}
+```
+
+可以在根组件上设置 `disabledKeys`，或使用 React Aria 项目的禁用属性，
+阻止特定项目交互。
+
+### 使用复选框
+
+通过项目的 `selection` 属性传入复选框，并使用 React Aria 的 `selection`
+slot。这样会保留树的多选行为，同时每个控件都有可访问名称。
+
+```tsx
+import {Checkbox, FileTree} from '@sy-inc/react';
+
+export default function FileTreeWithCheckboxes() {
+  return (
+    <FileTree aria-label="Files" selectionMode="multiple">
+      <FileTree.Item
+        id="readme"
+        selection={
+          <Checkbox aria-label="Select README" slot="selection">
+            <Checkbox.Content>
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+            </Checkbox.Content>
+          </Checkbox>
+        }
+        title="README.md"
+      />
+    </FileTree>
+  );
+}
+```
+
+### 受控展开
+
+当展开状态由应用管理时，使用 `expandedKeys` 与 `onExpandedChange`。
+`defaultExpandedKeys` 为非受控树提供初始状态。
+
+```tsx
+import {useState} from 'react';
+import {FileTree} from '@sy-inc/react';
+
+export default function ControlledFileTree() {
+  const [expandedKeys, setExpandedKeys] = useState<Set<React.Key>>(
+    new Set(['src']),
+  );
+
+  return (
+    <FileTree
+      aria-label="Project files"
+      expandedKeys={expandedKeys}
+      onExpandedChange={setExpandedKeys}
+    >
+      <FileTree.Item id="src" title="src">
+        <FileTree.Item id="index" title="index.ts" />
+      </FileTree.Item>
+    </FileTree>
+  );
+}
+```
+
+### 动态集合
+
+当树来自数据时，传入 `items` 可迭代对象和渲染函数。渲染函数返回一个
+`FileTree.Item`；嵌套数据可以像静态内容一样由嵌套项目表示。
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+
+const files = [
+  {id: 'package', name: 'package.json'},
+  {id: 'readme', name: 'README.md'},
+];
+
+export default function DynamicFiles() {
+  return (
+    <FileTree aria-label="Dynamic files" items={files}>
+      {(file) => <FileTree.Item id={file.id} title={file.name} />}
+    </FileTree>
+  );
+}
+```
+
+### 自定义图标和指示器
+
+`icon` 接收节点或渲染函数。`indicator` 属性接收一个包含自定义图标内容的
+`FileTree.Indicator` 元素。
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+import {Icon} from '@iconify/react';
+
+export default function CustomFileTreeParts() {
+  return (
+    <FileTree aria-label="Files" defaultExpandedKeys={['src']}>
+      <FileTree.Item
+        id="src"
+        icon={<Icon aria-hidden="true" icon="gravity-ui:folder" />}
+        indicator={
+          <FileTree.Indicator>
+            <Icon aria-hidden="true" icon="gravity-ui:chevron-right" />
+          </FileTree.Indicator>
+        }
+        title="src"
+      >
+        <FileTree.Item id="index" title="index.ts" />
+      </FileTree.Item>
+    </FileTree>
+  );
+}
+```
+
+指示器通过 `FileTree.Item` 的 `indicator` 属性组合，而不是单独的子项目。
+未提供自定义指示器时，FileTree 使用内置箭头。
+
+### 拖放透传
+
+FileTree 会将 React Aria 的 `dragAndDropHooks` 透传给底层树。这会保留
+React Aria 适配器的拖放行为，同时在可拖动项目上提供可访问的拖动按钮。
+
+只传 `getItems` 只能让项目变得可拖起。必须同时传入至少一个放置回调并自行
+移动数据，才会有可放置的目标。树内部自己拖自己时，首选 `onMove`：放到文件夹
+*之上*和在兄弟节点*之间*排序都由它覆盖，并直接给出被拖动的 keys。
+`onItemDrop`、`onInsert`、`onRootDrop` 留给来自树外部的拖放。
+
+```tsx
+import {FileTree} from '@sy-inc/react';
+import {Collection, useDragAndDrop, useTreeData} from 'react-aria-components';
+
+export default function DraggableFiles() {
+  const tree = useTreeData({
+    getChildren: (item) => item.children ?? [],
+    getKey: (item) => item.id,
+    initialItems: [
+      {id: 'src', name: 'src', children: [{id: 'index', name: 'index.ts'}]},
+      {id: 'readme', name: 'README.md'},
+    ],
+  });
+
+  // `tree.move()` 没有环检测：文件夹被拖进自己的子树会丢失。
+  const isSelfOrDescendant = (key, ancestorKey) => {
+    if (key === ancestorKey) return true;
+
+    const parentKey = tree.getItem(key)?.parentKey;
+
+    return parentKey == null ? false : isSelfOrDescendant(parentKey, ancestorKey);
+  };
+
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) =>
+      [...keys].map((key) => ({'text/plain': String(key)})),
+    // 只有文件夹会吞掉放置，其余情况都是兄弟节点之间排序。
+    shouldAcceptItemDrop: (target) =>
+      Boolean(tree.getItem(target.key)?.value.children),
+    onMove(event) {
+      const keys = [...event.keys].filter(
+        (key) => !isSelfOrDescendant(event.target.key, key),
+      );
+
+      if (event.target.dropPosition === 'on') {
+        for (const key of keys) tree.move(key, event.target.key, 0);
+      } else if (event.target.dropPosition === 'before') {
+        tree.moveBefore(event.target.key, keys);
+      } else {
+        tree.moveAfter(event.target.key, keys);
+      }
+    },
+  });
+
+  const renderNode = (node) => (
+    <FileTree.Item key={node.key} id={node.key} title={node.value.name}>
+      <Collection items={node.children ?? []}>{renderNode}</Collection>
+    </FileTree.Item>
+  );
+
+  return (
+    <FileTree
+      aria-label="Draggable files"
+      defaultExpandedKeys={['src']}
+      dragAndDropHooks={dragAndDropHooks}
+      items={tree.items}
+    >
+      {renderNode}
+    </FileTree>
+  );
+}
+```
+
+`onMove` 会与 `onItemDrop`、`onReorder` *同时*触发，同一次内部拖放不要把它们
+一起传，否则每次放置都会被执行两次。
+
+可访问的拖动接缝通过 React Aria 的 `drag` slot 提供。拖动控件可使用
+`.file-tree__drag-handle` 定制，悬停中的放置行使用 `[data-drop-target]`，
+行与行之间的插入线使用 `.react-aria-DropIndicator`。
+
+## 自定义样式
+
+### Tailwind CSS
+
+可以在根组件或任意公开 part 上使用 `className` 添加 Tailwind 类。根组件
+的类会与 FileTree 的变体类合并。
+
+### 全局 CSS
+
+若要自定义 FileTree 类，可使用 `@layer components` 指令。
+[了解更多](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes)。
+
+```css
+@layer components {
+  .file-tree__item-content {
+    border-radius: 0.5rem;
+  }
+
+  .file-tree__drag-handle {
+    color: var(--muted);
+  }
+}
+```
+
+## 样式参考
+
+SY INC 遵循 [BEM](https://getbem.com/) 方法论，因此可以定制组件类和状态，
+而不依赖 React Aria 的内部实现。
+
+### CSS 类
+
+FileTree 使用以下类（[查看源码样式](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/file-tree.css)）：
+
+#### 基础类 [!toc]
+
+- `.file-tree` - 树根容器。
+- `.file-tree__section` - 区块容器。
+- `.file-tree__header` - 区块标题。
+- `.file-tree__item` - 树项目行容器。
+- `.file-tree__item-content` - 可见的项目内容行。
+- `.file-tree__chevron` - 展开/折叠按钮。
+- `.file-tree__indicator` - 箭头按钮中的指示器内容。
+- `.file-tree__icon` - 可选的项目图标。
+- `.file-tree__label` - 项目标题标签。
+- `.file-tree__item-content::before` - 祖先层级引导线，以重复渐变绘制。
+- `.file-tree__drag-handle` - 启用拖动时的可访问拖动按钮。
+
+#### 尺寸和引导线变体 [!toc]
+
+- `.file-tree--sm` - 小尺寸。
+- `.file-tree--md` - 中尺寸（默认）。
+- `.file-tree--lg` - 大尺寸。
+- `.file-tree--guides-hover` - 鼠标悬停树时显示引导线。
+- `.file-tree--no-guides` - 隐藏引导线。
+
+#### 状态选择器 [!toc]
+
+- `.file-tree__item:focus-visible` 或 `[data-focus-visible="true"]` - 键盘焦点。
+- `.file-tree__item:hover` 或 `[data-hovered="true"]` - 项目悬停状态。
+- `.file-tree__item[data-selected="true"]` 或 `[aria-selected="true"]` - 项目选中状态。
+- `.file-tree__item[data-disabled="true"]` - 项目禁用状态。
+- `.file-tree__indicator[data-expanded="true"]` - 项目已展开的指示器。
+
+### Data slots
+
+以下稳定 slot 可用于定向样式和测试：
+
+`file-tree`、`file-tree-section`、`file-tree-header`、`file-tree-item`、
+`file-tree-item-content`、`file-tree-chevron`、`file-tree-indicator`、
+`file-tree-icon`、`file-tree-label` 和
+`file-tree-drag-handle`。
+
+## API 参考
+
+### FileTree 与 FileTree.Root
+
+`FileTree` 与 `FileTree.Root` 是同一个根组件。根组件继承 React Aria 的
+[`TreeProps`](https://react-spectrum.adobe.com/react-aria/Tree.html#tree)，
+因此所有受支持的树属性、事件、渲染函数和 ref 行为都会透传。
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | 树的视觉尺寸。 |
+| `showGuideLines` | `boolean \| "hover"` | `true` | 显示引导线、仅悬停时显示或完全隐藏。 |
+| `selectionMode` | `"none" \| "single" \| "multiple"` | React Aria 默认值 | 继承自 `TreeProps` 的选择行为。 |
+| `selectedKeys` | `Selection` | - | 受控的选中项目 key。 |
+| `defaultSelectedKeys` | `Iterable<Key>` | - | 初始选中项目 key。 |
+| `onSelectionChange` | `(keys: Selection) => void` | - | 选择变化时调用。 |
+| `expandedKeys` | `Iterable<Key>` | - | 受控的展开项目 key。 |
+| `defaultExpandedKeys` | `Iterable<Key>` | - | 初始展开项目 key。 |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | - | 展开状态变化时调用。 |
+| `disabledKeys` | `Iterable<Key>` | - | 禁用项目的 key。 |
+| `items` | `Iterable<T>` | - | 动态集合的数据。 |
+| `children` | `ReactNode \| (item: T) => ReactNode` | - | 静态区块/项目或动态项目渲染器。 |
+| `dragAndDropHooks` | `DragAndDropHooks` | - | React Aria 拖放行为。 |
+| `aria-label` / `aria-labelledby` | `string` | - | 树的无障碍名称；没有可见名称时应提供。 |
+| `className` | `string \| (values) => string` | - | 额外根类或渲染函数类名。 |
+
+### FileTree.Section
+
+`FileTree.Section` 继承 React Aria 的
+[`TreeSectionProps`](https://react-spectrum.adobe.com/react-aria/Tree.html#treesection)。
+它用于组合嵌套项目，并接收继承的 `className`、`children`、ref 和 DOM 属性。
+
+### FileTree.Header
+
+`FileTree.Header` 继承 React Aria 的 `TreeHeaderProps`。它渲染区块的可见标题，
+并接收继承的 `children`、`className`、ref 和 DOM 属性。
+
+### FileTree.Item
+
+`FileTree.Item` 继承 React Aria 的
+[`TreeItemProps`](https://react-spectrum.adobe.com/react-aria/Tree.html#treeitem)，
+但可见行内容由 FileTree 提供。它接收嵌套的 `FileTree.Item` 作为
+`children`。
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `title` | `ReactNode` | 必填 | 可见的项目标题。 |
+| `id` | `Key` | - | React Aria 项目 key；静态项目和动态数据都应使用稳定 key。 |
+| `icon` | `ReactNode \| (props: TreeItemContentRenderProps) => ReactNode` | - | 可选图标，或接收项目内容状态的渲染函数。 |
+| `indicator` | `ReactNode` | 内置箭头 | 替代指示器。用 `FileTree.Indicator` 包裹可保留展开旋转效果。 |
+| `selection` | `ReactNode` | - | 使用 React Aria `selection` slot 的可选复选框或选择控件。 |
+| `textValue` | `string` | `title` 为字符串时使用其值 | React Aria 用于无障碍和首字母导航的文本值。 |
+| `children` | `ReactNode` | - | 嵌套的 `FileTree.Item` 项目。 |
+| `className` | `string \| (values) => string` | - | 额外项目类或渲染函数类名。 |
+| `isDisabled` | `boolean` | - | 通过继承的 React Aria 属性禁用此项目。 |
+
+其余 `TreeItemProps` 也会透传，包括项目 key、DOM 属性和 React Aria 渲染状态。
+
+### FileTree.Indicator
+
+将 `FileTree.Indicator` 作为 `FileTree.Item` 的 `indicator` 值使用。
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `children` | `ReactNode` | 箭头图标 | 自定义指示器内容。 |
+| `className` | `string` | - | 额外的指示器类。 |
+
+指示器按钮会获得可访问的展开/折叠标签。叶子项目的指示器按钮会被禁用，
+并使用 React Aria 所需的 `chevron` slot。
+
+### 渲染函数
+
+`icon` 渲染函数接收 React Aria 的
+`TreeItemContentRenderProps`，其中包括 `isExpanded`、`hasChildItems`、
+`isSelected`、`isDisabled`、`isFocused`、`isFocusVisible`、`isPressed`、
+`isHovered`、`allowsDragging` 和 `level` 等状态。
+
+## 已知限制
+
+**FileTree 不提供滚动容器。** 根元素为 `width: 100%` 且不限制高度，与其他集合类组件保持一致。
+需要限定高度并滚动时，请自行包一层：
+
+```tsx
+<div className="max-h-[420px] w-[300px] overflow-auto">
+  <FileTree aria-label="项目文件">{/* ... */}</FileTree>
+</div>
+```
+
+展开与折叠即时完成，只有指示器的旋转带动画，且遵循 `prefers-reduced-motion`。
+
+## 无障碍与键盘交互
+
+FileTree 保留 React Aria 的 treegrid 语义：根组件提供 `treegrid` 角色，
+项目提供 row 语义和层级元数据，树负责管理焦点和选择状态。
+
+- 除非其他可见标签已经命名该树，否则请为根组件提供 `aria-label` 或
+  `aria-labelledby`。
+- `ArrowRight` 展开折叠的项目；`ArrowLeft` 折叠已展开的项目，或将焦点移到
+  其父项目。
+- `ArrowDown` 和 `ArrowUp` 在可见项目之间移动。Home 和 End 会按照 React Aria
+  树行为移动到第一个和最后一个项目。
+- 当项目标题不是字符串时使用 `textValue`，为首字母导航和辅助技术提供有意义
+  的文本表示。
+- 禁用项目仍会向辅助技术公开其禁用状态，且不能被选中。
+- 启用拖放后，可访问拖动按钮仍可供键盘和辅助技术用户使用。
+
+完整的交互契约请参阅 [React Aria Tree 文档](https://react-spectrum.adobe.com/react-aria/Tree.html)。

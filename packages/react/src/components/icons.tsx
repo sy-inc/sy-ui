@@ -297,3 +297,21 @@ export const IconCalendar = (props: IconProps) => (
     />
   </svg>
 );
+
+export const IconGripVertical = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M6.5 3.25a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0m0 4.75a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0m0 4.75a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0M12 3.25a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0M12 8a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0m0 4.75a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0"
+      fill="currentColor"
+    />
+  </svg>
+);

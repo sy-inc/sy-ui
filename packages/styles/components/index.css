@@ -55,6 +55,7 @@
  * Collections
  * ------------------------------------------------------------------------------------------------ */
 @import "./dropdown.css";
+@import "./file-tree.css";
 @import "./list-box-item.css";
 @import "./list-box-section.css";
 @import "./list-box.css";

@@ -18,6 +18,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "item-card",
   "pressable-feedback",
   "resizable",
+  "file-tree",
 ];
 
 const LANGUAGES = ["en", "cn"];

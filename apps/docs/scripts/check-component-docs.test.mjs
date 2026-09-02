@@ -13,6 +13,7 @@ test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("pressable-feedback"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("text-shimmer"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("sheet"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("file-tree"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("resizable"));
   const root = await mkdtemp(path.join(tmpdir(), "sy-docs-"));
   try {

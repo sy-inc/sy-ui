@@ -44,6 +44,7 @@ export * from "./dropdown";
 export * from "./empty-state";
 export * from "./error-message";
 export * from "./field-error";
+export * from "./file-tree";
 export * from "./fieldset";
 export * from "./header";
 export * from "./input";

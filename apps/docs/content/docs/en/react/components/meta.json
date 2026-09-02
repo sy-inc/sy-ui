@@ -43,6 +43,7 @@
     "(overlays)/drawer",
     "(overlays)/sheet",
     "(collections)/dropdown",
+    "(collections)/file-tree",
     "(forms)/error-message",
     "(forms)/field-error",
     "(forms)/fieldset",

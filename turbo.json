@@ -11,6 +11,7 @@
   "tasks": {
     "dev": {
       "cache": false,
+      "env": ["STORYBOOK_PORT"],
       "persistent": true
     },
     "build": {

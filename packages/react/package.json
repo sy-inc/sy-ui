@@ -38,6 +38,9 @@
     "./carousel": {
       "import": "./src/components/carousel/index.ts"
     },
+    "./file-tree": {
+      "import": "./src/components/file-tree/index.ts"
+    },
     "./input-phone": {
       "import": "./src/components/input-phone/index.ts"
     },
