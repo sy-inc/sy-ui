@@ -32,6 +32,7 @@
   }
 
   .prompt-input:focus-within & {
+    @apply status-focused-field;
     background-color: var(--field-focus, var(--field-background, var(--default)));
     border-color: var(--field-border-focus, var(--field-border, var(--border)));
   }
