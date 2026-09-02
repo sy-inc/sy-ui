@@ -54,6 +54,7 @@ export * from "./spinner";
 export * from "./text-shimmer";
 export * from "./surface";
 export * from "./time-picker";
+export * from "./timeline";
 export * from "./toast";
 export * from "./toggle-button";
 export * from "./switch";

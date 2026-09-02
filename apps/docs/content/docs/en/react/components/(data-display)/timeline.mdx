@@ -1,0 +1,66 @@
+---
+title: Timeline
+description: Timelines present chronological events with flexible content on either side of a rail.
+links:
+  source: timeline/timeline.tsx
+  styles: timeline.css
+  storybook: Components/Timeline
+---
+
+## Usage
+
+```tsx
+import {Timeline} from "@sy-inc/react";
+```
+
+```tsx
+<Timeline aria-label="Product updates">
+  <Timeline.Item status="success">
+    <Timeline.Rail />
+    <Timeline.Content>Private beta</Timeline.Content>
+  </Timeline.Item>
+  <Timeline.Item status="current">
+    <Timeline.Rail>
+      <Timeline.Marker>2</Timeline.Marker>
+    </Timeline.Rail>
+    <Timeline.Content>Public launch</Timeline.Content>
+  </Timeline.Item>
+</Timeline>
+```
+
+`Timeline` is an ordered list and `Timeline.Item` is a list item. `Timeline.Rail` renders the marker and connector; an empty `Rail` renders a default marker, and the connector is hidden on the last item. Empty markers and connectors are decorative.
+
+## Centered milestones
+
+Use a centered, alternating rail for milestone content. Compose existing `Chip`, `Link`, `Avatar`, and typography components inside `Timeline.Content` as needed.
+
+```tsx
+<Timeline axis="center" placement="alternate">
+  <Timeline.Item align="center"><Timeline.Rail /><Timeline.Content>January milestone</Timeline.Content></Timeline.Item>
+  <Timeline.Item align="center"><Timeline.Rail /><Timeline.Content>March milestone</Timeline.Content></Timeline.Item>
+</Timeline>
+```
+
+## API reference
+
+### Timeline
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `axis` | `"start" \| "center"` | `"start"` |
+| `placement` | `"start" \| "end" \| "alternate"` | `"end"` |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` |
+| `density` | `"compact" \| "comfortable"` | `"comfortable"` |
+
+### Timeline.Item
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `status` | `"default" \| "current" \| "success" \| "warning" \| "danger" \| "muted"` | `"default"` |
+| `align` | `"start" \| "center"` | `"start"` |
+
+`status="current"` sets `aria-current="true"` and colors the marker. `placement` only applies when `axis="center"`.
+
+## Styling reference
+
+The stable slots are `timeline`, `timeline-item`, `timeline-rail`, `timeline-marker`, `timeline-connector`, and `timeline-content`.

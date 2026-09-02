@@ -1,0 +1,135 @@
+.timeline {
+  @apply m-0 w-full list-none p-0;
+
+  --timeline-connector-size: 2px;
+  --timeline-gap: 0.875rem;
+  --timeline-item-gap: 1rem;
+  --timeline-marker-size: 1.75rem;
+  --timeline-marker-font-size: var(--text-xs);
+}
+
+.timeline__item {
+  @apply relative grid min-w-0;
+
+  grid-template-columns: var(--timeline-marker-size) minmax(0, 1fr);
+  column-gap: var(--timeline-gap);
+  margin-block-end: var(--timeline-item-gap);
+
+  &:last-child {
+    margin-block-end: 0;
+  }
+}
+
+.timeline__rail {
+  @apply relative z-0 flex justify-center self-stretch;
+
+  min-height: var(--timeline-marker-size);
+}
+
+.timeline__marker {
+  @apply z-10 flex shrink-0 items-center justify-center rounded-full border border-border bg-background font-semibold text-muted;
+
+  width: var(--timeline-marker-size);
+  height: var(--timeline-marker-size);
+  font-size: var(--timeline-marker-font-size);
+
+  > svg {
+    @apply size-[55%];
+  }
+
+  &[data-status="current"] {
+    background-color: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  &[data-status="success"] {
+    background-color: color-mix(in oklab, var(--success) 12%, var(--background));
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  &[data-status="warning"] {
+    background-color: color-mix(in oklab, var(--warning) 12%, var(--background));
+    border-color: var(--warning);
+    color: var(--warning);
+  }
+
+  &[data-status="danger"] {
+    background-color: color-mix(in oklab, var(--danger) 12%, var(--background));
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
+  &[data-status="muted"] {
+    @apply border-border text-muted opacity-70;
+  }
+}
+
+.timeline__connector {
+  @apply absolute bg-separator;
+
+  top: var(--timeline-marker-size);
+  bottom: calc(var(--timeline-item-gap) * -1);
+  left: calc(50% - var(--timeline-connector-size) / 2);
+  width: var(--timeline-connector-size);
+
+  .timeline__item:last-child & {
+    @apply hidden;
+  }
+}
+
+.timeline__content {
+  @apply flex min-w-0 flex-col gap-1.5 break-words;
+
+  min-height: var(--timeline-marker-size);
+}
+
+.timeline__item[data-align="center"] .timeline__content {
+  @apply justify-center;
+}
+
+/* Centered axis: rail in the middle column, content on the placement side. */
+.timeline--axis-center .timeline__item {
+  grid-template-columns: minmax(0, 1fr) var(--timeline-marker-size) minmax(0, 1fr);
+}
+
+.timeline--axis-center .timeline__rail {
+  grid-column: 2;
+}
+
+.timeline--axis-center .timeline__content {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.timeline--axis-center.timeline--start .timeline__content,
+.timeline--axis-center.timeline--alternate .timeline__item:nth-child(even) .timeline__content {
+  @apply items-end text-end;
+
+  grid-column: 1;
+}
+
+.timeline--compact {
+  --timeline-item-gap: 0.75rem;
+}
+
+.timeline--comfortable {
+  /* Default density. */
+}
+
+.timeline--sm {
+  --timeline-gap: 0.625rem;
+  --timeline-marker-size: 1.375rem;
+  --timeline-marker-font-size: 10px;
+}
+
+.timeline--md {
+  /* Default size. */
+}
+
+.timeline--lg {
+  --timeline-gap: 1.125rem;
+  --timeline-marker-size: 2.25rem;
+  --timeline-marker-font-size: var(--text-sm);
+}

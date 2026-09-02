@@ -1,0 +1,66 @@
+---
+title: Timeline 时间线
+description: Timeline 通过可在轴两侧排列的内容展示按时间排序的事件。
+links:
+  source: timeline/timeline.tsx
+  styles: timeline.css
+  storybook: Components/Timeline
+---
+
+## 用法
+
+```tsx
+import {Timeline} from "@sy-inc/react";
+```
+
+```tsx
+<Timeline aria-label="产品更新">
+  <Timeline.Item status="success">
+    <Timeline.Rail />
+    <Timeline.Content>私测启动</Timeline.Content>
+  </Timeline.Item>
+  <Timeline.Item status="current">
+    <Timeline.Rail>
+      <Timeline.Marker>2</Timeline.Marker>
+    </Timeline.Rail>
+    <Timeline.Content>公开发布</Timeline.Content>
+  </Timeline.Item>
+</Timeline>
+```
+
+`Timeline` 渲染为有序列表，`Timeline.Item` 渲染为列表项。`Timeline.Rail` 渲染标记与连接线；空的 `Rail` 会渲染默认标记，最后一项的连接线自动隐藏。空标记与连接线均为装饰性元素。
+
+## 居中里程碑
+
+使用居中且交替的轴展示里程碑内容。可在 `Timeline.Content` 中组合现有的 `Chip`、`Link`、`Avatar` 与排版组件。
+
+```tsx
+<Timeline axis="center" placement="alternate">
+  <Timeline.Item align="center"><Timeline.Rail /><Timeline.Content>一月里程碑</Timeline.Content></Timeline.Item>
+  <Timeline.Item align="center"><Timeline.Rail /><Timeline.Content>三月里程碑</Timeline.Content></Timeline.Item>
+</Timeline>
+```
+
+## API 参考
+
+### Timeline
+
+| Prop | 类型 | 默认值 |
+| --- | --- | --- |
+| `axis` | `"start" \| "center"` | `"start"` |
+| `placement` | `"start" \| "end" \| "alternate"` | `"end"` |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` |
+| `density` | `"compact" \| "comfortable"` | `"comfortable"` |
+
+### Timeline.Item
+
+| Prop | 类型 | 默认值 |
+| --- | --- | --- |
+| `status` | `"default" \| "current" \| "success" \| "warning" \| "danger" \| "muted"` | `"default"` |
+| `align` | `"start" \| "center"` | `"start"` |
+
+`status="current"` 会设置 `aria-current="true"` 并为标记着色。`placement` 仅在 `axis="center"` 时生效。
+
+## 样式参考
+
+稳定 slot 为 `timeline`、`timeline-item`、`timeline-rail`、`timeline-marker`、`timeline-connector` 和 `timeline-content`。

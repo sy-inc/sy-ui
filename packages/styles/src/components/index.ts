@@ -78,6 +78,7 @@ export * from "./slider";
 export * from "./spinner";
 export * from "./text-shimmer";
 export * from "./stepper";
+export * from "./timeline";
 export * from "./surface";
 export * from "./switch";
 export * from "./switch-group";
