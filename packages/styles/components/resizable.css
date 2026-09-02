@@ -1,0 +1,60 @@
+@layer components {
+  /* Layout (display, flex-direction, sizing, overflow) is owned by react-resizable-panels
+     inline styles; these classes only carry the visual design. `.resizable` and
+     `.resizable__panel` carry no declarations on purpose: both sit on elements the library
+     already gives `overflow: hidden` / `auto`, so their flex `min-width`/`min-height: auto`
+     already resolves to 0 — they exist as styling hooks only. */
+  .resizable__handle {
+    @apply relative z-10 bg-border transition-colors outline-none select-none motion-reduce:transition-none;
+
+    /* This control exists to be dragged, so only the press itself tints the divider — a
+       bare hover or a released pointer leaves it alone. `:focus-visible` never matches a
+       pointer press, so it only covers keyboard focus, which is what lets the library keep
+       the separator focused after a drag for arrow-key fine-tuning. `data-separator` stays
+       "disabled" for disabled separators, so they never pick up the accent. */
+    &:is([data-separator="active"], :focus-visible) {
+      @apply bg-accent;
+    }
+    &[data-separator="disabled"] {
+      @apply status-disabled;
+    }
+  }
+  .resizable--horizontal > .resizable__handle {
+    @apply w-px cursor-col-resize;
+    margin-inline: -0.5px;
+  }
+  .resizable--vertical > .resizable__handle {
+    @apply h-px cursor-row-resize;
+    margin-block: -0.5px;
+  }
+
+  .resizable__handle-indicator {
+    @apply pointer-events-none absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-surface-secondary text-surface-secondary-foreground;
+  }
+  .resizable__handle-indicator--drag {
+    @apply h-5 w-[13px] rounded-sm;
+    &::before {
+      width: 10px;
+      height: 15px;
+      background-image: radial-gradient(circle, currentColor 1px, transparent 1.25px);
+      background-size: 5px 5px;
+      content: "";
+    }
+  }
+  .resizable__handle-indicator--pill {
+    @apply rounded-full;
+  }
+  .resizable--horizontal > .resizable__handle > .resizable__handle-indicator--pill {
+    @apply h-8 w-1.5;
+  }
+  .resizable--vertical > .resizable__handle > .resizable__handle-indicator--drag {
+    @apply h-[13px] w-5;
+    &::before {
+      width: 15px;
+      height: 10px;
+    }
+  }
+  .resizable--vertical > .resizable__handle > .resizable__handle-indicator--pill {
+    @apply h-1.5 w-8;
+  }
+}

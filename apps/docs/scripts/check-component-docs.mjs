@@ -17,6 +17,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "input-phone",
   "item-card",
   "pressable-feedback",
+  "resizable",
 ];
 
 const LANGUAGES = ["en", "cn"];

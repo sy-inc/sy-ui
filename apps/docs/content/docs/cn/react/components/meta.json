@@ -21,6 +21,7 @@
     "(date-and-time)/calendar",
     "(media)/carousel",
     "(layout)/card",
+    "(layout)/resizable",
     "(forms)/checkbox",
     "(forms)/checkbox-group",
     "(data-display)/chip",

@@ -3,7 +3,8 @@
 //  ===================================
 
 // Subpath-only integrations:
-// @sy-inc/react/carousel, @sy-inc/react/input-phone, and @sy-inc/react/rich-text-editor.
+// @sy-inc/react/carousel, @sy-inc/react/input-phone, @sy-inc/react/resizable, and
+// @sy-inc/react/rich-text-editor.
 // Avatar, InputOTP, and TimePicker are intentionally root-exported exceptions.
 
 // completed

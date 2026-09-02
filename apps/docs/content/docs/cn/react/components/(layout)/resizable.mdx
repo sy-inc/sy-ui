@@ -1,0 +1,138 @@
+---
+title: Resizable 可调整面板
+description: 使用无障碍的指针和键盘分隔手柄组合可调整大小的面板。
+links:
+  source: resizable/resizable.tsx
+  styles: resizable.css
+  storybook: Components/Resizable
+---
+
+## 用法
+
+Resizable 封装 `react-resizable-panels`，因此只提供子路径入口：
+
+```tsx
+import {Resizable} from "@sy-inc/react/resizable";
+
+<div className="h-64">
+  <Resizable>
+    <Resizable.Panel defaultSize="30%" minSize="20%">
+      侧栏
+    </Resizable.Panel>
+    <Resizable.Handle />
+    <Resizable.Panel minSize="40%">主内容</Resizable.Panel>
+  </Resizable>
+</div>;
+```
+
+全部调整行为都来自
+[react-resizable-panels](https://react-resizable-panels.vercel.app/)，且所有 props 原样透传，
+因此任意 CSS 单位的尺寸、可折叠面板、布局持久化和命令式句柄都以它的文档为准。
+SY INC 在其之上补充 BEM 类名、手柄类型与 `data-slot` 钩子。
+
+## 结构
+
+`Resizable` 是根组件。可组合任意交替的 `Resizable.Panel` 与 `Resizable.Handle`；
+每个手柄调整两侧的面板，当相邻面板到达最小尺寸时，会继续把变化传递给更远的面板。
+
+面板和手柄必须是根组件的直接子元素——请把内容包在面板*内部*，而不是包住面板本身。
+
+## 手柄类型
+
+`Resizable.Handle` 的所有视觉类型共用相同的指针、键盘和 separator 语义：
+
+```tsx
+<Resizable.Handle type="line" />
+<Resizable.Handle type="drag" />
+<Resizable.Handle type="pill" />
+```
+
+所有类型都保留同一条 1px 分隔线，区别只在于线上叠加的指示器。
+
+- `line` 仅显示分隔线，也是默认值。
+- `drag` 增加紧凑的抓取点指示器。
+- `pill` 增加胶囊指示器。
+
+传入 children 会替换内置指示器。
+
+## 嵌套布局
+
+在面板内放置另一个根组件，即可分别调整两个轴向。同一视图中存在多个分隔手柄时，
+应为每个手柄提供明确的无障碍名称。
+
+```tsx
+<Resizable>
+  <Resizable.Panel defaultSize="25%">侧栏</Resizable.Panel>
+  <Resizable.Handle aria-label="调整侧栏" />
+  <Resizable.Panel>
+    <Resizable orientation="vertical">
+      <Resizable.Panel defaultSize="65%">编辑器</Resizable.Panel>
+      <Resizable.Handle aria-label="调整编辑器" />
+      <Resizable.Panel>终端</Resizable.Panel>
+    </Resizable>
+  </Resizable.Panel>
+</Resizable>
+```
+
+## 持久化布局
+
+布局以面板 `id` 为键，因此需要记住的面板都应显式设置 `id`。
+上游的 hooks 与命令式类型都从同一个子路径重新导出。
+
+```tsx
+import {Resizable, useDefaultLayout} from "@sy-inc/react/resizable";
+
+const {defaultLayout, onLayoutChanged} = useDefaultLayout({
+  id: "workspace",
+  storage: localStorage,
+});
+
+<Resizable defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
+  <Resizable.Panel id="sidebar" defaultSize="25%">
+    侧栏
+  </Resizable.Panel>
+  <Resizable.Handle />
+  <Resizable.Panel id="main">主内容</Resizable.Panel>
+</Resizable>;
+```
+
+## API
+
+此处只列 SY INC 新增或改名的 props，其余全部属于
+[react-resizable-panels](https://react-resizable-panels.vercel.app/)，行为与其文档完全一致。
+
+| 部件 | Prop | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- | --- |
+| Root | `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | 水平布局左右调整；垂直布局上下调整。 |
+| Root、Panel、Handle | `ref` | `Ref<HTMLDivElement>` | — | 上游的 `elementRef`，改名以与组件库其余部分保持一致。 |
+| Handle | `type` | `"line" \| "drag" \| "pill"` | `"line"` | 只改变手柄的视觉处理。 |
+| Handle | `aria-label` | `string` | `"Resize handle"` | 无障碍名称。 |
+
+## 样式钩子
+
+| 节点 | 钩子 |
+| --- | --- |
+| 分组 | `.resizable`、`.resizable--horizontal` / `--vertical`、`[data-slot="resizable"]`、`[data-orientation]` |
+| 面板 — flex 项 | `[data-slot="resizable-panel"]` |
+| 面板 — 滚动容器 | `.resizable__panel`，以及面板自身的 `className` |
+| 手柄 | `.resizable__handle`、`[data-slot="resizable-handle"]`、`[data-separator]` |
+| 指示器 | `.resizable__handle-indicator`、`--drag` / `--pill`、`[data-slot="resizable-handle-indicator"]` |
+
+`Resizable.Panel` 会渲染两个节点：由库负责尺寸计算的 flex 项，接收 `ref` 和全部透传 props；
+以及嵌套其中的滚动容器，接收 `className`。前者用 `[data-slot="resizable-panel"]` 选取，
+后者用 `.resizable__panel` 选取。
+
+## 无障碍与限制
+
+手柄是可聚焦的 `separator`，提供 `aria-valuemin`、`aria-valuenow` 和
+`aria-valuemax`。水平组使用 Left/Right、垂直组使用 Up/Down，步长为 5%；
+<kbd>Home</kbd>/<kbd>End</kbd> 直接跳到边界，<kbd>Enter</kbd> 切换可折叠面板，
+<kbd>F6</kbd> 在同组手柄之间循环。禁用的手柄会移出 Tab 顺序，且不暴露调整数值。
+
+可见分隔线为 1px，命中区域由库负责处理（指针 10px、触摸 20px）。内置指示器仅用于装饰。
+由于该控件本身就是用来拖拽的，只有按住时分隔线才变为强调色——悬停和松开后都不变色，
+也不绘制焦点环；键盘聚焦复用同一种强调色分隔线。指针拖拽结束后焦点会保留在分隔线上，
+因此鼠标调整完可以直接用方向键微调。更多状态可用 `data-separator` 定制，取值为
+`"inactive"`、`"hover"`、`"focus"`、`"active"` 或 `"disabled"`。
+
+RTL 布局未做特殊处理：水平拖拽方向跟随物理坐标轴，而非书写方向。

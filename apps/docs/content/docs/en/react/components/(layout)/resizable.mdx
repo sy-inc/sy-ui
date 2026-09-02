@@ -1,0 +1,148 @@
+---
+title: Resizable
+description: Compose resizable panels with an accessible pointer and keyboard handle.
+links:
+  source: resizable/resizable.tsx
+  styles: resizable.css
+  storybook: Components/Resizable
+---
+
+## Usage
+
+Resizable is a subpath-only integration because it wraps `react-resizable-panels`:
+
+```tsx
+import {Resizable} from "@sy-inc/react/resizable";
+
+<div className="h-64">
+  <Resizable>
+    <Resizable.Panel defaultSize="30%" minSize="20%">
+      Sidebar
+    </Resizable.Panel>
+    <Resizable.Handle />
+    <Resizable.Panel minSize="40%">Main content</Resizable.Panel>
+  </Resizable>
+</div>;
+```
+
+Every resize behaviour comes from
+[react-resizable-panels](https://react-resizable-panels.vercel.app/) and every prop is
+forwarded untouched, so its documentation is the reference for sizes in any CSS unit,
+collapsible panels, layout persistence, and the imperative handles. SY INC adds the BEM
+classes, the handle types, and the `data-slot` hooks.
+
+## Anatomy
+
+`Resizable` is the root. Compose any alternating sequence of `Resizable.Panel` and
+`Resizable.Handle`; each handle resizes the panels around it and pushes the change through
+to the panels beyond them when a neighbour hits its minimum.
+
+Panels and handles must be direct children of the root — wrap the content *inside* a panel,
+not the panel itself.
+
+## Handle types
+
+`Resizable.Handle` keeps the same pointer, keyboard, and separator semantics for every
+visual type:
+
+```tsx
+<Resizable.Handle type="line" />
+<Resizable.Handle type="drag" />
+<Resizable.Handle type="pill" />
+```
+
+Every type keeps the same 1px divider; only the indicator on top of it changes.
+
+- `line` renders only the divider and is the default.
+- `drag` adds a compact grip indicator.
+- `pill` adds a pill indicator.
+
+Passing children replaces the built-in indicator.
+
+## Nested groups
+
+Place another root inside a panel to resize two axes independently. Give each handle a
+specific accessible name when multiple separators share a view.
+
+```tsx
+<Resizable>
+  <Resizable.Panel defaultSize="25%">Sidebar</Resizable.Panel>
+  <Resizable.Handle aria-label="Resize sidebar" />
+  <Resizable.Panel>
+    <Resizable orientation="vertical">
+      <Resizable.Panel defaultSize="65%">Editor</Resizable.Panel>
+      <Resizable.Handle aria-label="Resize editor" />
+      <Resizable.Panel>Terminal</Resizable.Panel>
+    </Resizable>
+  </Resizable.Panel>
+</Resizable>
+```
+
+## Persisting the layout
+
+Layouts are keyed by panel `id`, so set one on every panel you want to remember. The
+upstream hooks and imperative types are re-exported from the same subpath.
+
+```tsx
+import {Resizable, useDefaultLayout} from "@sy-inc/react/resizable";
+
+const {defaultLayout, onLayoutChanged} = useDefaultLayout({
+  id: "workspace",
+  storage: localStorage,
+});
+
+<Resizable defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged}>
+  <Resizable.Panel id="sidebar" defaultSize="25%">
+    Sidebar
+  </Resizable.Panel>
+  <Resizable.Handle />
+  <Resizable.Panel id="main">Main</Resizable.Panel>
+</Resizable>;
+```
+
+## API
+
+Only what SY INC adds or renames is listed here; every other prop is
+[react-resizable-panels'](https://react-resizable-panels.vercel.app/) and behaves exactly
+as documented there.
+
+| Part | Prop | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| Root | `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Horizontal layouts resize left/right; vertical layouts resize up/down. |
+| Root, Panel, Handle | `ref` | `Ref<HTMLDivElement>` | — | The upstream `elementRef`, renamed to match the rest of the library. |
+| Handle | `type` | `"line" \| "drag" \| "pill"` | `"line"` | Changes only the handle's visual treatment. |
+| Handle | `aria-label` | `string` | `"Resize handle"` | Accessible name. |
+
+## Styling
+
+| Node | Hooks |
+| --- | --- |
+| Group | `.resizable`, `.resizable--horizontal` / `--vertical`, `[data-slot="resizable"]`, `[data-orientation]` |
+| Panel — flex item | `[data-slot="resizable-panel"]` |
+| Panel — scroll box | `.resizable__panel`, plus the panel's own `className` |
+| Handle | `.resizable__handle`, `[data-slot="resizable-handle"]`, `[data-separator]` |
+| Indicator | `.resizable__handle-indicator`, `--drag` / `--pill`, `[data-slot="resizable-handle-indicator"]` |
+
+`Resizable.Panel` renders two nodes: the flex item the library sizes, which receives `ref`
+and every forwarded prop, and the scroll box nested inside it, which receives `className`.
+Reach the first through `[data-slot="resizable-panel"]` and the second through
+`.resizable__panel`.
+
+## Accessibility and limits
+
+Handles are focusable `separator` elements with `aria-valuemin`, `aria-valuenow`, and
+`aria-valuemax`. Left/Right resize horizontal groups and Up/Down resize vertical ones in
+5% steps, <kbd>Home</kbd>/<kbd>End</kbd> jump to the bounds, <kbd>Enter</kbd> toggles a
+collapsible panel, and <kbd>F6</kbd> cycles between the handles of a group. Disabled
+handles drop out of the tab order and expose no resize value.
+
+The visible divider is 1px, with a 10px pointer / 20px touch hit area handled by the
+library. Built-in indicators are decorative. Because the control exists to be dragged, only
+an active press tints the divider — hover and a released pointer leave it alone, and there
+is no focus ring; keyboard focus reuses the same accent divider. A pointer drag leaves the
+separator focused, so a mouse resize can be fine-tuned straight away with the arrow keys.
+Style further states from `data-separator`, which is `"inactive"`, `"hover"`, `"focus"`,
+`"active"`, or `"disabled"`.
+
+Right-to-left layouts are not handled specially: horizontal drag direction follows the
+physical axis, not the writing direction.

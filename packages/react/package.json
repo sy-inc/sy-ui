@@ -41,6 +41,9 @@
     "./input-phone": {
       "import": "./src/components/input-phone/index.ts"
     },
+    "./resizable": {
+      "import": "./src/components/resizable/index.ts"
+    },
     "./rich-text-editor": {
       "import": "./src/components/rich-text-editor/index.ts"
     }
@@ -80,6 +83,7 @@
     "embla-carousel-autoplay": "9.0.0-rc03",
     "embla-carousel-react": "9.0.0-rc03",
     "input-otp": "1.4.2",
+    "react-resizable-panels": "4.12.3",
     "tailwind-merge": "3.4.0",
     "tailwind-variants": "3.3.1"
   },
