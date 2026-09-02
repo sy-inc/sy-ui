@@ -182,11 +182,29 @@ const CheckboxIndicator = <E extends keyof React.JSX.IntrinsicElements = "span">
 
 CheckboxIndicator.displayName = "SY INC.Checkbox.Indicator";
 
+/* -------------------------------------------------------------------------------------------------
+ * Checkbox Selection — the control-only checkbox collections render in their `selection` slot.
+ * -----------------------------------------------------------------------------------------------*/
+interface CheckboxSelectionProps extends Omit<CheckboxRootProps, "children" | "slot"> {}
+
+const CheckboxSelection = (props: CheckboxSelectionProps) => (
+  <CheckboxRoot data-slot="checkbox-selection" slot="selection" {...props}>
+    <CheckboxContent>
+      <CheckboxControl>
+        <CheckboxIndicator />
+      </CheckboxControl>
+    </CheckboxContent>
+  </CheckboxRoot>
+);
+
+CheckboxSelection.displayName = "SY INC.Checkbox.Selection";
+
 /* ----------------------------------------------------------------------------------------------*/
 
-export {CheckboxRoot, CheckboxContent, CheckboxControl, CheckboxIndicator};
+export {CheckboxRoot, CheckboxContent, CheckboxControl, CheckboxIndicator, CheckboxSelection};
 export type {
   CheckboxRootProps,
+  CheckboxSelectionProps,
   CheckboxContentProps,
   CheckboxControlProps,
   CheckboxIndicatorProps,

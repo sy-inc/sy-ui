@@ -2,7 +2,7 @@
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {TableVariants} from "@sy-inc/styles";
-import type {CSSProperties, ComponentPropsWithRef, ReactNode} from "react";
+import type {CSSProperties, ComponentProps, ComponentPropsWithRef, ReactNode} from "react";
 import type {SortDescriptor} from "react-aria-components/Table";
 
 import {mergeRefs} from "@react-aria/utils";
@@ -429,25 +429,10 @@ TableCell.displayName = "SY INC.Table.Cell";
 /* -------------------------------------------------------------------------------------------------
  * Table Selection Checkbox
  * -----------------------------------------------------------------------------------------------*/
-interface TableSelectionCheckboxProps extends Omit<
-  ComponentPropsWithRef<typeof Checkbox>,
-  "children" | "slot"
-> {}
+interface TableSelectionCheckboxProps extends ComponentProps<typeof Checkbox.Selection> {}
 
-const TableSelectionCheckbox = ({className, ref, ...props}: TableSelectionCheckboxProps) => (
-  <Checkbox
-    ref={ref}
-    className={className}
-    data-slot="table-selection-checkbox"
-    slot="selection"
-    {...props}
-  >
-    <Checkbox.Content>
-      <Checkbox.Control>
-        <Checkbox.Indicator />
-      </Checkbox.Control>
-    </Checkbox.Content>
-  </Checkbox>
+const TableSelectionCheckbox = (props: TableSelectionCheckboxProps) => (
+  <Checkbox.Selection data-slot="table-selection-checkbox" {...props} />
 );
 
 TableSelectionCheckbox.displayName = "SY INC.Table.SelectionCheckbox";

@@ -51,6 +51,7 @@ export * from "./list-box-item/list-box-item.styles";
 export * from "./list-box-section/list-box-section.styles";
 export * from "./list-box/list-box.styles";
 export * from "./menu-item/menu-item.styles";
+export * from "./list-view";
 export * from "./menu-section/menu-section.styles";
 export * from "./menu/menu.styles";
 export * from "./meter/meter.styles";

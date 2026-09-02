@@ -1,0 +1,136 @@
+/* Keyboard-navigable file collection with selectable grid rows. */
+.list-view {
+  @apply relative min-h-0 w-full outline-none;
+}
+
+/* ==========================================================================
+   Container variants
+   ========================================================================== */
+
+.list-view--primary {
+  @apply rounded-[20px] bg-surface-secondary p-1;
+}
+
+.list-view--secondary {
+  @apply bg-transparent p-0;
+}
+
+.list-view__section {
+  @apply grid;
+}
+
+/* ==========================================================================
+   Item — layout and variant-agnostic state only.
+   Background state lives on the variant selectors below so a variant override
+   can never lose a specificity tie to a base `:hover` / `[data-selected]` rule.
+   ========================================================================== */
+
+.list-view__item {
+  @apply relative flex w-full items-center gap-3 border-b border-separator-tertiary/50 px-4 py-3 text-start text-sm outline-none no-highlight;
+
+  cursor: var(--cursor-interactive);
+
+  &:last-child {
+    @apply border-b-0;
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    box-shadow: inset 0 0 0 2px var(--focus);
+  }
+
+  &[data-disabled="true"],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &[data-dragging="true"] {
+    @apply opacity-50;
+  }
+
+  /* Leading/trailing row icons. Nested icons (checkbox, buttons) keep their own size. */
+  & > svg {
+    @apply size-4 shrink-0 text-muted;
+  }
+}
+
+/* Opaque rows stacked on a tinted container, on the same `surface` alpha scale as
+   `.table__cell`: lowering the alpha lets the container show through, so a smaller
+   alpha reads as darker. Selection must stay last to win the specificity tie
+   against hover. */
+.list-view--primary .list-view__item {
+  @apply bg-surface;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-surface/40;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply bg-surface/10;
+  }
+
+  &[data-selected="true"] {
+    @apply bg-surface/10;
+  }
+}
+
+.list-view--primary .list-view__item:first-child {
+  @apply rounded-t-2xl;
+}
+
+.list-view--primary .list-view__item:last-child {
+  @apply rounded-b-2xl;
+}
+
+/* Transparent rows on the page background. */
+.list-view--secondary .list-view__item {
+  @apply rounded-none bg-transparent;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default/50;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply bg-default/50;
+  }
+
+  &[data-selected="true"] {
+    @apply bg-accent-soft;
+
+    @media (hover: hover) {
+      &:hover,
+      &[data-hovered="true"] {
+        @apply bg-accent-soft-hover;
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   Item parts
+   ========================================================================== */
+
+.list-view__selection {
+  @apply shrink-0;
+}
+
+/* Stacked title/description column. Fills the row so trailing content sits at the end. */
+.list-view__content {
+  @apply flex min-w-0 flex-1 flex-col;
+}
+
+.list-view__title {
+  @apply truncate text-sm leading-5 font-medium text-default-foreground;
+}
+
+.list-view__description {
+  @apply truncate text-xs leading-4 font-normal text-muted;
+}

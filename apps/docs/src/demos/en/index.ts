@@ -2931,6 +2931,12 @@ export const demos: Record<string, DemoItem> = {
     file: "en/typography/custom-styles.tsx",
   },
 
+  // ListView Demo
+  "list-view-default": {
+    loader: () => import("./list-view/default").then((m) => m.Default),
+    file: "en/list-view/default.tsx",
+  },
+
   // Release Demos
   "release-button-outline-variant": {
     loader: () => import("./button/release-outline-variant").then((m) => m.OutlineVariant),

@@ -1,0 +1,95 @@
+---
+title: ListView 列表视图
+description: 用于相关行的可选择列表，支持键盘导航。
+links:
+  rac: GridList
+  source: list-view/list-view.tsx
+  styles: list-view.css
+  storybook: Components/ListView
+---
+
+## 用法
+
+```tsx
+import { ListView } from '@sy-inc/react';
+```
+
+<ComponentPreview name="list-view-default" />
+
+## 结构
+
+```tsx
+<ListView aria-label="Team members" selectionMode="multiple">
+  <ListView.Item id="maya" textValue="Maya Chen">
+    <ListView.Selection aria-label="Select Maya Chen" />
+    <ListView.Content>
+      <ListView.Title>Maya Chen</ListView.Title>
+      <ListView.Description>Design</ListView.Description>
+    </ListView.Content>
+  </ListView.Item>
+  <ListView.Section>
+    <Header>Archived</Header>
+    <ListView.Item id="noah" textValue="Noah Williams">
+      <ListView.Content>
+        <ListView.Title>Noah Williams</ListView.Title>
+      </ListView.Content>
+    </ListView.Item>
+  </ListView.Section>
+</ListView>
+```
+
+## API 参考
+
+### ListView
+
+ListView 透传 React Aria GridList props。未设置 `selectionMode` 时不开启选择。
+
+| Prop | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `aria-label` / `aria-labelledby` | `string` | — | 为 grid 提供无障碍名称。 |
+| `selectionMode` | `"none" \| "single" \| "multiple"` | `"none"` | 选择行为。 |
+| `selectedKeys` / `defaultSelectedKeys` | `Selection` | — | 受控选择或初始选择。 |
+| `onSelectionChange` | `(keys: Selection) => void` | — | 选择变化时调用。 |
+| `disabledKeys` | `Iterable<Key>` | — | 不可选择的 key。 |
+| `onAction` | `(key: Key) => void` | — | 激活某一行时调用。 |
+| `renderEmptyState` | `(props) => ReactNode` | — | 集合为空时渲染的内容。 |
+| `variant` | `"primary" \| "secondary"` | `"primary"` | 容器视觉样式。 |
+| `className` | GridList className | — | 额外的 className 或渲染函数。 |
+| `ref` | GridList ref | — | 转发到 GridList DOM 元素的 ref。 |
+
+### ListView.Item
+
+`Item` 透传 React Aria GridListItem props。请提供 `id` 和 `textValue`，以支持集合标识、屏幕阅读器和首字母导航；使用 `isDisabled` 让某一行不可交互。
+
+### ListView.Section
+
+`Section` 透传 React Aria GridListSection props。请将 `Header` 或其他可见标签放在首位，以便为分组提供无障碍名称。
+
+### ListView.Selection
+
+渲染行的选择复选框（`slot="selection"`）。请传入 `aria-label`，使复选框拥有独立于行的名称；`selectionMode="none"` 时应省略该部件。
+
+### ListView.Content
+
+纵向堆叠 `Title` 与 `Description` 并占据行的剩余宽度，使前置图标与尾部操作分别贴在行的两端。直接放在 `Item` 下的图标（`svg`）会被统一为 `size-4` 与 muted 前景色。
+
+### ListView.Title
+
+行主标题，溢出时截断。
+
+### ListView.Description
+
+行次要文本，溢出时截断。
+
+## 无障碍
+
+- 根节点具有 `role="grid"`；每一行具有 `role="row"`，其内容包裹在 `role="gridcell"` 中。
+- 上下方向键在行之间移动 roving focus，左右方向键在行内移动，Space 切换选择，Enter 触发 `onAction`，`textValue` 支持首字母导航。
+- 根、行和分组分别暴露 `data-slot="list-view"`、`data-slot="list-view-item"` 和 `data-slot="list-view-section"`。
+- 行保留仅键盘可见的焦点指示器；选择与禁用状态通过 React Aria data attributes 暴露。
+
+## 样式
+
+`variant="primary"` 将不透明的 `--surface` 行叠在带底色的容器上，通过调整 alpha 表达 hover、按下与选中——alpha 越低容器透出越多，视觉上越深。`variant="secondary"` 去掉容器，hover 与按下使用 `--default`，选中行使用 `--accent-soft`。BEM hooks 为 `.list-view`、`.list-view__item`、`.list-view__section`、`.list-view__content`、`.list-view__title` 和 `.list-view__description`；选中行可通过 `[data-selected="true"]` 定位。
+
+<RelatedComponents component="list-box" />
