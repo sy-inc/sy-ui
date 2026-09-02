@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Radio button group
+
+   Structure (the card IS the clickable label, so every state attribute and
+   the whole hit area land on one element):
+     .radio-button-group                         → RadioGroup
+       [data-slot="radio-button-group-item"]     → RadioField wrapper, display: contents
+         .radio-button-group__item               → RadioButton (the card, a column)
+           .radio-button-group__indicator        → pinned to the top corner
+           .radio-button-group__item-icon
+           .radio-button-group__item-content     → Label / Description / price
+
+   Sizing (width, grid columns, min height) is left to the consumer.
+   ========================================================================== */
+
+.radio-button-group {
+  --radio-button-group-item-radius: var(--radius-2xl);
+
+  @apply flex flex-col gap-3;
+
+  /* The field wrapper is not a box: the card itself is the flex/grid item.
+     Not a direct-child selector, so items still work inside a wrapper element. */
+  & [data-slot="radio-button-group-item"] {
+    display: contents;
+  }
+}
+
+.radio-button-group--grid {
+  @apply grid;
+}
+
+.radio-button-group__item {
+  @apply relative flex w-full flex-col items-stretch gap-4 rounded-[var(--radio-button-group-item-radius)] border border-field-border px-5 py-4 outline-none no-highlight;
+
+  cursor: var(--cursor-interactive);
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Ring instead of a thicker border: no layout shift on selection. */
+  &[data-selected="true"] {
+    @apply border-transparent ring-2 ring-accent;
+  }
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+/* The control is pinned to the corner so the content owns the full card width. */
+.radio-button-group__indicator {
+  @apply absolute end-4 top-3;
+}
+
+.radio-button-group__item-content {
+  @apply flex min-w-0 flex-col;
+}
+
+.radio-button-group__item-icon {
+  @apply flex shrink-0 items-center justify-center;
+
+  & svg {
+    @apply size-6;
+  }
+}

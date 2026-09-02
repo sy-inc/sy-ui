@@ -1,0 +1,46 @@
+---
+title: RadioButtonGroup 单选按钮组
+description: 用于选择单一值的卡片式单选项。
+---
+
+## 用法
+
+```tsx
+import {RadioButtonGroup} from "@sy-inc/react";
+```
+
+```tsx
+<RadioButtonGroup aria-label="套餐" className="max-w-[360px]" defaultValue="basic">
+  <RadioButtonGroup.Item value="basic">
+    <RadioButtonGroup.Indicator />
+    <RadioButtonGroup.ItemContent>
+      <Label>基础版</Label>
+      <Description>适合个人与小型项目</Description>
+    </RadioButtonGroup.ItemContent>
+  </RadioButtonGroup.Item>
+</RadioButtonGroup>
+```
+
+`ItemContent` 内请使用 `Label` 与 `Description` 而不是裸元素：在选项内部它们会渲染为带设计系统排版的 span，且 `Description` 会自动接入单选框的 `aria-describedby`。
+
+## 组件结构
+
+`RadioButtonGroup` 提供 `Root`、`Item`、`Indicator`、`ItemContent` 与 `ItemIcon`。
+
+## 属性与事件
+
+`value`、`defaultValue`、`onChange`、`isDisabled`、校验属性、Label、Description 与渲染函数会传递给底层 `RadioGroup` 和 `Radio`。`onChange(value)` 返回选中的值。
+
+`layout` 默认为 `"flex"`；传入 `"grid"` 使用网格。
+
+组件不内置宽度、最小高度与网格列数，请在根节点用工具类设置（`className="max-w-[360px]"`、`className="sm:grid-cols-3"`）。
+
+## 无障碍
+
+通过 `aria-label` 或 `Label` 提供可访问名称。项目保留 React Aria 单选框的键盘行为：方向键移动焦点并选择。默认指示器组合 `Radio.Control` 与 `Radio.Indicator`；自定义指示器只会在选中时显示。
+
+## 样式
+
+每张卡片是纵向排列：内容自上而下堆叠，指示器固定在右上角。卡片类挂在可点击的 label 上，因此整张卡片都是点击区域，并直接带有 `data-selected`、`data-focus-visible`、`data-hovered`、`data-pressed`；外层字段容器为 `display: contents`。
+
+类名：`.radio-button-group`、`.radio-button-group--grid`、`.radio-button-group__item`、`.radio-button-group__indicator`、`.radio-button-group__item-content`、`.radio-button-group__item-icon`。稳定 data slot：`radio-button-group`、`radio-button-group-item`、`radio-button-group-indicator`、`radio-button-group-item-content`、`radio-button-group-item-icon`。 圆角可通过 `--radio-button-group-item-radius` 覆盖。
