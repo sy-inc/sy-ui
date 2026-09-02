@@ -4,6 +4,7 @@ import {fileURLToPath} from "node:url";
 
 export const REQUIRED_COMPONENT_DOCS = [
   "action-bar",
+  "chat-message",
   "bottom-bar",
   "segment",
   "navbar",

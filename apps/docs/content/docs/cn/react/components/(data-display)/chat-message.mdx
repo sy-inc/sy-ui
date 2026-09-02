@@ -1,0 +1,55 @@
+---
+title: Chat Message
+description: 用于用户与助手消息的可组合布局部件
+links:
+  source: chat-message/chat-message.tsx
+  styles: chat-message.css
+  storybook: Components/ChatMessage
+---
+
+## 用法
+
+```tsx
+import {Avatar, ChatMessage} from "@sy-inc/react";
+```
+
+## 组件结构
+
+```tsx
+<ChatMessage>
+  <ChatMessage.Assistant>
+    <ChatMessage.Avatar>
+      <Avatar.Fallback>AI</Avatar.Fallback>
+    </ChatMessage.Avatar>
+    <ChatMessage.Body>
+      <ChatMessage.Content>How can I help?</ChatMessage.Content>
+      <ChatMessage.Actions>{/* 使用已有 Button 控件 */}</ChatMessage.Actions>
+    </ChatMessage.Body>
+  </ChatMessage.Assistant>
+
+  <ChatMessage.User>
+    <ChatMessage.Bubble>
+      <ChatMessage.Content>I need help.</ChatMessage.Content>
+    </ChatMessage.Bubble>
+  </ChatMessage.User>
+</ChatMessage>
+```
+
+## API 参考
+
+`ChatMessage`（Root）是消息列表容器，`ChatMessage.Assistant` 与 `ChatMessage.User` 是消息行，三者均接受原生 `div` props。`ChatMessage.Avatar` 接受现有 `Avatar` props，默认使用紧凑的 `sm` 尺寸。`Body`、`Bubble`、`Content` 与 `Actions` 均为可组合布局部件，也接受原生 `div` props。
+
+## 无障碍
+
+ChatMessage 仅提供布局。在 `ChatMessage.Actions` 内组合图标按钮时，应为每个仅图标 action 提供可访问名称，并复用现有的 `Button` 和 `Tooltip` 组件。
+
+## 样式参考
+
+- `.chat-message` - 会话容器
+- `.chat-message--assistant` - 助手消息行
+- `.chat-message--user` - 用户消息列
+- `.chat-message__avatar` - 助手头像
+- `.chat-message__body` - 助手内容堆栈
+- `.chat-message__bubble` - 用户消息表面
+- `.chat-message__content` - 消息内容
+- `.chat-message__actions` - 组合的操作控件

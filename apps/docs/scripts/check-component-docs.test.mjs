@@ -8,6 +8,7 @@ import {REQUIRED_COMPONENT_DOCS, getComponentDocGaps} from "./check-component-do
 
 test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("action-bar"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("chat-message"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("segment"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("input-phone"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("list-view"));

@@ -12,6 +12,7 @@ export * from "./button-group/button-group.styles";
 export * from "./button/button.styles";
 export * from "./calendar-year-picker/calendar-year-picker.styles";
 export * from "./calendar/calendar.styles";
+export * from "./chat-message";
 export * from "./card/card.styles";
 export * from "./carousel/carousel.styles";
 export * from "./checkbox-group/checkbox-group.styles";
