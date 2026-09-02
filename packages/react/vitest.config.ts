@@ -11,6 +11,16 @@ const srcDir = join(__dirname, "src");
 
 /** Dual-project: jsdom (`*.test` / `*.ssr.test`) + Playwright (`*.browser.test`). */
 export default defineConfig({
+  // Keep React Aria subpath imports in the initial dependency graph. Without this, Vite can
+  // discover them while browser tests are already running and reload a test with a second React
+  // instance, which surfaces as an invalid-hook-call failure in PromptInput.
+  optimizeDeps: {
+    include: [
+      "react-aria-components/Form",
+      "react-aria-components/GridList",
+      "react-aria-components/useDragAndDrop",
+    ],
+  },
   resolve: {
     alias: {
       "@": srcDir,

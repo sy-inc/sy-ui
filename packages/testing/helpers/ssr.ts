@@ -37,6 +37,7 @@ export const ssrSmoke = async (ui: ReactElement, options: SsrSmokeOptions = {}) 
   const errors: unknown[] = [];
   // eslint-disable-next-line no-console
   const originalError = console.error;
+  let hydratedRoot: ReturnType<typeof hydrateRoot> | undefined;
 
   // eslint-disable-next-line no-console
   console.error = (...args: unknown[]) => {
@@ -46,7 +47,7 @@ export const ssrSmoke = async (ui: ReactElement, options: SsrSmokeOptions = {}) 
 
   try {
     await act(async () => {
-      hydrateRoot(container, wrap(ui, options.wrapper));
+      hydratedRoot = hydrateRoot(container, wrap(ui, options.wrapper));
     });
 
     const hydrationErrors = errors.filter((entry) => {
@@ -57,6 +58,9 @@ export const ssrSmoke = async (ui: ReactElement, options: SsrSmokeOptions = {}) 
 
     expect(hydrationErrors).toEqual([]);
   } finally {
+    await act(async () => {
+      hydratedRoot?.unmount();
+    });
     // eslint-disable-next-line no-console
     console.error = originalError;
     container.remove();

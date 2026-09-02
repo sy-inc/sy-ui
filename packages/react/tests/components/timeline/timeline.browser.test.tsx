@@ -8,11 +8,20 @@ import "../../../../styles/dist/sy-inc.min.css";
 describe("Timeline (browser)", () => {
   it("keeps alternate content aligned with markers and connectors continuous", async () => {
     await render(
-      <Timeline aria-label="Alternate timeline" axis="center" placement="alternate">
-        {["First", "Second", "Third"].map((label) => (
+      <Timeline
+        aria-label="Alternate timeline"
+        axis="center"
+        placement="alternate"
+        style={{maxWidth: 420}}
+      >
+        {["First", "Second", "Third"].map((label, index) => (
           <Timeline.Item key={label} align="center">
             <Timeline.Rail />
-            <Timeline.Content>{label}</Timeline.Content>
+            <Timeline.Content>
+              {index === 1
+                ? "Second milestone has enough detail to wrap onto multiple lines."
+                : label}
+            </Timeline.Content>
           </Timeline.Item>
         ))}
       </Timeline>,

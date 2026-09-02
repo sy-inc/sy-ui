@@ -23,6 +23,7 @@
 .timeline__rail {
   @apply relative z-0 flex justify-center self-stretch;
 
+  grid-row: 1;
   min-height: var(--timeline-marker-size);
 }
 

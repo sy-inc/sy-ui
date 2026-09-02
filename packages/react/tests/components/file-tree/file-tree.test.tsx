@@ -1,6 +1,6 @@
 import type {Selection} from "@react-types/shared";
 
-import {render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {render, screen, setupUser, waitFor} from "@sy-inc/testing/helpers";
 import {useDragAndDrop, useTreeData} from "react-aria-components";
 
 import {Checkbox} from "@/components/checkbox";
@@ -237,7 +237,9 @@ describe("FileTree", () => {
     await user.keyboard("{Enter}");
     await user.keyboard("{ArrowDown}");
 
-    expect(document.activeElement).toHaveAccessibleName("Insert after b.ts");
+    await waitFor(() => {
+      expect(document.activeElement).toHaveAccessibleName("Insert after b.ts");
+    });
 
     await user.keyboard("{Enter}");
 

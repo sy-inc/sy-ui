@@ -67,6 +67,7 @@ export * from "./prompt-input";
 export * from "./pressable-feedback/pressable-feedback.styles";
 export * from "./progress-bar/progress-bar.styles";
 export * from "./progress-circle/progress-circle.styles";
+export * from "./radio-button-group";
 export * from "./radio-group/radio-group.styles";
 export * from "./radio/radio.styles";
 export * from "./range-calendar/range-calendar.styles";

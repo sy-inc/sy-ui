@@ -9,7 +9,7 @@ import {Switch, type SwitchProps} from "../switch";
 import {cellSwitchVariants, type CellSwitchVariants} from "./cell-switch.styles";
 
 export interface CellSwitchProps
-  extends Omit<SwitchProps, "children" | "className">,
+  extends Omit<SwitchProps, "children" | "className" | "variant">,
     CellSwitchVariants {
   badge?: ReactNode;
   children: ReactNode;
