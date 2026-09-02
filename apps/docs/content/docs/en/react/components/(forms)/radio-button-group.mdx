@@ -1,0 +1,46 @@
+---
+title: RadioButtonGroup
+description: Card-like radio options for choosing one value.
+---
+
+## Usage
+
+```tsx
+import {RadioButtonGroup} from "@sy-inc/react";
+```
+
+```tsx
+<RadioButtonGroup aria-label="Plan" className="max-w-[360px]" defaultValue="basic">
+  <RadioButtonGroup.Item value="basic">
+    <RadioButtonGroup.Indicator />
+    <RadioButtonGroup.ItemContent>
+      <Label>Basic</Label>
+      <Description>For individuals and small projects</Description>
+    </RadioButtonGroup.ItemContent>
+  </RadioButtonGroup.Item>
+</RadioButtonGroup>
+```
+
+Compose `ItemContent` from `Label` and `Description` rather than raw elements: inside an item they render as spans with the design system typography, and `Description` is wired into the radio's `aria-describedby` automatically.
+
+## Anatomy
+
+`Root`, `Item`, `Indicator`, `ItemContent`, and `ItemIcon` are available on `RadioButtonGroup`.
+
+## Props and events
+
+`value`, `defaultValue`, `onChange`, `isDisabled`, validation props, labels, descriptions, and render props are passed to the underlying `RadioGroup` and `Radio`. `onChange(value)` receives the selected value.
+
+`layout` is `"flex"` by default; use `"grid"` for a grid.
+
+The group ships no width, min height, or grid column count — set those with utility classes on the root (`className="max-w-[360px]"`, `className="sm:grid-cols-3"`).
+
+## Accessibility
+
+Use an accessible name via `aria-label` or `Label`. Items retain React Aria radio keyboard navigation: arrow keys move focus and selection. The default indicator composes `Radio.Control` and `Radio.Indicator`; custom indicator children render only when selected.
+
+## Styling
+
+Each card is a column: the item content stacks vertically and the indicator is pinned to the top inline-end corner. The card class sits on the clickable label, so the whole card is the hit area and carries `data-selected`, `data-focus-visible`, `data-hovered`, and `data-pressed`; the field wrapper around it is `display: contents`.
+
+Classes: `.radio-button-group`, `.radio-button-group--grid`, `.radio-button-group__item`, `.radio-button-group__indicator`, `.radio-button-group__item-content`, `.radio-button-group__item-icon`. Stable data slots use the same names without the BEM punctuation: `radio-button-group`, `radio-button-group-item`, `radio-button-group-indicator`, `radio-button-group-item-content`, and `radio-button-group-item-icon`. Radius is themable via `--radio-button-group-item-radius`.

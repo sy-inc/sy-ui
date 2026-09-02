@@ -11,6 +11,7 @@ test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("input-phone"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("text-shimmer"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("sheet"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("radio-button-group"));
   const root = await mkdtemp(path.join(tmpdir(), "sy-docs-"));
   try {
     const missingSlug = REQUIRED_COMPONENT_DOCS[0];
