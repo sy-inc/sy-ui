@@ -26,9 +26,9 @@
       "default": "./index.css"
     },
     "./components/*": {
-      "types": "./src/components/*/index.ts",
-      "import": "./src/components/*/index.ts",
-      "default": "./src/components/*/index.ts"
+      "types": "./src/components/*/*.styles.ts",
+      "import": "./src/components/*/*.styles.ts",
+      "default": "./src/components/*/*.styles.ts"
     },
     "./package.json": "./package.json"
   },

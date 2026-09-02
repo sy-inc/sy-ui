@@ -2,12 +2,12 @@
 
 import type {SwitchProps as AriaSwitchProps} from "react-aria-components";
 
+import {useIsHydrated} from "@sy-inc/react";
 import {useTheme} from "next-themes";
 import React from "react";
 import {Switch as AriaSwitch} from "react-aria-components";
 import {tv} from "tailwind-variants";
 
-import {useIsMounted} from "@/hooks/use-is-mounted";
 import {composeTailwindRenderProps} from "@/utils/compose-tw-render";
 
 import {Iconify} from "./iconify";
@@ -60,7 +60,7 @@ const thumb = tv({
 
 export function HomeThemeSwitch({...props}: Omit<SwitchProps, "children">) {
   const {setTheme, theme} = useTheme();
-  const isMounted = useIsMounted();
+  const isMounted = useIsHydrated();
 
   if (!isMounted) {
     // Render placeholder to avoid layout shift

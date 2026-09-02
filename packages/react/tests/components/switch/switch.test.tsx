@@ -171,4 +171,26 @@ describe("Switch", () => {
     expect(control).toHaveFocus();
     expect(content).toHaveAttribute("data-focus-visible", "true");
   });
+
+  it("exposes the cell variants as a full-row surface", async () => {
+    const onChange = vi.fn();
+
+    renderSwitch({onChange, variant: "cell"});
+
+    const field = document.querySelector('[data-slot="switch"]');
+
+    expect(field?.className).toEqual(expect.stringContaining("switch--cell"));
+
+    await user.click(screen.getByText("Enable notifications"));
+    expect(onChange).toHaveBeenCalledWith(true);
+    expect(screen.getByRole("switch", {name: "Enable notifications"})).toBeChecked();
+  });
+
+  it("exposes the secondary cell variant", () => {
+    renderSwitch({variant: "cell-secondary"});
+
+    expect(document.querySelector('[data-slot="switch"]')?.className).toEqual(
+      expect.stringContaining("switch--cell-secondary"),
+    );
+  });
 });

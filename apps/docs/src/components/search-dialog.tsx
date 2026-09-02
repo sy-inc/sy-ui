@@ -5,6 +5,7 @@ import type {Item, Node} from "fumadocs-core/page-tree";
 import type {SearchItemType, SharedProps} from "fumadocs-ui/components/dialog/search";
 import type {ComponentProps} from "react";
 
+import {ArrowRight} from "@gravity-ui/icons";
 import {Chip, Kbd, Tag, TagGroup} from "@sy-inc/react";
 import {useDocsSearch} from "fumadocs-core/search/client";
 import {
@@ -18,7 +19,6 @@ import {
 } from "fumadocs-ui/components/dialog/search";
 import {useI18n} from "fumadocs-ui/contexts/i18n";
 import {useTreeContext} from "fumadocs-ui/contexts/tree";
-import {ArrowRight} from "lucide-react";
 import {usePathname, useRouter} from "next/navigation";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {tv} from "tailwind-variants";

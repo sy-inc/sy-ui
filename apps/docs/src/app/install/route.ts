@@ -5,7 +5,7 @@ import path from "path";
 
 import {NextResponse} from "next/server";
 
-import {captureEvent} from "@/libs/posthog";
+import {captureEvent} from "@/lib/posthog";
 
 export const revalidate = false;
 

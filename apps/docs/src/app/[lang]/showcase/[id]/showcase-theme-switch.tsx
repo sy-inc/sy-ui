@@ -1,17 +1,23 @@
 "use client";
 
-import {Button, TooltipArrow, TooltipContent, TooltipRoot, TooltipTrigger} from "@sy-inc/react";
+import {
+  Button,
+  TooltipArrow,
+  TooltipContent,
+  TooltipRoot,
+  TooltipTrigger,
+  useIsHydrated,
+} from "@sy-inc/react";
 import React from "react";
 
 import {Iconify} from "@/components/iconify";
-import {useIsMounted} from "@/hooks/use-is-mounted";
 import {cn} from "@/utils/cn";
 
 import {useShowcase} from "./showcase-wrapper";
 
 export function ShowcaseThemeSwitch() {
   const {setShowcaseTheme, showcaseTheme, supportsThemeSwitching} = useShowcase();
-  const isMounted = useIsMounted();
+  const isMounted = useIsHydrated();
   const isDisabled = !supportsThemeSwitching;
 
   if (!isMounted) {

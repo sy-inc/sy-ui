@@ -4,10 +4,6 @@ import type {ReactElement, ReactNode} from "react";
 
 import React, {Children, createContext, isValidElement, useContext} from "react";
 
-import {Logger} from "./logger";
-
-const logger = new Logger({prefix: "SY INC"});
-
 /** Dev-only registry for duplicate slot name warnings. */
 let registry: Set<string> | undefined;
 
@@ -27,8 +23,9 @@ export const createCollectionSlot = <T extends object>(name: string) => {
     registry ??= new Set<string>();
 
     if (registry.has(name)) {
-      logger.warn(
-        `Duplicate collection slot "${name}". Use a unique, namespaced name (e.g. "tabs.listContainer", "menu.popover").`,
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[SY INC] Duplicate collection slot "${name}". Use a unique, namespaced name (e.g. "tabs.listContainer", "menu.popover").`,
       );
     }
 

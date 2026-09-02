@@ -5,6 +5,7 @@ import {tv} from "tailwind-variants";
 export const switchVariants = tv({
   defaultVariants: {
     size: "md",
+    variant: "default",
   },
   slots: {
     base: "switch",
@@ -23,6 +24,17 @@ export const switchVariants = tv({
       },
       sm: {
         base: "switch--sm",
+      },
+    },
+    variant: {
+      cell: {
+        base: "switch--cell",
+      },
+      "cell-secondary": {
+        base: "switch--cell switch--cell-secondary",
+      },
+      default: {
+        // No styles as this is the default variant
       },
     },
   },

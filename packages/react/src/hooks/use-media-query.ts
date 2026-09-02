@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 
-import {useIsomorphicLayoutEffect} from "./use-isomorphic-layout-effect";
+import {useSafeLayoutEffect} from "./use-safe-layout-effect";
 
 type UseMediaQueryOptions = {
   defaultValue?: boolean;
@@ -36,7 +36,7 @@ export function useMediaQuery(
     setMatches(getMatches(query));
   }
 
-  useIsomorphicLayoutEffect(() => {
+  useSafeLayoutEffect(() => {
     const matchMedia = window.matchMedia(query);
 
     // Triggered at the first client-side load and if query changes

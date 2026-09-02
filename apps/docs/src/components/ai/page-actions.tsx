@@ -1,8 +1,8 @@
 "use client";
 
+import {ChevronDown} from "@gravity-ui/icons";
 import {Button, ButtonGroup, Description, Dropdown, Label} from "@sy-inc/react";
 import {useCopyButton} from "fumadocs-ui/utils/use-copy-button";
-import {ChevronDown} from "lucide-react";
 import {useMemo, useState} from "react";
 import {cn} from "tailwind-variants";
 

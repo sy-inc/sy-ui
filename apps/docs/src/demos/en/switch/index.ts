@@ -13,3 +13,4 @@ export {Sizes} from "./sizes";
 export {WithDescription} from "./with-description";
 export {WithIcons} from "./with-icons";
 export {WithoutLabel} from "./without-label";
+export {Cell} from "./cell";

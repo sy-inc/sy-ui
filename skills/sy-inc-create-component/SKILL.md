@@ -37,7 +37,6 @@ packages/react/src/components/<slug>/
 
 packages/styles/src/components/<slug>/
   <slug>.styles.ts
-  index.ts
 
 packages/styles/components/<slug>.css
 
@@ -56,7 +55,7 @@ apps/docs/content/docs/cn/react/components/**/<slug>.mdx
 同时检查这些出口或清单：
 
 - `packages/react/src/components/index.ts`
-- `packages/styles/src/components/index.ts`
+- `packages/styles/src/components/index.ts`（直接 `export * from "./<slug>/<slug>.styles"`，styles 组件目录不放 `index.ts` 桶文件）
 - `packages/styles/components/index.css`
 - 英文和中文组件文档目录中的 `meta.json`
 - `apps/docs/scripts/check-component-docs.mjs` 的覆盖范围；如果守卫仍使用显式组件清单，将新公开组件注册进去并更新对应测试

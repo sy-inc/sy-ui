@@ -26,9 +26,6 @@ type ToggleButtonGroupContext = {
 
 const ToggleButtonGroupContext = createContext<ToggleButtonGroupContext>({});
 
-// Property name to mark direct children of ToggleButtonGroup
-export const TOGGLE_BUTTON_GROUP_CHILD = "__toggle_button_group_child";
-
 /* -------------------------------------------------------------------------------------------------
  * ToggleButtonGroup Root
  * -----------------------------------------------------------------------------------------------*/
