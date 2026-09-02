@@ -26,6 +26,7 @@
     "(forms)/checkbox",
     "(forms)/checkbox-group",
     "(data-display)/chip",
+    "(data-display)/timeline",
     "(data-display)/item-card",
     "(buttons)/close-button",
     "(colors)/color-area",

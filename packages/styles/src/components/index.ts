@@ -83,6 +83,7 @@ export * from "./skeleton/skeleton.styles";
 export * from "./slider/slider.styles";
 export * from "./spinner/spinner.styles";
 export * from "./stepper/stepper.styles";
+export * from "./timeline";
 export * from "./surface/surface.styles";
 export * from "./switch-group/switch-group.styles";
 export * from "./switch/switch.styles";

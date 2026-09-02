@@ -12,6 +12,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "carousel",
   "time-picker",
   "stepper",
+  "timeline",
   "text-shimmer",
   "rich-text-editor",
   "prompt-input",
