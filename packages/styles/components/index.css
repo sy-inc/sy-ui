@@ -117,6 +117,7 @@
 @import "./textfield.css";
 @import "./search-field.css";
 @import "./textarea.css";
+@import "./prompt-input.css";
 @import "./rich-text-editor.css";
 
 /* ------------------------------------------------------------------------------------------------

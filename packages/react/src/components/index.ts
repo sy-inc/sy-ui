@@ -36,6 +36,7 @@ export * from "./drawer";
 export * from "./navbar";
 export * from "./progress-bar";
 export * from "./progress-circle";
+export * from "./prompt-input";
 export * from "./segment";
 export * from "./sheet";
 export * from "./sidebar";

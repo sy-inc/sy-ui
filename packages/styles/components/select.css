@@ -223,3 +223,30 @@
 .select__trigger--full-width {
   @apply w-full;
 }
+
+/* Outlined trigger for toolbars (for example inside PromptInput) */
+.select__trigger--outline {
+  @apply h-9 min-h-9 w-full rounded-xl border bg-transparent shadow-none;
+
+  --field-border: var(--border);
+  --field-border-hover: var(--border);
+  --field-border-focus: var(--border);
+
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default-hover;
+
+      border-color: var(--border);
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply bg-transparent;
+
+    border-color: var(--border);
+  }
+}

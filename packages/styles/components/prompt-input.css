@@ -1,0 +1,340 @@
+/* Prompt input composer */
+.prompt-input {
+  @apply relative w-full text-foreground;
+}
+
+.prompt-input:has(> .prompt-input__queue) {
+  @apply flex flex-col gap-2;
+}
+
+.prompt-input__shell {
+  @apply relative flex w-full shrink-0 flex-col overflow-hidden rounded-2xl border bg-field text-field-foreground shadow-field;
+
+  border-width: var(--border-width-field);
+  border-color: var(--field-border);
+  transition:
+    background-color 150ms var(--ease-smooth),
+    border-color 150ms var(--ease-smooth),
+    border-radius 200ms var(--ease-out),
+    min-height 200ms var(--ease-out),
+    box-shadow 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+}
+
+.prompt-input__shell--primary {
+  background-color: var(--field-background, var(--default));
+  border-color: var(--field-border, var(--border));
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--field-border-hover);
+    }
+  }
+
+  .prompt-input:focus-within & {
+    background-color: var(--field-focus, var(--field-background, var(--default)));
+    border-color: var(--field-border-focus, var(--field-border, var(--border)));
+  }
+}
+
+.prompt-input__shell--secondary {
+  @apply shadow-none;
+
+  background-color: var(--default);
+  border-color: var(--field-border, var(--border));
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--default-hover);
+    }
+  }
+
+  .prompt-input:focus-within & {
+    background-color: var(--default);
+    border-color: var(--field-border-focus, var(--field-border, var(--border)));
+  }
+}
+
+.prompt-input__content {
+  @apply flex min-h-0 flex-1 flex-col gap-1;
+}
+
+.prompt-input__attachments {
+  @apply flex flex-wrap gap-2 px-3 pt-3 pb-1;
+}
+
+.prompt-input__textarea {
+  @apply mb-14 min-h-14 w-full resize-none rounded-none border-0 bg-transparent px-3 pt-3 pb-2 text-sm shadow-none outline-none;
+
+  max-height: var(--prompt-input-max-height, 240px);
+  scrollbar-color: var(--scrollbar-color);
+  scrollbar-gutter: var(--scrollbar-gutter);
+  scrollbar-width: var(--scrollbar-width);
+  transition:
+    height 100ms var(--ease-out),
+    min-height 200ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+}
+
+.prompt-input__attachments + .prompt-input__textarea {
+  @apply pt-1;
+}
+
+/* The shell carries the focus treatment for the whole composer; the text area stays flat. */
+.prompt-input__shell .prompt-input__textarea.textarea,
+.prompt-input__shell .prompt-input__textarea.textarea:hover:not(:focus):not(:focus-visible),
+.prompt-input__shell
+  .prompt-input__textarea.textarea[data-hovered="true"]:not([data-focused="true"]):not(
+    [data-focus-visible="true"]
+  ),
+.prompt-input__shell .prompt-input__textarea.textarea:focus,
+.prompt-input__shell .prompt-input__textarea.textarea:focus-visible,
+.prompt-input__shell .prompt-input__textarea.textarea[data-focused="true"],
+.prompt-input__shell .prompt-input__textarea.textarea[data-focus-visible="true"] {
+  @apply border-transparent bg-transparent outline-none;
+
+  /* `shadow-none` only clears --tw-shadow; the field focus ring lives in --tw-ring-shadow. */
+  box-shadow: none;
+}
+
+.prompt-input--sm .prompt-input__textarea {
+  @apply mb-10 min-h-12;
+}
+
+.prompt-input--md .prompt-input__textarea {
+  /* No styles as this is the default size */
+}
+
+.prompt-input--lg .prompt-input__textarea {
+  @apply mb-14 min-h-18 text-base;
+}
+
+.prompt-input__toolbar {
+  @apply absolute inset-x-3 bottom-3 flex items-center justify-between gap-2;
+}
+
+.prompt-input__toolbar-start,
+.prompt-input__toolbar-end {
+  @apply flex items-center gap-2;
+}
+
+.prompt-input__toolbar-end {
+  @apply ms-auto;
+}
+
+.prompt-input__footer {
+  @apply mt-1 text-center text-xs leading-4 text-muted;
+}
+
+.prompt-input__send {
+  @apply shrink-0;
+}
+
+.prompt-input[data-disabled="true"] {
+  @apply opacity-60;
+
+  .prompt-input__shell {
+    @apply cursor-not-allowed;
+  }
+}
+
+.prompt-input:not([data-disabled="true"]) {
+  .prompt-input__shell {
+    @apply cursor-text;
+  }
+
+  .prompt-input__toolbar {
+    @apply cursor-default;
+  }
+}
+
+.prompt-input[data-pending="true"] .prompt-input__shell {
+  @apply opacity-95;
+}
+
+.prompt-input[data-status="error"] .prompt-input__send {
+  background-color: var(--danger);
+  color: var(--danger-foreground);
+}
+
+/* Compact and inline layouts share the single-row grid.
+   Compact leaves it once the text wraps or attachments appear. */
+.prompt-input[data-layout="compact"],
+.prompt-input[data-layout="inline"] {
+  .prompt-input__send,
+  .prompt-input__action {
+    @apply size-8 min-h-8 min-w-8 shrink-0;
+  }
+}
+
+.prompt-input[data-layout="inline"],
+.prompt-input[data-layout="compact"]:not([data-expanded]):not(:has(.prompt-input__attachments > *)) {
+  .prompt-input__shell {
+    @apply grid min-h-12 overflow-hidden rounded-3xl py-0;
+
+    grid-template-areas:
+      "attachments attachments attachments"
+      "toolbar-start textarea toolbar-end";
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(48px, auto);
+  }
+
+  .prompt-input__content,
+  .prompt-input__toolbar {
+    display: contents;
+  }
+
+  .prompt-input__attachments {
+    grid-area: attachments;
+  }
+
+  .prompt-input__textarea {
+    @apply mb-0 min-h-12 self-start overflow-y-auto px-2 py-3.5;
+
+    grid-area: textarea;
+    max-height: none;
+  }
+
+  .prompt-input__toolbar-start {
+    @apply h-8 ps-2;
+    grid-area: toolbar-start;
+  }
+
+  .prompt-input__toolbar-end {
+    @apply h-8 pe-2;
+    grid-area: toolbar-end;
+  }
+}
+
+.prompt-input[data-layout="inline"] {
+  .prompt-input__shell:has(.prompt-input__attachments > *) {
+    @apply rounded-2xl;
+  }
+
+  .prompt-input__toolbar-start,
+  .prompt-input__toolbar-end {
+    @apply mt-2 self-start;
+  }
+}
+
+.prompt-input[data-layout="compact"] {
+  &:not([data-expanded]):not(:has(.prompt-input__attachments > *)) {
+    .prompt-input__textarea {
+      @apply max-h-12 self-center overflow-y-hidden;
+    }
+
+    .prompt-input__toolbar-start,
+    .prompt-input__toolbar-end {
+      @apply self-center;
+    }
+  }
+
+  &[data-expanded] .prompt-input__shell,
+  .prompt-input__shell:has(.prompt-input__attachments > *) {
+    @apply flex min-h-28 flex-col rounded-2xl;
+  }
+}
+
+/* Queue (React Aria GridList) */
+.prompt-input__queue {
+  @apply relative max-h-40 w-full shrink-0 overflow-x-hidden overflow-y-auto rounded-2xl border outline-none;
+
+  border-width: var(--border-width-field);
+  border-color: var(--field-border, var(--border));
+  background-color: var(--field-background, var(--default));
+  transition:
+    background-color 150ms var(--ease-smooth),
+    border-color 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    border-color: var(--field-border-focus, var(--field-border, var(--border)));
+  }
+}
+
+.prompt-input[data-variant="secondary"] .prompt-input__queue {
+  background-color: var(--default);
+}
+
+.prompt-input__queue-item {
+  @apply relative flex min-w-0 items-center gap-2 px-2 py-1 outline-none;
+
+  &[data-dragging="true"] {
+    @apply opacity-50;
+  }
+
+  &[data-focus-visible="true"] {
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
+  }
+}
+
+.prompt-input__queue-item + .prompt-input__queue-item {
+  border-top: 1px solid color-mix(in oklab, var(--border) 50%, transparent);
+}
+
+.prompt-input__queue-drop-indicator {
+  @apply h-0.5 w-full;
+
+  &[data-drop-target="true"] {
+    background-color: var(--focus);
+  }
+}
+
+.prompt-input__queue-item-handle {
+  @apply size-7 min-h-7 min-w-7 shrink-0 text-muted;
+
+  &:not([disabled]) {
+    @apply cursor-grab;
+  }
+}
+
+.prompt-input__queue-item[data-reorder-enabled] {
+  @apply cursor-grab;
+
+  &[data-dragging="true"] {
+    @apply cursor-grabbing;
+  }
+}
+
+.prompt-input__queue-item-body {
+  @apply flex min-w-0 flex-1 items-center gap-2;
+}
+
+.prompt-input__queue-item-icon {
+  @apply flex shrink-0 items-center justify-center text-muted;
+}
+
+.prompt-input__queue-item-content {
+  @apply min-w-0 flex-1 overflow-hidden text-xs leading-tight text-muted;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow-wrap: anywhere;
+}
+
+.prompt-input__queue-item-actions {
+  @apply flex shrink-0 items-center gap-0.5 transition-opacity motion-reduce:transition-none;
+}
+
+.prompt-input__queue[data-actions-visibility="hover"] .prompt-input__queue-item-actions {
+  @apply opacity-0;
+}
+
+.prompt-input__queue[data-actions-visibility="hover"]
+  .prompt-input__queue-item:is(
+    :hover,
+    :focus-within,
+    :has([aria-expanded="true"]),
+    :has([data-open="true"])
+  )
+  .prompt-input__queue-item-actions,
+.prompt-input__queue[data-actions-visibility="always"] .prompt-input__queue-item-actions {
+  @apply opacity-100;
+}
+
+.prompt-input__queue-item-action {
+  @apply size-7 min-h-7 min-w-7;
+}
