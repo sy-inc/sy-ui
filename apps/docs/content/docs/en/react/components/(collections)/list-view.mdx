@@ -1,0 +1,95 @@
+---
+title: ListView
+description: A selectable list of related rows with keyboard navigation.
+links:
+  rac: GridList
+  source: list-view/list-view.tsx
+  styles: list-view.css
+  storybook: Components/ListView
+---
+
+## Usage
+
+```tsx
+import { ListView } from '@sy-inc/react';
+```
+
+<ComponentPreview name="list-view-default" />
+
+## Anatomy
+
+```tsx
+<ListView aria-label="Team members" selectionMode="multiple">
+  <ListView.Item id="maya" textValue="Maya Chen">
+    <ListView.Selection aria-label="Select Maya Chen" />
+    <ListView.Content>
+      <ListView.Title>Maya Chen</ListView.Title>
+      <ListView.Description>Design</ListView.Description>
+    </ListView.Content>
+  </ListView.Item>
+  <ListView.Section>
+    <Header>Archived</Header>
+    <ListView.Item id="noah" textValue="Noah Williams">
+      <ListView.Content>
+        <ListView.Title>Noah Williams</ListView.Title>
+      </ListView.Content>
+    </ListView.Item>
+  </ListView.Section>
+</ListView>
+```
+
+## API reference
+
+### ListView
+
+ListView forwards React Aria GridList props. Selection is off until you set `selectionMode`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aria-label` / `aria-labelledby` | `string` | — | Gives the grid an accessible name. |
+| `selectionMode` | `"none" \| "single" \| "multiple"` | `"none"` | Selection behavior. |
+| `selectedKeys` / `defaultSelectedKeys` | `Selection` | — | Controlled or initial selection. |
+| `onSelectionChange` | `(keys: Selection) => void` | — | Called when selection changes. |
+| `disabledKeys` | `Iterable<Key>` | — | Keys that cannot be selected. |
+| `onAction` | `(key: Key) => void` | — | Called when a row is activated. |
+| `renderEmptyState` | `(props) => ReactNode` | — | Rendered when the collection is empty. |
+| `variant` | `"primary" \| "secondary"` | `"primary"` | Visual container treatment. |
+| `className` | GridList className | — | Additional class name or render function. |
+| `ref` | GridList ref | — | Ref forwarded to the GridList DOM element. |
+
+### ListView.Item
+
+`Item` forwards React Aria GridListItem props. Provide `id` and `textValue` for collection identity, screen readers, and typeahead. Use `isDisabled` to make a row non-interactive.
+
+### ListView.Section
+
+`Section` forwards React Aria GridListSection props. Place a `Header` or other visible label first so the group has an accessible name.
+
+### ListView.Selection
+
+Renders the row's selection checkbox (`slot="selection"`). Pass an `aria-label` so the checkbox is named independently of the row. Omit it when `selectionMode="none"`.
+
+### ListView.Content
+
+Stacks `Title` and `Description` and fills the remaining row width, so leading icons and trailing actions sit at the row's edges. Icons placed as direct children of `Item` are sized to `size-4` with a muted foreground.
+
+### ListView.Title
+
+Primary row label. Truncates on overflow.
+
+### ListView.Description
+
+Secondary row text. Truncates on overflow.
+
+## Accessibility
+
+- The root has `role="grid"`; each row has `role="row"` and wraps its content in a `role="gridcell"`.
+- Arrow up/down move roving focus between rows, arrow left/right move within a row, Space toggles selection, Enter triggers `onAction`, and typeahead uses `textValue`.
+- The root, rows, and sections expose `data-slot="list-view"`, `data-slot="list-view-item"`, and `data-slot="list-view-section"`.
+- Rows retain a visible keyboard-only focus indicator and expose selected and disabled states through React Aria data attributes.
+
+## Styling
+
+`variant="primary"` stacks opaque `--surface` rows on a tinted container and varies their alpha for hover, press, and selection — a lower alpha lets the container show through, so it reads darker. `variant="secondary"` drops the container, tints hover and press with `--default`, and marks a selected row with `--accent-soft`. The BEM hooks are `.list-view`, `.list-view__item`, `.list-view__section`, `.list-view__content`, `.list-view__title`, and `.list-view__description`; selected rows match `[data-selected="true"]`.
+
+<RelatedComponents component="list-box" />

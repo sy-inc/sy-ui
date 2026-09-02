@@ -15,6 +15,8 @@ export const REQUIRED_COMPONENT_DOCS = [
   "rich-text-editor",
   "sheet",
   "input-phone",
+  "list-view",
+  "list-view",
 ];
 
 const LANGUAGES = ["en", "cn"];
@@ -22,8 +24,10 @@ const LANGUAGES = ["en", "cn"];
 async function findMdx(directory, slug) {
   for (const entry of await readdir(directory, {withFileTypes: true})) {
     const target = path.join(directory, entry.name);
+
     if (entry.isDirectory()) {
       const found = await findMdx(target, slug);
+
       if (found) return found;
     } else if (entry.name === `${slug}.mdx`) {
       return target;
@@ -48,12 +52,14 @@ export async function getComponentDocGaps(contentRoot) {
 
     for (const slug of REQUIRED_COMPONENT_DOCS) {
       const mdx = await findMdx(componentsDirectory, slug);
+
       if (!mdx) {
         gaps.push(`${language}: missing ${slug}.mdx`);
         continue;
       }
 
       const page = path.relative(componentsDirectory, mdx).slice(0, -4);
+
       if (!pages.includes(page))
         gaps.push(`${language}: ${page}.mdx is not registered in meta.json`);
     }
@@ -65,6 +71,7 @@ export async function getComponentDocGaps(contentRoot) {
 async function main() {
   const contentRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../content/docs");
   const gaps = await getComponentDocGaps(contentRoot);
+
   if (gaps.length) {
     console.error(`Component documentation coverage check failed:\n- ${gaps.join("\n- ")}`);
     process.exitCode = 1;

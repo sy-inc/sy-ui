@@ -1,6 +1,12 @@
 import type {ComponentProps} from "react";
 
-import {CheckboxContent, CheckboxControl, CheckboxIndicator, CheckboxRoot} from "./checkbox";
+import {
+  CheckboxContent,
+  CheckboxControl,
+  CheckboxIndicator,
+  CheckboxRoot,
+  CheckboxSelection,
+} from "./checkbox";
 
 /* -------------------------------------------------------------------------------------------------
  * Compound Component
@@ -10,6 +16,7 @@ export const Checkbox = Object.assign(CheckboxRoot, {
   Content: CheckboxContent,
   Control: CheckboxControl,
   Indicator: CheckboxIndicator,
+  Selection: CheckboxSelection,
 });
 
 export type Checkbox = {
@@ -18,12 +25,13 @@ export type Checkbox = {
   ContentProps: ComponentProps<typeof CheckboxContent>;
   ControlProps: ComponentProps<typeof CheckboxControl>;
   IndicatorProps: ComponentProps<typeof CheckboxIndicator>;
+  SelectionProps: ComponentProps<typeof CheckboxSelection>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {CheckboxContent, CheckboxControl, CheckboxIndicator, CheckboxRoot};
+export {CheckboxContent, CheckboxControl, CheckboxIndicator, CheckboxRoot, CheckboxSelection};
 
 export type {
   CheckboxRootProps,
@@ -31,6 +39,7 @@ export type {
   CheckboxContentProps,
   CheckboxControlProps,
   CheckboxIndicatorProps,
+  CheckboxSelectionProps,
   CheckboxFieldRenderProps,
   CheckboxButtonRenderProps,
   /** @deprecated Use {@link CheckboxFieldRenderProps} for the root render prop, or {@link CheckboxButtonRenderProps} for content/control/indicator. */

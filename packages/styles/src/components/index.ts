@@ -54,6 +54,7 @@ export * from "./link";
 export * from "./list-box";
 export * from "./list-box-item";
 export * from "./list-box-section";
+export * from "./list-view";
 export * from "./menu";
 export * from "./meter";
 export * from "./progress-bar";
