@@ -78,6 +78,7 @@
     "(layout)/surface",
     "(controls)/switch",
     "(data-display)/table",
+    "(data-display)/widget",
     "(navigation)/tabs",
     "(collections)/tag-group",
     "(forms)/text-area",

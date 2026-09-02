@@ -86,6 +86,7 @@ export * from "./tabs";
 export * from "./tag";
 export * from "./tag-group";
 export * from "./typography";
+export * from "./widget";
 export * from "./textfield";
 export * from "./textarea";
 export * from "./time-field";

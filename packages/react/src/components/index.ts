@@ -101,6 +101,7 @@ export * from "./range-calendar";
 // in progress
 export * from "./calendar-year-picker";
 
+export * from "./widget";
 //  ===================================
 //  Icons
 //  ===================================
