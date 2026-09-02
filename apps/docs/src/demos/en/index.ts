@@ -1370,6 +1370,28 @@ export const demos: Record<string, DemoItem> = {
     file: "en/input-phone/basic.tsx",
   },
 
+  // ItemCard Demo
+  "item-card-default": {
+    loader: () => import("./item-card/default").then((m) => m.Default),
+    file: "en/item-card/default.tsx",
+  },
+  "item-card-variants": {
+    loader: () => import("./item-card/variants").then((m) => m.Variants),
+    file: "en/item-card/variants.tsx",
+  },
+  "item-card-with-switch": {
+    loader: () => import("./item-card/with-switch").then((m) => m.WithSwitch),
+    file: "en/item-card/with-switch.tsx",
+  },
+  "item-card-pressable": {
+    loader: () => import("./item-card/pressable").then((m) => m.Pressable),
+    file: "en/item-card/pressable.tsx",
+  },
+  "item-card-with-select": {
+    loader: () => import("./item-card/with-select").then((m) => m.WithSelect),
+    file: "en/item-card/with-select.tsx",
+  },
+
   // InputGroup Demo
   "input-group-default": {
     loader: () => import("./input-group/default").then((m) => m.Default),

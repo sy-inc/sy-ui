@@ -1,0 +1,396 @@
+---
+title: PressableFeedback 按压反馈
+description: 为任意可按压表面叠加高亮、缩放、涟漪与定时进度反馈的交互层。
+links:
+  rac: Button
+  source: pressable-feedback/pressable-feedback.tsx
+  styles: pressable-feedback.css
+  storybook: Components/PressableFeedback
+---
+
+## 用法
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+```
+
+`PressableFeedback` 是基于 React Aria `Button` 的可按压表面。它本身不渲染任何
+可见样式，你通过组合子组件来选择需要的反馈效果。每种效果都由根组件的按压状态
+驱动，因此可以自由叠加。
+
+## 组成
+
+`PressableFeedback` 是根组件，渲染一个 `button` 并向各反馈层提供按压状态。
+按需组合 `Highlight`、`Ripple`、`Scale` 和 `Progress`，最后放置可见内容。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function PressableFeedbackAnatomy() {
+  return (
+    <PressableFeedback>
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Ripple />
+      <PressableFeedback.Progress />
+      <PressableFeedback.Scale>Press me</PressableFeedback.Scale>
+    </PressableFeedback>
+  );
+}
+```
+
+各层按 DOM 顺序绘制。把 `Highlight` 与 `Ripple` 放在前面，让 `Progress` 覆盖
+其上；可见内容放在最后，保持在最上层。`Scale` 是例外——它包裹内容而不是覆盖
+内容。
+
+## 示例
+
+### 基础用法
+
+`Highlight` 在悬停或按压时为表面着色。`Ripple` 从按压点扩散出 Material 风格的
+波纹。每一层只负责一种效果，组合两者即可得到 Material 的观感。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function BasicPressableFeedback() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Ripple />
+      Press me
+    </PressableFeedback>
+  );
+}
+```
+
+### 仅高亮
+
+只用 `Highlight` 可以得到安静的、基于不透明度的按压状态。纯 CSS 实现，运行时
+零开销。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function HighlightOnly() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      Quiet press
+    </PressableFeedback>
+  );
+}
+```
+
+### 仅涟漪
+
+每次按压都会新增一道波纹，因此连续快速点按会叠加而不是互相覆盖。
+`duration` 是单道波纹的生命周期：它在这段时间内扩散并淡出，极快的点按也能看到。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function RippleOnly() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Ripple duration={300} />
+      Tap repeatedly
+    </PressableFeedback>
+  );
+}
+```
+
+### 按压缩放
+
+`Scale` 在根组件被按压时缩小其子元素。它与其他层不同，是包裹层而非覆盖层，
+所以可见内容要放在它内部。纯 CSS 实现，运行时零开销。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function ScaleOnPress() {
+  return (
+    <PressableFeedback>
+      <PressableFeedback.Scale className="rounded-lg bg-default px-4 py-3">
+        <PressableFeedback.Highlight />
+        Press me
+      </PressableFeedback.Scale>
+    </PressableFeedback>
+  );
+}
+```
+
+### 长按确认
+
+`Progress` 在按住期间揭示覆盖层，并在走满 `duration` 后调用 `onComplete`。
+提前松手会让覆盖层弹回并取消该操作，因此很适合破坏性操作。
+
+```tsx
+import {useState} from 'react';
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function HoldToDelete() {
+  const [deleted, setDeleted] = useState(false);
+
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Progress
+        className="bg-danger text-danger-foreground"
+        duration={1500}
+        onComplete={() => setDeleted(true)}
+      >
+        Hold to delete
+      </PressableFeedback.Progress>
+      {deleted ? 'Deleted' : 'Hold to delete'}
+    </PressableFeedback>
+  );
+}
+```
+
+传入 `resetDelay={false}` 可以在长按成功后保持覆盖层填满，而不是回到空闲状态。
+
+### 扫过方向
+
+`sweep` 决定揭示动画朝哪条边扫过。在 `Progress` 内部再放一份反色的标签文字，
+它会和填充色一起被裁切，扫过时看起来就是文字逐渐变色。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function SweepDirections() {
+  return (
+    <div className="flex gap-3">
+      {(['right', 'left', 'up', 'down'] as const).map((sweep) => (
+        <PressableFeedback className="rounded-lg bg-default px-4 py-3" key={sweep}>
+          <PressableFeedback.Progress
+            className="bg-accent text-accent-foreground"
+            duration={1200}
+            sweep={sweep}
+          >
+            {sweep}
+          </PressableFeedback.Progress>
+          {sweep}
+        </PressableFeedback>
+      ))}
+    </div>
+  );
+}
+```
+
+### 点击后进度
+
+传入 `cancelOnRelease={false}` 就能用同一个覆盖层做点击触发而非长按触发。这种
+模式下，点击真正完成后才开始计时，松手后继续运行，走满 `duration` 时触发
+`onComplete`，再经过 `resetDelay` 回到空闲并触发 `onReset`。
+
+```tsx
+import {useState} from 'react';
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function ClickToPublish() {
+  const [status, setStatus] = useState('idle');
+
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Progress
+        cancelOnRelease={false}
+        className="bg-success"
+        duration={1500}
+        onComplete={() => setStatus('complete')}
+        onReset={() => setStatus('idle')}
+      />
+      {status === 'complete' ? 'Published' : 'Click to publish'}
+    </PressableFeedback>
+  );
+}
+```
+
+由于计时绑定的是"完成的点击"而不是"按下"，按住后拖离再松手不会确认该操作。
+
+### 可按压卡片
+
+根组件是一个没有自身尺寸和内边距的普通按钮，因此可以包裹整张卡片。卡片内部
+不要再放可交互元素，以保证整体仍是单一控件。
+
+```tsx
+import {Card, PressableFeedback} from '@sy-inc/react';
+
+export default function PressableCard() {
+  return (
+    <PressableFeedback className="rounded-xl text-start">
+      <PressableFeedback.Ripple />
+      <Card className="w-56">
+        <Card.Header>
+          <Card.Title>Inbox</Card.Title>
+        </Card.Header>
+        <Card.Content>12 unread</Card.Content>
+      </Card>
+    </PressableFeedback>
+  );
+}
+```
+
+### 禁用
+
+根组件上的 `isDisabled` 会禁用按钮并停止所有反馈层。若要单独关闭某一种效果，
+按条件渲染对应的反馈层即可。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function DisabledPressableFeedback() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3" isDisabled>
+      <PressableFeedback.Ripple />
+      Unavailable
+    </PressableFeedback>
+  );
+}
+```
+
+## 自定义
+
+### Tailwind CSS
+
+在根组件或任意反馈层上使用 `className` 添加 Tailwind 类。反馈层的类通常用来
+设置揭示颜色，例如 `<PressableFeedback.Progress className="bg-danger" />`。
+
+### 全局 CSS
+
+颜色、不透明度、按压缩放比例和弹回时长都是 CSS 变量，主题可以在不改动组件
+代码的情况下重新调校这些效果。在 `.pressable-feedback` 上设置即作用于主题，
+在某个根组件的 `style` 上内联设置则只作用于该实例。
+
+```css
+@layer components {
+  .pressable-feedback {
+    --pressable-feedback-highlight-color: var(--primary);
+    --pressable-feedback-highlight-pressed-opacity: 0.2;
+    --pressable-feedback-scale: 0.94;
+  }
+}
+```
+
+运行时长不能通过这种方式定制——`Ripple` 与 `Progress` 始终把各自的时长按 props
+内联写出，请改用 `duration` 设置。
+
+## 样式参考
+
+SY INC 遵循 [BEM](https://getbem.com/) 命名方法，因此可以在不依赖 React Aria
+内部实现的前提下自定义组件类与状态。
+
+### CSS 类名
+
+PressableFeedback 使用以下类名（[查看样式源码](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/pressable-feedback.css)）：
+
+#### 基础类名 [!toc]
+
+- `.pressable-feedback` - 根可按压表面，持有全部 CSS 变量。
+- `.pressable-feedback__highlight` - 基于不透明度的悬停与按压覆盖层。
+- `.pressable-feedback__ripple` - 涟漪裁剪容器。
+- `.pressable-feedback__ripple-wave` - 单道按压波纹，按压时新增、过期后移除。
+- `.pressable-feedback__progress` - 由长按或点击驱动的 clip-path 揭示层。
+- `.pressable-feedback__scale` - 在按压时缩小子元素的包裹层。
+
+#### 状态选择器 [!toc]
+
+- `.pressable-feedback:focus-visible` 或 `[data-focus-visible="true"]` - 键盘聚焦。
+- `.pressable-feedback:hover` 或 `[data-hovered="true"]` - 悬停表面。
+- `.pressable-feedback:active` 或 `[data-pressed="true"]` - 按压表面。
+- `.pressable-feedback:disabled` 或 `[aria-disabled="true"]` - 禁用表面。
+- `.pressable-feedback__progress[data-running="true"]` - 计时进行中。
+- `.pressable-feedback__progress[data-complete="true"]` - 计时已走满。
+- `.pressable-feedback__progress[data-sweep="right|left|down|up"]` - 揭示方向。
+
+### CSS 变量
+
+| 变量 | 默认值 | 说明 |
+|---|---|---|
+| `--pressable-feedback-highlight-color` | `currentColor` | 高亮覆盖层颜色 |
+| `--pressable-feedback-highlight-opacity` | `0.08` | 悬停时的高亮不透明度 |
+| `--pressable-feedback-highlight-pressed-opacity` | `0.12` | 按压时的高亮不透明度 |
+| `--pressable-feedback-ripple-color` | `currentColor` | 波纹颜色 |
+| `--pressable-feedback-ripple-opacity` | `0.12` | 波纹起始不透明度 |
+| `--pressable-feedback-progress-release-duration` | `200ms` | 取消或重置时的弹回时长 |
+| `--pressable-feedback-scale` | `0.97` | 按压时的缩放比例 |
+
+### Data slots
+
+以下 slot 名称保持稳定，可用于精确定位样式与测试：
+
+`pressable-feedback`、`pressable-feedback-highlight`、
+`pressable-feedback-ripple`、`pressable-feedback-ripple-wave`、
+`pressable-feedback-progress` 和 `pressable-feedback-scale`。
+
+## API 参考
+
+### PressableFeedback 与 PressableFeedback.Root
+
+`PressableFeedback` 和 `PressableFeedback.Root` 是同一个根组件，继承 React Aria
+的 [`ButtonProps`](https://react-spectrum.adobe.com/react-aria/Button.html#props)，
+因此支持全部按钮 props、事件与 ref。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `isDisabled` | `boolean` | `false` | 禁用按钮及所有反馈层 |
+| `children` | `ReactNode` | - | 反馈层与可见内容 |
+| `className` | `string` | - | 与 `.pressable-feedback` 合并的额外类名 |
+
+### PressableFeedback.Highlight
+
+纯 CSS 覆盖层，没有自己的 props。支持全部原生 `div` 属性，外观通过上面的
+CSS 变量调整。
+
+### PressableFeedback.Scale
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `children` | `ReactNode` | - | 参与缩放的内容 |
+
+同时支持全部原生 `div` 属性。
+
+### PressableFeedback.Ripple
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `duration` | `number` | `225` | 单道波纹的生命周期（毫秒），在此期间扩散并淡出 |
+
+同时支持全部原生 `div` 属性。
+
+### PressableFeedback.Progress
+
+一个定时揭示层，同时覆盖"长按确认"与"点击后进度"两种模式，由
+`cancelOnRelease` 决定使用哪一种。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `duration` | `number` | `2000` | 确认操作前的运行时长（毫秒） |
+| `cancelOnRelease` | `boolean` | `true` | 走满前松手是否取消本次运行 |
+| `resetDelay` | `number \| false` | `1500` | 走满后回到空闲前的延迟（毫秒）；`false` 表示保持完成状态 |
+| `sweep` | `'right' \| 'left' \| 'down' \| 'up'` | `'right'` | 揭示动画扫过的方向 |
+| `onComplete` | `() => void` | - | 走满 `duration` 时触发 |
+| `onReset` | `() => void` | - | 覆盖层回到空闲时触发 |
+| `children` | `ReactNode` | - | 揭示区域内显示的内容 |
+
+同时支持全部原生 `div` 属性。
+
+## 已知限制
+
+- 根组件始终渲染 `button`。若要让链接或列表行可按压，请使用对应的交互组件，
+  并直接使用 `.pressable-feedback__*` 类名来设置样式。
+- 在 `prefers-reduced-motion: reduce` 下，波纹会被隐藏，揭示层会直接跳变而不是
+  动画过渡。计时器与回调不受影响，因此 `Progress` 行为仍然正确，但不再提供
+  视觉进度。当时长本身很重要时，请自行搭配文字或进度指示。
+
+## 无障碍与键盘交互
+
+根组件是 React Aria `Button`，因此可聚焦、可用 <kbd>Enter</kbd> 与
+<kbd>Space</kbd> 激活，并向辅助技术暴露 `disabled`。
+
+所有覆盖层都带 `aria-hidden`，属于装饰性内容，因此 `Progress` 内部的内容不会
+被朗读——请把无障碍标签放在根组件自身的内容里，并在那里反映操作结果。`Scale`
+不会被隐藏，包裹在其中的文字仍然是可访问名称的一部分。
+
+键盘激活与指针驱动这些反馈层的方式一致：按住 <kbd>Space</kbd> 会运行
+`Progress`，键盘按压时波纹从表面中心而非指针位置开始扩散。

@@ -1,0 +1,105 @@
+---
+title: ItemCard 条目卡片
+description: 用于图标、内容与可选操作的紧凑复合行
+links:
+  source: item-card/item-card.tsx
+  styles: item-card.css
+  storybook: Components/Data Display/ItemCard
+---
+
+## 用法
+
+```tsx
+import {ItemCard} from "@sy-inc/react";
+```
+
+<ComponentPreview name="item-card-default" />
+
+## 组件结构
+
+```tsx
+<ItemCard>
+  <ItemCard.Icon />
+  <ItemCard.Content>
+    <ItemCard.Title />
+    <ItemCard.Description />
+  </ItemCard.Content>
+  <ItemCard.Action />
+</ItemCard>
+```
+
+`Icon`、`Content` 与 `Action` 默认渲染为 `div`；`Title` 与 `Description` 默认渲染为 `span`。所有 part 都支持原生属性、`className`、ref 和库的 `render` 属性。
+
+## 变体
+
+<ComponentPreview name="item-card-variants" />
+
+- `default` 为默认的带阴影 surface。
+- `secondary` 与 `tertiary` 使用对应的语义 surface。
+- `outline` 为透明背景加语义边框。
+- `transparent` 没有背景、边框或阴影。
+
+## 示例
+
+<ComponentPreview name="item-card-with-switch" />
+<ComponentPreview name="item-card-pressable" />
+<ComponentPreview name="item-card-with-select" />
+
+## 原生与 render API
+
+根节点默认是 `div`。交互式条目应通过真实 button 渲染，以获得原生键盘、焦点与点击行为。请显式指定元素泛型（`ItemCard<"button">`），这样 `render`、`ref` 与原生属性都会按该元素类型推导：
+
+```tsx
+<ItemCard<"button">
+  aria-label="打开账单"
+  render={({children, ...props}) => (
+    <PressableFeedback {...props} onPress={openBilling}>
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Ripple />
+      {children}
+    </PressableFeedback>
+  )}
+>
+  <ItemCard.Content>
+    <ItemCard.Title>账单</ItemCard.Title>
+  </ItemCard.Content>
+</ItemCard>
+```
+
+根节点自身不带任何按压样式。用 [PressableFeedback](/docs/react/components/pressable-feedback) 渲染即可获得 hover、focus、pressed 与 disabled 反馈；直接用原生 `<button>` 也可以，只是没有视觉反馈。
+
+根节点不再提供 `disabled` prop。请在 `render` 返回的元素上设置：`PressableFeedback` 用 `isDisabled`，原生 `button` 用 `disabled`：
+
+```tsx
+render={({children, ...props}) => <PressableFeedback isDisabled {...props}>{children}</PressableFeedback>}
+```
+
+不要在 pressable root button 内嵌 action button。请在 `Action` 或内容旁组合现有的 `Button`、`Switch`、`Select`、`Avatar` 和 `Badge`，不要创建 ItemCard 专属控件。
+
+## API 参考
+
+| Part                         | 默认元素 | 用途                                                |
+| ---------------------------- | -------- | --------------------------------------------------- |
+| `ItemCard` / `ItemCard.Root` | `div`    | 根节点；支持 `variant`、原生属性、ref 与 `render`。 |
+| `ItemCard.Icon`              | `div`    | 36px 图标容器。                                     |
+| `ItemCard.Content`           | `div`    | 可收缩的文字列。                                    |
+| `ItemCard.Title`             | `span`   | 中等字重、截断标题。                                |
+| `ItemCard.Description`       | `span`   | 弱化、截断说明。                                    |
+| `ItemCard.Action`            | `div`    | 带起始内边距的尾部操作区。                          |
+
+`variant` 类型为 `"default" | "secondary" | "tertiary" | "outline" | "transparent"`，默认值为 `"default"`。
+
+## 无障碍
+
+按条目用途使用正确原生语义。静态行不需要额外 role；可按压行应使用 `render` 输出带可访问名称和键盘可见焦点的 `button`。装饰图标使用 `aria-hidden="true"`，有意义的控件分别设置标签。
+
+## 样式参考
+
+稳定 slot 为 `item-card`、`item-card-icon`、`item-card-content`、`item-card-title`、`item-card-description` 与 `item-card-action`。BEM 类包括 `.item-card`、对应的 `__` part 类，以及 `.item-card--default`、`--secondary`、`--tertiary`、`--outline`、`--transparent`。
+
+## 相关组件
+
+ItemCard 是纯展示型条目。如果这些条目构成可选集合，或需要键盘漫游导航，请改用 `ListBox.Item` 或
+`Menu.Item` —— 它们带有 ItemCard 有意不提供的 React Aria 集合语义。
+
+<RelatedComponents component="item-card" />

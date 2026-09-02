@@ -1,0 +1,107 @@
+---
+title: ItemCard
+description: Compact compound row for an icon, content, and an optional action
+links:
+  source: item-card/item-card.tsx
+  styles: item-card.css
+  storybook: Components/Data Display/ItemCard
+---
+
+## Usage
+
+```tsx
+import {ItemCard} from "@sy-inc/react";
+```
+
+<ComponentPreview name="item-card-default" />
+
+## Anatomy
+
+```tsx
+<ItemCard>
+  <ItemCard.Icon />
+  <ItemCard.Content>
+    <ItemCard.Title />
+    <ItemCard.Description />
+  </ItemCard.Content>
+  <ItemCard.Action />
+</ItemCard>
+```
+
+`Icon`, `Content`, and `Action` render `div`s by default. `Title` and `Description` render `span`s. All parts accept native props, `className`, refs, and the library `render` prop.
+
+## Variants
+
+<ComponentPreview name="item-card-variants" />
+
+- `default` is the elevated surface and the default.
+- `secondary` and `tertiary` use the matching semantic surfaces.
+- `outline` is transparent with a semantic border.
+- `transparent` has no background, border, or shadow.
+
+## Examples
+
+<ComponentPreview name="item-card-with-switch" />
+<ComponentPreview name="item-card-pressable" />
+<ComponentPreview name="item-card-with-select" />
+
+## Native and render API
+
+The root is a `div` by default. For an interactive card, render a real button so it receives native keyboard, focus, and click behavior. Instantiate the element generic (`ItemCard<"button">`) so `render`, `ref`, and the native props are typed for that element:
+
+```tsx
+<ItemCard<"button">
+  aria-label="Open billing"
+  render={({children, ...props}) => (
+    <PressableFeedback {...props} onPress={openBilling}>
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Ripple />
+      {children}
+    </PressableFeedback>
+  )}
+>
+  <ItemCard.Content>
+    <ItemCard.Title>Billing</ItemCard.Title>
+  </ItemCard.Content>
+</ItemCard>
+```
+
+The root carries no press styling of its own. Render [PressableFeedback](/docs/react/components/pressable-feedback) to get hover, focus, pressed, and disabled feedback; a plain `<button>` works too, but stays visually inert.
+
+The root takes no `disabled` prop. Set it on the element you return from `render` — `isDisabled` on
+`PressableFeedback`, `disabled` on a plain `button`:
+
+```tsx
+render={({children, ...props}) => <PressableFeedback isDisabled {...props}>{children}</PressableFeedback>}
+```
+
+Do not nest an action button inside a pressable root button. Compose existing `Button`, `Switch`, `Select`, `Avatar`, and `Badge` in `Action` or alongside the content instead of ItemCard-specific controls.
+
+## API reference
+
+| Part                         | Default element | Purpose                                                   |
+| ---------------------------- | --------------- | --------------------------------------------------------- |
+| `ItemCard` / `ItemCard.Root` | `div`           | Root; accepts `variant`, native props, ref, and `render`. |
+| `ItemCard.Icon`              | `div`           | 36px icon container.                                      |
+| `ItemCard.Content`           | `div`           | Shrinking text column.                                    |
+| `ItemCard.Title`             | `span`          | Medium, truncated title.                                  |
+| `ItemCard.Description`       | `span`          | Muted, truncated supporting text.                         |
+| `ItemCard.Action`            | `div`           | End action with start padding.                            |
+
+`variant` is `"default" | "secondary" | "tertiary" | "outline" | "transparent"` and defaults to `"default"`.
+
+## Accessibility
+
+Use the native semantics appropriate to the card's purpose. A static row needs no added role. A pressable row should use `render` with a `button`, an accessible name, and visible keyboard focus. Give decorative icons `aria-hidden="true"`; label meaningful controls independently.
+
+## Styling reference
+
+Stable slots are `item-card`, `item-card-icon`, `item-card-content`, `item-card-title`, `item-card-description`, and `item-card-action`. BEM classes are `.item-card`, its matching `__` part classes, and `.item-card--default`, `--secondary`, `--tertiary`, `--outline`, and `--transparent`.
+
+## Related components
+
+ItemCard is a presentational row. If the rows form a selectable collection, or need roving keyboard
+navigation, use `ListBox.Item` or `Menu.Item` instead — those carry the React Aria collection
+semantics that ItemCard deliberately does not.
+
+<RelatedComponents component="item-card" />

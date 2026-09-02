@@ -15,6 +15,8 @@ export const REQUIRED_COMPONENT_DOCS = [
   "rich-text-editor",
   "sheet",
   "input-phone",
+  "item-card",
+  "pressable-feedback",
 ];
 
 const LANGUAGES = ["en", "cn"];

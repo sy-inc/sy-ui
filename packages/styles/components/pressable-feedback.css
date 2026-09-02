@@ -1,0 +1,147 @@
+/* ------------------------------------------------------------------------------------------------
+ * Pressable Feedback
+ * ------------------------------------------------------------------------------------------------
+ * A press interaction layer. The root is a pressable surface; each child block paints one
+ * feedback effect over it. Effects are driven by the root's press/hover state and by
+ * per-instance variables set inline by the React layer.
+ *
+ * Only variables the React layer never writes are declared here, so the root block stays a real
+ * theming surface. The durations it always emits inline carry their fallback at the point of use.
+ * ------------------------------------------------------------------------------------------------ */
+
+.pressable-feedback {
+  --pressable-feedback-highlight-color: currentColor;
+  --pressable-feedback-highlight-opacity: 0.08;
+  --pressable-feedback-highlight-pressed-opacity: 0.12;
+
+  --pressable-feedback-ripple-color: currentColor;
+  --pressable-feedback-ripple-opacity: 0.12;
+
+  --pressable-feedback-progress-release-duration: 200ms;
+
+  --pressable-feedback-scale: 0.97;
+
+  @apply relative isolate inline-flex appearance-none items-center justify-center overflow-hidden bg-transparent p-0 text-inherit outline-none no-highlight;
+
+  cursor: var(--cursor-interactive);
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"],
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+/* --- Highlight -------------------------------------------------------------------------------- */
+
+.pressable-feedback__highlight {
+  @apply pointer-events-none absolute inset-0 opacity-0;
+  background-color: var(--pressable-feedback-highlight-color);
+  transition: opacity 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+@media (hover: hover) {
+  .pressable-feedback:hover .pressable-feedback__highlight,
+  .pressable-feedback[data-hovered="true"] .pressable-feedback__highlight {
+    opacity: var(--pressable-feedback-highlight-opacity);
+  }
+}
+
+.pressable-feedback:active .pressable-feedback__highlight,
+.pressable-feedback[data-pressed="true"] .pressable-feedback__highlight {
+  opacity: var(--pressable-feedback-highlight-pressed-opacity);
+}
+
+/* --- Ripple ----------------------------------------------------------------------------------- */
+
+.pressable-feedback__ripple {
+  @apply pointer-events-none absolute inset-0 overflow-hidden;
+}
+
+/* Press waves are separate elements so overlapping taps stack. A wave grows and fades over the
+   same lifetime; the ease-in fade keeps it near full opacity while it is still spreading. */
+.pressable-feedback__ripple-wave {
+  @apply pointer-events-none absolute rounded-full;
+  background-color: var(--pressable-feedback-ripple-color);
+  transform: scale(0);
+  animation:
+    pressable-feedback-ripple-grow var(--pressable-feedback-ripple-duration, 225ms)
+      var(--ease-out-cubic) forwards,
+    pressable-feedback-ripple-fade var(--pressable-feedback-ripple-duration, 225ms) ease-in forwards;
+}
+
+@keyframes pressable-feedback-ripple-grow {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes pressable-feedback-ripple-fade {
+  from {
+    opacity: var(--pressable-feedback-ripple-opacity);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pressable-feedback__ripple-wave {
+    @apply hidden;
+    animation: none;
+  }
+}
+
+/* --- Progress --------------------------------------------------------------------------------- */
+
+/* A timed clip-path sweep, driven either by a held press or by a completed click. */
+.pressable-feedback__progress {
+  @apply pointer-events-none absolute inset-0 flex items-center justify-center;
+  clip-path: inset(0 100% 0 0);
+
+  /* Idle and cancel both snap back over the release duration. */
+  transition: clip-path var(--pressable-feedback-progress-release-duration) var(--ease-out-cubic);
+  @apply motion-reduce:transition-none;
+
+  &[data-sweep="left"] {
+    clip-path: inset(0 0 0 100%);
+  }
+
+  &[data-sweep="down"] {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  &[data-sweep="up"] {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  /* Must follow the sweep rules: same specificity, so source order decides. */
+  &[data-running="true"],
+  &[data-complete="true"] {
+    clip-path: inset(0 0 0 0);
+  }
+
+  &[data-running="true"] {
+    transition: clip-path var(--pressable-feedback-progress-duration, 2000ms) linear;
+    @apply motion-reduce:transition-none;
+  }
+}
+
+/* --- Scale ------------------------------------------------------------------------------------ */
+
+.pressable-feedback__scale {
+  transition: scale 150ms var(--ease-out-cubic);
+  @apply motion-reduce:transition-none;
+}
+
+.pressable-feedback:active .pressable-feedback__scale,
+.pressable-feedback[data-pressed="true"] .pressable-feedback__scale {
+  scale: var(--pressable-feedback-scale);
+}

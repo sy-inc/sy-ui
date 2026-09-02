@@ -1,0 +1,417 @@
+---
+title: PressableFeedback
+description: A press interaction layer that adds highlight, scale, ripple, and timed progress feedback to any pressable surface.
+links:
+  rac: Button
+  source: pressable-feedback/pressable-feedback.tsx
+  styles: pressable-feedback.css
+  storybook: Components/PressableFeedback
+---
+
+## Usage
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+```
+
+`PressableFeedback` is a pressable surface built on React Aria's `Button`. On
+its own it renders nothing visible — you opt into the feedback effects you
+want by composing them as children. Each effect is driven by the root's press
+state, so effects can be combined freely.
+
+## Anatomy
+
+`PressableFeedback` is the root. It renders a `button` and provides press
+state to its layers. Add any combination of `Highlight`, `Ripple`, `Scale`,
+and `Progress`, then the visible content.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function PressableFeedbackAnatomy() {
+  return (
+    <PressableFeedback>
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Ripple />
+      <PressableFeedback.Progress />
+      <PressableFeedback.Scale>Press me</PressableFeedback.Scale>
+    </PressableFeedback>
+  );
+}
+```
+
+Layers paint in DOM order. Put `Highlight` and `Ripple` first so `Progress`
+sweeps over them, and keep the visible content last so it stays on top.
+`Scale` is the exception: it wraps content rather than overlaying it.
+
+## Examples
+
+### Basic usage
+
+`Highlight` tints the surface while hovered or pressed. `Ripple` adds a
+Material-style wave that grows from the press point. Each layer paints one
+effect, so combine them for the Material look.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function BasicPressableFeedback() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Ripple />
+      Press me
+    </PressableFeedback>
+  );
+}
+```
+
+### Highlight only
+
+Use `Highlight` alone for a quiet, opacity-based press state. It is pure CSS
+and costs nothing at runtime.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function HighlightOnly() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      Quiet press
+    </PressableFeedback>
+  );
+}
+```
+
+### Ripple only
+
+Each press adds its own wave, so rapid taps stack instead of replacing one
+another. `duration` is the lifetime of a wave: it grows and fades over that
+period, so even a very fast tap is seen.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function RippleOnly() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Ripple duration={300} />
+      Tap repeatedly
+    </PressableFeedback>
+  );
+}
+```
+
+### Scale
+
+`Scale` shrinks its children while the root is pressed. Unlike the other
+layers it is a wrapper, not an overlay, so put the visible content inside it.
+It is pure CSS with no runtime cost.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function ScaleOnPress() {
+  return (
+    <PressableFeedback>
+      <PressableFeedback.Scale className="rounded-lg bg-default px-4 py-3">
+        <PressableFeedback.Highlight />
+        Press me
+      </PressableFeedback.Scale>
+    </PressableFeedback>
+  );
+}
+```
+
+### Hold to confirm
+
+`Progress` reveals an overlay while the press is held and calls `onComplete`
+once the full `duration` elapses. Releasing early snaps the overlay back and
+cancels the action, which makes it a good fit for destructive controls.
+
+```tsx
+import {useState} from 'react';
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function HoldToDelete() {
+  const [deleted, setDeleted] = useState(false);
+
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Progress
+        className="bg-danger text-danger-foreground"
+        duration={1500}
+        onComplete={() => setDeleted(true)}
+      >
+        Hold to delete
+      </PressableFeedback.Progress>
+      {deleted ? 'Deleted' : 'Hold to delete'}
+    </PressableFeedback>
+  );
+}
+```
+
+Pass `resetDelay={false}` to leave the overlay filled after the hold succeeds
+instead of returning to idle.
+
+### Sweep direction
+
+`sweep` chooses which edge the reveal moves toward. Put a copy of the label
+inside `Progress` in the contrasting text color: it is clipped together with
+the fill, so the label appears to change color as the sweep passes over it.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function SweepDirections() {
+  return (
+    <div className="flex gap-3">
+      {(['right', 'left', 'up', 'down'] as const).map((sweep) => (
+        <PressableFeedback className="rounded-lg bg-default px-4 py-3" key={sweep}>
+          <PressableFeedback.Progress
+            className="bg-accent text-accent-foreground"
+            duration={1200}
+            sweep={sweep}
+          >
+            {sweep}
+          </PressableFeedback.Progress>
+          {sweep}
+        </PressableFeedback>
+      ))}
+    </div>
+  );
+}
+```
+
+### Click to progress
+
+Pass `cancelOnRelease={false}` to run the same overlay off a plain click
+instead of a hold. The run starts once the click actually lands, keeps going
+after release, fires `onComplete` at the end of `duration`, then returns to
+idle after `resetDelay` and fires `onReset`.
+
+```tsx
+import {useState} from 'react';
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function ClickToPublish() {
+  const [status, setStatus] = useState('idle');
+
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3">
+      <PressableFeedback.Highlight />
+      <PressableFeedback.Progress
+        cancelOnRelease={false}
+        className="bg-success"
+        duration={1500}
+        onComplete={() => setStatus('complete')}
+        onReset={() => setStatus('idle')}
+      />
+      {status === 'complete' ? 'Published' : 'Click to publish'}
+    </PressableFeedback>
+  );
+}
+```
+
+Because the run is tied to a completed press rather than to press-down,
+pressing the surface and dragging away before releasing never confirms the
+action.
+
+### Pressable cards
+
+Because the root is a plain button with no size or padding of its own, it can
+wrap a whole card. Keep the card free of nested interactive elements so the
+result stays a single control.
+
+```tsx
+import {Card, PressableFeedback} from '@sy-inc/react';
+
+export default function PressableCard() {
+  return (
+    <PressableFeedback className="rounded-xl text-start">
+      <PressableFeedback.Ripple />
+      <Card className="w-56">
+        <Card.Header>
+          <Card.Title>Inbox</Card.Title>
+        </Card.Header>
+        <Card.Content>12 unread</Card.Content>
+      </Card>
+    </PressableFeedback>
+  );
+}
+```
+
+### Disabled
+
+`isDisabled` on the root disables the button and stops every layer. To turn
+off a single effect, render that layer conditionally.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function DisabledPressableFeedback() {
+  return (
+    <PressableFeedback className="rounded-lg bg-default px-4 py-3" isDisabled>
+      <PressableFeedback.Ripple />
+      Unavailable
+    </PressableFeedback>
+  );
+}
+```
+
+## Customization
+
+### Tailwind CSS
+
+Use `className` on the root or on any layer to add Tailwind classes. Layer
+classes usually set the reveal color, for example
+`<PressableFeedback.Progress className="bg-danger" />`.
+
+### Global CSS
+
+Colors, opacities, the press scale, and the snap-back duration are CSS
+variables, so a theme can retune the effects without touching component code.
+Set them on `.pressable-feedback` for a theme, or inline via `style` on one
+root for a single instance.
+
+```css
+@layer components {
+  .pressable-feedback {
+    --pressable-feedback-highlight-color: var(--primary);
+    --pressable-feedback-highlight-pressed-opacity: 0.2;
+    --pressable-feedback-scale: 0.94;
+  }
+}
+```
+
+Run durations are not themeable this way — `Ripple` and `Progress` always
+write theirs inline from props, so set them with `duration` instead.
+
+## Styling Reference
+
+SY INC follows the [BEM](https://getbem.com/) methodology so component
+classes and states can be customized without depending on React Aria
+internals.
+
+### CSS classes
+
+PressableFeedback uses the following classes ([view source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/pressable-feedback.css)):
+
+#### Base classes [!toc]
+
+- `.pressable-feedback` - Root pressable surface. Owns every CSS variable.
+- `.pressable-feedback__highlight` - Opacity-based hover and press overlay.
+- `.pressable-feedback__ripple` - Ripple clipping container.
+- `.pressable-feedback__ripple-wave` - One press wave. Added per press and removed when it expires.
+- `.pressable-feedback__progress` - Clip-path reveal driven by a hold or a click.
+- `.pressable-feedback__scale` - Wrapper that shrinks its children while pressed.
+
+#### State selectors [!toc]
+
+- `.pressable-feedback:focus-visible` or `[data-focus-visible="true"]` - Keyboard focus.
+- `.pressable-feedback:hover` or `[data-hovered="true"]` - Hovered surface.
+- `.pressable-feedback:active` or `[data-pressed="true"]` - Pressed surface.
+- `.pressable-feedback:disabled` or `[aria-disabled="true"]` - Disabled surface.
+- `.pressable-feedback__progress[data-running="true"]` - Run in progress.
+- `.pressable-feedback__progress[data-complete="true"]` - Run reached its full duration.
+- `.pressable-feedback__progress[data-sweep="right|left|down|up"]` - Reveal direction.
+
+### CSS variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `--pressable-feedback-highlight-color` | `currentColor` | Highlight overlay color |
+| `--pressable-feedback-highlight-opacity` | `0.08` | Highlight opacity while hovered |
+| `--pressable-feedback-highlight-pressed-opacity` | `0.12` | Highlight opacity while pressed |
+| `--pressable-feedback-ripple-color` | `currentColor` | Ripple wave color |
+| `--pressable-feedback-ripple-opacity` | `0.12` | Starting opacity of a press wave |
+| `--pressable-feedback-progress-release-duration` | `200ms` | Snap-back duration on cancel or reset |
+| `--pressable-feedback-scale` | `0.97` | Scale factor while pressed |
+
+### Data slots
+
+Stable slots are available for targeted styling and testing:
+
+`pressable-feedback`, `pressable-feedback-highlight`,
+`pressable-feedback-ripple`, `pressable-feedback-ripple-wave`,
+`pressable-feedback-progress`, and `pressable-feedback-scale`.
+
+## API Reference
+
+### PressableFeedback and PressableFeedback.Root
+
+`PressableFeedback` and `PressableFeedback.Root` are the same root component.
+It extends React Aria's [`ButtonProps`](https://react-spectrum.adobe.com/react-aria/Button.html#props),
+so all supported button props, events, and ref behavior are available.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `isDisabled` | `boolean` | `false` | Disables the button and every feedback layer |
+| `children` | `ReactNode` | - | Feedback layers and visible content |
+| `className` | `string` | - | Additional CSS classes merged with `.pressable-feedback` |
+
+### PressableFeedback.Highlight
+
+Pure CSS overlay with no props of its own. Supports all native `div`
+attributes; tune its look through the CSS variables above.
+
+### PressableFeedback.Scale
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `children` | `ReactNode` | - | Content that scales |
+
+Also supports all native `div` attributes.
+
+### PressableFeedback.Ripple
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `duration` | `number` | `225` | Lifetime in ms of a press wave; it grows and fades over this period |
+
+Also supports all native `div` attributes.
+
+### PressableFeedback.Progress
+
+One timed reveal covering both hold-to-confirm and click-to-progress.
+`cancelOnRelease` picks between them.
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `duration` | `number` | `2000` | Run duration in ms before the action is confirmed |
+| `cancelOnRelease` | `boolean` | `true` | Whether releasing before completion cancels the run |
+| `resetDelay` | `number \| false` | `1500` | Delay in ms before returning to idle after completing. `false` keeps the completed state |
+| `sweep` | `'right' \| 'left' \| 'down' \| 'up'` | `'right'` | Edge the reveal sweeps toward |
+| `onComplete` | `() => void` | - | Fired when the run reaches the full duration |
+| `onReset` | `() => void` | - | Fired when the overlay returns to idle |
+| `children` | `ReactNode` | - | Content shown inside the reveal |
+
+Also supports all native `div` attributes.
+
+## Known limitations
+
+- The root always renders a `button`. To make a link or a list row pressable,
+  use the matching interactive component and style it with the
+  `.pressable-feedback__*` classes directly.
+- Under `prefers-reduced-motion: reduce`, ripple waves are hidden and the
+  sweeping overlay snaps instead of animating. Timers and callbacks are
+  unaffected, so `Progress` still behaves correctly but gives no visual
+  progress. Pair it with your own text or progress indicator when the timing
+  matters.
+
+## Accessibility and keyboard interaction
+
+The root is a React Aria `Button`, so it is focusable, activates with
+<kbd>Enter</kbd> and <kbd>Space</kbd>, and exposes `disabled` to assistive
+technology.
+
+Every overlay layer is `aria-hidden` and decorative, so content inside
+`Progress` is not announced — put the accessible label in the root's own
+content and reflect the result there. `Scale` is not hidden, so text wrapped
+in it stays part of the accessible name.
+
+Keyboard activation drives the layers the same way a pointer does: holding
+<kbd>Space</kbd> runs `Progress`, and a keyboard press starts its ripple from
+the centre of the surface rather than a pointer position.
