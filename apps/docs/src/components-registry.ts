@@ -217,6 +217,13 @@ const componentsMap: Record<string, ComponentInfo> = {
     name: "dropdown",
     title: "Dropdown",
   },
+  dropzone: {
+    category: "forms",
+    description: "Drag and drop file uploads with validation, progress, and previews",
+    href: "/docs/components/drop-zone",
+    name: "dropzone",
+    title: "DropZone",
+  },
   errormessage: {
     category: "forms",
     description: "Displays validation error messages for components with validation support",
@@ -641,6 +648,7 @@ const componentRelationships: Record<string, string[]> = {
   disclosuregroup: ["accordion", "disclosure", "button", "separator"],
   drawer: ["modal", "button", "closebutton", "alertdialog"],
   dropdown: ["button", "popover", "separator", "listbox"],
+  dropzone: ["progressbar", "form", "button"],
   errormessage: ["taggroup"],
   fielderror: [
     "textfield",

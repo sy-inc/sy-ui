@@ -1,0 +1,290 @@
+.drop-zone {
+  @apply flex flex-col gap-3;
+}
+
+.drop-zone__area {
+  @apply flex flex-col rounded-2xl border border-dashed border-border p-4 outline-none;
+  transition:
+    background-color 150ms var(--ease-out),
+    border-color 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.drop-zone__area--flat {
+  @apply border-transparent bg-default;
+}
+
+.drop-zone__area--faded {
+  @apply border-solid bg-default-soft;
+  border-color: color-mix(in oklab, var(--border) 60%, transparent);
+}
+
+.drop-zone__slots {
+  --drop-zone-slots-gap: 0.5rem;
+  @apply flex w-full flex-col;
+  gap: var(--drop-zone-slots-gap);
+}
+
+.drop-zone__row {
+  @apply flex w-full;
+}
+
+/* The capsule: border, radius, and background live here, sized to a square by default and
+   widened to a full-width card once it holds a file. Height stays fixed at the square's size —
+   only flex-grow (width) and colors ever animate. */
+.drop-zone__capsule {
+  flex: 0 0 var(--drop-zone-slot-size, 4rem);
+  height: var(--drop-zone-slot-size, 4rem);
+  margin-inline: auto;
+  @apply overflow-hidden rounded-xl border border-border bg-default;
+  transition:
+    flex-grow 200ms var(--ease-out),
+    border-color 150ms var(--ease-out),
+    background-color 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &[data-empty="false"] {
+    flex-grow: 1;
+  }
+
+  @starting-style {
+    &[data-empty="false"] {
+      flex-grow: 0;
+    }
+  }
+}
+
+/* A preview panel expanded: let the capsule grow tall enough to show it. */
+.drop-zone__capsule:has(.drop-zone__preview-panel[data-expanded="true"]) {
+  height: auto;
+}
+
+/* Removing a card: shrink its capsule back to a square and fade its content before it actually
+   unmounts — see `DropZone.Slots`, which defers the real removal for this transition. */
+.drop-zone__row[data-leaving="true"] .drop-zone__capsule {
+  flex-grow: 0;
+}
+
+.drop-zone__row[data-leaving="true"] .drop-zone__file-item {
+  opacity: 0;
+  transition: opacity 120ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+}
+
+.drop-zone__trigger {
+  @apply flex size-full items-center justify-center text-muted outline-none;
+  cursor: var(--cursor-interactive);
+  opacity: 1;
+  transition:
+    opacity 150ms var(--ease-out),
+    color 150ms var(--ease-out),
+    background-color 100ms var(--ease-out),
+    transform 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  svg {
+    @apply size-7;
+  }
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.96);
+  }
+}
+
+.drop-zone__area[data-drop-target="true"] .drop-zone__capsule[data-empty="true"] {
+  @apply border-accent bg-accent-soft;
+}
+
+.drop-zone__area[data-drop-target="true"] .drop-zone__trigger {
+  @apply text-accent;
+}
+
+.drop-zone__capsule[data-invalid="true"] {
+  @apply border-danger bg-danger-soft;
+}
+
+.drop-zone__capsule[data-invalid="true"] .drop-zone__trigger {
+  @apply text-danger;
+}
+
+/* Hover feedback for the square trigger — skipped while invalid so it doesn't paint over the
+   danger tint underneath; all colors come from the shared `--default`/`--default-hover` tokens. */
+@media (hover: hover) {
+  .drop-zone__capsule:not([data-invalid="true"]) .drop-zone__trigger:hover,
+  .drop-zone__capsule:not([data-invalid="true"]) .drop-zone__trigger[data-hovered="true"] {
+    @apply bg-default-hover;
+  }
+}
+
+.drop-zone__file-item {
+  @apply relative flex w-full min-w-0 flex-col;
+  opacity: 1;
+  transition: opacity 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.drop-zone__capsule:has(.drop-zone__file-item[data-status="failed"]) {
+  border-color: color-mix(in oklab, var(--danger) 30%, transparent);
+}
+
+.drop-zone__file-header {
+  @apply flex min-w-0 flex-nowrap items-center gap-3 px-3;
+  height: var(--drop-zone-slot-size, 4rem);
+}
+
+.drop-zone__file-format-icon {
+  @apply relative h-10 w-8 shrink-0;
+
+  svg {
+    @apply size-full;
+  }
+}
+
+/* Corner badge on the outline document icon. Color comes from the shared `color` variant (see
+   drop-zone.styles.ts), resolved per format via `getFileFormatColor` so each extension keeps a
+   fixed, themeable color — `default` keeps the neutral gray every other format used to share. */
+.drop-zone__file-format-icon-badge {
+  @apply absolute bottom-1 left-0 flex h-3.5 max-w-8 items-center overflow-hidden rounded bg-gray-500 px-[3px] py-0.5 text-[8px] leading-none font-bold text-white uppercase;
+}
+
+.drop-zone__file-format-icon-badge--accent {
+  @apply bg-accent text-accent-foreground;
+}
+
+.drop-zone__file-format-icon-badge--danger {
+  @apply bg-danger text-danger-foreground;
+}
+
+.drop-zone__file-format-icon-badge--default {
+  /* Matches the base gray styling; no override needed. */
+}
+
+.drop-zone__file-format-icon-badge--success {
+  @apply bg-success text-success-foreground;
+}
+
+.drop-zone__file-format-icon-badge--warning {
+  @apply bg-warning text-warning-foreground;
+}
+
+.drop-zone__file-info {
+  @apply flex min-w-0 flex-1 flex-col gap-0.5;
+}
+
+.drop-zone__file-name {
+  @apply truncate text-sm font-medium text-foreground;
+}
+
+.drop-zone__file-meta {
+  @apply text-xs text-muted;
+}
+
+.drop-zone__file-item[data-status="complete"] .drop-zone__file-meta {
+  @apply text-success;
+}
+
+.drop-zone__file-item[data-status="failed"] .drop-zone__file-meta {
+  @apply text-danger;
+}
+
+.drop-zone__file-progress {
+  @apply w-full;
+}
+
+.drop-zone__file-remove-trigger,
+.drop-zone__preview-trigger,
+.drop-zone__file-retry-trigger {
+  @apply shrink-0;
+}
+
+.drop-zone__preview-trigger {
+  @apply inline-flex size-6 items-center justify-center rounded-xl text-muted outline-none;
+  cursor: var(--cursor-interactive);
+  transition:
+    background-color 100ms var(--ease-out),
+    color 100ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  svg {
+    @apply size-4;
+  }
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default-hover text-foreground;
+    }
+  }
+}
+
+.drop-zone__preview-panel {
+  @apply w-full overflow-hidden;
+  height: 0;
+  opacity: 0;
+  transition:
+    height 200ms var(--ease-out),
+    opacity 200ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &[data-expanded="true"] {
+    height: 16rem;
+    opacity: 1;
+  }
+
+  img {
+    @apply h-64 w-full object-contain;
+  }
+}
+
+.drop-zone__clear-trigger {
+  @apply inline-flex self-start p-0 text-xs font-medium text-muted outline-none;
+  cursor: var(--cursor-interactive);
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply text-foreground underline;
+    }
+  }
+}

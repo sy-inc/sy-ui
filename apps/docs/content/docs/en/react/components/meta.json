@@ -44,6 +44,7 @@
     "(navigation)/disclosure-group",
     "(overlays)/drawer",
     "(overlays)/sheet",
+    "(forms)/drop-zone",
     "(collections)/dropdown",
     "(collections)/file-tree",
     "(forms)/error-message",

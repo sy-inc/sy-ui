@@ -1286,6 +1286,47 @@ export const demos: Record<string, DemoItem> = {
     file: "en/dropdown/custom-styles.tsx",
   },
 
+  // DropZone Demo
+  "drop-zone-basic": {
+    loader: () => import("./drop-zone/basic").then((m) => m.Basic),
+    file: "en/drop-zone/basic.tsx",
+  },
+  "drop-zone-multiple": {
+    loader: () => import("./drop-zone/multiple").then((m) => m.Multiple),
+    file: "en/drop-zone/multiple.tsx",
+  },
+  "drop-zone-disabled": {
+    loader: () => import("./drop-zone/disabled").then((m) => m.Disabled),
+    file: "en/drop-zone/disabled.tsx",
+  },
+  "drop-zone-image-preview": {
+    loader: () => import("./drop-zone/image-preview").then((m) => m.ImagePreview),
+    file: "en/drop-zone/image-preview.tsx",
+  },
+  "drop-zone-with-upload": {
+    loader: () => import("./drop-zone/with-upload").then((m) => m.WithUpload),
+    file: "en/drop-zone/with-upload.tsx",
+  },
+  "drop-zone-restored": {
+    loader: () => import("./drop-zone/restored").then((m) => m.Restored),
+    file: "en/drop-zone/restored.tsx",
+  },
+  "drop-zone-controlled": {
+    loader: () => import("./drop-zone/controlled").then((m) => m.Controlled),
+    file: "en/drop-zone/controlled.tsx",
+  },
+  "drop-zone-clear": {
+    loader: () => import("./drop-zone/clear").then((m) => m.Clear),
+    file: "en/drop-zone/clear.tsx",
+  },
+  "drop-zone-variants": {
+    loader: () => import("./drop-zone/variants").then((m) => m.Variants),
+    file: "en/drop-zone/variants.tsx",
+  },
+  "drop-zone-validation": {
+    loader: () => import("./drop-zone/constraints").then((m) => m.Constraints),
+    file: "en/drop-zone/constraints.tsx",
+  },
   // ErrorMessage Demo
   "error-message-basic": {
     loader: () => import("./error-message/basic").then((m) => m.ErrorMessageBasic),

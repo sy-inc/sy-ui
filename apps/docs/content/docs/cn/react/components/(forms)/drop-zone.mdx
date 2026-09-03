@@ -1,0 +1,369 @@
+---
+title: DropZone 文件拖放上传
+description: 基于胶囊模型的拖放上传组件，支持校验、进度与图片预览
+links:
+  source: drop-zone/drop-zone.tsx
+  styles: drop-zone.css
+  storybook: Components/Forms/DropZone
+  figma: true
+---
+
+## 用法
+
+```tsx
+import {Description, DropZone, ErrorMessage, Label, useDropZoneState} from '@sy-inc/react';
+```
+
+<ComponentPreview name="drop-zone-basic" />
+
+## 组件结构
+
+```tsx
+const state = useDropZoneState({maxFiles: 3});
+
+<DropZone variant="bordered">
+  <Label>附件</Label>
+  <Description>支持 PDF 或 PNG，单个不超过 10 MB。</Description>
+  <DropZone.Area {...state.getAreaProps()} aria-label="上传文件">
+    <DropZone.Slots state={state} />
+  </DropZone.Area>
+  {!!state.validationError && <ErrorMessage>{state.validationError.message}</ErrorMessage>}
+  {state.files.length > 0 && <DropZone.ClearTrigger onPress={state.clear} />}
+</DropZone>;
+```
+
+**DropZone** 基于 [React Aria DropZone](https://react-spectrum.adobe.com/react-aria/DropZone.html) 构建。`Area` 是唯一的拖放目标，`Slots` 为每一行渲染一个胶囊——每个活动文件对应一张文件卡片；有剩余容量时，末尾始终保留一个空的选择方块。
+
+标题和说明使用共享的 `Label`、`Description` 组件，校验文案使用区域下方的共享 `ErrorMessage`。`DropZone.Area` 必须提供可访问的 `aria-label`。
+
+<Callout>
+  React Aria 的 DropZone 会把**粘贴**文件走同一个 `onDrop`，聚焦拖放区后直接粘贴即可，无需额外接线。拖入**目录**时会递归展开到任意深度，并按拖入顺序扁平化成文件。
+</Callout>
+
+## 示例
+
+### 多文件
+
+将 `maxFiles` 设为大于 1 后，卡片下方会保留一个正方形选择方块；达到上限时方块消失。文件被接受后会渲染为完整宽度的卡片。
+
+<ComponentPreview name="drop-zone-multiple" />
+
+### 上传进度与重试
+
+传入 `onUpload` 后，每个文件会经历 `uploading`、`complete` 或 `failed`。进度和失败反馈只显示在对应卡片内，带本地文件的失败卡片会提供重试操作。
+
+<ComponentPreview name="drop-zone-with-upload" />
+
+```tsx
+const state = useDropZoneState<{url: string}>({
+  onUpload: async (file, {onProgress, signal}) => {
+    const body = new FormData();
+    body.append('file', file);
+
+    const response = await fetch('/api/upload', {body, method: 'POST', signal});
+    if (!response.ok) throw new Error('上传失败');
+
+    onProgress(1);
+    return response.json();
+  },
+});
+```
+
+上传上下文提供 `AbortSignal`；移除、重试、清空或卸载组件都会取消仍在进行的请求。`messages.uploaded` 和 `messages.uploadFailed` 可以覆盖礼貌播报文案。
+
+### 图片预览
+
+图片卡片带有独立的眼睛按钮。预览面板是可访问的 Disclosure，每张图片使用本地 object URL 展开。
+
+<ComponentPreview name="drop-zone-image-preview" />
+
+### 恢复条目
+
+`defaultFileList` 和 `fileList` 可以包含没有本地 `File` 的条目。图片条目提供 `previewUrl` 后即可显示眼睛按钮和预览。恢复条目没有本地上传内容，因此不能重试。
+
+<ComponentPreview name="drop-zone-restored" />
+
+```tsx
+const state = useDropZoneState({
+  defaultFileList: [{
+    id: 'server-cover',
+    name: 'cover.png',
+    previewUrl: 'https://cdn.example.com/cover.png',
+    progress: 1,
+    size: 2_517_000,
+    status: 'complete',
+    type: 'image/png',
+  }],
+});
+```
+
+### 受控状态
+
+父组件持有列表时使用 `fileList` 和 `onChange`。通过卡片上渲染出的移除按钮删除时,会先播放退场过渡动画,动画结束后才会触发 `onChange`;直接调用 `state.remove()` 则会跳过动画,立即更新列表。
+
+<ComponentPreview name="drop-zone-controlled" />
+
+```tsx
+const [fileList, setFileList] = useState<DropZoneFile[]>([]);
+const state = useDropZoneState({fileList, maxFiles: 3, onChange: setFileList});
+```
+
+### 禁用
+
+`isDisabled` 会同时禁用区域、选择方块、预览、重试和移除操作。区域会设置为 inert，因此键盘、粘贴和指针交互都会一起阻断。
+
+<ComponentPreview name="drop-zone-disabled" />
+
+### 校验
+
+`accept`、`maxFileSize`、`maxFiles` 会在文件进入列表前校验。拒绝文件会设置 `validationError`，让选择方块变红，并在区域下方渲染错误文案。下一次成功添加或移除卡片后会清除校验错误。
+
+<ComponentPreview name="drop-zone-validation" />
+
+```tsx
+const state = useDropZoneState({
+  accept: ['image/png', '.pdf'],
+  errorMessage: {
+    fileTooLarge: '单个文件不能超过 5 MB。',
+    invalidFileType: '只接受 PNG 图片或 PDF 文档。',
+    tooManyFiles: '每次最多上传 2 个文件。',
+  },
+  maxFileSize: 5 * 1024 * 1024,
+  maxFiles: 2,
+});
+```
+
+### 外观变体
+
+`bordered` 是默认的虚线表面，`flat` 使用无边框底色，`faded` 则把边框和表面调浅。
+
+<ComponentPreview name="drop-zone-variants" />
+
+### 清空
+
+将 `ClearTrigger` 放在 `Area` 外，并通过 `onPress` 连接 `state.clear`。所有卡片会同时被移除，随后选择方块淡入。
+
+<ComponentPreview name="drop-zone-clear" />
+
+## 自定义
+
+### 全局 CSS
+
+要自定义 DropZone 类，可以使用 `@layer components` 指令。
+[了解更多](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes)。
+
+```css
+@layer components {
+  .drop-zone__capsule[data-empty="true"] {
+    @apply rounded-2xl;
+  }
+
+  .drop-zone__area[data-drop-target="true"] .drop-zone__capsule[data-empty="true"] {
+    @apply border-accent bg-accent-soft;
+  }
+
+  .drop-zone__file-item[data-status="failed"] .drop-zone__file-name {
+    @apply text-danger;
+  }
+}
+```
+
+## 样式参考
+
+SY INC 遵循 [BEM](https://getbem.com/) 规范，让组件状态易于复用和定制。
+
+### CSS 类名
+
+DropZone 使用以下类（[查看源样式](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/drop-zone.css)）：
+
+#### 基础类 [!toc]
+
+- `.drop-zone` — 根布局容器
+- `.drop-zone__area` — React Aria 拖放目标
+- `.drop-zone__slots` — 区域内的行堆栈
+- `.drop-zone__row` — 单行的外层——末尾的空选择方块或一张文件卡片
+- `.drop-zone__capsule` — 行内的胶囊，承载边框、底色与方块到卡片的宽度增长
+- `.drop-zone__trigger` — 正方形文件选择触发器，撑满其胶囊
+- `.drop-zone__file-item` — 单个文件的 Disclosure 卡片
+- `.drop-zone__file-header` — 卡片内的图标、名称、元信息、预览与移除操作行
+- `.drop-zone__file-format-icon` — 柔和底色的格式标签方块(`.drop-zone__file-format-icon--accent/danger/default/success/warning`)
+- `.drop-zone__file-info` — 文件名、元信息和进度
+- `.drop-zone__file-name` — 文件名
+- `.drop-zone__file-meta` — 文件大小或上传错误
+- `.drop-zone__file-progress` — 上传进度条
+- `.drop-zone__file-retry-trigger` — 失败本地上传的重试操作
+- `.drop-zone__file-remove-trigger` — 移除操作
+- `.drop-zone__preview-trigger` — 独立的预览开关
+- `.drop-zone__preview-panel` — 可展开的图片面板
+- `.drop-zone__clear-trigger` — 清空操作
+
+#### 变体 [!toc]
+
+- `variant="bordered"` — 默认虚线表面
+- `variant="flat"` — 无边框底色
+- `variant="faded"` — 浅色边框与表面
+
+#### 状态属性 [!toc]
+
+- `[data-drop-target="true"]` — 正在拖入文件
+- `[data-focus-visible="true"]` — 键盘焦点可见
+- `[data-disabled="true"]` — 区域或操作已禁用
+- `.drop-zone__capsule[data-empty="true"]` — 胶囊当前是选择方块，不是卡片
+- `.drop-zone__capsule[data-invalid="true"]` — 末尾的空胶囊存在校验错误
+- `.drop-zone__preview-panel[data-expanded="true"]` — 该卡片的预览面板已展开
+- `.drop-zone__file-item[data-status="uploading"]` — 上传中
+- `.drop-zone__file-item[data-status="complete"]` — 上传完成
+- `.drop-zone__file-item[data-status="failed"]` — 上传失败
+
+## API 参考
+
+### DropZone
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `variant` | `"bordered" \| "flat" \| "faded"` | `"bordered"` | 区域和胶囊的表面样式。 |
+| `className` | `string` | — | 根节点附加类名。 |
+| `render` | `DOMRenderFunction` | — | 自定义根元素的渲染函数。 |
+| `children` | `React.ReactNode` | — | Label、Description、Area 和操作。 |
+
+支持原生 `div` 属性。
+
+### DropZone.Area
+
+包装 React Aria 的 `DropZone`，`aria-label` 为必填项。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `aria-label` | `string` | — | 拖放目标的可访问名称。 |
+| `isDisabled` | `boolean` | `false` | 拒绝拖放，并使区域变为 `inert`，其中包括卡片在内的所有操作都无法触达。 |
+| `announcement` | `string` | — | 在区域内以视觉隐藏方式渲染的礼貌播报。 |
+
+### DropZone.Slots
+
+根据 `state.files` 推导出每个活动文件对应一行，加末尾一个空行。它负责选择方块、文件卡片、预览控制、进度、重试与移除操作，并在卡片移除后把焦点归位到自身容器内。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `state` | `UseDropZoneStateResult` | — | `useDropZoneState()` 的返回值。 |
+
+### DropZone.Trigger
+
+由 React Aria 按钮包裹的 `FileTrigger`。`Slots` 会为每个空 slot 使用它，也可以手动组合。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `acceptedFileTypes` | `string[]` | `[]` | 接受的扩展名或 MIME 模式。 |
+| `allowsMultiple` | `boolean` | `false` | 是否允许一次选择多个文件。 |
+| `onSelect` | `(files: FileList \| null) => void` | — | 文件添加后执行的选择回调。 |
+| `isDisabled` | `boolean` | `false` | 禁用选择器。 |
+
+### DropZone.FileItem
+
+单个文件的 Disclosure 卡片。状态写入 `data-status`。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `status` | `"idle" \| "uploading" \| "complete" \| "failed"` | — | 上传状态。 |
+
+接受 `DisclosurePrimitive` 的其余属性，包括手动组合时可用的 `isExpanded` 与 `onExpandedChange`。
+
+### DropZone.FileHeader
+
+卡片的顶部一行：格式图标、名称、元信息、预览开关与移除操作，固定为胶囊的正方形高度，因此胶囊变宽过程中它不会重新排布。
+
+### DropZone.FileFormatIcon
+
+一个柔和底色的方块,直接用格式文字本身作为标识,不再叠加单独的图标图形。`color` 默认通过 `getFileFormatColor` 按 `format` 固定取色(例如 `PDF` 始终是 `"danger"`),让同一格式在任何地方颜色都一致。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `format` | `string` | `"FILE"` | 大写格式文字，例如 `PDF` 或 `DOCX`。 |
+| `color` | `"accent" \| "danger" \| "default" \| "success" \| "warning"` | `getFileFormatColor(format)` | 覆盖该格式默认对应的颜色。 |
+
+### DropZone.FileProgress
+
+文件卡片内部使用的进度条。
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `value` | `number` | — | 0 到 100 的进度值。 |
+| `aria-label` | `string` | — | 进度的可访问名称。 |
+
+### DropZone.FileRetryTrigger、FileRemoveTrigger、PreviewTrigger 与 PreviewPanel
+
+这些 part 接受各自的 React Aria 或元素属性以及 `className`。`FileRetryTrigger` 使用 `onPress` 触发 `retry(id)`；`FileRemoveTrigger` 使用 `onPress` 触发 `remove(id)`；`PreviewTrigger` 是 Disclosure 触发器；`PreviewPanel` 接受图片的 `src` 和 `alt`。
+
+### DropZone.ClearTrigger
+
+连接到 `state.clear` 的 React Aria 按钮，使用 `onPress`。每张现有卡片会立即从活动列表移除，同时完成视觉退场。
+
+### useDropZoneState
+
+Hook 负责文件列表、校验、上传、AbortController、对象 URL 和播报状态。
+
+#### 属性
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `accept` | `string \| string[]` | — | 允许的扩展名或 MIME 模式。 |
+| `maxFiles` | `number` | `1` | 活动文件最大数量。失败文件仍占用名额。 |
+| `maxFileSize` | `number` | — | 单个文件最大字节数。 |
+| `fileList` | `DropZoneFile[]` | — | 受控文件列表。 |
+| `defaultFileList` | `DropZoneFile[]` | `[]` | 非受控模式的初始列表，条目可以没有 `file`。 |
+| `isDisabled` | `boolean` | `false` | 禁用区域、选择器和卡片操作。 |
+| `errorMessage` | `DropZoneErrorMessages` | — | 按错误代码覆盖校验文案。 |
+| `messages` | `DropZoneMessages` | — | 覆盖上传完成和失败的播报文案。 |
+| `onChange` | `(files: DropZoneFile[]) => void` | — | 活动列表变化时调用。 |
+| `onRemove` | `(file, files) => void` | — | 卡片被移除后立即调用。 |
+| `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<TResult>` | — | 上传接受的本地文件。 |
+| `onUploadSuccess` | `(file, result) => void` | — | 上传 resolve 后调用。 |
+| `onUploadError` | `(file, error) => void` | — | 上传 reject 后调用。 |
+
+#### 返回值
+
+| 名称 | 类型 | 说明 |
+|------|------|------|
+| `files` | `DropZoneFile[]` | 活动文件列表——`remove()` 一执行，文件就立即离开这里。 |
+| `isFull` | `boolean` | `files` 是否已达到 `maxFiles`。 |
+| `isDisabled` | `boolean` | 该 hook 被配置的 `isDisabled`。 |
+| `validationError` | `DropZoneValidationError \| null` | 最近一次拒绝的文件与可直接渲染的文案。 |
+| `previews` | `Record<string, {url: string}>` | 以文件 id 索引的本地图片对象 URL。 |
+| `announcement` | `string` | 上传完成或失败的礼貌播报。 |
+| `addFiles` | `(source: FileList \| File[] \| DropEvent) => Promise<void>` | 校验并追加文件，递归展开目录。 |
+| `remove` | `(id: string) => void` | 立即中止并移除文件，同时释放其预览并调用 `onRemove`/`onChange`；id 不在 `files` 中时空操作。 |
+| `releasePreview` | `(id: string) => void` | 释放该文件的对象 URL。`remove` 会自动调用；供在 `remove` 之外手动清理时使用。 |
+| `retry` | `(id: string) => void` | 重新上传带本地文件的失败条目。 |
+| `clear` | `() => void` | 移除所有活动文件。 |
+| `getAreaProps` | `(userProps?) => object` | `DropZone.Area` 属性；用户 `onDrop` 在内部添加后执行。 |
+| `getTriggerProps` | `(userProps?) => object` | `DropZone.Trigger` 属性；用户 `onSelect` 在内部添加后执行，`isDisabled` 会并入 `isFull`。 |
+
+#### DropZoneFile
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | `string` | 用于 key、`remove` 和 `retry` 的稳定标识。 |
+| `name` | `string` | 显示名称。 |
+| `size` | `number` | 文件大小，单位为字节。 |
+| `type` | `string` | MIME 类型。 |
+| `file` | `File \| undefined` | 本地文件；恢复条目没有此字段。 |
+| `previewUrl` | `string \| undefined` | 没有本地文件时使用的服务端图片地址。 |
+| `status` | `"idle" \| "uploading" \| "complete" \| "failed"` | 上传状态。 |
+| `progress` | `number` | 0 到 1 的进度。 |
+| `result` | `TResult \| undefined` | 上传 resolve 的结果。 |
+| `error` | `unknown` | 上传 reject 的错误。 |
+| `errorMessage` | `React.ReactNode` | 可直接渲染的失败文案。 |
+
+### 工具函数
+
+```tsx
+import {formatFileSize, formatFileType, getFileFormatColor, isImageFile} from '@sy-inc/react';
+
+formatFileSize(2_517_000); // "2.4 MB"
+formatFileType('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'brief.docx'); // "DOCX"
+getFileFormatColor('PDF'); // "danger"
+isImageFile({name: 'photo.png', type: 'image/png'}); // true
+```
+
+## 相关组件
+
+<RelatedComponents component="dropzone" />

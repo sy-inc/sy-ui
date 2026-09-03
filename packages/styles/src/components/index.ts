@@ -36,6 +36,7 @@ export * from "./disclosure-group/disclosure-group.styles";
 export * from "./disclosure/disclosure.styles";
 export * from "./drawer/drawer.styles";
 export * from "./dropdown/dropdown.styles";
+export * from "./drop-zone/drop-zone.styles";
 export * from "./empty-state/empty-state.styles";
 export * from "./error-message/error-message.styles";
 export * from "./field-error/field-error.styles";

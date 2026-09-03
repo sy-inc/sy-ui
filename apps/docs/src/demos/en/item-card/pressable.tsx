@@ -1,3 +1,5 @@
+"use client";
+
 import {ChevronRight, Key, Person} from "@gravity-ui/icons";
 import {ItemCard, PressableFeedback} from "@sy-inc/react";
 

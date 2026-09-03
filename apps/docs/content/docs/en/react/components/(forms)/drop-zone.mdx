@@ -1,0 +1,371 @@
+---
+title: DropZone
+description: Capsule-based drag and drop file uploads with validation, progress, and image previews
+links:
+  source: drop-zone/drop-zone.tsx
+  styles: drop-zone.css
+  storybook: Components/Forms/DropZone
+  figma: true
+---
+
+## Usage
+
+```tsx
+import {Description, DropZone, ErrorMessage, Label, useDropZoneState} from '@sy-inc/react';
+```
+
+<ComponentPreview name="drop-zone-basic" />
+
+## Anatomy
+
+```tsx
+const state = useDropZoneState({maxFiles: 3});
+
+<DropZone variant="bordered">
+  <Label>Attachments</Label>
+  <Description>PDF or PNG up to 10 MB.</Description>
+  <DropZone.Area {...state.getAreaProps()} aria-label="Upload files">
+    <DropZone.Slots state={state} />
+  </DropZone.Area>
+  {!!state.validationError && <ErrorMessage>{state.validationError.message}</ErrorMessage>}
+  {state.files.length > 0 && <DropZone.ClearTrigger onPress={state.clear} />}
+</DropZone>;
+```
+
+**DropZone** is built on [React Aria DropZone](https://react-spectrum.adobe.com/react-aria/DropZone.html). `Area` is the only drop target. `Slots` renders one capsule per row — a file card for each active file, plus a trailing empty trigger while there is room for another file.
+
+The title and supporting copy use the shared `Label` and `Description` components. Validation copy belongs below the area in the shared `ErrorMessage` component. `DropZone.Area` always requires an accessible `aria-label`.
+
+<Callout>
+  React Aria's DropZone routes **pasted** files through the same `onDrop`, so pasting into a focused
+  drop zone needs no extra wiring. Dropped **directories** are walked to any depth and flattened into
+  their files in drop order.
+</Callout>
+
+## Examples
+
+### Multiple files
+
+Set `maxFiles` above one to keep a square trigger after the cards. An accepted file renders as a full-width card, and the trailing trigger disappears when the limit is reached.
+
+<ComponentPreview name="drop-zone-multiple" />
+
+### Upload progress and retry
+
+Pass `onUpload` to drive each accepted file through `uploading`, `complete`, or `failed`. Progress and failure feedback stay inside the corresponding card; a failed local file exposes a retry action.
+
+<ComponentPreview name="drop-zone-with-upload" />
+
+```tsx
+const state = useDropZoneState<{url: string}>({
+  onUpload: async (file, {onProgress, signal}) => {
+    const body = new FormData();
+    body.append('file', file);
+
+    const response = await fetch('/api/upload', {body, method: 'POST', signal});
+    if (!response.ok) throw new Error('Upload failed');
+
+    onProgress(1);
+    return response.json();
+  },
+});
+```
+
+The upload context provides an `AbortSignal`; removing, retrying, clearing, or unmounting cancels work that is still in flight. `messages.uploaded` and `messages.uploadFailed` customize the polite live announcement.
+
+### Image preview
+
+Image cards expose an independent eye button. The preview panel is an accessible disclosure and uses the local object URL for a selected file.
+
+<ComponentPreview name="drop-zone-image-preview" />
+
+### Restored entries
+
+`defaultFileList` and `fileList` may contain entries without a local `File`. Give an image entry a `previewUrl` to render its eye button and preview. Restored entries cannot be retried because there is no local upload payload.
+
+<ComponentPreview name="drop-zone-restored" />
+
+```tsx
+const state = useDropZoneState({
+  defaultFileList: [{
+    id: 'server-cover',
+    name: 'cover.png',
+    previewUrl: 'https://cdn.example.com/cover.png',
+    progress: 1,
+    size: 2_517_000,
+    status: 'complete',
+    type: 'image/png',
+  }],
+});
+```
+
+### Controlled state
+
+Use `fileList` with `onChange` when the parent owns the list. Removing a card through its rendered remove button plays the exit transition first — `onChange` fires once that settles. Calling `state.remove()` yourself skips the transition and updates the list right away.
+
+<ComponentPreview name="drop-zone-controlled" />
+
+```tsx
+const [fileList, setFileList] = useState<DropZoneFile[]>([]);
+const state = useDropZoneState({fileList, maxFiles: 3, onChange: setFileList});
+```
+
+### Disabled
+
+`isDisabled` disables the area and every square, preview, retry, and remove action. The area also becomes inert, so keyboard, paste, and pointer interaction are blocked together.
+
+<ComponentPreview name="drop-zone-disabled" />
+
+### Validation
+
+`accept`, `maxFileSize`, and `maxFiles` are checked before a file enters the list. A rejection sets `validationError`, turns the square trigger invalid, and renders the supplied message below the area. Adding a valid file or removing a card clears the validation error.
+
+<ComponentPreview name="drop-zone-validation" />
+
+```tsx
+const state = useDropZoneState({
+  accept: ['image/png', '.pdf'],
+  errorMessage: {
+    fileTooLarge: 'Each file must stay under 5 MB.',
+    invalidFileType: 'Only PNG images or PDF documents are accepted.',
+    tooManyFiles: 'Maximum 2 files per upload.',
+  },
+  maxFileSize: 5 * 1024 * 1024,
+  maxFiles: 2,
+});
+```
+
+### Variants
+
+`bordered` is the default dashed surface. `flat` uses a filled surface, while `faded` softens the border and surface.
+
+<ComponentPreview name="drop-zone-variants" />
+
+### Clear all
+
+Keep `ClearTrigger` outside `Area` and connect it to `state.clear`. Every card is removed together, then the square trigger fades back in.
+
+<ComponentPreview name="drop-zone-clear" />
+
+## Customization
+
+### Global CSS
+
+To customize DropZone classes, use the `@layer components` directive.
+[Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).
+
+```css
+@layer components {
+  .drop-zone__capsule[data-empty="true"] {
+    @apply rounded-2xl;
+  }
+
+  .drop-zone__area[data-drop-target="true"] .drop-zone__capsule[data-empty="true"] {
+    @apply border-accent bg-accent-soft;
+  }
+
+  .drop-zone__file-item[data-status="failed"] .drop-zone__file-name {
+    @apply text-danger;
+  }
+}
+```
+
+## Styling Reference
+
+SY INC follows the [BEM](https://getbem.com/) methodology so component states remain reusable and easy to customize.
+
+### CSS classes
+
+The DropZone component uses these classes ([view source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/drop-zone.css)):
+
+#### Base classes [!toc]
+
+- `.drop-zone` — Root layout container
+- `.drop-zone__area` — The React Aria drop target
+- `.drop-zone__slots` — Row stack inside the area
+- `.drop-zone__row` — Wrapper for one row — the trailing empty trigger or a file card
+- `.drop-zone__capsule` — Capsule inside a row; owns the border, background, and the square-to-card width grow
+- `.drop-zone__trigger` — Square file picker trigger, sized to fill its capsule
+- `.drop-zone__file-item` — Disclosure card for one file
+- `.drop-zone__file-header` — Icon, name, meta, preview, and remove actions row inside a card
+- `.drop-zone__file-format-icon` — Soft-colored format label square (`.drop-zone__file-format-icon--accent/danger/default/success/warning`)
+- `.drop-zone__file-info` — File name, metadata, and progress
+- `.drop-zone__file-name` — File name text
+- `.drop-zone__file-meta` — File size or upload error
+- `.drop-zone__file-progress` — Upload progress bar
+- `.drop-zone__file-retry-trigger` — Retry action for a failed local upload
+- `.drop-zone__file-remove-trigger` — Remove action
+- `.drop-zone__preview-trigger` — Independent preview toggle
+- `.drop-zone__preview-panel` — Expandable image panel
+- `.drop-zone__clear-trigger` — Clear-all action
+
+#### Variant classes [!toc]
+
+- `variant="bordered"` — Default dashed surface
+- `variant="flat"` — Filled surface without the border
+- `variant="faded"` — Softened border and surface
+
+#### State attributes [!toc]
+
+- `[data-drop-target="true"]` — A drag is hovering the area
+- `[data-focus-visible="true"]` — Keyboard focus is visible
+- `[data-disabled="true"]` — The area or action is disabled
+- `.drop-zone__capsule[data-empty="true"]` — Capsule is the square trigger, not a card
+- `.drop-zone__capsule[data-invalid="true"]` — The trailing empty capsule has a validation error
+- `.drop-zone__preview-panel[data-expanded="true"]` — This card's preview panel is expanded
+- `.drop-zone__file-item[data-status="uploading"]` — Upload in progress
+- `.drop-zone__file-item[data-status="complete"]` — Upload completed
+- `.drop-zone__file-item[data-status="failed"]` — Upload failed
+
+## API Reference
+
+### DropZone
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"bordered" \| "flat" \| "faded"` | `"bordered"` | Surface treatment for the area and capsules. |
+| `className` | `string` | — | Additional classes for the root. |
+| `render` | `DOMRenderFunction` | — | Custom render function for the root element. |
+| `children` | `React.ReactNode` | — | Label, Description, Area, and actions. |
+
+Supports native `div` attributes.
+
+### DropZone.Area
+
+Wraps React Aria's `DropZone`. The `aria-label` prop is required.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `aria-label` | `string` | — | Accessible name for the drop target. |
+| `isDisabled` | `boolean` | `false` | Rejects drops and makes the area `inert`, so every action inside — including on cards — is unreachable. |
+| `announcement` | `string` | — | Polite live announcement rendered visually hidden inside the area. |
+
+### DropZone.Slots
+
+Derives one row per active file plus a trailing empty row from `state.files`. It owns the square trigger, file cards, preview controls, progress, retry, and remove actions, and moves focus back inside itself after a card is removed.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `state` | `UseDropZoneStateResult` | — | The return value of `useDropZoneState()`. |
+
+### DropZone.Trigger
+
+`FileTrigger` wrapping a React Aria button. `Slots` uses it for each empty slot; it can also be composed by hand.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `acceptedFileTypes` | `string[]` | `[]` | Accepted extensions or MIME patterns. |
+| `allowsMultiple` | `boolean` | `false` | Allows multiple selected files. |
+| `onSelect` | `(files: FileList \| null) => void` | — | Runs after selected files are added. |
+| `isDisabled` | `boolean` | `false` | Disables the picker. |
+
+### DropZone.FileItem
+
+Disclosure card for a file. The card carries its status in `data-status`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `status` | `"idle" \| "uploading" \| "complete" \| "failed"` | — | Upload status. |
+
+Accepts every other `DisclosurePrimitive` prop, including `isExpanded` and `onExpandedChange` for hand composition.
+
+### DropZone.FileHeader
+
+The card's top row: format icon, name, meta, preview toggle, and remove action, fixed to the capsule's square height so it never reflows while the capsule widens.
+
+### DropZone.FileFormatIcon
+
+A flat, soft-colored square carrying the format label itself — no separate icon glyph. `color` defaults to a fixed color per `format` via `getFileFormatColor` (e.g. `PDF` is always `"danger"`), so file types stay visually consistent everywhere.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `format` | `string` | `"FILE"` | Uppercase format label such as `PDF` or `DOCX`. |
+| `color` | `"accent" \| "danger" \| "default" \| "success" \| "warning"` | `getFileFormatColor(format)` | Overrides the color this format would otherwise get. |
+
+### DropZone.FileProgress
+
+Wraps the progress bar used inside an uploading card.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | — | Progress from 0 to 100. |
+| `aria-label` | `string` | — | Accessible progress label. |
+
+### DropZone.FileRetryTrigger, FileRemoveTrigger, PreviewTrigger, and PreviewPanel
+
+These parts accept their native React Aria or element props plus `className`. `FileRetryTrigger` uses `onPress` and starts `retry(id)`. `FileRemoveTrigger` uses `onPress` and starts `remove(id)`. `PreviewTrigger` is the disclosure trigger; `PreviewPanel` accepts `src` and `alt` for its image.
+
+### DropZone.ClearTrigger
+
+React Aria button that you connect to `state.clear` with `onPress`. Every current card is removed immediately while its visual exit sequence finishes.
+
+### useDropZoneState
+
+The hook owns the file list, validation, uploads, abort controllers, object URLs, and announcements.
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `accept` | `string \| string[]` | — | Allowed extensions or MIME patterns. |
+| `maxFiles` | `number` | `1` | Maximum number of active files. Failed files still occupy a slot. |
+| `maxFileSize` | `number` | — | Maximum size per file in bytes. |
+| `fileList` | `DropZoneFile[]` | — | Controlled file list. |
+| `defaultFileList` | `DropZoneFile[]` | `[]` | Initial list for uncontrolled state. Entries may omit `file`. |
+| `isDisabled` | `boolean` | `false` | Disables area, picker, and card actions. |
+| `errorMessage` | `DropZoneErrorMessages` | — | Overrides validation copy by error code. |
+| `messages` | `DropZoneMessages` | — | Overrides upload-complete and upload-failed announcements. |
+| `onChange` | `(files: DropZoneFile[]) => void` | — | Called when the active list changes. |
+| `onRemove` | `(file, files) => void` | — | Called immediately after a card is removed. |
+| `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<TResult>` | — | Uploads an accepted local file. |
+| `onUploadSuccess` | `(file, result) => void` | — | Called after an upload resolves. |
+| `onUploadError` | `(file, error) => void` | — | Called after an upload rejects. |
+
+#### Returns
+
+| Name | Type | Description |
+|------|------|-------------|
+| `files` | `DropZoneFile[]` | Active file list — a file leaves this the instant `remove()` runs. |
+| `isFull` | `boolean` | Whether `files` has reached `maxFiles`. |
+| `isDisabled` | `boolean` | The `isDisabled` this hook was configured with. |
+| `validationError` | `DropZoneValidationError \| null` | Most recent rejected files and ready-to-render message. |
+| `previews` | `Record<string, {url: string}>` | Object URLs for local images, keyed by file id. |
+| `announcement` | `string` | Polite upload-complete or upload-failed announcement. |
+| `addFiles` | `(source: FileList \| File[] \| DropEvent) => Promise<void>` | Validates and appends files, recursively expanding directories. |
+| `remove` | `(id: string) => void` | Aborts and removes a file immediately, releasing its preview and calling `onRemove`/`onChange` right away. A no-op if the id isn't in `files`. |
+| `releasePreview` | `(id: string) => void` | Revokes that file's object URL. `remove` calls this automatically; exposed for manual cleanup outside `remove`. |
+| `retry` | `(id: string) => void` | Re-runs `onUpload` for a local failed file. |
+| `clear` | `() => void` | Removes every active file. |
+| `getAreaProps` | `(userProps?) => object` | Props for `DropZone.Area`; user `onDrop` runs after internal addition. |
+| `getTriggerProps` | `(userProps?) => object` | Props for `DropZone.Trigger`; user `onSelect` runs after internal addition. `isDisabled` folds in `isFull`. |
+
+#### DropZoneFile
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | `string` | Stable identity for keys, `remove`, and `retry`. |
+| `name` | `string` | Display name. |
+| `size` | `number` | Size in bytes. |
+| `type` | `string` | MIME type. |
+| `file` | `File \| undefined` | Local payload, absent for restored entries. |
+| `previewUrl` | `string \| undefined` | Server preview URL for an entry without `file`. |
+| `status` | `"idle" \| "uploading" \| "complete" \| "failed"` | Upload status. |
+| `progress` | `number` | Progress from 0 to 1. |
+| `result` | `TResult \| undefined` | Resolved upload result. |
+| `error` | `unknown` | Rejected upload error. |
+| `errorMessage` | `React.ReactNode` | Ready-to-render failed-upload copy. |
+
+### Utilities
+
+```tsx
+import {formatFileSize, formatFileType, getFileFormatColor, isImageFile} from '@sy-inc/react';
+
+formatFileSize(2_517_000); // "2.4 MB"
+formatFileType('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'brief.docx'); // "DOCX"
+getFileFormatColor('PDF'); // "danger"
+isImageFile({name: 'photo.png', type: 'image/png'}); // true
+```
+
+## Related Components
+
+<RelatedComponents component="dropzone" />

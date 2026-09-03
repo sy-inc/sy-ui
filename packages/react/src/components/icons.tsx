@@ -138,6 +138,65 @@ export const CloseIcon = (props: IconProps) => (
   </svg>
 );
 
+export const EyeIcon = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1.5 8s2.25-3.5 6.5-3.5S14.5 8 14.5 8s-2.25 3.5-6.5 3.5S1.5 8 1.5 8Zm6.5 1.75A1.75 1.75 0 1 0 8 6.25a1.75 1.75 0 0 0 0 3.5Z"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.25"
+    />
+  </svg>
+);
+
+export const UploadCloudIcon = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    viewBox="0 0 16 16"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M4.5 5.25a3.25 3.25 0 0 1 6.4-.81A3 3 0 0 1 11.5 11h-.75a.75.75 0 0 0 0 1.5h.75a4.5 4.5 0 0 0 .69-8.95 4.75 4.75 0 0 0-9.19 1.52A3.75 3.75 0 0 0 3.75 12.5h1.5a.75.75 0 0 0 0-1.5h-1.5a2.25 2.25 0 1 1 .03-4.5.75.75 0 0 0 .75-.84A3 3 0 0 1 4.5 5.25m4.25 3.31.72.72a.75.75 0 1 0 1.06-1.06l-2-2a.75.75 0 0 0-1.06 0l-2 2a.75.75 0 1 0 1.06 1.06l.72-.72v6.69a.75.75 0 0 0 1.5 0z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const FileShapeIcon = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    viewBox="0 0 32 40"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M24 39.25H8C5.10051 39.25 2.75 36.8995 2.75 34V6C2.75 3.10051 5.10051 0.75 8 0.75H17.5147C18.9071 0.75 20.2425 1.30312 21.227 2.28769L29.7123 10.773C30.6969 11.7575 31.25 13.0929 31.25 14.4853V34C31.25 36.8995 28.8995 39.25 24 39.25Z"
+      fill="var(--snow)"
+      stroke="var(--border)"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M19 1V8C19 10.2091 20.7909 12 23 12H31"
+      fill="color-mix(in oklab, var(--snow) 85%, var(--eclipse) 15%)"
+      stroke="var(--border)"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export const InfoIcon = (props: IconProps) => (
   <svg
     aria-hidden="true"

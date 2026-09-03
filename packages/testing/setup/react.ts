@@ -48,6 +48,14 @@ if (typeof window.matchMedia !== "function") {
   });
 }
 
+// jsdom has no object URL support; file previews create and revoke them.
+if (typeof URL.createObjectURL !== "function") {
+  let objectUrlCount = 0;
+
+  URL.createObjectURL = () => `blob:jsdom/${objectUrlCount++}`;
+  URL.revokeObjectURL = () => {};
+}
+
 if (typeof document.elementFromPoint !== "function") {
   document.elementFromPoint = () => null;
 }
