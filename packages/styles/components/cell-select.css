@@ -1,0 +1,31 @@
+/**
+ * CellSelect is a Select laid out as a settings row: every element carries both
+ * `select__x` and `cell-select__x`. This file is imported after select.css, so
+ * equal-specificity rules below win - only the deltas belong here.
+ */
+
+.cell-select__trigger {
+  @apply flex h-9 items-center gap-3 py-0;
+
+  /* The indicator is inline here, so the end padding select reserves for it is wrong. */
+  &:has(.select__indicator) {
+    @apply pe-3;
+  }
+}
+
+.cell-select__label {
+  @apply min-w-0 flex-1 overflow-hidden text-start text-sm font-medium text-ellipsis whitespace-nowrap text-foreground;
+}
+
+.cell-select__value {
+  @apply ms-auto flex-none overflow-hidden text-end text-sm text-ellipsis whitespace-nowrap text-muted;
+}
+
+.cell-select__indicator {
+  @apply static size-3 shrink-0 text-muted;
+
+  /* A cell indicator marks "expandable", it does not flip open/closed. */
+  &[data-open="true"] {
+    @apply rotate-0;
+  }
+}

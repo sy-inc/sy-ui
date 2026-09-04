@@ -31,8 +31,10 @@
     @apply pe-7;
   }
 
-  /* Focus visible state (keyboard focus only) */
-  &:focus-visible,
+  /* Focus visible state (keyboard focus only)
+   * RAC drives focus-visible via data-focus-visible; the native pseudo-class also matches when
+   * RAC restores focus from the popover after a mouse click, so it is scoped to non-RAC markup. */
+  &:focus-visible:not([data-rac]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

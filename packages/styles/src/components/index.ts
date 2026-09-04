@@ -12,6 +12,7 @@ export * from "./button-group/button-group.styles";
 export * from "./button/button.styles";
 export * from "./calendar-year-picker/calendar-year-picker.styles";
 export * from "./calendar/calendar.styles";
+export * from "./cell-select/cell-select.styles";
 export * from "./chat-message";
 export * from "./card/card.styles";
 export * from "./cell-slider/cell-slider.styles";

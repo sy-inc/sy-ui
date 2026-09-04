@@ -1,0 +1,71 @@
+---
+title: Cell Select 单元选择器
+description: 用于偏好设置和配置表单的紧凑型设置单元选择器。
+links:
+  source: cell-select/cell-select.tsx
+  styles: cell-select.css
+  storybook: Components/CellSelect
+---
+
+## 用法
+
+```tsx
+import {CellSelect, ListBox} from "@sy-inc/react";
+```
+
+<ComponentPreview name="cell-select-usage" />
+
+## 组件结构
+
+```tsx
+<CellSelect aria-label="主题" defaultValue="default">
+  <CellSelect.Trigger>
+    <CellSelect.Label>主题</CellSelect.Label>
+    <CellSelect.Value />
+    <CellSelect.Indicator />
+  </CellSelect.Trigger>
+  <CellSelect.Popover><ListBox /></CellSelect.Popover>
+</CellSelect>
+```
+
+## 示例
+
+<ComponentPreview name="cell-select-controlled" />
+<ComponentPreview name="cell-select-custom-value" />
+<ComponentPreview name="cell-select-disabled" />
+<ComponentPreview name="cell-select-font-family" />
+<ComponentPreview name="cell-select-settings-group" />
+<ComponentPreview name="cell-select-variants" />
+
+## API 参考
+
+### CellSelect
+
+CellSelect 支持除 `variant` 外的全部 [Select](/docs/components/select) 根组件属性，并额外提供：
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "secondary"` | `"default"` | 设置单元的表面样式。 |
+
+### 组成部分
+
+| 部分 | 契约 |
+| --- | --- |
+| `Trigger` | 支持 Select.Trigger 属性，渲染设置行。 |
+| `Label` | 带 CellSelect 标签样式的原生 `span`。 |
+| `Value` | 支持 Select.Value 属性，显示已选值。 |
+| `Indicator` | 支持与 Select.Indicator 兼容的属性；未提供子元素时显示纵向展开箭头。 |
+| `Popover` | 即 Select.Popover；弹层宽度由 `.select__popover` 对齐触发器。 |
+
+## 无障碍
+
+CellSelect 保留 Select 的 button、listbox、键盘导航、受控与非受控选择行为。请为 Select 控件提供 `aria-label` 或 `aria-labelledby`；可见 Label 是单元的视觉内容。禁用单元使用原生 disabled 状态，无法打开。
+
+## 样式参考
+
+CellSelect 渲染的就是 Select，因此每个元素同时带有 `select__*` 与 `cell-select__*` 两个类；`cell-select.css` 只保留设置行的差异部分。
+
+- `.cell-select` — 根容器
+- `.cell-select__trigger` — 设置行
+- `.cell-select__label`、`.cell-select__value`、`.cell-select__indicator` — 复合部分样式钩子
+- `variant` 映射到 Select 的表面样式类（`.select--primary` / `.select--secondary`）

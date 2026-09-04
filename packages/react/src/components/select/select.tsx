@@ -1,6 +1,5 @@
 "use client";
 
-import type {Booleanish} from "../../utils/assertion";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
 import type {SelectVariants} from "@sy-inc/styles";
@@ -119,31 +118,19 @@ const SelectIndicator = <E extends keyof React.JSX.IntrinsicElements = "svg">({
   Omit<React.JSX.IntrinsicElements[E], keyof SelectIndicatorProps<E>>) => {
   const {slots} = use(SelectContext);
   const state = use(SelectStateContext);
+  const hasCustomIcon = React.isValidElement(children);
 
-  if (children && React.isValidElement(children)) {
-    return React.cloneElement(
-      children as React.ReactElement<{
-        className?: string;
-        "data-slot"?: "select-indicator";
-        "data-open"?: Booleanish;
-      }>,
-      {
-        ...(props as any),
-        className: composeSlotClassName(slots?.indicator, className),
-        "data-slot": "select-indicator",
-        "data-open": dataAttr(state?.isOpen),
-      },
-    );
-  }
+  /* data-slot first so wrappers (for example CellSelect) can rename it; the slot class stays ours. */
+  const indicatorProps = {
+    "data-slot": hasCustomIcon ? "select-indicator" : "select-default-indicator",
+    ...(props as object),
+    className: composeSlotClassName(slots?.indicator, className),
+    "data-open": dataAttr(state?.isOpen),
+  };
 
-  return (
-    <IconChevronDown
-      className={composeSlotClassName(slots?.indicator, className)}
-      data-open={dataAttr(state?.isOpen)}
-      data-slot="select-default-indicator"
-      {...(props as any)}
-    />
-  );
+  if (hasCustomIcon) return React.cloneElement(children, indicatorProps);
+
+  return <IconChevronDown {...indicatorProps} />;
 };
 
 /* -------------------------------------------------------------------------------------------------

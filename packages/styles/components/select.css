@@ -47,8 +47,10 @@
     }
   }
 
-  /* Focus visible state */
-  &:focus-visible,
+  /* Focus visible state
+   * RAC drives focus-visible via data-focus-visible; the native pseudo-class also matches when
+   * RAC restores focus from the popover after a mouse click, so it is scoped to non-RAC markup. */
+  &:focus-visible:not([data-rac]),
   &[data-focus-visible="true"] {
     @apply status-focused;
     border-color: var(--field-border-focus);
@@ -95,7 +97,7 @@
     }
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-rac]),
   &[data-focus-visible="true"] {
     background-color: var(--select-trigger-bg-focus);
   }
@@ -243,7 +245,7 @@
     }
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-rac]),
   &[data-focus-visible="true"] {
     @apply bg-transparent;
 
