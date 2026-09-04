@@ -1,0 +1,169 @@
+---
+title: CellSlider
+description: A compact range slider styled as a settings cell with a label and value display.
+
+links:
+  rac: Slider
+  source: cell-slider/cell-slider.tsx
+  styles: cell-slider.css
+  storybook: Components/CellSlider
+---
+
+## Usage
+
+CellSlider is a compact, single-value control for settings rows. It renders a
+horizontal track with a leading label and a trailing formatted value, all inside
+one cell.
+
+```tsx
+import {CellSlider} from "@sy-inc/react";
+
+export default () => (
+  <CellSlider label="Spacing" defaultValue={0.5} maxValue={1} step={0.01} />
+);
+```
+
+`label` is the visible text *and* the accessible name, so you do not need a
+separate `aria-label`.
+
+## Anatomy
+
+CellSlider is a single component: the track, fill, thumb, label and output are
+fixed. For a range slider, or any other composition, use the Slider parts with
+the same styling:
+
+```tsx
+import {Label, Slider} from "@sy-inc/react";
+
+export default () => (
+  <Slider variant="cell" defaultValue={[0.2, 0.8]} maxValue={1} step={0.01}>
+    <Slider.Track>
+      <Slider.Fill />
+      <Slider.Thumb index={0} />
+      <Slider.Thumb index={1} />
+      <Label>Range</Label>
+      <Slider.Output />
+    </Slider.Track>
+  </Slider>
+);
+```
+
+## Examples
+
+### Basic
+
+<ComponentPreview name="cell-slider-default" />
+
+### Variants
+
+CellSlider supports `default` and `secondary` visual variants. The default
+variant is used when `variant` is omitted.
+
+<ComponentPreview name="cell-slider-variants" />
+
+### Controlled
+
+Pass `value` and `onChange` to control the current value from React state.
+
+<ComponentPreview name="cell-slider-controlled" />
+
+### Settings Group
+
+Use several sliders together for compact settings panels.
+
+<ComponentPreview name="cell-slider-settings-group" />
+
+### Secondary Group
+
+Use the `secondary` variant for a quieter group of related settings.
+
+<ComponentPreview name="cell-slider-secondary-group" />
+
+### Integer Step
+
+Set `step={1}` for whole-number values.
+
+<ComponentPreview name="cell-slider-integer-step" />
+
+### Disabled
+
+Set `isDisabled` to prevent interaction and communicate the disabled state.
+
+<ComponentPreview name="cell-slider-disabled" />
+
+## API Reference
+
+### CellSlider
+
+Accepts the Slider root props, except `orientation` (always horizontal),
+`children` and `variant` (used internally to select the cell styling). Values
+are single numbers; the package also exports `cellSliderVariants` and
+`CellSliderVariants`.
+
+| Prop              | Type                       | Default     | Description                                             |
+| ----------------- | -------------------------- | ----------- | ------------------------------------------------------- |
+| `label`           | `ReactNode`                | -           | Visible label and accessible name.                      |
+| `variant`         | `"default" \| "secondary"` | `"default"` | Visual style variant.                                   |
+| `value`           | `number`                   | -           | Current value (controlled).                             |
+| `defaultValue`    | `number`                   | -           | Initial value (uncontrolled).                           |
+| `onChange`        | `(value: number) => void`  | -           | Called when the value changes.                          |
+| `onChangeEnd`     | `(value: number) => void`  | -           | Called when a drag or keyboard interaction ends.        |
+| `minValue`        | `number`                   | `0`         | Minimum value.                                          |
+| `maxValue`        | `number`                   | `100`       | Maximum value.                                          |
+| `step`            | `number`                   | `1`         | Step between values.                                    |
+| `formatOptions`   | `Intl.NumberFormatOptions` | -           | Locale-aware formatting options for the output.         |
+| `isDisabled`      | `boolean`                  | -           | Whether the slider is disabled.                         |
+| `aria-label`      | `string`                   | -           | Accessible label when `label` is omitted.               |
+| `aria-labelledby` | `string`                   | -           | ID of the element that labels the slider.               |
+| `className`       | `string`                   | -           | Additional CSS classes for the root.                    |
+
+## Events
+
+- `onChange` receives the current `number` while the value changes.
+- `onChangeEnd` receives the final value when the interaction ends.
+
+Use `defaultValue` for an uncontrolled slider or pair `value` with `onChange`
+for a controlled slider.
+
+## Accessibility
+
+CellSlider composes the Slider accessibility behavior and exposes the ARIA
+slider pattern through its thumb:
+
+- `label` is wired to the slider through React Aria, so the visible text is the
+  accessible name. Provide `aria-label` or `aria-labelledby` only when `label`
+  is omitted.
+- The thumb supports pointer dragging and keyboard navigation with Arrow, Home,
+  End, and Page Up/Down keys.
+- `isDisabled` prevents interaction and exposes the disabled state.
+- The thumb uses a hidden native range input, so values can participate in HTML
+  form submission.
+- Value output uses the provided `formatOptions` for locale-aware formatting.
+
+The root always renders with `data-orientation="horizontal"`; vertical
+orientation is intentionally not part of the CellSlider API.
+
+## Data attributes and CSS classes
+
+Each part has a stable `data-slot` hook and BEM class. CellSlider renders the
+`cell-slider` namespace only — base `slider__*` classes are never applied, so
+your overrides do not have to out-specify them.
+
+| Part   | `data-slot`          | BEM class              |
+| ------ | -------------------- | ---------------------- |
+| Root   | `cell-slider`        | `.cell-slider`         |
+| Track  | `cell-slider-track`  | `.cell-slider__track`  |
+| Fill   | `cell-slider-fill`   | `.cell-slider__fill`   |
+| Thumb  | `cell-slider-thumb`  | `.cell-slider__thumb`  |
+| Label  | `label`              | `.cell-slider__label`  |
+| Output | `cell-slider-output` | `.cell-slider__output` |
+
+The track tone modifier is `.cell-slider__track--secondary`. Useful state hooks:
+
+- Root: `[data-orientation="horizontal"]` and `[data-disabled="true"]`.
+- Track: `[data-hovered="true"]`, `[data-fill-start="true"]`, and
+  `[data-fill-end="true"]`.
+- Thumb: `[data-focus-visible="true"]` and `[data-dragging="true"]`.
+
+Use these hooks to customize the component without relying on generated class
+names.

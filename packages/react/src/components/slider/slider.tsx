@@ -45,9 +45,10 @@ const SliderRoot = ({
   children,
   className,
   orientation = "horizontal",
+  variant,
   ...props
 }: SliderRootProps) => {
-  const slots = React.useMemo(() => sliderVariants({}), []);
+  const slots = React.useMemo(() => sliderVariants({variant}), [variant]);
 
   return (
     <SliderPrimitive

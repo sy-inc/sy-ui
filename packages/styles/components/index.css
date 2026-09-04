@@ -83,6 +83,7 @@
  * Controls
  * ------------------------------------------------------------------------------------------------ */
 @import "./slider.css";
+@import "./cell-slider.css";
 @import "./switch.css";
 @import "./switch-group.css";
 

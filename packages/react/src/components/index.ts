@@ -19,6 +19,7 @@ export * from "./breadcrumbs";
 export * from "./button";
 export * from "./button-group";
 export * from "./card";
+export * from "./cell-slider";
 export * from "./chat-message";
 export * from "./cell-switch";
 export * from "./checkbox";
