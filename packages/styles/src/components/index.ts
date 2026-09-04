@@ -23,6 +23,7 @@ export * from "./color-area/color-area.styles";
 export * from "./color-field/color-field.styles";
 export * from "./color-input-group/color-input-group.styles";
 export * from "./color-picker/color-picker.styles";
+export * from "./cell-color-picker/cell-color-picker.styles";
 export * from "./color-slider/color-slider.styles";
 export * from "./color-swatch-picker/color-swatch-picker.styles";
 export * from "./color-swatch/color-swatch.styles";

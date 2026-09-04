@@ -1,0 +1,54 @@
+---
+title: CellColorPicker
+description: 用于设置行的紧凑、即时颜色选择器。
+---
+
+`CellColorPicker` 在 36px 高的设置行中展示十六进制值和共享色板。它组合已有的 `ColorPicker`、`ColorSwatch`、`ColorArea`、`ColorSlider`，不会重复创建 primitive。颜色改动会立即提交，没有确认按钮。
+
+```tsx
+import {CellColorPicker, ColorArea, ColorSlider} from "@sy-inc/react";
+```
+
+## 基础用法
+
+```tsx
+<CellColorPicker defaultValue="#3B82F6">
+  <CellColorPicker.Trigger>
+    <span>强调色</span>
+    <CellColorPicker.ValueDisplay />
+    <CellColorPicker.Swatch />
+  </CellColorPicker.Trigger>
+  <CellColorPicker.Popover>
+    <ColorArea aria-label="颜色区域" colorSpace="hsb" xChannel="saturation" yChannel="brightness"><ColorArea.Thumb /></ColorArea>
+    <ColorSlider aria-label="色相" channel="hue" colorSpace="hsb"><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider>
+  </CellColorPicker.Popover>
+</CellColorPicker>
+```
+
+## 受控、预设与状态
+
+受控用法传入 ColorPicker 的 `value` 和 `onChange`。可在 `Popover` 内组合共享 `ColorSwatchPicker` 提供预设。`isDisabled` 会阻止 Trigger 打开；`isInvalid` 会把 `data-invalid` 加到 Root，Trigger 的无效样式由此派生；错误内容用 Trigger 上的 `aria-describedby` 关联。Trigger 是按钮，ARIA 不支持 `role=button` 上的 `aria-invalid`，因此不会设置该属性。
+
+```tsx
+<CellColorPicker isInvalid defaultValue="#EF4444">
+  <CellColorPicker.Trigger aria-describedby="accent-error">
+    <span>强调色</span><CellColorPicker.ValueDisplay /><CellColorPicker.Swatch />
+  </CellColorPicker.Trigger>
+  <CellColorPicker.Popover>{/* ColorArea 与 ColorSlider */}</CellColorPicker.Popover>
+</CellColorPicker>
+<p id="accent-error" role="alert">请选择可访问的品牌颜色。</p>
+```
+
+设置行需要外部标签时，使用共享 `Label` 并用 `aria-labelledby` 关联。共享 `Description`、`ErrorMessage` 仅应在 React Aria field context 提供 text slot 时使用；本独立行使用上例的 ID 关联描述或错误。`FieldError` 依赖 FieldContext，不是 CellColorPicker part。
+
+## 结构与 API
+
+| Part | Props/默认值 | 说明 |
+| --- | --- | --- |
+| `Root` | ColorPicker value/defaultValue/onChange；`variant="default"`；`isDisabled`；`isInvalid` | 稳定 ref 指向外层 `div[data-slot="cell-color-picker"]`。 |
+| `Trigger` | React Aria Button props | 继承 Root 的 `isDisabled`，并接收 `aria-label`、`aria-labelledby`、`aria-describedby`。 |
+| `ValueDisplay` | span props | 默认读取当前颜色的十六进制值。 |
+| `Swatch` | ColorSwatch props | 复用共享色板并保留 `data-slot="color-swatch"`。 |
+| `Popover` | Popover props；`placement="bottom end"` | 复用 ColorPicker.Popover，因此保留 `data-slot="color-picker-popover"`。 |
+
+`variant` 支持 `default` 与 `secondary`；它是 Root 上的 class，表面差异由 CSS 作用到 Trigger。Root 仅围绕共享 ColorPicker 增加 BEM class，不替换其 DOM。Escape 会关闭继承的 popover 并将焦点返回 `Trigger`。
