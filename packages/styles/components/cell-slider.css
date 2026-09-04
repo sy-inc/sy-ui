@@ -1,0 +1,93 @@
+/* CellSlider styles */
+
+/*
+ * CellSlider renders through `Slider` with `variant="cell"`, which swaps the
+ * BEM namespace instead of adding to it. Nothing here competes with
+ * `.slider .slider__*`, so every rule stays at single-class specificity.
+ */
+
+.cell-slider {
+  @apply block w-[252px] no-highlight;
+}
+
+.cell-slider__track {
+  @apply relative flex h-9 w-full items-center overflow-hidden rounded-xl border border-border bg-background px-3 text-foreground shadow-field outline-none;
+
+  cursor: var(--cursor-interactive);
+  transition:
+    background-color 150ms var(--ease-smooth),
+    border-color 150ms var(--ease-smooth),
+    box-shadow 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:hover,
+  &[data-hovered="true"] {
+    @apply bg-default/90;
+  }
+
+  &:has(.cell-slider__thumb[data-focus-visible="true"]) {
+    @apply status-focused;
+  }
+}
+
+.cell-slider__track--secondary {
+  @apply bg-default/50 shadow-none;
+
+  &:hover,
+  &[data-hovered="true"] {
+    @apply bg-default/70;
+  }
+}
+
+/*
+ * `bg-muted/20` rather than `bg-default`: the track hovers to `bg-default/90`,
+ * which is indistinguishable from a `bg-default` fill in both themes.
+ */
+.cell-slider__fill {
+  @apply pointer-events-none absolute inset-y-0 bg-muted/20;
+}
+
+.cell-slider__thumb {
+  @apply absolute top-1/2 z-2 flex h-full w-5 cursor-grab items-center justify-center bg-transparent outline-none no-highlight;
+
+  &::after {
+    @apply block h-4 w-0.5 rounded-md bg-foreground opacity-0 transition-[opacity,transform] duration-150 motion-reduce:transition-none;
+    content: "";
+  }
+
+  &[data-focus-visible="true"]::after {
+    @apply scale-y-120 opacity-70 ring-2 ring-focus ring-offset-2 ring-offset-background;
+  }
+
+  &[data-dragging="true"] {
+    @apply cursor-grabbing;
+
+    &::after {
+      @apply scale-y-150 opacity-70;
+    }
+  }
+}
+
+.cell-slider__track:hover .cell-slider__thumb:not([data-dragging="true"])::after,
+.cell-slider__track[data-hovered="true"] .cell-slider__thumb:not([data-dragging="true"])::after {
+  @apply opacity-40;
+}
+
+.cell-slider__label {
+  @apply pointer-events-none absolute start-3 top-1/2 z-1 max-w-[60%] -translate-y-1/2 truncate text-sm font-medium text-foreground;
+}
+
+.cell-slider__output {
+  @apply pointer-events-none absolute end-3 top-1/2 z-1 -translate-y-1/2 text-right text-sm font-normal text-muted tabular-nums;
+}
+
+.cell-slider[data-disabled="true"] .cell-slider__track,
+.cell-slider[aria-disabled="true"] .cell-slider__track {
+  @apply pointer-events-none cursor-not-allowed opacity-50;
+}
+
+/* The track is already dimmed; `[data-disabled] .label` would dim it twice. */
+.cell-slider[data-disabled="true"] .cell-slider__label,
+.cell-slider[aria-disabled="true"] .cell-slider__label {
+  @apply opacity-100;
+}

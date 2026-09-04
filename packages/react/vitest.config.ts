@@ -18,6 +18,8 @@ export default defineConfig({
     include: [
       "react-aria-components/Form",
       "react-aria-components/GridList",
+      "react-aria-components/Label",
+      "react-aria-components/Slider",
       "react-aria-components/useDragAndDrop",
     ],
   },

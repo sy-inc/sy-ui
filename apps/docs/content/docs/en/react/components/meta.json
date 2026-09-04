@@ -83,6 +83,7 @@
     "(navigation)/stepper",
     "(layout)/separator",
     "(feedback)/skeleton",
+    "(controls)/cell-slider",
     "(controls)/slider",
     "(feedback)/spinner",
     "(feedback)/text-shimmer",

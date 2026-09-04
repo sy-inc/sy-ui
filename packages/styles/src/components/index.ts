@@ -14,6 +14,7 @@ export * from "./calendar-year-picker/calendar-year-picker.styles";
 export * from "./calendar/calendar.styles";
 export * from "./chat-message";
 export * from "./card/card.styles";
+export * from "./cell-slider/cell-slider.styles";
 export * from "./carousel/carousel.styles";
 export * from "./checkbox-group/checkbox-group.styles";
 export * from "./checkbox/checkbox.styles";

@@ -98,6 +98,13 @@ const componentsMap: Record<string, ComponentInfo> = {
     name: "checkboxgroup",
     title: "CheckboxGroup",
   },
+  cellslider: {
+    category: "forms",
+    description: "Compact range slider for settings cells",
+    href: "/docs/components/cell-slider",
+    name: "cellslider",
+    title: "CellSlider",
+  },
   chip: {
     category: "display",
     description: "Compact elements for tags and filters",
@@ -579,6 +586,7 @@ const componentRelationships: Record<string, string[]> = {
     "button",
     "fielderror",
   ],
+  cellslider: ["slider", "label", "form"],
   chip: ["avatar", "closebutton", "separator"],
   closebutton: ["alert", "alertdialog", "chip", "modal"],
   colorarea: ["colorswatch", "colorswatchpicker", "colorfield", "colorpicker"],

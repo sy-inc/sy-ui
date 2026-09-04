@@ -1,0 +1,157 @@
+---
+title: CellSlider 单元滑块
+description: 适合作为设置单元格使用的紧凑范围滑块，包含标签和值显示。
+
+links:
+  rac: Slider
+  source: cell-slider/cell-slider.tsx
+  styles: cell-slider.css
+  storybook: Components/CellSlider
+---
+
+## 用法
+
+CellSlider 是用于设置行的紧凑单值控件。它在一个单元格内渲染水平轨道、前置标签
+和后置格式化数值。
+
+```tsx
+import {CellSlider} from "@sy-inc/react";
+
+export default () => (
+  <CellSlider label="Spacing" defaultValue={0.5} maxValue={1} step={0.01} />
+);
+```
+
+`label` 同时是可见文本和无障碍名称，因此无需再单独传 `aria-label`。
+
+## 结构
+
+CellSlider 是单个组件：轨道、填充、滑块、标签和输出都是固定的。如果需要范围滑块
+或其他组合，请直接使用 Slider 的各个部分并保持相同样式：
+
+```tsx
+import {Label, Slider} from "@sy-inc/react";
+
+export default () => (
+  <Slider variant="cell" defaultValue={[0.2, 0.8]} maxValue={1} step={0.01}>
+    <Slider.Track>
+      <Slider.Fill />
+      <Slider.Thumb index={0} />
+      <Slider.Thumb index={1} />
+      <Label>Range</Label>
+      <Slider.Output />
+    </Slider.Track>
+  </Slider>
+);
+```
+
+## 示例
+
+### 基础用法
+
+<ComponentPreview name="cell-slider-default" />
+
+### 变体
+
+CellSlider 支持 `default` 和 `secondary` 两种视觉变体。省略 `variant` 时使用
+`default`。
+
+<ComponentPreview name="cell-slider-variants" />
+
+### 受控
+
+传入 `value` 和 `onChange` 以通过 React 状态控制当前值。
+
+<ComponentPreview name="cell-slider-controlled" />
+
+### 设置分组
+
+将多个滑块组合起来，构建紧凑的设置面板。
+
+<ComponentPreview name="cell-slider-settings-group" />
+
+### 次要分组
+
+对一组次要的相关设置使用 `secondary` 变体。
+
+<ComponentPreview name="cell-slider-secondary-group" />
+
+### 整数步长
+
+设置 `step={1}` 以使用整数值。
+
+<ComponentPreview name="cell-slider-integer-step" />
+
+### 禁用
+
+设置 `isDisabled` 以阻止交互并传达禁用状态。
+
+<ComponentPreview name="cell-slider-disabled" />
+
+## API 参考
+
+### CellSlider
+
+接受 Slider 根组件的属性，但不包含 `orientation`（始终为水平）、`children` 和
+`variant`（内部用于选择 cell 样式）。取值为单个数字。包内同时导出
+`cellSliderVariants` 与 `CellSliderVariants`。
+
+| 属性              | 类型                       | 默认值      | 说明                              |
+| ----------------- | -------------------------- | ----------- | --------------------------------- |
+| `label`           | `ReactNode`                | -           | 可见标签，同时作为无障碍名称。    |
+| `variant`         | `"default" \| "secondary"` | `"default"` | 视觉样式变体。                    |
+| `value`           | `number`                   | -           | 当前值（受控）。                  |
+| `defaultValue`    | `number`                   | -           | 初始值（非受控）。                |
+| `onChange`        | `(value: number) => void`  | -           | 值变化时调用。                    |
+| `onChangeEnd`     | `(value: number) => void`  | -           | 拖拽或键盘交互结束时调用。        |
+| `minValue`        | `number`                   | `0`         | 最小值。                          |
+| `maxValue`        | `number`                   | `100`       | 最大值。                          |
+| `step`            | `number`                   | `1`         | 步长。                            |
+| `formatOptions`   | `Intl.NumberFormatOptions` | -           | 输出的本地化格式化选项。          |
+| `isDisabled`      | `boolean`                  | -           | 是否禁用滑块。                    |
+| `aria-label`      | `string`                   | -           | 省略 `label` 时提供无障碍标签。   |
+| `aria-labelledby` | `string`                   | -           | 标注该滑块的元素 ID。             |
+| `className`       | `string`                   | -           | 根元素的附加 CSS 类。             |
+
+## 事件
+
+- `onChange` 在值变化过程中接收当前的 `number`。
+- `onChangeEnd` 在交互结束时接收最终值。
+
+非受控滑块使用 `defaultValue`；受控滑块将 `value` 与 `onChange` 搭配使用。
+
+## 无障碍
+
+CellSlider 复用 Slider 的无障碍行为，并通过滑块暴露 ARIA slider 模式：
+
+- `label` 会经由 React Aria 与滑块关联，可见文本即无障碍名称。仅在省略 `label`
+  时才需要提供 `aria-label` 或 `aria-labelledby`。
+- 滑块支持指针拖拽，以及 Arrow、Home、End 和 Page Up/Down 键盘操作。
+- `isDisabled` 会阻止交互并暴露禁用状态。
+- 滑块使用隐藏的原生 range input，因此值可以参与 HTML 表单提交。
+- 数值输出使用传入的 `formatOptions` 进行本地化格式化。
+
+根元素始终渲染 `data-orientation="horizontal"`；垂直方向不属于 CellSlider 的 API。
+
+## 数据属性与 CSS 类
+
+每个部分都有稳定的 `data-slot` 钩子和 BEM 类。CellSlider 只渲染 `cell-slider`
+命名空间，不会带上基础的 `slider__*` 类，因此你的覆盖样式无需与之比拼特异性。
+
+| 部分   | `data-slot`          | BEM 类                 |
+| ------ | -------------------- | ---------------------- |
+| 根元素 | `cell-slider`        | `.cell-slider`         |
+| 轨道   | `cell-slider-track`  | `.cell-slider__track`  |
+| 填充   | `cell-slider-fill`   | `.cell-slider__fill`   |
+| 滑块   | `cell-slider-thumb`  | `.cell-slider__thumb`  |
+| 标签   | `label`              | `.cell-slider__label`  |
+| 输出   | `cell-slider-output` | `.cell-slider__output` |
+
+轨道色调修饰类为 `.cell-slider__track--secondary`。常用状态钩子：
+
+- 根元素：`[data-orientation="horizontal"]` 和 `[data-disabled="true"]`。
+- 轨道：`[data-hovered="true"]`、`[data-fill-start="true"]` 和
+  `[data-fill-end="true"]`。
+- 滑块：`[data-focus-visible="true"]` 和 `[data-dragging="true"]`。
+
+使用这些钩子来自定义组件，避免依赖生成的类名。
