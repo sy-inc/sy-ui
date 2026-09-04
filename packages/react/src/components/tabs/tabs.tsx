@@ -6,7 +6,6 @@ import type {ComponentPropsWithRef} from "react";
 
 import {tabsVariants} from "@sy-inc/styles";
 import React, {createContext, use, useCallback, useRef} from "react";
-import {SelectionIndicator as SelectionIndicatorPrimitive} from "react-aria-components/SelectionIndicator";
 import {
   TabList as TabListPrimitive,
   TabPanel as TabPanelPrimitive,
@@ -18,6 +17,7 @@ import {createCollectionSlot} from "../../utils";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {IconChevronDown, IconChevronLeft, IconChevronRight, IconChevronUp} from "../icons";
+import {SelectionIndicator as SelectionIndicatorPrimitive} from "../rac/selection-indicator";
 import {ScrollShadow} from "../scroll-shadow";
 
 /* -------------------------------------------------------------------------------------------------

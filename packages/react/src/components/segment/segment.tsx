@@ -7,13 +7,13 @@ import type {ComponentPropsWithRef} from "react";
 import {useControlledState} from "@react-stately/utils";
 import {segmentVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
-import {SelectionIndicator as SelectionIndicatorPrimitive} from "react-aria-components/SelectionIndicator";
 import {
   ToggleButtonGroup as ToggleButtonGroupPrimitive,
   ToggleButton as ToggleButtonPrimitive,
 } from "react-aria-components/ToggleButtonGroup";
 
 import {composeTwRenderProps} from "../../utils";
+import {SelectionIndicator as SelectionIndicatorPrimitive} from "../rac/selection-indicator";
 
 type SegmentContextValue = {
   slots?: ReturnType<typeof segmentVariants>;
