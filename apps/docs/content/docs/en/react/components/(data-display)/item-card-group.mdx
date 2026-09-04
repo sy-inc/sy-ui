@@ -1,0 +1,165 @@
+---
+title: ItemCardGroup
+description: Group related ItemCard rows into a structured list or grid
+links:
+  source: item-card-group/item-card-group.tsx
+  styles: item-card-group.css
+  storybook: Components/ItemCardGroup
+---
+
+## Usage
+
+Use `ItemCardGroup` to present related `ItemCard` rows as one titled section. The default list layout keeps rows in a vertical stack and adds separators between them; use the grid layout for a set of peer cards.
+
+```tsx
+import {ItemCard, ItemCardGroup} from "@sy-inc/react";
+
+<ItemCardGroup aria-label="Workspace settings">
+  <ItemCardGroup.Header>
+    <ItemCardGroup.Title>Workspace settings</ItemCardGroup.Title>
+    <ItemCardGroup.Description>Configure your workspace</ItemCardGroup.Description>
+  </ItemCardGroup.Header>
+  <ItemCard>
+    <ItemCard.Content>
+      <ItemCard.Title>Members</ItemCard.Title>
+      <ItemCard.Description>Manage team access</ItemCard.Description>
+    </ItemCard.Content>
+  </ItemCard>
+  <ItemCard>
+    <ItemCard.Content>
+      <ItemCard.Title>Security</ItemCard.Title>
+      <ItemCard.Description>Control workspace visibility</ItemCard.Description>
+    </ItemCard.Content>
+  </ItemCard>
+</ItemCardGroup>
+```
+
+## Anatomy
+
+```tsx
+<ItemCardGroup>
+  <ItemCardGroup.Header>
+    <ItemCardGroup.Title>Section title</ItemCardGroup.Title>
+    <ItemCardGroup.Description>Optional supporting text</ItemCardGroup.Description>
+  </ItemCardGroup.Header>
+  <ItemCard>{/* compose an ItemCard row */}</ItemCard>
+</ItemCardGroup>
+```
+
+- `ItemCardGroup` and `ItemCardGroup.Root` render the outer `div` and expose the `group` role.
+- `ItemCardGroup.Header` renders a `div` for the section heading.
+- `ItemCardGroup.Title` renders an `h3`.
+- `ItemCardGroup.Description` renders a `p` for supporting text.
+- Rows are existing `ItemCard` components composed as children; they are not additional ItemCardGroup parts.
+
+All four parts accept their native element props, `className`, and refs. The root also accepts native `div` props and a ref.
+
+## API reference
+
+### Root and parts
+
+| Part | Default element | Description |
+| --- | --- | --- |
+| `ItemCardGroup` / `ItemCardGroup.Root` | `div` | Group root with `role="group"`; accepts native `div` props, ref, and group variants. |
+| `ItemCardGroup.Header` | `div` | Header area for the title and optional description. |
+| `ItemCardGroup.Title` | `h3` | Semantic section heading. |
+| `ItemCardGroup.Description` | `p` | Supporting text below the heading. |
+
+### Root props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "secondary" \| "tertiary" \| "outline" \| "transparent"` | `"default"` | Surface treatment for the group. |
+| `layout` | `"list" \| "grid"` | `"list"` | Arranges child rows vertically or in a grid. |
+| `columns` | `number` | `2` | Number of grid columns when `layout="grid"`. Ignored for `layout="list"`. |
+| `children` | `React.ReactNode` | — | Header, `ItemCard` rows, or other composed content. |
+| `className` | `string` | — | Additional classes for the root. |
+
+The package also exports `ItemCardGroupProps`, `ItemCardGroupRootProps`, `ItemCardGroupHeaderProps`, `ItemCardGroupTitleProps`, `ItemCardGroupDescriptionProps`, `ItemCardGroupVariants`, and `itemCardGroupVariants`.
+
+## Variants
+
+- `variant="default"` is the elevated surface and the default.
+- `variant="secondary"` and `variant="tertiary"` use their matching semantic surfaces.
+- `variant="outline"` uses a transparent surface with a border and no shadow.
+- `variant="transparent"` removes the background, border, and shadow.
+
+### Layout and columns
+
+- `layout="list"` is the default vertical layout. Neighboring rows are divided by a 1px border on the row itself, spanning the full group width — no separator elements are rendered, so the dividers stay correct whatever the children are. A header is never followed by a divider, and an explicit `Separator` child replaces the automatic one.
+- `layout="grid"` uses a grid and draws no dividers. `columns` sets the track count through the `--item-card-group-columns` custom property; it defaults to `2` and is ignored outside the grid layout.
+
+## Events
+
+`ItemCardGroup` has no events of its own. Add callbacks to interactive components composed inside the group. Use `Button`, `Switch`, `Select`, or another existing control inside an `ItemCard.Action` when a row has a secondary action.
+
+## Composition
+
+For a pressable row, render a real button through `ItemCard` and compose `PressableFeedback` for interaction states:
+
+```tsx
+import {ItemCard, ItemCardGroup, PressableFeedback} from "@sy-inc/react";
+
+<ItemCardGroup>
+  <ItemCard<"button">
+    render={({children, className, ref}) => (
+      <PressableFeedback
+        ref={ref}
+        aria-label="Open account settings"
+        className={className}
+        onPress={openSettings}
+      >
+        <PressableFeedback.Highlight />
+        <PressableFeedback.Ripple />
+        {children}
+      </PressableFeedback>
+    )}
+  >
+    <ItemCard.Content>
+      <ItemCard.Title>Account settings</ItemCard.Title>
+    </ItemCard.Content>
+  </ItemCard>
+</ItemCardGroup>
+```
+
+A custom `render` function owns the rendered element, so props set on `ItemCard` reach it only if the function forwards them. Put the row's `aria-label`, `id`, and handlers on the element you render.
+
+Do not place an action `button` inside a pressable row `button`. Compose independent controls in `ItemCard.Action` or alongside the row content instead.
+
+## Accessibility
+
+- The root renders `role="group"`. Give an unlabeled group an accessible name with `aria-label`, or connect a visible heading with `aria-labelledby`.
+- `ItemCardGroup.Title` is an `h3` by default; keep heading levels aligned with the surrounding page structure.
+- A pressable row should render a real `button`, have an accessible name, and preserve visible keyboard focus through `PressableFeedback` or the returned native button.
+- Mark decorative icons in composed `ItemCard` rows with `aria-hidden="true"`; label meaningful controls independently.
+- List dividers are decorative CSS only and are invisible to assistive technology. Keep row content and any composed actions understandable without relying on them.
+
+## Stable slots
+
+The following `data-slot` hooks are stable styling and testing surfaces:
+
+`item-card-group`, `item-card-group-header`, `item-card-group-title`, and `item-card-group-description`.
+
+The layout and surface classes follow the same BEM names: `.item-card-group`, `.item-card-group__header`, `.item-card-group__title`, `.item-card-group__description`, `.item-card-group--list`, `.item-card-group--grid`, and the five variant modifiers. Grid column count is driven by the `--item-card-group-columns` custom property.
+
+## Examples
+
+### List
+
+<ComponentPreview name="item-card-group-list" />
+
+### Grid
+
+<ComponentPreview name="item-card-group-grid" />
+
+### Pressable
+
+<ComponentPreview name="item-card-group-pressable" />
+
+### MultipleSections
+
+<ComponentPreview name="item-card-group-multiple-sections" />
+
+### Variants
+
+<ComponentPreview name="item-card-group-variants" />

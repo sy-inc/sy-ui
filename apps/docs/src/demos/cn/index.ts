@@ -1401,6 +1401,28 @@ export const demos: Record<string, DemoItem> = {
     file: "cn/item-card/with-select.tsx",
   },
 
+  // ItemCardGroup Demo
+  "item-card-group-grid": {
+    loader: () => import("./item-card-group/grid").then((m) => m.Grid),
+    file: "cn/item-card-group/grid.tsx",
+  },
+  "item-card-group-list": {
+    loader: () => import("./item-card-group/list").then((m) => m.List),
+    file: "cn/item-card-group/list.tsx",
+  },
+  "item-card-group-multiple-sections": {
+    loader: () => import("./item-card-group/multiple-sections").then((m) => m.MultipleSections),
+    file: "cn/item-card-group/multiple-sections.tsx",
+  },
+  "item-card-group-pressable": {
+    loader: () => import("./item-card-group/pressable").then((m) => m.Pressable),
+    file: "cn/item-card-group/pressable.tsx",
+  },
+  "item-card-group-variants": {
+    loader: () => import("./item-card-group/variants").then((m) => m.Variants),
+    file: "cn/item-card-group/variants.tsx",
+  },
+
   // InputGroup Demo
   "input-group-default": {
     loader: () => import("./input-group/default").then((m) => m.Default),
