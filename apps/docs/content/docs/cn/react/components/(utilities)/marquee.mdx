@@ -11,104 +11,166 @@ links:
 
 Marquee 可持续滚动徽标、标签、公告等紧凑内容。它会生成用于循环的视觉副本，但只让一份内容进入无障碍树。
 
+`Marquee` 是承载滚动内容与两侧装饰的布局条；`Marquee.Content` 是滚动视口，所有动效属性都由它承担。
+
 ```tsx
 import {Badge, Marquee} from "@sy-inc/react";
 
 <Marquee className="w-96">
-  <Badge>设计系统</Badge>
-  <Badge>无障碍组件</Badge>
-  <Badge>React Aria</Badge>
+  <Marquee.Content>
+    <Badge>设计系统</Badge>
+    <Badge>无障碍组件</Badge>
+    <Badge>React Aria</Badge>
+  </Marquee.Content>
 </Marquee>;
 ```
 
-## 播放与方向
-
-使用 `play` 控制播放。`pauseOnInteraction` 会在悬停或内部获得焦点时暂停轨道。`direction` 支持 `left`、`right`、`up`、`down`；垂直 Marquee 需要显式高度。
+## 组成结构
 
 ```tsx
-<Marquee pauseOnInteraction direction="right" play={isPlaying}>
-  <span>第一条更新</span>
-  <span>第二条更新</span>
+<Marquee>
+  <Marquee.Prefix />
+  <Marquee.Content />
+  <Marquee.Suffix />
+</Marquee>
+```
+
+| 组成部分 | 元素 | 说明 |
+| --- | --- | --- |
+| `Marquee` | `div` | 布局条，同时以 `Marquee.Root` 导出；不持有任何动效状态 |
+| `Marquee.Content` | `div` | 滚动视口，承载动效属性、自定义属性与 data 属性 |
+| `Marquee.Prefix` | `div` | 可选的前置装饰，不参与滚动 |
+| `Marquee.Suffix` | `div` | 可选的后置装饰，不参与滚动 |
+
+## 前置与后置装饰
+
+可以在滚动内容两侧放置图标、文案或链接。两侧装饰始终固定可读，保持自身宽度，且不会进入重复序列，也不会被边缘渐隐影响。
+
+```tsx
+<Marquee className="border-default-200 h-8 rounded-md border">
+  <Marquee.Prefix className="px-2">
+    <Icon icon="gravity-ui:megaphone" />
+  </Marquee.Prefix>
+  <Marquee.Content pauseOnInteraction gradient>
+    <span>系统将于 UTC 02:00 开始例行维护。</span>
+  </Marquee.Content>
+  <Marquee.Suffix>
+    <a aria-label="公告详情" className="px-2" href="#notice">
+      <Icon icon="gravity-ui:circle-info" />
+    </a>
+  </Marquee.Suffix>
+</Marquee>
+```
+
+无论滚动方向如何，布局条始终保持横向排列，因此垂直滚动时装饰仍位于左右两侧。需要上下排布时，在根节点传入 `className="flex-col"`。
+
+## 播放与方向
+
+使用 `play` 控制播放。`pauseOnInteraction` 会在滚动内容被悬停或内部获得焦点时暂停轨道。`direction` 支持 `left`、`right`、`up`、`down`；垂直 Marquee 需要在根节点上设置显式高度。
+
+```tsx
+<Marquee>
+  <Marquee.Content pauseOnInteraction direction="right" play={isPlaying}>
+    <span>第一条更新</span>
+    <span>第二条更新</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## 速度与延迟
 
-`speed` 的单位是像素/秒，单次时长会根据实际内容和容器尺寸自动计算。`delay` 用于延迟开始。
+`speed` 的单位是像素/秒，单次时长会根据实际内容和装饰之间的剩余空间自动计算。`delay` 用于延迟开始。
 
 ```tsx
-<Marquee speed={80} delay={1}>
-  <span>快速滚动</span>
+<Marquee>
+  <Marquee.Content speed={80} delay={1}>
+    <span>快速滚动</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## 自定义属性
 
-属性未覆盖的能力都以 `--marquee-*` 自定义属性挂在根节点上，`style` 可直接接收它们。`--marquee-duration` 覆盖由 `speed` 推导出的时长，`--marquee-iterations` 限制循环次数，`--marquee-gradient-width` 控制渐隐宽度。
+属性未覆盖的能力都以 `--marquee-*` 自定义属性挂在滚动内容上，`style` 可直接接收它们。`--marquee-duration` 覆盖由 `speed` 推导出的时长，`--marquee-iterations` 限制循环次数，`--marquee-gradient-width` 控制渐隐宽度。
 
 ```tsx
-<Marquee style={{"--marquee-duration": "12s", "--marquee-iterations": "3"}}>
-  <span>滚动三轮后停止</span>
+<Marquee>
+  <Marquee.Content style={{"--marquee-duration": "12s", "--marquee-iterations": "3"}}>
+    <span>滚动三轮后停止</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
-动画事件会从轨道冒泡到根节点，因此有限循环的进度可通过原生事件处理器获取。两条轨道都会播放动画，如果每轮只需回调一次，请按 `event.target` 过滤。
+动画事件会从轨道冒泡到滚动内容，因此有限循环的进度可通过原生事件处理器获取。两条轨道都会播放动画，如果每轮只需回调一次，请按 `event.target` 过滤。
 
 ```tsx
-<Marquee
-  style={{"--marquee-iterations": "3"}}
-  onAnimationEnd={(event) => {
-    if (event.target === event.currentTarget.firstElementChild) handleFinish();
-  }}
->
-  <span>滚动三轮后停止</span>
+<Marquee>
+  <Marquee.Content
+    style={{"--marquee-iterations": "3"}}
+    onAnimationEnd={(event) => {
+      if (event.target === event.currentTarget.firstElementChild) handleFinish();
+    }}
+  >
+    <span>滚动三轮后停止</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## 自动填充
 
-当内容短于容器时可启用 `autoFill`。Marquee 会测量可用空间，并增加足量的 inert 视觉副本来形成无缝循环；容器或内容尺寸变化后会自动重新计算。
+当内容短于可用空间时可启用 `autoFill`。Marquee 测量的是滚动内容区，而不是整条布局条，并增加足量的 inert 视觉副本来形成无缝循环；容器或内容尺寸变化后会自动重新计算。
 
 ```tsx
-<Marquee autoFill className="w-full" gap={24}>
-  <span>较短的内容序列</span>
+<Marquee className="w-full">
+  <Marquee.Content autoFill gap={24}>
+    <span>较短的内容序列</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## 渐变
 
-`gradient` 使用遮罩在两侧添加不拦截交互的渐隐效果，因此无论背景是纯色、图片还是渐变都能生效，无需指定颜色。渐隐宽度由 `--marquee-gradient-width` 控制。
+`gradient` 使用遮罩在滚动内容两侧添加不拦截交互的渐隐效果，因此无论背景是纯色、图片还是渐变都能生效，无需指定颜色。前置与后置装饰位于遮罩之外，始终保持不透明。渐隐宽度由 `--marquee-gradient-width` 控制。
 
 ```tsx
-<Marquee gradient style={{"--marquee-gradient-width": "15%"}}>
-  <span>两侧渐隐</span>
+<Marquee>
+  <Marquee.Content gradient style={{"--marquee-gradient-width": "15%"}}>
+    <span>两侧渐隐</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## 无障碍
 
-只有第一组内容会暴露给辅助技术；自动填充和循环副本均设置为 `aria-hidden` 和 inert。避免在持续移动的内容中放置关键控件。动画会在焦点进入时暂停，并在用户启用“减少动态效果”时停止。对于持续超过五秒的非必要动效，应提供绑定 `play` 的可见暂停控件。
+只有第一组内容会暴露给辅助技术；自动填充和循环副本均设置为 `aria-hidden` 和 inert。避免在持续移动的内容中放置关键控件——链接或暂停按钮应放在前置/后置装饰中，因为它们不会移动。动画会在焦点进入时暂停，并在用户启用“减少动态效果”时停止。对于持续超过五秒的非必要动效，应提供绑定 `play` 的可见暂停控件。
 
 ## 样式参考
 
 ### CSS 类
 
-- `.marquee` — 根裁切容器
+- `.marquee` — 布局条
+- `.marquee__prefix`、`.marquee__suffix` — 不参与滚动的装饰区
+- `.marquee__content` — 滚动视口与裁切容器
 - `.marquee__track` — 动画轨道，容纳一组完整循环的内容序列
 - `.marquee__sequence` — 一份传入的内容序列
 - `.marquee__item` — 每个子项的包装元素；Fragment 只算一个子项，兄弟节点请直接平铺传入
-- `.marquee--pause-on-interaction` — 悬停与聚焦暂停修饰类
 
 ### Data 属性
 
-- `data-slot="marquee"`、`marquee-track`、`marquee-sequence`、`marquee-item`
+- `data-slot="marquee"`、`marquee-prefix`、`marquee-content`、`marquee-suffix`、`marquee-track`、`marquee-sequence`、`marquee-item`
+
+以下属性设置在 `Marquee.Content` 上：
+
 - `data-direction` — 当前动画方向，方向样式由它驱动
 - `data-paused` — 播放暂停时存在
+- `data-pause-on-interaction` — 启用悬停与聚焦暂停时存在
 - `data-auto-fill` — 启用自动填充时存在
 - `data-gradient` — 启用边缘渐隐时存在
 - `data-ready` — 测量出可用动画距离后存在
 
 ### CSS 变量
+
+声明在 `.marquee__content` 上。
 
 | 变量 | 默认值 | 说明 |
 | --- | --- | --- |
@@ -120,9 +182,15 @@ import {Badge, Marquee} from "@sy-inc/react";
 
 ## API 参考
 
+### Marquee
+
+接收全部 `div` 属性，同时以 `Marquee.Root` 导出。
+
+### Marquee.Content
+
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `autoFill` | `boolean` | `false` | 重复较短内容直至填满容器 |
+| `autoFill` | `boolean` | `false` | 重复较短内容直至填满滚动内容区 |
 | `play` | `boolean` | `true` | 开始或暂停播放 |
 | `pauseOnInteraction` | `boolean` | `false` | 悬停或聚焦时暂停 |
 | `direction` | `"left" \| "right" \| "up" \| "down"` | `"left"` | 滚动方向 |
@@ -132,3 +200,7 @@ import {Badge, Marquee} from "@sy-inc/react";
 | `gap` | `number` | `16` | 子项间距，单位为像素 |
 | `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | 样式，可包含任意 `--marquee-*` 覆盖 |
 | `children` | `ReactNode` | — | 需要重复的内容 |
+
+### Marquee.Prefix、Marquee.Suffix
+
+接收全部 `div` 属性。

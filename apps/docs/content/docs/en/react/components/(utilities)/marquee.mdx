@@ -11,104 +11,166 @@ links:
 
 Marquee continuously scrolls logos, labels, announcements, and other compact content. It repeats one visual copy while keeping duplicate content out of the accessibility tree.
 
+`Marquee` is the bar that lays the scrolling content out beside its adornments; `Marquee.Content` is the scrolling viewport and owns every motion prop.
+
 ```tsx
 import {Badge, Marquee} from "@sy-inc/react";
 
 <Marquee className="w-96">
-  <Badge>Design systems</Badge>
-  <Badge>Accessible components</Badge>
-  <Badge>React Aria</Badge>
+  <Marquee.Content>
+    <Badge>Design systems</Badge>
+    <Badge>Accessible components</Badge>
+    <Badge>React Aria</Badge>
+  </Marquee.Content>
 </Marquee>;
 ```
 
-## Playback and direction
-
-Use `play` to control playback. `pauseOnInteraction` pauses the track while the marquee is hovered or holds focus. `direction` accepts `left`, `right`, `up`, or `down`; vertical marquees need an explicit height.
+## Anatomy
 
 ```tsx
-<Marquee pauseOnInteraction direction="right" play={isPlaying}>
-  <span>First update</span>
-  <span>Second update</span>
+<Marquee>
+  <Marquee.Prefix />
+  <Marquee.Content />
+  <Marquee.Suffix />
+</Marquee>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Marquee` | `div` | Layout bar; also exported as `Marquee.Root`. Holds no motion state |
+| `Marquee.Content` | `div` | Scrolling viewport; carries the motion props, custom properties, and data attributes |
+| `Marquee.Prefix` | `div` | Optional leading adornment; never scrolls |
+| `Marquee.Suffix` | `div` | Optional trailing adornment; never scrolls |
+
+## Prefix and suffix
+
+Put an icon, a label, or a link beside the scrolling content. Both adornments stay pinned and readable, keep their intrinsic width, and are excluded from the repeated sequences and the edge fades.
+
+```tsx
+<Marquee className="border-default-200 h-8 rounded-md border">
+  <Marquee.Prefix className="px-2">
+    <Icon icon="gravity-ui:megaphone" />
+  </Marquee.Prefix>
+  <Marquee.Content pauseOnInteraction gradient>
+    <span>Scheduled maintenance starts at 02:00 UTC.</span>
+  </Marquee.Content>
+  <Marquee.Suffix>
+    <a aria-label="Notice details" className="px-2" href="#notice">
+      <Icon icon="gravity-ui:circle-info" />
+    </a>
+  </Marquee.Suffix>
+</Marquee>
+```
+
+The bar stays a row for every direction, so a vertical marquee keeps its adornments on the sides. Pass `className="flex-col"` on the root to stack them instead.
+
+## Playback and direction
+
+Use `play` to control playback. `pauseOnInteraction` pauses the track while the scrolling content is hovered or holds focus. `direction` accepts `left`, `right`, `up`, or `down`; vertical marquees need an explicit height on the root.
+
+```tsx
+<Marquee>
+  <Marquee.Content pauseOnInteraction direction="right" play={isPlaying}>
+    <span>First update</span>
+    <span>Second update</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## Speed and delay
 
-`speed` is measured in pixels per second, so the duration adapts to the rendered content and container size. Use `delay` to postpone the start.
+`speed` is measured in pixels per second, so the duration adapts to the rendered content and the space left between the adornments. Use `delay` to postpone the start.
 
 ```tsx
-<Marquee speed={80} delay={1}>
-  <span>Fast passes</span>
+<Marquee>
+  <Marquee.Content speed={80} delay={1}>
+    <span>Fast passes</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## Custom properties
 
-Everything the props do not cover is a `--marquee-*` custom property on the root, and `style` accepts them directly. Set `--marquee-duration` to replace the duration derived from `speed`, `--marquee-iterations` to run a finite number of cycles, and `--marquee-gradient-width` to size the edge fades.
+Everything the props do not cover is a `--marquee-*` custom property on the content, and `style` accepts them directly. Set `--marquee-duration` to replace the duration derived from `speed`, `--marquee-iterations` to run a finite number of cycles, and `--marquee-gradient-width` to size the edge fades.
 
 ```tsx
-<Marquee style={{"--marquee-duration": "12s", "--marquee-iterations": "3"}}>
-  <span>Three cycles, then stop</span>
+<Marquee>
+  <Marquee.Content style={{"--marquee-duration": "12s", "--marquee-iterations": "3"}}>
+    <span>Three cycles, then stop</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
-Animation events bubble from the track to the root, so a finite marquee reports its progress through the native handlers. Both tracks animate, so filter by `event.target` when a single call per cycle matters.
+Animation events bubble from the track to the content, so a finite marquee reports its progress through the native handlers. Both tracks animate, so filter by `event.target` when a single call per cycle matters.
 
 ```tsx
-<Marquee
-  style={{"--marquee-iterations": "3"}}
-  onAnimationEnd={(event) => {
-    if (event.target === event.currentTarget.firstElementChild) handleFinish();
-  }}
->
-  <span>Three cycles, then stop</span>
+<Marquee>
+  <Marquee.Content
+    style={{"--marquee-iterations": "3"}}
+    onAnimationEnd={(event) => {
+      if (event.target === event.currentTarget.firstElementChild) handleFinish();
+    }}
+  >
+    <span>Three cycles, then stop</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## Auto fill
 
-Set `autoFill` when the content is shorter than the container. Marquee measures the available space and adds enough inert visual copies to produce a seamless loop. It recalculates when the container or content size changes.
+Set `autoFill` when the content is shorter than the space available to it. Marquee measures the content box — not the whole bar — and adds enough inert visual copies to produce a seamless loop. It recalculates when the container or content size changes.
 
 ```tsx
-<Marquee autoFill className="w-full" gap={24}>
-  <span>Short sequence</span>
+<Marquee className="w-full">
+  <Marquee.Content autoFill gap={24}>
+    <span>Short sequence</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## Gradient
 
-`gradient` masks a non-interactive fade at both edges, so it works over any background, image, or gradient without matching a color. Size each fade with `--marquee-gradient-width`.
+`gradient` masks a non-interactive fade at both edges of the scrolling content, so it works over any background, image, or gradient without matching a color. The prefix and suffix are outside the mask and stay fully opaque. Size each fade with `--marquee-gradient-width`.
 
 ```tsx
-<Marquee gradient style={{"--marquee-gradient-width": "15%"}}>
-  <span>Faded edges</span>
+<Marquee>
+  <Marquee.Content gradient style={{"--marquee-gradient-width": "15%"}}>
+    <span>Faded edges</span>
+  </Marquee.Content>
 </Marquee>
 ```
 
 ## Accessibility
 
-Only the first content sequence is exposed to assistive technology; auto-fill and looping copies are `aria-hidden` and inert. Avoid placing essential controls inside continuously moving content. The animation pauses on focus and stops when the user enables reduced motion. For non-essential motion lasting more than five seconds, provide a visible pause control bound to `play`.
+Only the first content sequence is exposed to assistive technology; auto-fill and looping copies are `aria-hidden` and inert. Avoid placing essential controls inside continuously moving content — the prefix and suffix are the right place for a link or a pause button, since they never move. The animation pauses on focus and stops when the user enables reduced motion. For non-essential motion lasting more than five seconds, provide a visible pause control bound to `play`.
 
 ## Styling Reference
 
 ### CSS Classes
 
-- `.marquee` — Root clipping container
+- `.marquee` — Layout bar
+- `.marquee__prefix`, `.marquee__suffix` — Non-scrolling adornments
+- `.marquee__content` — Scrolling viewport and clipping container
 - `.marquee__track` — Animated track; holds one complete loop of sequences
 - `.marquee__sequence` — One sequence of the supplied children
 - `.marquee__item` — Wrapper for each child; a fragment counts as one child, so pass siblings directly
-- `.marquee--pause-on-interaction` — Hover and focus pause modifier
 
 ### Data Attributes
 
-- `data-slot="marquee"`, `marquee-track`, `marquee-sequence`, and `marquee-item`
+- `data-slot="marquee"`, `marquee-prefix`, `marquee-content`, `marquee-suffix`, `marquee-track`, `marquee-sequence`, and `marquee-item`
+
+The following are set on `Marquee.Content`:
+
 - `data-direction` — Current animation direction; drives the direction styles
 - `data-paused` — Present when playback is paused
+- `data-pause-on-interaction` — Present when hover and focus pause playback
 - `data-auto-fill` — Present when automatic filling is enabled
 - `data-gradient` — Present when edge fades are enabled
 - `data-ready` — Present after a usable animation distance has been measured
 
 ### CSS Variables
+
+Declared on `.marquee__content`.
 
 | Variable | Default | Description |
 | --- | --- | --- |
@@ -120,9 +182,15 @@ Only the first content sequence is exposed to assistive technology; auto-fill an
 
 ## API Reference
 
+### Marquee
+
+Accepts every `div` prop. Also exported as `Marquee.Root`.
+
+### Marquee.Content
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `autoFill` | `boolean` | `false` | Repeats short content until it fills the container |
+| `autoFill` | `boolean` | `false` | Repeats short content until it fills the content box |
 | `play` | `boolean` | `true` | Starts or pauses playback |
 | `pauseOnInteraction` | `boolean` | `false` | Pauses while hovered or focused |
 | `direction` | `"left" \| "right" \| "up" \| "down"` | `"left"` | Scroll direction |
@@ -132,3 +200,7 @@ Only the first content sequence is exposed to assistive technology; auto-fill an
 | `gap` | `number` | `16` | Space between items in pixels |
 | `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | Styles, including any `--marquee-*` override |
 | `children` | `ReactNode` | — | Content to repeat |
+
+### Marquee.Prefix, Marquee.Suffix
+
+Accept every `div` prop.

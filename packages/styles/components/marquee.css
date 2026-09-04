@@ -1,7 +1,19 @@
-/* `min-w-0`/`min-h-0` keep the root from being sized by its own copies inside a flex or grid
-   parent, which would otherwise feed the measurement back into the auto-fill count. */
+/* The root only lays the scrolling content out beside its adornments; it carries no motion state.
+   It stays a row for every direction, so a vertical marquee keeps its prefix and suffix on the
+   sides. Pass `flex-col` to stack them instead. */
 .marquee {
-  @apply flex min-w-0 min-h-0 overflow-hidden;
+  @apply flex min-w-0 min-h-0 items-stretch overflow-hidden;
+}
+
+.marquee__prefix,
+.marquee__suffix {
+  @apply flex shrink-0 items-center;
+}
+
+/* `min-w-0`/`min-h-0` keep the content from being sized by its own copies inside a flex or grid
+   parent, which would otherwise feed the measurement back into the auto-fill count. */
+.marquee__content {
+  @apply flex min-w-0 min-h-0 flex-1 overflow-hidden;
   --marquee-delay: 0s;
   --marquee-duration: 20s;
   --marquee-gap: 1rem;
@@ -30,32 +42,32 @@
 }
 
 /* Only hint the compositor while the track is actually moving. */
-.marquee[data-ready="true"]:not([data-paused="true"]) .marquee__track {
+.marquee__content[data-ready="true"]:not([data-paused="true"]) .marquee__track {
   @apply will-change-transform;
 }
 
-.marquee[data-auto-fill="true"] .marquee__track {
+.marquee__content[data-auto-fill="true"] .marquee__track {
   min-width: auto;
 }
 
-.marquee[data-direction="left"] .marquee__track {
+.marquee__content[data-direction="left"] .marquee__track {
   animation-name: marquee-left;
 }
 
-.marquee[data-direction="right"] .marquee__track {
+.marquee__content[data-direction="right"] .marquee__track {
   animation-name: marquee-right;
 }
 
-.marquee[data-direction="up"] .marquee__track {
+.marquee__content[data-direction="up"] .marquee__track {
   animation-name: marquee-up;
 }
 
-.marquee[data-direction="down"] .marquee__track {
+.marquee__content[data-direction="down"] .marquee__track {
   animation-name: marquee-down;
 }
 
-.marquee[data-direction="up"],
-.marquee[data-direction="down"] {
+.marquee__content[data-direction="up"],
+.marquee__content[data-direction="down"] {
   @apply flex-col;
 
   .marquee__track,
@@ -78,7 +90,8 @@
   }
 }
 
-.marquee[data-gradient="true"] {
+/* The mask lives on the content so the fades never reach the prefix and suffix. */
+.marquee__content[data-gradient="true"] {
   mask-image: linear-gradient(
     to right,
     transparent,
@@ -95,8 +108,8 @@
   );
 }
 
-.marquee[data-direction="up"][data-gradient="true"],
-.marquee[data-direction="down"][data-gradient="true"] {
+.marquee__content[data-direction="up"][data-gradient="true"],
+.marquee__content[data-direction="down"][data-gradient="true"] {
   mask-image: linear-gradient(
     to bottom,
     transparent,
@@ -113,16 +126,16 @@
   );
 }
 
-.marquee[data-paused="true"] .marquee__track,
-.marquee:not([data-ready="true"]) .marquee__track,
-.marquee--pause-on-interaction:hover .marquee__track,
-.marquee--pause-on-interaction:focus-within .marquee__track {
+.marquee__content[data-paused="true"] .marquee__track,
+.marquee__content:not([data-ready="true"]) .marquee__track,
+.marquee__content[data-pause-on-interaction="true"]:hover .marquee__track,
+.marquee__content[data-pause-on-interaction="true"]:focus-within .marquee__track {
   animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* Must out-specify the `[data-direction]` animation-name rules above. */
-  .marquee[data-direction] .marquee__track {
+  .marquee__content[data-direction] .marquee__track {
     animation: none;
     transform: none;
   }
