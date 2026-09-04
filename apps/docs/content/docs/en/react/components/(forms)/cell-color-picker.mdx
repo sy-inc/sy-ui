@@ -14,7 +14,7 @@ import {CellColorPicker, ColorArea, ColorSlider} from "@sy-inc/react";
 ```tsx
 <CellColorPicker defaultValue="#3B82F6">
   <CellColorPicker.Trigger>
-    <span>Accent</span>
+    <CellColorPicker.Label>Accent</CellColorPicker.Label>
     <CellColorPicker.ValueDisplay />
     <CellColorPicker.Swatch />
   </CellColorPicker.Trigger>
@@ -32,7 +32,7 @@ Pass the ColorPicker `value` and `onChange` props for a controlled picker. Put a
 ```tsx
 <CellColorPicker isInvalid defaultValue="#EF4444">
   <CellColorPicker.Trigger aria-describedby="accent-error">
-    <span>Accent</span><CellColorPicker.ValueDisplay /><CellColorPicker.Swatch />
+    <CellColorPicker.Label>Accent</CellColorPicker.Label><CellColorPicker.ValueDisplay /><CellColorPicker.Swatch />
   </CellColorPicker.Trigger>
   <CellColorPicker.Popover>{/* ColorArea and ColorSlider */}</CellColorPicker.Popover>
 </CellColorPicker>
@@ -46,7 +46,8 @@ Use a shared `Label` with `aria-labelledby` when the row needs an external label
 | Part | Props/defaults | Notes |
 | --- | --- | --- |
 | `Root` | ColorPicker value/defaultValue/onChange; `variant="default"`; `isDisabled`; `isInvalid` | Stable ref points to the outer `div[data-slot="cell-color-picker"]`. |
-| `Trigger` | React Aria Button props | Inherits the root's `isDisabled` and accepts normal `aria-label`, `aria-labelledby`, `aria-describedby`. |
+| `Trigger` | React Aria Button props | Inherits the root's `isDisabled` through React Aria's `ButtonContext`, and accepts normal `aria-label`, `aria-labelledby`, `aria-describedby`. |
+| `Label` | span props | The row's leading text inside the trigger. A plain span, not the shared `Label`: the trigger button is already named. |
 | `ValueDisplay` | span props | Reads the current color as hexadecimal by default. |
 | `Swatch` | ColorSwatch props | Reuses the shared swatch and retains `data-slot="color-swatch"`. |
 | `Popover` | Popover props; `placement="bottom end"` | Reuses ColorPicker.Popover and therefore retains `data-slot="color-picker-popover"`. |

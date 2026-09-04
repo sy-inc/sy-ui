@@ -253,35 +253,8 @@
 
 /* The clickable row behaves like a form field surface */
 .switch--cell .switch__content {
-  @apply flex min-h-11 w-full items-center justify-between gap-3 rounded-field border bg-field px-3 py-2 text-start text-sm text-field-foreground shadow-field outline-none;
-
-  border-width: var(--border-width-field);
-  border-color: var(--field-border);
-
-  /**
-   * Transitions
-   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
-   */
-  transition:
-    background-color 150ms var(--ease-smooth),
-    border-color 150ms var(--ease-smooth),
-    box-shadow 150ms var(--ease-out);
-  @apply motion-reduce:transition-none;
-
-  @media (hover: hover) {
-    &:hover,
-    &[data-hovered="true"] {
-      @apply bg-field-hover;
-      border-color: var(--field-border-hover);
-    }
-  }
-
-  &:focus-visible,
-  &[data-focus-visible="true"] {
-    @apply status-focused;
-    border-color: var(--field-border-focus);
-    background-color: var(--field-focus);
-  }
+  @apply field-surface;
+  @apply flex min-h-11 w-full items-center justify-between gap-3 px-3 py-2 text-start text-sm;
 }
 
 /* The label takes the free space so the control sits at the row end */

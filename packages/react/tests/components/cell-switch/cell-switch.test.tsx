@@ -13,7 +13,7 @@ describe("CellSwitch", () => {
     render(<CellSwitch>Animations</CellSwitch>);
 
     expect(screen.getByRole("switch", {name: "Animations"})).toBeInTheDocument();
-    expect(document.querySelector('[data-slot="cell-switch-label"]')).not.toBeNull();
+    expect(document.querySelector('[data-slot="label"]')).not.toBeNull();
     expect(document.querySelector('[data-slot="switch-control"]')).not.toBeNull();
     expect(document.querySelector('[data-slot="switch-thumb"]')).not.toBeNull();
   });
@@ -59,24 +59,30 @@ describe("CellSwitch", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it("maps its variant onto the shared Switch cell surface", () => {
+    render(<CellSwitch variant="secondary">Animations</CellSwitch>);
+
+    expect(document.querySelector('[data-slot="switch"]')?.className).toContain(
+      "switch--cell-secondary",
+    );
+  });
+
   it("exposes variant and feature content hooks", () => {
     render(
-      <CellSwitch
-        badge="New"
-        description="Keep your pages within reach."
-        variant="feature"
-      >
+      <CellSwitch badge="New" description="Keep your pages within reach." variant="feature">
         Try the new sidebar
       </CellSwitch>,
     );
 
-    expect(document.querySelector('[data-slot="switch"]')?.className).toContain(
-      "cell-switch--feature",
-    );
+    const root = document.querySelector('[data-slot="switch"]');
+
+    expect(root?.className).toContain("cell-switch--feature");
+    /* The row surface comes from the shared Switch cell variant, not a local copy. */
+    expect(root?.className).toContain("switch--cell");
     expect(screen.getByText("New")).toHaveAttribute("data-slot", "cell-switch-badge");
     expect(screen.getByText("Keep your pages within reach.")).toHaveAttribute(
       "data-slot",
-      "cell-switch-description",
+      "description",
     );
   });
 });

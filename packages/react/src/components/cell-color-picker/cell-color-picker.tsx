@@ -4,7 +4,8 @@ import type {CellColorPickerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
 import {cellColorPickerVariants} from "@sy-inc/styles";
-import {createContext, use} from "react";
+import {use} from "react";
+import {ButtonContext} from "react-aria-components";
 import {ColorPickerStateContext} from "react-aria-components/ColorPicker";
 
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
@@ -13,9 +14,6 @@ import {ColorSwatch} from "../color-swatch";
 
 /* Only the root variant changes a slot class, and it is applied at the call site. */
 const slots = cellColorPickerVariants();
-
-/* The trigger is the only part that needs state from the root; invalid is styled from the root. */
-const CellColorPickerContext = createContext<{isDisabled?: boolean}>({});
 
 /* -------------------------------------------------------------------------------------------------
  * CellColorPicker Root
@@ -27,6 +25,12 @@ interface CellColorPickerRootProps
   isInvalid?: boolean;
 }
 
+/**
+ * `isDisabled` and `isInvalid` are owned by the root: invalid is a data attribute
+ * the CSS reads, and disabled rides React Aria's own `ButtonContext` so the
+ * trigger (and anything else button-shaped in the row) picks it up without a
+ * context of our own.
+ */
 const CellColorPickerRoot = ({
   children,
   className,
@@ -35,16 +39,17 @@ const CellColorPickerRoot = ({
   variant,
   ...props
 }: CellColorPickerRootProps) => (
-  <CellColorPickerContext value={{isDisabled}}>
+  <ButtonContext value={{isDisabled}}>
     <ColorPicker
       {...props}
       className={composeSlotClassName(slots.base, className, {variant})}
+      data-disabled={isDisabled ? "true" : undefined}
       data-invalid={isInvalid ? "true" : undefined}
       data-slot="cell-color-picker"
     >
       {children}
     </ColorPicker>
-  </CellColorPickerContext>
+  </ButtonContext>
 );
 
 CellColorPickerRoot.displayName = "SY INC.CellColorPicker";
@@ -54,20 +59,31 @@ CellColorPickerRoot.displayName = "SY INC.CellColorPicker";
  * -----------------------------------------------------------------------------------------------*/
 interface CellColorPickerTriggerProps extends ComponentPropsWithRef<typeof ColorPicker.Trigger> {}
 
-const CellColorPickerTrigger = ({className, isDisabled, ...props}: CellColorPickerTriggerProps) => {
-  const {isDisabled: rootDisabled} = use(CellColorPickerContext);
-
-  return (
-    <ColorPicker.Trigger
-      {...props}
-      className={composeTwRenderProps(className, slots.trigger())}
-      data-slot="cell-color-picker-trigger"
-      isDisabled={isDisabled ?? rootDisabled}
-    />
-  );
-};
+const CellColorPickerTrigger = ({className, ...props}: CellColorPickerTriggerProps) => (
+  <ColorPicker.Trigger
+    {...props}
+    className={composeTwRenderProps(className, slots.trigger())}
+    data-slot="cell-color-picker-trigger"
+  />
+);
 
 CellColorPickerTrigger.displayName = "SY INC.CellColorPicker.Trigger";
+
+/* -------------------------------------------------------------------------------------------------
+ * CellColorPicker Label
+ * -----------------------------------------------------------------------------------------------*/
+interface CellColorPickerLabelProps extends ComponentPropsWithRef<"span"> {}
+
+/* A plain span, not `Label`: it lives inside the trigger button, which is already labelled. */
+const CellColorPickerLabel = ({className, ...props}: CellColorPickerLabelProps) => (
+  <span
+    {...props}
+    className={composeSlotClassName(slots.label, className)}
+    data-slot="cell-color-picker-label"
+  />
+);
+
+CellColorPickerLabel.displayName = "SY INC.CellColorPicker.Label";
 
 /* -------------------------------------------------------------------------------------------------
  * CellColorPicker ValueDisplay
@@ -129,6 +145,7 @@ CellColorPickerPopover.displayName = "SY INC.CellColorPicker.Popover";
  * Exports
  * -----------------------------------------------------------------------------------------------*/
 export {
+  CellColorPickerLabel,
   CellColorPickerPopover,
   CellColorPickerRoot,
   CellColorPickerSwatch,
@@ -137,6 +154,7 @@ export {
 };
 
 export type {
+  CellColorPickerLabelProps,
   CellColorPickerPopoverProps,
   CellColorPickerRootProps,
   CellColorPickerRootProps as CellColorPickerProps,

@@ -1,6 +1,7 @@
 import type {ComponentProps} from "react";
 
 import {
+  CellColorPickerLabel,
   CellColorPickerPopover,
   CellColorPickerRoot,
   CellColorPickerSwatch,
@@ -9,6 +10,7 @@ import {
 } from "./cell-color-picker";
 
 export const CellColorPicker = Object.assign(CellColorPickerRoot, {
+  Label: CellColorPickerLabel,
   Popover: CellColorPickerPopover,
   Root: CellColorPickerRoot,
   Swatch: CellColorPickerSwatch,
@@ -17,6 +19,7 @@ export const CellColorPicker = Object.assign(CellColorPickerRoot, {
 });
 
 export type CellColorPicker = {
+  LabelProps: ComponentProps<typeof CellColorPickerLabel>;
   PopoverProps: ComponentProps<typeof CellColorPickerPopover>;
   Props: ComponentProps<typeof CellColorPickerRoot>;
   RootProps: ComponentProps<typeof CellColorPickerRoot>;
@@ -26,6 +29,7 @@ export type CellColorPicker = {
 };
 
 export {
+  CellColorPickerLabel,
   CellColorPickerPopover,
   CellColorPickerRoot,
   CellColorPickerSwatch,
@@ -34,6 +38,7 @@ export {
 };
 
 export type {
+  CellColorPickerLabelProps,
   CellColorPickerPopoverProps,
   CellColorPickerProps,
   CellColorPickerRootProps,

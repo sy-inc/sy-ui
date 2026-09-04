@@ -1,2 +1,5 @@
 export {CellSwitch, type CellSwitchProps} from "./cell-switch";
-export {cellSwitchVariants, type CellSwitchVariants} from "./cell-switch.styles";
+
+export {cellSwitchVariants} from "@sy-inc/styles";
+
+export type {CellSwitchVariants} from "@sy-inc/styles";

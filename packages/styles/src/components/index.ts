@@ -16,6 +16,7 @@ export * from "./cell-select/cell-select.styles";
 export * from "./chat-message";
 export * from "./card/card.styles";
 export * from "./cell-slider/cell-slider.styles";
+export * from "./cell-switch/cell-switch.styles";
 export * from "./carousel/carousel.styles";
 export * from "./checkbox-group/checkbox-group.styles";
 export * from "./checkbox/checkbox.styles";

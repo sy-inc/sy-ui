@@ -15,51 +15,12 @@
 }
 
 .select__trigger {
-  @apply relative isolate inline-flex min-h-9 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none select-none no-highlight;
-
-  /**
-   * Transitions
-   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
-   */
-  transition:
-    background-color 150ms var(--ease-smooth),
-    border-color 150ms var(--ease-smooth),
-    box-shadow 150ms var(--ease-out);
-  @apply motion-reduce:transition-none;
-
-  /* Cursor */
-  cursor: var(--cursor-interactive);
-
-  border-width: var(--border-width-field);
-  border-color: var(--field-border);
+  @apply field-surface;
+  @apply relative isolate inline-flex min-h-9 px-3 py-2 text-sm select-none;
 
   /* Add inline-end padding when indicator is present */
   &:has(.select__indicator) {
     @apply pe-7;
-  }
-
-  /* Hover state */
-  @media (hover: hover) {
-    &:hover,
-    &[data-hovered="true"] {
-      @apply bg-field-hover;
-      border-color: var(--field-border-hover);
-    }
-  }
-
-  /* Focus visible state
-   * RAC drives focus-visible via data-focus-visible; the native pseudo-class also matches when
-   * RAC restores focus from the popover after a mouse click, so it is scoped to non-RAC markup. */
-  &:focus-visible:not([data-rac]),
-  &[data-focus-visible="true"] {
-    @apply status-focused;
-    border-color: var(--field-border-focus);
-    background-color: var(--field-focus);
-  }
-
-  /* Focus state */
-  &:focus,
-  &[data-focus="true"] {
   }
 
   /* Invalid state */
@@ -67,13 +28,6 @@
   .select[aria-invalid="true"] & {
     @apply status-invalid-field;
     background-color: var(--field-focus);
-  }
-
-  /* Disabled state */
-  &:disabled,
-  &[data-disabled="true"],
-  &[aria-disabled="true"] {
-    @apply status-disabled;
   }
 }
 
@@ -139,7 +93,7 @@
 
 /* Similar to popover content styles */
 .select__popover {
-  @apply min-w-(--trigger-width) origin-(--trigger-anchor-point) scroll-py-1 overflow-y-auto overscroll-contain bg-overlay p-0 text-sm scrollbar;
+  @apply min-w-(--trigger-width) origin-(--trigger-anchor-point) scroll-py-1 scrollbar overflow-y-auto overscroll-contain bg-overlay p-0 text-sm;
   border-radius: min(32px, var(--radius-3xl));
   box-shadow: var(--shadow-overlay);
 

@@ -55,6 +55,65 @@
   @apply pointer-events-none;
 }
 
+/* === Field surface === */
+/**
+ * The shared form-field chrome: rounded surface, field border, and the whole
+ * hover / focus-visible / disabled state machine. `select`, `cell-color-picker`
+ * and the cell `switch` row all render the same surface, so the tokens and the
+ * RAC focus quirks live here instead of being copied per component.
+ *
+ * Consumers add only their own box model (display, size, padding) and any
+ * variant tone overrides.
+ *
+ * For button-shaped rows only. It focuses with `status-focused` (offset ring),
+ * matching button, select and dropdown. Text-entry fields (input, textarea,
+ * search-field, ...) use the inset `status-focused-field` instead and must not
+ * apply this.
+ */
+@utility field-surface {
+  @apply rounded-field border bg-field text-field-foreground shadow-field outline-none no-highlight;
+
+  border-width: var(--border-width-field);
+  border-color: var(--field-border);
+  cursor: var(--cursor-interactive);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 150ms var(--ease-smooth),
+    border-color 150ms var(--ease-smooth),
+    box-shadow 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-field-hover;
+      border-color: var(--field-border-hover);
+    }
+  }
+
+  /**
+   * RAC drives focus-visible via data-focus-visible; the native pseudo-class also
+   * matches when RAC restores focus from a popover after a mouse click, so it is
+   * scoped to non-RAC markup.
+   */
+  &:focus-visible:not([data-rac]),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+    border-color: var(--field-border-focus);
+    background-color: var(--field-focus);
+  }
+
+  &:disabled,
+  &[data-disabled="true"],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
 /* === Scrollbars (standards-only; apply per scroll slot in component CSS) === */
 @utility scrollbar {
   scrollbar-width: var(--scrollbar-width);

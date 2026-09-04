@@ -1,0 +1,50 @@
+/**
+ * CellSwitch is a `Switch` with `variant="cell"` / `"cell-secondary"`, so the
+ * row surface, hover, focus and the secondary track tokens all come from
+ * switch.css. Only the settings-cell deltas live here: the fixed row width, the
+ * stacked label/description column, the badge, and the `feature` card.
+ *
+ * This file is imported after switch.css, so the equal-specificity rules below win.
+ */
+
+.cell-switch {
+  @apply w-[252px];
+}
+
+/* The cell row is a fixed-height control, not a growing field. */
+.cell-switch .switch__content {
+  @apply h-9 min-h-0;
+}
+
+/* Label + description stack, taking the free space before the control. */
+.cell-switch__copy {
+  @apply flex min-w-0 flex-1 flex-col gap-0.5;
+}
+
+/* The badge sits inline after the label text. */
+.cell-switch__copy > [data-slot="label"] {
+  @apply flex min-w-0 items-center gap-1;
+}
+
+.cell-switch__badge {
+  @apply rounded bg-accent px-1.5 py-0.5 text-[10px] leading-none font-medium text-accent-foreground;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Feature variant — the row wrapped in a bordered card.
+ * -----------------------------------------------------------------------------------------------*/
+.cell-switch--feature {
+  @apply h-[72px] w-80 rounded-xl border border-border p-px;
+}
+
+.cell-switch--feature .switch__content {
+  /* The card owns the border, so the inner row drops the field chrome. */
+  @apply h-[70px] rounded-[11px] border-0 bg-transparent py-2 shadow-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default/90;
+    }
+  }
+}

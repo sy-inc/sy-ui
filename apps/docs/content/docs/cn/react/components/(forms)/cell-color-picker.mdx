@@ -46,7 +46,8 @@ import {CellColorPicker, ColorArea, ColorSlider} from "@sy-inc/react";
 | Part | Props/默认值 | 说明 |
 | --- | --- | --- |
 | `Root` | ColorPicker value/defaultValue/onChange；`variant="default"`；`isDisabled`；`isInvalid` | 稳定 ref 指向外层 `div[data-slot="cell-color-picker"]`。 |
-| `Trigger` | React Aria Button props | 继承 Root 的 `isDisabled`，并接收 `aria-label`、`aria-labelledby`、`aria-describedby`。 |
+| `Trigger` | React Aria Button props | 通过 React Aria 的 `ButtonContext` 继承 Root 的 `isDisabled`，并接收 `aria-label`、`aria-labelledby`、`aria-describedby`。 |
+| `Label` | span props | Trigger 内的行首文本。使用普通 span 而非共享 `Label`：Trigger 按钮本身已有可访问名称。 |
 | `ValueDisplay` | span props | 默认读取当前颜色的十六进制值。 |
 | `Swatch` | ColorSwatch props | 复用共享色板并保留 `data-slot="color-swatch"`。 |
 | `Popover` | Popover props；`placement="bottom end"` | 复用 ColorPicker.Popover，因此保留 `data-slot="color-picker-popover"`。 |

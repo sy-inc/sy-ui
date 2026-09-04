@@ -21,7 +21,7 @@ type PickerProps = React.ComponentProps<typeof CellColorPicker> & {
 const Picker = ({label = "Accent", triggerProps, withPresets, ...props}: PickerProps) => (
   <CellColorPicker {...props}>
     <CellColorPicker.Trigger {...triggerProps}>
-      <span className="min-w-0 truncate font-medium">{label}</span>
+      <CellColorPicker.Label>{label}</CellColorPicker.Label>
       <CellColorPicker.ValueDisplay />
       <CellColorPicker.Swatch />
     </CellColorPicker.Trigger>

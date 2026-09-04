@@ -17,6 +17,6 @@ describe("CellSwitch SSR", () => {
 
     expect(html).toContain('data-slot="switch"');
     expect(html).toContain('data-selected="true"');
-    expect(html).toContain('data-slot="cell-switch-description"');
+    expect(html).toContain('data-slot="description"');
   });
 });

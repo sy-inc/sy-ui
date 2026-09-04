@@ -9,6 +9,15 @@ import {cellSliderVariants} from "@sy-inc/styles";
 import {Label} from "../label";
 import {Slider} from "../slider";
 
+/**
+ * Both variants are resolved once. The slots are constant per variant, and a
+ * controlled slider re-renders on every drag frame, so nothing is rebuilt here.
+ */
+const slotsByVariant = {
+  default: cellSliderVariants({variant: "default"}),
+  secondary: cellSliderVariants({variant: "secondary"}),
+};
+
 /* -------------------------------------------------------------------------------------------------
  * CellSlider
  * -----------------------------------------------------------------------------------------------*/
@@ -34,8 +43,8 @@ interface CellSliderProps
  * Single-value slider styled as a settings cell. For a range, or any other
  * composition, use `<Slider variant="cell">` with the Slider parts directly.
  */
-const CellSlider = ({label, variant, ...props}: CellSliderProps) => {
-  const slots = cellSliderVariants({variant});
+const CellSlider = ({label, variant = "default", ...props}: CellSliderProps) => {
+  const slots = slotsByVariant[variant];
 
   return (
     <Slider

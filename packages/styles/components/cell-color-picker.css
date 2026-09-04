@@ -1,7 +1,9 @@
 /**
  * CellColorPicker is a ColorPicker laid out as a settings row. The shared
- * `color-picker__trigger` is bare chrome, so the field surface is defined here.
- * Variant and invalid state are driven from the root, mirroring select.css.
+ * `color-picker__trigger` is bare chrome, so the row pulls the form-field
+ * chrome from the `field-surface` utility - the same one `select` and the cell
+ * `switch` row use. Variant, invalid and disabled state are driven from the
+ * root, mirroring select.css.
  */
 
 .cell-color-picker {
@@ -9,38 +11,12 @@
 }
 
 .cell-color-picker__trigger {
-  @apply flex h-9 w-full min-w-0 items-center gap-3 rounded-field border bg-field px-3 text-sm text-field-foreground shadow-field outline-none no-highlight;
-  border-width: var(--border-width-field);
-  border-color: var(--field-border);
-  cursor: var(--cursor-interactive);
-  transition:
-    background-color 150ms var(--ease-smooth),
-    border-color 150ms var(--ease-smooth),
-    box-shadow 150ms var(--ease-out);
-  @apply motion-reduce:transition-none;
-
-  @media (hover: hover) {
-    &:hover,
-    &[data-hovered="true"] {
-      @apply bg-field-hover;
-      border-color: var(--field-border-hover);
-    }
-  }
+  @apply field-surface;
+  @apply flex h-9 w-full min-w-0 items-center gap-3 px-3 text-sm;
 
   &:active,
   &[data-pressed="true"] {
     @apply bg-field-hover;
-  }
-
-  &:focus-visible,
-  &[data-focus-visible="true"] {
-    @apply status-focused-field;
-  }
-
-  &:disabled,
-  &[data-disabled="true"],
-  &[aria-disabled="true"] {
-    @apply status-disabled;
   }
 }
 
@@ -61,7 +37,16 @@
   border-color: var(--color-field-border-invalid);
 }
 
-/* ms-auto pushes the value and swatch to the end, so a plain <span> label needs no layout classes. */
+/* Same for disabled: the root marks it, every part reads it from one place. */
+.cell-color-picker[data-disabled="true"] .cell-color-picker__trigger {
+  @apply status-disabled;
+}
+
+/* Matches `cell-select__label` so both settings rows read the same. */
+.cell-color-picker__label {
+  @apply min-w-0 flex-1 overflow-hidden text-start text-sm font-medium text-ellipsis whitespace-nowrap text-foreground;
+}
+
 .cell-color-picker__value-display {
   @apply ms-auto shrink-0 truncate text-end text-muted;
 }

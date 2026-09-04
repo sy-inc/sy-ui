@@ -7,8 +7,9 @@ import "../../../../styles/dist/sy-inc.min.css";
 const thumbIndicator = () =>
   getComputedStyle(document.querySelector('[data-slot="cell-slider-thumb"]')!, "::after");
 
-const fillBackground = () =>
-  getComputedStyle(document.querySelector('[data-slot="cell-slider-fill"]')!).backgroundColor;
+/* The variant restyles the track surface; the fill tone is shared by both. */
+const trackStyle = () =>
+  getComputedStyle(document.querySelector('[data-slot="cell-slider-track"]')!);
 
 describe("CellSlider (browser)", () => {
   it("renders the thumb as a hairline indicator, not the base slider pill", async () => {
@@ -22,11 +23,11 @@ describe("CellSlider (browser)", () => {
     expect(indicator.boxShadow).toBe("none");
   });
 
-  it("gives the secondary variant its own fill colour", async () => {
+  it("gives the secondary variant its own track surface", async () => {
     const {unmount} = await render(
       <CellSlider defaultValue={0.5} label="Opacity" maxValue={1} step={0.01} />,
     );
-    const defaultFill = fillBackground();
+    const {backgroundColor: defaultBackground, boxShadow: defaultShadow} = trackStyle();
 
     unmount();
 
@@ -40,6 +41,10 @@ describe("CellSlider (browser)", () => {
       />,
     );
 
-    expect(fillBackground()).not.toBe(defaultFill);
+    const secondary = trackStyle();
+
+    expect(secondary.backgroundColor).not.toBe(defaultBackground);
+    /* `shadow-none` zeroes the shadow chain rather than dropping the property. */
+    expect(secondary.boxShadow).not.toBe(defaultShadow);
   });
 });
