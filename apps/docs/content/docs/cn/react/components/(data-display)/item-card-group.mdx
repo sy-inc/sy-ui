@@ -1,0 +1,165 @@
+---
+title: ItemCardGroup 条目卡片组
+description: 将相关的 ItemCard 条目组织为结构化列表或网格
+links:
+  source: item-card-group/item-card-group.tsx
+  styles: item-card-group.css
+  storybook: Components/ItemCardGroup
+---
+
+## 用法
+
+使用 `ItemCardGroup` 将相关的 `ItemCard` 条目组合为一个带标题的区块。默认的 list 布局会把条目垂直排列并在条目之间添加分隔线；需要展示同级卡片时可以使用 grid 布局。
+
+```tsx
+import {ItemCard, ItemCardGroup} from "@sy-inc/react";
+
+<ItemCardGroup aria-label="工作区设置">
+  <ItemCardGroup.Header>
+    <ItemCardGroup.Title>工作区设置</ItemCardGroup.Title>
+    <ItemCardGroup.Description>配置你的工作区</ItemCardGroup.Description>
+  </ItemCardGroup.Header>
+  <ItemCard>
+    <ItemCard.Content>
+      <ItemCard.Title>成员</ItemCard.Title>
+      <ItemCard.Description>管理团队访问权限</ItemCard.Description>
+    </ItemCard.Content>
+  </ItemCard>
+  <ItemCard>
+    <ItemCard.Content>
+      <ItemCard.Title>安全</ItemCard.Title>
+      <ItemCard.Description>控制工作区可见性</ItemCard.Description>
+    </ItemCard.Content>
+  </ItemCard>
+</ItemCardGroup>
+```
+
+## 组件结构
+
+```tsx
+<ItemCardGroup>
+  <ItemCardGroup.Header>
+    <ItemCardGroup.Title>区块标题</ItemCardGroup.Title>
+    <ItemCardGroup.Description>可选的辅助文案</ItemCardGroup.Description>
+  </ItemCardGroup.Header>
+  <ItemCard>{/* 组合一个 ItemCard 条目 */}</ItemCard>
+</ItemCardGroup>
+```
+
+- `ItemCardGroup` 与 `ItemCardGroup.Root` 渲染外层 `div`，并提供 `group` role。
+- `ItemCardGroup.Header` 渲染用于区块标题的 `div`。
+- `ItemCardGroup.Title` 默认渲染 `h3`。
+- `ItemCardGroup.Description` 渲染标题下方的 `p` 辅助文案。
+- 条目是作为 children 组合进来的现有 `ItemCard`，不是 ItemCardGroup 的额外 part。
+
+四个 part 都接受对应原生元素的 props、`className` 与 ref。Root 还接受原生 `div` props 与 ref。
+
+## API 参考
+
+### Root 与各 part
+
+| Part | 默认元素 | 说明 |
+| --- | --- | --- |
+| `ItemCardGroup` / `ItemCardGroup.Root` | `div` | 带 `role="group"` 的根节点；接受原生 `div` props、ref 与组级变体。 |
+| `ItemCardGroup.Header` | `div` | 放置标题与可选描述的头部区域。 |
+| `ItemCardGroup.Title` | `h3` | 语义化区块标题。 |
+| `ItemCardGroup.Description` | `p` | 标题下方的辅助文案。 |
+
+### Root props
+
+| Prop | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "secondary" \| "tertiary" \| "outline" \| "transparent"` | `"default"` | 组的 surface 处理方式。 |
+| `layout` | `"list" \| "grid"` | `"list"` | 将子条目垂直排列或放入网格。 |
+| `columns` | `number` | `2` | `layout="grid"` 时的网格列数，list 布局下会被忽略。 |
+| `children` | `React.ReactNode` | — | Header、`ItemCard` 条目或其他组合内容。 |
+| `className` | `string` | — | 根节点的附加 class。 |
+
+包同时导出 `ItemCardGroupProps`、`ItemCardGroupRootProps`、`ItemCardGroupHeaderProps`、`ItemCardGroupTitleProps`、`ItemCardGroupDescriptionProps`、`ItemCardGroupVariants` 与 `itemCardGroupVariants`。
+
+## 变体
+
+- `variant="default"` 是默认的带阴影 surface。
+- `variant="secondary"` 与 `variant="tertiary"` 使用对应的语义 surface。
+- `variant="outline"` 使用透明 surface、边框且没有阴影。
+- `variant="transparent"` 移除背景、边框与阴影。
+
+### 布局与列数
+
+- `layout="list"` 是默认的垂直布局。相邻条目之间由条目自身 1px 的上边框划分，横向通栏铺满整个组，不会渲染任何分隔元素，因此无论 children 是什么结构分隔线都不会错位。Header 之后不会出现分隔线，显式的 `Separator` 子元素会替代自动分隔线。
+- `layout="grid"` 使用网格且不绘制分隔线。`columns` 通过 `--item-card-group-columns` 自定义属性控制列数，默认 `2`，在 list 布局下会被忽略。
+
+## 事件
+
+`ItemCardGroup` 自身没有事件。请在组内组合的交互组件上添加回调。当条目需要次要操作时，可以在 `ItemCard.Action` 中使用 `Button`、`Switch`、`Select` 或其他现有控件。
+
+## 组合
+
+需要可按压条目时，通过 `ItemCard` 渲染真实 button，并组合 `PressableFeedback` 提供交互状态反馈：
+
+```tsx
+import {ItemCard, ItemCardGroup, PressableFeedback} from "@sy-inc/react";
+
+<ItemCardGroup>
+  <ItemCard<"button">
+    render={({children, className, ref}) => (
+      <PressableFeedback
+        ref={ref}
+        aria-label="打开账户设置"
+        className={className}
+        onPress={openSettings}
+      >
+        <PressableFeedback.Highlight />
+        <PressableFeedback.Ripple />
+        {children}
+      </PressableFeedback>
+    )}
+  >
+    <ItemCard.Content>
+      <ItemCard.Title>账户设置</ItemCard.Title>
+    </ItemCard.Content>
+  </ItemCard>
+</ItemCardGroup>
+```
+
+自定义 `render` 函数拥有实际渲染的元素，因此传给 `ItemCard` 的 props 只有在函数转发时才会生效。请把条目的 `aria-label`、`id` 与事件处理器直接写在你渲染的元素上。
+
+不要在可按压条目的 `button` 内嵌套 action `button`。请在 `ItemCard.Action` 或条目内容旁组合相互独立的控件。
+
+## 无障碍
+
+- 根节点渲染 `role="group"`。没有可见标题时，请使用 `aria-label` 为组命名，或用 `aria-labelledby` 关联可见标题。
+- `ItemCardGroup.Title` 默认是 `h3`；应让标题级别与页面周围的层级保持一致。
+- 可按压条目应渲染真实 `button`、提供可访问名称，并通过 `PressableFeedback` 或返回的原生 button 保留清晰的键盘焦点。
+- 组合到 `ItemCard` 条目中的装饰图标应使用 `aria-hidden="true"`；有意义的控件需要单独设置标签。
+- list 的分隔线只是装饰性 CSS，对辅助技术不可见。条目内容与组合的操作不应依赖分隔线才能理解。
+
+## 稳定 slots
+
+以下 `data-slot` hooks 是稳定的样式与测试接口：
+
+`item-card-group`、`item-card-group-header`、`item-card-group-title` 与 `item-card-group-description`。
+
+布局与 surface class 遵循相同的 BEM 命名：`.item-card-group`、`.item-card-group__header`、`.item-card-group__title`、`.item-card-group__description`、`.item-card-group--list`、`.item-card-group--grid`，以及五个 variant modifier。网格列数由 `--item-card-group-columns` 自定义属性驱动。
+
+## 示例
+
+### List
+
+<ComponentPreview name="item-card-group-list" />
+
+### Grid
+
+<ComponentPreview name="item-card-group-grid" />
+
+### Pressable
+
+<ComponentPreview name="item-card-group-pressable" />
+
+### MultipleSections
+
+<ComponentPreview name="item-card-group-multiple-sections" />
+
+### Variants
+
+<ComponentPreview name="item-card-group-variants" />

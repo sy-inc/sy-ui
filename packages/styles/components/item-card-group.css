@@ -1,0 +1,80 @@
+.item-card-group {
+  @apply overflow-hidden rounded-2xl text-foreground;
+}
+
+.item-card-group--default {
+  @apply bg-surface shadow-surface;
+}
+
+.item-card-group--secondary {
+  @apply bg-surface-secondary;
+}
+
+.item-card-group--tertiary {
+  @apply bg-surface-tertiary;
+}
+
+.item-card-group--outline {
+  @apply border border-border bg-transparent shadow-none;
+}
+
+/*
+ * A layout-only wrapper: no radius and no shadow of its own, so it must not clip.
+ * Clipping here would cut the shadow off a nested group that ends on the same edge.
+ */
+.item-card-group--transparent {
+  @apply overflow-visible rounded-none bg-transparent shadow-none;
+}
+
+.item-card-group__header {
+  @apply px-4 pt-4 pb-2;
+}
+
+.item-card-group__title {
+  @apply text-sm leading-5 font-semibold;
+}
+
+.item-card-group__description {
+  @apply mt-0.5 text-xs leading-4 text-muted;
+}
+
+.item-card-group--list {
+  @apply flex flex-col;
+}
+
+/* Rows sit flush inside the group surface; the group owns the radius and shadow. */
+.item-card-group--list > .item-card {
+  @apply rounded-none bg-transparent shadow-none;
+}
+
+/*
+ * Divider between neighbouring rows, drawn on the row itself so the group needs
+ * no separator elements and stays correct for any children structure. It spans
+ * the full group width and occupies a row of layout, exactly like an <hr>.
+ */
+.item-card-group--list > * + * {
+  border-top: 1px solid var(--separator);
+}
+
+.item-card-group--list > [data-slot="item-card-group-header"] + *,
+.item-card-group--list > [data-slot="separator"] + *,
+.item-card-group--list > [data-slot="separator"] {
+  border-top-width: 0;
+}
+
+.item-card-group--grid {
+  @apply grid gap-3 overflow-visible bg-transparent shadow-none;
+  grid-template-columns: repeat(var(--item-card-group-columns, 2), minmax(0, 1fr));
+}
+
+.item-card-group--grid > [data-slot="item-card-group-header"] {
+  grid-column: 1 / -1;
+}
+
+.item-card-group--grid .item-card-group__header {
+  @apply p-0;
+}
+
+.item-card-group--grid > .item-card {
+  @apply rounded-2xl bg-surface shadow-surface;
+}

@@ -48,6 +48,7 @@ export * from "./input-otp/input-otp.styles";
 export * from "./input-phone/input-phone.styles";
 export * from "./input/input.styles";
 export * from "./item-card/item-card.styles";
+export * from "./item-card-group/item-card-group.styles";
 export * from "./kbd/kbd.styles";
 export * from "./label/label.styles";
 export * from "./link/link.styles";

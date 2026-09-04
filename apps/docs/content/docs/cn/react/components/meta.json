@@ -28,6 +28,7 @@
     "(data-display)/chip",
     "(data-display)/timeline",
     "(data-display)/item-card",
+    "(data-display)/item-card-group",
     "(buttons)/close-button",
     "(colors)/color-area",
     "(colors)/color-field",

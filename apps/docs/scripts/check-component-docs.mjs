@@ -22,6 +22,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "radio-button-group",
   "list-view",
   "item-card",
+  "item-card-group",
   "pressable-feedback",
   "resizable",
   "file-tree",

@@ -37,6 +37,7 @@ export * from "./date-picker";
 export * from "./date-range-picker";
 export * from "./drawer";
 export * from "./drop-zone";
+export * from "./item-card-group";
 export * from "./list-view";
 export * from "./file-tree";
 export * from "./item-card";
