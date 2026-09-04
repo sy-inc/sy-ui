@@ -20,10 +20,10 @@ const desktopMedia = (query: string): MediaQueryList =>
 const mobileMedia = (query: string): MediaQueryList =>
   ({...desktopMedia(query), matches: query === "(max-width: 767px)"}) as MediaQueryList;
 
-const FunctionalStateControl = () => {
-  const {setOpen} = useSidebar();
+const ExternalStateControl = () => {
+  const {isOpen, setOpen} = useSidebar();
 
-  return <button onClick={() => setOpen((isOpen) => !isOpen)}>Functional toggle</button>;
+  return <button onClick={() => setOpen(!isOpen)}>External toggle</button>;
 };
 
 describe("Sidebar", () => {
@@ -251,7 +251,9 @@ describe("Sidebar", () => {
       <Sidebar>
         <Sidebar.Panel>
           <Sidebar.Group>
-            <Sidebar.GroupLabel elementType="h2">Projects</Sidebar.GroupLabel>
+            <Sidebar.GroupLabel render={(props) => <h2 {...props}>{props.children}</h2>}>
+              Projects
+            </Sidebar.GroupLabel>
           </Sidebar.Group>
         </Sidebar.Panel>
       </Sidebar>,
@@ -359,6 +361,39 @@ describe("Sidebar", () => {
     expect(document.cookie).toContain("sidebar_state=false");
   });
 
+  it("supports disabling the keyboard shortcut", async () => {
+    const user = setupUser();
+
+    render(<SidebarFixture toggleShortcut={false} />);
+
+    await user.keyboard("{Control>}b{/Control}");
+
+    expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
+      "data-state",
+      "expanded",
+    );
+  });
+
+  it("ignores the keyboard shortcut while an editable element has focus", async () => {
+    const user = setupUser();
+
+    render(
+      <Sidebar>
+        <Sidebar.Panel aria-label="Workspace navigation">
+          <input aria-label="Search workspace" />
+        </Sidebar.Panel>
+      </Sidebar>,
+    );
+
+    await user.click(screen.getByRole("textbox", {name: "Search workspace"}));
+    await user.keyboard("{Control>}b{/Control}");
+
+    expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
+      "data-state",
+      "expanded",
+    );
+  });
+
   it("supports controlled desktop state", async () => {
     const user = setupUser();
     const onOpenChange = vi.fn();
@@ -383,47 +418,68 @@ describe("Sidebar", () => {
   });
 
   it("auto-collapses uncontrolled state when crossing the collapse breakpoint", () => {
-    let handleChange: ((event: MediaQueryListEvent) => void) | undefined;
+    let isBelowBreakpoint = false;
+    let notify: (() => void) | undefined;
+
     window.matchMedia = (query) => {
       const mediaQuery = desktopMedia(query);
 
-      if (query === "(max-width: 1024px)") {
-        mediaQuery.addEventListener = ((
-          _: string,
-          listener: EventListenerOrEventListenerObject,
-        ) => {
-          handleChange = listener as (event: MediaQueryListEvent) => void;
-        }) as MediaQueryList["addEventListener"];
-      }
+      if (query !== "(max-width: 1024px)") return mediaQuery;
 
-      return mediaQuery;
+      return {
+        ...mediaQuery,
+        addEventListener: ((_: string, listener: () => void) => {
+          notify = listener;
+        }) as MediaQueryList["addEventListener"],
+        get matches() {
+          return isBelowBreakpoint;
+        },
+      } as MediaQueryList;
     };
 
     render(<SidebarFixture collapseBreakpoint={1024} />);
 
-    act(() => handleChange?.({matches: true} as MediaQueryListEvent));
+    act(() => {
+      isBelowBreakpoint = true;
+      notify?.();
+    });
     expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
       "data-state",
       "collapsed",
     );
 
-    act(() => handleChange?.({matches: false} as MediaQueryListEvent));
+    act(() => {
+      isBelowBreakpoint = false;
+      notify?.();
+    });
     expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
       "data-state",
       "expanded",
     );
   });
 
-  it("supports functional desktop state updates", async () => {
+  it("starts collapsed when mounted below the collapse breakpoint", () => {
+    window.matchMedia = (query) =>
+      ({...desktopMedia(query), matches: query === "(max-width: 1024px)"}) as MediaQueryList;
+
+    render(<SidebarFixture collapseBreakpoint={1024} />);
+
+    expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
+      "data-state",
+      "collapsed",
+    );
+  });
+
+  it("exposes desktop state and setter through useSidebar", async () => {
     const user = setupUser();
 
     render(
       <Sidebar>
-        <FunctionalStateControl />
+        <ExternalStateControl />
       </Sidebar>,
     );
 
-    await user.click(screen.getByRole("button", {name: "Functional toggle"}));
+    await user.click(screen.getByRole("button", {name: "External toggle"}));
 
     expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
       "data-state",

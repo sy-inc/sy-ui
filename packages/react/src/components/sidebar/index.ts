@@ -116,7 +116,6 @@ export type {
   SidebarPanelProps,
   SidebarPartProps,
   SidebarGroupActionProps,
-  SidebarGroupLabelProps,
   SidebarInputProps,
   SidebarTriggerProps,
   SidebarRailProps,

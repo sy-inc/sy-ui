@@ -1,5 +1,6 @@
 import {render} from "@sy-inc/testing/browser";
 import {isDocumentScrollLocked} from "@sy-inc/testing/helpers";
+import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
 
 // Browser geometry tests load the generated CSS artifact directly.
@@ -54,6 +55,22 @@ describe("Sidebar (browser)", () => {
     await expect.element(trigger).toHaveFocus();
   });
 
+  it("does not reserve the desktop gap on the mobile SSR first paint", () => {
+    const container = document.createElement("div");
+
+    container.innerHTML = renderToString(<SidebarFixture />);
+    document.body.append(container);
+
+    try {
+      const gap = container.querySelector<HTMLElement>('[data-slot="sidebar-gap"]');
+
+      expect(gap).not.toBeNull();
+      expect(gap!.getBoundingClientRect().width).toBe(0);
+    } finally {
+      container.remove();
+    }
+  });
+
   it("renders the shadcn desktop geometry in expanded and icon states", async () => {
     window.matchMedia = (query) => ({
       ...originalMatchMedia(query),
@@ -77,6 +94,7 @@ describe("Sidebar (browser)", () => {
     // The browser test runner uses a mobile-sized iframe; force only presentation to desktop
     // while matchMedia remains desktop so geometry can be verified deterministically.
     panel.style.display = "flex";
+    gap.style.display = "block";
 
     expect(Math.round(panel.getBoundingClientRect().width)).toBe(256);
     expect(Math.round(gap.getBoundingClientRect().width)).toBe(256);
@@ -253,6 +271,7 @@ describe("Sidebar (browser)", () => {
     const trigger = page.getByRole("main").getByRole("button", {name: "Toggle sidebar"});
 
     panel.style.display = "flex";
+    gap.style.display = "block";
 
     expect(Math.round(panel.getBoundingClientRect().width)).toBe(240);
     expect(Math.round(gap.getBoundingClientRect().width)).toBe(256);

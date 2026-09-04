@@ -81,7 +81,9 @@ const SidebarNavigation = () => (
       </Sidebar.Group>
       <Sidebar.Separator />
       <Sidebar.Group>
-        <Sidebar.GroupLabel elementType="h2">Projects</Sidebar.GroupLabel>
+        <Sidebar.GroupLabel render={(props) => <h2 {...props}>{props.children}</h2>}>
+          Projects
+        </Sidebar.GroupLabel>
         <Sidebar.GroupAction aria-label="Add project">
           <Icon icon="gravity-ui:plus" />
         </Sidebar.GroupAction>

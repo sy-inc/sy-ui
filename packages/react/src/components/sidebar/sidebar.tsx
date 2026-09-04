@@ -4,14 +4,14 @@ import type {UseOverlayStateReturn} from "../../hooks";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {TooltipContentProps} from "../tooltip";
 import type {SidebarVariants} from "@sy-inc/styles";
-import type {CSSProperties, ReactNode, SetStateAction} from "react";
+import type {CSSProperties, ReactNode} from "react";
 import type {ButtonProps, LinkProps} from "react-aria-components";
 
-import {sidebarVariants} from "@sy-inc/styles";
+import {mobileMediaQuery, sidebarVariants} from "@sy-inc/styles";
 import React from "react";
 
 import {useMediaQuery, useOverlayState} from "../../hooks";
-import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
+import {composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {Button} from "../button";
 import {Drawer} from "../drawer";
@@ -25,6 +25,18 @@ const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
+/**
+ * Only `base` carries variant classes, so every other slot resolves to a constant string.
+ * Resolving them once at module scope keeps the parts out of the context subscription — a toggle
+ * no longer re-renders every menu item just to hand it back the same class name.
+ */
+const slots = sidebarVariants();
+
+type SidebarSlot = keyof typeof slots;
+
+const slotClass = (slot: SidebarSlot, className?: string) =>
+  (slots[slot] as (props?: {className?: string}) => string)({className});
+
 type SidebarState = "collapsed" | "expanded";
 type SidebarSide = NonNullable<SidebarVariants["side"]>;
 type SidebarVariant = NonNullable<SidebarVariants["variant"]>;
@@ -35,8 +47,8 @@ interface SidebarContextValue {
   isOpen: boolean;
   isOpenMobile: boolean;
   panelId: string;
-  setOpen: (isOpen: SetStateAction<boolean>) => void;
-  setOpenMobile: (isOpen: SetStateAction<boolean>) => void;
+  setOpen: (isOpen: boolean) => void;
+  setOpenMobile: (isOpen: boolean) => void;
   state: SidebarState;
   toggle: () => void;
 }
@@ -46,8 +58,6 @@ interface SidebarInternalContextValue extends SidebarContextValue {
   mobileState: UseOverlayStateReturn;
   mobileWidth: string;
   side: SidebarSide;
-  slots: ReturnType<typeof sidebarVariants>;
-  variant: SidebarVariant;
 }
 
 const SidebarContext = React.createContext<SidebarInternalContextValue | null>(null);
@@ -60,19 +70,8 @@ const useSidebarContext = () => {
   return context;
 };
 
-const useSidebar = (): SidebarContextValue => {
-  const {
-    collapsible: _collapsible,
-    mobileState: _mobileState,
-    mobileWidth: _mobileWidth,
-    side: _side,
-    slots: _slots,
-    variant: _variant,
-    ...context
-  } = useSidebarContext();
-
-  return context;
-};
+/** Public state and setters for custom sidebar children. */
+const useSidebar = (): SidebarContextValue => useSidebarContext();
 
 type SidebarVariables = CSSProperties & {
   "--sidebar-width"?: string;
@@ -81,6 +80,13 @@ type SidebarVariables = CSSProperties & {
 };
 
 const toCSSLength = (value: number | string) => (typeof value === "number" ? `${value}px` : value);
+
+const isEditableTarget = (target: EventTarget | null) =>
+  target instanceof HTMLElement &&
+  (target.isContentEditable ||
+    target.tagName === "INPUT" ||
+    target.tagName === "TEXTAREA" ||
+    target.tagName === "SELECT");
 
 /* -------------------------------------------------------------------------------------------------
  * Sidebar Root
@@ -101,6 +107,12 @@ interface SidebarRootProps
   onOpenChange?: (isOpen: boolean) => void;
   /** Viewport width (px) at or below which the uncontrolled sidebar auto-collapses. */
   collapseBreakpoint?: number;
+  /**
+   * Key that toggles the sidebar when pressed with `⌘`/`Ctrl`. Pass `false` to disable the
+   * shortcut — e.g. when the app embeds a rich text editor that owns `⌘B`.
+   * @default "b"
+   */
+  toggleShortcut?: string | false;
 }
 
 const SidebarRoot = ({
@@ -115,6 +127,7 @@ const SidebarRoot = ({
   onOpenChange,
   side = "left",
   style,
+  toggleShortcut = SIDEBAR_KEYBOARD_SHORTCUT,
   variant = "sidebar",
   width = "16rem",
   ...props
@@ -125,45 +138,38 @@ const SidebarRoot = ({
     onOpenChange,
   });
   const mobileState = useOverlayState();
-  const isMobile = useMediaQuery("(max-width: 767px)", {initializeWithValue: false});
+  const isMobile = useMediaQuery(mobileMediaQuery);
+  // `not all` never matches, so the hook stays mounted while the feature is off.
+  const isBelowCollapseBreakpoint = useMediaQuery(
+    collapseBreakpoint == null ? "not all" : `(max-width: ${collapseBreakpoint}px)`,
+  );
   const panelId = React.useId();
   const mobileWidthValue = toCSSLength(mobileWidth);
   const {isOpen: isOpenDesktop, setOpen: setDesktopOpen} = desktopState;
   const state: SidebarState = isOpenDesktop ? "expanded" : "collapsed";
-  const slots = React.useMemo(
-    () => sidebarVariants({collapsible, side, state, variant}),
-    [collapsible, side, state, variant],
-  );
   const {
     close: closeMobile,
     isOpen: isOpenMobile,
-    setOpen: setMobileOpen,
+    setOpen: setOpenMobile,
     toggle: toggleMobile,
   } = mobileState;
   const setOpen = React.useCallback(
-    (nextOpen: SetStateAction<boolean>) => {
-      const nextIsOpen = typeof nextOpen === "function" ? nextOpen(isOpenDesktop) : nextOpen;
-
+    (nextIsOpen: boolean) => {
       setDesktopOpen(nextIsOpen);
       document.cookie = `${SIDEBAR_COOKIE_NAME}=${nextIsOpen}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
     },
-    [isOpenDesktop, setDesktopOpen],
-  );
-  const setOpenMobile = React.useCallback(
-    (nextOpen: SetStateAction<boolean>) => {
-      setMobileOpen(typeof nextOpen === "function" ? nextOpen(isOpenMobile) : nextOpen);
-    },
-    [isOpenMobile, setMobileOpen],
+    [setDesktopOpen],
   );
   const toggle = React.useCallback(() => {
     if (isMobile) toggleMobile();
     else setOpen(!isOpenDesktop);
   }, [isMobile, isOpenDesktop, setOpen, toggleMobile]);
+  const toggleRef = React.useRef(toggle);
   const context = React.useMemo<SidebarInternalContextValue>(
     () => ({
       collapsible,
       isMobile,
-      isOpen: state === "expanded",
+      isOpen: isOpenDesktop,
       isOpenMobile,
       mobileState,
       mobileWidth: mobileWidthValue,
@@ -171,14 +177,13 @@ const SidebarRoot = ({
       setOpen,
       setOpenMobile,
       side,
-      slots,
       state,
       toggle,
-      variant,
     }),
     [
       collapsible,
       isMobile,
+      isOpenDesktop,
       isOpenMobile,
       mobileState,
       mobileWidthValue,
@@ -186,10 +191,8 @@ const SidebarRoot = ({
       setOpen,
       setOpenMobile,
       side,
-      slots,
       state,
       toggle,
-      variant,
     ],
   );
   const rootStyle: SidebarVariables = {
@@ -203,37 +206,39 @@ const SidebarRoot = ({
     if (!isMobile) closeMobile();
   }, [closeMobile, isMobile]);
 
+  // Applies on mount as well as on resize, so loading below the breakpoint starts collapsed.
   React.useEffect(() => {
     if (collapseBreakpoint == null || collapsible === "none") return;
-
-    const mediaQuery = window.matchMedia(`(max-width: ${collapseBreakpoint}px)`);
-    const handleChange = (event: MediaQueryListEvent) => {
-      if (controlledIsOpen === undefined) setOpen(!event.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [collapseBreakpoint, collapsible, controlledIsOpen, setOpen]);
+    if (controlledIsOpen === undefined) setOpen(!isBelowCollapseBreakpoint);
+  }, [collapseBreakpoint, collapsible, controlledIsOpen, isBelowCollapseBreakpoint, setOpen]);
 
   React.useEffect(() => {
+    toggleRef.current = toggle;
+  }, [toggle]);
+
+  React.useEffect(() => {
+    if (toggleShortcut === false) return;
+
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault();
-        toggle();
-      }
+      if (event.key !== toggleShortcut) return;
+      if (!event.metaKey && !event.ctrlKey) return;
+      // Never steal the shortcut from a field the user is typing in (⌘B is bold in most editors).
+      if (isEditableTarget(event.target)) return;
+
+      event.preventDefault();
+      toggleRef.current();
     };
 
     window.addEventListener("keydown", handleKeyDown);
 
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [toggle]);
+  }, [toggleShortcut]);
 
   return (
     <SidebarContext value={context}>
       <div
         {...props}
-        className={slots.base({className})}
+        className={sidebarVariants({collapsible, side, state, variant}).base({className})}
         data-collapsible={collapsible}
         data-side={side}
         data-slot="sidebar"
@@ -263,34 +268,33 @@ const SidebarPanel = ({
   description = "Displays the mobile sidebar.",
   ...props
 }: SidebarPanelProps) => {
-  const {collapsible, isMobile, mobileState, mobileWidth, panelId, side, slots} =
-    useSidebarContext();
+  const {collapsible, isMobile, mobileState, mobileWidth, panelId, side} = useSidebarContext();
   const descriptionId = `${panelId}-description`;
 
   if (isMobile && collapsible !== "none") {
     return (
       <Drawer.Root state={mobileState}>
-        <Drawer.Trigger aria-hidden isDisabled className={slots.mobileTrigger()} />
-        <Drawer.Backdrop className={slots.mobileBackdrop()}>
-          <Drawer.Content className={slots.mobileContent()} placement={side}>
+        <Drawer.Backdrop className={slotClass("mobileBackdrop")}>
+          <Drawer.Content className={slotClass("mobileContent")} placement={side}>
             <Drawer.Dialog
               {...(props as any)}
               aria-describedby={description ? descriptionId : undefined}
               aria-label={ariaLabel}
-              className={slots.mobileDialog({className})}
+              className={slotClass("mobileDialog", className)}
               data-mobile="true"
               data-slot="sidebar-panel"
               id={panelId}
               style={
                 {
                   ...props.style,
+                  // The drawer is portalled out of the root, so it cannot inherit the variable.
                   "--sidebar-width-mobile": mobileWidth,
                 } as SidebarVariables
               }
             >
               {description ? (
                 <span
-                  className={slots.mobileDescription()}
+                  className={slotClass("mobileDescription")}
                   data-slot="sidebar-description"
                   id={descriptionId}
                 >
@@ -309,7 +313,7 @@ const SidebarPanel = ({
     <aside
       {...props}
       aria-label={ariaLabel}
-      className={slots.panel({className})}
+      className={slotClass("panel", className)}
       data-side={side}
       data-slot="sidebar-panel"
       id={panelId}
@@ -322,7 +326,7 @@ const SidebarPanel = ({
 
   return (
     <>
-      <div aria-hidden="true" className={slots.gap()} data-slot="sidebar-gap" />
+      <div aria-hidden="true" className={slotClass("gap")} data-slot="sidebar-gap" />
       {panel}
     </>
   );
@@ -340,22 +344,18 @@ interface SidebarPartProps<
 
 const createPart = <E extends keyof React.JSX.IntrinsicElements>(
   element: E,
-  slot: "content" | "footer" | "group" | "header" | "inset",
+  slot: SidebarSlot,
+  dataSlot: string,
   displayName: string,
 ) => {
   const Part = ({
     className,
     ...props
   }: SidebarPartProps<E> & Omit<React.JSX.IntrinsicElements[E], keyof SidebarPartProps<E>>) => {
-    const {slots} = useSidebarContext();
     const Element = dom[element] as typeof dom.div;
 
     return (
-      <Element
-        {...(props as any)}
-        className={composeSlotClassName(slots[slot], className)}
-        data-slot={`sidebar-${slot}`}
-      />
+      <Element {...(props as any)} className={slotClass(slot, className)} data-slot={dataSlot} />
     );
   };
 
@@ -364,169 +364,161 @@ const createPart = <E extends keyof React.JSX.IntrinsicElements>(
   return Part;
 };
 
-const SidebarHeader = createPart("header", "header", "SY INC.Sidebar.Header");
-const SidebarContent = createPart("div", "content", "SY INC.Sidebar.Content");
-const SidebarFooter = createPart("footer", "footer", "SY INC.Sidebar.Footer");
-const SidebarGroup = createPart("section", "group", "SY INC.Sidebar.Group");
-const SidebarInset = createPart("main", "inset", "SY INC.Sidebar.Inset");
-
-interface SidebarInputProps extends React.ComponentPropsWithRef<typeof Input> {}
-
-const SidebarInput = ({className, ...props}: SidebarInputProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <Input
-      {...props}
-      className={composeTwRenderProps(className, slots.input())}
-      data-slot="sidebar-input"
-    />
-  );
-};
-
-interface SidebarSeparatorProps extends React.ComponentPropsWithRef<typeof Separator> {}
-
-const SidebarSeparator = ({className, ...props}: SidebarSeparatorProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <Separator {...props} className={slots.separator({className})} data-slot="sidebar-separator" />
-  );
-};
-
-type SidebarElementProps<E extends keyof React.JSX.IntrinsicElements> =
-  React.ComponentPropsWithRef<E>;
-
-const createMenuPart = <E extends keyof React.JSX.IntrinsicElements>(
-  element: E,
-  slot:
-    | "groupContent"
-    | "groupLabel"
-    | "menu"
-    | "menuBadge"
-    | "menuItem"
-    | "menuSub"
-    | "menuSubItem",
-  dataSlot: string,
-  displayName: string,
-) => {
-  const Part = ({className, ...props}: SidebarElementProps<E>) => {
-    const {slots} = useSidebarContext();
-    const Element = dom[element] as typeof dom.div;
-
-    return (
-      <Element {...(props as any)} className={slots[slot]({className})} data-slot={dataSlot} />
-    );
-  };
-
-  Part.displayName = displayName;
-
-  return Part;
-};
-
-interface SidebarGroupLabelProps extends React.HTMLAttributes<HTMLElement> {
-  elementType?: React.ElementType;
-}
-
-const SidebarGroupLabel = ({
-  className,
-  elementType: Element = "div",
-  ...props
-}: SidebarGroupLabelProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <Element {...props} className={slots.groupLabel({className})} data-slot="sidebar-group-label" />
-  );
-};
-const SidebarGroupContent = createMenuPart(
+const SidebarHeader = createPart("header", "header", "sidebar-header", "SY INC.Sidebar.Header");
+const SidebarContent = createPart("div", "content", "sidebar-content", "SY INC.Sidebar.Content");
+const SidebarFooter = createPart("footer", "footer", "sidebar-footer", "SY INC.Sidebar.Footer");
+const SidebarGroup = createPart("section", "group", "sidebar-group", "SY INC.Sidebar.Group");
+const SidebarInset = createPart("main", "inset", "sidebar-inset", "SY INC.Sidebar.Inset");
+const SidebarGroupLabel = createPart(
+  "div",
+  "groupLabel",
+  "sidebar-group-label",
+  "SY INC.Sidebar.GroupLabel",
+);
+const SidebarGroupContent = createPart(
   "div",
   "groupContent",
   "sidebar-group-content",
   "SY INC.Sidebar.GroupContent",
 );
-
-interface SidebarGroupActionProps extends Omit<ButtonProps, "className"> {
-  className?: ButtonProps["className"];
-}
-
-const SidebarGroupAction = ({className, ...props}: SidebarGroupActionProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <Button.Root
-      {...props}
-      className={composeTwRenderProps(className, slots.groupAction())}
-      data-slot="sidebar-group-action"
-      variant="ghost"
-    />
-  );
-};
-
-const SidebarMenu = createMenuPart("ul", "menu", "sidebar-menu", "SY INC.Sidebar.Menu");
-
-export interface SidebarMenuItemProps extends SidebarElementProps<"li"> {
-  /** Hides this item while the sidebar is collapsed. */
-  hideCollapsed?: boolean;
-}
-
-const SidebarMenuItem = ({className, hideCollapsed, ...props}: SidebarMenuItemProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <li
-      {...props}
-      className={slots.menuItem({className})}
-      data-hide-collapsed={hideCollapsed || undefined}
-      data-slot="sidebar-menu-item"
-    />
-  );
-};
-SidebarMenuItem.displayName = "SY INC.Sidebar.MenuItem";
-
-const SidebarMenuBadge = createMenuPart(
+const SidebarMenu = createPart("ul", "menu", "sidebar-menu", "SY INC.Sidebar.Menu");
+const SidebarMenuBadge = createPart(
   "div",
   "menuBadge",
   "sidebar-menu-badge",
   "SY INC.Sidebar.MenuBadge",
 );
-
-interface SidebarMenuActionProps extends Omit<ButtonProps, "className"> {
-  className?: ButtonProps["className"];
-  showOnHover?: boolean;
-}
-
-const SidebarMenuAction = ({className, showOnHover = false, ...props}: SidebarMenuActionProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <Button.Root
-      {...props}
-      className={composeTwRenderProps(className, slots.menuAction())}
-      data-show-on-hover={showOnHover || undefined}
-      data-slot="sidebar-menu-action"
-      variant="ghost"
-    />
-  );
-};
-
-const SidebarMenuSub = createMenuPart("ul", "menuSub", "sidebar-menu-sub", "SY INC.Sidebar.MenuSub");
-const SidebarMenuSubItem = createMenuPart(
+const SidebarMenuSub = createPart("ul", "menuSub", "sidebar-menu-sub", "SY INC.Sidebar.MenuSub");
+const SidebarMenuSubItem = createPart(
   "li",
   "menuSubItem",
   "sidebar-menu-sub-item",
   "SY INC.Sidebar.MenuSubItem",
 );
 
+interface SidebarInputProps extends React.ComponentPropsWithRef<typeof Input> {}
+
+const SidebarInput = ({className, ...props}: SidebarInputProps) => (
+  <Input
+    {...props}
+    className={composeTwRenderProps(className, slotClass("input"))}
+    data-slot="sidebar-input"
+  />
+);
+
+interface SidebarSeparatorProps extends React.ComponentPropsWithRef<typeof Separator> {}
+
+const SidebarSeparator = ({className, ...props}: SidebarSeparatorProps) => (
+  <Separator
+    {...props}
+    className={slotClass("separator", className)}
+    data-slot="sidebar-separator"
+  />
+);
+
+type SidebarElementProps<E extends keyof React.JSX.IntrinsicElements> =
+  React.ComponentPropsWithRef<E>;
+
+interface SidebarGroupActionProps extends Omit<ButtonProps, "className"> {
+  className?: ButtonProps["className"];
+}
+
+const SidebarGroupAction = ({className, ...props}: SidebarGroupActionProps) => (
+  <Button.Root
+    {...props}
+    className={composeTwRenderProps(className, slotClass("groupAction"))}
+    data-slot="sidebar-group-action"
+    variant="ghost"
+  />
+);
+
+export interface SidebarMenuItemProps extends SidebarElementProps<"li"> {
+  /** Hides this item while the sidebar is collapsed. */
+  hideCollapsed?: boolean;
+}
+
+const SidebarMenuItem = ({className, hideCollapsed, ...props}: SidebarMenuItemProps) => (
+  <li
+    {...props}
+    className={slotClass("menuItem", className)}
+    data-hide-collapsed={hideCollapsed || undefined}
+    data-slot="sidebar-menu-item"
+  />
+);
+
+SidebarMenuItem.displayName = "SY INC.Sidebar.MenuItem";
+
+interface SidebarMenuActionProps extends Omit<ButtonProps, "className"> {
+  className?: ButtonProps["className"];
+  showOnHover?: boolean;
+}
+
+const SidebarMenuAction = ({className, showOnHover = false, ...props}: SidebarMenuActionProps) => (
+  <Button.Root
+    {...props}
+    className={composeTwRenderProps(className, slotClass("menuAction"))}
+    data-show-on-hover={showOnHover || undefined}
+    data-slot="sidebar-menu-action"
+    variant="ghost"
+  />
+);
+
 type SidebarButtonProps =
   | (Omit<LinkProps, "className"> & {className?: LinkProps["className"]; href: string})
   | (Omit<ButtonProps, "className"> & {className?: ButtonProps["className"]; href?: never});
+
+/**
+ * Renders a Link when `href` is present and a ghost Button otherwise. The public prop types on
+ * MenuButton / MenuSubButton keep the two shapes apart for consumers; internally the branch is
+ * one component so a new data attribute only has to be added once.
+ */
+type SidebarControlProps = Omit<ButtonProps, "className"> & {
+  "aria-current"?: React.AriaAttributes["aria-current"];
+  className?: ButtonProps["className"] | LinkProps["className"];
+  href?: string;
+  slotClassName: string;
+};
+
+const SidebarControl = ({className, href, slotClassName, ...props}: SidebarControlProps) => {
+  const Control = (href !== undefined ? Link.Root : Button.Root) as typeof Button.Root;
+  const controlProps = href !== undefined ? {href} : {variant: "ghost" as const};
+
+  return (
+    <Control
+      {...(props as ButtonProps)}
+      {...(controlProps as object)}
+      className={composeTwRenderProps(className as ButtonProps["className"], slotClassName)}
+    />
+  );
+};
 
 type SidebarMenuButtonProps = SidebarButtonProps & {
   isActive?: boolean;
   size?: "default" | "lg" | "sm";
   tooltip?: string | TooltipContentProps;
   variant?: "default" | "outline";
+};
+
+/**
+ * Split out so that only tooltip-bearing buttons subscribe to the sidebar context — plain menu
+ * buttons then stay inert when the sidebar opens or closes.
+ */
+const SidebarMenuButtonTooltip = ({
+  children,
+  tooltip,
+}: {
+  children: ReactNode;
+  tooltip: string | TooltipContentProps;
+}) => {
+  const {isMobile, side, state} = useSidebarContext();
+  const tooltipProps = typeof tooltip === "string" ? {children: tooltip} : tooltip;
+
+  return (
+    <Tooltip isDisabled={isMobile || state !== "collapsed"}>
+      {children}
+      <Tooltip.Content placement={side === "left" ? "right" : "left"} {...tooltipProps} />
+    </Tooltip>
+  );
 };
 
 const SidebarMenuButton = ({
@@ -538,68 +530,25 @@ const SidebarMenuButton = ({
   variant = "default",
   ...props
 }: SidebarMenuButtonProps) => {
-  const {isMobile, side, slots, state} = useSidebarContext();
   const ariaLabel = props["aria-label"] ?? (typeof tooltip === "string" ? tooltip : undefined);
-  const menuButtonClassName = slots.menuButton();
-
-  const control =
-    href !== undefined ? (
-      <Link.Root
-        {...(props as LinkProps)}
-        aria-current={isActive ? "page" : undefined}
-        aria-label={ariaLabel}
-        className={composeTwRenderProps(className as LinkProps["className"], menuButtonClassName)}
-        data-active={isActive || undefined}
-        data-size={size}
-        data-slot="sidebar-menu-button"
-        data-variant={variant}
-        href={href}
-      />
-    ) : (
-      <Button.Root
-        {...(props as ButtonProps)}
-        aria-label={ariaLabel}
-        className={composeTwRenderProps(className as ButtonProps["className"], menuButtonClassName)}
-        data-active={isActive || undefined}
-        data-size={size}
-        data-slot="sidebar-menu-button"
-        data-variant={variant}
-        variant="ghost"
-      />
-    );
+  const control = (
+    <SidebarControl
+      {...(props as any)}
+      aria-current={href !== undefined && isActive ? "page" : undefined}
+      aria-label={ariaLabel}
+      className={className}
+      data-active={isActive || undefined}
+      data-size={size}
+      data-slot="sidebar-menu-button"
+      data-variant={variant}
+      href={href as string}
+      slotClassName={slotClass("menuButton")}
+    />
+  );
 
   if (!tooltip) return control;
 
-  const tooltipProps = typeof tooltip === "string" ? {children: tooltip} : tooltip;
-
-  return (
-    <Tooltip isDisabled={isMobile || state !== "collapsed"}>
-      {control}
-      <Tooltip.Content placement={side === "left" ? "right" : "left"} {...tooltipProps} />
-    </Tooltip>
-  );
-};
-
-interface SidebarMenuSkeletonProps extends React.ComponentPropsWithRef<"div"> {
-  showIcon?: boolean;
-}
-
-const SidebarMenuSkeleton = ({className, showIcon = false, ...props}: SidebarMenuSkeletonProps) => {
-  const {slots} = useSidebarContext();
-
-  return (
-    <div
-      aria-hidden="true"
-      {...props}
-      className={slots.menuSkeleton({className})}
-      data-slot="sidebar-menu-skeleton"
-    >
-      {showIcon && (
-        <Skeleton className={slots.menuSkeletonIcon()} data-slot="sidebar-menu-skeleton-icon" />
-      )}
-      <Skeleton className={slots.menuSkeletonText()} data-slot="sidebar-menu-skeleton-text" />
-    </div>
-  );
+  return <SidebarMenuButtonTooltip tooltip={tooltip}>{control}</SidebarMenuButtonTooltip>;
 };
 
 type SidebarMenuSubButtonProps = SidebarButtonProps & {
@@ -613,34 +562,36 @@ const SidebarMenuSubButton = ({
   isActive = false,
   size = "md",
   ...props
-}: SidebarMenuSubButtonProps) => {
-  const {slots} = useSidebarContext();
-  const menuSubButtonClassName = slots.menuSubButton();
+}: SidebarMenuSubButtonProps) => (
+  <SidebarControl
+    {...(props as any)}
+    aria-current={href !== undefined && isActive ? "page" : undefined}
+    className={className}
+    data-active={isActive || undefined}
+    data-size={size}
+    data-slot="sidebar-menu-sub-button"
+    href={href as string}
+    slotClassName={slotClass("menuSubButton")}
+  />
+);
 
-  return href !== undefined ? (
-    <Link.Root
-      {...(props as LinkProps)}
-      aria-current={isActive ? "page" : undefined}
-      className={composeTwRenderProps(className as LinkProps["className"], menuSubButtonClassName)}
-      data-active={isActive || undefined}
-      data-size={size}
-      data-slot="sidebar-menu-sub-button"
-      href={href}
-    />
-  ) : (
-    <Button.Root
-      {...(props as ButtonProps)}
-      className={composeTwRenderProps(
-        className as ButtonProps["className"],
-        menuSubButtonClassName,
-      )}
-      data-active={isActive || undefined}
-      data-size={size}
-      data-slot="sidebar-menu-sub-button"
-      variant="ghost"
-    />
-  );
-};
+interface SidebarMenuSkeletonProps extends React.ComponentPropsWithRef<"div"> {
+  showIcon?: boolean;
+}
+
+const SidebarMenuSkeleton = ({className, showIcon = false, ...props}: SidebarMenuSkeletonProps) => (
+  <div
+    aria-hidden="true"
+    {...props}
+    className={slotClass("menuSkeleton", className)}
+    data-slot="sidebar-menu-skeleton"
+  >
+    {showIcon && (
+      <Skeleton className={slotClass("menuSkeletonIcon")} data-slot="sidebar-menu-skeleton-icon" />
+    )}
+    <Skeleton className={slotClass("menuSkeletonText")} data-slot="sidebar-menu-skeleton-text" />
+  </div>
+);
 
 /* -------------------------------------------------------------------------------------------------
  * Sidebar Trigger
@@ -654,7 +605,7 @@ const SidebarTrigger = ({
   onPress,
   ...props
 }: SidebarTriggerProps) => {
-  const {isMobile, isOpen, isOpenMobile, panelId, slots, toggle} = useSidebarContext();
+  const {isMobile, isOpen, isOpenMobile, panelId, toggle} = useSidebarContext();
 
   return (
     <Button.Root
@@ -662,7 +613,7 @@ const SidebarTrigger = ({
       aria-controls={panelId}
       aria-expanded={isMobile ? isOpenMobile : isOpen}
       aria-label={ariaLabel}
-      className={composeTwRenderProps(className, slots.trigger())}
+      className={composeTwRenderProps(className, slotClass("trigger"))}
       data-slot="sidebar-trigger"
       isIconOnly={children == null}
       variant="ghost"
@@ -690,13 +641,13 @@ const SidebarRail = ({
   type = "button",
   ...props
 }: SidebarRailProps) => {
-  const {slots, toggle} = useSidebarContext();
+  const {toggle} = useSidebarContext();
 
   return (
     <button
       {...props}
       aria-label={ariaLabel}
-      className={slots.rail({className})}
+      className={slotClass("rail", className)}
       data-slot="sidebar-rail"
       tabIndex={tabIndex}
       title={title}
@@ -757,7 +708,6 @@ export type {
   SidebarPanelProps,
   SidebarPartProps,
   SidebarGroupActionProps,
-  SidebarGroupLabelProps,
   SidebarInputProps,
   SidebarSeparatorProps,
   SidebarTriggerProps,

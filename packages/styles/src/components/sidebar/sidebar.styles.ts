@@ -36,7 +36,6 @@ export const sidebarVariants = tv({
     mobileContent: "sidebar__mobile-content",
     mobileDescription: "sidebar__mobile-description",
     mobileDialog: "sidebar__mobile-dialog",
-    mobileTrigger: "sidebar__mobile-trigger",
     panel: "sidebar__panel",
     rail: "sidebar__rail",
     separator: "sidebar__separator",
@@ -54,12 +53,14 @@ export const sidebarVariants = tv({
     },
     state: {
       collapsed: {base: "sidebar--collapsed"},
-      expanded: {base: "sidebar--expanded"},
+      // The expanded state is exposed on the root as `data-state`; no class needed.
+      expanded: {base: ""},
     },
     variant: {
       floating: {base: "sidebar--floating"},
       inset: {base: "sidebar--inset"},
-      sidebar: {base: "sidebar--default"},
+      // The default variant is exposed on the root as `data-variant`; no class needed.
+      sidebar: {base: ""},
     },
   },
 });

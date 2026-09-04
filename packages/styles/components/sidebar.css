@@ -211,6 +211,7 @@
   @apply absolute top-1 right-1 size-6 p-0;
 }
 
+/* Keep in sync with MOBILE_BREAKPOINT in src/utils/index.ts. */
 @media (min-width: 768px) {
   .sidebar__menu-action.button[data-show-on-hover="true"] {
     @apply opacity-0;
@@ -376,16 +377,14 @@
   @apply sr-only;
 }
 
-.sidebar__mobile-trigger {
-  @apply hidden;
-}
-
 .sidebar__mobile-backdrop.drawer__backdrop {
   @apply z-50;
 }
 
+/* Keep in sync with MOBILE_BREAKPOINT in src/utils/index.ts — Sidebar branches on it in JS. */
 @media (max-width: 767px) {
-  .sidebar__panel {
+  .sidebar__panel,
+  .sidebar__gap {
     @apply hidden;
   }
 

@@ -6,7 +6,7 @@ import type {ToastVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentPropsWithRef, ReactNode} from "react";
 import type {QueuedToast, ToastProps as ToastPrimitiveProps} from "react-aria-components/Toast";
 
-import {toastVariants} from "@sy-inc/styles";
+import {mobileMediaQuery, toastVariants} from "@sy-inc/styles";
 import React, {
   createContext,
   use,
@@ -374,7 +374,7 @@ const ToastProvider = <T extends object = ToastContentValue>({
   ...rest
 }: ToastProviderProps<T>) => {
   const slots = useMemo(() => toastVariants({placement}), [placement]);
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery(mobileMediaQuery);
   const [toastHeights, setToastHeights] = React.useState<Record<string, number>>({});
 
   const toastQueue = useMemo((): StatelyToastQueue<T> => {

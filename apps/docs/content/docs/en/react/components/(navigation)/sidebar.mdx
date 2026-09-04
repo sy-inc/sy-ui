@@ -78,9 +78,10 @@ Submenus use `MenuSub`, `MenuSubItem`, and `MenuSubButton`; loading rows use `Me
 | `width` / `collapsedWidth` / `mobileWidth` | `number \| string` | `16rem` / `3rem` / `18rem` | Panel widths; numbers are pixels. |
 | `defaultOpen` | `boolean` | `true` | Initial uncontrolled desktop state. |
 | `isOpen` / `onOpenChange` | controlled state | - | Controlled desktop state. |
-| `collapseBreakpoint` | `number` | - | Auto-collapse threshold for uncontrolled desktop state. |
+| `collapseBreakpoint` | `number` | - | Auto-collapse threshold for uncontrolled desktop state; applied on mount as well as on resize. |
+| `toggleShortcut` | `string \| false` | `"b"` | Key that toggles the sidebar with `Ctrl`/`⌘`. Pass `false` to disable. |
 
-At 767px and below, a collapsible panel is rendered as a Drawer. `Sidebar.Trigger`, `Sidebar.Rail`, and `Ctrl/⌘ + B` toggle the appropriate desktop or mobile state. Desktop changes are persisted to the `sidebar_state` cookie. `useSidebar()` exposes the current state and state setters to custom children.
+At 767px and below, a collapsible panel is rendered as a Drawer. `Sidebar.Trigger`, `Sidebar.Rail`, and `Ctrl/⌘ + B` toggle the appropriate desktop or mobile state. The shortcut is ignored while an input, textarea, select, or contenteditable element has focus, and can be turned off with `toggleShortcut={false}`. Desktop changes are persisted to the `sidebar_state` cookie. `useSidebar()` exposes the current state and state setters (`setOpen(isOpen)` / `setOpenMobile(isOpen)`, boolean only) to custom children.
 
 `Sidebar.MenuButton` renders a link when `href` is supplied and a button otherwise. `isActive` adds `aria-current="page"` for links. Tooltips are shown only while the desktop sidebar is icon-collapsed.
 

@@ -78,9 +78,10 @@ export default function Example() {
 | `width` / `collapsedWidth` / `mobileWidth` | `number \| string` | `16rem` / `3rem` / `18rem` | 面板宽度；数字按像素处理。 |
 | `defaultOpen` | `boolean` | `true` | 非受控桌面状态初值。 |
 | `isOpen` / `onOpenChange` | 受控状态 | - | 受控桌面状态。 |
-| `collapseBreakpoint` | `number` | - | 非受控桌面状态自动折叠阈值。 |
+| `collapseBreakpoint` | `number` | - | 非受控桌面状态自动折叠阈值；挂载时与缩放时都会生效。 |
+| `toggleShortcut` | `string \| false` | `"b"` | 配合 `Ctrl`/`⌘` 切换侧边栏的按键，传 `false` 可关闭。 |
 
-在 767px 及以下，允许折叠的面板会渲染为 Drawer。`Sidebar.Trigger`、`Sidebar.Rail` 与 `Ctrl/⌘ + B` 会切换当前桌面或移动端状态。桌面状态变化写入 `sidebar_state` cookie。自定义子组件可通过 `useSidebar()` 获取状态与 setter。
+在 767px 及以下，允许折叠的面板会渲染为 Drawer。`Sidebar.Trigger`、`Sidebar.Rail` 与 `Ctrl/⌘ + B` 会切换当前桌面或移动端状态；当焦点位于输入框、文本域、下拉或可编辑区域时快捷键不会触发，也可通过 `toggleShortcut={false}` 关闭。桌面状态变化写入 `sidebar_state` cookie。自定义子组件可通过 `useSidebar()` 获取状态与 setter（`setOpen(isOpen)` / `setOpenMobile(isOpen)`，仅接受布尔值）。
 
 `Sidebar.MenuButton` 有 `href` 时渲染链接，否则渲染按钮。链接的 `isActive` 会添加 `aria-current="page"`。Tooltip 仅在桌面端图标折叠状态显示。
 

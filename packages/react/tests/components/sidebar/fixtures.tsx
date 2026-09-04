@@ -5,6 +5,7 @@ const TestIcon = () => <svg aria-hidden="true" data-icon viewBox="0 0 16 16" />;
 
 export interface SidebarFixtureProps {
   collapsible?: "icon" | "none" | "offcanvas";
+  toggleShortcut?: string | false;
   collapseBreakpoint?: number;
   defaultOpen?: boolean;
   isOpen?: boolean;
@@ -20,6 +21,7 @@ export const SidebarFixture = ({
   isOpen,
   onOpenChange,
   side,
+  toggleShortcut,
   variant,
 }: SidebarFixtureProps) => (
   <Sidebar
@@ -28,6 +30,7 @@ export const SidebarFixture = ({
     defaultOpen={defaultOpen}
     isOpen={isOpen}
     side={side}
+    toggleShortcut={toggleShortcut}
     variant={variant}
     onOpenChange={onOpenChange}
   >

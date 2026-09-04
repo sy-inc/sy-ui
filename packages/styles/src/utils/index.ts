@@ -11,3 +11,16 @@ export const disabledClasses =
 
 export const ariaDisabledClasses =
   "aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed aria-disabled:opacity-[var(--disabled-opacity)]";
+
+/**
+ * Viewport width (px) at which the layout switches from mobile to desktop.
+ * Mirrors Tailwind's `md` breakpoint.
+ *
+ * IMPORTANT: components that branch on this in JS (Sidebar, Toast) must stay in sync with the
+ * `@media (min-width: 768px)` / `@media (max-width: 767px)` rules in `components/*.css`.
+ * A mismatch means the CSS and the React tree disagree about which layout is showing.
+ */
+export const MOBILE_BREAKPOINT = 768;
+
+/** Media query matching viewports below {@link MOBILE_BREAKPOINT}. */
+export const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`;

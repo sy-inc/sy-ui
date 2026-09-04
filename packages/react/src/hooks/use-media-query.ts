@@ -1,62 +1,40 @@
 "use client";
 
-import {useState} from "react";
-
-import {useSafeLayoutEffect} from "./use-safe-layout-effect";
+import {useCallback, useSyncExternalStore} from "react";
 
 type UseMediaQueryOptions = {
+  /**
+   * Value returned on the server and during hydration, before the real match is known.
+   * @default false
+   */
   defaultValue?: boolean;
-  initializeWithValue?: boolean;
 };
 
-const IS_SERVER = typeof window === "undefined";
-
+/**
+ * Subscribes to a CSS media query.
+ *
+ * The server snapshot is `defaultValue`, so the server render and the hydrating client render
+ * always agree; React swaps in the real match right after hydration. A client-only mount reads
+ * the real match immediately, so there is no flash.
+ */
 export function useMediaQuery(
   query: string,
-  {defaultValue = false, initializeWithValue = true}: UseMediaQueryOptions = {},
+  {defaultValue = false}: UseMediaQueryOptions = {},
 ): boolean {
-  const getMatches = (query: string): boolean => {
-    if (IS_SERVER) {
-      return defaultValue;
-    }
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      const matchMedia = window.matchMedia(query);
 
-    return window.matchMedia(query).matches;
-  };
+      matchMedia.addEventListener("change", onStoreChange);
 
-  const [matches, setMatches] = useState<boolean>(() => {
-    if (initializeWithValue) {
-      return getMatches(query);
-    }
+      return () => matchMedia.removeEventListener("change", onStoreChange);
+    },
+    [query],
+  );
 
-    return defaultValue;
-  });
-
-  // Handles the change event of the media query.
-  function handleChange() {
-    setMatches(getMatches(query));
-  }
-
-  useSafeLayoutEffect(() => {
-    const matchMedia = window.matchMedia(query);
-
-    // Triggered at the first client-side load and if query changes
-    handleChange();
-
-    // Use deprecated `addListener` and `removeListener` to support Safari < 14 (#135)
-    if (matchMedia.addListener) {
-      matchMedia.addListener(handleChange);
-    } else {
-      matchMedia.addEventListener("change", handleChange);
-    }
-
-    return () => {
-      if (matchMedia.removeListener) {
-        matchMedia.removeListener(handleChange);
-      } else {
-        matchMedia.removeEventListener("change", handleChange);
-      }
-    };
-  }, [query]);
-
-  return matches;
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(query).matches,
+    () => defaultValue,
+  );
 }
