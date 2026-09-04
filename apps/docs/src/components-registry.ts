@@ -126,6 +126,13 @@ const componentsMap: Record<string, ComponentInfo> = {
     name: "colorarea",
     title: "ColorArea",
   },
+  cellcolorpicker: {
+    category: "forms",
+    description: "Compact color picker for settings rows",
+    href: "/docs/components/cell-color-picker",
+    name: "cellcolorpicker",
+    title: "CellColorPicker",
+  },
   colorfield: {
     category: "colors",
     description: "Input for entering color values with hex format",

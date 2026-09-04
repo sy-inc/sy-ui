@@ -1,0 +1,75 @@
+/**
+ * CellColorPicker is a ColorPicker laid out as a settings row. The shared
+ * `color-picker__trigger` is bare chrome, so the field surface is defined here.
+ * Variant and invalid state are driven from the root, mirroring select.css.
+ */
+
+.cell-color-picker {
+  @apply flex w-full;
+}
+
+.cell-color-picker__trigger {
+  @apply flex h-9 w-full min-w-0 items-center gap-3 rounded-field border bg-field px-3 text-sm text-field-foreground shadow-field outline-none no-highlight;
+  border-width: var(--border-width-field);
+  border-color: var(--field-border);
+  cursor: var(--cursor-interactive);
+  transition:
+    background-color 150ms var(--ease-smooth),
+    border-color 150ms var(--ease-smooth),
+    box-shadow 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-field-hover;
+      border-color: var(--field-border-hover);
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply bg-field-hover;
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused-field;
+  }
+
+  &:disabled,
+  &[data-disabled="true"],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.cell-color-picker--secondary .cell-color-picker__trigger {
+  @apply bg-default shadow-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default-hover;
+    }
+  }
+}
+
+/* Invalid is owned by the root so the trigger needs no state of its own. */
+.cell-color-picker[data-invalid="true"] .cell-color-picker__trigger {
+  @apply status-invalid-field;
+  border-color: var(--color-field-border-invalid);
+}
+
+/* ms-auto pushes the value and swatch to the end, so a plain <span> label needs no layout classes. */
+.cell-color-picker__value-display {
+  @apply ms-auto shrink-0 truncate text-end text-muted;
+}
+
+.cell-color-picker__swatch {
+  @apply size-5;
+}
+
+.cell-color-picker__popover {
+  min-width: var(--trigger-width);
+}

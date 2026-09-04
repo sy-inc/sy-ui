@@ -9,6 +9,7 @@ import {REQUIRED_COMPONENT_DOCS, getComponentDocGaps} from "./check-component-do
 test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-select"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("action-bar"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-color-picker"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("chat-message"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("segment"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-slider"));
@@ -67,6 +68,7 @@ test("reports missing and unregistered component documentation", async () => {
       );
       await writeFile(path.join(components, "(navigation)", "bottom-bar.mdx"), "");
       await writeFile(path.join(components, "(navigation)", "action-bar.mdx"), "");
+      await writeFile(path.join(components, "(navigation)", "cell-color-picker.mdx"), "");
     }
     assert.deepEqual(await getComponentDocGaps(root), []);
   } finally {

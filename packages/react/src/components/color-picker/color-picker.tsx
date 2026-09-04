@@ -30,21 +30,33 @@ const ColorPickerContext = createContext<ColorPickerContext>({});
  * ColorPicker Root
  * -----------------------------------------------------------------------------------------------*/
 interface ColorPickerRootProps
-  extends Omit<ColorPickerPrimitiveProps, "children">, ColorPickerVariants {
-  /** Additional class name for the wrapper element */
-  className?: string;
+  extends
+    Omit<ColorPickerPrimitiveProps, "children" | "slot">,
+    Omit<ComponentPropsWithRef<"div">, "children" | "color" | "defaultValue" | "onChange">,
+    ColorPickerVariants {
   /** Content of the color picker (Trigger, Popover, etc.) */
   children: React.ReactNode;
 }
 
-const ColorPickerRoot = ({children, className, ...props}: ColorPickerRootProps) => {
+const ColorPickerRoot = ({
+  children,
+  className,
+  defaultValue,
+  onChange,
+  value,
+  ...props
+}: ColorPickerRootProps) => {
   const slots = React.useMemo(() => colorPickerVariants(), []);
 
   return (
     <ColorPickerContext value={{slots}}>
-      <ColorPickerPrimitive {...props}>
+      <ColorPickerPrimitive defaultValue={defaultValue} value={value} onChange={onChange}>
         <DialogTriggerPrimitive>
-          <div className={composeSlotClassName(slots?.base, className)} data-slot="color-picker">
+          <div
+            data-slot="color-picker"
+            {...props}
+            className={composeSlotClassName(slots?.base, className)}
+          >
             {children}
           </div>
         </DialogTriggerPrimitive>

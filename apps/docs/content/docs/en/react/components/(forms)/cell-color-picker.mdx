@@ -1,0 +1,54 @@
+---
+title: CellColorPicker
+description: A compact, immediate color picker for settings rows.
+---
+
+`CellColorPicker` presents the selected hex value and a shared color swatch in a 36px settings-row control. It composes the existing `ColorPicker`, `ColorSwatch`, `ColorArea`, and `ColorSlider`; it does not create replacement primitives. Color changes apply immediately, with no confirmation action.
+
+```tsx
+import {CellColorPicker, ColorArea, ColorSlider} from "@sy-inc/react";
+```
+
+## Basic
+
+```tsx
+<CellColorPicker defaultValue="#3B82F6">
+  <CellColorPicker.Trigger>
+    <span>Accent</span>
+    <CellColorPicker.ValueDisplay />
+    <CellColorPicker.Swatch />
+  </CellColorPicker.Trigger>
+  <CellColorPicker.Popover>
+    <ColorArea aria-label="Color area" colorSpace="hsb" xChannel="saturation" yChannel="brightness"><ColorArea.Thumb /></ColorArea>
+    <ColorSlider aria-label="Hue" channel="hue" colorSpace="hsb"><ColorSlider.Track><ColorSlider.Thumb /></ColorSlider.Track></ColorSlider>
+  </CellColorPicker.Popover>
+</CellColorPicker>
+```
+
+## Controlled, presets, and states
+
+Pass the ColorPicker `value` and `onChange` props for a controlled picker. Put a shared `ColorSwatchPicker` inside `Popover` for presets. `isDisabled` prevents the trigger from opening. `isInvalid` adds `data-invalid` to the root, which is what styles the trigger; connect an error with `aria-describedby` on `Trigger`. A trigger is a button, and ARIA does not support `aria-invalid` on `role=button`, so none is set.
+
+```tsx
+<CellColorPicker isInvalid defaultValue="#EF4444">
+  <CellColorPicker.Trigger aria-describedby="accent-error">
+    <span>Accent</span><CellColorPicker.ValueDisplay /><CellColorPicker.Swatch />
+  </CellColorPicker.Trigger>
+  <CellColorPicker.Popover>{/* ColorArea and ColorSlider */}</CellColorPicker.Popover>
+</CellColorPicker>
+<p id="accent-error" role="alert">Choose an accessible brand color.</p>
+```
+
+Use a shared `Label` with `aria-labelledby` when the row needs an external label. Use shared `Description` or `ErrorMessage` only in a React Aria field context that provides their text slots; for this standalone row, connect ordinary descriptive/error content by ID as above. `FieldError` is reserved for its FieldContext and is not a CellColorPicker part.
+
+## Anatomy and API
+
+| Part | Props/defaults | Notes |
+| --- | --- | --- |
+| `Root` | ColorPicker value/defaultValue/onChange; `variant="default"`; `isDisabled`; `isInvalid` | Stable ref points to the outer `div[data-slot="cell-color-picker"]`. |
+| `Trigger` | React Aria Button props | Inherits the root's `isDisabled` and accepts normal `aria-label`, `aria-labelledby`, `aria-describedby`. |
+| `ValueDisplay` | span props | Reads the current color as hexadecimal by default. |
+| `Swatch` | ColorSwatch props | Reuses the shared swatch and retains `data-slot="color-swatch"`. |
+| `Popover` | Popover props; `placement="bottom end"` | Reuses ColorPicker.Popover and therefore retains `data-slot="color-picker-popover"`. |
+
+`variant` supports `default` and `secondary`; it is a class on the root, and the surface delta is applied to the trigger in CSS. The CellColorPicker root adds BEM classes around the shared ColorPicker instead of replacing its DOM. Escape closes the inherited popover and restores focus to `Trigger`.

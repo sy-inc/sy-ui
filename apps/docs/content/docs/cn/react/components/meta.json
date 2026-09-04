@@ -23,6 +23,7 @@
     "(date-and-time)/calendar",
     "(media)/carousel",
     "(layout)/card",
+    "(forms)/cell-color-picker",
     "(layout)/resizable",
     "(forms)/checkbox",
     "(forms)/checkbox-group",
