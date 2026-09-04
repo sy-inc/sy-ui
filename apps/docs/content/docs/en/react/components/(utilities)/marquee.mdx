@@ -1,0 +1,134 @@
+---
+title: Marquee
+description: Continuously scroll and repeat content with controllable speed, direction, playback, and edge fades.
+links:
+  source: marquee/marquee.tsx
+  styles: marquee.css
+  storybook: Components/Utilities/Marquee
+---
+
+## Usage
+
+Marquee continuously scrolls logos, labels, announcements, and other compact content. It repeats one visual copy while keeping duplicate content out of the accessibility tree.
+
+```tsx
+import {Badge, Marquee} from "@sy-inc/react";
+
+<Marquee className="w-96">
+  <Badge>Design systems</Badge>
+  <Badge>Accessible components</Badge>
+  <Badge>React Aria</Badge>
+</Marquee>;
+```
+
+## Playback and direction
+
+Use `play` to control playback. `pauseOnInteraction` pauses the track while the marquee is hovered or holds focus. `direction` accepts `left`, `right`, `up`, or `down`; vertical marquees need an explicit height.
+
+```tsx
+<Marquee pauseOnInteraction direction="right" play={isPlaying}>
+  <span>First update</span>
+  <span>Second update</span>
+</Marquee>
+```
+
+## Speed and delay
+
+`speed` is measured in pixels per second, so the duration adapts to the rendered content and container size. Use `delay` to postpone the start.
+
+```tsx
+<Marquee speed={80} delay={1}>
+  <span>Fast passes</span>
+</Marquee>
+```
+
+## Custom properties
+
+Everything the props do not cover is a `--marquee-*` custom property on the root, and `style` accepts them directly. Set `--marquee-duration` to replace the duration derived from `speed`, `--marquee-iterations` to run a finite number of cycles, and `--marquee-gradient-width` to size the edge fades.
+
+```tsx
+<Marquee style={{"--marquee-duration": "12s", "--marquee-iterations": "3"}}>
+  <span>Three cycles, then stop</span>
+</Marquee>
+```
+
+Animation events bubble from the track to the root, so a finite marquee reports its progress through the native handlers. Both tracks animate, so filter by `event.target` when a single call per cycle matters.
+
+```tsx
+<Marquee
+  style={{"--marquee-iterations": "3"}}
+  onAnimationEnd={(event) => {
+    if (event.target === event.currentTarget.firstElementChild) handleFinish();
+  }}
+>
+  <span>Three cycles, then stop</span>
+</Marquee>
+```
+
+## Auto fill
+
+Set `autoFill` when the content is shorter than the container. Marquee measures the available space and adds enough inert visual copies to produce a seamless loop. It recalculates when the container or content size changes.
+
+```tsx
+<Marquee autoFill className="w-full" gap={24}>
+  <span>Short sequence</span>
+</Marquee>
+```
+
+## Gradient
+
+`gradient` masks a non-interactive fade at both edges, so it works over any background, image, or gradient without matching a color. Size each fade with `--marquee-gradient-width`.
+
+```tsx
+<Marquee gradient style={{"--marquee-gradient-width": "15%"}}>
+  <span>Faded edges</span>
+</Marquee>
+```
+
+## Accessibility
+
+Only the first content sequence is exposed to assistive technology; auto-fill and looping copies are `aria-hidden` and inert. Avoid placing essential controls inside continuously moving content. The animation pauses on focus and stops when the user enables reduced motion. For non-essential motion lasting more than five seconds, provide a visible pause control bound to `play`.
+
+## Styling Reference
+
+### CSS Classes
+
+- `.marquee` — Root clipping container
+- `.marquee__track` — Animated track; holds one complete loop of sequences
+- `.marquee__sequence` — One sequence of the supplied children
+- `.marquee__item` — Wrapper for each child; a fragment counts as one child, so pass siblings directly
+- `.marquee--pause-on-interaction` — Hover and focus pause modifier
+
+### Data Attributes
+
+- `data-slot="marquee"`, `marquee-track`, `marquee-sequence`, and `marquee-item`
+- `data-direction` — Current animation direction; drives the direction styles
+- `data-paused` — Present when playback is paused
+- `data-auto-fill` — Present when automatic filling is enabled
+- `data-gradient` — Present when edge fades are enabled
+- `data-ready` — Present after a usable animation distance has been measured
+
+### CSS Variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--marquee-duration` | Measured | Duration of one cycle |
+| `--marquee-delay` | `0s` | Delay before playback |
+| `--marquee-iterations` | `infinite` | Number of cycles |
+| `--marquee-gap` | `1rem` | Space between items and sequences |
+| `--marquee-gradient-width` | `200px` | Width of each fade |
+
+## API Reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `autoFill` | `boolean` | `false` | Repeats short content until it fills the container |
+| `play` | `boolean` | `true` | Starts or pauses playback |
+| `pauseOnInteraction` | `boolean` | `false` | Pauses while hovered or focused |
+| `direction` | `"left" \| "right" \| "up" \| "down"` | `"left"` | Scroll direction |
+| `speed` | `number` | `50` | Speed in pixels per second |
+| `delay` | `number` | `0` | Start delay in seconds |
+| `gradient` | `boolean` | `false` | Shows fades at both edges |
+| `gap` | `number` | `16` | Space between items in pixels |
+| `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | Styles, including any `--marquee-*` override |
+| `children` | `ReactNode` | — | Content to repeat |

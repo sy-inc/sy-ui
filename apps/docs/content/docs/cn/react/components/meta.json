@@ -74,6 +74,7 @@
     "(forms)/radio-button-group",
     "(forms)/rich-text-editor",
     "(date-and-time)/range-calendar",
+    "(utilities)/marquee",
     "(utilities)/pressable-feedback",
     "(utilities)/scroll-shadow",
     "(forms)/search-field",

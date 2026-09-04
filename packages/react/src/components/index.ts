@@ -40,6 +40,7 @@ export * from "./drop-zone";
 export * from "./list-view";
 export * from "./file-tree";
 export * from "./item-card";
+export * from "./marquee";
 export * from "./navbar";
 export * from "./pressable-feedback";
 export * from "./progress-bar";

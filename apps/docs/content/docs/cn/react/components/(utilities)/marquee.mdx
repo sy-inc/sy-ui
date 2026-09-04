@@ -1,0 +1,134 @@
+---
+title: Marquee 跑马灯
+description: 通过可控的速度、方向、播放状态和边缘渐隐，持续滚动并重复内容。
+links:
+  source: marquee/marquee.tsx
+  styles: marquee.css
+  storybook: Components/Utilities/Marquee
+---
+
+## 用法
+
+Marquee 可持续滚动徽标、标签、公告等紧凑内容。它会生成用于循环的视觉副本，但只让一份内容进入无障碍树。
+
+```tsx
+import {Badge, Marquee} from "@sy-inc/react";
+
+<Marquee className="w-96">
+  <Badge>设计系统</Badge>
+  <Badge>无障碍组件</Badge>
+  <Badge>React Aria</Badge>
+</Marquee>;
+```
+
+## 播放与方向
+
+使用 `play` 控制播放。`pauseOnInteraction` 会在悬停或内部获得焦点时暂停轨道。`direction` 支持 `left`、`right`、`up`、`down`；垂直 Marquee 需要显式高度。
+
+```tsx
+<Marquee pauseOnInteraction direction="right" play={isPlaying}>
+  <span>第一条更新</span>
+  <span>第二条更新</span>
+</Marquee>
+```
+
+## 速度与延迟
+
+`speed` 的单位是像素/秒，单次时长会根据实际内容和容器尺寸自动计算。`delay` 用于延迟开始。
+
+```tsx
+<Marquee speed={80} delay={1}>
+  <span>快速滚动</span>
+</Marquee>
+```
+
+## 自定义属性
+
+属性未覆盖的能力都以 `--marquee-*` 自定义属性挂在根节点上，`style` 可直接接收它们。`--marquee-duration` 覆盖由 `speed` 推导出的时长，`--marquee-iterations` 限制循环次数，`--marquee-gradient-width` 控制渐隐宽度。
+
+```tsx
+<Marquee style={{"--marquee-duration": "12s", "--marquee-iterations": "3"}}>
+  <span>滚动三轮后停止</span>
+</Marquee>
+```
+
+动画事件会从轨道冒泡到根节点，因此有限循环的进度可通过原生事件处理器获取。两条轨道都会播放动画，如果每轮只需回调一次，请按 `event.target` 过滤。
+
+```tsx
+<Marquee
+  style={{"--marquee-iterations": "3"}}
+  onAnimationEnd={(event) => {
+    if (event.target === event.currentTarget.firstElementChild) handleFinish();
+  }}
+>
+  <span>滚动三轮后停止</span>
+</Marquee>
+```
+
+## 自动填充
+
+当内容短于容器时可启用 `autoFill`。Marquee 会测量可用空间，并增加足量的 inert 视觉副本来形成无缝循环；容器或内容尺寸变化后会自动重新计算。
+
+```tsx
+<Marquee autoFill className="w-full" gap={24}>
+  <span>较短的内容序列</span>
+</Marquee>
+```
+
+## 渐变
+
+`gradient` 使用遮罩在两侧添加不拦截交互的渐隐效果，因此无论背景是纯色、图片还是渐变都能生效，无需指定颜色。渐隐宽度由 `--marquee-gradient-width` 控制。
+
+```tsx
+<Marquee gradient style={{"--marquee-gradient-width": "15%"}}>
+  <span>两侧渐隐</span>
+</Marquee>
+```
+
+## 无障碍
+
+只有第一组内容会暴露给辅助技术；自动填充和循环副本均设置为 `aria-hidden` 和 inert。避免在持续移动的内容中放置关键控件。动画会在焦点进入时暂停，并在用户启用“减少动态效果”时停止。对于持续超过五秒的非必要动效，应提供绑定 `play` 的可见暂停控件。
+
+## 样式参考
+
+### CSS 类
+
+- `.marquee` — 根裁切容器
+- `.marquee__track` — 动画轨道，容纳一组完整循环的内容序列
+- `.marquee__sequence` — 一份传入的内容序列
+- `.marquee__item` — 每个子项的包装元素；Fragment 只算一个子项，兄弟节点请直接平铺传入
+- `.marquee--pause-on-interaction` — 悬停与聚焦暂停修饰类
+
+### Data 属性
+
+- `data-slot="marquee"`、`marquee-track`、`marquee-sequence`、`marquee-item`
+- `data-direction` — 当前动画方向，方向样式由它驱动
+- `data-paused` — 播放暂停时存在
+- `data-auto-fill` — 启用自动填充时存在
+- `data-gradient` — 启用边缘渐隐时存在
+- `data-ready` — 测量出可用动画距离后存在
+
+### CSS 变量
+
+| 变量 | 默认值 | 说明 |
+| --- | --- | --- |
+| `--marquee-duration` | 自动测量 | 单次循环时长 |
+| `--marquee-delay` | `0s` | 播放前延迟 |
+| `--marquee-iterations` | `infinite` | 循环次数 |
+| `--marquee-gap` | `1rem` | 子项与序列之间的间距 |
+| `--marquee-gradient-width` | `200px` | 每侧渐隐宽度 |
+
+## API 参考
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `autoFill` | `boolean` | `false` | 重复较短内容直至填满容器 |
+| `play` | `boolean` | `true` | 开始或暂停播放 |
+| `pauseOnInteraction` | `boolean` | `false` | 悬停或聚焦时暂停 |
+| `direction` | `"left" \| "right" \| "up" \| "down"` | `"left"` | 滚动方向 |
+| `speed` | `number` | `50` | 速度，单位为像素/秒 |
+| `delay` | `number` | `0` | 开始延迟，单位为秒 |
+| `gradient` | `boolean` | `false` | 显示两侧渐隐 |
+| `gap` | `number` | `16` | 子项间距，单位为像素 |
+| `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | 样式，可包含任意 `--marquee-*` 覆盖 |
+| `children` | `ReactNode` | — | 需要重复的内容 |

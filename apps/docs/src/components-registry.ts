@@ -301,6 +301,13 @@ const componentsMap: Record<string, ComponentInfo> = {
     name: "list-box",
     title: "Listbox",
   },
+  marquee: {
+    category: "utilities",
+    description: "Continuously scrolling repeated content",
+    href: "/docs/components/marquee",
+    name: "marquee",
+    title: "Marquee",
+  },
   meter: {
     category: "feedback",
     description: "A quantity indicator within a known range",
@@ -725,6 +732,7 @@ const componentRelationships: Record<string, string[]> = {
   ],
   link: ["breadcrumbs"],
   listbox: ["select", "combobox", "avatar", "kbd", "separator", "surface", "dropdown"],
+  marquee: ["badge", "chip"],
   modal: ["button", "tooltip", "select", "avatar", "drawer"],
   numberfield: ["label", "description", "fielderror", "form", "surface", "button"],
   pagination: ["button", "link"],

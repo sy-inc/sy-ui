@@ -59,6 +59,7 @@ export * from "./list-view";
 export * from "./menu-section/menu-section.styles";
 export * from "./menu/menu.styles";
 export * from "./meter/meter.styles";
+export * from "./marquee/marquee.styles";
 export * from "./modal/modal.styles";
 export * from "./navbar/navbar.styles";
 export * from "./number-field/number-field.styles";
