@@ -25,6 +25,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "pressable-feedback",
   "resizable",
   "file-tree",
+  "cell-select",
 ];
 
 const LANGUAGES = ["en", "cn"];

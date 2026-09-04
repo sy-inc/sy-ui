@@ -12,6 +12,7 @@
     "(overlays)/alert-dialog",
     "(layout)/action-bar",
     "(pickers)/autocomplete",
+    "(pickers)/cell-select",
     "(media)/avatar",
     "(data-display)/badge",
     "(data-display)/chat-message",

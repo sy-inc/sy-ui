@@ -1,0 +1,71 @@
+---
+title: Cell Select
+description: A compact select styled as a settings cell for preference panels and configuration forms.
+links:
+  source: cell-select/cell-select.tsx
+  styles: cell-select.css
+  storybook: Components/CellSelect
+---
+
+## Usage
+
+```tsx
+import {CellSelect, ListBox} from "@sy-inc/react";
+```
+
+<ComponentPreview name="cell-select-usage" />
+
+## Anatomy
+
+```tsx
+<CellSelect aria-label="Theme" defaultValue="default">
+  <CellSelect.Trigger>
+    <CellSelect.Label>Theme</CellSelect.Label>
+    <CellSelect.Value />
+    <CellSelect.Indicator />
+  </CellSelect.Trigger>
+  <CellSelect.Popover><ListBox /></CellSelect.Popover>
+</CellSelect>
+```
+
+## Examples
+
+<ComponentPreview name="cell-select-controlled" />
+<ComponentPreview name="cell-select-custom-value" />
+<ComponentPreview name="cell-select-disabled" />
+<ComponentPreview name="cell-select-font-family" />
+<ComponentPreview name="cell-select-settings-group" />
+<ComponentPreview name="cell-select-variants" />
+
+## API Reference
+
+### CellSelect
+
+CellSelect accepts all [Select](/docs/components/select) root props except `variant`, plus:
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `"default" \| "secondary"` | `"default"` | Cell surface treatment. |
+
+### Parts
+
+| Part | Contract |
+| --- | --- |
+| `Trigger` | Accepts Select.Trigger props and renders the settings row. |
+| `Label` | A native `span` with CellSelect label styling. |
+| `Value` | Accepts Select.Value props and displays the selected value. |
+| `Indicator` | Accepts Select.Indicator-compatible props; defaults to a vertical expand chevron. |
+| `Popover` | Select.Popover; the popover is sized to the trigger by `.select__popover`. |
+
+## Accessibility
+
+CellSelect preserves Select's button, listbox, keyboard navigation, controlled and uncontrolled selection behavior. Provide `aria-label` or `aria-labelledby` for the Select control; the visible Label is visual cell content. Disabled cells use the native disabled state and cannot open.
+
+## Styling Reference
+
+CellSelect renders a Select, so each element carries both the `select__*` and the `cell-select__*` class. `cell-select.css` only holds the settings-row deltas.
+
+- `.cell-select` — root wrapper
+- `.cell-select__trigger` — settings row
+- `.cell-select__label`, `.cell-select__value`, `.cell-select__indicator` — compound part hooks
+- `variant` maps onto the Select surface classes (`.select--primary` / `.select--secondary`)
