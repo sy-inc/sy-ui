@@ -5,7 +5,7 @@ import {tv} from "tailwind-variants";
 export const radioButtonGroupVariants = tv({
   slots: {
     base: "radio-button-group",
-    item: "radio-button-group__item border-border bg-surface",
+    item: "radio-button-group__item",
     indicator: "radio-button-group__indicator",
     itemContent: "radio-button-group__item-content",
     itemIcon: "radio-button-group__item-icon",

@@ -14,6 +14,7 @@ import {
   CheckboxButton as CheckboxButtonPrimitive,
   CheckboxField as CheckboxFieldPrimitive,
 } from "react-aria-components/Checkbox";
+import {LabelContext} from "react-aria-components/Label";
 
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
@@ -66,6 +67,14 @@ CheckboxRoot.displayName = "SY INC.Checkbox";
  * -----------------------------------------------------------------------------------------------*/
 interface CheckboxContentProps extends ComponentPropsWithRef<typeof CheckboxButtonPrimitive> {}
 
+/**
+ * A `Label` rendered inside the button is inside the `<label>` element itself, so it must not be
+ * a `<label>` too, and it must not inherit the id/ref that `CheckboxGroup` publishes on
+ * `LabelContext` for the *group* label — RAC resets neither, so every item label would otherwise
+ * duplicate the group label's id. The name still comes from the wrapping label's text content.
+ */
+const contentLabelContext = {elementType: "span"} as const;
+
 const CheckboxContent = ({children, className, ...props}: CheckboxContentProps) => {
   const {slots} = use(CheckboxContext);
 
@@ -75,7 +84,11 @@ const CheckboxContent = ({children, className, ...props}: CheckboxContentProps) 
       {...props}
       className={composeTwRenderProps(className, slots?.content())}
     >
-      {children}
+      {(state) => (
+        <LabelContext value={contentLabelContext}>
+          {typeof children === "function" ? children(state) : children}
+        </LabelContext>
+      )}
     </CheckboxButtonPrimitive>
   );
 };

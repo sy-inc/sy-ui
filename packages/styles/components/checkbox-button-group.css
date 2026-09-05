@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Checkbox button group
+
+   Structure (the card IS the clickable label, so every state attribute and
+   the whole hit area land on one element):
+     .checkbox-button-group                         → CheckboxGroup
+       [data-slot="checkbox-button-group-item"]     → CheckboxField wrapper, display: contents
+         .checkbox-button-group__item               → CheckboxButton (the card, a column)
+           .checkbox-button-group__indicator        → pinned to the top corner
+           .checkbox-button-group__item-icon
+           .checkbox-button-group__item-content     → Label / Description / price
+
+   The card body is the shared `choice-card` utility, so this group and
+   radio-button-group cannot drift apart. Sizing (width, grid columns, min
+   height) and any card background are left to the consumer.
+   ========================================================================== */
+
+.checkbox-button-group {
+  --checkbox-button-group-item-radius: var(--radius-2xl);
+
+  @apply flex flex-col gap-3;
+
+  /* The field wrapper is not a box: the card itself is the flex/grid item.
+     Not a direct-child selector, so items still work inside a wrapper element. */
+  & [data-slot="checkbox-button-group-item"] {
+    display: contents;
+  }
+}
+
+.checkbox-button-group--grid {
+  @apply grid;
+}
+
+.checkbox-button-group__item {
+  @apply choice-card;
+
+  border-radius: var(--checkbox-button-group-item-radius);
+}
+
+/* Opt-in press feedback. `pressable-feedback` cannot be reused here: its root is a
+   Button, which would put a second focusable control inside the card's label. */
+.checkbox-button-group__item--pressable {
+  &:active,
+  &[data-pressed="true"] {
+    @apply bg-muted/30;
+  }
+}
+
+/* The control is pinned to the corner so the content owns the full card width. */
+.checkbox-button-group__indicator {
+  @apply absolute end-4 top-3;
+}
+
+/* A custom icon replaces the checkbox square rather than sitting inside it, so it
+   sizes itself. Visibility stays in React: the icon is only rendered when selected. */
+.checkbox-button-group__indicator[data-custom="true"] {
+  @apply text-accent;
+
+  & > .checkbox__indicator {
+    @apply size-5;
+  }
+
+  & svg {
+    @apply size-full;
+  }
+}
+
+.checkbox-button-group__item-content {
+  @apply flex min-w-0 flex-col;
+}
+
+.checkbox-button-group__item-icon {
+  @apply flex shrink-0 items-center justify-center;
+
+  & svg {
+    @apply size-6;
+  }
+}

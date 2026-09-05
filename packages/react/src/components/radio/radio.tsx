@@ -6,6 +6,7 @@ import type {RadioButtonRenderProps, RadioFieldRenderProps} from "react-aria-com
 
 import {radioVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
+import {LabelContext} from "react-aria-components/Label";
 import {
   RadioButton as RadioButtonPrimitive,
   RadioField as RadioFieldPrimitive,
@@ -55,6 +56,14 @@ RadioRoot.displayName = "SY INC.Radio";
  * -----------------------------------------------------------------------------------------------*/
 interface RadioContentProps extends ComponentPropsWithRef<typeof RadioButtonPrimitive> {}
 
+/**
+ * A `Label` rendered inside the button is inside the `<label>` element itself, so it must not be
+ * a `<label>` too, and it must not inherit the id/ref that `RadioGroup` publishes on
+ * `LabelContext` for the *group* label — RAC resets neither, so every item label would otherwise
+ * duplicate the group label's id. The name still comes from the wrapping label's text content.
+ */
+const contentLabelContext = {elementType: "span"} as const;
+
 const RadioContent = ({children, className, ...props}: RadioContentProps) => {
   const {slots} = use(RadioContext);
 
@@ -64,7 +73,11 @@ const RadioContent = ({children, className, ...props}: RadioContentProps) => {
       {...props}
       className={composeTwRenderProps(className, slots?.content())}
     >
-      {children}
+      {(state) => (
+        <LabelContext value={contentLabelContext}>
+          {typeof children === "function" ? children(state) : children}
+        </LabelContext>
+      )}
     </RadioButtonPrimitive>
   );
 };

@@ -75,6 +75,7 @@
     "(overlays)/popover",
     "(feedback)/progress-bar",
     "(feedback)/progress-circle",
+    "(forms)/checkbox-button-group",
     "(forms)/radio-group",
     "(forms)/radio-button-group",
     "(forms)/rich-text-editor",

@@ -111,4 +111,33 @@ describe("Radio", () => {
     expect(screen.getByRole("radio", {name: "Basic"})).toBeChecked();
     expect(onChange).toHaveBeenCalledWith("a");
   });
+
+  it("renders a label inside the button as a span that does not reuse the group label id", () => {
+    render(
+      <RadioGroup>
+        <Label>Features</Label>
+        <Radio value="a">
+          <Radio.Content>
+            <Label>Alpha</Label>
+          </Radio.Content>
+        </Radio>
+        <Radio value="b">
+          <Radio.Content>
+            <Label>Bravo</Label>
+          </Radio.Content>
+        </Radio>
+      </RadioGroup>,
+    );
+
+    // The button already is the `<label>`, so nesting one inside it would be invalid HTML.
+    expect(screen.getByText("Alpha").tagName).toBe("SPAN");
+    // RAC publishes the group label's id on LabelContext and never resets it per item.
+    const ids = screen
+      .getAllByText(/Features|Alpha|Bravo/)
+      .map((el) => el.id)
+      .filter(Boolean);
+
+    expect(ids).toHaveLength(1);
+    expect(screen.getByRole("radiogroup")).toHaveAttribute("aria-labelledby", ids[0]);
+  });
 });

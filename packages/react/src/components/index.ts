@@ -25,6 +25,7 @@ export * from "./cell-slider";
 export * from "./chat-message";
 export * from "./cell-switch";
 export * from "./checkbox";
+export * from "./checkbox-button-group";
 export * from "./checkbox-group";
 export * from "./chip";
 export * from "./color-area";

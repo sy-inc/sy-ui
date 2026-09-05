@@ -38,6 +38,9 @@
     "./carousel": {
       "import": "./src/components/carousel/index.ts"
     },
+    "./checkbox-button-group": {
+      "import": "./src/components/checkbox-button-group/index.ts"
+    },
     "./file-tree": {
       "import": "./src/components/file-tree/index.ts"
     },

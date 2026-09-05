@@ -23,6 +23,7 @@ test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("widget"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("timeline"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("radio-button-group"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("checkbox-button-group"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("file-tree"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("resizable"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("item-card-group"));

@@ -1,0 +1,138 @@
+---
+title: CheckboxButtonGroup 复选卡片组
+description: 用于选择多个值的卡片式复选项。
+---
+
+## 用法
+
+```tsx
+import {CheckboxButtonGroup, Description, Label} from "@sy-inc/react";
+```
+
+```tsx
+<CheckboxButtonGroup aria-label="功能" defaultValue={["security"]}>
+  <CheckboxButtonGroup.Item value="security">
+    <CheckboxButtonGroup.Indicator />
+    <CheckboxButtonGroup.ItemContent>
+      <Label>安全</Label>
+      <Description>实时威胁检测和防护</Description>
+    </CheckboxButtonGroup.ItemContent>
+  </CheckboxButtonGroup.Item>
+</CheckboxButtonGroup>
+```
+
+`CheckboxButtonGroup` 提供 `Root`、`Item`、`Indicator`、`ItemContent` 与 `ItemIcon`。项目文字请使用 `Label` 和 `Description` 组合；`Description` 会自动接入复选框描述。
+
+## 属性与事件
+
+根组件接受全部 `CheckboxGroup` 属性。`value`、`defaultValue` 与 `onChange` 管理字符串数组；`isDisabled` 会禁用所有项目。`layout` 默认是 `"flex"`，传入 `"grid"` 后可由使用方定义网格列数。
+
+每个 `Item` 接受 `Checkbox` 属性，包括 `value`、`isDisabled` 和渲染函数 children。没有 children 的 `Indicator` 会复用标准复选框控件和对勾；自定义 children 只会在选中时显示。
+
+`variant` 默认是 `"secondary"`；需要时可传入 Checkbox variant。根节点 ref 指向底层 group，Item ref 指向对应 Checkbox field。卡片 children 可通过渲染函数读取 `isSelected`。
+
+组件不设置宽度或网格列数。请在根节点传入，例如 `className="max-w-[360px]"` 或 `className="sm:grid-cols-3"`。
+
+## 组件结构
+
+`CheckboxButtonGroup.Root` 是 `CheckboxGroup` 根节点。`Item` 是卡片式 `Checkbox`；`Indicator` 可以是默认复选框控件，或只在选中时显示的自定义图标。`ItemContent` 与 `ItemIcon` 是用于内容和前置图标的普通 `span` part。
+
+| 属性 | 默认值 | 说明 |
+| --- | --- | --- |
+| `value` | — | 受控的已选字符串数组。 |
+| `defaultValue` | — | 初始已选字符串数组。 |
+| `onChange` | — | 接收下一份已选字符串数组。 |
+| `isDisabled` | `false` | 禁用全部项目。 |
+| `layout` | `"flex"` | 传入 `"grid"` 后由使用方设置列数。 |
+| `variant` | `"secondary"` | 项目继承的 Checkbox 视觉 variant。 |
+| `className` | — | 根节点或 part 的类名覆盖。 |
+
+## 示例
+
+先复制一次公共 import 与 helper，以下每段均可独立替换到同一组件文件中：
+
+```tsx
+import {useState} from "react";
+import {Icon} from "@iconify/react";
+import {CheckboxButtonGroup, Description, Label} from "@sy-inc/react";
+const Option = ({value, title}: {value: string; title: string}) => <CheckboxButtonGroup.Item value={value}><CheckboxButtonGroup.Indicator /><CheckboxButtonGroup.ItemContent><Label>{title}</Label><Description>示例说明</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item>;
+```
+
+### Default
+```tsx
+<CheckboxButtonGroup defaultValue={["security"]}><Label>Select features</Label><Option value="security" title="Security" /></CheckboxButtonGroup>
+```
+### Grid Layout
+```tsx
+<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label className="col-span-full">Add-ons</Label><Option value="backup" title="Backups" /></CheckboxButtonGroup>
+```
+### No Indicator
+```tsx
+<CheckboxButtonGroup><CheckboxButtonGroup.Item value="analytics"><CheckboxButtonGroup.ItemContent><Label>Analytics</Label><Description>Usage reports</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+### Custom Indicator
+```tsx
+<CheckboxButtonGroup defaultValue={["updates"]}><CheckboxButtonGroup.Item value="updates"><CheckboxButtonGroup.Indicator><Icon icon="gravity-ui:circle-check-fill" /></CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Product updates</Label></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+### Icon Cards
+```tsx
+<CheckboxButtonGroup className="grid-cols-2" layout="grid"><CheckboxButtonGroup.Item value="2fa"><CheckboxButtonGroup.ItemIcon><Icon icon="gravity-ui:lock" /></CheckboxButtonGroup.ItemIcon><CheckboxButtonGroup.ItemContent><Label>2FA</Label><Description>Two-factor authentication</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+### With Icons
+```tsx
+<CheckboxButtonGroup className="grid-cols-2" layout="grid"><CheckboxButtonGroup.Item value="content"><CheckboxButtonGroup.ItemIcon><Icon icon="gravity-ui:cloud" /></CheckboxButtonGroup.ItemIcon><CheckboxButtonGroup.ItemContent><Label>Content Management</Label><Description>Create and edit content</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+### Disabled Group
+```tsx
+<CheckboxButtonGroup isDisabled><Label>Select features</Label><Option value="security" title="Security" /></CheckboxButtonGroup>
+```
+### With Press Feedback
+```tsx
+<CheckboxButtonGroup><CheckboxButtonGroup.Item className="checkbox-button-group__item--pressable" value="backup">{({isSelected}) => <><CheckboxButtonGroup.Indicator /><CheckboxButtonGroup.ItemContent><Label>Backups</Label>{isSelected ? "Selected" : ""}</CheckboxButtonGroup.ItemContent></>}</CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+### Render Prop Children
+```tsx
+<CheckboxButtonGroup><CheckboxButtonGroup.Item value="backup">{({isSelected}) => <><CheckboxButtonGroup.Indicator /><CheckboxButtonGroup.ItemContent><Label>Backups</Label>{isSelected ? "Selected" : ""}</CheckboxButtonGroup.ItemContent></>}</CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+### Controlled
+```tsx
+const [value, setValue] = useState<string[]>(["backup"]); <CheckboxButtonGroup value={value} onChange={setValue}><Option value="backup" title="Backups" /></CheckboxButtonGroup>
+```
+### Subscription Plans
+```tsx
+<CheckboxButtonGroup defaultValue={["silver"]}><CheckboxButtonGroup.Item className="data-[selected=true]:ring-success" value="silver"><CheckboxButtonGroup.Indicator><Icon icon="gravity-ui:circle-check-fill" /></CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Silver</Label><Description>US$0.20/day</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+
+以下 11 个 Storybook 示例都只使用公开 part，可直接运行；可将 `Item` 内部替换为任意 `Label`、`Description`、图标或价格内容。
+
+```tsx
+// Default / No Indicator / Disabled Group
+<CheckboxButtonGroup defaultValue={["security"]} isDisabled={false}><Label>Select features</Label><CheckboxButtonGroup.Item value="security"><CheckboxButtonGroup.Indicator /><CheckboxButtonGroup.ItemContent><Label>Security</Label><Description>Real-time threat detection and prevention</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+
+```tsx
+// Grid Layout / Custom Indicator / With Press Feedback
+<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label className="col-span-full">Add-ons</Label><CheckboxButtonGroup.Item className="checkbox-button-group__item--pressable" value="backups"><CheckboxButtonGroup.Indicator>{/* 自定义图标 */}</CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Backups</Label><Description>Automated daily backups</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+
+```tsx
+// Icon Cards / With Icons / Render Prop Children
+<CheckboxButtonGroup defaultValue={["analytics"]}><CheckboxButtonGroup.Item value="analytics">{({isSelected}) => <><CheckboxButtonGroup.Indicator /><CheckboxButtonGroup.ItemIcon>{/* 图标 */}</CheckboxButtonGroup.ItemIcon><CheckboxButtonGroup.ItemContent><Label>Analytics</Label><Description>View and export reports</Description>{isSelected ? "Selected" : null}</CheckboxButtonGroup.ItemContent></>}</CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+
+```tsx
+// Controlled / Subscription Plans
+const [value, setValue] = useState<string[]>(["silver"]); <CheckboxButtonGroup value={value} onChange={setValue}><CheckboxButtonGroup.Item className="data-[selected=true]:ring-success" value="silver"><CheckboxButtonGroup.Indicator>{/* 仅选中时的对勾 */}</CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Silver</Label><Description>Level up your saving and investing skills.</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+```
+
+## 无障碍
+
+通过 `aria-label` 或 `Label` 提供可访问名称。组件保留 React Aria 的复选框语义：键盘用户可 Tab 进入卡片，再按 Space 切换。禁用卡片不可交互。
+
+## 样式
+
+类名：`.checkbox-button-group`、`.checkbox-button-group--grid`、`.checkbox-button-group__item`、`.checkbox-button-group__item--pressable`、`.checkbox-button-group__indicator`、`.checkbox-button-group__item-content`、`.checkbox-button-group__item-icon`。卡片本体来自共享的 `choice-card` utility，`radio-button-group` 也使用同一个。
+
+稳定 data slot：`checkbox-button-group`、`checkbox-button-group-item`、`checkbox-button-group-indicator`、`checkbox-button-group-item-content`、`checkbox-button-group-item-icon`。可通过 `--checkbox-button-group-item-radius` 定制卡片圆角。
+
+Storybook 提供 Default、Grid Layout、No Indicator、Custom Indicator、Icon Cards、With Icons、Disabled Group、With Press Feedback、Render Prop Children、Controlled 与 Subscription Plans。按压反馈示例使用已文档化的 `checkbox-button-group__item--pressable` 卡片 modifier：`pressable-feedback` 无法嵌套于此，因为它的根节点是 Button，会在卡片 label 内再放一个可聚焦控件。

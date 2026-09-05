@@ -3,6 +3,7 @@ import type {ComponentProps} from "react";
 import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Checkbox} from "@/components/checkbox";
+import {CheckboxGroup} from "@/components/checkbox-group";
 import {Label} from "@/components/label";
 
 describe("Checkbox", () => {
@@ -159,5 +160,34 @@ describe("Checkbox", () => {
     await user.tab();
     expect(checkbox).toHaveFocus();
     expect(content).toHaveAttribute("data-focus-visible", "true");
+  });
+
+  it("renders a label inside the button as a span that does not reuse the group label id", () => {
+    render(
+      <CheckboxGroup>
+        <Label>Features</Label>
+        <Checkbox value="a">
+          <Checkbox.Content>
+            <Label>Alpha</Label>
+          </Checkbox.Content>
+        </Checkbox>
+        <Checkbox value="b">
+          <Checkbox.Content>
+            <Label>Bravo</Label>
+          </Checkbox.Content>
+        </Checkbox>
+      </CheckboxGroup>,
+    );
+
+    // The button already is the `<label>`, so nesting one inside it would be invalid HTML.
+    expect(screen.getByText("Alpha").tagName).toBe("SPAN");
+    // RAC publishes the group label's id on LabelContext and never resets it per item.
+    const ids = screen
+      .getAllByText(/Features|Alpha|Bravo/)
+      .map((el) => el.id)
+      .filter(Boolean);
+
+    expect(ids).toHaveLength(1);
+    expect(screen.getByRole("group")).toHaveAttribute("aria-labelledby", ids[0]);
   });
 });

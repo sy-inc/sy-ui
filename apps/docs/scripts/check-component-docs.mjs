@@ -22,6 +22,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "input-phone",
   "widget",
   "radio-button-group",
+  "checkbox-button-group",
   "list-view",
   "item-card",
   "item-card-group",

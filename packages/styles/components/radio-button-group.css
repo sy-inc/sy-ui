@@ -10,7 +10,9 @@
            .radio-button-group__item-icon
            .radio-button-group__item-content     → Label / Description / price
 
-   Sizing (width, grid columns, min height) is left to the consumer.
+   The card body is the shared `choice-card` utility, so this group and
+   checkbox-button-group cannot drift apart. Sizing (width, grid columns, min
+   height) is left to the consumer.
    ========================================================================== */
 
 .radio-button-group {
@@ -30,23 +32,9 @@
 }
 
 .radio-button-group__item {
-  @apply relative flex w-full flex-col items-stretch gap-4 rounded-[var(--radio-button-group-item-radius)] border border-field-border px-5 py-4 outline-none no-highlight;
+  @apply choice-card;
 
-  cursor: var(--cursor-interactive);
-
-  &:focus-visible,
-  &[data-focus-visible="true"] {
-    @apply status-focused;
-  }
-
-  /* Ring instead of a thicker border: no layout shift on selection. */
-  &[data-selected="true"] {
-    @apply border-transparent ring-2 ring-accent;
-  }
-
-  &[data-disabled="true"] {
-    @apply status-disabled;
-  }
+  border-radius: var(--radio-button-group-item-radius);
 }
 
 /* The control is pinned to the corner so the content owns the full card width. */

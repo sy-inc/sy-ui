@@ -19,6 +19,7 @@ export * from "./cell-slider/cell-slider.styles";
 export * from "./cell-switch/cell-switch.styles";
 export * from "./carousel/carousel.styles";
 export * from "./checkbox-group/checkbox-group.styles";
+export * from "./checkbox-button-group/checkbox-button-group.styles";
 export * from "./checkbox/checkbox.styles";
 export * from "./chip/chip.styles";
 export * from "./close-button/close-button.styles";

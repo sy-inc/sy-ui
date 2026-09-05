@@ -114,6 +114,44 @@
   }
 }
 
+/**
+ * Choice card
+ *
+ * The shared card body for the "pick one / pick many" button groups, where the card
+ * itself IS the clickable label: the whole hit area, and every RAC state attribute,
+ * land on one element. `radio-button-group` and `checkbox-button-group` render the
+ * same card, so the box model and the state machine live here instead of being
+ * copied per component and then quietly drifting apart.
+ *
+ * Consumers add only their own radius, background and sizing.
+ */
+@utility choice-card {
+  @apply relative flex w-full flex-col items-stretch gap-4 border border-border bg-surface px-5 py-4 outline-none no-highlight;
+
+  cursor: var(--cursor-interactive);
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply border-field-border-hover;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Ring instead of a thicker border: no layout shift on selection. */
+  &[data-selected="true"] {
+    @apply border-transparent ring-2 ring-accent;
+  }
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
 /* === Scrollbars (standards-only; apply per scroll slot in component CSS) === */
 @utility scrollbar {
   scrollbar-width: var(--scrollbar-width);

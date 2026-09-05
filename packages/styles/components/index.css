@@ -118,6 +118,7 @@
  * ------------------------------------------------------------------------------------------------ */
 @import "./checkbox-group.css";
 @import "./checkbox.css";
+@import "./checkbox-button-group.css";
 @import "./fieldset.css";
 @import "./input-otp.css";
 @import "./input.css";
