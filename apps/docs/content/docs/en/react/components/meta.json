@@ -68,6 +68,7 @@
     "(collections)/list-box",
     "(collections)/list-view",
     "(feedback)/meter",
+    "(feedback)/rating",
     "(overlays)/modal",
     "(forms)/number-field",
     "(navigation)/pagination",

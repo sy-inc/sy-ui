@@ -1,0 +1,137 @@
+---
+title: Rating 评分
+description: 支持只读小数、定制图标的星级评分输入组件。
+links:
+  rac: RadioGroup
+  source: rating/rating.tsx
+  styles: rating.css
+  storybook: Components/Feedback/Rating
+---
+
+## 用法
+
+```tsx
+import { Rating } from "@sy-inc/react";
+```
+
+<ComponentPreview name="rating-default" />
+
+## 组件结构
+
+```tsx
+<Rating aria-label="评分" defaultValue={3}>
+  <Rating.Item value={1} />
+  <Rating.Item value={2} />
+  <Rating.Item value={3} />
+  <Rating.Item value={4} />
+  <Rating.Item value={5} />
+</Rating>
+```
+
+## 示例
+
+### 尺寸
+
+<ComponentPreview name="rating-sizes" />
+
+### 受控模式
+
+<ComponentPreview name="rating-controlled" />
+
+### 只读与小数评分
+
+设置 `isReadOnly` 并传入小数 `value`，即可显示部分填充的星级。
+
+<ComponentPreview name="rating-read-only" />
+
+### 自定义图标
+
+可为 `Rating` 传入统一图标，也可为单个 `Rating.Item` 单独传入图标。
+
+<ComponentPreview name="rating-custom-icon-heart" />
+
+<ComponentPreview name="rating-custom-icon-per-item" />
+
+### 禁用、颜色与标签
+
+<ComponentPreview name="rating-disabled" />
+
+<ComponentPreview name="rating-custom-color" />
+
+<ComponentPreview name="rating-with-label" />
+
+### 商品评价
+
+<ComponentPreview name="rating-product-review" />
+
+## 样式参考
+
+### CSS 类
+
+- `.rating` — 单选组根节点
+- `.rating__item` — 单个评分选项
+- `.rating__icon` — 图标容器
+- `.rating__icon-partial` — 只读小数覆盖层
+- `.rating--sm`、`.rating--md`、`.rating--lg` — 尺寸修饰符
+
+### CSS 变量
+
+- `--rating-active-color` — 选中图标颜色
+- `--rating-inactive-color` — 未选中图标颜色
+- `--rating-filled` — 该项呈现为填充态时为 `1`，否则为 `0`
+
+hover 预览是纯 CSS 实现的，因此 `data-active` 只反映已提交的值。自定义图标需要跟随预览变化时，改用 `--rating-filled` —— 例如把空心字形换成实心：
+
+```tsx
+<Rating.Item value={1}>
+  <span className="glyph">
+    <Icon className="glyph__outline" icon="gravity-ui:star" />
+    <Icon className="glyph__fill" icon="gravity-ui:star-fill" />
+  </span>
+</Rating.Item>
+```
+
+```css
+.glyph {
+  display: grid;
+}
+.glyph > * {
+  grid-area: 1 / 1;
+}
+
+.glyph__fill {
+  opacity: var(--rating-filled);
+}
+.glyph__outline {
+  opacity: calc(1 - var(--rating-filled));
+}
+```
+
+## API 参考
+
+### Rating
+
+继承自 [React Aria RadioGroup](https://react-spectrum.adobe.com/react-aria/RadioGroup.html)，其中 `value`、`defaultValue` 与 `onChange` 使用 Rating 的数值 API。
+
+| 属性 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | 图标尺寸 |
+| `value` | `number \| null` | — | 受控评分值。传 `null` 表示受控且未选中 |
+| `defaultValue` | `number` | — | 初始评分值 |
+| `onValueChange` | `(value: number) => void` | — | 选择后调用 |
+| `icon` | `ReactNode` | 实心星形 | 未提供 children 时的图标 |
+| `isReadOnly` | `boolean` | `false` | 显示不可交互的评分 |
+| `getItemLabel` | `(value: number) => string` | `` `${value} stars` `` | 每个选项的无障碍标签 |
+
+### Rating.Item
+
+继承自 [React Aria Radio](https://react-spectrum.adobe.com/react-aria/RadioGroup.html)。
+
+| 属性 | 类型 | 描述 |
+| --- | --- | --- |
+| `value` | `number` | 必填的数值评分 |
+| `children` | `ReactNode` | 该项的自定义图标，覆盖分组的 `icon` |
+
+## 相关组件
+
+<RelatedComponents component="rating" />

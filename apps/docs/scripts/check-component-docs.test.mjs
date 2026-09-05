@@ -31,6 +31,7 @@ test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("kpi"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("kpi-group"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("overflow-text"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("rating"));
   const root = await mkdtemp(path.join(tmpdir(), "sy-docs-"));
 
   try {

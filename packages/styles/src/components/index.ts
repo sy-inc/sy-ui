@@ -80,6 +80,7 @@ export * from "./progress-circle/progress-circle.styles";
 export * from "./radio-button-group";
 export * from "./radio-group/radio-group.styles";
 export * from "./radio/radio.styles";
+export * from "./rating/rating.styles";
 export * from "./range-calendar/range-calendar.styles";
 export * from "./resizable/resizable.styles";
 export * from "./rich-text-editor/rich-text-editor.styles";
