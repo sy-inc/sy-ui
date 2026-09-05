@@ -35,6 +35,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "kpi-group",
   "overflow-text",
   "rating",
+  "countdown",
 ];
 
 const LANGUAGES = ["en", "cn"];

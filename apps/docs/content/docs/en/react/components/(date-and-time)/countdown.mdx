@@ -1,0 +1,77 @@
+---
+title: Countdown
+description: A deadline-based countdown with CSS digit transitions.
+links:
+  source: countdown/countdown.tsx
+  styles: countdown.css
+  storybook: Components/Countdown
+---
+
+## Usage
+
+Keep the deadline stable across renders. This example starts a seven-day countdown each time it mounts, matching the **7 Days** Storybook story.
+
+```tsx
+"use client";
+
+import {Countdown} from "@sy-inc/react";
+import {useState} from "react";
+
+export default function SevenDays() {
+  const [endDate] = useState(() => Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+  return <Countdown aria-label="Time remaining" endDate={endDate} size="lg" />;
+}
+```
+
+For a shared event, supply its fixed deadline from your data instead. Numeric deadlines are Unix timestamps in **milliseconds**; date strings should include a timezone, such as `2027-01-01T00:00:00Z`.
+
+## Anatomy
+
+`Countdown` (also available as `Countdown.Root` or the named `CountdownRoot`) renders a `span` with timer semantics. It displays days, hours, minutes, and seconds in stable groups, even when days reach zero. Each number has at least two digits; days can grow beyond two digits. A day means 24 elapsed hours, not a calendar-day boundary.
+
+The unit and digit elements are internal implementation details with public styling slots. No context or additional public part is needed. Compose a label, Card, Surface, or Button around the countdown using existing components.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `endDate` | `Date \| string \| number` | Required | Absolute deadline. |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Digit size and spacing. |
+| `animation` | `"slide" \| "none"` | `"slide"` | Vertical digit transition. |
+| `labels` | `Partial<Record<"days" \| "hours" \| "minutes" \| "seconds", string>>` | English unit names | Visible and accessible unit labels. |
+| `completionContent` | `ReactNode` | — | Replaces the four zero groups after completion. Use inline content inside the root span. |
+| `onComplete` | `() => void` | — | Called once for the active deadline, including a deadline already expired on mount. Changing the deadline starts a new cycle. |
+| `className` | `string` | — | Root styles. |
+| `ref` | `Ref<HTMLSpanElement>` | — | Root element. |
+
+Native span attributes, including `aria-label`, `aria-labelledby`, and `dir`, are supported. Exported types are `CountdownProps`, `CountdownRootProps`, and `CountdownVariants`; styles are exported as `countdownVariants` from both `@sy-inc/react` and `@sy-inc/styles`. The component is also available from `@sy-inc/react/countdown`.
+
+## Timing and completion
+
+The component rounds positive partial seconds up and clamps expired deadlines to zero. Every tick computes the remaining time from the deadline and current device time; a delayed callback does not merely subtract one second. Returning to the tab also refreshes the value. Changing `endDate` cancels the previous schedule; unmounting cleans up timers and listeners.
+
+An invalid deadline displays dashes and `data-state="invalid"`, without calling `onComplete`. SSR and the initial hydration render use dashes with `data-state="pending"`, then start the clock after mounting. This avoids server/client clock differences producing hydration mismatches.
+
+## Labels and animation
+
+```tsx
+<Countdown
+  aria-label="倒计时"
+  endDate="2027-01-01T00:00:00Z"
+  labels={{days: "天", hours: "时", minutes: "分", seconds: "秒"}}
+  animation="none"
+/>
+```
+
+Only changing digits animate. CSS moves fully opaque digits with a slow start, rapid midpoint, and slow finish; React holds at most two glyphs per digit. There is no animation-library dependency. `prefers-reduced-motion: reduce` disables motion while preserving timing and callbacks. `--countdown-duration` is a local CSS customization point, defaulting to `1s`. The local `--countdown-easing` variable defaults to `cubic-bezier(1, 0, 0, 1)`.
+
+## Accessibility
+
+The root uses `role="timer"`, an overridable default name of “Countdown”, and `aria-live="off"` so updates do not interrupt every second. A single visually hidden text value exposes the remaining time; animated visual groups are hidden from assistive technology. Unit labels default to English and can be translated with `labels`. The timer adds no focus stop or keyboard interaction.
+
+To announce completion, use `onComplete` to update a separate, persistent `role="status"` region, as demonstrated in the **Completion** story. If composing inside a button, give the button an explicit action label.
+
+## Styling reference
+
+Stable `data-slot` values are `countdown`, `countdown-accessible-text`, `countdown-segment`, `countdown-value`, `countdown-digit`, `countdown-glyph`, and `countdown-label`. Segments expose `data-unit="days | hours | minutes | seconds"`. The root exposes `data-state="pending | running | complete | invalid"`.

@@ -61,6 +61,9 @@
     },
     "./overflow-text": {
       "import": "./src/components/overflow-text/index.ts"
+    },
+    "./countdown": {
+      "import": "./src/components/countdown/index.ts"
     }
   },
   "repository": {

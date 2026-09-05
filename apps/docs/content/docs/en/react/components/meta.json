@@ -41,6 +41,7 @@
     "(colors)/color-swatch",
     "(colors)/color-swatch-picker",
     "(pickers)/combo-box",
+    "(date-and-time)/countdown",
     "(date-and-time)/date-field",
     "(date-and-time)/date-picker",
     "(date-and-time)/date-range-picker",

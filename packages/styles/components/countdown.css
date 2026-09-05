@@ -1,0 +1,87 @@
+.countdown {
+  --countdown-duration: 1s;
+  /* Slow at both ends, with a rapid roll through the midpoint. */
+  --countdown-easing: cubic-bezier(1, 0, 0, 1);
+
+  @apply inline-flex items-center gap-4 align-middle text-2xl;
+}
+
+.countdown__accessible-text {
+  @apply sr-only;
+}
+
+.countdown__segment {
+  @apply inline-flex flex-col items-center gap-1;
+}
+
+.countdown__value {
+  @apply inline-flex font-semibold tabular-nums;
+  line-height: 1.2;
+}
+
+.countdown__digit {
+  @apply relative inline-block overflow-hidden;
+  width: 1ch;
+  height: 1.2em;
+}
+
+.countdown__glyph {
+  @apply absolute inset-0 flex items-center justify-center;
+
+  &[data-exiting="true"] {
+    opacity: 0;
+  }
+}
+
+.countdown__label {
+  @apply text-xs font-normal text-muted;
+}
+
+.countdown--sm {
+  @apply gap-3 text-base;
+}
+
+.countdown--md {
+  /* The base block owns the default size. */
+}
+
+.countdown--lg {
+  @apply gap-6 text-4xl;
+}
+
+.countdown--slide .countdown__glyph {
+  &[data-entering="true"] {
+    animation: countdown-enter var(--countdown-duration) var(--countdown-easing) both;
+  }
+
+  &[data-exiting="true"] {
+    animation: countdown-exit var(--countdown-duration) var(--countdown-easing) both;
+  }
+}
+
+@keyframes countdown-enter {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes countdown-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown--slide .countdown__glyph[data-entering="true"],
+  .countdown--slide .countdown__glyph[data-exiting="true"] {
+    animation: none;
+  }
+}
