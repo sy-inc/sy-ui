@@ -1,0 +1,67 @@
+---
+title: OverflowText
+description: Single-line text with edge fades and scrolling on hover or focus.
+links:
+  source: overflow-text/overflow-text.tsx
+  styles: overflow-text.css
+  storybook: Components/OverflowText
+---
+
+## Usage
+
+```tsx
+import {OverflowText} from "@sy-inc/react";
+
+<OverflowText className="w-64">
+  Quarterly revenue across all Southeast Asia markets — September 2026
+</OverflowText>;
+```
+
+Text that fits has no fade, automatic motion, or added Tab stop. Overflow fades only at clipped edges. Hover or focus waits for `delay`, scrolls at `speed`, and stops at the end. Leaving both hover and focus resets immediately. Constrain the component or its parent width; nested flex/grid items must also be allowed to shrink, for example with `min-w-0`.
+
+## Anatomy
+
+`OverflowText` is a single public component with a root `div`, a scrolling viewport `span`, and a text `span`. There are no public subcomponents.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `string` | — | Required complete plain text. |
+| `autoScroll` | `boolean` | `true` | Enable hover/focus scrolling; manual scrolling remains available when false. |
+| `delay` | `number` | `400` | Wait in milliseconds; negatives become 0. |
+| `speed` | `number` | `40` | Pixels per second; a non-positive value disables automatic motion. |
+| `className` | `string` | — | Root classes for width and typography. |
+| `ref` | `Ref<HTMLDivElement>` | — | References the root element. |
+
+`tabIndex` is applied to the scrolling viewport, which is the element that takes focus.
+
+Native `div` props including `dir`, `style`, `tabIndex`, and events are supported. Consumer handlers are composed with internal behavior; `onKeyDown` can prevent the native scroll with `preventDefault()`. There are no semantic or size variants; text inherits font and color.
+
+## Accessibility and interaction
+
+Overflowing text is tabbable by default: the viewport itself takes focus, so the browser scrolls it with the arrow keys. Home and End are vertical browser commands, so the component maps them to the logical text start and end. Keyboard, wheel, or touch input pauses automatic scrolling until both hover and focus leave. Touch supports native horizontal swiping. Reduced motion disables automatic scrolling while preserving keyboard and touch access. Complete text appears once in the DOM. RTL, text updates, container resizing, and font changes are supported. Only strings are accepted; do not wrap buttons or links.
+
+## Composition with KPI
+
+```tsx
+import {KPI, OverflowText} from "@sy-inc/react";
+
+<KPI className="w-72">
+  <KPI.Header>
+    <KPI.Title className="min-w-0">
+      <OverflowText>Quarterly revenue across all Southeast Asia markets</OverflowText>
+    </KPI.Title>
+  </KPI.Header>
+  <KPI.Content className="flex-col items-start">
+    <KPI.Value value={228451} formatOptions={{style: "currency", currency: "USD"}} />
+    <KPI.Trend>+33%</KPI.Trend>
+  </KPI.Content>
+</KPI>;
+```
+
+Use for long titles. Prefer showing important values completely and move the trend to another line when space is limited.
+
+## Styling and state
+
+Export `overflowTextVariants` and `OverflowTextVariants` from `@sy-inc/react` or `@sy-inc/styles`. Stable slots are `overflow-text`, `overflow-text-viewport`, and `overflow-text-content`. The root exposes `data-overflowing="true|false"`, `data-hovered`, and `data-focus-visible`. The viewport reuses `ScrollShadow`, so it carries the `scroll-shadow` classes and its `data-left-scroll` / `data-right-scroll` / `data-left-right-scroll` attributes for hidden content at the logical edges. The fade size is `--scroll-shadow-size`, set here to `min(16px, 25%)`.

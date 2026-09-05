@@ -1,0 +1,46 @@
+---
+title: KPI
+description: A composable metric card with trends, progress, charts, and actions.
+links:
+  source: kpi/kpi.tsx
+  styles: kpi.css
+  storybook: Components/KPI
+---
+
+## Usage
+
+```tsx
+import {KPI} from "@sy-inc/react";
+
+<KPI>
+  <KPI.Header>
+    <KPI.Title>Total Revenue</KPI.Title>
+  </KPI.Header>
+  <KPI.Content>
+    <KPI.Value formatOptions={{style: "currency", currency: "USD"}} value={228451} />
+    <KPI.Trend>+3.3%</KPI.Trend>
+  </KPI.Content>
+</KPI>;
+```
+
+## Anatomy
+
+`KPI` composes `Header`, `Icon`, `Title`, `Content`, `Value`, `Trend`, `Progress`, `Actions`, `Chart`, and `Footer`. Use the shared `Separator` for a divider; as a direct child of the root it bleeds to the card edges. The root is a Card; every other part renders a plain `div` unless noted below.
+
+## Value and trend
+
+`Value` formats `value` with `Intl.NumberFormat` through React Aria's `useNumberFormatter`, so the locale comes from the nearest `I18nProvider`. Pass any `Intl.NumberFormatOptions` as `formatOptions`. A render child receives the formatted string. `Trend` accepts `trend="up" | "down" | "neutral"`, Chip size and variant props, and defaults to `up` and `soft`.
+
+## Progress, actions, and chart
+
+`Progress` accepts a required 0–100 `value` and `color="success" | "warning" | "danger"` (default `success`). `Icon` accepts the same `color` values for its tinted background. `Actions` is an icon-only ghost Button with the accessible default name “More actions”.
+
+`Chart` is a sized container (`height={80}` by default) with a horizontal edge fade applied to the `svg` it contains. It ships no chart dependency; render any chart inside it, for example a Recharts `AreaChart` in a `ResponsiveContainer` at `height="100%"`. When placed directly under the root it bleeds to the card edges.
+
+## Accessibility
+
+Provide text for each `Title`. Give `Actions` an accessible label when its action differs from the default. Decorative icons inside `Icon` should be hidden from assistive technology.
+
+## Styling reference
+
+Stable slots are `kpi`, `kpi-header`, `kpi-content`, `kpi-icon`, `kpi-title`, `kpi-value`, `kpi-trend`, `kpi-progress`, `kpi-actions`, `kpi-chart`, and `kpi-footer`.

@@ -1,0 +1,25 @@
+.kpi-group {
+  @apply overflow-hidden bg-surface shadow-surface;
+  border-radius: min(16px, var(--radius-2xl));
+}
+
+.kpi-group--horizontal {
+  @apply flex flex-row;
+}
+
+.kpi-group--horizontal > [data-slot="kpi"] {
+  @apply flex-1 rounded-none border-0 shadow-none;
+}
+
+.kpi-group--vertical {
+  @apply flex flex-col;
+}
+
+.kpi-group--vertical > [data-slot="kpi"] {
+  @apply rounded-none border-0 shadow-none;
+}
+
+/* Size, color and orientation come from .separator; only the inset differs. */
+.kpi-group--horizontal > [data-slot="separator"] {
+  @apply my-4;
+}

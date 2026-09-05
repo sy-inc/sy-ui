@@ -1,0 +1,46 @@
+---
+title: KPI 指标卡片
+description: 可组合的指标卡片，支持趋势、进度、图表与操作。
+links:
+  source: kpi/kpi.tsx
+  styles: kpi.css
+  storybook: Components/KPI
+---
+
+## 用法
+
+```tsx
+import {KPI} from "@sy-inc/react";
+
+<KPI>
+  <KPI.Header>
+    <KPI.Title>总收入</KPI.Title>
+  </KPI.Header>
+  <KPI.Content>
+    <KPI.Value formatOptions={{style: "currency", currency: "USD"}} value={228451} />
+    <KPI.Trend>+3.3%</KPI.Trend>
+  </KPI.Content>
+</KPI>;
+```
+
+## 结构
+
+`KPI` 由 `Header`、`Icon`、`Title`、`Content`、`Value`、`Trend`、`Progress`、`Actions`、`Chart` 与 `Footer` 组成。分隔线直接使用共享的 `Separator`，作为根节点的直接子元素时会自动出血到卡片边缘。根节点复用 Card，其余部分除特别说明外均渲染为普通 `div`。
+
+## 数值和趋势
+
+`Value` 通过 React Aria 的 `useNumberFormatter` 调用 `Intl.NumberFormat` 格式化 `value`，locale 来自最近的 `I18nProvider`。任何 `Intl.NumberFormatOptions` 都可以通过 `formatOptions` 传入。渲染函数 children 会收到格式化后的字符串。`Trend` 支持 `trend="up" | "down" | "neutral"`、Chip 的 size 和 variant，默认值为 `up` 与 `soft`。
+
+## 进度、操作和图表
+
+`Progress` 必须传入 0–100 的 `value`，`color` 可为 `success`、`warning`、`danger`，默认 `success`。`Icon` 的 `color` 取值相同，用于着色背景。`Actions` 是 ghost 图标按钮，默认可访问名称为“More actions”。
+
+`Chart` 是一个固定高度的容器（默认 `height={80}`），会对其中的 `svg` 施加左右渐隐遮罩。它不引入任何图表依赖，可在其中渲染任意图表，例如放在 `height="100%"` 的 `ResponsiveContainer` 中的 Recharts `AreaChart`。直接放在根节点下时会贴边延伸到卡片边缘。
+
+## 无障碍
+
+每个 `Title` 都应提供可读文本。操作含义与默认值不同的 `Actions` 应提供明确的可访问名称。`Icon` 中的装饰图标应对辅助技术隐藏。
+
+## 样式参考
+
+稳定 slot 为 `kpi`、`kpi-header`、`kpi-content`、`kpi-icon`、`kpi-title`、`kpi-value`、`kpi-trend`、`kpi-progress`、`kpi-actions`、`kpi-chart` 与 `kpi-footer`。

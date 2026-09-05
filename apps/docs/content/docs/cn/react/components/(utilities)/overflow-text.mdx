@@ -1,0 +1,67 @@
+---
+title: OverflowText
+description: 单行文本溢出时边缘渐隐，悬停或聚焦后滚动展示。
+links:
+  source: overflow-text/overflow-text.tsx
+  styles: overflow-text.css
+  storybook: Components/OverflowText
+---
+
+## 用法
+
+```tsx
+import {OverflowText} from "@sy-inc/react";
+
+<OverflowText className="w-64">
+  Quarterly revenue across all Southeast Asia markets — September 2026
+</OverflowText>;
+```
+
+内容未溢出时不渐隐、不自动滚动，也不增加 Tab 停靠点。溢出时仅在仍有隐藏内容的边缘渐隐；悬停或聚焦后等待 `delay`，以 `speed` 滚动到末尾并停止。悬停和焦点都离开后立即复位。需要给组件或父容器限制宽度；嵌套 Flex/Grid 项也应允许收缩（例如 `min-w-0`）。
+
+## Anatomy
+
+`OverflowText` 是单个公开组件，内部为根 `div`、滚动视口 `span` 和文本 `span`，没有公开子组件。
+
+## Props
+
+| Prop | Type | Default | 说明 |
+| --- | --- | --- | --- |
+| `children` | `string` | — | 完整纯文本，必填。 |
+| `autoScroll` | `boolean` | `true` | 启用悬停和聚焦自动滚动；关闭后仍可手动滚动。 |
+| `delay` | `number` | `400` | 自动滚动前等待的毫秒数；负数按 0 处理。 |
+| `speed` | `number` | `40` | 每秒像素数；非正数表示关闭自动滚动。 |
+| `className` | `string` | — | 根节点类名，支持宽度和排版定制。 |
+| `ref` | `Ref<HTMLDivElement>` | — | 指向根节点。 |
+
+`tabIndex` 应用在滚动视口上，它才是实际接收焦点的元素。
+
+支持原生 `div` props，包括 `dir`、`style`、`tabIndex` 和事件；外部事件处理器与内部行为合并。`onKeyDown` 调用 `preventDefault()` 可取消浏览器的原生滚动。没有额外语义或尺寸 variants，文本继承父级字体和颜色。
+
+## 无障碍与交互
+
+溢出时默认可 Tab 聚焦，接收焦点的是滚动视口本身，因此方向键由浏览器原生滚动；Home 和 End 在浏览器中是纵向命令，由组件映射到文本的逻辑起点和末尾。键盘、滚轮、触摸操作会停止本次自动滚动，直到悬停和焦点都离开。触屏支持视口原生横向滑动。`prefers-reduced-motion: reduce` 下关闭自动滚动，仍保留键盘和触屏访问。完整文本在 DOM 中仅出现一次，支持 RTL、文字更新、容器尺寸及字体变化。组件只接受字符串，不用于包裹按钮或链接。
+
+## 与 KPI 组合
+
+```tsx
+import {KPI, OverflowText} from "@sy-inc/react";
+
+<KPI className="w-72">
+  <KPI.Header>
+    <KPI.Title className="min-w-0">
+      <OverflowText>Quarterly revenue across all Southeast Asia markets</OverflowText>
+    </KPI.Title>
+  </KPI.Header>
+  <KPI.Content className="flex-col items-start">
+    <KPI.Value value={228451} formatOptions={{style: "currency", currency: "USD"}} />
+    <KPI.Trend>+33%</KPI.Trend>
+  </KPI.Content>
+</KPI>;
+```
+
+适用于长标题。金额等核心数据优先完整展示，空间不足时将涨幅移到下一行。
+
+## 样式与状态
+
+从 `@sy-inc/react` 或 `@sy-inc/styles` 导出 `overflowTextVariants` 和 `OverflowTextVariants`。稳定 slots 为 `overflow-text`、`overflow-text-viewport`、`overflow-text-content`。根节点提供 `data-overflowing="true|false"`、`data-hovered` 和 `data-focus-visible`；视口复用 `ScrollShadow`，因此带有 `scroll-shadow` 系列类名，并通过 `data-left-scroll` / `data-right-scroll` / `data-left-right-scroll` 表示逻辑起点和末尾仍有隐藏内容。渐隐宽度由 `--scroll-shadow-size` 控制，这里取 `min(16px, 25%)`。

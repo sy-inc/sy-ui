@@ -1,0 +1,20 @@
+.overflow-text {
+  @apply block max-w-full min-w-0;
+
+  /* The viewport holds the focus, so the ring follows `data-focus-visible` from the root. */
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+/* Imported after scroll-shadow.css, so these override the shared defaults. */
+.overflow-text__viewport {
+  @apply block w-full whitespace-nowrap;
+  scroll-behavior: auto;
+  overscroll-behavior-x: contain;
+  --scroll-shadow-size: min(16px, 25%);
+}
+
+.overflow-text__content {
+  @apply inline-block w-max min-w-full align-top;
+}

@@ -1,0 +1,93 @@
+/* Root reuses .card for layout, surface and shadow; only the radius differs. */
+.kpi {
+  border-radius: min(16px, var(--radius-2xl));
+}
+
+.kpi__header {
+  @apply mb-1 flex items-center gap-2;
+}
+
+/* `content-start` keeps the first row on a common line across the cards of a group; without it the
+   rows are centred in whatever space the card has left over, which differs from card to card. */
+.kpi__content {
+  @apply grid flex-1 grid-cols-[1fr_auto] content-start items-center gap-x-2;
+}
+
+.kpi__icon {
+  @apply flex size-8 shrink-0 items-center justify-center rounded-md;
+}
+
+.kpi__icon > svg {
+  @apply size-4;
+}
+
+.kpi__icon[data-color="success"] {
+  @apply bg-success-soft text-success-soft-foreground;
+}
+
+.kpi__icon[data-color="warning"] {
+  @apply bg-warning-soft text-warning-soft-foreground;
+}
+
+.kpi__icon[data-color="danger"] {
+  @apply bg-danger-soft text-danger-soft-foreground;
+}
+
+.kpi__actions {
+  @apply absolute end-2.5 top-2.5;
+}
+
+.kpi__title {
+  @apply text-sm font-medium text-muted;
+}
+
+.kpi__value {
+  @apply text-2xl font-semibold tracking-tight text-foreground;
+}
+
+.kpi__trend {
+  @apply shrink-0;
+}
+
+.kpi__header > .kpi__trend {
+  @apply ms-auto;
+}
+
+.kpi__progress {
+  @apply col-span-full mt-1;
+}
+
+/* The fade is applied to the chart's <svg> so overlays (tooltips) rendered next to it are not masked. */
+.kpi__chart {
+  --kpi-chart-fade: 10%;
+}
+
+.kpi__chart svg {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black var(--kpi-chart-fade),
+    black calc(100% - var(--kpi-chart-fade)),
+    transparent 100%
+  );
+}
+
+/* Bleed to the card edges; bottom corners follow the card radius. */
+.kpi > .kpi__chart {
+  @apply -mx-4 mt-2 -mb-4 overflow-hidden;
+  border-end-start-radius: inherit;
+  border-end-end-radius: inherit;
+}
+
+.kpi > .kpi__chart:has(+ [data-slot="separator"], + .kpi__footer) {
+  @apply mb-0 rounded-none;
+}
+
+/* Size, color and orientation come from .separator; only the bleed differs. */
+.kpi > [data-slot="separator"] {
+  @apply -mx-4 w-[calc(100%+2rem)];
+}
+
+.kpi__footer {
+  @apply -mb-1;
+}

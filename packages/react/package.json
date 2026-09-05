@@ -44,11 +44,20 @@
     "./input-phone": {
       "import": "./src/components/input-phone/index.ts"
     },
+    "./kpi": {
+      "import": "./src/components/kpi/index.ts"
+    },
+    "./kpi-group": {
+      "import": "./src/components/kpi-group/index.ts"
+    },
     "./resizable": {
       "import": "./src/components/resizable/index.ts"
     },
     "./rich-text-editor": {
       "import": "./src/components/rich-text-editor/index.ts"
+    },
+    "./overflow-text": {
+      "import": "./src/components/overflow-text/index.ts"
     }
   },
   "repository": {
@@ -117,6 +126,7 @@
     "react-aria-components": "1.20.0",
     "react-dom": "19.2.8",
     "react-phone-number-input": "3.4.18",
+    "recharts": "3.10.1",
     "tailwindcss": "4.1.18",
     "vitest": "4.1.10"
   },

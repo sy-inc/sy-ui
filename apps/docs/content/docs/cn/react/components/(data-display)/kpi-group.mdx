@@ -1,0 +1,32 @@
+---
+title: KPI Group 指标卡片组
+description: 用于水平或垂直排列 KPI 指标卡片的共享 surface。
+links:
+  source: kpi-group/kpi-group.tsx
+  styles: kpi-group.css
+  storybook: Components/KPIGroup
+---
+
+## 用法
+
+```tsx
+import {KPI, KPIGroup, Separator} from "@sy-inc/react";
+
+<KPIGroup>
+  <KPI>{/* 指标 */}</KPI>
+  <Separator />
+  <KPI>{/* 指标 */}</KPI>
+</KPIGroup>;
+```
+
+## API
+
+根节点支持原生 `div` 属性与 `orientation="horizontal" | "vertical"`，默认 `horizontal`，并带有 `role="group"`。只在需要时组合共享的 `Separator`；作为直接子节点时由 Group 负责内缩，并自动与组方向垂直（水平组中为竖线，垂直组中为横线）。
+
+## 无障碍
+
+当一组 KPI 需要共同名称时，为 Group 设置 `aria-label`。分隔线带有 `role="separator"` 和对应的 `aria-orientation`。
+
+## 样式参考
+
+稳定 slot 为 `kpi-group`。方向 hook 为 `kpi-group--horizontal` 与 `kpi-group--vertical`。

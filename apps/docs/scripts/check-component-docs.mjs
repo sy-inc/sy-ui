@@ -30,6 +30,9 @@ export const REQUIRED_COMPONENT_DOCS = [
   "file-tree",
   "cell-select",
   "marquee",
+  "kpi",
+  "kpi-group",
+  "overflow-text",
 ];
 
 const LANGUAGES = ["en", "cn"];

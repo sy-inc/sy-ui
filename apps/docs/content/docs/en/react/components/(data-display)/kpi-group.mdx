@@ -1,0 +1,32 @@
+---
+title: KPI Group
+description: A shared surface for arranging KPI cards in horizontal or vertical stacks.
+links:
+  source: kpi-group/kpi-group.tsx
+  styles: kpi-group.css
+  storybook: Components/KPIGroup
+---
+
+## Usage
+
+```tsx
+import {KPI, KPIGroup, Separator} from "@sy-inc/react";
+
+<KPIGroup>
+  <KPI>{/* metric */}</KPI>
+  <Separator />
+  <KPI>{/* metric */}</KPI>
+</KPIGroup>;
+```
+
+## API
+
+The root accepts native `div` props and `orientation="horizontal" | "vertical"`; horizontal is the default and the root has `role="group"`. Compose the shared `Separator` only where a divider is needed; as a direct child it is inset by the group and automatically runs across the group direction (vertical in a horizontal group, horizontal in a vertical one).
+
+## Accessibility
+
+Set an `aria-label` on the group when the KPI cards need a collective name. Separators expose `role="separator"` with the matching `aria-orientation`.
+
+## Styling reference
+
+The stable slot is `kpi-group`. Orientation hooks are `kpi-group--horizontal` and `kpi-group--vertical`.

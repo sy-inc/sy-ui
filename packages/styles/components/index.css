@@ -153,6 +153,8 @@
 @import "./separator.css";
 @import "./resizable.css";
 @import "./surface.css";
+@import "./kpi.css";
+@import "./kpi-group.css";
 
 /* ------------------------------------------------------------------------------------------------
  * Media
@@ -188,3 +190,4 @@
  * ------------------------------------------------------------------------------------------------ */
 @import "./marquee.css";
 @import "./scroll-shadow.css";
+@import "./overflow-text.css";
