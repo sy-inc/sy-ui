@@ -1,0 +1,143 @@
+---
+title: Rating
+description: A star rating input with read-only fractional values and custom icons.
+links:
+  rac: RadioGroup
+  source: rating/rating.tsx
+  styles: rating.css
+  storybook: Components/Feedback/Rating
+---
+
+## Usage
+
+```tsx
+import { Rating } from "@sy-inc/react";
+```
+
+<ComponentPreview name="rating-default" />
+
+## Anatomy
+
+```tsx
+<Rating aria-label="Rating" defaultValue={3}>
+  <Rating.Item value={1} />
+  <Rating.Item value={2} />
+  <Rating.Item value={3} />
+  <Rating.Item value={4} />
+  <Rating.Item value={5} />
+</Rating>
+```
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="rating-sizes" />
+
+### Controlled
+
+<ComponentPreview name="rating-controlled" />
+
+### Read only
+
+Set `isReadOnly` and provide a fractional `value` to display partial stars.
+
+<ComponentPreview name="rating-read-only" />
+
+### Custom icons
+
+Pass one icon to `Rating` for the whole group, or give an individual `Rating.Item` its own.
+
+<ComponentPreview name="rating-custom-icon-heart" />
+
+<ComponentPreview name="rating-custom-icon-per-item" />
+
+### Disabled
+
+<ComponentPreview name="rating-disabled" />
+
+### Custom color
+
+<ComponentPreview name="rating-custom-color" />
+
+### With label
+
+<ComponentPreview name="rating-with-label" />
+
+### Product review
+
+<ComponentPreview name="rating-product-review" />
+
+## Styling Reference
+
+### CSS classes
+
+- `.rating` — radio group root
+- `.rating__item` — a rating option
+- `.rating__icon` — the icon wrapper
+- `.rating__icon-partial` — fractional read-only overlay
+- `.rating--sm`, `.rating--md`, `.rating--lg` — size modifiers
+
+### CSS variables
+
+- `--rating-active-color` — selected icon color
+- `--rating-inactive-color` — unselected icon color
+- `--rating-filled` — `1` when the item reads as filled, `0` when it does not
+
+The hover preview is pure CSS, so `data-active` reflects only the committed
+value. Read `--rating-filled` instead when a custom icon has to change with the
+preview — for example to swap an outline glyph for a solid one:
+
+```tsx
+<Rating.Item value={1}>
+  <span className="glyph">
+    <Icon className="glyph__outline" icon="gravity-ui:star" />
+    <Icon className="glyph__fill" icon="gravity-ui:star-fill" />
+  </span>
+</Rating.Item>
+```
+
+```css
+.glyph {
+  display: grid;
+}
+.glyph > * {
+  grid-area: 1 / 1;
+}
+
+.glyph__fill {
+  opacity: var(--rating-filled);
+}
+.glyph__outline {
+  opacity: calc(1 - var(--rating-filled));
+}
+```
+
+## API Reference
+
+### Rating
+
+Inherits from [React Aria RadioGroup](https://react-spectrum.adobe.com/react-aria/RadioGroup.html), except `value`, `defaultValue`, and `onChange` use Rating's numeric API.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Icon size |
+| `value` | `number \| null` | — | Controlled rating. Pass `null` for a controlled group with nothing selected |
+| `defaultValue` | `number` | — | Initial rating |
+| `onValueChange` | `(value: number) => void` | — | Called after selection |
+| `icon` | `ReactNode` | filled star | Icon for items without children |
+| `isReadOnly` | `boolean` | `false` | Displays a non-interactive rating |
+| `getItemLabel` | `(value: number) => string` | `` `${value} stars` `` | Accessible label for each item |
+
+### Rating.Item
+
+Inherits from [React Aria Radio](https://react-spectrum.adobe.com/react-aria/RadioGroup.html).
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `value` | `number` | Required numeric rating value |
+| `children` | `ReactNode` | Custom icon for this item, overriding the group's `icon` |
+
+## Related Components
+
+<RelatedComponents component="rating" />

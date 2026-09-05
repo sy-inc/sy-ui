@@ -1,0 +1,139 @@
+.rating {
+  --rating-active-color: var(--color-warning);
+  --rating-inactive-color: var(--color-surface-tertiary);
+
+  @apply inline-flex items-center outline-none;
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &[data-readonly="true"] {
+    pointer-events: none;
+
+    input {
+      display: none;
+    }
+  }
+}
+
+.rating__item {
+  @apply relative flex items-center justify-center outline-none no-highlight;
+
+  /* Spacing lives on the item rather than as a gap on the group, so the pointer
+     never crosses a dead zone between items and the hover preview cannot flash
+     off mid-sweep. px-[2.5px] is the default, equivalent to --md. */
+  @apply px-[2.5px];
+
+  cursor: var(--cursor-interactive);
+  transition: transform 150ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply rounded-sm status-focused;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply scale-80;
+  }
+
+  &[data-readonly="true"] {
+    cursor: default;
+  }
+
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.rating__icon {
+  @apply relative flex size-5 items-center justify-center;
+
+  /* 0 or 1, mirroring the color below. Exposed so a custom icon can react to the
+     fill state (including the hover preview) without restating the rules here. */
+  --rating-filled: 0;
+
+  color: var(--rating-inactive-color);
+  transition: color 100ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  svg {
+    @apply size-full;
+  }
+}
+
+.rating__icon-partial {
+  @apply absolute inset-y-0 left-0 flex items-center overflow-hidden;
+
+  width: var(--rating-partial);
+  color: var(--rating-active-color);
+
+  svg {
+    @apply size-5 shrink-0;
+  }
+}
+
+/* The committed selection. */
+.rating__item[data-active="true"] .rating__icon {
+  --rating-filled: 1;
+
+  color: var(--rating-active-color);
+}
+
+/* Hover preview: fill through the hovered item, empty everything after it.
+   React Aria only sets data-hovered for a real pointer, and never while the
+   group is disabled or read-only, so these need no further guards. Both rules
+   outrank the selection rule above, so previewing below the current rating
+   empties the tail; the second must stay after the first to win the tie. */
+.rating:has(.rating__item[data-hovered="true"]) .rating__icon {
+  --rating-filled: 1;
+
+  color: var(--rating-active-color);
+}
+
+.rating__item[data-hovered="true"] ~ .rating__item .rating__icon {
+  --rating-filled: 0;
+
+  color: var(--rating-inactive-color);
+}
+
+/* A fractional overlay shows the committed value, which the preview replaces. */
+.rating:has(.rating__item[data-hovered="true"]) .rating__icon-partial {
+  display: none;
+}
+
+.rating--sm {
+  /* No styles as spacing lives on the item */
+}
+
+.rating--md {
+  /* No styles as this is the default size */
+}
+
+.rating--lg {
+  /* No styles as spacing lives on the item */
+}
+
+.rating__item--sm {
+  @apply px-0.5;
+}
+
+.rating__item--sm .rating__icon,
+.rating__item--sm .rating__icon-partial svg {
+  @apply size-4;
+}
+
+.rating__item--md {
+  /* No styles as this is the default size */
+}
+
+.rating__item--lg {
+  @apply px-1;
+}
+
+.rating__item--lg .rating__icon,
+.rating__item--lg .rating__icon-partial svg {
+  @apply size-7;
+}

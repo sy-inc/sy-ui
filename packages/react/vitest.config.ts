@@ -19,6 +19,7 @@ export default defineConfig({
       "react-aria-components/Form",
       "react-aria-components/GridList",
       "react-aria-components/Label",
+      "react-aria-components/RadioGroup",
       "react-aria-components/Slider",
       "react-aria-components/useDragAndDrop",
     ],

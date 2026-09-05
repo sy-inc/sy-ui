@@ -54,6 +54,7 @@ export * from "./progress-bar";
 export * from "./progress-circle";
 export * from "./prompt-input";
 export * from "./radio-button-group";
+export * from "./rating";
 export * from "./segment";
 export * from "./sheet";
 export * from "./sidebar";
