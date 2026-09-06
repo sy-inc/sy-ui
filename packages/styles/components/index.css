@@ -94,6 +94,8 @@
  * ------------------------------------------------------------------------------------------------ */
 @import "./badge.css";
 @import "./chat-message.css";
+@import "./message-bubble.css";
+@import "./message-list.css";
 @import "./chip.css";
 @import "./item-card.css";
 @import "./item-card-group.css";

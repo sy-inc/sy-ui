@@ -16,6 +16,8 @@
     "(media)/avatar",
     "(data-display)/badge",
     "(data-display)/chat-message",
+    "(data-display)/message-bubble",
+    "(data-display)/message-list",
     "(navigation)/breadcrumbs",
     "(navigation)/bottom-bar",
     "(buttons)/button",

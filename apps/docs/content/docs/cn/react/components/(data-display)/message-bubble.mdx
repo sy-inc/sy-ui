@@ -1,0 +1,84 @@
+---
+title: MessageBubble 消息气泡
+description: 显示文字、图片和链接消息，并可选显示弱化的时间。
+
+links:
+  source: message-bubble/message-bubble.tsx
+  styles: message-bubble.css
+  storybook: Components/MessageBubble
+---
+
+## 用法
+
+```tsx
+import {MessageBubble} from "@sy-inc/react";
+```
+
+```tsx
+<MessageBubble content="中午见。" direction="sent" time="11:42" />
+```
+
+## 组件结构
+
+`MessageBubble` 渲染根节点（`data-slot="message-bubble"`）、内容气泡（`message-bubble-content`），以及仅在时间有效时渲染的 `time` 元素（`message-bubble-time`）。正文在 DOM 中始终位于时间之前；时间与正文共用文本流，能放下时留在末行，放不下时换到右对齐的新末行。
+
+## 图片与链接
+
+通过 `content` 传入 JSX；字符串保持原样，不解析 HTML、Markdown 或自动识别 URL。
+
+```tsx
+<MessageBubble
+  content={
+    <>
+      <img src="/photos/trip.jpg" alt="湖边的山景" width={600} height={400} loading="lazy" decoding="async" />
+      查看 <a href="https://example.com/trip">旅行计划</a>。
+    </>
+  }
+  direction="sent"
+  time="11:42"
+/>
+```
+
+也可以仅传入一张图片。为图片提供原始宽高可预留空间，避免加载时布局跳动；`loading` 与 `decoding` 由调用方控制。链接的 `href`、`target`、`rel` 也由调用方设置。
+
+## 长消息列表
+
+使用 `MessageList` 包裹消息，由组件提供底部跟随、悬浮向下箭头和点击后的平滑滚动。消费侧负责数据与最多保留 100 条的业务规则。
+
+```tsx
+import {MessageBubble, MessageList} from "@sy-inc/react";
+
+<MessageList scrollToBottomLabel="回到底部" viewportProps={{"aria-label": "客服消息记录"}}>
+  <MessageBubble content="请帮我查询订单。" time="09:41" />
+  <MessageBubble content="好的，请稍等。" direction="sent" time="09:42" />
+</MessageList>
+```
+
+## API 参考
+
+| Prop | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `content` | `ReactNode` | `""` | 文字或 JSX，可组合图片、链接和文字。空值、布尔值、空数组或仅空白字符串不渲染。 |
+| `direction` | `"sent" \| "received"` | `"received"` | 控制对齐和表面样式。 |
+| `time` | `string \| null` | `null` | 可选原始时间。空值或仅空白时省略。 |
+| `className` | `string` | `""` | 仅合并到根节点的附加类。 |
+
+除 `direction` 外没有变体；没有事件，也没有 `children` 的另一正文入口。
+
+## 样式
+
+可使用根节点的 `data-direction="sent"` 或 `data-direction="received"` 及已公开的 slots 定制后代：
+
+```css
+.message-bubble[data-direction="sent"] [data-slot="message-bubble-time"] {
+  font-variant-numeric: tabular-nums;
+}
+```
+
+received 气泡使用现有的 surface 与 foreground token。sent 气泡保留 `--accent-foreground`，并从 `--accent` 派生较低的 `oklch` 明度，因此在内置亮暗主题中保持 accent 表面与可读性，同时不新增组件 token。它保留空白与换行、会换行长 URL 或无空格文本；时间使用比正文更淡的颜色、12px 字号与常规字重。图片按容器宽度等比缩放，链接始终有下划线并支持可见焦点。它不管理消息列表滚动、头像、已读状态、回复、菜单、日期或时间格式化。
+
+## 无障碍
+
+根节点不添加交互角色、实时区域或自动播报。链接保留原生键盘行为；图片需要有意义的 `alt`。对话列表、地标、作者与更新语义由外层结构负责。
+
+<RelatedComponents component="message-bubble" />

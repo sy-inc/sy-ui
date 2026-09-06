@@ -1,0 +1,27 @@
+.message-list {
+  @apply relative h-96 w-full min-w-0;
+}
+
+.message-list__viewport {
+  @apply h-full overflow-y-auto overscroll-y-contain rounded-xl border border-border;
+  /* The hook owns anchoring when the application replaces a fixed-length message window. */
+  overflow-anchor: none;
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+.message-list__content {
+  @apply flex min-w-0 flex-col gap-3 p-3;
+}
+
+.message-list__scroll-button.button {
+  @apply absolute bottom-4 left-1/2 size-11 rounded-full border border-border text-surface-foreground shadow-md;
+  translate: -50% 0;
+
+  background-color: color-mix(in oklab, var(--surface) 72%, transparent);
+  -webkit-backdrop-filter: blur(4px) saturate(140%);
+  backdrop-filter: blur(4px) saturate(140%);
+}

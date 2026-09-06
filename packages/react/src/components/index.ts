@@ -49,6 +49,8 @@ export * from "./list-view";
 export * from "./file-tree";
 export * from "./item-card";
 export * from "./marquee";
+export * from "./message-bubble";
+export * from "./message-list";
 export * from "./navbar";
 export * from "./overflow-text";
 export * from "./pressable-feedback";

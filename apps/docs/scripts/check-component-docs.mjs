@@ -6,6 +6,8 @@ export const REQUIRED_COMPONENT_DOCS = [
   "cell-color-picker",
   "action-bar",
   "chat-message",
+  "message-bubble",
+  "message-list",
   "bottom-bar",
   "segment",
   "navbar",

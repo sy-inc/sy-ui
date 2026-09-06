@@ -1,0 +1,60 @@
+---
+title: MessageList
+description: A message viewport with bottom following and a floating scroll-to-bottom button.
+
+links:
+  source: message-list/message-list.tsx
+  styles: message-list.css
+  storybook: Components/MessageList
+---
+
+## Usage
+
+```tsx
+import {MessageBubble, MessageList} from "@sy-inc/react";
+
+<MessageList viewportProps={{"aria-label": "Customer conversation"}}>
+  <MessageBubble content="Please check my order." time="09:41" />
+  <MessageBubble content="Happy to help." direction="sent" time="09:42" />
+</MessageList>
+```
+
+`MessageList.Root` and the named `MessageListRoot` export are aliases of `MessageList`. The component also has a `@sy-inc/react/message-list` entry point. It accepts arbitrary children and does not fetch, reorder, truncate, or format messages. In a customer-service app, keep the latest 100 messages in application state and render them with stable message IDs as React keys. The `HundredMessages` story demonstrates this composition with images and links.
+
+## Anatomy and styling
+
+| Element | Public data-slot | Responsibility |
+| --- | --- | --- |
+| Root | `message-list` | Relative wrapper, default height 24rem, full width. Root `className`, `style`, HTML props, and `ref` target this element. |
+| Viewport | `message-list-viewport` | Scrollable region with a border and keyboard focus. Customize with `viewportProps`. |
+| Content | `message-list-content` | Vertical message layout with 0.75rem padding and gaps. |
+| Button | `message-list-scroll-button` | Floating down-chevron button at the bottom inline-end corner. |
+
+Styles and the `messageListVariants` slot mapping are exported from `@sy-inc/styles` and re-exported by the component entry point. There are no size or intent variants. Use root CSS or `style` to change the viewport height, and documented slots to customize the content layout.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | — | Messages or other content. |
+| `scrollToBottomLabel` | `string` | `"Scroll to latest message"` | Accessible name of the icon button; localize for your application. |
+| `viewportProps` | Native div props and ref, excluding `children` and `dangerouslySetInnerHTML` | `{}` | Scroll-region props including `aria-label`, `className`, `onScroll`, and `ref`. Defaults to `role="region"`, `aria-label="Messages"`, and `tabIndex={0}`. |
+| `className`, `style`, `ref`, other div props | Native div props | — | Forwarded to the outer root. Root `ref` is not the scrolling element; use `viewportProps.ref` for native scrolling. |
+
+Public types: `MessageListProps`, `MessageListRootProps`, `MessageList.Props`, and `MessageList.RootProps`. Native events are forwarded to their respective elements; there are no custom events or public scroll hooks.
+
+## Scroll behavior
+
+The component uses one internal `use-stick-to-bottom` instance per list. Initial positioning and content resizing follow the bottom instantly. Scrolling upward pauses following so incoming messages do not pull the reader away from history. Returning to the bottom resumes following.
+
+Away from the bottom, a 44px floating down arrow is shown. Clicking it smoothly scrolls to the latest message. It hides near the bottom, using the hook's 70px threshold. Image-driven content resizing is observed automatically. Empty or short lists do not need a scroll button after layout.
+
+This component does not virtualize messages or enforce a retention limit. Use stable message keys, and keep an application's retention policy outside the component. Reserve image space with intrinsic width and height when possible.
+
+## Accessibility
+
+The viewport is a named, keyboard-focusable region. Native keyboard scrolling and button Enter/Space activation remain available. The decorative chevron is hidden from assistive technology. The button has a visible focus ring, and clicking it respects `prefers-reduced-motion` by using instant scrolling instead of animation.
+
+No live-region announcements are added by default. Applications own author, message-list, and announcement semantics. Set appropriate viewport ARIA props for the application's update policy; avoid announcing the entire initial history.
+
+<RelatedComponents component="message-list" />

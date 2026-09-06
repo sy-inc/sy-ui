@@ -14,6 +14,8 @@ export * from "./calendar-year-picker/calendar-year-picker.styles";
 export * from "./calendar/calendar.styles";
 export * from "./cell-select/cell-select.styles";
 export * from "./chat-message";
+export * from "./message-bubble/message-bubble.styles";
+export * from "./message-list/message-list.styles";
 export * from "./card/card.styles";
 export * from "./cell-slider/cell-slider.styles";
 export * from "./cell-switch/cell-switch.styles";

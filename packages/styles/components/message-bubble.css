@@ -1,0 +1,96 @@
+.message-bubble {
+  @apply flex w-full min-w-0;
+}
+
+.message-bubble--received {
+  @apply justify-start;
+}
+
+.message-bubble--sent {
+  @apply justify-end;
+}
+
+.message-bubble__content {
+  @apply relative inline-block max-w-3/4 min-w-0 overflow-hidden rounded-2xl text-start text-sm leading-5 wrap-anywhere whitespace-pre-wrap;
+}
+
+.message-bubble__text {
+  @apply m-2 flow-root;
+}
+
+.message-bubble--received .message-bubble__content {
+  @apply rounded-es-sm bg-surface text-surface-foreground;
+}
+
+.message-bubble--sent .message-bubble__content {
+  @apply rounded-ee-sm text-accent-foreground;
+  /* Darker than --accent so --accent-foreground text reaches 4.5:1. */
+  background-color: oklch(from var(--accent) calc(l * 0.82) c h);
+}
+
+.message-bubble__time,
+.message-bubble__time-space {
+  @apply leading-5 font-normal whitespace-nowrap tabular-nums;
+  font-size: 0.75rem;
+}
+
+.message-bubble__time-space {
+  @apply invisible ms-2 inline-block align-bottom;
+
+  &::before {
+    content: attr(data-time);
+  }
+}
+
+.message-bubble__time {
+  position: absolute;
+  inset-inline-end: 8px;
+  bottom: 3px;
+}
+
+.message-bubble--received .message-bubble__time {
+  color: color-mix(in oklab, var(--surface-foreground) 65%, var(--surface));
+}
+
+.message-bubble--sent .message-bubble__time {
+  color: color-mix(
+    in oklab,
+    var(--accent-foreground) 90%,
+    oklch(from var(--accent) calc(l * 0.82) c h)
+  );
+}
+
+.message-bubble__content[data-image-only="true"] {
+  &:has(.message-bubble__time)::after {
+    @apply pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/75 to-transparent;
+    content: "";
+  }
+
+  .message-bubble__time {
+    @apply z-1 text-white;
+  }
+}
+
+.message-bubble__content img {
+  @apply block h-auto w-full max-w-full;
+}
+
+.message-bubble__content a {
+  @apply text-inherit underline underline-offset-2;
+
+  &:hover,
+  &[data-hovered="true"] {
+    @apply decoration-2;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    @apply decoration-double;
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}

@@ -11,6 +11,8 @@ test("reports missing and unregistered component documentation", async () => {
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("action-bar"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-color-picker"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("chat-message"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("message-bubble"));
+  assert.ok(REQUIRED_COMPONENT_DOCS.includes("message-list"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("segment"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-slider"));
   assert.ok(REQUIRED_COMPONENT_DOCS.includes("input-phone"));

@@ -1,0 +1,84 @@
+---
+title: MessageBubble
+description: Displays text, images, and links with an optional muted timestamp.
+
+links:
+  source: message-bubble/message-bubble.tsx
+  styles: message-bubble.css
+  storybook: Components/MessageBubble
+---
+
+## Usage
+
+```tsx
+import {MessageBubble} from "@sy-inc/react";
+```
+
+```tsx
+<MessageBubble content="See you at noon." direction="sent" time="11:42" />
+```
+
+## Anatomy
+
+`MessageBubble` renders a root (`data-slot="message-bubble"`), its content bubble (`message-bubble-content`), and, when meaningful, a `time` element (`message-bubble-time`). Content always precedes time in the DOM. The timestamp shares the text flow: it stays on the last line when it fits and otherwise moves to a right-aligned final line.
+
+## Images and links
+
+Pass JSX through `content`. Strings remain literal: HTML, Markdown, and automatic URL linking are not parsed.
+
+```tsx
+<MessageBubble
+  content={
+    <>
+      <img src="/photos/trip.jpg" alt="Mountains beside a lake" width={600} height={400} loading="lazy" decoding="async" />
+      See the <a href="https://example.com/trip">trip itinerary</a>.
+    </>
+  }
+  direction="sent"
+  time="11:42"
+/>
+```
+
+Image-only messages are also supported. Supply intrinsic image dimensions to reserve space and prevent layout shifts. The caller controls `loading`, `decoding`, and link attributes such as `href`, `target`, and `rel`.
+
+## Long conversations
+
+Wrap messages in `MessageList` for bottom following, a floating down arrow, and smooth scrolling on click. The consumer owns the data and any limit such as retaining the latest 100 messages.
+
+```tsx
+import {MessageBubble, MessageList} from "@sy-inc/react";
+
+<MessageList viewportProps={{"aria-label": "Customer messages"}}>
+  <MessageBubble content="Please check my order." time="09:41" />
+  <MessageBubble content="Of course, one moment." direction="sent" time="09:42" />
+</MessageList>
+```
+
+## API Reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `content` | `ReactNode` | `""` | Text or JSX combining images, links, and text. Nullish values, booleans, empty arrays, and whitespace-only strings render nothing. |
+| `direction` | `"sent" \| "received"` | `"received"` | Controls alignment and surface treatment. |
+| `time` | `string \| null` | `null` | Optional raw timestamp. Empty or whitespace-only values are omitted. |
+| `className` | `string` | `""` | Classes merged onto the root only. |
+
+There are no variants beyond `direction`, no events, and no alternate `children` content API.
+
+## Styling
+
+Use `data-direction="sent"` or `data-direction="received"` on the root and the documented slots for descendant customization:
+
+```css
+.message-bubble[data-direction="sent"] [data-slot="message-bubble-time"] {
+  font-variant-numeric: tabular-nums;
+}
+```
+
+The received bubble uses the existing surface and foreground tokens. The sent bubble derives a darker `oklch` lightness from `--accent` while retaining `--accent-foreground`; this keeps the accent treatment readable in both built-in themes without adding a component token. It preserves whitespace and newlines, wraps long URLs and unspaced content, and uses a muted 12px, regular-weight timestamp. Images scale proportionally to fit the bubble; links have persistent underlines and visible focus. It does not manage message lists, scrolling, avatars, receipts, replies, menus, dates, or time formatting.
+
+## Accessibility
+
+The root adds no interactive role, live region, or announcements. Links retain native keyboard behavior; images need meaningful `alt` text. The surrounding conversation supplies list, landmark, author, and update semantics.
+
+<RelatedComponents component="message-bubble" />
