@@ -28,7 +28,9 @@ export default () => (
     <InputGroup>
       <InputGroup.Prefix />
       <InputGroup.Input /> {/* Or use InputGroup.TextArea for multiline input */}
-      <InputGroup.Suffix />
+      <InputGroup.Suffix>
+        <InputGroup.PasswordToggle /> {/* Optional, with InputGroup.Input type="password" */}
+      </InputGroup.Suffix>
     </InputGroup>
   </TextField>
 )
@@ -107,7 +109,7 @@ Combine an icon prefix with an interactive button suffix.
 
 ### Password Toggle
 
-Use a button in the suffix to toggle password visibility.
+Drop the built-in `InputGroup.PasswordToggle` into the suffix. `InputGroup` owns the visibility state, so the consumer keeps none: an `InputGroup.Input` with `type="password"` renders as `text` while the toggle is on.
 
 <ComponentPreview name="input-group-password-with-toggle" />
 
@@ -261,6 +263,7 @@ SY INC follows the [BEM](https://getbem.com/) methodology to ensure component va
 - `.input-group__input` – Input element with transparent background and no border. Also used as the base class for textarea elements.
 - `.input-group__prefix` – Prefix container with left border radius. Aligns to top when used with textarea.
 - `.input-group__suffix` – Suffix container with right border radius. Aligns to top when used with textarea.
+- `[data-slot="input-group-password-toggle"]` – The built-in password visibility button inside the suffix. Zeroes `--button-bg-hover` and `--button-bg-pressed` so it stays transparent.
 
 #### Variant Classes [!toc]
 
@@ -319,6 +322,7 @@ InputGroup works with these subcomponents:
 - **InputGroup.TextArea** - Multiline textarea element component
 - **InputGroup.Prefix** - Prefix container component
 - **InputGroup.Suffix** - Suffix container component
+- **InputGroup.PasswordToggle** - Built-in show/hide password button
 
 #### InputGroup.Input Props
 
@@ -362,6 +366,16 @@ InputGroup.TextArea inherits all props from React Aria's [TextArea](https://reac
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `children` | `React.ReactNode` | - | Content to display in the suffix (icons, buttons, badges, etc.). |
+| `className` | `string` | - | CSS classes for styling. |
+
+#### InputGroup.PasswordToggle Props
+
+Renders a transparent icon-only [Button](/docs/components/button) — no background change on hover or press — that flips the group's password visibility. Place it inside `InputGroup.Suffix` — the suffix drops its padding and the button takes the full 40px, matching a plain-icon suffix, so no `className` is needed — and give the `InputGroup.Input` it controls `type="password"` — other input types are left untouched. Visibility is uncontrolled and owned by `InputGroup`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showLabel` | `string` | `"Show password"` | Accessible name while the password is hidden. |
+| `hideLabel` | `string` | `"Hide password"` | Accessible name while the password is visible. |
 | `className` | `string` | - | CSS classes for styling. |
 
 ## Related Showcases

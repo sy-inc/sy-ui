@@ -49,6 +49,12 @@ TextArea 组件支持两种视觉变体：
 
 <ComponentPreview name="textarea-rows" />
 
+### 自动增高
+
+`autoGrow` 通过 CSS `field-sizing: content` 让文本域高度跟随内容变化。配合 `rows={1}` 可以从单行开始。不支持 `field-sizing` 的浏览器退化为 `rows` 指定的固定高度。
+
+<ComponentPreview name="textarea-auto-grow" />
+
 ## 自定义样式
 
 ### Tailwind CSS
@@ -120,6 +126,7 @@ TextArea 接受所有标准 HTML `<textarea>` 属性，以及以下属性：
 | `maxLength` | `number` | - | 最大字符数。 |
 | `minLength` | `number` | - | 最小字符数。 |
 | `wrap` | `'soft' \| 'hard'` | - | 提交时文本如何换行。 |
+| `autoGrow` | `boolean` | `false` | 随内容增高（`field-sizing: content`）；浏览器不支持时退化为 `rows` 高度。 |
 | `fullWidth` | `boolean` | `false` | TextArea 是否占满容器宽度 |
 | `variant` | `"primary" \| "secondary"` | `"primary"` | 组件的视觉变体。`primary` 为默认带阴影样式。`secondary` 为弱强调、无阴影变体，适合用于 surface 上。 |
 

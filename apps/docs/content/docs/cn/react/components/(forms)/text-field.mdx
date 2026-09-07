@@ -152,7 +152,8 @@ TextField 会根据状态自动管理以下 data 属性：
 | `children` | `React.ReactNode \| (values: TextFieldRenderProps) => React.ReactNode` | - | 子组件（Label、Input 等）或渲染函数。 |
 | `className` | `string \| (values: TextFieldRenderProps) => string` | - | 用于样式的 CSS 类，支持渲染 prop。 |
 | `style` | `React.CSSProperties \| (values: TextFieldRenderProps) => React.CSSProperties` | - | 行内样式，支持渲染 prop。 |
-| `fullWidth` | `boolean` | `false` | TextField 是否占满容器宽度。 |
+| `fullWidth` | `boolean` | `false` | TextField 是否占满容器宽度。会下发到子级的 Input、TextArea 与 InputGroup，无需在子级重复设置。 |
+| `variant` | `"primary" \| "secondary"` | `"primary"` | 视觉变体。会下发到子级的 Input、TextArea 与 InputGroup，无需在子级重复设置。 |
 | `id` | `string` | - | 元素的唯一 id。 |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TextFieldRenderProps>` | - | 使用自定义渲染函数覆盖默认 DOM 元素。|
 
@@ -164,7 +165,6 @@ TextField 会根据状态自动管理以下 data 属性：
 | `isInvalid` | `boolean` | - | 当前值是否无效。 |
 | `validate` | `(value: string) => ValidationError \| true \| null \| undefined` | - | 自定义校验函数。 |
 | `validationBehavior` | `'native' \| 'aria'` | `'native'` | 使用原生 HTML 表单校验还是 ARIA 属性。 |
-| `validationErrors` | `string[]` | - | 服务端校验错误。 |
 
 #### Value Props
 

@@ -10,6 +10,8 @@ import {Input as InputPrimitive} from "react-aria-components/Input";
 import {TextArea as TextAreaPrimitive} from "react-aria-components/TextArea";
 
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
+import {Button} from "../button";
+import {EyeIcon, EyeSlashIcon} from "../icons";
 import {TextFieldContext} from "../textfield";
 
 /* -------------------------------------------------------------------------------------------------
@@ -17,6 +19,8 @@ import {TextFieldContext} from "../textfield";
  * -----------------------------------------------------------------------------------------------*/
 type InputGroupContext = {
   slots?: ReturnType<typeof inputGroupVariants>;
+  passwordVisible?: boolean;
+  togglePasswordVisible?: () => void;
 };
 
 const InputGroupContext = createContext<InputGroupContext>({});
@@ -38,6 +42,11 @@ const InputGroupRoot = ({
   const textFieldContext = use(TextFieldContext);
   const resolvedVariant = variant ?? textFieldContext?.variant;
   const groupRef = React.useRef<HTMLDivElement>(null);
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
+
+  const togglePasswordVisible = React.useCallback(() => {
+    setPasswordVisible((visible) => !visible);
+  }, []);
 
   const slots = React.useMemo(
     () => inputGroupVariants({fullWidth, variant: resolvedVariant}),
@@ -56,7 +65,7 @@ const InputGroupRoot = ({
   };
 
   return (
-    <InputGroupContext value={{slots}}>
+    <InputGroupContext value={{passwordVisible, slots, togglePasswordVisible}}>
       <GroupPrimitive
         {...props}
         ref={groupRef}
@@ -75,13 +84,14 @@ const InputGroupRoot = ({
  * -----------------------------------------------------------------------------------------------*/
 interface InputGroupInputProps extends ComponentPropsWithRef<typeof InputPrimitive> {}
 
-const InputGroupInput = ({className, ...props}: InputGroupInputProps) => {
-  const {slots} = use(InputGroupContext);
+const InputGroupInput = ({className, type, ...props}: InputGroupInputProps) => {
+  const {passwordVisible, slots} = use(InputGroupContext);
 
   return (
     <InputPrimitive
       className={composeTwRenderProps(className, slots?.input())}
       data-slot="input-group-input"
+      type={type === "password" && passwordVisible ? "text" : type}
       {...props}
     />
   );
@@ -143,9 +153,52 @@ const InputGroupSuffix = ({children, className, ...props}: InputGroupSuffixProps
 };
 
 /* -------------------------------------------------------------------------------------------------
+ * InputGroup PasswordToggle
+ * -----------------------------------------------------------------------------------------------*/
+interface InputGroupPasswordToggleProps extends Omit<
+  ComponentPropsWithRef<typeof Button>,
+  "children"
+> {
+  /** Accessible name while the password is hidden. */
+  showLabel?: string;
+  /** Accessible name while the password is visible. */
+  hideLabel?: string;
+}
+
+const InputGroupPasswordToggle = ({
+  hideLabel = "Hide password",
+  showLabel = "Show password",
+  ...props
+}: InputGroupPasswordToggleProps) => {
+  const {passwordVisible, togglePasswordVisible} = use(InputGroupContext);
+
+  return (
+    /* Hover and press backgrounds are zeroed in input-group.css via the data-slot. */
+    <Button
+      isIconOnly
+      aria-label={passwordVisible ? hideLabel : showLabel}
+      data-slot="input-group-password-toggle"
+      size="sm"
+      variant="ghost"
+      onPress={togglePasswordVisible}
+      {...props}
+    >
+      {passwordVisible ? <EyeSlashIcon /> : <EyeIcon />}
+    </Button>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/
-export {InputGroupRoot, InputGroupInput, InputGroupTextArea, InputGroupPrefix, InputGroupSuffix};
+export {
+  InputGroupRoot,
+  InputGroupInput,
+  InputGroupTextArea,
+  InputGroupPrefix,
+  InputGroupSuffix,
+  InputGroupPasswordToggle,
+};
 
 export type {
   InputGroupRootProps,
@@ -153,4 +206,5 @@ export type {
   InputGroupTextAreaProps,
   InputGroupPrefixProps,
   InputGroupSuffixProps,
+  InputGroupPasswordToggleProps,
 };

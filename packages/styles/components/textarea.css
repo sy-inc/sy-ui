@@ -92,3 +92,8 @@
 .textarea--full-width {
   @apply w-full;
 }
+
+/* Auto grow modifier */
+.textarea--auto-grow {
+  field-sizing: content;
+}

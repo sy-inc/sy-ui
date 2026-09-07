@@ -100,4 +100,38 @@ describe("InputGroup", () => {
     expect(document.querySelector('[data-slot="input-group-textarea"]')).not.toBeNull();
     expect(screen.getByRole("textbox", {name: "Notes"})).toBeInTheDocument();
   });
+
+  describe("password toggle", () => {
+    const renderPasswordGroup = (type = "password") =>
+      render(
+        <InputGroup>
+          <InputGroup.Input aria-label="Password" type={type} />
+          <InputGroup.Suffix>
+            <InputGroup.PasswordToggle />
+          </InputGroup.Suffix>
+        </InputGroup>,
+      );
+
+    it("toggles password visibility", async () => {
+      const {container} = renderPasswordGroup();
+      const input = container.querySelector('[data-slot="input-group-input"]');
+
+      expect(input).toHaveAttribute("type", "password");
+
+      await user.click(screen.getByRole("button", {name: "Show password"}));
+      expect(input).toHaveAttribute("type", "text");
+
+      await user.click(screen.getByRole("button", {name: "Hide password"}));
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("leaves non-password inputs untouched", async () => {
+      const {container} = renderPasswordGroup("email");
+      const input = container.querySelector('[data-slot="input-group-input"]');
+
+      await user.click(screen.getByRole("button", {name: "Show password"}));
+
+      expect(input).toHaveAttribute("type", "email");
+    });
+  });
 });

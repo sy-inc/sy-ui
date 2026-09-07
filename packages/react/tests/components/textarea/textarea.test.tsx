@@ -38,6 +38,22 @@ describe("TextArea", () => {
     );
   });
 
+  it("exposes autoGrow BEM modifier", () => {
+    renderTextArea({autoGrow: true});
+
+    expect(screen.getByRole("textbox", {name: "Bio"}).className).toEqual(
+      expect.stringContaining("textarea--auto-grow"),
+    );
+  });
+
+  it("omits the autoGrow BEM modifier by default", () => {
+    renderTextArea();
+
+    expect(screen.getByRole("textbox", {name: "Bio"}).className).toEqual(
+      expect.not.stringContaining("textarea--auto-grow"),
+    );
+  });
+
   it("supports typing and calls onChange", async () => {
     const onChange = vi.fn();
 

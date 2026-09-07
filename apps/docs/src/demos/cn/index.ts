@@ -2560,6 +2560,10 @@ export const demos: Record<string, DemoItem> = {
     file: "cn/tag-group/custom-styles.tsx",
   },
   // TextArea Demo
+  "textarea-auto-grow": {
+    loader: () => import("./textarea/auto-grow").then((m) => m.AutoGrow),
+    file: "cn/textarea/auto-grow.tsx",
+  },
   "textarea-basic": {
     loader: () => import("./textarea/basic").then((m) => m.Basic),
     file: "cn/textarea/basic.tsx",

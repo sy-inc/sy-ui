@@ -78,12 +78,13 @@ export const FullWidth: Story = {
           <InputGroup.Input placeholder="name@email.com" />
         </InputGroup>
       </TextField>
+      {/* No `fullWidth` on InputGroup — TextField's propagates through the CSS. */}
       <TextField fullWidth name="password">
         <Label>Password</Label>
-        <InputGroup fullWidth>
-          <InputGroup.Input placeholder="Enter password" type="password" />
+        <InputGroup>
+          <InputGroup.Input defaultValue="87$2h.3diua" type="password" />
           <InputGroup.Suffix>
-            <Icon className="size-4 text-muted" icon="gravity-ui:eye" />
+            <InputGroup.PasswordToggle />
           </InputGroup.Suffix>
         </InputGroup>
       </TextField>
@@ -210,36 +211,17 @@ export const WithIconPrefixAndCopySuffix: Story = {
 };
 
 export const PasswordWithToggle: Story = {
-  render: () => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    return (
-      <TextField className="w-[280px]" name="password">
-        <Label>Password</Label>
-        <InputGroup>
-          <InputGroup.Input
-            className="w-[280px]"
-            type={isVisible ? "text" : "password"}
-            value={isVisible ? "87$2h.3diua" : "••••••••"}
-          />
-          <InputGroup.Suffix className="pe-0">
-            <Button
-              isIconOnly
-              aria-label={isVisible ? "Hide password" : "Show password"}
-              size="sm"
-              variant="ghost"
-              onPress={() => setIsVisible(!isVisible)}
-            >
-              <Icon
-                className="size-4"
-                icon={isVisible ? "gravity-ui:eye" : "gravity-ui:eye-slash"}
-              />
-            </Button>
-          </InputGroup.Suffix>
-        </InputGroup>
-      </TextField>
-    );
-  },
+  render: () => (
+    <TextField className="w-[280px]" name="password">
+      <Label>Password</Label>
+      <InputGroup>
+        <InputGroup.Input className="w-[280px]" defaultValue="87$2h.3diua" type="password" />
+        <InputGroup.Suffix>
+          <InputGroup.PasswordToggle />
+        </InputGroup.Suffix>
+      </InputGroup>
+    </TextField>
+  ),
 };
 
 export const WithLoadingSuffix: Story = {

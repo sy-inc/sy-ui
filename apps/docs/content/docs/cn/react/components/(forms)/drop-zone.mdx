@@ -145,6 +145,18 @@ const state = useDropZoneState({
 
 <ComponentPreview name="drop-zone-clear" />
 
+### 独立文件选择
+
+只需要文件选择、不需要拖放区域时，直接从 `@sy-inc/react` 导入 React Aria 的 `FileTrigger`，包住任意 `Button` 即可。
+
+```tsx
+import {Button, FileTrigger} from '@sy-inc/react';
+
+<FileTrigger onSelect={(files) => console.log(files)}>
+  <Button>选择文件</Button>
+</FileTrigger>;
+```
+
 ## 自定义
 
 ### 全局 CSS

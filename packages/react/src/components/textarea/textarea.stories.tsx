@@ -40,3 +40,11 @@ export const FullWidth: Story = {
     </div>
   ),
 };
+
+export const AutoGrow: Story = {
+  render: () => (
+    <div className="w-[280px]">
+      <TextArea autoGrow fullWidth placeholder="Grows with content" rows={1} />
+    </div>
+  ),
+};

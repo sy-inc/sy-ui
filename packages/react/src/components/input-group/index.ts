@@ -2,6 +2,7 @@ import type {ComponentProps} from "react";
 
 import {
   InputGroupInput,
+  InputGroupPasswordToggle,
   InputGroupPrefix,
   InputGroupRoot,
   InputGroupSuffix,
@@ -17,6 +18,7 @@ export const InputGroup = Object.assign(InputGroupRoot, {
   TextArea: InputGroupTextArea,
   Prefix: InputGroupPrefix,
   Suffix: InputGroupSuffix,
+  PasswordToggle: InputGroupPasswordToggle,
 });
 
 export type InputGroup = {
@@ -26,12 +28,20 @@ export type InputGroup = {
   TextAreaProps: ComponentProps<typeof InputGroupTextArea>;
   PrefixProps: ComponentProps<typeof InputGroupPrefix>;
   SuffixProps: ComponentProps<typeof InputGroupSuffix>;
+  PasswordToggleProps: ComponentProps<typeof InputGroupPasswordToggle>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {InputGroupInput, InputGroupPrefix, InputGroupRoot, InputGroupSuffix, InputGroupTextArea};
+export {
+  InputGroupInput,
+  InputGroupPasswordToggle,
+  InputGroupPrefix,
+  InputGroupRoot,
+  InputGroupSuffix,
+  InputGroupTextArea,
+};
 
 export type {
   InputGroupRootProps,
@@ -40,6 +50,7 @@ export type {
   InputGroupTextAreaProps,
   InputGroupPrefixProps,
   InputGroupSuffixProps,
+  InputGroupPasswordToggleProps,
 } from "./input-group";
 
 /* -------------------------------------------------------------------------------------------------

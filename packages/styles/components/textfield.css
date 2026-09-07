@@ -17,6 +17,7 @@
 
   /* Automatically make Input full width when TextField is full width */
   [data-slot="input"],
+  [data-slot="input-group"],
   [data-slot="textarea"] {
     @apply w-full;
   }

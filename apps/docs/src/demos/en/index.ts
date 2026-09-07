@@ -2619,6 +2619,10 @@ export const demos: Record<string, DemoItem> = {
   },
 
   // TextArea Demo
+  "textarea-auto-grow": {
+    loader: () => import("./textarea/auto-grow").then((m) => m.AutoGrow),
+    file: "en/textarea/auto-grow.tsx",
+  },
   "textarea-basic": {
     loader: () => import("./textarea/basic").then((m) => m.Basic),
     file: "en/textarea/basic.tsx",

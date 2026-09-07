@@ -178,6 +178,27 @@ export const EyeIcon = (props: IconProps) => (
   </svg>
 );
 
+export const EyeSlashIcon = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M6.6 3.65A7.6 7.6 0 0 1 8 3.5c4.25 0 6.5 4.5 6.5 4.5a12 12 0 0 1-2.03 2.7M3.6 4.85A12 12 0 0 0 1.5 8S3.75 12.5 8 12.5c.9 0 1.72-.2 2.45-.52M6.76 6.76a1.75 1.75 0 0 0 2.48 2.48M2 2l12 12"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.25"
+    />
+  </svg>
+);
+
 export const UploadCloudIcon = (props: IconProps) => (
   <svg
     aria-hidden="true"

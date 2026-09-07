@@ -201,6 +201,32 @@
   }
 }
 
+/**
+ * Password visibility toggle.
+ *
+ * A plain-icon suffix is 40px wide: px-3 (12px + 12px) around a 16px icon. The
+ * toggle has to land on that same 40px so suffixes stay aligned, so the suffix
+ * drops its padding and the button itself becomes the full 40px box — which
+ * also makes the hit target bigger than the bare icon it replaces.
+ *
+ * `.button--icon-only.button--sm` (0,2,0) sets `w-9 md:w-8`; the selector below
+ * matches that specificity and input-group.css is imported after button.css in
+ * components/index.css, so it wins.
+ */
+.input-group__suffix:has([data-slot="input-group-password-toggle"]) {
+  @apply px-0;
+}
+
+.input-group__suffix [data-slot="input-group-password-toggle"] {
+  @apply w-10;
+}
+
+/* Ghost colors without the hover/press background wash */
+[data-slot="input-group-password-toggle"] {
+  --button-bg-hover: transparent;
+  --button-bg-pressed: transparent;
+}
+
 /* Full width modifier */
 .input-group--full-width {
   @apply w-full;

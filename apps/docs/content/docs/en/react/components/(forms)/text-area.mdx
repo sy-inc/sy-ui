@@ -49,6 +49,12 @@ When used inside a [Surface](/docs/components/surface) component, use `variant="
 
 <ComponentPreview name="textarea-rows" />
 
+### Auto Grow
+
+`autoGrow` makes the textarea height follow its content through CSS `field-sizing: content`. Pair it with `rows={1}` for a single-line start. Browsers without `field-sizing` support fall back to the fixed `rows` height.
+
+<ComponentPreview name="textarea-auto-grow" />
+
 ## Customization
 
 ### Tailwind CSS
@@ -121,6 +127,7 @@ TextArea accepts all standard HTML `<textarea>` attributes plus the following:
 | `maxLength` | `number` | - | Maximum number of characters. |
 | `minLength` | `number` | - | Minimum number of characters. |
 | `wrap` | `'soft' \| 'hard'` | - | How text wraps when submitted. |
+| `autoGrow` | `boolean` | `false` | Grows with content (`field-sizing: content`); falls back to `rows` where unsupported. |
 | `fullWidth` | `boolean` | `false` | Whether the textarea should take full width of its container |
 | `variant` | `"primary" \| "secondary"` | `"primary"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |
 

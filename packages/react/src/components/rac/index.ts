@@ -7,7 +7,13 @@ export {
   ListLayout,
 } from "react-aria-components";
 export {getLocalizationScript} from "react-aria-components/i18n";
-export {Collection, ListBoxLoadMoreItem, RouterProvider, I18nProvider} from "./components";
+export {
+  Collection,
+  FileTrigger,
+  ListBoxLoadMoreItem,
+  RouterProvider,
+  I18nProvider,
+} from "./components";
 export {parseColor} from "./utils";
 export type {
   Key,

@@ -154,7 +154,8 @@ TextField inherits all props from React Aria's [TextField](https://react-spectru
 | `children` | `React.ReactNode \| (values: TextFieldRenderProps) => React.ReactNode` | - | Child components (Label, Input, etc.) or render function. |
 | `className` | `string \| (values: TextFieldRenderProps) => string` | - | CSS classes for styling, supports render props. |
 | `style` | `React.CSSProperties \| (values: TextFieldRenderProps) => React.CSSProperties` | - | Inline styles, supports render props. |
-| `fullWidth` | `boolean` | `false` | Whether the text field should take full width of its container |
+| `fullWidth` | `boolean` | `false` | Whether the text field should take full width of its container. Propagates to Input, TextArea and InputGroup children; no need to repeat it on the child. |
+| `variant` | `"primary" \| "secondary"` | `"primary"` | Visual variant. Propagates to Input, TextArea and InputGroup children; no need to repeat it on the child. |
 | `id` | `string` | - | The element's unique identifier. |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TextFieldRenderProps>` | - | Overrides the default DOM element with a custom render function.|
 
@@ -166,7 +167,6 @@ TextField inherits all props from React Aria's [TextField](https://react-spectru
 | `isInvalid` | `boolean` | - | Whether the value is invalid. |
 | `validate` | `(value: string) => ValidationError \| true \| null \| undefined` | - | Custom validation function. |
 | `validationBehavior` | `'native' \| 'aria'` | `'native'` | Whether to use native HTML form validation or ARIA attributes. |
-| `validationErrors` | `string[]` | - | Server-side validation errors. |
 
 #### Value Props
 

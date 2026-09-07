@@ -16,7 +16,7 @@ import {TextFieldContext} from "../textfield";
 interface TextAreaRootProps
   extends ComponentPropsWithRef<typeof TextAreaPrimitive>, TextAreaVariants {}
 
-const TextAreaRoot = ({className, fullWidth, variant, ...rest}: TextAreaRootProps) => {
+const TextAreaRoot = ({autoGrow, className, fullWidth, variant, ...rest}: TextAreaRootProps) => {
   const textFieldContext = use(TextFieldContext);
   const resolvedVariant = variant ?? textFieldContext?.variant;
 
@@ -25,7 +25,7 @@ const TextAreaRoot = ({className, fullWidth, variant, ...rest}: TextAreaRootProp
       data-slot="textarea"
       className={composeTwRenderProps(
         className,
-        textAreaVariants({fullWidth, variant: resolvedVariant}),
+        textAreaVariants({autoGrow, fullWidth, variant: resolvedVariant}),
       )}
       {...rest}
     />

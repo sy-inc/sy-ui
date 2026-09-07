@@ -28,7 +28,9 @@ export default () => (
     <InputGroup>
       <InputGroup.Prefix />
       <InputGroup.Input /> {/* Or use InputGroup.TextArea for multiline input */}
-      <InputGroup.Suffix />
+      <InputGroup.Suffix>
+        <InputGroup.PasswordToggle /> {/* Optional, with InputGroup.Input type="password" */}
+      </InputGroup.Suffix>
     </InputGroup>
   </TextField>
 )
@@ -107,7 +109,7 @@ InputGroup 会遵循父级 TextField 的禁用状态。
 
 ### 密码可见性切换
 
-在后缀中使用按钮切换密码可见性。
+把内建的 `InputGroup.PasswordToggle` 放进后缀即可。可见状态由 `InputGroup` 托管，消费方无需自己维护：切换开启时，`type="password"` 的 `InputGroup.Input` 会渲染为 `text`。
 
 <ComponentPreview name="input-group-password-with-toggle" />
 
@@ -261,6 +263,7 @@ SY INC 遵循 [BEM](https://getbem.com/) 方法论，确保组件变体与状态
 - `.input-group__input` – 透明背景、无边框的输入元素。textarea 也使用该基础类
 - `.input-group__prefix` – 左侧圆角的前缀容器。与 textarea 搭配时与顶部对齐
 - `.input-group__suffix` – 右侧圆角的后缀容器。与 textarea 搭配时与顶部对齐
+- `[data-slot="input-group-password-toggle"]` – 后缀中内建的密码可见性切换按钮。将 `--button-bg-hover` 与 `--button-bg-pressed` 置为透明，保持无背景反应
 
 #### 变体类 [!toc]
 
@@ -319,6 +322,7 @@ InputGroup 与以下子组件配合使用：
 - **InputGroup.TextArea** - 多行 textarea 元素组件
 - **InputGroup.Prefix** - 前缀容器组件
 - **InputGroup.Suffix** - 后缀容器组件
+- **InputGroup.PasswordToggle** - 内建的密码显示/隐藏按钮
 
 #### InputGroup.Input
 
@@ -362,6 +366,16 @@ InputGroup.TextArea 继承 React Aria [TextArea](https://react-spectrum.adobe.co
 | Prop | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
 | `children` | `React.ReactNode` | - | 后缀内容（图标、按钮、徽章等） |
+| `className` | `string` | - | CSS 类 |
+
+#### InputGroup.PasswordToggle
+
+渲染一个透明的纯图标 [Button](/docs/components/button)（悬停与按下都不改变背景），用于切换该组的密码可见状态。必须放在 `InputGroup.Suffix` 内（后缀会自动去掉内边距、按钮撑满 40px，与纯图标后缀等宽，无需额外 `className`），且其控制的 `InputGroup.Input` 需设置 `type="password"`；其他输入类型不受影响。可见状态为非受控，由 `InputGroup` 托管。
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `showLabel` | `string` | `"Show password"` | 密码隐藏时按钮的无障碍名称 |
+| `hideLabel` | `string` | `"Hide password"` | 密码可见时按钮的无障碍名称 |
 | `className` | `string` | - | CSS 类 |
 
 ## 相关案例

@@ -1,3 +1,4 @@
+export {AutoGrow} from "./auto-grow";
 export {Basic} from "./basic";
 export {Controlled} from "./controlled";
 export {FullWidth} from "./full-width";

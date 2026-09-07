@@ -147,6 +147,18 @@ Keep `ClearTrigger` outside `Area` and connect it to `state.clear`. Every card i
 
 <ComponentPreview name="drop-zone-clear" />
 
+### Standalone file picker
+
+When you only need a file picker without a drop area, import React Aria's `FileTrigger` straight from `@sy-inc/react` and wrap any `Button`.
+
+```tsx
+import {Button, FileTrigger} from '@sy-inc/react';
+
+<FileTrigger onSelect={(files) => console.log(files)}>
+  <Button>Choose file</Button>
+</FileTrigger>;
+```
+
 ## Customization
 
 ### Global CSS
