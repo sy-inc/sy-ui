@@ -91,8 +91,8 @@ describe("Tabs", () => {
     await renderTabs();
 
     const tester = testUtilUser.createTester("Tabs", {
-      root: screen.getByTestId("tabs"),
       interactionType: "keyboard",
+      root: screen.getByTestId("tabs"),
     });
 
     await tester.triggerTab({tab: "Analytics"});
@@ -100,33 +100,37 @@ describe("Tabs", () => {
     expect(tester.getSelectedTab()).toHaveTextContent("Analytics");
   });
 
-  it("keeps native focus scrolling without a ListContainer", async () => {
-    const scrollIntoView = vi.fn();
-    const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
-    HTMLElement.prototype.scrollIntoView = scrollIntoView;
+  it.each(["horizontal", "vertical"] as const)(
+    "supports native centering for %s tabs without a ListContainer",
+    async (orientation) => {
+      const scrollIntoView = vi.fn();
+      const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
 
-    try {
-      render(
-        <Tabs>
-          <Tabs.List aria-label="Options">
-            <Tabs.Tab id="overview">Overview</Tabs.Tab>
-            <Tabs.Tab id="analytics">Analytics</Tabs.Tab>
-          </Tabs.List>
-        </Tabs>,
-      );
-      screen.getByRole("tab", {name: "Analytics"}).focus();
+      HTMLElement.prototype.scrollIntoView = scrollIntoView;
 
-      await waitFor(() => {
-        expect(scrollIntoView).toHaveBeenCalledWith({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "nearest",
+      try {
+        render(
+          <Tabs orientation={orientation}>
+            <Tabs.List aria-label="Options">
+              <Tabs.Tab id="overview">Overview</Tabs.Tab>
+              <Tabs.Tab id="analytics">Analytics</Tabs.Tab>
+            </Tabs.List>
+          </Tabs>,
+        );
+        screen.getByRole("tab", {name: "Analytics"}).focus();
+
+        await waitFor(() => {
+          expect(scrollIntoView).toHaveBeenCalledWith({
+            behavior: "smooth",
+            block: orientation === "vertical" ? "center" : "nearest",
+            inline: orientation === "vertical" ? "nearest" : "center",
+          });
         });
-      });
-    } finally {
-      HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
-    }
-  });
+      } finally {
+        HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+      }
+    },
+  );
 
   it("supports disabled tabs without selecting", async () => {
     const onSelectionChange = vi.fn();

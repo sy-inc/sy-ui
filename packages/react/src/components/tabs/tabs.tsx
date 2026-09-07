@@ -40,6 +40,24 @@ type ListContainerInjectedProps = {
 
 const listContainerSlot = createCollectionSlot<ListContainerInjectedProps>("tabs.listContainer");
 
+const scrollTabsBy = (
+  scroller: HTMLElement,
+  isVertical: boolean,
+  delta: number,
+  behavior: ScrollBehavior = "smooth",
+) => {
+  const size = isVertical ? scroller.clientHeight : scroller.clientWidth;
+  const current = isVertical ? scroller.scrollTop : scroller.scrollLeft;
+  const maxScroll = Math.max(0, (isVertical ? scroller.scrollHeight : scroller.scrollWidth) - size);
+  const isRTL = !isVertical && getComputedStyle(scroller).direction === "rtl";
+
+  // Clamp before smooth scrolling so presses near an edge land flush on it,
+  // including on iOS Safari. Horizontal RTL ranges run [-maxScroll, 0].
+  const next = Math.min(isRTL ? 0 : maxScroll, Math.max(isRTL ? -maxScroll : 0, current + delta));
+
+  if (next !== current) scroller.scrollTo({behavior, [isVertical ? "top" : "left"]: next});
+};
+
 /* -------------------------------------------------------------------------------------------------
  * Tabs Root
  * -----------------------------------------------------------------------------------------------*/
@@ -110,30 +128,13 @@ const TabList = ({children, className, ...props}: TabListProps) => {
 
       if (!el) return;
       const size = isVertical ? el.clientHeight : el.clientWidth;
-      const scrollSize = isVertical ? el.scrollHeight : el.scrollWidth;
-      const maxScroll = Math.max(0, scrollSize - size);
 
       // In RTL, the horizontal scroll range runs from 0 (start, on the right) to negative,
       // so the delta sign must be flipped for `scrollLeft` to move toward the intended edge.
       const isRTL = !isVertical && getComputedStyle(el).direction === "rtl";
       const delta = direction * size * 0.8 * (isRTL ? -1 : 1);
-      const current = isVertical ? el.scrollTop : el.scrollLeft;
 
-      // Clamp the target to the scrollable range so a press near the edge lands
-      // flush on it instead of requesting a position past the content, which can
-      // cut the smooth scroll short of the edge (e.g. iOS Safari) or leave the
-      // strip visually stranded. RTL ranges run [-maxScroll, 0].
-      const next = Math.min(
-        isRTL ? 0 : maxScroll,
-        Math.max(isRTL ? -maxScroll : 0, current + delta),
-      );
-
-      if (next === current) return;
-
-      el.scrollTo({
-        behavior: "smooth",
-        [isVertical ? "top" : "left"]: next,
-      });
+      scrollTabsBy(el, isVertical, delta);
     },
     [isVertical],
   );
@@ -226,8 +227,42 @@ interface TabProps extends ComponentPropsWithRef<typeof TabPrimitive> {
   className?: string;
 }
 
-const Tab = ({children, className, onFocus, ...props}: TabProps) => {
+const Tab = ({children, className, onFocus, onPress, ...props}: TabProps) => {
   const {orientation = "horizontal", slots} = use(TabsContext);
+
+  const centerTab = (tab: Element) => {
+    // RAC reveals keyboard focus in the next frame. Center after that scroll settles.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth";
+        const isVertical = orientation === "vertical";
+        const scroller = tab
+          .closest('[data-slot="tabs-list-container"]')
+          ?.querySelector<HTMLElement>(':scope > [data-slot="scroll-shadow"]');
+
+        if (!scroller) {
+          tab.scrollIntoView?.({
+            behavior,
+            block: isVertical ? "center" : "nearest",
+            inline: isVertical ? "nearest" : "center",
+          });
+
+          return;
+        }
+
+        const tabRect = tab.getBoundingClientRect();
+        const scrollerRect = scroller.getBoundingClientRect();
+        const size = isVertical ? scroller.clientHeight : scroller.clientWidth;
+        const delta = isVertical
+          ? tabRect.top + tabRect.height / 2 - scrollerRect.top - scroller.clientTop - size / 2
+          : tabRect.left + tabRect.width / 2 - scrollerRect.left - scroller.clientLeft - size / 2;
+
+        scrollTabsBy(scroller, isVertical, delta, behavior);
+      }),
+    );
+  };
 
   return (
     <TabPrimitive
@@ -236,34 +271,11 @@ const Tab = ({children, className, onFocus, ...props}: TabProps) => {
       data-slot="tabs-tab"
       onFocus={(event) => {
         onFocus?.(event);
-
-        const tab = event.currentTarget;
-        const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth";
-
-        requestAnimationFrame(() => {
-          const scroller = tab
-            .closest('[data-slot="tabs-list-container"]')
-            ?.querySelector<HTMLElement>(':scope > [data-slot="scroll-shadow"]');
-
-          if (!scroller) {
-            tab.scrollIntoView?.({behavior, block: "nearest", inline: "nearest"});
-            return;
-          }
-
-          const tabRect = tab.getBoundingClientRect();
-          const scrollerRect = scroller.getBoundingClientRect();
-          const [axis, end] =
-            orientation === "vertical"
-              ? (["top", "bottom"] as const)
-              : (["left", "right"] as const);
-          const delta =
-            Math.min(0, tabRect[axis] - scrollerRect[axis]) ||
-            Math.max(0, tabRect[end] - scrollerRect[end]);
-
-          if (delta) scroller.scrollBy({behavior, [axis]: delta});
-        });
+        centerTab(event.currentTarget);
+      }}
+      onPress={(event) => {
+        onPress?.(event);
+        centerTab(event.target);
       }}
     >
       {children}

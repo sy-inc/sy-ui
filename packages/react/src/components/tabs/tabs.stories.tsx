@@ -98,7 +98,7 @@ const FitContentTemplate = (args: Story["args"]) => (
 );
 
 const LongLabelsTemplate = (args: Story["args"]) => (
-  <div className="w-[320px]">
+  <div className="w-[620px]">
     <Tabs {...args}>
       <Tabs.ListContainer>
         <Tabs.List aria-label="Long labels">
