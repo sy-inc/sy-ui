@@ -394,6 +394,12 @@ describe("Carousel", () => {
         "aria-current",
         "true",
       );
+      const progressSelector = '[data-slot="carousel-autoplay-progress"]';
+
+      expect(document.querySelectorAll(progressSelector)).toHaveLength(1);
+      expect(
+        screen.getByRole("button", {name: "Go to slide 1"}).querySelector(progressSelector),
+      ).not.toBeNull();
 
       await act(async () => {
         vi.advanceTimersByTime(4000);
@@ -402,6 +408,13 @@ describe("Carousel", () => {
         "aria-current",
         "true",
       );
+      expect(document.querySelectorAll(progressSelector)).toHaveLength(1);
+      expect(
+        screen.getByRole("button", {name: "Go to slide 1"}).querySelector(progressSelector),
+      ).toBeNull();
+      expect(
+        screen.getByRole("button", {name: "Go to slide 2"}).querySelector(progressSelector),
+      ).not.toBeNull();
 
       await act(async () => {
         vi.advanceTimersByTime(8000);

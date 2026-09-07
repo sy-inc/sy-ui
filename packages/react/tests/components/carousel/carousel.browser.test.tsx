@@ -382,16 +382,17 @@ describe("Carousel (browser)", () => {
     await expect.element(toggle).toHaveAttribute("aria-label", "Pause autoplay");
   });
 
-  it("pauses and resumes autoplay progress with pointer interaction", async () => {
+  it("renders autoplay progress inside the selected pager and pauses and resumes on hover", async () => {
     const outside = document.createElement("div");
 
     outside.setAttribute("data-testid", "autoplay-progress-outside");
     outside.style.cssText = "position: fixed; left: 1000px; top: 700px; width: 10px; height: 10px";
     document.body.append(outside);
-    await render(<CarouselFixture autoplay={{delay: 1000}} showAutoplayProgress />);
+    await page.getByTestId("autoplay-progress-outside").hover();
+    await render(<CarouselFixture autoplay={{delay: 4000}} />);
 
     const root = page.getByRole("region");
-    const rootRect = root.element().getBoundingClientRect();
+    const selected = page.getByRole("button", {name: "Go to slide 1"}).element();
     const progress = root
       .element()
       .querySelector<HTMLElement>('[data-slot="carousel-autoplay-progress"]')!;
@@ -400,15 +401,45 @@ describe("Carousel (browser)", () => {
       .element()
       .querySelector<HTMLElement>('[data-slot="carousel-autoplay-progress-indicator"]')!;
 
-    expect(progress.getBoundingClientRect().top).toBeCloseTo(rootRect.top, 0);
-    expect(getComputedStyle(progress).opacity).toBe("0.5");
-    expect(track.getBoundingClientRect().height).toBe(4);
+    expect(selected).toContainElement(progress);
+    expect(
+      root.element().querySelectorAll('[data-slot="carousel-autoplay-progress"]'),
+    ).toHaveLength(1);
+    expect(progress.getBoundingClientRect().left).toBeCloseTo(
+      selected.getBoundingClientRect().left,
+      0,
+    );
+    expect(progress.getBoundingClientRect().right).toBeCloseTo(
+      selected.getBoundingClientRect().right,
+      0,
+    );
+    expect(track.getBoundingClientRect().height).toBe(8);
     expect(parseFloat(getComputedStyle(track).borderRadius)).toBeGreaterThan(0);
     await expect.poll(() => indicator.getAnimations()[0]?.playState).toBe("running");
+    await expect.poll(() => Number(indicator.getAnimations()[0]?.currentTime)).toBeGreaterThan(0);
+    expect(getComputedStyle(indicator).scale).toBe("none");
     await root.hover();
     await expect.poll(() => indicator.getAnimations()[0]?.playState).toBe("paused");
+    const pausedAnimation = indicator.getAnimations()[0];
+
     await page.getByTestId("autoplay-progress-outside").hover();
     await expect.poll(() => indicator.getAnimations()[0]?.playState).toBe("running");
+    expect(indicator.getAnimations()[0]).toBe(pausedAnimation);
+
+    await page.getByRole("button", {name: "Go to slide 2"}).click();
+    await expect
+      .element(page.getByRole("button", {name: "Go to slide 2"}))
+      .toHaveAttribute("aria-current", "true");
+    const nextIndicator = page
+      .getByRole("button", {name: "Go to slide 2"})
+      .element()
+      .querySelector<HTMLElement>('[data-slot="carousel-autoplay-progress-indicator"]')!;
+
+    expect(indicator.isConnected).toBe(false);
+    expect(getComputedStyle(nextIndicator).transform).toBe("matrix(0, 0, 0, 1, 0, 0)");
+    await page.getByTestId("autoplay-progress-outside").hover();
+    await expect.poll(() => nextIndicator.getAnimations()[0]?.playState).toBe("running");
+    outside.remove();
   });
 
   it("disables autoplay when a responsive breakpoint leaves one snap", async () => {

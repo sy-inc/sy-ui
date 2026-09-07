@@ -44,7 +44,6 @@ export default function Example() {
   <Carousel.Next />
   <Carousel.Pagination />
   <Carousel.AutoplayControl />
-  <Carousel.AutoplayProgress />
 </Carousel>
 ```
 
@@ -64,7 +63,7 @@ export default function Example() {
 | `onApiChange` | `(api) => void` | - | Receives the initialized Embla API. |
 | `onSelectionChange` | `(index, value?) => void` | - | Reports selected snap and the lead item's `value`. |
 
-`Carousel.Pagination` accepts a render function `({index, isSelected}) => ReactNode`. Previous/next controls disable themselves when movement is unavailable. Autoplay defaults to looping unless `options.loop` is supplied, pauses for reduced-motion users, and can be paired with the autoplay control and progress parts.
+`Carousel.Pagination` accepts a render function `({index, isSelected}) => ReactNode`. With autoplay enabled, the default selected indicator shows progress inside a pill; custom pagination content replaces this indicator. Previous/next controls disable themselves when movement is unavailable. Autoplay defaults to looping unless `options.loop` is supplied, pauses for reduced-motion users, and can be paired with `Carousel.AutoplayControl`.
 
 ## Accessibility
 

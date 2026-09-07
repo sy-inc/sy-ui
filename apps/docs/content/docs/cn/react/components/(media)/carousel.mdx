@@ -44,7 +44,6 @@ export default function Example() {
   <Carousel.Next />
   <Carousel.Pagination />
   <Carousel.AutoplayControl />
-  <Carousel.AutoplayProgress />
 </Carousel>
 ```
 
@@ -64,7 +63,7 @@ export default function Example() {
 | `onApiChange` | `(api) => void` | - | 接收初始化后的 Embla API。 |
 | `onSelectionChange` | `(index, value?) => void` | - | 返回选中吸附点及首个项目的 `value`。 |
 
-`Carousel.Pagination` 接受 `({index, isSelected}) => ReactNode` 渲染函数。无法继续移动时，前后按钮会自动禁用。自动播放在未显式设置 `options.loop` 时默认循环，会尊重减少动态效果偏好，并可搭配自动播放按钮与进度条。
+`Carousel.Pagination` 接受 `({index, isSelected}) => ReactNode` 渲染函数。启用自动播放后，默认选中指示器会以胶囊形状在内部显示播放进度；自定义分页内容会替换该指示器。无法继续移动时，前后按钮会自动禁用。自动播放在未显式设置 `options.loop` 时默认循环，会尊重减少动态效果偏好，并可搭配 `Carousel.AutoplayControl` 播放／暂停按钮。
 
 ## 无障碍
 

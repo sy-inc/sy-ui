@@ -236,14 +236,15 @@
 }
 
 .carousel__autoplay-progress.progress-bar {
-  @apply pointer-events-none absolute inset-x-0 top-0 z-2 gap-0 opacity-50;
+  @apply pointer-events-none gap-0;
 
   .carousel__autoplay-progress-track {
-    @apply h-1 rounded-full;
+    @apply h-2 rounded-full bg-muted/50;
   }
 
   .carousel__autoplay-progress-fill {
-    @apply rounded-full;
+    @apply origin-left rounded-full;
+    transform: scaleX(0);
   }
 }
 
@@ -255,26 +256,35 @@
   @apply relative inline-flex size-4 items-center justify-center rounded-full outline-none no-highlight;
 
   cursor: var(--cursor-interactive);
+  transition: width 250ms var(--ease-smooth);
 
   /* A single page needs no pager. */
   &:only-child {
     @apply hidden;
   }
 
-  /* Expands the hit area to the 44px minimum touch target without growing the visible dot. */
+  /* Keep expanded hit areas behind the buttons so they cannot cover a neighboring dot. */
   &::before {
-    @apply absolute -inset-3.5 content-[""];
+    @apply absolute -inset-3.5 -z-1 content-[""];
   }
 
   &::after {
-    @apply size-2 rounded-full bg-muted/50 content-[""];
+    @apply absolute size-2 rounded-full bg-muted/50 content-[""];
     transition:
-      width 150ms var(--ease-smooth),
+      width 250ms var(--ease-smooth),
       background-color 150ms var(--ease-out);
   }
 
   &[data-selected="true"]::after {
     @apply w-4 bg-accent;
+  }
+
+  &[data-autoplay="true"] {
+    @apply w-4;
+
+    &::after {
+      @apply invisible w-full;
+    }
   }
 
   /* Render-prop content replaces the default dot. */
@@ -295,6 +305,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
     &::after {
       transition: none;
     }

@@ -51,7 +51,6 @@ const renderCarousel = (
     <Carousel.Previous />
     <Carousel.Next />
     <Carousel.Pagination aria-label="Choose slide" />
-    {autoplay ? <Carousel.AutoplayProgress /> : null}
   </Carousel>
 );
 

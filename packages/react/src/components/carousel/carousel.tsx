@@ -720,7 +720,7 @@ const CarouselAutoplayProgress = ({className, ...props}: CarouselAutoplayProgres
     const autoplay = api?.plugins()?.autoplay;
     const indicator = indicatorRef.current;
 
-    if (!autoplay || !indicator || !autoplayAvailable) return;
+    if (!autoplay || !indicator?.animate || !autoplayAvailable) return;
     let animation: Animation | undefined;
     const onTimerSet = () => {
       if (animation?.playState === "paused") {
@@ -766,7 +766,6 @@ const CarouselAutoplayProgress = ({className, ...props}: CarouselAutoplayProgres
           ref={indicatorRef}
           className={slots.autoplayProgressFill()}
           data-slot="carousel-autoplay-progress-indicator"
-          style={{transformOrigin: "left"}}
         />
       </ProgressBar.Track>
     </ProgressBar>
@@ -788,8 +787,9 @@ interface CarouselPaginationProps extends Omit<ComponentPropsWithRef<"div">, "ch
 }
 
 const CarouselPagination = ({children, className, ...props}: CarouselPaginationProps) => {
-  const {api, selectedIndex, slots} = useCarouselContext();
+  const {api, autoplayAvailable, selectedIndex, slots} = useCarouselContext();
   const [pageCount, setPageCount] = React.useState(0);
+  const showAutoplayProgress = !children && autoplayAvailable && !!api?.plugins()?.autoplay;
 
   React.useEffect(() => {
     if (!api) return;
@@ -820,12 +820,15 @@ const CarouselPagination = ({children, className, ...props}: CarouselPaginationP
             aria-current={isSelected ? "true" : undefined}
             aria-label={`Go to slide ${index + 1}`}
             className={composeTwRenderProps(undefined, slots.paginationItem())}
+            data-autoplay={showAutoplayProgress && isSelected ? "true" : undefined}
             data-custom={children ? "true" : undefined}
             data-selected={isSelected ? "true" : undefined}
             data-slot="carousel-pagination-item"
             onPress={() => api?.goTo(index)}
           >
-            {children?.({index, isSelected})}
+            {children
+              ? children({index, isSelected})
+              : showAutoplayProgress && isSelected && <CarouselAutoplayProgress />}
           </ButtonPrimitive>
         );
       })}

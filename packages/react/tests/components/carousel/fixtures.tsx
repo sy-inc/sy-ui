@@ -11,7 +11,6 @@ export function CarouselFixture({
   options,
   orientation = "horizontal",
   showAutoplayControl = false,
-  showAutoplayProgress = false,
   wheelNavigation = false,
 }: {
   autoplay?: boolean | {delay?: number};
@@ -19,7 +18,6 @@ export function CarouselFixture({
   orientation?: "horizontal" | "vertical";
   options?: {duration?: number; loop?: boolean; draggable?: boolean};
   showAutoplayControl?: boolean;
-  showAutoplayProgress?: boolean;
   wheelNavigation?: boolean;
   clickable?: boolean;
 }) {
@@ -45,7 +43,6 @@ export function CarouselFixture({
       <Carousel.Next />
       <Carousel.Pagination aria-label="Choose slide" />
       {showAutoplayControl ? <Carousel.AutoplayControl /> : null}
-      {showAutoplayProgress ? <Carousel.AutoplayProgress /> : null}
     </Carousel>
   );
 }
