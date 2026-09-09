@@ -1,9 +1,11 @@
 .message-list {
-  @apply relative h-96 w-full min-w-0;
+  @apply w-full min-w-0;
 }
 
+/* The scroll container. Default height matches the old fixed root; override it freely
+   (e.g. `h-dvh`) when the viewport doubles as the page scroller. */
 .message-list__viewport {
-  @apply h-full overflow-y-auto overscroll-y-contain rounded-xl border border-border;
+  @apply h-96 overflow-y-auto overscroll-y-contain rounded-xl border border-border;
   /* The hook owns anchoring when the application replaces a fixed-length message window. */
   overflow-anchor: none;
 
@@ -17,9 +19,16 @@
   @apply flex min-w-0 flex-col gap-3 p-3;
 }
 
+/* Zero-height sticky dock: takes no layout space, keeps the arrow pinned above the bottom edge
+   of whichever ancestor scrolls. Raise `--message-list-scroll-button-offset` to clear a sticky
+   composer when the dock is not placed inside it. */
+.message-list__scroll-button-dock {
+  @apply sticky flex h-0 items-end justify-center;
+  bottom: var(--message-list-scroll-button-offset, 1rem);
+}
+
 .message-list__scroll-button.button {
-  @apply absolute bottom-4 left-1/2 size-11 rounded-full border border-border text-surface-foreground shadow-md;
-  translate: -50% 0;
+  @apply size-11 rounded-full border border-border text-surface-foreground shadow-md;
 
   background-color: color-mix(in oklab, var(--surface) 72%, transparent);
   -webkit-backdrop-filter: blur(4px) saturate(140%);

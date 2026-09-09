@@ -5,6 +5,7 @@ import {tv} from "tailwind-variants";
 export const messageListVariants = tv({
   slots: {
     content: "message-list__content",
+    dock: "message-list__scroll-button-dock",
     root: "message-list",
     scrollButton: "message-list__scroll-button",
     viewport: "message-list__viewport",

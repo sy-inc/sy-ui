@@ -1,6 +1,6 @@
 ---
 title: MessageList 消息列表
-description: 提供底部跟随和悬浮向下箭头的消息滚动容器。
+description: 由 Viewport、Content、ScrollButton 组合而成的底部跟随消息容器。
 
 links:
   source: message-list/message-list.tsx
@@ -13,48 +13,83 @@ links:
 ```tsx
 import {MessageBubble, MessageList} from "@sy-inc/react";
 
-<MessageList scrollToBottomLabel="回到底部" viewportProps={{"aria-label": "客服消息记录"}}>
-  <MessageBubble content="请帮我查询订单。" time="09:41" />
-  <MessageBubble content="好的，请稍等。" direction="sent" time="09:42" />
+<MessageList>
+  <MessageList.Viewport aria-label="客服消息记录">
+    <MessageList.Content>
+      <MessageBubble content="请帮我查询订单。" time="09:41" />
+      <MessageBubble content="好的，请稍等。" direction="sent" time="09:42" />
+    </MessageList.Content>
+    <MessageList.ScrollButton aria-label="回到底部" />
+  </MessageList.Viewport>
 </MessageList>
 ```
 
-`MessageList.Root` 与具名出口 `MessageListRoot` 都是 `MessageList` 的别名。也可以从 `@sy-inc/react/message-list` 导入。组件接受任意子节点，不负责请求、排序、截断或格式化消息。客服系统可在业务状态中保留最新 100 条，并使用稳定的消息 ID 作为 React key。`HundredMessages` Story 展示了包含图片和链接的这种组合。
+`MessageList` 是 compound 组件：`Root` 持有一个 `use-stick-to-bottom` 实例，`Viewport` 是滚动容器，`Content` 是被尺寸观察的消息列，`ScrollButton` 是离开底部时出现的向下箭头。`MessageList.Root` 与具名出口 `MessageListRoot` 都是 `MessageList` 的别名，也可以从 `@sy-inc/react/message-list` 导入。组件接受任意子节点，不负责请求、排序、截断或格式化消息。客服系统可在业务状态中保留最新 100 条，并使用稳定的消息 ID 作为 React key。`HundredMessages` Story 展示了包含图片和链接的这种组合。
+
+## 作为页面滚动器
+
+滚动容器就是 `Viewport` 部件，所以"整页滚动、底部 sticky 输入框"不需要额外 API：给 `Viewport` 页面高度，把头部、输入栏都放进去，再把 `ScrollButton` 放进输入栏即可。`PageScroller` Story 演示了这种布局。
+
+```tsx
+<MessageList>
+  <MessageList.Viewport aria-label="客服消息记录" className="h-dvh rounded-none border-0">
+    <header className="sticky top-0">客服会话</header>
+    <MessageList.Content>{messages}</MessageList.Content>
+    <div className="sticky bottom-0 flex flex-col gap-3 bg-surface p-3">
+      <MessageList.ScrollButton aria-label="回到底部" />
+      <Composer />
+    </div>
+  </MessageList.Viewport>
+</MessageList>
+```
+
+`ScrollButton` 渲染在一个零高度、`position: sticky` 的停靠层里，不占布局空间，会贴在最近滚动祖先的底边上方。放在输入栏内时它自然浮在输入框上方；放在 `Content` 之后时，可通过 `--message-list-scroll-button-offset`（默认 `1rem`）抬高它以避开别的 sticky 元素。
+
+`Viewport` 必须是一个真正带 `overflow` 的元素。hook 不监听 `window` 滚动，整页滚动请让 `Viewport` 自己撑满视口。
 
 ## 结构与样式
 
-| 元素 | 公开 data-slot | 职责 |
+| 部件 | 公开 data-slot | 职责 |
 | --- | --- | --- |
-| Root | `message-list` | 相对定位的外层容器，默认高 24rem、宽度 100%。根节点的 `className`、`style`、HTML 属性与 `ref` 都作用于此。 |
-| Viewport | `message-list-viewport` | 带边框、可键盘聚焦的滚动区域，通过 `viewportProps` 定制。 |
-| Content | `message-list-content` | 垂直排列消息，内边距与间距均为 0.75rem。 |
-| Button | `message-list-scroll-button` | 位于底部行内末端的悬浮向下箭头按钮。 |
+| Root | `message-list` | 提供滚动状态的外层 div，宽度 100%，不设高度。 |
+| Viewport | `message-list-viewport` | 滚动容器。默认高 24rem、带边框、可键盘聚焦；用 `className` 或 `style` 覆盖高度与边框。 |
+| Content | `message-list-content` | 垂直排列消息，内边距与间距均为 0.75rem。尺寸变化会触发底部跟随。 |
+| ScrollButton | `message-list-scroll-button-dock` / `message-list-scroll-button` | 零高度 sticky 停靠层，以及离开底部时才挂载的 44px 圆形按钮。 |
 
-样式及 `messageListVariants` slot 映射从 `@sy-inc/styles` 导出，并由组件入口重新导出。没有 size 或 intent 变体。通过根节点 CSS 或 `style` 调整高度，通过公开 slot 定制内容布局。
+样式及 `messageListVariants` slot 映射从 `@sy-inc/styles` 导出，并由组件入口重新导出。没有 size 或 intent 变体。
 
 ## API 参考
 
-| Prop | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | 消息或其他内容。 |
-| `scrollToBottomLabel` | `string` | `"Scroll to latest message"` | 图标按钮的无障碍名称，应按应用语言设置。 |
-| `viewportProps` | 原生 div 属性及 ref，不含 `children` 和 `dangerouslySetInnerHTML` | `{}` | 滚动区的 `aria-label`、`className`、`onScroll`、`ref` 等属性。默认 `role="region"`、`aria-label="Messages"`、`tabIndex={0}`。 |
-| `className`、`style`、`ref` 及其他 div 属性 | 原生 div 属性 | — | 转发至外层根节点。根 `ref` 不是滚动元素，原生滚动操作请使用 `viewportProps.ref`。 |
+### MessageList / MessageList.Root
 
-公开类型包括 `MessageListProps`、`MessageListRootProps`、`MessageList.Props` 和 `MessageList.RootProps`。原生事件转发到各自元素，不额外提供自定义事件或公开滚动 hook。
+原生 div 属性与 `ref`，作用于外层 div。根 `ref` 不是滚动元素。
+
+### MessageList.Viewport
+
+原生 div 属性与 `ref`，`ref` 指向滚动元素，可直接调用 `scrollTo`。默认 `role="region"`、`aria-label="Messages"`、`tabIndex={0}`，均可覆盖。
+
+### MessageList.Content
+
+原生 div 属性与 `ref`。
+
+### MessageList.ScrollButton
+
+接受 `Button` 的全部属性（`className` 仅限字符串）。默认 `aria-label="Scroll to latest message"`、`variant="secondary"`、`isIconOnly`，子节点默认是向下箭头图标。`onPress` 在触发滚动后被调用。
+
+公开类型：`MessageListProps`、`MessageListRootProps`、`MessageListViewportProps`、`MessageListContentProps`、`MessageListScrollButtonProps`，以及 `MessageList.Props` 等命名空间形式。部件必须渲染在 `Root` 内部，否则抛出错误。
 
 ## 滚动行为
 
-每个列表内部使用一个 `use-stick-to-bottom` 实例。初次定位和内容尺寸变化时立即跟随底部。用户向上滚动后暂停跟随，新消息不会把正在查看历史的用户拉走；回到底部后恢复跟随。
+每个 `Root` 内部使用一个 `use-stick-to-bottom` 实例。初次定位和内容尺寸变化时立即跟随底部。用户向上滚动后暂停跟随，新消息不会把正在查看历史的用户拉走；回到底部后恢复跟随。在 sticky 输入栏中聚焦、输入不会改变滚动位置。
 
-离开底部时显示 44px 悬浮向下箭头。点击后平滑滚动到最新消息，接近底部时隐藏，使用 hook 的 70px 阈值。图片撑高内容时会自动观察尺寸变化。空列表或较短列表在布局完成后无需显示箭头。
+离开底部时显示 44px 向下箭头。点击后平滑滚动到最新消息，接近底部时隐藏，使用 hook 的 70px 阈值。图片撑高内容时会自动观察尺寸变化。空列表或较短列表在布局完成后无需显示箭头。
 
 组件不做虚拟化，也不限制消息数量。请使用稳定的消息 key，并在业务侧维护保留条数。图片应尽量提供原始宽高以预留空间。
 
 ## 无障碍
 
-滚动区是有名称、可键盘聚焦的 region，保留原生键盘滚动及按钮 Enter/Space 激活行为。装饰性箭头不暴露给辅助技术，按钮保留可见焦点环。点击时尊重 `prefers-reduced-motion`，启用减少动态效果时改用立即定位。
+`Viewport` 是有名称、可键盘聚焦的 region，保留原生键盘滚动及按钮 Enter/Space 激活行为。装饰性箭头不暴露给辅助技术，按钮保留可见焦点环。点击时尊重 `prefers-reduced-motion`，启用减少动态效果时改用立即定位。
 
-默认不添加实时播报区域。作者、消息列表和更新播报语义由应用提供，可通过滚动区 ARIA 属性适配业务；避免自动播报整个初始历史记录。
+默认不添加实时播报区域。作者、消息列表和更新播报语义由应用提供，可通过 `Viewport` 的 ARIA 属性适配业务；避免自动播报整个初始历史记录。
 
 <RelatedComponents component="message-list" />

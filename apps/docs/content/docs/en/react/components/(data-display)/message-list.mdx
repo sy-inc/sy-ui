@@ -1,6 +1,6 @@
 ---
 title: MessageList
-description: A message viewport with bottom following and a floating scroll-to-bottom button.
+description: A bottom-following message container composed from Viewport, Content, and ScrollButton parts.
 
 links:
   source: message-list/message-list.tsx
@@ -13,48 +13,83 @@ links:
 ```tsx
 import {MessageBubble, MessageList} from "@sy-inc/react";
 
-<MessageList viewportProps={{"aria-label": "Customer conversation"}}>
-  <MessageBubble content="Please check my order." time="09:41" />
-  <MessageBubble content="Happy to help." direction="sent" time="09:42" />
+<MessageList>
+  <MessageList.Viewport aria-label="Customer conversation">
+    <MessageList.Content>
+      <MessageBubble content="Please check my order." time="09:41" />
+      <MessageBubble content="Happy to help." direction="sent" time="09:42" />
+    </MessageList.Content>
+    <MessageList.ScrollButton />
+  </MessageList.Viewport>
 </MessageList>
 ```
 
-`MessageList.Root` and the named `MessageListRoot` export are aliases of `MessageList`. The component also has a `@sy-inc/react/message-list` entry point. It accepts arbitrary children and does not fetch, reorder, truncate, or format messages. In a customer-service app, keep the latest 100 messages in application state and render them with stable message IDs as React keys. The `HundredMessages` story demonstrates this composition with images and links.
+`MessageList` is a compound component: `Root` owns one `use-stick-to-bottom` instance, `Viewport` is the scroll container, `Content` is the resize-observed message column, and `ScrollButton` is the down arrow shown while away from the bottom. `MessageList.Root` and the named `MessageListRoot` export are aliases of `MessageList`, and the component has a `@sy-inc/react/message-list` entry point. It accepts arbitrary children and does not fetch, reorder, truncate, or format messages. In a customer-service app, keep the latest 100 messages in application state and render them with stable message IDs as React keys. The `HundredMessages` story demonstrates this composition with images and links.
+
+## As the page scroller
+
+The scroll container is the `Viewport` part, so a full-page chat with a sticky composer needs no extra API. Give `Viewport` the page height, place the header and composer inside it, and dock `ScrollButton` inside the composer. The `PageScroller` story shows this layout.
+
+```tsx
+<MessageList>
+  <MessageList.Viewport aria-label="Customer conversation" className="h-dvh rounded-none border-0">
+    <header className="sticky top-0">Support chat</header>
+    <MessageList.Content>{messages}</MessageList.Content>
+    <div className="sticky bottom-0 flex flex-col gap-3 bg-surface p-3">
+      <MessageList.ScrollButton />
+      <Composer />
+    </div>
+  </MessageList.Viewport>
+</MessageList>
+```
+
+`ScrollButton` renders inside a zero-height `position: sticky` dock. It takes no layout space and pins above the bottom edge of the nearest scrolling ancestor. Inside a composer it floats above the input; placed after `Content`, raise it past other sticky elements with `--message-list-scroll-button-offset` (default `1rem`).
+
+`Viewport` must be a real overflow element. The hook does not listen to `window` scrolling, so for full-page layouts let `Viewport` fill the viewport itself.
 
 ## Anatomy and styling
 
-| Element | Public data-slot | Responsibility |
+| Part | Public data-slot | Responsibility |
 | --- | --- | --- |
-| Root | `message-list` | Relative wrapper, default height 24rem, full width. Root `className`, `style`, HTML props, and `ref` target this element. |
-| Viewport | `message-list-viewport` | Scrollable region with a border and keyboard focus. Customize with `viewportProps`. |
-| Content | `message-list-content` | Vertical message layout with 0.75rem padding and gaps. |
-| Button | `message-list-scroll-button` | Floating down-chevron button at the bottom inline-end corner. |
+| Root | `message-list` | Outer div providing scroll state. Full width, no height of its own. |
+| Viewport | `message-list-viewport` | Scroll container. Defaults to 24rem height, a border, and keyboard focus; override height and border with `className` or `style`. |
+| Content | `message-list-content` | Vertical message layout with 0.75rem padding and gaps. Size changes drive bottom following. |
+| ScrollButton | `message-list-scroll-button-dock` / `message-list-scroll-button` | Zero-height sticky dock, and the 44px round button mounted only while away from the bottom. |
 
-Styles and the `messageListVariants` slot mapping are exported from `@sy-inc/styles` and re-exported by the component entry point. There are no size or intent variants. Use root CSS or `style` to change the viewport height, and documented slots to customize the content layout.
+Styles and the `messageListVariants` slot mapping are exported from `@sy-inc/styles` and re-exported by the component entry point. There are no size or intent variants.
 
 ## API reference
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | Messages or other content. |
-| `scrollToBottomLabel` | `string` | `"Scroll to latest message"` | Accessible name of the icon button; localize for your application. |
-| `viewportProps` | Native div props and ref, excluding `children` and `dangerouslySetInnerHTML` | `{}` | Scroll-region props including `aria-label`, `className`, `onScroll`, and `ref`. Defaults to `role="region"`, `aria-label="Messages"`, and `tabIndex={0}`. |
-| `className`, `style`, `ref`, other div props | Native div props | — | Forwarded to the outer root. Root `ref` is not the scrolling element; use `viewportProps.ref` for native scrolling. |
+### MessageList / MessageList.Root
 
-Public types: `MessageListProps`, `MessageListRootProps`, `MessageList.Props`, and `MessageList.RootProps`. Native events are forwarded to their respective elements; there are no custom events or public scroll hooks.
+Native div props and `ref`, applied to the outer div. The root `ref` is not the scrolling element.
+
+### MessageList.Viewport
+
+Native div props and `ref`. The `ref` is the scrolling element, so `scrollTo` works directly. Defaults to `role="region"`, `aria-label="Messages"`, and `tabIndex={0}`; all can be overridden.
+
+### MessageList.Content
+
+Native div props and `ref`.
+
+### MessageList.ScrollButton
+
+Accepts every `Button` prop (`className` as a string only). Defaults to `aria-label="Scroll to latest message"`, `variant="secondary"`, `isIconOnly`, and a down-chevron icon as children. `onPress` runs after the scroll is triggered.
+
+Public types: `MessageListProps`, `MessageListRootProps`, `MessageListViewportProps`, `MessageListContentProps`, `MessageListScrollButtonProps`, plus the `MessageList.Props` namespace form. Parts must render inside `Root`; otherwise they throw.
 
 ## Scroll behavior
 
-The component uses one internal `use-stick-to-bottom` instance per list. Initial positioning and content resizing follow the bottom instantly. Scrolling upward pauses following so incoming messages do not pull the reader away from history. Returning to the bottom resumes following.
+Each `Root` uses one `use-stick-to-bottom` instance. Initial positioning and content resizing follow the bottom instantly. Scrolling upward pauses following so incoming messages do not pull the reader away from history. Returning to the bottom resumes following. Focusing or typing in a sticky composer does not change the scroll position.
 
-Away from the bottom, a 44px floating down arrow is shown. Clicking it smoothly scrolls to the latest message. It hides near the bottom, using the hook's 70px threshold. Image-driven content resizing is observed automatically. Empty or short lists do not need a scroll button after layout.
+Away from the bottom, a 44px down arrow is shown. Clicking it smoothly scrolls to the latest message. It hides near the bottom, using the hook's 70px threshold. Image-driven content resizing is observed automatically. Empty or short lists do not need a scroll button after layout.
 
 This component does not virtualize messages or enforce a retention limit. Use stable message keys, and keep an application's retention policy outside the component. Reserve image space with intrinsic width and height when possible.
 
 ## Accessibility
 
-The viewport is a named, keyboard-focusable region. Native keyboard scrolling and button Enter/Space activation remain available. The decorative chevron is hidden from assistive technology. The button has a visible focus ring, and clicking it respects `prefers-reduced-motion` by using instant scrolling instead of animation.
+`Viewport` is a named, keyboard-focusable region. Native keyboard scrolling and button Enter/Space activation remain available. The decorative chevron is hidden from assistive technology. The button has a visible focus ring, and clicking it respects `prefers-reduced-motion` by using instant scrolling instead of animation.
 
-No live-region announcements are added by default. Applications own author, message-list, and announcement semantics. Set appropriate viewport ARIA props for the application's update policy; avoid announcing the entire initial history.
+No live-region announcements are added by default. Applications own author, message-list, and announcement semantics. Set appropriate `Viewport` ARIA props for the application's update policy; avoid announcing the entire initial history.
 
 <RelatedComponents component="message-list" />

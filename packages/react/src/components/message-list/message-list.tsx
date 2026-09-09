@@ -1,76 +1,130 @@
 "use client";
 
-import type {ComponentPropsWithRef} from "react";
+import type {ComponentProps, ComponentPropsWithRef} from "react";
+import type {StickToBottomInstance} from "use-stick-to-bottom";
 
 import {mergeRefs} from "@react-aria/utils";
 import {messageListVariants} from "@sy-inc/styles";
-import {useMemo} from "react";
+import {createContext, use, useMemo} from "react";
 import {useStickToBottom} from "use-stick-to-bottom";
 
 import {composeSlotClassName} from "../../utils/compose";
 import {Button} from "../button";
 import {IconChevronDown} from "../icons";
 
-export interface MessageListRootProps extends ComponentPropsWithRef<"div"> {
-  /** Props and ref for the keyboard-scrollable region. */
-  viewportProps?: Omit<ComponentPropsWithRef<"div">, "children" | "dangerouslySetInnerHTML">;
-  /** Accessible name of the floating button. */
-  scrollToBottomLabel?: string;
-}
+const slots = messageListVariants();
 
-export const MessageListRoot = ({
-  children,
-  className,
-  ref,
-  scrollToBottomLabel = "Scroll to latest message",
-  viewportProps = {},
-  ...props
-}: MessageListRootProps) => {
-  const {contentRef, isNearBottom, scrollRef, scrollToBottom} = useStickToBottom({
-    initial: "instant",
-    resize: "instant",
-  });
-  const {className: viewportClassName, ref: viewportRef, ...scrollProps} = viewportProps;
-  const mergedScrollRef = useMemo(
-    () => mergeRefs<HTMLDivElement>(scrollRef, viewportRef),
-    [scrollRef, viewportRef],
+const MessageListContext = createContext<StickToBottomInstance | null>(null);
+
+const useMessageList = (part: string) => {
+  const instance = use(MessageListContext);
+
+  if (!instance) {
+    throw new Error(`MessageList.${part} must be rendered inside MessageList.Root`);
+  }
+
+  return instance;
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * MessageList Root
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageListRootProps extends ComponentPropsWithRef<"div"> {}
+
+export const MessageListRoot = ({children, className, ...props}: MessageListRootProps) => {
+  const instance = useStickToBottom({initial: "instant", resize: "instant"});
+
+  return (
+    <MessageListContext value={instance}>
+      <div
+        {...props}
+        className={composeSlotClassName(slots.root, className)}
+        data-slot="message-list"
+      >
+        {children}
+      </div>
+    </MessageListContext>
   );
-  const slots = messageListVariants();
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * MessageList Viewport — the scroll container. Size it; it may be the page scroller.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageListViewportProps extends ComponentPropsWithRef<"div"> {}
+
+export const MessageListViewport = ({className, ref, ...props}: MessageListViewportProps) => {
+  const {scrollRef} = useMessageList("Viewport");
+  const mergedRef = useMemo(() => mergeRefs<HTMLDivElement>(scrollRef, ref), [scrollRef, ref]);
+
+  return (
+    <div
+      aria-label="Messages"
+      role="region"
+      tabIndex={0}
+      {...props}
+      ref={mergedRef}
+      className={composeSlotClassName(slots.viewport, className)}
+      data-slot="message-list-viewport"
+    />
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * MessageList Content — resize-observed message column.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageListContentProps extends ComponentPropsWithRef<"div"> {}
+
+export const MessageListContent = ({className, ref, ...props}: MessageListContentProps) => {
+  const {contentRef} = useMessageList("Content");
+  const mergedRef = useMemo(() => mergeRefs<HTMLDivElement>(contentRef, ref), [contentRef, ref]);
 
   return (
     <div
       {...props}
-      ref={ref}
-      className={composeSlotClassName(slots.root, className)}
-      data-slot="message-list"
-    >
-      <div
-        aria-label="Messages"
-        role="region"
-        tabIndex={0}
-        {...scrollProps}
-        ref={mergedScrollRef}
-        className={composeSlotClassName(slots.viewport, viewportClassName)}
-        data-slot="message-list-viewport"
-      >
-        <div ref={contentRef} className={slots.content()} data-slot="message-list-content">
-          {children}
-        </div>
-      </div>
+      ref={mergedRef}
+      className={composeSlotClassName(slots.content, className)}
+      data-slot="message-list-content"
+    />
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * MessageList ScrollButton — zero-height sticky dock holding the arrow while away from the bottom.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageListScrollButtonProps extends Omit<
+  ComponentProps<typeof Button>,
+  "className"
+> {
+  className?: string;
+}
+
+export const MessageListScrollButton = ({
+  "aria-label": ariaLabel = "Scroll to latest message",
+  children = <IconChevronDown />,
+  className,
+  variant = "secondary",
+  ...props
+}: MessageListScrollButtonProps) => {
+  const {isNearBottom, scrollToBottom} = useMessageList("ScrollButton");
+
+  return (
+    <div className={slots.dock()} data-slot="message-list-scroll-button-dock">
       {!isNearBottom ? (
         <Button
           isIconOnly
-          aria-label={scrollToBottomLabel}
-          className={slots.scrollButton()}
+          aria-label={ariaLabel}
+          variant={variant}
+          {...props}
+          className={composeSlotClassName(slots.scrollButton, className)}
           data-slot="message-list-scroll-button"
-          onPress={() => {
+          onPress={(event) => {
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
             void scrollToBottom(reducedMotion ? "instant" : "smooth");
+            props.onPress?.(event);
           }}
-          variant="secondary"
         >
-          <IconChevronDown />
+          {children}
         </Button>
       ) : null}
     </div>
@@ -78,3 +132,6 @@ export const MessageListRoot = ({
 };
 
 MessageListRoot.displayName = "SY INC.MessageList";
+MessageListViewport.displayName = "SY INC.MessageList.Viewport";
+MessageListContent.displayName = "SY INC.MessageList.Content";
+MessageListScrollButton.displayName = "SY INC.MessageList.ScrollButton";

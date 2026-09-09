@@ -3,9 +3,14 @@ import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {createRef} from "react";
 
 import {MessageList as PublicMessageList, messageListVariants} from "@sy-inc/react";
-import {MessageList as SubpathMessageList} from "@sy-inc/react/message-list";
-
-import {MessageList, MessageListRoot} from "@/components/message-list";
+import {
+  MessageList,
+  MessageListContent,
+  MessageListRoot,
+  MessageListScrollButton,
+  MessageListViewport,
+  MessageList as SubpathMessageList,
+} from "@sy-inc/react/message-list";
 
 const scrolling = vi.hoisted(() => ({
   contentRef: vi.fn(),
@@ -18,36 +23,51 @@ vi.mock("use-stick-to-bottom", () => ({useStickToBottom: () => scrolling}));
 
 beforeEach(() => {
   scrolling.isNearBottom = true;
+  scrolling.contentRef.mockClear();
+  scrolling.scrollRef.mockClear();
   scrolling.scrollToBottom.mockClear();
 });
 
+const Conversation = ({label = "回到底部"}: {label?: string}) => (
+  <MessageList>
+    <MessageList.Viewport>
+      <MessageList.Content>Message</MessageList.Content>
+      <MessageList.ScrollButton aria-label={label} />
+    </MessageList.Viewport>
+  </MessageList>
+);
+
 describe("MessageList", () => {
-  it("exposes the component and styles through public package entries", () => {
+  it("exposes the component, parts, and styles through public package entries", () => {
     expect(PublicMessageList).toBe(MessageList);
     expect(SubpathMessageList).toBe(MessageList);
     expect(messageListVariants).toBe(styles);
+    expect(MessageList.Root).toBe(MessageListRoot);
+    expect(MessageList.Viewport).toBe(MessageListViewport);
+    expect(MessageList.Content).toBe(MessageListContent);
+    expect(MessageList.ScrollButton).toBe(MessageListScrollButton);
   });
 
-  it("supports root and viewport props, refs, and public slots", () => {
+  it("supports props and refs on every part and binds the hook to viewport and content", () => {
     const rootRef = createRef<HTMLDivElement>();
     const viewportRef = createRef<HTMLDivElement>();
+    const contentRef = createRef<HTMLDivElement>();
 
     render(
-      <MessageList
-        ref={rootRef}
-        className="custom-root"
-        id="conversation"
-        viewportProps={{
-          "aria-label": "Customer messages",
-          className: "custom-viewport",
-          ref: viewportRef,
-        }}
-      >
-        Message content
+      <MessageList ref={rootRef} className="custom-root" id="conversation">
+        <MessageList.Viewport
+          ref={viewportRef}
+          aria-label="Customer messages"
+          className="custom-viewport"
+        >
+          <MessageList.Content ref={contentRef} className="custom-content">
+            Message content
+          </MessageList.Content>
+          <MessageList.ScrollButton />
+        </MessageList.Viewport>
       </MessageList>,
     );
 
-    expect(MessageList.Root).toBe(MessageListRoot);
     expect(rootRef.current).toHaveAttribute("id", "conversation");
     expect(rootRef.current).toHaveAttribute("data-slot", "message-list");
     expect(rootRef.current).toHaveClass("custom-root");
@@ -55,10 +75,11 @@ describe("MessageList", () => {
     expect(viewportRef.current).toHaveAttribute("data-slot", "message-list-viewport");
     expect(viewportRef.current).toHaveAttribute("tabindex", "0");
     expect(viewportRef.current).toHaveClass("custom-viewport");
-    expect(screen.getByText("Message content")).toHaveAttribute(
-      "data-slot",
-      "message-list-content",
-    );
+    expect(contentRef.current).toBe(screen.getByText("Message content"));
+    expect(contentRef.current).toHaveAttribute("data-slot", "message-list-content");
+    expect(contentRef.current).toHaveClass("custom-content");
+    expect(scrolling.scrollRef).toHaveBeenCalledWith(viewportRef.current);
+    expect(scrolling.contentRef).toHaveBeenCalledWith(contentRef.current);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
     expect(rootRef.current).not.toHaveAttribute("aria-live");
   });
@@ -67,11 +88,12 @@ describe("MessageList", () => {
     scrolling.isNearBottom = false;
     const user = setupUser();
 
-    render(<MessageList scrollToBottomLabel="回到底部">Message</MessageList>);
+    render(<Conversation />);
 
     const button = screen.getByRole("button", {name: "回到底部"});
 
     expect(button).toHaveAttribute("data-slot", "message-list-scroll-button");
+    expect(button.parentElement).toHaveAttribute("data-slot", "message-list-scroll-button-dock");
     await user.tab();
     expect(screen.getByRole("region", {name: "Messages"})).toHaveFocus();
     await user.tab();
@@ -86,11 +108,39 @@ describe("MessageList", () => {
     const user = setupUser();
 
     try {
-      render(<MessageList>Message</MessageList>);
+      render(<Conversation label="Scroll to latest message" />);
       await user.click(screen.getByRole("button", {name: "Scroll to latest message"}));
       expect(scrolling.scrollToBottom).toHaveBeenCalledWith("instant");
     } finally {
       media.mockRestore();
     }
+  });
+
+  it("supports placing the scroll button outside the content, e.g. inside a composer", async () => {
+    scrolling.isNearBottom = false;
+    const onPress = vi.fn();
+    const user = setupUser();
+
+    render(
+      <MessageList>
+        <MessageList.Viewport>
+          <MessageList.Content>Message</MessageList.Content>
+          <footer>
+            <MessageList.ScrollButton className="custom-arrow" onPress={onPress}>
+              ↓
+            </MessageList.ScrollButton>
+            <input aria-label="Composer" />
+          </footer>
+        </MessageList.Viewport>
+      </MessageList>,
+    );
+
+    const button = screen.getByRole("button", {name: "Scroll to latest message"});
+
+    expect(button).toHaveClass("custom-arrow");
+    expect(button).toHaveTextContent("↓");
+    await user.click(button);
+    expect(scrolling.scrollToBottom).toHaveBeenCalledWith("smooth");
+    expect(onPress).toHaveBeenCalledTimes(1);
   });
 });
