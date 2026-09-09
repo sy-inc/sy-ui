@@ -1,0 +1,152 @@
+---
+title: CellSwitch
+description: 单行设置开关，支持可选的描述文本和内联徽标。
+
+links:
+  rac: Switch
+  source: cell-switch/cell-switch.tsx
+  styles: cell-switch.css
+  storybook: Components/CellSwitch
+---
+
+## 用法
+
+CellSwitch 是一行占满宽度的设置项：左侧标签，右侧开关，整行都是切换热区。它内部渲染
+`variant="cell"` 的 `Switch`，并在其上补充设置项所需的文案结构。
+
+```tsx
+import {CellSwitch} from "@sy-inc/react";
+
+export default () => <CellSwitch defaultSelected>动画效果</CellSwitch>;
+```
+
+该行会填满容器，宽度由外层元素控制。
+
+## 结构
+
+CellSwitch 是单个组件，标签、描述、徽标和控件的排布已经固定。如需其他组合方式，请直接使用
+Switch 的各个部件，样式保持一致：
+
+```tsx
+import {Label, Switch} from "@sy-inc/react";
+
+export default () => (
+  <Switch variant="cell">
+    <Switch.Content>
+      <Label>动画效果</Label>
+      <Switch.Control>
+        <Switch.Thumb />
+      </Switch.Control>
+    </Switch.Content>
+  </Switch>
+);
+```
+
+## 示例
+
+### 基础用法
+
+堆叠多行即可组成设置面板。
+
+<ComponentPreview name="cell-switch-basic" />
+
+### 变体
+
+CellSwitch 支持 `default`、`secondary` 和 `feature`。`secondary` 更安静，适合放在
+`default` 表面上的行。
+
+<ComponentPreview name="cell-switch-variants" />
+
+### 功能卡片
+
+`feature` 变体会把整行包进带边框的卡片中。配合 `badge` 和 `description` 用于新功能提示。
+
+<ComponentPreview name="cell-switch-feature" />
+
+### 禁用
+
+设置 `isDisabled` 可阻止交互并传达禁用状态。
+
+<ComponentPreview name="cell-switch-disabled" />
+
+### 受控
+
+传入 `isSelected` 和 `onChange`，由 React state 驱动该行。
+
+```tsx
+import {CellSwitch} from "@sy-inc/react";
+import {useState} from "react";
+
+export default () => {
+  const [isSelected, setIsSelected] = useState(true);
+
+  return (
+    <CellSwitch isSelected={isSelected} onChange={setIsSelected}>
+      动画效果
+    </CellSwitch>
+  );
+};
+```
+
+## API 参考
+
+### CellSwitch
+
+接受 Switch 根组件的 props，但不包含 `children`（作为标签内容）、`className` 和
+`variant`（由下方的 cell 变体替代）。包内同时导出 `cellSwitchVariants` 和
+`CellSwitchVariants`。
+
+| 属性              | 类型                                      | 默认值      | 说明                         |
+| ----------------- | ----------------------------------------- | ----------- | ---------------------------- |
+| `children`        | `ReactNode`                               | -           | 标签内容，同时作为无障碍名称 |
+| `description`     | `ReactNode`                               | -           | 标签下方的次要文本行         |
+| `badge`           | `ReactNode`                               | -           | 标签文字之后的内联徽标       |
+| `variant`         | `"default" \| "secondary" \| "feature"`   | `"default"` | 视觉变体                     |
+| `isSelected`      | `boolean`                                 | -           | 是否开启（受控）             |
+| `defaultSelected` | `boolean`                                 | -           | 初始状态（非受控）           |
+| `onChange`        | `(isSelected: boolean) => void`           | -           | 状态变化时调用               |
+| `isDisabled`      | `boolean`                                 | -           | 是否禁用                     |
+| `isReadOnly`      | `boolean`                                 | -           | 是否忽略用户交互             |
+| `name`            | `string`                                  | -           | 表单字段名                   |
+| `value`           | `string`                                  | -           | 选中时的表单字段值           |
+| `className`       | `string`                                  | -           | 附加到根元素的 CSS 类        |
+
+## 事件
+
+- `onChange` 接收下一个 `boolean` 状态。
+- `onFocus`、`onBlur` 和 `onFocusChange` 会转发给底层 Switch。
+
+非受控用法使用 `defaultSelected`，受控用法将 `isSelected` 与 `onChange` 配对使用。
+
+## 无障碍
+
+CellSwitch 复用 Switch 的无障碍行为：
+
+- `children` 即开关的名称，无需额外的 `aria-label`。
+- 整行都是切换热区，聚焦后按空格键可切换。
+- `isDisabled` 阻止交互并暴露禁用状态。
+- 控件渲染为带 `role="switch"` 的原生 checkbox，可参与 HTML 表单提交。
+- `description` 通过共享的 Description 组件渲染，并与控件建立关联。
+
+## 数据属性与 CSS 类
+
+根元素带有 Switch 的各个 slot，外加下列 cell 专属类名。
+
+| 部件     | `data-slot`         | BEM 类名               |
+| -------- | ------------------- | ---------------------- |
+| 根元素   | `switch`            | `.cell-switch`         |
+| 文案列   | `cell-switch-copy`  | `.cell-switch__copy`   |
+| 徽标     | `cell-switch-badge` | `.cell-switch__badge`  |
+| 标签     | `label`             | `.label`               |
+| 描述     | `description`       | `.description`         |
+| 内容行   | `switch-content`    | `.switch__content`     |
+| 控件     | `switch-control`    | `.switch__control`     |
+| 滑块     | `switch-thumb`      | `.switch__thumb`       |
+
+行的表面、高度以及 hover、focus 和禁用状态全部来自 `switch.css`。根元素会附加
+`.switch--cell` 和 `.switch--cell-compact`，`secondary` 变体附加
+`.switch--cell-secondary`，`feature` 变体附加 `.cell-switch--feature` 和
+`.switch--cell-flat`。
+
+根元素上常用的状态钩子：`[data-selected="true"]`、`[data-hovered="true"]`、
+`[data-focus-visible="true"]` 和 `[data-disabled="true"]`。

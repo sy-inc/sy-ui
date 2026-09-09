@@ -285,3 +285,26 @@
   --switch-control-bg-hover: var(--switch-control-bg);
   --switch-control-bg-pressed: color-mix(in oklab, var(--muted), transparent 70%);
 }
+
+/* Compact cell row — a fixed-height control rather than a growing field. */
+.switch--cell-compact .switch__content {
+  @apply h-9 min-h-0;
+}
+
+/*
+ * Flat cell row — the surrounding card owns the border, so the row drops the
+ * field chrome. Declared after `--cell-compact` so it wins the height.
+ */
+.switch--cell-flat .switch__content {
+  @apply h-auto border-0 bg-transparent py-4 shadow-none;
+
+  /* Nested inside the 1px card border, so the radius steps down by that pixel. */
+  border-radius: calc(var(--radius-xl) - 1px);
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default/90;
+    }
+  }
+}

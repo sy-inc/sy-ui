@@ -105,6 +105,13 @@ const componentsMap: Record<string, ComponentInfo> = {
     name: "cellslider",
     title: "CellSlider",
   },
+  cellswitch: {
+    category: "forms",
+    description: "Single-line settings switch with description and badge",
+    href: "/docs/components/cell-switch",
+    name: "cellswitch",
+    title: "CellSwitch",
+  },
   chip: {
     category: "display",
     description: "Compact elements for tags and filters",
@@ -594,6 +601,7 @@ const componentRelationships: Record<string, string[]> = {
     "fielderror",
   ],
   cellslider: ["slider", "label", "form"],
+  cellswitch: ["switch", "toggle", "settings", "form"],
   chip: ["avatar", "closebutton", "separator"],
   closebutton: ["alert", "alertdialog", "chip", "modal"],
   colorarea: ["colorswatch", "colorswatchpicker", "colorfield", "colorpicker"],

@@ -13,13 +13,13 @@ export const cellSwitchVariants = tv({
   },
   slots: {
     badge: "cell-switch__badge",
-    base: "cell-switch",
+    base: "cell-switch switch--cell-compact",
     copy: "cell-switch__copy",
   },
   variants: {
     variant: {
       default: {},
-      feature: {base: "cell-switch--feature"},
+      feature: {base: "cell-switch--feature switch--cell-flat"},
       secondary: {},
     },
   },

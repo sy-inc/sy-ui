@@ -99,6 +99,7 @@
     "(feedback)/spinner",
     "(feedback)/text-shimmer",
     "(layout)/surface",
+    "(controls)/cell-switch",
     "(controls)/switch",
     "(data-display)/table",
     "(data-display)/widget",

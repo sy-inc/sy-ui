@@ -514,6 +514,24 @@ export const demos: Record<string, DemoItem> = {
     file: "en/card/custom-styles.tsx",
   },
 
+  // CellSwitch Demo
+  "cell-switch-basic": {
+    loader: () => import("./cell-switch/basic").then((m) => m.Basic),
+    file: "en/cell-switch/basic.tsx",
+  },
+  "cell-switch-variants": {
+    loader: () => import("./cell-switch/variants").then((m) => m.Variants),
+    file: "en/cell-switch/variants.tsx",
+  },
+  "cell-switch-feature": {
+    loader: () => import("./cell-switch/feature").then((m) => m.Feature),
+    file: "en/cell-switch/feature.tsx",
+  },
+  "cell-switch-disabled": {
+    loader: () => import("./cell-switch/disabled").then((m) => m.Disabled),
+    file: "en/cell-switch/disabled.tsx",
+  },
+
   // Checkbox Demo
   "checkbox-basic": {
     loader: () => import("./checkbox/basic").then((m) => m.Basic),

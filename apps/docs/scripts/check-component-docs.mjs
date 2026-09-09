@@ -13,6 +13,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "navbar",
   "sidebar",
   "cell-slider",
+  "cell-switch",
   "carousel",
   "time-picker",
   "stepper",

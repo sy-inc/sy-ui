@@ -1,0 +1,160 @@
+---
+title: CellSwitch
+description: A single-line settings switch with an optional description and inline badge.
+
+links:
+  rac: Switch
+  source: cell-switch/cell-switch.tsx
+  styles: cell-switch.css
+  storybook: Components/CellSwitch
+---
+
+## Usage
+
+CellSwitch is a full-width settings row: a label on the left, the switch on the
+right, and the whole row as the toggle target. It renders a `Switch` with
+`variant="cell"` and adds the settings-cell copy on top.
+
+```tsx
+import {CellSwitch} from "@sy-inc/react";
+
+export default () => <CellSwitch defaultSelected>Animations</CellSwitch>;
+```
+
+The row fills its container, so the surrounding element controls the width.
+
+## Anatomy
+
+CellSwitch is a single component: the label, description, badge and control are
+arranged for you. For any other composition, use the Switch parts with the same
+cell styling:
+
+```tsx
+import {Label, Switch} from "@sy-inc/react";
+
+export default () => (
+  <Switch variant="cell">
+    <Switch.Content>
+      <Label>Animations</Label>
+      <Switch.Control>
+        <Switch.Thumb />
+      </Switch.Control>
+    </Switch.Content>
+  </Switch>
+);
+```
+
+## Examples
+
+### Basic
+
+Stack several rows for a settings panel.
+
+<ComponentPreview name="cell-switch-basic" />
+
+### Variants
+
+CellSwitch supports `default`, `secondary` and `feature`. The `secondary`
+variant is quieter and suits rows on a `default` surface.
+
+<ComponentPreview name="cell-switch-variants" />
+
+### Feature
+
+The `feature` variant wraps the row in a bordered card. Pair it with `badge` and
+`description` to announce something new.
+
+<ComponentPreview name="cell-switch-feature" />
+
+### Disabled
+
+Set `isDisabled` to prevent interaction and communicate the disabled state.
+
+<ComponentPreview name="cell-switch-disabled" />
+
+### Controlled
+
+Pass `isSelected` and `onChange` to drive the row from React state.
+
+```tsx
+import {CellSwitch} from "@sy-inc/react";
+import {useState} from "react";
+
+export default () => {
+  const [isSelected, setIsSelected] = useState(true);
+
+  return (
+    <CellSwitch isSelected={isSelected} onChange={setIsSelected}>
+      Animations
+    </CellSwitch>
+  );
+};
+```
+
+## API Reference
+
+### CellSwitch
+
+Accepts the Switch root props, except `children` (the label content),
+`className` and `variant` (replaced by the cell variants below). The package
+also exports `cellSwitchVariants` and `CellSwitchVariants`.
+
+| Prop             | Type                                      | Default     | Description                                   |
+| ---------------- | ----------------------------------------- | ----------- | --------------------------------------------- |
+| `children`       | `ReactNode`                               | -           | Label content and accessible name.            |
+| `description`    | `ReactNode`                               | -           | Secondary line under the label.               |
+| `badge`          | `ReactNode`                               | -           | Inline badge rendered after the label text.   |
+| `variant`        | `"default" \| "secondary" \| "feature"`   | `"default"` | Visual style variant.                         |
+| `isSelected`     | `boolean`                                 | -           | Whether the switch is on (controlled).        |
+| `defaultSelected`| `boolean`                                 | -           | Initial state (uncontrolled).                 |
+| `onChange`       | `(isSelected: boolean) => void`           | -           | Called when the state changes.                |
+| `isDisabled`     | `boolean`                                 | -           | Whether the switch is disabled.               |
+| `isReadOnly`     | `boolean`                                 | -           | Whether the switch ignores user interaction.  |
+| `name`           | `string`                                  | -           | Form field name.                              |
+| `value`          | `string`                                  | -           | Form field value when selected.               |
+| `className`      | `string`                                  | -           | Additional CSS classes for the root.          |
+
+## Events
+
+- `onChange` receives the next `boolean` state.
+- `onFocus`, `onBlur` and `onFocusChange` are forwarded to the underlying
+  Switch.
+
+Use `defaultSelected` for an uncontrolled row or pair `isSelected` with
+`onChange` for a controlled one.
+
+## Accessibility
+
+CellSwitch composes the Switch accessibility behavior:
+
+- `children` names the switch, so no `aria-label` is needed.
+- The whole row is the toggle target, and Space toggles it when focused.
+- `isDisabled` prevents interaction and exposes the disabled state.
+- The control renders a native checkbox with `role="switch"`, so it
+  participates in HTML form submission.
+- `description` renders through the shared Description component and is
+  associated with the control.
+
+## Data attributes and CSS classes
+
+The root carries the Switch slots plus the cell-specific classes below.
+
+| Part        | `data-slot`         | BEM class              |
+| ----------- | ------------------- | ---------------------- |
+| Root        | `switch`            | `.cell-switch`         |
+| Copy column | `cell-switch-copy`  | `.cell-switch__copy`   |
+| Badge       | `cell-switch-badge` | `.cell-switch__badge`  |
+| Label       | `label`             | `.label`               |
+| Description | `description`       | `.description`         |
+| Content row | `switch-content`    | `.switch__content`     |
+| Control     | `switch-control`    | `.switch__control`     |
+| Thumb       | `switch-thumb`      | `.switch__thumb`       |
+
+The row surface, height and hover, focus and disabled states come from
+`switch.css`. The root adds `.switch--cell` plus `.switch--cell-compact`, the
+`secondary` variant adds `.switch--cell-secondary`, and the `feature` variant
+adds `.cell-switch--feature` with `.switch--cell-flat`.
+
+Useful state hooks on the root: `[data-selected="true"]`,
+`[data-hovered="true"]`, `[data-focus-visible="true"]` and
+`[data-disabled="true"]`.
