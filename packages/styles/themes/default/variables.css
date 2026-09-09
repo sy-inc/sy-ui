@@ -166,6 +166,10 @@
     --field-shadow:
       0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
       0 0 1px 0 rgba(0, 0, 0, 0.06);
+    /* TextShimmer highlight lift: how far the travelling band moves toward white.
+       A band that only dims reads as dead on a dark surface, so dark lifts it. */
+    --text-shimmer-lift: 0%;
+
     /* Skeleton Default Global Animation */
     --skeleton-animation: shimmer; /* shimmer, pulse, none */
 
@@ -229,6 +233,8 @@
 
     /* Backdrop */
     --backdrop: rgba(0, 0, 0, 0.6);
+
+    --text-shimmer-lift: 35%;
 
     /* Shadows */
     --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */

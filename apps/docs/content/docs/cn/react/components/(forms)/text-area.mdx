@@ -24,10 +24,11 @@ import { TextArea } from '@sy-inc/react';
 
 ### 变体
 
-TextArea 组件支持两种视觉变体：
+TextArea 组件支持三种视觉变体：
 
 - **`primary`**（默认）— 带阴影的标准样式，适用于大多数场景
 - **`secondary`** — 低强调、无阴影，适合在 Surface 等表面背景上使用
+- **`bare`** — 无边框、无背景、无阴影、无焦点环，供外层 shell 自行绘制字段外观（见 [PromptInput](/docs/components/prompt-input)）
 
 <ComponentPreview name="textarea-variants" />
 
@@ -97,6 +98,13 @@ SY INC 遵循 [BEM](https://getbem.com/) 方法论，确保组件变体与状态
 
 - `.textarea` – 底层 `<textarea>` 元素样式
 
+#### 修饰符类 [!toc]
+
+- `.textarea--secondary` – 低强调表面，无阴影
+- `.textarea--bare` – 无边框、背景、阴影、圆角与焦点环
+- `.textarea--full-width` – 撑满容器宽度
+- `.textarea--auto-grow` – 随内容增高
+
 ### 交互状态
 
 - **悬停**：`:hover` 或 `[data-hovered="true"]`
@@ -128,7 +136,7 @@ TextArea 接受所有标准 HTML `<textarea>` 属性，以及以下属性：
 | `wrap` | `'soft' \| 'hard'` | - | 提交时文本如何换行。 |
 | `autoGrow` | `boolean` | `false` | 随内容增高（`field-sizing: content`）；浏览器不支持时退化为 `rows` 高度。 |
 | `fullWidth` | `boolean` | `false` | TextArea 是否占满容器宽度 |
-| `variant` | `"primary" \| "secondary"` | `"primary"` | 组件的视觉变体。`primary` 为默认带阴影样式。`secondary` 为弱强调、无阴影变体，适合用于 surface 上。 |
+| `variant` | `"primary" \| "secondary" \| "bare"` | `"primary"` | 组件的视觉变体。`primary` 为默认带阴影样式。`secondary` 为弱强调、无阴影变体，适合用于 surface 上。`bare` 去掉全部字段外观，交给外层 shell。 |
 
 > 对于 `isInvalid`、`isRequired` 等校验 prop 以及错误处理，请将 TextArea 作为子组件与 **[TextField](/docs/components/text-field)** 一起使用。
 

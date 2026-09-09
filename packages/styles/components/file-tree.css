@@ -78,7 +78,7 @@
   }
 
   &[data-drop-target="true"] .file-tree__item-content {
-    @apply bg-default-hover outline-2 -outline-offset-2 outline-focus;
+    @apply bg-default-hover status-focused-inset;
   }
 }
 

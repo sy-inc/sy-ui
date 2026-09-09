@@ -22,7 +22,11 @@ describe("KPI", () => {
 
     expect(screen.getByTestId("kpi")).toHaveAttribute("data-slot", "kpi");
     expect(screen.getByTestId("header")).toHaveAttribute("data-slot", "kpi-header");
-    expect(screen.getByTestId("icon")).toHaveAttribute("data-color", "success");
+    expect(screen.getByTestId("icon")).toHaveAttribute("data-slot", "kpi-icon");
+    /* Colour is a BEM modifier on the icon, not a data attribute. */
+    expect(screen.getByTestId("icon").className).toEqual(
+      expect.stringContaining("kpi__icon--success"),
+    );
     expect(screen.getByTestId("title")).toHaveAttribute("data-slot", "kpi-title");
     expect(screen.getByTestId("content")).toHaveAttribute("data-slot", "kpi-content");
     expect(screen.getByTestId("value")).toHaveAttribute("data-slot", "kpi-value");

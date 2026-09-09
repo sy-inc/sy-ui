@@ -15,31 +15,55 @@ import {MessageBubble} from "@sy-inc/react";
 ```
 
 ```tsx
-<MessageBubble content="中午见。" direction="sent" time="11:42" />
+<MessageBubble direction="sent">
+  <MessageBubble.Content>
+    <MessageBubble.Text>
+      中午见。
+      <MessageBubble.Time>11:42</MessageBubble.Time>
+    </MessageBubble.Text>
+  </MessageBubble.Content>
+</MessageBubble>
 ```
 
 ## 组件结构
 
-`MessageBubble` 渲染根节点（`data-slot="message-bubble"`）、内容气泡（`message-bubble-content`），以及仅在时间有效时渲染的 `time` 元素（`message-bubble-time`）。正文在 DOM 中始终位于时间之前；时间与正文共用文本流，能放下时留在末行，放不下时换到右对齐的新末行。
+| 部件 | Slot | 说明 |
+| --- | --- | --- |
+| `MessageBubble` / `MessageBubble.Root` | `message-bubble` | 按 `direction` 对齐气泡的行容器。 |
+| `MessageBubble.Content` | `message-bubble-content` | 有底色的气泡，容纳图片、`Text` 与 `Time`。 |
+| `MessageBubble.Text` | `message-bubble-text` | 正文；纯图片消息可省略。 |
+| `MessageBubble.Time` | `message-bubble-time` | 时间。 |
+
+`Time` 采用绝对定位，因此同时渲染一份不可见的行内副本，为正文末行预留位置。把 `Time` 放进 `Text` 即可获得这份预留：能放下时留在末行，放不下时换到右对齐的新末行。纯图片消息则把 `Time` 直接放在 `Content` 中，此时预留被丢弃，时间浮在图片上。
 
 ## 图片与链接
 
-通过 `content` 传入 JSX；字符串保持原样，不解析 HTML、Markdown 或自动识别 URL。
+图片作为 `Content` 的子节点组合；字符串保持原样，不解析 HTML、Markdown 或自动识别 URL。
 
 ```tsx
-<MessageBubble
-  content={
-    <>
-      <img src="/photos/trip.jpg" alt="湖边的山景" width={600} height={400} loading="lazy" decoding="async" />
+<MessageBubble direction="sent">
+  <MessageBubble.Content>
+    <img src="/photos/trip.jpg" alt="湖边的山景" width={600} height={400} loading="lazy" decoding="async" />
+    <MessageBubble.Text>
       查看 <a href="https://example.com/trip">旅行计划</a>。
-    </>
-  }
-  direction="sent"
-  time="11:42"
-/>
+      <MessageBubble.Time>11:42</MessageBubble.Time>
+    </MessageBubble.Text>
+  </MessageBubble.Content>
+</MessageBubble>
 ```
 
-也可以仅传入一张图片。为图片提供原始宽高可预留空间，避免加载时布局跳动；`loading` 与 `decoding` 由调用方控制。链接的 `href`、`target`、`rel` 也由调用方设置。
+纯图片消息去掉 `Text`，把 `Time` 放在 `Content` 里：
+
+```tsx
+<MessageBubble>
+  <MessageBubble.Content>
+    <img src="/photos/trip.jpg" alt="湖边的山景" width={600} height={400} />
+    <MessageBubble.Time>11:42</MessageBubble.Time>
+  </MessageBubble.Content>
+</MessageBubble>
+```
+
+为图片提供原始宽高可预留空间，避免加载时布局跳动；`loading` 与 `decoding` 由调用方控制。链接的 `href`、`target`、`rel` 也由调用方设置。
 
 ## 长消息列表
 
@@ -49,21 +73,35 @@ import {MessageBubble} from "@sy-inc/react";
 import {MessageBubble, MessageList} from "@sy-inc/react";
 
 <MessageList scrollToBottomLabel="回到底部" viewportProps={{"aria-label": "客服消息记录"}}>
-  <MessageBubble content="请帮我查询订单。" time="09:41" />
-  <MessageBubble content="好的，请稍等。" direction="sent" time="09:42" />
+  <MessageBubble>
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        请帮我查询订单。
+        <MessageBubble.Time>09:41</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
+  <MessageBubble direction="sent">
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        好的，请稍等。
+        <MessageBubble.Time>09:42</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
 </MessageList>
 ```
 
 ## API 参考
 
+### MessageBubble.Root
+
 | Prop | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `content` | `ReactNode` | `""` | 文字或 JSX，可组合图片、链接和文字。空值、布尔值、空数组或仅空白字符串不渲染。 |
 | `direction` | `"sent" \| "received"` | `"received"` | 控制对齐和表面样式。 |
-| `time` | `string \| null` | `null` | 可选原始时间。空值或仅空白时省略。 |
 | `className` | `string` | `""` | 仅合并到根节点的附加类。 |
 
-除 `direction` 外没有变体；没有事件，也没有 `children` 的另一正文入口。
+`Content` 与 `Text` 接收原生 `div` 属性；`Time` 接收原生 `time` 属性，字符串子节点即时间文本。除 `direction` 外没有变体，也没有事件。
 
 ## 样式
 

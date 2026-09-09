@@ -3,56 +3,40 @@ import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {MessageBubble} from "@/components/message-bubble";
 
 describe("MessageBubble", () => {
-  it("renders all images before one caption regardless of input order", () => {
+  it("renders the composed parts in the order they are written", () => {
     const {container} = render(
-      <MessageBubble
-        content={
-          <>
-            {"Before image. "}
-            <img alt="First" src="/first.jpg" />
-            <>
-              {"Between images. "}
-              <img alt="Second" src="/second.jpg" />
-            </>
-            After image.
-          </>
-        }
-        time="09:41"
-      />,
+      <MessageBubble>
+        <MessageBubble.Content>
+          <img alt="First" src="/first.jpg" />
+          <img alt="Second" src="/second.jpg" />
+          <MessageBubble.Text>
+            Caption text
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
     );
 
-    const bubble = container.querySelector('[data-slot="message-bubble-content"]')!;
-    const caption = bubble.querySelector('[data-slot="message-bubble-text"]')!;
+    const content = container.querySelector('[data-slot="message-bubble-content"]')!;
+    const text = content.querySelector('[data-slot="message-bubble-text"]')!;
 
-    expect([...bubble.children].map((child) => child.tagName)).toEqual(["IMG", "IMG", "DIV"]);
+    expect([...content.children].map((child) => child.tagName)).toEqual(["IMG", "IMG", "DIV"]);
     expect(screen.getAllByRole("img").map((image) => image.getAttribute("alt"))).toEqual([
       "First",
       "Second",
     ]);
-    expect(caption).toHaveTextContent("Before image. Between images. After image.09:41");
-    expect(caption.querySelector("time")).not.toBeNull();
+    expect(text).toHaveTextContent("Caption text09:41");
+    expect(text.querySelector("time")).not.toBeNull();
   });
 
-  it("renders null with default props and blank content", () => {
-    const {container} = render(<MessageBubble />);
-
-    expect(container).toBeEmptyDOMElement();
-
-    const blank = render(<MessageBubble content={" \n\t "} time="09:41" />);
-
-    expect(blank.container).toBeEmptyDOMElement();
-
-    for (const content of [null, false, [], [null, "  ", false]]) {
-      expect(render(<MessageBubble content={content} />).container).toBeEmptyDOMElement();
-    }
-  });
-
-  it("renders image-only content with its alternative text and timestamp", () => {
-    render(
-      <MessageBubble
-        content={<img alt="Mountain at sunset" height={400} src="/mountain.jpg" width={600} />}
-        time="09:41"
-      />,
+  it("renders an image-only bubble when the text part is omitted", () => {
+    const {container} = render(
+      <MessageBubble>
+        <MessageBubble.Content>
+          <img alt="Mountain at sunset" height={400} src="/mountain.jpg" width={600} />
+          <MessageBubble.Time>09:41</MessageBubble.Time>
+        </MessageBubble.Content>
+      </MessageBubble>,
     );
 
     expect(screen.getByRole("img", {name: "Mountain at sunset"})).toHaveAttribute(
@@ -60,20 +44,21 @@ describe("MessageBubble", () => {
       "/mountain.jpg",
     );
     expect(screen.getByText("09:41").tagName).toBe("TIME");
+    expect(container.querySelector('[data-slot="message-bubble-text"]')).toBeNull();
   });
 
   it("supports mixed content and keyboard access to links", async () => {
     const user = setupUser();
 
     render(
-      <MessageBubble
-        content={
-          <>
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>
             Read <a href="https://example.test/guide">the guide</a> for details.
-          </>
-        }
-        time="09:42"
-      />,
+            <MessageBubble.Time>09:42</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
     );
 
     const link = screen.getByRole("link", {name: "the guide"});
@@ -86,7 +71,13 @@ describe("MessageBubble", () => {
 
   it("preserves text content and whitespace without interpreting it", () => {
     const content = "  <b>literal</b>\n  https://example.test/path  ";
-    const {container} = render(<MessageBubble content={content} />);
+    const {container} = render(
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>{content}</MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
+    );
 
     const bubble = container.querySelector<HTMLElement>('[data-slot="message-bubble-content"]')!;
 
@@ -94,38 +85,72 @@ describe("MessageBubble", () => {
     expect(bubble.querySelector("b")).toBeNull();
   });
 
-  it("applies default direction, custom root classes, and public slots", () => {
-    const {container} = render(<MessageBubble className="consumer-hook" content="Hello" />);
+  it("applies the default direction, custom root classes, and public slots", () => {
+    const {container} = render(
+      <MessageBubble className="consumer-hook">
+        <MessageBubble.Content>
+          <MessageBubble.Text>Hello</MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
+    );
 
     const root = container.firstElementChild!;
 
     expect(root).toHaveAttribute("data-slot", "message-bubble");
     expect(root).toHaveAttribute("data-direction", "received");
     expect(root).toHaveClass("consumer-hook");
-    expect(root.querySelector('[data-slot="message-bubble-content"]')).toHaveAttribute(
-      "data-slot",
-      "message-bubble-content",
-    );
+    expect(root.querySelector('[data-slot="message-bubble-content"]')).not.toBeNull();
+    expect(root.querySelector('[data-slot="message-bubble-text"]')).not.toBeNull();
   });
 
-  it("supports sent direction and only renders meaningful times", () => {
-    const {container} = render(<MessageBubble content="Hello" direction="sent" time=" 09:41 " />);
+  it("supports the sent direction and renders the time verbatim", () => {
+    const {container} = render(
+      <MessageBubble direction="sent">
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            Hello
+            <MessageBubble.Time> 09:41 </MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
+    );
 
     expect(container.firstElementChild).toHaveAttribute("data-direction", "sent");
-    expect(container.querySelector('[data-slot="message-bubble-time"]')).toHaveTextContent("09:41");
     expect(container.querySelector('[data-slot="message-bubble-time"]')?.textContent).toBe(
       " 09:41 ",
     );
+  });
 
-    for (const time of [null, undefined, "", " \n "]) {
-      const result = render(<MessageBubble content="Hello" time={time} />);
+  it("exposes an aria-hidden spacer carrying the time for the text flow", () => {
+    const {container} = render(
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            Hello
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
+    );
 
-      expect(result.container.querySelector('[data-slot="message-bubble-time"]')).toBeNull();
-    }
+    const spacer = container.querySelector("[data-time]")!;
+
+    expect(spacer).toHaveAttribute("aria-hidden", "true");
+    expect(spacer).toHaveAttribute("data-time", "09:41");
+    expect(spacer.textContent).toBe("");
   });
 
   it("keeps content before time in static non-interactive markup", () => {
-    const {container} = render(<MessageBubble content="Message" time="09:41" />);
+    const {container} = render(
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            Message
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>,
+    );
 
     const root = container.firstElementChild!;
     const content = root.querySelector('[data-slot="message-bubble-content"]')!;

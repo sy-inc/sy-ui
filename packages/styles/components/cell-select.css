@@ -14,7 +14,7 @@
 }
 
 .cell-select__label {
-  @apply min-w-0 flex-1 overflow-hidden text-start text-sm font-medium text-ellipsis whitespace-nowrap text-foreground;
+  @apply cell-label;
 }
 
 .cell-select__value {

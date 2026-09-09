@@ -30,7 +30,5 @@
 .message-list__scroll-button.button {
   @apply size-11 rounded-full border border-border text-surface-foreground shadow-md;
 
-  background-color: color-mix(in oklab, var(--surface) 72%, transparent);
-  -webkit-backdrop-filter: blur(4px) saturate(140%);
-  backdrop-filter: blur(4px) saturate(140%);
+  @apply frosted-surface;
 }

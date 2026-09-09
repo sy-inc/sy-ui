@@ -310,8 +310,10 @@
   @apply hidden;
 }
 
+/* Page surface next to the panel. A plain flex column, nothing else: the page frame renders
+   its own header inside it. */
 .sidebar__inset {
-  @apply min-h-svh min-w-0 flex-1 bg-background;
+  @apply flex min-h-svh min-w-0 flex-1 flex-col bg-background;
 }
 
 .sidebar--inset .sidebar__inset {

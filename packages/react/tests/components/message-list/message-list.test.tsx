@@ -84,6 +84,19 @@ describe("MessageList", () => {
     expect(rootRef.current).not.toHaveAttribute("aria-live");
   });
 
+  it("renders the default viewport, content, and scroll button from plain children", () => {
+    scrolling.isNearBottom = false;
+
+    render(<MessageList>Message</MessageList>);
+
+    const viewport = screen.getByRole("region", {name: "Messages"});
+
+    expect(viewport).toHaveClass("message-list__viewport");
+    expect(viewport.querySelector(".message-list__content")).toHaveTextContent("Message");
+    expect(screen.getByRole("button", {name: "Scroll to latest message"})).toBeInTheDocument();
+    expect(scrolling.scrollRef).toHaveBeenCalledWith(viewport);
+  });
+
   it("supports a labeled arrow and keyboard activation away from the bottom", async () => {
     scrolling.isNearBottom = false;
     const user = setupUser();

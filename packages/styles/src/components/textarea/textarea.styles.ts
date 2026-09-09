@@ -19,6 +19,8 @@ export const textAreaVariants = tv({
       true: "textarea--full-width",
     },
     variant: {
+      /** No border, background, shadow or focus ring: for a composer shell that owns the chrome. */
+      bare: "textarea--bare",
       primary: "textarea--primary",
       secondary: "textarea--secondary",
     },

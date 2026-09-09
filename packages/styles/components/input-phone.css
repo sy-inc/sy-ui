@@ -44,10 +44,9 @@
 
 .input-phone__country-popover {
   @apply w-80 max-w-[calc(100vw-2rem)] overflow-hidden;
-}
 
-.input-phone__country-popover [data-slot="popover-dialog"] {
-  @apply p-2 outline-none;
+  /* The list owns its own padding, so the dialog holds a tighter frame. */
+  --popover-dialog-padding: calc(var(--spacing) * 2);
 }
 
 /* The search box is a plain `.search-field`; it needs no phone-specific styling. */
@@ -59,6 +58,8 @@
   @apply mt-2 max-h-64 scrollbar overflow-y-auto overscroll-contain p-1 outline-none;
 }
 
+/* Row layout for this list only: the flag / name / dial-code arrangement is
+   composition, not a ListBoxItem token, so it stays a slot selector here. */
 .input-phone__country-list [data-slot="list-box-item"] {
   @apply flex items-center gap-2 px-2.5;
 }

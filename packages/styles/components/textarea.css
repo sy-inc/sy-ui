@@ -88,6 +88,32 @@
   }
 }
 
+/**
+ * Bare modifier — drops every piece of field chrome (border, background, shadow,
+ * focus ring, radius) so an outer shell can own it. `prompt-input` composes the
+ * text area inside its own focus-treated shell and uses this.
+ */
+.textarea--bare {
+  @apply rounded-none border-0 bg-transparent shadow-none outline-none;
+
+  @media (hover: hover) {
+    &:hover:not(:focus):not(:focus-visible),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &:focus,
+  &[data-focused="true"],
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply bg-transparent;
+
+    /* `shadow-none` only clears --tw-shadow; the field focus ring lives in --tw-ring-shadow. */
+    box-shadow: none;
+  }
+}
+
 /* Full width modifier */
 .textarea--full-width {
   @apply w-full;

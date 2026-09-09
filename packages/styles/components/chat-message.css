@@ -4,12 +4,16 @@
 }
 
 /* Message rows */
-.chat-message--user {
-  @apply flex w-full flex-col items-end;
+.chat-message__row {
+  @apply flex w-full;
 }
 
-.chat-message--assistant {
-  @apply flex w-full flex-row items-start gap-3 py-2;
+.chat-message__row--user {
+  @apply flex-col items-end;
+}
+
+.chat-message__row--assistant {
+  @apply flex-row items-start gap-3 py-2;
 }
 
 .chat-message__avatar {
@@ -37,14 +41,12 @@
   }
 }
 
-.chat-message--assistant:focus-within .chat-message__actions,
-.chat-message--user:focus-within .chat-message__actions {
+.chat-message__row:focus-within .chat-message__actions {
   @apply opacity-100;
 }
 
 @media (hover: hover) {
-  .chat-message--assistant:hover .chat-message__actions,
-  .chat-message--user:hover .chat-message__actions {
+  .chat-message__row:hover .chat-message__actions {
     @apply opacity-100;
   }
 }

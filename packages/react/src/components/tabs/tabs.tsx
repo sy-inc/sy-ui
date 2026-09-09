@@ -40,6 +40,20 @@ type ListContainerInjectedProps = {
 
 const listContainerSlot = createCollectionSlot<ListContainerInjectedProps>("tabs.listContainer");
 
+// RAC reveals keyboard focus in the next frame, so centering waits two frames. Only the newest
+// request survives: arrowing on through the strip must not let a stale frame drag the previous
+// tab back into the centre.
+// ponytail: one module-level handle, so two independent tab strips centring in the same frame
+// would cancel each other; give each Tabs its own handle if that ever ships.
+let pendingCenterFrame = 0;
+
+const scheduleCenter = (center: () => void) => {
+  cancelAnimationFrame(pendingCenterFrame);
+  pendingCenterFrame = requestAnimationFrame(() => {
+    pendingCenterFrame = requestAnimationFrame(center);
+  });
+};
+
 const scrollTabsBy = (
   scroller: HTMLElement,
   isVertical: boolean,
@@ -231,37 +245,34 @@ const Tab = ({children, className, onFocus, onPress, ...props}: TabProps) => {
   const {orientation = "horizontal", slots} = use(TabsContext);
 
   const centerTab = (tab: Element) => {
-    // RAC reveals keyboard focus in the next frame. Center after that scroll settles.
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth";
-        const isVertical = orientation === "vertical";
-        const scroller = tab
-          .closest('[data-slot="tabs-list-container"]')
-          ?.querySelector<HTMLElement>(':scope > [data-slot="scroll-shadow"]');
+    scheduleCenter(() => {
+      const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+      const isVertical = orientation === "vertical";
+      const scroller = tab
+        .closest('[data-slot="tabs-list-container"]')
+        ?.querySelector<HTMLElement>(':scope > [data-slot="scroll-shadow"]');
 
-        if (!scroller) {
-          tab.scrollIntoView?.({
-            behavior,
-            block: isVertical ? "center" : "nearest",
-            inline: isVertical ? "nearest" : "center",
-          });
+      if (!scroller) {
+        tab.scrollIntoView?.({
+          behavior,
+          block: isVertical ? "center" : "nearest",
+          inline: isVertical ? "nearest" : "center",
+        });
 
-          return;
-        }
+        return;
+      }
 
-        const tabRect = tab.getBoundingClientRect();
-        const scrollerRect = scroller.getBoundingClientRect();
-        const size = isVertical ? scroller.clientHeight : scroller.clientWidth;
-        const delta = isVertical
-          ? tabRect.top + tabRect.height / 2 - scrollerRect.top - scroller.clientTop - size / 2
-          : tabRect.left + tabRect.width / 2 - scrollerRect.left - scroller.clientLeft - size / 2;
+      const tabRect = tab.getBoundingClientRect();
+      const scrollerRect = scroller.getBoundingClientRect();
+      const size = isVertical ? scroller.clientHeight : scroller.clientWidth;
+      const delta = isVertical
+        ? tabRect.top + tabRect.height / 2 - scrollerRect.top - scroller.clientTop - size / 2
+        : tabRect.left + tabRect.width / 2 - scrollerRect.left - scroller.clientLeft - size / 2;
 
-        scrollTabsBy(scroller, isVertical, delta, behavior);
-      }),
-    );
+      scrollTabsBy(scroller, isVertical, delta, behavior);
+    });
   };
 
   return (

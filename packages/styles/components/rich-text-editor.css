@@ -2,7 +2,7 @@
   @apply flex w-full flex-col;
 }
 .rich-text-editor[data-disabled="true"] {
-  @apply opacity-60;
+  @apply status-disabled;
 }
 .rich-text-editor__shell {
   @apply flex flex-col overflow-hidden rounded-2xl bg-surface;
@@ -75,7 +75,19 @@
   @apply max-h-96 overflow-auto;
 }
 .rich-text-editor__suggestion-menu-item {
-  @apply flex w-full items-center gap-2 rounded-md px-3 py-2 text-left hover:bg-default-hover focus-visible:bg-default-hover focus-visible:outline-none;
+  @apply flex w-full items-center gap-2 rounded-md px-3 py-2 text-left;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default-hover;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply bg-default-hover outline-none;
+  }
 }
 .rich-text-editor__suggestion-menu-item-content {
   @apply flex flex-col;

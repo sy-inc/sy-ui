@@ -15,31 +15,55 @@ import {MessageBubble} from "@sy-inc/react";
 ```
 
 ```tsx
-<MessageBubble content="See you at noon." direction="sent" time="11:42" />
+<MessageBubble direction="sent">
+  <MessageBubble.Content>
+    <MessageBubble.Text>
+      See you at noon.
+      <MessageBubble.Time>11:42</MessageBubble.Time>
+    </MessageBubble.Text>
+  </MessageBubble.Content>
+</MessageBubble>
 ```
 
 ## Anatomy
 
-`MessageBubble` renders a root (`data-slot="message-bubble"`), its content bubble (`message-bubble-content`), and, when meaningful, a `time` element (`message-bubble-time`). Content always precedes time in the DOM. The timestamp shares the text flow: it stays on the last line when it fits and otherwise moves to a right-aligned final line.
+| Part | Slot | Description |
+| --- | --- | --- |
+| `MessageBubble` / `MessageBubble.Root` | `message-bubble` | The row that aligns the bubble by `direction`. |
+| `MessageBubble.Content` | `message-bubble-content` | The painted bubble. Holds images, `Text`, and `Time`. |
+| `MessageBubble.Text` | `message-bubble-text` | The message body. Omit it for an image-only bubble. |
+| `MessageBubble.Time` | `message-bubble-time` | The timestamp. |
+
+`Time` is absolutely positioned, so it also renders an invisible inline copy that reserves room on the last line of text. Put `Time` inside `Text` to get that reservation: it stays on the last line when it fits and otherwise moves to a right-aligned final line. Put it directly in `Content` for an image-only bubble, where the reservation is dropped and the timestamp floats over the picture.
 
 ## Images and links
 
-Pass JSX through `content`. Strings remain literal: HTML, Markdown, and automatic URL linking are not parsed.
+Compose images as children of `Content`. Strings remain literal: HTML, Markdown, and automatic URL linking are not parsed.
 
 ```tsx
-<MessageBubble
-  content={
-    <>
-      <img src="/photos/trip.jpg" alt="Mountains beside a lake" width={600} height={400} loading="lazy" decoding="async" />
+<MessageBubble direction="sent">
+  <MessageBubble.Content>
+    <img src="/photos/trip.jpg" alt="Mountains beside a lake" width={600} height={400} loading="lazy" decoding="async" />
+    <MessageBubble.Text>
       See the <a href="https://example.com/trip">trip itinerary</a>.
-    </>
-  }
-  direction="sent"
-  time="11:42"
-/>
+      <MessageBubble.Time>11:42</MessageBubble.Time>
+    </MessageBubble.Text>
+  </MessageBubble.Content>
+</MessageBubble>
 ```
 
-Image-only messages are also supported. Supply intrinsic image dimensions to reserve space and prevent layout shifts. The caller controls `loading`, `decoding`, and link attributes such as `href`, `target`, and `rel`.
+For an image-only message, drop `Text` and place `Time` in `Content`:
+
+```tsx
+<MessageBubble>
+  <MessageBubble.Content>
+    <img src="/photos/trip.jpg" alt="Mountains beside a lake" width={600} height={400} />
+    <MessageBubble.Time>11:42</MessageBubble.Time>
+  </MessageBubble.Content>
+</MessageBubble>
+```
+
+Supply intrinsic image dimensions to reserve space and prevent layout shifts. The caller controls `loading`, `decoding`, and link attributes such as `href`, `target`, and `rel`.
 
 ## Long conversations
 
@@ -49,21 +73,35 @@ Wrap messages in `MessageList` for bottom following, a floating down arrow, and 
 import {MessageBubble, MessageList} from "@sy-inc/react";
 
 <MessageList viewportProps={{"aria-label": "Customer messages"}}>
-  <MessageBubble content="Please check my order." time="09:41" />
-  <MessageBubble content="Of course, one moment." direction="sent" time="09:42" />
+  <MessageBubble>
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        Please check my order.
+        <MessageBubble.Time>09:41</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
+  <MessageBubble direction="sent">
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        Of course, one moment.
+        <MessageBubble.Time>09:42</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
 </MessageList>
 ```
 
 ## API Reference
 
+### MessageBubble.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `content` | `ReactNode` | `""` | Text or JSX combining images, links, and text. Nullish values, booleans, empty arrays, and whitespace-only strings render nothing. |
 | `direction` | `"sent" \| "received"` | `"received"` | Controls alignment and surface treatment. |
-| `time` | `string \| null` | `null` | Optional raw timestamp. Empty or whitespace-only values are omitted. |
 | `className` | `string` | `""` | Classes merged onto the root only. |
 
-There are no variants beyond `direction`, no events, and no alternate `children` content API.
+`Content` and `Text` take the native `div` props; `Time` takes the native `time` props and a string child used as the timestamp. There are no variants beyond `direction` and no events.
 
 ## Styling
 

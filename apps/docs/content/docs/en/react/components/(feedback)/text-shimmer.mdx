@@ -33,17 +33,18 @@ Tune it with these custom properties on `.text-shimmer`:
 
 | Property | Default | Purpose |
 | --- | --- | --- |
-| `--shimmer-width` | `192` | Approximate text width in px, as a **unitless number**. Only feeds the duration. |
-| `--shimmer-spread` | `112` | Width of the highlight band in px, as a unitless number. |
-| `--shimmer-speed` | `200` | Sweep speed in px per second. |
-| `--shimmer-angle` | `105deg` | Tilt of the highlight. |
+| `--text-shimmer-width` | `192` | Approximate text width in px, as a **unitless number**. Only feeds the duration. |
+| `--text-shimmer-spread` | `112` | Width of the highlight band in px, as a unitless number. |
+| `--text-shimmer-speed` | `200` | Sweep speed in px per second. |
+| `--text-shimmer-angle` | `105deg` | Tilt of the highlight. |
+| `--text-shimmer-lift` | theme | How far the highlight moves toward white. The theme sets `0%` in light and `35%` in dark. |
 
-Duration is derived as `(width + spread) / speed` seconds. Set `--shimmer-width` when the
+Duration is derived as `(width + spread) / speed` seconds. Set `--text-shimmer-width` when the
 label is much longer or shorter than the default, otherwise every label animates as if it
 were 192px wide:
 
 ```tsx
-<TextShimmer style={{"--shimmer-width": 420} as React.CSSProperties}>
+<TextShimmer style={{"--text-shimmer-width": 420} as React.CSSProperties}>
   Generating a much longer response for you...
 </TextShimmer>
 ```

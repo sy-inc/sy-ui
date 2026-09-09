@@ -1,14 +1,16 @@
-/* Contextual actions anchored above the viewport safe area. */
-.action-bar.toolbar {
+/**
+ * Contextual actions anchored above the viewport safe area.
+ *
+ * ActionBar renders a `Toolbar.Root isAttached`, so this file is imported after
+ * toolbar.css and its single-class rules win over `.toolbar--attached` at equal
+ * specificity — no block-borrowing selector needed.
+ */
+.action-bar {
+  @apply frosted-surface;
   @apply fixed left-1/2 z-50 max-w-[calc(100vw-2rem)] overflow-x-auto border border-border px-3 py-1.5;
 
   bottom: calc(var(--spacing) * 6 + env(safe-area-inset-bottom));
   translate: -50% 0;
-
-  /* Frosted surface - mirrors .bottom-bar__list */
-  background-color: color-mix(in oklab, var(--surface) 72%, transparent);
-  -webkit-backdrop-filter: blur(4px) saturate(140%);
-  backdrop-filter: blur(4px) saturate(140%);
 
   transition:
     opacity 150ms var(--ease-smooth),

@@ -661,7 +661,7 @@ export const SheetHandle = ({className, onClick, onKeyDown, ...props}: SheetHand
         }
       }}
     >
-      <span data-slot="sheet-handle-bar" />
+      <span className={context.slots?.handleBar()} data-slot="sheet-handle-bar" />
     </dom.div>
   );
 };

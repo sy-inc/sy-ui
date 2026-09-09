@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from "@storybook/react";
 
 import {KPI} from "../kpi";
 
-import {OverflowText} from "./overflow-text";
+import {OverflowText} from "./index";
 
 const meta = {
   args: {

@@ -16,8 +16,22 @@ import {MessageBubble, MessageList} from "@sy-inc/react";
 <MessageList>
   <MessageList.Viewport aria-label="Customer conversation">
     <MessageList.Content>
-      <MessageBubble content="Please check my order." time="09:41" />
-      <MessageBubble content="Happy to help." direction="sent" time="09:42" />
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            Please check my order.
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
+      <MessageBubble direction="sent">
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            Happy to help.
+            <MessageBubble.Time>09:42</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
     </MessageList.Content>
     <MessageList.ScrollButton />
   </MessageList.Viewport>
@@ -25,6 +39,31 @@ import {MessageBubble, MessageList} from "@sy-inc/react";
 ```
 
 `MessageList` is a compound component: `Root` owns one `use-stick-to-bottom` instance, `Viewport` is the scroll container, `Content` is the resize-observed message column, and `ScrollButton` is the down arrow shown while away from the bottom. `MessageList.Root` and the named `MessageListRoot` export are aliases of `MessageList`, and the component has a `@sy-inc/react/message-list` entry point. It accepts arbitrary children and does not fetch, reorder, truncate, or format messages. In a customer-service app, keep the latest 100 messages in application state and render them with stable message IDs as React keys. The `HundredMessages` story demonstrates this composition with images and links.
+
+## Shorthand
+
+Children that are not a `Viewport` are wrapped in the default `Viewport` / `Content` / `ScrollButton` stack, so a plain list needs no parts at all. Compose the parts yourself as soon as you need a custom label, height, or a docked arrow.
+
+```tsx
+<MessageList>
+  <MessageBubble>
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        Please check my order.
+        <MessageBubble.Time>09:41</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
+  <MessageBubble direction="sent">
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        Happy to help.
+        <MessageBubble.Time>09:42</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
+</MessageList>
+```
 
 ## As the page scroller
 

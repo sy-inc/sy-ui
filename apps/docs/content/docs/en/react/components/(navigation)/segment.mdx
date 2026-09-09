@@ -31,6 +31,12 @@ import {Segment} from "@sy-inc/react";
 
 <ComponentPreview isBgSolid name="segment-ghost" />
 
+## Surface
+
+Use `variant="surface"` when the segment sits on a grey container such as `Widget` or `Sidebar`. The track turns white and the indicator turns grey so the control stays visible.
+
+<ComponentPreview isBgSolid name="segment-surface" />
+
 ## With Separators
 
 <ComponentPreview isBgSolid name="segment-separators" />
@@ -67,7 +73,7 @@ Use the optional `.segment__item-label` and `.segment__item-label-inner` helpers
 
 ## CSS Classes
 
-Stable slots are `segment`, `segment-item`, and `segment-indicator`. The matching BEM classes are `.segment`, `.segment__item`, and `.segment__indicator`, with `--sm`, `--md`, `--lg`, `--ghost`, and `--separators` modifiers.
+Stable slots are `segment`, `segment-item`, and `segment-indicator`. The matching BEM classes are `.segment`, `.segment__item`, and `.segment__indicator`, with `--sm`, `--md`, `--lg`, `--ghost`, `--surface`, and `--separators` modifiers.
 
 ## API Reference
 
@@ -77,7 +83,7 @@ Built on React Aria `ToggleButtonGroup` and fixed to single selection. `selected
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `"default" \| "ghost"` | `"default"` | Visual treatment |
+| `variant` | `"default" \| "ghost" \| "surface"` | `"default"` | Visual treatment |
 | `size` | `"sm" \| "md" \| "lg"` | `"md"` | Item height: 28px, 32px, or 40px |
 | `selectedKey` | `Key \| null` | - | Controlled selection |
 | `defaultSelectedKey` | `Key` | - | Initial uncontrolled selection |

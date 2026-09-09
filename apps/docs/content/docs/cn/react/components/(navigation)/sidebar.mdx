@@ -83,6 +83,8 @@ export default function Example() {
 
 在 767px 及以下，允许折叠的面板会渲染为 Drawer。`Sidebar.Trigger`、`Sidebar.Rail` 与 `Ctrl/⌘ + B` 会切换当前桌面或移动端状态；当焦点位于输入框、文本域、下拉或可编辑区域时快捷键不会触发，也可通过 `toggleShortcut={false}` 关闭。桌面状态变化写入 `sidebar_state` cookie。自定义子组件可通过 `useSidebar()` 获取状态与 setter（`setOpen(isOpen)` / `setOpenMobile(isOpen)`，仅接受布尔值）。
 
+`Sidebar.Inset` 只是面板旁边的页面区域：一个占满剩余宽度的纵向 flex 容器。它不内置任何 header，页面框架自行把 header（例如 `Navbar`）作为第一个子节点渲染进去，并让可滚动区域使用 `flex-1`。
+
 `Sidebar.MenuButton` 有 `href` 时渲染链接，否则渲染按钮。链接的 `isActive` 会添加 `aria-current="page"`。Tooltip 仅在桌面端图标折叠状态显示。
 
 ## 无障碍

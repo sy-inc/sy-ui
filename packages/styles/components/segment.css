@@ -5,12 +5,17 @@
   @apply h-9;
 }
 .segment--md {
+  /* No styles as this is the default size */
 }
 .segment--lg {
   @apply h-12;
 }
 .segment--ghost {
   @apply h-8 bg-transparent p-0;
+}
+/* On grey containers (widget, sidebar): white track, flat grey indicator */
+.segment--surface {
+  @apply bg-surface shadow-surface;
 }
 .segment__item {
   @apply relative z-1 inline-flex h-8 min-w-0 items-center justify-center gap-1.5 rounded-3xl px-4 text-sm font-medium text-muted outline-none no-highlight;
@@ -60,7 +65,7 @@
   @apply h-7 px-3 text-xs;
 }
 .segment__item--md {
-  @apply px-4;
+  /* No styles as this is the default size */
 }
 .segment__item--lg {
   @apply h-10 px-5 text-base;
@@ -78,7 +83,7 @@
   @apply grid-cols-[1fr] opacity-100;
 }
 .segment__item-label-inner {
-  @apply overflow-hidden whitespace-nowrap pl-0 transition-[padding] duration-200 ease-out motion-reduce:transition-none;
+  @apply overflow-hidden pl-0 whitespace-nowrap transition-[padding] duration-200 ease-out motion-reduce:transition-none;
 }
 .segment__item[data-selected="true"] .segment__item-label-inner {
   @apply pl-1.5;
@@ -92,4 +97,7 @@
 }
 .segment__indicator--ghost {
   @apply bg-accent shadow-none;
+}
+.segment__indicator--surface {
+  @apply bg-default shadow-none;
 }

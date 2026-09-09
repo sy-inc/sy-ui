@@ -1,4 +1,6 @@
 .message-bubble {
+  /* Darker than --accent so --accent-foreground text reaches 4.5:1. */
+  --message-bubble-sent-bg: oklch(from var(--accent) calc(l * 0.82) c h);
   @apply flex w-full min-w-0;
 }
 
@@ -24,8 +26,7 @@
 
 .message-bubble--sent .message-bubble__content {
   @apply rounded-ee-sm text-accent-foreground;
-  /* Darker than --accent so --accent-foreground text reaches 4.5:1. */
-  background-color: oklch(from var(--accent) calc(l * 0.82) c h);
+  background-color: var(--message-bubble-sent-bg);
 }
 
 .message-bubble__time,
@@ -53,14 +54,14 @@
 }
 
 .message-bubble--sent .message-bubble__time {
-  color: color-mix(
-    in oklab,
-    var(--accent-foreground) 90%,
-    oklch(from var(--accent) calc(l * 0.82) c h)
-  );
+  color: color-mix(in oklab, var(--accent-foreground) 90%, var(--message-bubble-sent-bg));
 }
 
-.message-bubble__content[data-image-only="true"] {
+/*
+ * Image-only bubble: no `__text` in the composition, so the timestamp sits on
+ * the picture and needs a scrim to stay readable.
+ */
+.message-bubble__content:not(:has(.message-bubble__text)) {
   &:has(.message-bubble__time)::after {
     @apply pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/75 to-transparent;
     content: "";
@@ -71,6 +72,14 @@
   }
 }
 
+/*
+ * The spacer only reserves trailing room inside the text flow. Straight in the
+ * content it would add an empty line under the image, so drop it there.
+ */
+.message-bubble__content > .message-bubble__time-space {
+  @apply hidden;
+}
+
 .message-bubble__content img {
   @apply block h-auto w-full max-w-full;
 }
@@ -78,9 +87,11 @@
 .message-bubble__content a {
   @apply text-inherit underline underline-offset-2;
 
-  &:hover,
-  &[data-hovered="true"] {
-    @apply decoration-2;
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply decoration-2;
+    }
   }
 
   &:active,
@@ -88,6 +99,11 @@
     @apply decoration-double;
   }
 
+  /*
+   * `currentColor`, not the `status-focused` token: the link sits on the sent
+   * bubble's derived accent surface, where only the text colour is guaranteed to
+   * contrast in both themes.
+   */
   &:focus-visible,
   &[data-focus-visible="true"] {
     outline: 2px solid currentColor;

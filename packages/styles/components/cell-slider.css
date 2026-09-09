@@ -7,7 +7,8 @@
  */
 
 .cell-slider {
-  @apply block w-[252px] no-highlight;
+  /* Width comes from the consumer's container. */
+  @apply block no-highlight;
 }
 
 .cell-slider__track {
@@ -20,9 +21,11 @@
     box-shadow 150ms var(--ease-out);
   @apply motion-reduce:transition-none;
 
-  &:hover,
-  &[data-hovered="true"] {
-    @apply bg-default/90;
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default/90;
+    }
   }
 
   &:has(.cell-slider__thumb[data-focus-visible="true"]) {
@@ -33,9 +36,11 @@
 .cell-slider__track--secondary {
   @apply bg-default/50 shadow-none;
 
-  &:hover,
-  &[data-hovered="true"] {
-    @apply bg-default/70;
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default/70;
+    }
   }
 }
 
@@ -56,7 +61,7 @@
   }
 
   &[data-focus-visible="true"]::after {
-    @apply scale-y-120 opacity-70 ring-2 ring-focus ring-offset-2 ring-offset-background;
+    @apply scale-y-120 opacity-70 status-focused;
   }
 
   &[data-dragging="true"] {
@@ -83,7 +88,7 @@
 
 .cell-slider[data-disabled="true"] .cell-slider__track,
 .cell-slider[aria-disabled="true"] .cell-slider__track {
-  @apply pointer-events-none cursor-not-allowed opacity-50;
+  @apply status-disabled;
 }
 
 /* The track is already dimmed; `[data-disabled] .label` would dim it twice. */

@@ -1,5 +1,6 @@
 export {Basic} from "./basic";
 export {Variants} from "./variants";
+export {Surface} from "./surface";
 export {Separators} from "./separators";
 export {Controlled} from "./controlled";
 export {Disabled} from "./disabled";

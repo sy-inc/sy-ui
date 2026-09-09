@@ -57,9 +57,13 @@
   }
 }
 
-/* Popover dialog */
+/* Popover dialog.
+   Padding is a variable so a consumer (see input-phone.css) can retune it from
+   its own block instead of selecting the dialog slot. */
 .popover__dialog {
-  @apply p-4 outline-none;
+  @apply outline-none;
+
+  padding: var(--popover-dialog-padding, calc(var(--spacing) * 4));
 }
 
 /* Popover heading */

@@ -12,13 +12,13 @@ describe("PromptInput", () => {
     const root = screen.getByTestId("prompt-input");
 
     expect(root).toHaveAttribute("data-slot", "prompt-input");
-    expect(root).toHaveAttribute("data-layout", "compact");
     expect(root).toHaveAttribute("data-status", "error");
-    expect(root).toHaveAttribute("data-variant", "secondary");
+    /* Variant, size and layout are block modifiers; `data-*` is left to state. */
+    expect(root.className).toEqual(expect.stringContaining("prompt-input--compact"));
     expect(root.className).toEqual(expect.stringContaining("prompt-input--lg"));
-    expect(document.querySelector('[data-slot="prompt-input-shell"]')?.className).toEqual(
-      expect.stringContaining("prompt-input__shell--secondary"),
-    );
+    expect(root.className).toEqual(expect.stringContaining("prompt-input--secondary"));
+    expect(root).not.toHaveAttribute("data-layout");
+    expect(root).not.toHaveAttribute("data-variant");
     [
       "prompt-input-shell",
       "prompt-input-content",

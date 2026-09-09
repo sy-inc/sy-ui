@@ -1,83 +1,90 @@
 "use client";
 
+import type {MessageBubbleVariants} from "@sy-inc/styles";
+import type {ComponentPropsWithRef} from "react";
+
 import {messageBubbleVariants} from "@sy-inc/styles";
-import React, {Children, Fragment, isValidElement} from "react";
 
 import {composeSlotClassName} from "../../utils/compose";
 
-export interface MessageBubbleProps {
-  className?: string;
-  content?: React.ReactNode;
-  direction?: "sent" | "received";
-  ref?: React.Ref<HTMLDivElement>;
-  time?: string | null;
-}
+/* The non-root parts carry no variant, so their classes are constant. */
+const slots = messageBubbleVariants();
 
-export const MessageBubble = ({
+/* -------------------------------------------------------------------------------------------------
+ * MessageBubble Root — the row that aligns the bubble to one side.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageBubbleRootProps
+  extends ComponentPropsWithRef<"div">, MessageBubbleVariants {}
+
+export const MessageBubbleRoot = ({
   className,
-  content,
   direction = "received",
-  ref,
-  time,
-}: MessageBubbleProps) => {
+  ...props
+}: MessageBubbleRootProps) => {
   const slots = messageBubbleVariants({direction});
-  const hasTime = Boolean(time?.trim());
-  const images: React.ReactNode[] = [];
-  const caption: React.ReactNode[] = [];
-  const collect = (children: React.ReactNode) => {
-    Children.forEach(children, (child) => {
-      if (isValidElement<{children?: React.ReactNode}>(child) && child.type === Fragment) {
-        collect(child.props.children);
-
-        return;
-      }
-      if (child == null || typeof child === "boolean") return;
-
-      const image = isValidElement(child) && (child.type === "img" || child.type === "picture");
-
-      (image ? images : caption).push(child);
-    });
-  };
-
-  collect(content);
-  const hasCaption = caption.some((child) => typeof child !== "string" || child.trim().length > 0);
-
-  if (!images.length && !hasCaption) return null;
-
-  const imageOnly = images.length > 0 && !hasCaption;
-  const timestamp = hasTime ? (
-    <time className={slots.time()} data-slot="message-bubble-time">
-      {time}
-    </time>
-  ) : null;
 
   return (
     <div
-      ref={ref}
+      {...props}
       className={composeSlotClassName(slots.root, className)}
       data-direction={direction}
       data-slot="message-bubble"
-    >
-      <div
-        className={slots.content()}
-        data-image-only={imageOnly || undefined}
-        data-slot="message-bubble-content"
-      >
-        {Children.toArray(images)}
-        {imageOnly ? (
-          timestamp
-        ) : (
-          <div className={slots.text()} data-slot="message-bubble-text">
-            {Children.toArray(caption)}
-            {hasTime ? (
-              <span aria-hidden="true" className={slots.timeSpace()} data-time={time} />
-            ) : null}
-            {timestamp}
-          </div>
-        )}
-      </div>
-    </div>
+    />
   );
 };
 
-MessageBubble.displayName = "SY INC.MessageBubble";
+/* -------------------------------------------------------------------------------------------------
+ * MessageBubble Content — the painted bubble. Holds Text, images, and Time.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageBubbleContentProps extends ComponentPropsWithRef<"div"> {}
+
+export const MessageBubbleContent = ({className, ...props}: MessageBubbleContentProps) => (
+  <div
+    {...props}
+    className={composeSlotClassName(slots.content, className)}
+    data-slot="message-bubble-content"
+  />
+);
+
+/* -------------------------------------------------------------------------------------------------
+ * MessageBubble Text — the message body. Omit it for an image-only bubble.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageBubbleTextProps extends ComponentPropsWithRef<"div"> {}
+
+export const MessageBubbleText = ({className, ...props}: MessageBubbleTextProps) => (
+  <div
+    {...props}
+    className={composeSlotClassName(slots.text, className)}
+    data-slot="message-bubble-text"
+  />
+);
+
+/* -------------------------------------------------------------------------------------------------
+ * MessageBubble Time — the timestamp pinned to the bubble corner.
+ *
+ * The timestamp is absolutely positioned, so it also renders an invisible inline
+ * copy that reserves room on the last line of text. Place Time inside Text to
+ * get that reservation; place it directly in Content for an image-only bubble,
+ * where the copy is dropped by CSS.
+ * -----------------------------------------------------------------------------------------------*/
+export interface MessageBubbleTimeProps extends ComponentPropsWithRef<"time"> {
+  children?: string;
+}
+
+export const MessageBubbleTime = ({children, className, ...props}: MessageBubbleTimeProps) => (
+  <>
+    <span aria-hidden="true" className={slots.timeSpace()} data-time={children} />
+    <time
+      {...props}
+      className={composeSlotClassName(slots.time, className)}
+      data-slot="message-bubble-time"
+    >
+      {children}
+    </time>
+  </>
+);
+
+MessageBubbleRoot.displayName = "SY INC.MessageBubble";
+MessageBubbleContent.displayName = "SY INC.MessageBubble.Content";
+MessageBubbleText.displayName = "SY INC.MessageBubble.Text";
+MessageBubbleTime.displayName = "SY INC.MessageBubble.Time";

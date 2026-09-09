@@ -196,7 +196,12 @@
    ========================================================================== */
 
 .checkbox__indicator {
-  @apply relative z-10 flex size-3 items-center justify-center;
+  @apply relative z-10 flex items-center justify-center;
+
+  /* Consumers that swap in their own icon (see checkbox-button-group.css) resize
+     the indicator through this, rather than reaching into the block. */
+  block-size: var(--checkbox-indicator-size, calc(var(--spacing) * 3));
+  inline-size: var(--checkbox-indicator-size, calc(var(--spacing) * 3));
 
   & svg {
     /* Keep the checkmark in the control's stacking/clipping context. A GPU

@@ -83,6 +83,8 @@ Submenus use `MenuSub`, `MenuSubItem`, and `MenuSubButton`; loading rows use `Me
 
 At 767px and below, a collapsible panel is rendered as a Drawer. `Sidebar.Trigger`, `Sidebar.Rail`, and `Ctrl/⌘ + B` toggle the appropriate desktop or mobile state. The shortcut is ignored while an input, textarea, select, or contenteditable element has focus, and can be turned off with `toggleShortcut={false}`. Desktop changes are persisted to the `sidebar_state` cookie. `useSidebar()` exposes the current state and state setters (`setOpen(isOpen)` / `setOpenMobile(isOpen)`, boolean only) to custom children.
 
+`Sidebar.Inset` is only the page surface next to the panel: a flex column that fills the remaining width. It ships no header of its own, so the page frame renders its own header (a `Navbar`, for example) as the first child and gives the scrolling region `flex-1`.
+
 `Sidebar.MenuButton` renders a link when `href` is supplied and a button otherwise. `isActive` adds `aria-current="page"` for links. Tooltips are shown only while the desktop sidebar is icon-collapsed.
 
 ## Accessibility

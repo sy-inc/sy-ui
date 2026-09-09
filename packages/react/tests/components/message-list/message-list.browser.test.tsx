@@ -23,23 +23,21 @@ const useConversation = () => {
     const id = last - 99 + index;
 
     return (
-      <MessageBubble
-        key={id}
-        direction={index % 2 === 0 ? "received" : "sent"}
-        time="09:41"
-        content={
-          <>
+      <MessageBubble key={id} direction={index % 2 === 0 ? "received" : "sent"}>
+        <MessageBubble.Content>
+          {showImage && index === 99 ? (
+            <img
+              alt="Order screenshot"
+              src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="320"><rect width="240" height="320" fill="teal"/></svg>'
+            />
+          ) : null}
+          <MessageBubble.Text>
             {`Message ${id}: Please check my order and confirm the expected delivery date.`}
             {index % 10 === 9 ? <a href="https://example.test/orders">Order details</a> : null}
-            {showImage && index === 99 ? (
-              <img
-                alt="Order screenshot"
-                src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="320"><rect width="240" height="320" fill="teal"/></svg>'
-              />
-            ) : null}
-          </>
-        }
-      />
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
     );
   });
 
@@ -218,7 +216,14 @@ describe("MessageList (browser)", () => {
     await render(
       <>
         {list("Empty")}
-        {list("Short", <MessageBubble content="Hello" />)}
+        {list(
+          "Short",
+          <MessageBubble>
+            <MessageBubble.Content>
+              <MessageBubble.Text>Hello</MessageBubble.Text>
+            </MessageBubble.Content>
+          </MessageBubble>,
+        )}
       </>,
     );
 

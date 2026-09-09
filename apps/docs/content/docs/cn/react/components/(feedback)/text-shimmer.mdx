@@ -32,16 +32,17 @@ Text Shimmer 支持标准 `span` 属性，包括 `className`、`ref`、`data-*` 
 
 | 属性 | 默认值 | 作用 |
 | --- | --- | --- |
-| `--shimmer-width` | `192` | 文字宽度近似值，单位 px 的**无单位数字**。仅用于计算时长。 |
-| `--shimmer-spread` | `112` | 高光带宽度，单位 px 的无单位数字。 |
-| `--shimmer-speed` | `200` | 扫过速度，px/秒。 |
-| `--shimmer-angle` | `105deg` | 高光倾角。 |
+| `--text-shimmer-width` | `192` | 文字宽度近似值，单位 px 的**无单位数字**。仅用于计算时长。 |
+| `--text-shimmer-spread` | `112` | 高光带宽度，单位 px 的无单位数字。 |
+| `--text-shimmer-speed` | `200` | 扫过速度，px/秒。 |
+| `--text-shimmer-angle` | `105deg` | 高光倾角。 |
+| `--text-shimmer-lift` | 由主题决定 | 高光向白色提亮的幅度。主题在亮色下取 `0%`，暗色下取 `35%`。 |
 
 时长按 `(width + spread) / speed` 秒推导。当文案明显长于或短于默认值时需要设置
-`--shimmer-width`，否则所有文案都会按 192px 宽来计算：
+`--text-shimmer-width`，否则所有文案都会按 192px 宽来计算：
 
 ```tsx
-<TextShimmer style={{"--shimmer-width": 420} as React.CSSProperties}>
+<TextShimmer style={{"--text-shimmer-width": 420} as React.CSSProperties}>
   Generating a much longer response for you...
 </TextShimmer>
 ```

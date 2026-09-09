@@ -26,6 +26,10 @@ export const segmentVariants = tv({
         indicator: "segment__indicator--ghost",
         item: "segment__item--ghost",
       },
+      surface: {
+        base: "segment--surface",
+        indicator: "segment__indicator--surface",
+      },
     },
   },
 });

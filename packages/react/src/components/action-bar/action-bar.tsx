@@ -8,7 +8,7 @@ import {actionBarVariants} from "@sy-inc/styles";
 import {composeTwRenderProps} from "../../utils";
 import {Toolbar} from "../toolbar";
 
-interface ActionBarProps extends Omit<
+interface ActionBarRootProps extends Omit<
   ToolbarRootProps,
   "children" | "isAttached" | "orientation" | "render"
 > {
@@ -17,13 +17,13 @@ interface ActionBarProps extends Omit<
   isOpen: boolean;
 }
 
-const ActionBar = ({
+const ActionBarRoot = ({
   "aria-label": ariaLabel = "Actions",
   children,
   className,
   isOpen,
   ...props
-}: ActionBarProps) => (
+}: ActionBarRootProps) => (
   <Toolbar.Root
     {...props}
     isAttached
@@ -40,7 +40,7 @@ const ActionBar = ({
   </Toolbar.Root>
 );
 
-ActionBar.displayName = "SY INC.ActionBar";
+ActionBarRoot.displayName = "SY INC.ActionBar";
 
-export {ActionBar};
-export type {ActionBarProps};
+export {ActionBarRoot};
+export type {ActionBarRootProps};

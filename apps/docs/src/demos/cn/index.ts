@@ -2785,6 +2785,10 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./segment/variants").then((m) => m.Variants),
     file: "cn/segment/variants.tsx",
   },
+  "segment-surface": {
+    loader: () => import("./segment/surface").then((m) => m.Surface),
+    file: "cn/segment/surface.tsx",
+  },
   "segment-separators": {
     loader: () => import("./segment/separators").then((m) => m.Separators),
     file: "cn/segment/separators.tsx",

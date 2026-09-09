@@ -45,6 +45,15 @@
   @apply invalid-field-ring;
 }
 
+/**
+ * Inset focus ring — for rows and cells whose neighbours, borders or clipping
+ * would swallow the outset `status-focused` ring. Same 2px focus colour, drawn
+ * inside the box so it follows the element's own radius.
+ */
+@utility status-focused-inset {
+  @apply outline-2 -outline-offset-2 outline-focus;
+}
+
 @utility status-disabled {
   opacity: var(--disabled-opacity);
   cursor: var(--cursor-disabled);
@@ -150,6 +159,34 @@
   &[data-disabled="true"] {
     @apply status-disabled;
   }
+}
+
+/**
+ * Frosted bar surface
+ *
+ * The translucent blur shared by `action-bar`, `bottom-bar` and the
+ * `message-list` scroll button. Set `--frosted-surface-color` to pick the tint;
+ * it defaults to the overlay `--surface`.
+ */
+@utility frosted-surface {
+  background-color: color-mix(
+    in oklab,
+    var(--frosted-surface-color, var(--surface)) 72%,
+    transparent
+  );
+  -webkit-backdrop-filter: blur(4px) saturate(140%);
+  backdrop-filter: blur(4px) saturate(140%);
+}
+
+/**
+ * Settings-cell label
+ *
+ * The leading label of a settings row: takes the free space, truncates on one
+ * line. `cell-select` and `cell-color-picker` render the same one, so it lives
+ * here rather than being copied per component.
+ */
+@utility cell-label {
+  @apply min-w-0 flex-1 overflow-hidden text-start text-sm font-medium text-ellipsis whitespace-nowrap text-foreground;
 }
 
 /* === Scrollbars (standards-only; apply per scroll slot in component CSS) === */

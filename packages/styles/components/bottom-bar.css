@@ -28,9 +28,9 @@
   @apply isolate flex w-full max-w-md list-none items-stretch gap-0 overflow-hidden rounded-3xl border border-border p-1 shadow-surface;
 
   min-width: 0;
-  background-color: color-mix(in oklab, var(--default) 72%, transparent);
-  -webkit-backdrop-filter: blur(4px) saturate(140%);
-  backdrop-filter: blur(4px) saturate(140%);
+
+  --frosted-surface-color: var(--default);
+  @apply frosted-surface;
 }
 
 .bottom-bar--edge .bottom-bar__list {

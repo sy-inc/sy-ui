@@ -16,8 +16,22 @@ import {MessageBubble, MessageList} from "@sy-inc/react";
 <MessageList>
   <MessageList.Viewport aria-label="客服消息记录">
     <MessageList.Content>
-      <MessageBubble content="请帮我查询订单。" time="09:41" />
-      <MessageBubble content="好的，请稍等。" direction="sent" time="09:42" />
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            请帮我查询订单。
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
+      <MessageBubble direction="sent">
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            好的，请稍等。
+            <MessageBubble.Time>09:42</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
     </MessageList.Content>
     <MessageList.ScrollButton aria-label="回到底部" />
   </MessageList.Viewport>
@@ -25,6 +39,31 @@ import {MessageBubble, MessageList} from "@sy-inc/react";
 ```
 
 `MessageList` 是 compound 组件：`Root` 持有一个 `use-stick-to-bottom` 实例，`Viewport` 是滚动容器，`Content` 是被尺寸观察的消息列，`ScrollButton` 是离开底部时出现的向下箭头。`MessageList.Root` 与具名出口 `MessageListRoot` 都是 `MessageList` 的别名，也可以从 `@sy-inc/react/message-list` 导入。组件接受任意子节点，不负责请求、排序、截断或格式化消息。客服系统可在业务状态中保留最新 100 条，并使用稳定的消息 ID 作为 React key。`HundredMessages` Story 展示了包含图片和链接的这种组合。
+
+## 快捷用法
+
+不是 `Viewport` 的子节点会被自动包进默认的 `Viewport` / `Content` / `ScrollButton` 三层，所以简单列表完全不用写部件。需要自定义无障碍名称、高度或停靠位置时，再自行组合部件。
+
+```tsx
+<MessageList>
+  <MessageBubble>
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        请帮我查询订单。
+        <MessageBubble.Time>09:41</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
+  <MessageBubble direction="sent">
+    <MessageBubble.Content>
+      <MessageBubble.Text>
+        好的，请稍等。
+        <MessageBubble.Time>09:42</MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
+</MessageList>
+```
 
 ## 作为页面滚动器
 

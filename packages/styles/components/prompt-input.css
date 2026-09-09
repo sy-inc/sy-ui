@@ -1,6 +1,14 @@
 /* Prompt input composer */
 .prompt-input {
   @apply relative w-full text-foreground;
+
+  /* The toolbar is absolutely positioned over the text area, so the text area
+     reserves exactly this much bottom margin. One value keeps them aligned. */
+  --prompt-input-toolbar-height: calc(var(--spacing) * 14);
+}
+
+.prompt-input--sm {
+  --prompt-input-toolbar-height: calc(var(--spacing) * 10);
 }
 
 .prompt-input:has(> .prompt-input__queue) {
@@ -21,7 +29,7 @@
   @apply motion-reduce:transition-none;
 }
 
-.prompt-input__shell--primary {
+.prompt-input--primary .prompt-input__shell {
   background-color: var(--field-background, var(--default));
   border-color: var(--field-border, var(--border));
 
@@ -30,15 +38,16 @@
       border-color: var(--field-border-hover);
     }
   }
-
-  .prompt-input:focus-within & {
-    @apply status-focused-field;
-    background-color: var(--field-focus, var(--field-background, var(--default)));
-    border-color: var(--field-border-focus, var(--field-border, var(--border)));
-  }
 }
 
-.prompt-input__shell--secondary {
+/* Focus lands anywhere inside the composer; the shell shows it for the whole thing. */
+.prompt-input--primary:focus-within .prompt-input__shell {
+  @apply status-focused-field;
+  background-color: var(--field-focus, var(--field-background, var(--default)));
+  border-color: var(--field-border-focus, var(--field-border, var(--border)));
+}
+
+.prompt-input--secondary .prompt-input__shell {
   @apply shadow-none;
 
   background-color: var(--default);
@@ -49,11 +58,11 @@
       background-color: var(--default-hover);
     }
   }
+}
 
-  .prompt-input:focus-within & {
-    background-color: var(--default);
-    border-color: var(--field-border-focus, var(--field-border, var(--border)));
-  }
+.prompt-input--secondary:focus-within .prompt-input__shell {
+  background-color: var(--default);
+  border-color: var(--field-border-focus, var(--field-border, var(--border)));
 }
 
 .prompt-input__content {
@@ -64,8 +73,12 @@
   @apply flex flex-wrap gap-2 px-3 pt-3 pb-1;
 }
 
+/* The shell carries the focus treatment for the whole composer, so the text area
+   renders with `variant="bare"` and only adds its box model here. */
 .prompt-input__textarea {
-  @apply mb-14 min-h-14 w-full resize-none rounded-none border-0 bg-transparent px-3 pt-3 pb-2 text-sm shadow-none outline-none;
+  @apply min-h-14 w-full resize-none px-3 pt-3 pb-2 text-sm;
+
+  margin-bottom: var(--prompt-input-toolbar-height);
 
   max-height: var(--prompt-input-max-height, 240px);
   scrollbar-color: var(--scrollbar-color);
@@ -81,25 +94,8 @@
   @apply pt-1;
 }
 
-/* The shell carries the focus treatment for the whole composer; the text area stays flat. */
-.prompt-input__shell .prompt-input__textarea.textarea,
-.prompt-input__shell .prompt-input__textarea.textarea:hover:not(:focus):not(:focus-visible),
-.prompt-input__shell
-  .prompt-input__textarea.textarea[data-hovered="true"]:not([data-focused="true"]):not(
-    [data-focus-visible="true"]
-  ),
-.prompt-input__shell .prompt-input__textarea.textarea:focus,
-.prompt-input__shell .prompt-input__textarea.textarea:focus-visible,
-.prompt-input__shell .prompt-input__textarea.textarea[data-focused="true"],
-.prompt-input__shell .prompt-input__textarea.textarea[data-focus-visible="true"] {
-  @apply border-transparent bg-transparent outline-none;
-
-  /* `shadow-none` only clears --tw-shadow; the field focus ring lives in --tw-ring-shadow. */
-  box-shadow: none;
-}
-
 .prompt-input--sm .prompt-input__textarea {
-  @apply mb-10 min-h-12;
+  @apply min-h-12;
 }
 
 .prompt-input--md .prompt-input__textarea {
@@ -107,7 +103,7 @@
 }
 
 .prompt-input--lg .prompt-input__textarea {
-  @apply mb-14 min-h-18 text-base;
+  @apply min-h-18 text-base;
 }
 
 .prompt-input__toolbar {
@@ -132,11 +128,7 @@
 }
 
 .prompt-input[data-disabled="true"] {
-  @apply opacity-60;
-
-  .prompt-input__shell {
-    @apply cursor-not-allowed;
-  }
+  @apply status-disabled;
 }
 
 .prompt-input:not([data-disabled="true"]) {
@@ -158,18 +150,22 @@
   color: var(--danger-foreground);
 }
 
+.prompt-input--stacked {
+  /* No styles as this is the default layout */
+}
+
 /* Compact and inline layouts share the single-row grid.
    Compact leaves it once the text wraps or attachments appear. */
-.prompt-input[data-layout="compact"],
-.prompt-input[data-layout="inline"] {
+.prompt-input--compact,
+.prompt-input--inline {
   .prompt-input__send,
   .prompt-input__action {
     @apply size-8 min-h-8 min-w-8 shrink-0;
   }
 }
 
-.prompt-input[data-layout="inline"],
-.prompt-input[data-layout="compact"]:not([data-expanded]):not(:has(.prompt-input__attachments > *)) {
+.prompt-input--inline,
+.prompt-input--compact:not([data-expanded]):not(:has(.prompt-input__attachments > *)) {
   .prompt-input__shell {
     @apply grid min-h-12 overflow-hidden rounded-3xl py-0;
 
@@ -190,7 +186,9 @@
   }
 
   .prompt-input__textarea {
-    @apply mb-0 min-h-12 self-start overflow-y-auto px-2 py-3.5;
+    /* The single-row grid puts the toolbar beside the text area, not over it. */
+    --prompt-input-toolbar-height: 0px;
+    @apply min-h-12 self-start overflow-y-auto px-2 py-3.5;
 
     grid-area: textarea;
     max-height: none;
@@ -207,7 +205,7 @@
   }
 }
 
-.prompt-input[data-layout="inline"] {
+.prompt-input--inline {
   .prompt-input__shell:has(.prompt-input__attachments > *) {
     @apply rounded-2xl;
   }
@@ -218,7 +216,7 @@
   }
 }
 
-.prompt-input[data-layout="compact"] {
+.prompt-input--compact {
   &:not([data-expanded]):not(:has(.prompt-input__attachments > *)) {
     .prompt-input__textarea {
       @apply max-h-12 self-center overflow-y-hidden;
@@ -254,7 +252,7 @@
   }
 }
 
-.prompt-input[data-variant="secondary"] .prompt-input__queue {
+.prompt-input--secondary .prompt-input__queue {
   background-color: var(--default);
 }
 
@@ -266,8 +264,7 @@
   }
 
   &[data-focus-visible="true"] {
-    outline: 2px solid var(--focus);
-    outline-offset: -2px;
+    @apply status-focused-inset;
   }
 }
 

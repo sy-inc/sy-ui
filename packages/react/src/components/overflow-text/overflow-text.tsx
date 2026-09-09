@@ -12,7 +12,7 @@ import {useScrollShadow} from "../scroll-shadow/use-scroll-shadow";
 
 const slots = overflowTextVariants();
 
-export interface OverflowTextProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
+export interface OverflowTextRootProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
   /** Plain text to display on one line. */
   children: string;
   /** Scroll automatically on hover or focus. @default true */
@@ -23,7 +23,7 @@ export interface OverflowTextProps extends Omit<ComponentPropsWithRef<"div">, "c
   speed?: number;
 }
 
-export function OverflowText({
+export function OverflowTextRoot({
   autoScroll = true,
   children,
   className,
@@ -31,7 +31,7 @@ export function OverflowText({
   speed = 40,
   tabIndex,
   ...props
-}: OverflowTextProps) {
+}: OverflowTextRootProps) {
   const viewportRef = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLSpanElement>(null);
   const [distance, setDistance] = useState(0);
@@ -147,3 +147,5 @@ export function OverflowText({
     </div>
   );
 }
+
+OverflowTextRoot.displayName = "SY INC.OverflowText";

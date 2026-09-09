@@ -1,15 +1,12 @@
 /**
  * CellSwitch is a `Switch` with `variant="cell"` / `"cell-secondary"`, so the
  * row surface, hover, focus and the secondary track tokens all come from
- * switch.css. Only the settings-cell deltas live here: the fixed row width, the
- * stacked label/description column, the badge, and the `feature` card.
+ * switch.css. Only the settings-cell deltas live here: the stacked
+ * label/description column, the badge, and the `feature` card. Width comes from
+ * the consumer's container.
  *
  * This file is imported after switch.css, so the equal-specificity rules below win.
  */
-
-.cell-switch {
-  @apply w-[252px];
-}
 
 /* The cell row is a fixed-height control, not a growing field. */
 .cell-switch .switch__content {
@@ -34,12 +31,15 @@
  * Feature variant — the row wrapped in a bordered card.
  * -----------------------------------------------------------------------------------------------*/
 .cell-switch--feature {
-  @apply h-[72px] w-80 rounded-xl border border-border p-px;
+  @apply rounded-xl border border-border p-px;
 }
 
 .cell-switch--feature .switch__content {
   /* The card owns the border, so the inner row drops the field chrome. */
-  @apply h-[70px] rounded-[11px] border-0 bg-transparent py-2 shadow-none;
+  @apply h-auto border-0 bg-transparent py-4 shadow-none;
+
+  /* Nested inside the 1px card border, so the radius steps down by that pixel. */
+  border-radius: calc(var(--radius-xl) - 1px);
 
   @media (hover: hover) {
     &:hover,

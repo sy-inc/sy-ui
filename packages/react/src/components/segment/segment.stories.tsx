@@ -34,6 +34,15 @@ export const Ghost: Story = {
     </Segment>
   ),
 };
+export const Surface: Story = {
+  render: () => (
+    <div className="rounded-2xl bg-surface-secondary p-4">
+      <Segment aria-label="Surface billing period" defaultSelectedKey="monthly" variant="surface">
+        {items}
+      </Segment>
+    </div>
+  ),
+};
 export const Sizes: Story = {
   render: () => (
     <div className="flex flex-col gap-3">

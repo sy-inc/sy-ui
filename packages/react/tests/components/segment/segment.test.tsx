@@ -127,7 +127,7 @@ describe("Segment", () => {
     expect(ref.current).toHaveAttribute("data-slot", "segment");
   });
 
-  it("exposes default and ghost variants in all documented sizes", () => {
+  it("exposes default, ghost, and surface variants in all documented sizes", () => {
     const {container} = render(
       <div>
         <Segment aria-label="Small" defaultSelectedKey="monthly" size="sm">
@@ -139,6 +139,9 @@ describe("Segment", () => {
         <Segment aria-label="Large" defaultSelectedKey="monthly" size="lg" variant="ghost">
           {options}
         </Segment>
+        <Segment aria-label="Surface" defaultSelectedKey="monthly" variant="surface">
+          {options}
+        </Segment>
       </div>,
     );
 
@@ -146,6 +149,9 @@ describe("Segment", () => {
     expect(container.querySelector(".segment--md .segment__item--md")).toBeInTheDocument();
     expect(container.querySelector(".segment--lg .segment__item--lg")).toBeInTheDocument();
     expect(container.querySelector(".segment--ghost")).toBeInTheDocument();
+    expect(
+      container.querySelector(".segment--surface .segment__indicator--surface"),
+    ).toBeInTheDocument();
   });
 
   it("keeps icon-expand labels mounted while selection switches", async () => {

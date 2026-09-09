@@ -45,6 +45,8 @@
   @apply bg-transparent;
 }
 .sheet__content {
+  /* One source for the panel corner radius, inherited by the dialog inside. */
+  --sheet-radius: min(32px, var(--radius-2xl));
   @apply pointer-events-auto fixed z-50 flex min-w-0;
   transition: transform var(--sheet-duration) var(--sheet-ease);
   will-change: transform;
@@ -54,50 +56,43 @@
 }
 .sheet__content--bottom {
   @apply inset-x-0 bottom-0 mx-auto max-h-[96vh] w-full;
-  border-start-start-radius: min(32px, var(--radius-2xl));
-  border-start-end-radius: min(32px, var(--radius-2xl));
 }
 .sheet__content--top {
   @apply inset-x-0 top-0 mx-auto max-h-[96vh] w-full;
-  border-end-start-radius: min(32px, var(--radius-2xl));
-  border-end-end-radius: min(32px, var(--radius-2xl));
 }
 .sheet__content--left {
   @apply inset-y-0 left-0 h-(--visual-viewport-height) w-full max-w-[96vw];
-  border-end-end-radius: min(32px, var(--radius-2xl));
-  border-start-end-radius: min(32px, var(--radius-2xl));
 }
 .sheet__content--right {
   @apply inset-y-0 right-0 h-(--visual-viewport-height) w-full max-w-[96vw];
-  border-end-start-radius: min(32px, var(--radius-2xl));
-  border-start-start-radius: min(32px, var(--radius-2xl));
 }
+/* The dialog is the painted surface, so placement radii live here only. */
 .sheet__dialog {
   @apply relative flex w-full flex-col bg-overlay shadow-overlay outline-none;
-  &[data-placement="bottom"],
-  &[data-placement="top"] {
-    @apply max-h-[96vh] w-full;
-  }
-  &[data-placement="bottom"] {
-    border-start-start-radius: min(32px, var(--radius-2xl));
-    border-start-end-radius: min(32px, var(--radius-2xl));
-  }
-  &[data-placement="top"] {
-    border-end-start-radius: min(32px, var(--radius-2xl));
-    border-end-end-radius: min(32px, var(--radius-2xl));
-  }
-  &[data-placement="left"],
-  &[data-placement="right"] {
-    @apply h-full;
-  }
-  &[data-placement="left"] {
-    border-end-end-radius: min(32px, var(--radius-2xl));
-    border-start-end-radius: min(32px, var(--radius-2xl));
-  }
-  &[data-placement="right"] {
-    border-end-start-radius: min(32px, var(--radius-2xl));
-    border-start-start-radius: min(32px, var(--radius-2xl));
-  }
+}
+.sheet__dialog--bottom,
+.sheet__dialog--top {
+  @apply max-h-[96vh] w-full;
+}
+.sheet__dialog--bottom {
+  border-start-start-radius: var(--sheet-radius);
+  border-start-end-radius: var(--sheet-radius);
+}
+.sheet__dialog--top {
+  border-end-start-radius: var(--sheet-radius);
+  border-end-end-radius: var(--sheet-radius);
+}
+.sheet__dialog--left,
+.sheet__dialog--right {
+  @apply h-full;
+}
+.sheet__dialog--left {
+  border-end-end-radius: var(--sheet-radius);
+  border-start-end-radius: var(--sheet-radius);
+}
+.sheet__dialog--right {
+  border-end-start-radius: var(--sheet-radius);
+  border-start-start-radius: var(--sheet-radius);
 }
 .sheet__content--left[data-entering="true"],
 .sheet__content--left[data-exiting="true"] {
@@ -134,7 +129,7 @@
   @apply h-auto;
 }
 .sheet__content[data-detached="true"] .sheet__dialog {
-  border-radius: min(32px, var(--radius-2xl));
+  border-radius: var(--sheet-radius);
 }
 .sheet__header {
   @apply flex flex-col gap-3 px-5 py-4;
@@ -151,15 +146,24 @@
 }
 .sheet__handle {
   @apply flex h-6 w-8 shrink-0 cursor-grab items-center justify-center self-center;
-  &:focus-visible {
+  &:focus-visible,
+  &[data-focus-visible="true"] {
     @apply status-focused;
   }
 }
-.sheet__handle > [data-slot="sheet-handle-bar"] {
+.sheet__handle-bar {
   @apply h-[0.3rem] w-8 rounded-full bg-default;
 }
 .sheet__close-trigger {
-  @apply absolute end-4 top-4 text-muted hover:text-foreground;
+  @apply absolute end-4 top-4 text-muted;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply text-foreground;
+    }
+  }
+
   &:focus-visible,
   &[data-focus-visible="true"] {
     @apply status-focused;

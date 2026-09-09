@@ -171,7 +171,9 @@
    drop-zone.styles.ts), resolved per format via `getFileFormatColor` so each extension keeps a
    fixed, themeable color — `default` keeps the neutral gray every other format used to share. */
 .drop-zone__file-format-icon-badge {
-  @apply absolute bottom-1 left-0 flex h-3.5 max-w-8 items-center overflow-hidden rounded bg-gray-500 px-[3px] py-0.5 text-[8px] leading-none font-bold text-white uppercase;
+  /* `--muted` over `--surface`: a mid grey that inverts with the theme, so the
+     badge keeps its contrast in both without a Tailwind palette colour. */
+  @apply absolute bottom-1 left-0 flex h-3.5 max-w-8 items-center overflow-hidden rounded bg-muted px-[3px] py-0.5 text-[8px] leading-none font-bold text-surface uppercase;
 }
 
 .drop-zone__file-format-icon-badge--accent {

@@ -24,10 +24,11 @@ import { TextArea } from '@sy-inc/react';
 
 ### Variants
 
-The TextArea component supports two visual variants:
+The TextArea component supports three visual variants:
 
 - **`primary`** (default) - Standard styling with shadow, suitable for most use cases
 - **`secondary`** - Lower emphasis variant without shadow, suitable for use in Surface components
+- **`bare`** - No border, background, shadow, or focus ring, for a composer shell that paints the field chrome itself (see [PromptInput](/docs/components/prompt-input))
 
 <ComponentPreview name="textarea-variants" />
 
@@ -97,6 +98,13 @@ SY INC follows the [BEM](https://getbem.com/) methodology to ensure component va
 
 - `.textarea` – Underlying `<textarea>` element styling
 
+#### Modifier Classes [!toc]
+
+- `.textarea--secondary` – Lower emphasis surface, no shadow
+- `.textarea--bare` – No border, background, shadow, radius, or focus ring
+- `.textarea--full-width` – Fills the container width
+- `.textarea--auto-grow` – Grows with content
+
 ### Interactive States
 
 - **Hover**: `:hover` or `[data-hovered="true"]`
@@ -129,7 +137,7 @@ TextArea accepts all standard HTML `<textarea>` attributes plus the following:
 | `wrap` | `'soft' \| 'hard'` | - | How text wraps when submitted. |
 | `autoGrow` | `boolean` | `false` | Grows with content (`field-sizing: content`); falls back to `rows` where unsupported. |
 | `fullWidth` | `boolean` | `false` | Whether the textarea should take full width of its container |
-| `variant` | `"primary" \| "secondary"` | `"primary"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. |
+| `variant` | `"primary" \| "secondary" \| "bare"` | `"primary"` | Visual variant of the component. `primary` is the default style with shadow. `secondary` is a lower emphasis variant without shadow, suitable for use in surfaces. `bare` drops all field chrome for an outer shell to own. |
 
 > For validation props like `isInvalid`, `isRequired`, and error handling, use **[TextField](/docs/components/text-field)** with TextArea as a child component.
 

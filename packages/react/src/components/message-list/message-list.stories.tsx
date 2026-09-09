@@ -19,12 +19,9 @@ export default meta;
 type Story = StoryObj<typeof MessageList>;
 
 const bubble = (id: number, withMedia = false) => (
-  <MessageBubble
-    key={id}
-    direction={id % 2 === 0 ? "received" : "sent"}
-    time={`09:${String(Math.floor((id % 100) / 2)).padStart(2, "0")}`}
-    content={
-      <>
+  <MessageBubble key={id} direction={id % 2 === 0 ? "received" : "sent"}>
+    <MessageBubble.Content>
+      <MessageBubble.Text>
         {`第 ${id} 条消息：${id % 2 === 0 ? "客户咨询订单配送进度，请帮忙确认预计送达时间。" : "客服回复：已经为您查询订单，我们会及时同步最新进度。"}`}
         {withMedia && id % 10 === 9 ? (
           <>
@@ -39,9 +36,12 @@ const bubble = (id: number, withMedia = false) => (
             />
           </>
         ) : null}
-      </>
-    }
-  />
+        <MessageBubble.Time>
+          {`09:${String(Math.floor((id % 100) / 2)).padStart(2, "0")}`}
+        </MessageBubble.Time>
+      </MessageBubble.Text>
+    </MessageBubble.Content>
+  </MessageBubble>
 );
 
 const useWindow = () => {
@@ -56,11 +56,49 @@ export const Default: Story = {
     <MessageList {...args}>
       <MessageList.Viewport aria-label="客服消息记录">
         <MessageList.Content>
-          <MessageBubble content="How can I help you?" time="09:41" />
-          <MessageBubble content="Please check my order." direction="sent" time="09:42" />
+          <MessageBubble>
+            <MessageBubble.Content>
+              <MessageBubble.Text>
+                How can I help you?
+                <MessageBubble.Time>09:41</MessageBubble.Time>
+              </MessageBubble.Text>
+            </MessageBubble.Content>
+          </MessageBubble>
+          <MessageBubble direction="sent">
+            <MessageBubble.Content>
+              <MessageBubble.Text>
+                Please check my order.
+                <MessageBubble.Time>09:42</MessageBubble.Time>
+              </MessageBubble.Text>
+            </MessageBubble.Content>
+          </MessageBubble>
         </MessageList.Content>
         <MessageList.ScrollButton aria-label="回到底部" />
       </MessageList.Viewport>
+    </MessageList>
+  ),
+};
+
+/** Plain children get the default Viewport / Content / ScrollButton stack. */
+export const Shorthand: Story = {
+  render: (args) => (
+    <MessageList {...args}>
+      <MessageBubble>
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            How can I help you?
+            <MessageBubble.Time>09:41</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
+      <MessageBubble direction="sent">
+        <MessageBubble.Content>
+          <MessageBubble.Text>
+            Please check my order.
+            <MessageBubble.Time>09:42</MessageBubble.Time>
+          </MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
     </MessageList>
   ),
 };

@@ -16,6 +16,13 @@ export const kpiVariants = tv({
     trend: "kpi__trend",
     value: "kpi__value",
   },
+  variants: {
+    color: {
+      danger: {icon: "kpi__icon--danger"},
+      success: {icon: "kpi__icon--success"},
+      warning: {icon: "kpi__icon--warning"},
+    },
+  },
 });
 
 export type KPIVariants = VariantProps<typeof kpiVariants>;

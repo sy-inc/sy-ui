@@ -6,6 +6,14 @@ import {CellSwitch} from "./cell-switch";
 
 const meta = {
   component: CellSwitch,
+  /* The row fills its container, so the stories supply the settings-panel width. */
+  decorators: [
+    (Story) => (
+      <div className="w-[252px]">
+        <Story />
+      </div>
+    ),
+  ],
   title: "Components/CellSwitch",
 } satisfies Meta<typeof CellSwitch>;
 

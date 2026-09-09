@@ -226,5 +226,10 @@ PromptInput 使用 `.prompt-input`、`.prompt-input__shell`、
 `.prompt-input__send`、`.prompt-input__queue` 等 BEM 类名。局部定制可在任意
 部件上传入 `className`；全局视觉调整可在样式层覆盖对应组件类名。
 
+变体、尺寸与布局都是根节点上的块修饰符：`.prompt-input--secondary`、
+`.prompt-input--sm`、`.prompt-input--compact`；`data-*` 只表达状态：
+`data-disabled`、`data-pending`、`data-expanded`、`data-status`。文本域以
+`<TextArea variant="bare">` 渲染，边框、背景与焦点环都由 shell 负责。
+
 工具栏中的 `Select.Trigger` 可加上 `select__trigger--outline`，
 以获得与内置操作一致的尺寸和描边。

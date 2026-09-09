@@ -5,7 +5,7 @@ import type {StickToBottomInstance} from "use-stick-to-bottom";
 
 import {mergeRefs} from "@react-aria/utils";
 import {messageListVariants} from "@sy-inc/styles";
-import {createContext, use, useMemo} from "react";
+import {Children, createContext, isValidElement, use, useMemo} from "react";
 import {useStickToBottom} from "use-stick-to-bottom";
 
 import {composeSlotClassName} from "../../utils/compose";
@@ -33,6 +33,10 @@ export interface MessageListRootProps extends ComponentPropsWithRef<"div"> {}
 
 export const MessageListRoot = ({children, className, ...props}: MessageListRootProps) => {
   const instance = useStickToBottom({initial: "instant", resize: "instant"});
+  // Shorthand: plain children get the default Viewport / Content / ScrollButton stack.
+  const isComposed = Children.toArray(children).some(
+    (child) => isValidElement(child) && child.type === MessageListViewport,
+  );
 
   return (
     <MessageListContext value={instance}>
@@ -41,7 +45,14 @@ export const MessageListRoot = ({children, className, ...props}: MessageListRoot
         className={composeSlotClassName(slots.root, className)}
         data-slot="message-list"
       >
-        {children}
+        {isComposed ? (
+          children
+        ) : (
+          <MessageListViewport>
+            <MessageListContent>{children}</MessageListContent>
+            <MessageListScrollButton />
+          </MessageListViewport>
+        )}
       </div>
     </MessageListContext>
   );

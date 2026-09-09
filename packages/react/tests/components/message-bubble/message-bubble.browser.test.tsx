@@ -5,6 +5,12 @@ import {MessageBubble} from "@/components/message-bubble";
 
 import "../../../../styles/dist/sy-inc.min.css";
 
+const blankSvg = (width: number, height: number) =>
+  `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"/>`;
+
+const tealSvg =
+  'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="600" height="400" fill="teal"/></svg>';
+
 const contrast = (foreground: string, background: string) => {
   const channels = (value: string) => {
     const canvas = document.createElement("canvas");
@@ -27,21 +33,54 @@ const contrast = (foreground: string, background: string) => {
   return (first! + 0.05) / (second! + 0.05);
 };
 
+/** Root > Content > [image] > Text > Time, the shape every layout case shares. */
+const Bubble = ({
+  children,
+  direction = "received",
+  image,
+  time = "09:41",
+}: {
+  children?: React.ReactNode;
+  direction?: "sent" | "received";
+  image?: React.ReactNode;
+  time?: string | null;
+}) => (
+  <MessageBubble direction={direction}>
+    <MessageBubble.Content>
+      {image}
+      {children == null ? (
+        time == null ? null : (
+          <MessageBubble.Time>{time}</MessageBubble.Time>
+        )
+      ) : (
+        <MessageBubble.Text>
+          {children}
+          {time == null ? null : <MessageBubble.Time>{time}</MessageBubble.Time>}
+        </MessageBubble.Text>
+      )}
+    </MessageBubble.Content>
+  </MessageBubble>
+);
+
 const Fixture = ({
   content,
   direction = "received",
+  image,
   theme = "light",
   time = "09:41",
   width = 260,
 }: {
-  content: React.ReactNode;
+  content?: React.ReactNode;
   direction?: "sent" | "received";
+  image?: React.ReactNode;
   theme?: "light" | "dark";
   time?: string;
   width?: number;
 }) => (
   <div data-theme={theme} style={{width}}>
-    <MessageBubble content={content} direction={direction} time={time} />
+    <Bubble direction={direction} image={image} time={time}>
+      {content}
+    </Bubble>
   </div>
 );
 
@@ -58,29 +97,12 @@ describe("MessageBubble (browser)", () => {
   it.each(["received", "sent"] as const)(
     "overlays %s image-only time without adding a blank footer",
     async (direction) => {
-      const image = (
-        <img
-          alt="Photo"
-          height={100}
-          src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="100"/>'
-          width={150}
-        />
-      );
+      const image = <img alt="Photo" height={100} src={blankSvg(150, 100)} width={150} />;
 
       await render(
         <div style={{width: 260}}>
-          <MessageBubble
-            content={
-              <>
-                {" "}
-                {image}
-                {"\n"}
-              </>
-            }
-            direction={direction}
-            time="09:41"
-          />
-          <MessageBubble content={image} direction={direction} />
+          <Bubble direction={direction} image={image} time="09:41" />
+          <Bubble direction={direction} image={image} time={null} />
         </div>,
       );
 
@@ -114,37 +136,25 @@ describe("MessageBubble (browser)", () => {
     async (direction) => {
       await render(
         <div data-testid="width-matrix" style={{width: 480}}>
-          <MessageBubble content="Short message" direction={direction} time="09:42" />
-          <MessageBubble
-            content="test test test test test test test test test test test test test test test test"
+          <Bubble direction={direction} time="09:42">
+            Short message
+          </Bubble>
+          <Bubble direction={direction} time="09:42">
+            test test test test test test test test test test test test test test test test
+          </Bubble>
+          <Bubble direction={direction} time="09:42">
+            Here is the <a href="https://example.test/guide">travel guide</a> for this trip.
+          </Bubble>
+          <Bubble direction={direction} time="09:42">
+            {"中文消息\n末行文字和时间"}
+          </Bubble>
+          <Bubble
             direction={direction}
+            image={<img alt="Trip preview" height={100} src={blankSvg(150, 100)} width={150} />}
             time="09:42"
-          />
-          <MessageBubble
-            direction={direction}
-            time="09:42"
-            content={
-              <>
-                Here is the <a href="https://example.test/guide">travel guide</a> for this trip.
-              </>
-            }
-          />
-          <MessageBubble content={"中文消息\n末行文字和时间"} direction={direction} time="09:42" />
-          <MessageBubble
-            direction={direction}
-            time="09:42"
-            content={
-              <>
-                <img
-                  alt="Trip preview"
-                  height={100}
-                  src='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="100"/>'
-                  width={150}
-                />
-                Shall we go here? <a href="https://example.test/trip">View the itinerary</a>
-              </>
-            }
-          />
+          >
+            Shall we go here? <a href="https://example.test/trip">View the itinerary</a>
+          </Bubble>
         </div>,
       );
 
@@ -187,16 +197,9 @@ describe("MessageBubble (browser)", () => {
   it("keeps images flush and gives mixed text and time their own margin", async () => {
     await render(
       <Fixture
+        image={<img alt="Preview" height={100} src={blankSvg(150, 100)} width={150} />}
         content={
           <>
-            <img
-              alt="Preview"
-              height={100}
-              src={
-                'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="100"/>'
-              }
-              width={150}
-            />
             Shall we go here? <a href="https://example.test/trip">View the itinerary</a>
           </>
         }
@@ -403,10 +406,9 @@ describe("MessageBubble (browser)", () => {
     await render(
       <div className="flex min-w-0" data-testid="flex-parent" style={{width: 180}}>
         <div className="min-w-0 flex-1">
-          <MessageBubble
-            content="https://example.test/a-very-long-url-without-any-natural-break-points"
-            time="09:42"
-          />
+          <Bubble time="09:42">
+            https://example.test/a-very-long-url-without-any-natural-break-points
+          </Bubble>
         </div>
       </div>,
     );
@@ -427,22 +429,13 @@ describe("MessageBubble (browser)", () => {
   it("fits an image and a long link in a narrow bubble with time below the image", async () => {
     await render(
       <Fixture
-        content={
-          <>
-            <a href="https://example.test/a-very-long-link-without-breaks">
-              https://example.test/a-very-long-link-without-breaks
-            </a>
-            <img
-              alt="Landscape preview"
-              height={400}
-              src={
-                'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="600" height="400" fill="teal"/></svg>'
-              }
-              width={600}
-            />
-          </>
-        }
+        image={<img alt="Landscape preview" height={400} src={tealSvg} width={600} />}
         width={180}
+        content={
+          <a href="https://example.test/a-very-long-link-without-breaks">
+            https://example.test/a-very-long-link-without-breaks
+          </a>
+        }
       />,
     );
 

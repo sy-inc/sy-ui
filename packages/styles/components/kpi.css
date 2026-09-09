@@ -21,15 +21,15 @@
   @apply size-4;
 }
 
-.kpi__icon[data-color="success"] {
+.kpi__icon--success {
   @apply bg-success-soft text-success-soft-foreground;
 }
 
-.kpi__icon[data-color="warning"] {
+.kpi__icon--warning {
   @apply bg-warning-soft text-warning-soft-foreground;
 }
 
-.kpi__icon[data-color="danger"] {
+.kpi__icon--danger {
   @apply bg-danger-soft text-danger-soft-foreground;
 }
 

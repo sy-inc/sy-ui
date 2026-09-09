@@ -105,7 +105,10 @@ const PromptInputRoot = ({
   const value = valueProp ?? uncontrolledValue;
   const isPending = status === "submitted" || status === "streaming";
   const isExpanded = layout === "compact" && isAutosizeExpanded;
-  const slots = useMemo(() => promptInputVariants({size, variant}), [size, variant]);
+  const slots = useMemo(
+    () => promptInputVariants({layout, size, variant}),
+    [layout, size, variant],
+  );
 
   const setValue = useCallback(
     (nextValue: string) => {
@@ -162,11 +165,9 @@ const PromptInputRoot = ({
         className={composeSlotClassName(slots.base, className)}
         data-disabled={isDisabled || undefined}
         data-expanded={isExpanded || undefined}
-        data-layout={layout}
         data-pending={isPending || undefined}
         data-slot="prompt-input"
         data-status={status}
-        data-variant={variant}
         style={{...style, "--prompt-input-max-height": maxHeightValue} as React.CSSProperties}
         onSubmit={handleSubmit}
       >
@@ -233,7 +234,11 @@ const PromptInputFooter = createSlot("Footer", "footer", "p");
 /* -------------------------------------------------------------------------------------------------
  * PromptInput TextArea
  * -----------------------------------------------------------------------------------------------*/
-interface PromptInputTextAreaProps extends Omit<TextAreaProps, "defaultValue" | "value"> {
+/* `variant` is fixed to `bare`: the shell owns the field chrome and the focus ring. */
+interface PromptInputTextAreaProps extends Omit<
+  TextAreaProps,
+  "defaultValue" | "value" | "variant"
+> {
   /** Leaves the text area at the height supplied by CSS or the style prop. */
   disableAutosize?: boolean;
 }
@@ -331,6 +336,7 @@ const PromptInputTextArea = ({
       data-slot="prompt-input-textarea"
       disabled={Boolean(context?.isInputDisabled || disabled)}
       rows={rows}
+      variant="bare"
       value={value}
       onChange={handleChange}
       onKeyDown={handleKeyDown}

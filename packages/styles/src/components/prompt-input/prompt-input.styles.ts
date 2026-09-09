@@ -4,6 +4,7 @@ import {tv} from "tailwind-variants";
 
 export const promptInputVariants = tv({
   defaultVariants: {
+    layout: "stacked",
     size: "md",
     variant: "primary",
   },
@@ -21,6 +22,17 @@ export const promptInputVariants = tv({
     toolbarStart: "prompt-input__toolbar-start",
   },
   variants: {
+    layout: {
+      compact: {
+        base: "prompt-input--compact",
+      },
+      inline: {
+        base: "prompt-input--inline",
+      },
+      stacked: {
+        base: "prompt-input--stacked",
+      },
+    },
     size: {
       lg: {
         base: "prompt-input--lg",
@@ -34,10 +46,10 @@ export const promptInputVariants = tv({
     },
     variant: {
       primary: {
-        shell: "prompt-input__shell--primary",
+        base: "prompt-input--primary",
       },
       secondary: {
-        shell: "prompt-input__shell--secondary",
+        base: "prompt-input--secondary",
       },
     },
   },

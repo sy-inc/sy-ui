@@ -68,7 +68,7 @@ const KPIContent = ({className, ...props}: KPIContentProps) => (
 );
 
 const KPIIcon = ({className, color, ...props}: KPIIconProps) => (
-  <div {...props} className={slots.icon({className})} data-color={color} data-slot="kpi-icon" />
+  <div {...props} className={slots.icon({className, color})} data-slot="kpi-icon" />
 );
 
 const KPITitle = ({className, ...props}: KPITitleProps) => (

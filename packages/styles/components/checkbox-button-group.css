@@ -56,9 +56,7 @@
 .checkbox-button-group__indicator[data-custom="true"] {
   @apply text-accent;
 
-  & > .checkbox__indicator {
-    @apply size-5;
-  }
+  --checkbox-indicator-size: calc(var(--spacing) * 5);
 
   & svg {
     @apply size-full;

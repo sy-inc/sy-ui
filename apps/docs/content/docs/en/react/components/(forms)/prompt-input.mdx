@@ -233,5 +233,11 @@ PromptInput uses BEM classes including `.prompt-input`, `.prompt-input__shell`,
 `.prompt-input__queue`. Use `className` on any part for local customization, or
 override the component CSS classes in a layer for a system-wide treatment.
 
+Variant, size, and layout are block modifiers on the root: `.prompt-input--secondary`,
+`.prompt-input--sm`, `.prompt-input--compact`. The `data-*` attributes are reserved for
+state: `data-disabled`, `data-pending`, `data-expanded`, and `data-status`. The text area
+renders as `<TextArea variant="bare">`, so the shell owns the border, background, and
+focus ring.
+
 Add `select__trigger--outline` to a `Select.Trigger` rendered in the toolbar to size and
 outline it like the built-in actions.

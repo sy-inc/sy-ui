@@ -11,6 +11,7 @@ export const sheetVariants = tv({
     dialog: "sheet__dialog",
     footer: "sheet__footer",
     handle: "sheet__handle",
+    handleBar: "sheet__handle-bar",
     header: "sheet__header",
     heading: "sheet__heading",
   },
