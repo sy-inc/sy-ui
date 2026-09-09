@@ -38,6 +38,30 @@ export default function Example() {
 </Navbar>
 ```
 
+## Frosted header
+
+`variant="blur"` makes the root sticky at the top and frosts whatever scrolls under it, so the sticky/translucent/backdrop-blur stack no longer has to be hand-written in every app shell.
+
+```tsx
+<Navbar variant="blur" aria-label="Main navigation">
+  <Navbar.Brand>Acme</Navbar.Brand>
+</Navbar>
+```
+
+The theme tokens already flip with the color scheme, so no separate dark-mode background is needed.
+
+## `--navbar-height`
+
+Every `Navbar` measures itself with a `ResizeObserver` and writes its rendered height to `--navbar-height` on the document element. Content that has to clear a sticky header can read it directly, and it stays correct when the bar wraps or the mobile menu opens.
+
+```css
+.page-content {
+  scroll-padding-top: var(--navbar-height);
+}
+```
+
+The variable is removed when the `Navbar` unmounts. A page with two navbars shares one variable, and the last one mounted wins.
+
 ## Key props and behavior
 
 The menu can be uncontrolled with `defaultIsMenuOpen`, or controlled with `isMenuOpen` and `onMenuOpenChange`. `Navbar.Content` accepts `justify="start" | "center" | "end"`. The root forwards native `nav` props and defaults its accessible name to “Main navigation”.

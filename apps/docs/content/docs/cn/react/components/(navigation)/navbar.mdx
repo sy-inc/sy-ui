@@ -38,6 +38,30 @@ export default function Example() {
 </Navbar>
 ```
 
+## 磨砂页眉
+
+`variant="blur"` 让根元素吸顶，并对其下方滚动的内容做磨砂处理，应用外壳不必再手写「吸顶 + 半透明 + 背景模糊」这一整套类。
+
+```tsx
+<Navbar variant="blur" aria-label="主导航">
+  <Navbar.Brand>Acme</Navbar.Brand>
+</Navbar>
+```
+
+主题令牌本身会随配色方案切换，因此无需再单独写一套暗色背景。
+
+## `--navbar-height`
+
+每个 `Navbar` 都会用 `ResizeObserver` 测量自身，并把渲染高度写入文档根元素上的 `--navbar-height`。需要避开吸顶页眉的内容可以直接读取它；导航栏换行或移动端菜单展开时，该值同样保持正确。
+
+```css
+.page-content {
+  scroll-padding-top: var(--navbar-height);
+}
+```
+
+`Navbar` 卸载时该变量会被移除。同一页面出现两个导航栏时共用一个变量，以最后挂载的为准。
+
 ## 关键属性与行为
 
 菜单可通过 `defaultIsMenuOpen` 非受控使用，也可通过 `isMenuOpen` 与 `onMenuOpenChange` 受控使用。`Navbar.Content` 接受 `justify="start" | "center" | "end"`。根组件透传原生 `nav` 属性，默认无障碍名称为 “Main navigation”。

@@ -42,4 +42,37 @@ describe("Navbar", () => {
 
     expect(content).toBeVisible();
   });
+
+  it("exposes the frosted variant on the root", () => {
+    render(
+      <Navbar variant="blur">
+        <Navbar.Brand>Acme</Navbar.Brand>
+      </Navbar>,
+    );
+
+    expect(screen.getByRole("navigation")).toHaveAttribute("data-variant", "blur");
+  });
+
+  it("publishes its rendered height as --navbar-height", () => {
+    const original = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetHeight");
+
+    Object.defineProperty(HTMLElement.prototype, "offsetHeight", {
+      configurable: true,
+      get: () => 64,
+    });
+
+    const {unmount} = render(
+      <Navbar>
+        <Navbar.Brand>Acme</Navbar.Brand>
+      </Navbar>,
+    );
+
+    expect(document.documentElement.style.getPropertyValue("--navbar-height")).toBe("64px");
+
+    unmount();
+
+    expect(document.documentElement.style.getPropertyValue("--navbar-height")).toBe("");
+
+    if (original) Object.defineProperty(HTMLElement.prototype, "offsetHeight", original);
+  });
 });
