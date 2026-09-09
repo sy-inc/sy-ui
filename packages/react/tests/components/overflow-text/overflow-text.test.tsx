@@ -76,4 +76,35 @@ describe("OverflowText", () => {
     expect(screen.getByText("Updated text")).toBeInTheDocument();
     expect(viewport.scrollLeft).toBe(0);
   });
+
+  it("supports composing the viewport and content around rich children", () => {
+    vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(100);
+    vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(300);
+
+    render(
+      <OverflowText data-testid="text">
+        <OverflowText.Viewport data-testid="viewport">
+          <OverflowText.Content>
+            <strong>{text}</strong>
+          </OverflowText.Content>
+        </OverflowText.Viewport>
+        <span data-testid="sibling">badge</span>
+      </OverflowText>,
+    );
+    const root = screen.getByTestId("text");
+
+    expect(screen.getAllByText(text)).toHaveLength(1);
+    expect(root).toHaveAttribute("data-overflowing", "true");
+    // The composed viewport still gets the tab stop and the measurement refs from the root.
+    expect(viewportOf(root)).toBe(screen.getByTestId("viewport"));
+    expect(viewportOf(root)).toHaveAttribute("tabindex", "0");
+    expect(screen.getByTestId("sibling")).toBeInTheDocument();
+  });
+
+  it("throws when a part is rendered outside the root", () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => render(<OverflowText.Content>{text}</OverflowText.Content>)).toThrow(
+      /inside OverflowText.Root/,
+    );
+  });
 });

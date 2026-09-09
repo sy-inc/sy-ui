@@ -163,4 +163,43 @@ describe("Countdown", () => {
     });
     expect(callback).not.toHaveBeenCalled();
   });
+
+  it("supports composing a subset of the units in any order with custom parts", () => {
+    render(
+      <Countdown endDate={now + 3_661_000}>
+        <Countdown.Segment unit="minutes">
+          <Countdown.Value />
+          <Countdown.Label>min</Countdown.Label>
+        </Countdown.Segment>
+        <span data-testid="separator">:</span>
+        <Countdown.Segment unit="hours" />
+      </Countdown>,
+    );
+    const timer = screen.getByRole("timer");
+    const segments = timer.querySelectorAll('[data-slot="countdown-segment"]');
+
+    expect(segments).toHaveLength(2);
+    expect(segments[0]).toHaveAttribute("data-unit", "minutes");
+    expect(segments[1]).toHaveAttribute("data-unit", "hours");
+    expect(segments[0]).toHaveTextContent("01min");
+    expect(segments[1]).toHaveTextContent("01hours");
+    expect(timer.querySelector('[data-slot="countdown-accessible-text"]')).toBeNull();
+    expect(screen.getByTestId("separator")).toBeInTheDocument();
+
+    // 1h 1m 1s -> 1h 0m 59s, so only the minutes units digit rolls.
+    act(() => vi.advanceTimersByTime(2000));
+    expect(segments[0]!.querySelector('[data-entering="true"]')).toHaveTextContent("0");
+  });
+
+  it("throws when a part is rendered outside its owner", () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => render(<Countdown.Segment unit="days" />)).toThrow(/inside Countdown.Root/);
+    expect(() =>
+      render(
+        <Countdown endDate={now + 1000}>
+          <Countdown.Value />
+        </Countdown>,
+      ),
+    ).toThrow(/inside Countdown.Segment/);
+  });
 });

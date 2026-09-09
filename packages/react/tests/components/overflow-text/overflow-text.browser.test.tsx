@@ -21,7 +21,7 @@ describe("OverflowText (browser)", () => {
   it("fades only clipped edges, scrolls to the end on hover, and resets on leave", async () => {
     await render(
       <>
-        <OverflowText delay={0} speed={2000} data-testid="text" style={{width: 180}}>
+        <OverflowText data-testid="text" delay={0} speed={2000} style={{width: 180}}>
           {text}
         </OverflowText>
         <button>Outside</button>
@@ -46,7 +46,7 @@ describe("OverflowText (browser)", () => {
   it("waits before scrolling and cancels pending motion when hover leaves", async () => {
     await render(
       <>
-        <OverflowText delay={200} speed={2000} data-testid="text" style={{width: 180}}>
+        <OverflowText data-testid="text" delay={200} speed={2000} style={{width: 180}}>
           {text}
         </OverflowText>
         <button>Outside</button>
@@ -68,7 +68,7 @@ describe("OverflowText (browser)", () => {
   it("adds just one Tab stop for overflow and none for text that fits", async () => {
     await render(
       <>
-        <OverflowText data-testid="long" autoScroll={false} style={{width: 180}}>
+        <OverflowText autoScroll={false} data-testid="long" style={{width: 180}}>
           {text}
         </OverflowText>
         <OverflowText style={{width: 180}}>Short</OverflowText>
@@ -88,7 +88,7 @@ describe("OverflowText (browser)", () => {
 
   it("supports focus scrolling and native keyboard control", async () => {
     await render(
-      <OverflowText delay={0} speed={2000} data-testid="text" style={{width: 180}}>
+      <OverflowText data-testid="text" delay={0} speed={2000} style={{width: 180}}>
         {text}
       </OverflowText>,
     );
@@ -139,7 +139,7 @@ describe("OverflowText (browser)", () => {
 
   it("scrolls from right to left for RTL text", async () => {
     await render(
-      <OverflowText dir="rtl" delay={0} speed={2000} data-testid="text" style={{width: 150}}>
+      <OverflowText data-testid="text" delay={0} dir="rtl" speed={2000} style={{width: 150}}>
         تقرير الإيرادات الفصلية لمنطقة جنوب شرق آسيا لشهر سبتمبر
       </OverflowText>,
     );
@@ -176,7 +176,7 @@ describe("OverflowText (browser)", () => {
       nativeMatchMedia(query === "(prefers-reduced-motion: reduce)" ? "(min-width: 0px)" : query),
     );
     await render(
-      <OverflowText delay={0} speed={2000} data-testid="text" style={{width: 180}}>
+      <OverflowText data-testid="text" delay={0} speed={2000} style={{width: 180}}>
         {text}
       </OverflowText>,
     );

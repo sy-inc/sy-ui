@@ -86,3 +86,29 @@ function CompletionExample() {
 }
 
 export const Completion: Story = {args: {endDate: 0}, render: () => <CompletionExample />};
+
+function CompositionExample() {
+  const [endDate] = useState(() => Date.now() + 90 * 60 * 1000);
+
+  return (
+    <Countdown aria-label="Time remaining" endDate={endDate} size="lg">
+      <Countdown.AccessibleText />
+      <Countdown.Segment unit="hours">
+        <Countdown.Value />
+        <Countdown.Label>hr</Countdown.Label>
+      </Countdown.Segment>
+      <span aria-hidden="true">:</span>
+      <Countdown.Segment unit="minutes">
+        <Countdown.Value />
+        <Countdown.Label>min</Countdown.Label>
+      </Countdown.Segment>
+      <span aria-hidden="true">:</span>
+      <Countdown.Segment unit="seconds">
+        <Countdown.Value />
+        <Countdown.Label>sec</Countdown.Label>
+      </Countdown.Segment>
+    </Countdown>
+  );
+}
+
+export const Composition: Story = {args: {endDate: 0}, render: () => <CompositionExample />};

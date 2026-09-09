@@ -1,20 +1,54 @@
 "use client";
 
-import type {ComponentPropsWithRef, KeyboardEvent, RefObject} from "react";
+import type {ComponentPropsWithRef, KeyboardEvent, ReactNode, RefObject} from "react";
 
+import {mergeRefs} from "@react-aria/utils";
 import {overflowTextVariants} from "@sy-inc/styles";
-import {useEffect, useRef, useState} from "react";
+import {
+  Children,
+  createContext,
+  isValidElement,
+  use,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {mergeProps, useFocusRing, useHover} from "react-aria";
 
 import {useMediaQuery} from "../../hooks/use-media-query";
 import {useSafeLayoutEffect} from "../../hooks/use-safe-layout-effect";
+import {composeSlotClassName} from "../../utils/compose";
 import {useScrollShadow} from "../scroll-shadow/use-scroll-shadow";
 
 const slots = overflowTextVariants();
 
+interface OverflowTextContextValue {
+  contentRef: RefObject<HTMLSpanElement | null>;
+  viewportRef: RefObject<HTMLSpanElement | null>;
+  /** Scroll wiring the Root owns: the tab stop and the gestures that stop auto-scrolling. */
+  viewportProps: Pick<
+    ComponentPropsWithRef<"span">,
+    "onKeyDown" | "onTouchStart" | "onWheel" | "tabIndex"
+  >;
+}
+
+const OverflowTextContext = createContext<OverflowTextContextValue | null>(null);
+
+const useOverflowText = (part: string) => {
+  const context = use(OverflowTextContext);
+
+  if (!context) throw new Error(`OverflowText.${part} must be rendered inside OverflowText.Root`);
+
+  return context;
+};
+
+/* -------------------------------------------------------------------------------------------------
+ * OverflowText Root — owns the measurement, the hover/focus state and the scroll animation.
+ * -----------------------------------------------------------------------------------------------*/
 export interface OverflowTextRootProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
-  /** Plain text to display on one line. */
-  children: string;
+  /** A plain string gets the default Viewport / Content pair. Compose the parts for anything else. */
+  children: ReactNode;
   /** Scroll automatically on hover or focus. @default true */
   autoScroll?: boolean;
   /** Delay before automatic scrolling, in milliseconds. @default 400 */
@@ -121,31 +155,82 @@ export function OverflowTextRoot({
     event.preventDefault();
   };
 
+  // Shorthand: plain children get the default Viewport / Content pair.
+  const isComposed = Children.toArray(children).some(
+    (child) => isValidElement(child) && child.type === OverflowTextViewport,
+  );
+
   return (
-    <div
-      {...mergeProps(hoverProps, focusProps, props)}
-      className={slots.base({className})}
-      data-focus-visible={isFocusVisible || undefined}
-      data-hovered={isHovered || undefined}
-      data-overflowing={isOverflowing}
-      data-slot="overflow-text"
+    <OverflowTextContext
+      value={{
+        contentRef,
+        viewportProps: {
+          onKeyDown,
+          onTouchStart: () => setPaused(true),
+          onWheel: () => setPaused(true),
+          tabIndex: tabIndex ?? (isOverflowing ? 0 : undefined),
+        },
+        viewportRef,
+      }}
     >
-      {/* The viewport is the scroll container, so the browser handles the arrow keys and dragging. */}
-      <span
-        ref={viewportRef}
-        className={slots.viewport()}
-        data-slot="overflow-text-viewport"
-        tabIndex={tabIndex ?? (isOverflowing ? 0 : undefined)}
-        onKeyDown={onKeyDown}
-        onTouchStart={() => setPaused(true)}
-        onWheel={() => setPaused(true)}
+      <div
+        {...mergeProps(hoverProps, focusProps, props)}
+        className={slots.base({className})}
+        data-focus-visible={isFocusVisible || undefined}
+        data-hovered={isHovered || undefined}
+        data-overflowing={isOverflowing}
+        data-slot="overflow-text"
       >
-        <span ref={contentRef} className={slots.content()} data-slot="overflow-text-content">
-          {children}
-        </span>
-      </span>
-    </div>
+        {isComposed ? (
+          children
+        ) : (
+          <OverflowTextViewport>
+            <OverflowTextContent>{children}</OverflowTextContent>
+          </OverflowTextViewport>
+        )}
+      </div>
+    </OverflowTextContext>
+  );
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * OverflowText Viewport — the scroll container and the tab stop.
+ * -----------------------------------------------------------------------------------------------*/
+export interface OverflowTextViewportProps extends ComponentPropsWithRef<"span"> {}
+
+export function OverflowTextViewport({className, ref, ...props}: OverflowTextViewportProps) {
+  const {viewportProps, viewportRef} = useOverflowText("Viewport");
+  const mergedRef = useMemo(() => mergeRefs<HTMLSpanElement>(viewportRef, ref), [viewportRef, ref]);
+
+  return (
+    <span
+      {...mergeProps(viewportProps, props)}
+      ref={mergedRef}
+      className={composeSlotClassName(slots.viewport, className)}
+      data-slot="overflow-text-viewport"
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * OverflowText Content — the measured line. Its width is what decides whether anything overflows.
+ * -----------------------------------------------------------------------------------------------*/
+export interface OverflowTextContentProps extends ComponentPropsWithRef<"span"> {}
+
+export function OverflowTextContent({className, ref, ...props}: OverflowTextContentProps) {
+  const {contentRef} = useOverflowText("Content");
+  const mergedRef = useMemo(() => mergeRefs<HTMLSpanElement>(contentRef, ref), [contentRef, ref]);
+
+  return (
+    <span
+      {...props}
+      ref={mergedRef}
+      className={composeSlotClassName(slots.content, className)}
+      data-slot="overflow-text-content"
+    />
   );
 }
 
 OverflowTextRoot.displayName = "SY INC.OverflowText";
+OverflowTextViewport.displayName = "SY INC.OverflowText.Viewport";
+OverflowTextContent.displayName = "SY INC.OverflowText.Content";
