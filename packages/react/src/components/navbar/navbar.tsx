@@ -4,10 +4,12 @@ import type {NavbarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ButtonProps} from "react-aria-components";
 
+import {mergeRefs} from "@react-aria/utils";
 import {navbarVariants} from "@sy-inc/styles";
 import React from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 
+import {useSafeLayoutEffect} from "../../hooks";
 import {composeTwRenderProps} from "../../utils";
 
 type NavbarContextValue = {
@@ -39,12 +41,15 @@ const NavbarRoot = ({
   defaultIsMenuOpen = false,
   isMenuOpen: controlledIsMenuOpen,
   onMenuOpenChange,
+  ref,
+  variant = "solid",
   ...props
 }: NavbarRootProps) => {
   const [uncontrolledIsMenuOpen, setUncontrolledIsMenuOpen] = React.useState(defaultIsMenuOpen);
   const isMenuOpen = controlledIsMenuOpen ?? uncontrolledIsMenuOpen;
   const menuId = React.useId();
-  const slots = React.useMemo(() => navbarVariants(), []);
+  const navRef = React.useRef<HTMLElement>(null);
+  const slots = React.useMemo(() => navbarVariants({variant}), [variant]);
   const setMenuOpen = React.useCallback(
     (nextIsOpen: boolean) => {
       if (controlledIsMenuOpen === undefined) setUncontrolledIsMenuOpen(nextIsOpen);
@@ -57,14 +62,35 @@ const NavbarRoot = ({
     [isMenuOpen, menuId, setMenuOpen, slots],
   );
 
+  // Publish the rendered height so page content can offset itself with var(--navbar-height).
+  // ponytail: written on :root, so the last mounted Navbar wins; scope it per instance if a page ever ships two.
+  useSafeLayoutEffect(() => {
+    const nav = navRef.current;
+
+    if (!nav) return;
+    const root = document.documentElement;
+    const publish = () => root.style.setProperty("--navbar-height", `${nav.offsetHeight}px`);
+    const observer = new ResizeObserver(publish);
+
+    publish();
+    observer.observe(nav);
+
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty("--navbar-height");
+    };
+  }, []);
+
   return (
     <NavbarContext value={context}>
       <nav
         {...props}
+        ref={mergeRefs(navRef, ref)}
         aria-label={props["aria-label"] ?? "Main navigation"}
         className={slots.base({className})}
         data-menu-open={isMenuOpen ? "true" : "false"}
         data-slot="navbar"
+        data-variant={variant}
       >
         {children}
       </nav>

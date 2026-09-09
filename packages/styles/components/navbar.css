@@ -2,6 +2,13 @@
   @apply relative z-20 flex min-h-16 w-full items-center gap-4 bg-background px-4;
 }
 
+/* Frosted, sticky header. Replaces the hand-rolled
+   "sticky top-0 + translucent surface + backdrop blur/saturate" stack.
+   No dark: pairing needed here, the surface token already flips with the theme. */
+.navbar--blur {
+  @apply sticky top-0 rounded-xl bg-surface-secondary/10 shadow-sm backdrop-blur-lg backdrop-saturate-150;
+}
+
 .navbar__brand,
 .navbar__content {
   @apply flex items-center gap-4;
