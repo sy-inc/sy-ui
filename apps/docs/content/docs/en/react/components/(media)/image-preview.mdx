@@ -1,0 +1,98 @@
+---
+title: ImagePreview
+description: Expand an image from its thumbnail into a full-viewport preview and return it to its original position.
+links:
+  source: image-preview/image-preview.tsx
+  styles: image-preview.css
+  storybook: Components/ImagePreview
+---
+
+## Usage
+
+```tsx
+import {ImagePreview} from "@sy-inc/react";
+
+<ImagePreview>
+  <img
+    alt="Landscape"
+    className="h-48 w-72 rounded-2xl object-cover"
+    height={192}
+    src="/assets/images/demo1.jpg"
+    width={288}
+  />
+</ImagePreview>;
+```
+
+Click the thumbnail or focus its opening button and press Enter or Space. The image expands from its current position into a preview covering the browser viewport. The image keeps its aspect ratio; this does not activate the browser Fullscreen API. Closing animates back to the thumbnail. A larger source image provides more detail; small raster images without a higher-resolution source may remain below viewport size.
+
+## Anatomy
+
+`ImagePreview` is one public component. Its root `div` wraps one image or a `picture` containing an image. The preview engine creates the opening button and native dialog. There are no public subcomponents or provider requirements.
+
+Keep `alt`, `src`, `srcSet`, `sizes`, `loading`, dimensions, event handlers, and the image ref on the child. The root ref points to the outer `div`. Reserve thumbnail dimensions to avoid layout shifts. Do not place the component inside a button/link or include additional interactive children. Use a separate instance for each image; there is no gallery navigation.
+
+## Higher-resolution preview
+
+```tsx
+import {ImagePreview} from "@sy-inc/react";
+
+<ImagePreview previewSrc="/assets/images/demo1.jpg">
+  <img alt="Landscape" height={160} src="/assets/images/demo1.jpg" width={240} />
+</ImagePreview>;
+```
+
+In an application, use a smaller rendition for the thumbnail and the full-resolution rendition of the same image for `previewSrc`. While that image loads, or if it fails, the preview continues displaying the thumbnail source. If the thumbnail itself fails to load, no preview button is created; the native image alt and `onError` remain available.
+
+## Controlled state
+
+```tsx
+"use client";
+
+import {Button, ImagePreview} from "@sy-inc/react";
+import {useState} from "react";
+
+export function ControlledPreview() {
+  const [isOpen, setOpen] = useState(false);
+
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <ImagePreview isOpen={isOpen} onOpenChange={setOpen}>
+        <img alt="Landscape" height={160} src="/assets/images/demo1.jpg" width={240} />
+      </ImagePreview>
+      <Button onPress={() => setOpen(true)}>Open image</Button>
+    </div>
+  );
+}
+```
+
+`defaultOpen` and initially true `isOpen` wait for image decoding and the dialog to be ready. A controlled parent must accept `onOpenChange` requests to change the visible state. `isDisabled` temporarily removes preview behavior, including any open dialog, without changing the requested open state. Re-enabling an instance whose requested state is still open reopens it after readiness.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactElement` | — | One image or picture containing an image. |
+| `previewSrc` | `string` | — | Optional full-resolution source. |
+| `isOpen` | `boolean` | — | Controlled requested open state. |
+| `defaultOpen` | `boolean` | `false` | Initial uncontrolled open state. |
+| `onOpenChange` | `(isOpen: boolean) => void` | — | Requested state changes; the trailing native close event is not emitted twice. |
+| `isDisabled` | `boolean` | `false` | Render the child without preview interaction. |
+| `openLabel` | `string` | `"Open image"` | Opening button prefix; the image alt is appended. |
+| `closeLabel` | `string` | `"Close image"` | Closing button accessible name. |
+| `className` | `string` | — | Outer wrapper classes. |
+| `classNames` | `Partial<Record<"dialog" \| "closeButton", string>>` | — | Classes for independently styled parts. |
+| `ref` | `Ref<HTMLDivElement>` | — | Outer wrapper ref. |
+
+Native `div` attributes and events are supported. There are no size or semantic variants: thumbnail dimensions belong to the child and the preview fits the viewport.
+
+## Accessibility and interaction
+
+Use descriptive alt text. The opening button is keyboard-accessible and appears on focus. The preview dialog is named from the image alt, contains focus, and locks page scrolling while open. Escape, the closing button, clicking the image/backdrop, scrolling the wheel, or a vertical swipe close the preview. The library handles browser pinch zoom separately; this component has no custom pan/zoom toolbar.
+
+The close button has a 44px target and respects safe-area offsets. Native dialog focus restoration returns keyboard users to their previous focus. Reduced motion makes the transition effectively immediate while retaining animation completion cleanup. Localize `openLabel` and `closeLabel` for the application language. When nested in a SY INC Modal, Escape closes the image before the outer dialog.
+
+## Styling
+
+Import the regular SY INC stylesheet; no separate preview CSS import is needed. `imagePreviewVariants` and `ImagePreviewVariants` are exported from `@sy-inc/react` and `@sy-inc/styles`.
+
+The stable hooks are `data-slot="image-preview"` on the root and `data-slot="image-preview-close-button"` on the closing button. The root exposes `data-open="true|false"` for the ready, enabled requested state and `data-disabled="true"` when disabled. `data-open` becomes false when closing starts, before the return animation finishes. The dialog is styled through `classNames.dialog`; internal `data-rmiz-*` attributes are private and may change with the preview engine.

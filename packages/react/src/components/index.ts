@@ -42,6 +42,7 @@ export * from "./date-picker";
 export * from "./date-range-picker";
 export * from "./drawer";
 export * from "./drop-zone";
+export * from "./image-preview";
 export * from "./item-card-group";
 export * from "./kpi";
 export * from "./kpi-group";

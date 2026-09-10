@@ -1,0 +1,145 @@
+/*!
+Copyright (c) 2020, Robert Pearce
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+
+    * Neither the name of Robert Pearce nor the names of other
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/* Adapted from react-medium-image-zoom 5.4.8 styles.css. Keep its geometry and
+   non-zero reduced-motion transition: the engine uses transitionend to finish closing.
+   Third-party data attributes are private implementation details, scoped to this component. */
+.image-preview {
+  @apply relative inline-block max-w-full align-middle;
+
+  & [data-rmiz-ghost] {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  & [data-rmiz-btn-zoom] {
+    @apply absolute end-2 top-2 flex size-11 items-center justify-center rounded-xl bg-overlay p-3 text-foreground;
+    pointer-events: auto;
+    cursor: zoom-in;
+    touch-action: manipulation;
+
+    &:focus-visible {
+      @apply status-focused;
+    }
+
+    /* Remain keyboard-accessible without covering the thumbnail with another button. */
+    &:not(:focus):not(:active) {
+      @apply pointer-events-none sr-only;
+    }
+  }
+
+  &:not([data-disabled]) [data-rmiz-content="found"] img {
+    cursor: zoom-in;
+  }
+}
+
+.image-preview__dialog {
+  color: var(--foreground);
+
+  &::backdrop {
+    display: none;
+  }
+
+  &[open] {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    width: 100dvw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+    overscroll-behavior: none;
+    pointer-events: auto;
+  }
+
+  & [data-rmiz-modal-overlay] {
+    position: absolute;
+    inset: 0;
+    background: var(--backdrop);
+    opacity: 0;
+    transition: opacity 250ms var(--ease-out-quart);
+  }
+
+  & [data-rmiz-modal-overlay="visible"] {
+    opacity: 1;
+  }
+
+  & [data-rmiz-modal-content] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  & [data-rmiz-modal-img] {
+    position: absolute;
+    /* Tailwind Preflight must not constrain the engine's measured image. */
+    max-width: none;
+    cursor: zoom-out;
+    transform-origin: top left;
+    transition: transform 300ms var(--ease-out-quart);
+    pointer-events: auto;
+  }
+
+  & .image-preview__crop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    clip-path: var(--image-preview-crop, inset(0 round 0));
+    transition: clip-path 300ms var(--ease-out-quart);
+
+    &[data-state="LOADING"],
+    &[data-state="LOADED"] {
+      clip-path: inset(0 round 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & [data-rmiz-modal-overlay],
+    & [data-rmiz-modal-img],
+    & .image-preview__crop {
+      transition-duration: 0.01ms;
+    }
+  }
+}
+
+.image-preview__close-button {
+  @apply absolute z-10 size-11;
+  top: max(1rem, env(safe-area-inset-top));
+  inset-inline-end: max(1rem, env(safe-area-inset-right));
+}

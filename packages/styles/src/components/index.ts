@@ -119,3 +119,5 @@ export * from "./typography/typography.styles";
 export * from "./overflow-text/overflow-text.styles";
 
 export * from "./countdown/countdown.styles";
+
+export * from "./image-preview/image-preview.styles";

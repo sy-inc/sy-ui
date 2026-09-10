@@ -1,0 +1,98 @@
+---
+title: ImagePreview
+description: 将图片从缩略图原位置展开到覆盖视口的预览层，关闭时返回原位置。
+links:
+  source: image-preview/image-preview.tsx
+  styles: image-preview.css
+  storybook: Components/ImagePreview
+---
+
+## 用法
+
+```tsx
+import {ImagePreview} from "@sy-inc/react";
+
+<ImagePreview openLabel="查看图片" closeLabel="关闭图片">
+  <img
+    alt="山间风景"
+    className="h-48 w-72 rounded-2xl object-cover"
+    height={192}
+    src="/assets/images/demo1.jpg"
+    width={288}
+  />
+</ImagePreview>;
+```
+
+点击缩略图，或聚焦打开按钮后按 Enter / Space，图片会从当前位置展开到覆盖浏览器视口的预览层。图片保持原始比例，不调用浏览器 Fullscreen API。关闭时动画返回缩略图位置。更大的图片源提供更多细节；没有高清源的小尺寸位图可能不会铺满视口。
+
+## 结构
+
+`ImagePreview` 是单个公开组件。根 `div` 包裹一张图片，或包含一张图片的 `picture`。预览引擎创建打开按钮和原生 dialog，没有公开子组件，也无需额外 Provider。
+
+将 `alt`、`src`、`srcSet`、`sizes`、`loading`、尺寸、事件和图片 ref 保留在子元素上。根 ref 指向外层 `div`。预留缩略图尺寸以避免布局跳动。不要把组件放进 button / link，也不要包含额外交互元素。每张图片使用独立实例；不提供图库切换。
+
+## 高清预览
+
+```tsx
+import {ImagePreview} from "@sy-inc/react";
+
+<ImagePreview previewSrc="/assets/images/demo1.jpg" openLabel="查看图片" closeLabel="关闭图片">
+  <img alt="山间风景" height={160} src="/assets/images/demo1.jpg" width={240} />
+</ImagePreview>;
+```
+
+实际应用中，缩略图使用较小版本，`previewSrc` 使用同一张图片的高清版本。高清图加载中或加载失败时，预览继续展示缩略图源。缩略图本身加载失败时不会生成预览按钮；原生图片的 alt 和 `onError` 仍然可用。
+
+## 受控状态
+
+```tsx
+"use client";
+
+import {Button, ImagePreview} from "@sy-inc/react";
+import {useState} from "react";
+
+export function ControlledPreview() {
+  const [isOpen, setOpen] = useState(false);
+
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <ImagePreview isOpen={isOpen} onOpenChange={setOpen} openLabel="查看图片" closeLabel="关闭图片">
+        <img alt="山间风景" height={160} src="/assets/images/demo1.jpg" width={240} />
+      </ImagePreview>
+      <Button onPress={() => setOpen(true)}>查看图片</Button>
+    </div>
+  );
+}
+```
+
+`defaultOpen` 和初始为 true 的 `isOpen` 会等待图片解码、dialog 就绪后再打开。受控父组件需要接受 `onOpenChange` 请求才能改变显示状态。`isDisabled` 暂时移除预览行为，包括已打开的 dialog，但不改变请求的开关状态。重新启用时，如果请求状态仍为打开，会在就绪后再次打开。
+
+## Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `children` | `ReactElement` | — | 单张图片或包含图片的 picture。 |
+| `previewSrc` | `string` | — | 可选高清图片源。 |
+| `isOpen` | `boolean` | — | 受控的请求开关状态。 |
+| `defaultOpen` | `boolean` | `false` | 非受控初始开关状态。 |
+| `onOpenChange` | `(isOpen: boolean) => void` | — | 开关请求；结束时的原生 close 事件不会重复通知。 |
+| `isDisabled` | `boolean` | `false` | 仅显示子元素，不启用预览。 |
+| `openLabel` | `string` | `"Open image"` | 打开按钮名称前缀，后面追加图片 alt。 |
+| `closeLabel` | `string` | `"Close image"` | 关闭按钮的无障碍名称。 |
+| `className` | `string` | — | 外层容器样式。 |
+| `classNames` | `Partial<Record<"dialog" \| "closeButton", string>>` | — | 独立样式位置的类名。 |
+| `ref` | `Ref<HTMLDivElement>` | — | 外层容器 ref。 |
+
+支持原生 div 属性和事件。没有尺寸或语义 variants：缩略图尺寸由子元素决定，预览适配视口。
+
+## 无障碍与交互
+
+提供描述性 alt。打开按钮可通过键盘访问，获得焦点时显示。预览 dialog 使用图片 alt 命名，打开期间限制焦点并锁定页面滚动。Escape、关闭按钮、点击图片或遮罩、滚轮滚动、纵向滑动都可以关闭预览。浏览器双指缩放由底层库单独处理；组件不提供自定义拖动缩放工具栏。
+
+关闭按钮提供 44px 触控区域并考虑安全区偏移。原生 dialog 的焦点恢复将键盘用户带回之前的焦点。减少动态效果设置使过渡近乎即时完成，并保留动画结束后的清理。通过 `openLabel` 和 `closeLabel` 适配应用语言。在 SY INC Modal 中使用时，Escape 会先关闭图片，再关闭外层对话框。
+
+## 样式
+
+沿用 SY INC 统一样式入口，无需单独导入预览 CSS。`@sy-inc/react` 和 `@sy-inc/styles` 均导出 `imagePreviewVariants`、`ImagePreviewVariants`。
+
+稳定接口包括根元素的 `data-slot="image-preview"` 和关闭按钮的 `data-slot="image-preview-close-button"`。根元素通过 `data-open="true|false"` 表示就绪且启用后的请求开关状态，禁用时提供 `data-disabled="true"`。关闭开始时 `data-open` 即变为 false，此时返回动画尚未结束。使用 `classNames.dialog` 定制 dialog；底层 `data-rmiz-*` 属于私有实现，可能随预览引擎变化。

@@ -39,6 +39,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "overflow-text",
   "rating",
   "countdown",
+  "image-preview",
 ];
 
 const LANGUAGES = ["en", "cn"];
