@@ -1,5 +1,6 @@
 import type {Meta, StoryObj} from "@storybook/react";
 
+import {Button} from "../button";
 import {Description} from "../description";
 import {Table} from "../table";
 
@@ -75,6 +76,50 @@ export const WithDescription: Story = {
         <Widget.Content>
           <MockChart />
         </Widget.Content>
+      </Widget>
+    </div>
+  ),
+};
+
+export const WithLegend: Story = {
+  render: () => (
+    <div className="flex min-h-screen items-center justify-center p-6 sm:p-10">
+      <Widget className="w-full max-w-[520px]">
+        <Widget.Header>
+          <Widget.Title>Monthly revenue</Widget.Title>
+          <Widget.Legend>
+            <Widget.LegendItem color="var(--primary)">Revenue</Widget.LegendItem>
+            <Widget.LegendItem color="var(--success)">Profit</Widget.LegendItem>
+            <Widget.LegendItem color="var(--warning)">Forecast</Widget.LegendItem>
+          </Widget.Legend>
+        </Widget.Header>
+        <Widget.Content>
+          <MockChart />
+        </Widget.Content>
+      </Widget>
+    </div>
+  ),
+};
+
+export const WithFooter: Story = {
+  render: () => (
+    <div className="flex min-h-screen items-center justify-center p-6 sm:p-10">
+      <Widget className="w-full max-w-[520px]">
+        <Widget.Header>
+          <Widget.Title>Monthly revenue</Widget.Title>
+          <Widget.Legend>
+            <Widget.LegendItem color="var(--primary)">Revenue</Widget.LegendItem>
+          </Widget.Legend>
+        </Widget.Header>
+        <Widget.Content>
+          <MockChart />
+        </Widget.Content>
+        <Widget.Footer>
+          <Description className="leading-4">Updated 5 minutes ago</Description>
+          <Button size="sm" variant="ghost">
+            View report
+          </Button>
+        </Widget.Footer>
       </Widget>
     </div>
   ),

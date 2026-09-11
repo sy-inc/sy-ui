@@ -13,6 +13,7 @@ describe("Widget SSR", () => {
           </Widget.Legend>
         </Widget.Header>
         <Widget.Content>Chart</Widget.Content>
+        <Widget.Footer>Updated just now</Widget.Footer>
       </Widget>,
     );
   });

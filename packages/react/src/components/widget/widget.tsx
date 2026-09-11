@@ -24,6 +24,13 @@ interface WidgetHeaderProps<
   className?: string;
 }
 
+interface WidgetFooterProps<
+  E extends keyof React.JSX.IntrinsicElements = "div",
+> extends DOMRenderProps<E, undefined> {
+  children?: ReactNode;
+  className?: string;
+}
+
 interface WidgetTitleProps<
   E extends keyof React.JSX.IntrinsicElements = "h3",
 > extends DOMRenderProps<E, undefined> {
@@ -75,6 +82,17 @@ const WidgetHeader = <E extends keyof React.JSX.IntrinsicElements = "div">({
   <dom.div
     className={composeSlotClassName(slots.header, className)}
     data-slot="widget-header"
+    {...(props as any)}
+  />
+);
+
+const WidgetFooter = <E extends keyof React.JSX.IntrinsicElements = "div">({
+  className,
+  ...props
+}: WidgetFooterProps<E> & Omit<React.JSX.IntrinsicElements[E], keyof WidgetFooterProps<E>>) => (
+  <dom.div
+    className={composeSlotClassName(slots.footer, className)}
+    data-slot="widget-footer"
     {...(props as any)}
   />
 );
@@ -141,16 +159,26 @@ const WidgetLegendItem = <E extends keyof React.JSX.IntrinsicElements = "div">({
 
 WidgetRoot.displayName = "SY INC.Widget";
 WidgetHeader.displayName = "SY INC.Widget.Header";
+WidgetFooter.displayName = "SY INC.Widget.Footer";
 WidgetTitle.displayName = "SY INC.Widget.Title";
 WidgetContent.displayName = "SY INC.Widget.Content";
 WidgetLegend.displayName = "SY INC.Widget.Legend";
 WidgetLegendItem.displayName = "SY INC.Widget.LegendItem";
 
-export {WidgetRoot, WidgetHeader, WidgetTitle, WidgetContent, WidgetLegend, WidgetLegendItem};
+export {
+  WidgetRoot,
+  WidgetHeader,
+  WidgetFooter,
+  WidgetTitle,
+  WidgetContent,
+  WidgetLegend,
+  WidgetLegendItem,
+};
 
 export type {
   WidgetRootProps,
   WidgetHeaderProps,
+  WidgetFooterProps,
   WidgetTitleProps,
   WidgetContentProps,
   WidgetLegendProps,

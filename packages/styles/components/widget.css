@@ -11,12 +11,21 @@
   @apply text-sm leading-5 font-semibold text-foreground;
 }
 
-.widget__content {
-  @apply mx-1.5 mb-1.5 flex-1 overflow-hidden rounded-xl bg-surface p-4 shadow-surface;
+.widget__footer {
+  @apply mb-0.5 flex min-h-8 items-center justify-between gap-3 px-4;
 }
 
+.widget__content {
+  @apply mx-1.5 flex-1 overflow-hidden rounded-xl bg-surface p-4 shadow-surface;
+}
+
+/* Inset the inner surface from the widget edge only when no header/footer sits there. */
 .widget__content:first-child {
   @apply mt-1.5;
+}
+
+.widget__content:last-child {
+  @apply mb-1.5;
 }
 
 .widget__legend {

@@ -13,12 +13,14 @@ describe("Widget", () => {
           </Widget.Legend>
         </Widget.Header>
         <Widget.Content>Chart</Widget.Content>
+        <Widget.Footer>Updated just now</Widget.Footer>
       </Widget>,
     );
 
     expect(screen.getByRole("heading", {name: "Monthly revenue"})).toBeInTheDocument();
     expect(screen.getByText("Revenue")).toBeInTheDocument();
     expect(screen.getByText("Chart")).toBeInTheDocument();
+    expect(screen.getByText("Updated just now")).toBeInTheDocument();
   });
 
   it("exposes data-slot hooks for each part and legend marker", () => {
@@ -33,6 +35,7 @@ describe("Widget", () => {
           </Widget.Legend>
         </Widget.Header>
         <Widget.Content data-testid="content">Chart</Widget.Content>
+        <Widget.Footer data-testid="footer">Updated just now</Widget.Footer>
       </Widget>,
     );
 
@@ -40,6 +43,7 @@ describe("Widget", () => {
     expect(screen.getByTestId("header")).toHaveAttribute("data-slot", "widget-header");
     expect(screen.getByTestId("title")).toHaveAttribute("data-slot", "widget-title");
     expect(screen.getByTestId("content")).toHaveAttribute("data-slot", "widget-content");
+    expect(screen.getByTestId("footer")).toHaveAttribute("data-slot", "widget-footer");
     expect(screen.getByTestId("legend")).toHaveAttribute("data-slot", "widget-legend");
     expect(screen.getByTestId("item")).toHaveAttribute("data-slot", "widget-legend-item");
 
