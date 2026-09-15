@@ -84,6 +84,9 @@ function useDrawerDrag(placement: DrawerPlacement | undefined, isDismissable: bo
 
       const target = e.target as HTMLElement;
 
+      // React bubbles events from portaled or nested overlays through this dialog; only drag its own content.
+      if (target.closest('[data-slot="drawer-dialog"]') !== e.currentTarget) return;
+
       // Don't drag from interactive elements or scrollable body
       if (
         target.closest(

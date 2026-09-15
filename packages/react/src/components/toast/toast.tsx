@@ -1,12 +1,13 @@
 "use client";
 
-import type {StatelyToastQueue, ToastContentValue} from "./toast-queue";
+import type {ExitAwareToastQueue, ToastContentValue} from "./toast-queue";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {ToastVariants} from "@sy-inc/styles";
-import type {CSSProperties, ComponentPropsWithRef, ReactNode} from "react";
+import type {CSSProperties, ComponentPropsWithRef, ReactNode, Ref} from "react";
 import type {QueuedToast, ToastProps as ToastPrimitiveProps} from "react-aria-components/Toast";
 
 import {mobileMediaQuery, toastVariants} from "@sy-inc/styles";
+import {mergeRefs} from "@react-aria/utils";
 import React, {
   createContext,
   use,
@@ -15,7 +16,11 @@ import React, {
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
+  useSyncExternalStore,
 } from "react";
+import {useFocusVisible} from "react-aria/useFocusVisible";
+import {composeRenderProps} from "react-aria-components/composeRenderProps";
 import {Text as TextPrimitive} from "react-aria-components/Text";
 import {
   UNSTABLE_ToastContent as ToastContentPrimitive,
@@ -24,7 +29,9 @@ import {
   UNSTABLE_ToastStateContext as ToastStateContext,
 } from "react-aria-components/Toast";
 
-import {useMeasuredHeight, useMediaQuery} from "../../hooks";
+import {useMeasuredHeight} from "../../hooks/use-measured-height";
+import {useMediaQuery} from "../../hooks/use-media-query";
+import {useSafeLayoutEffect} from "../../hooks/use-safe-layout-effect";
 import {dataAttr} from "../../utils/assertion";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
@@ -47,37 +54,78 @@ import {ToastQueue, toast as defaultToastQueue} from "./toast-queue";
 type ToastContext = {
   slots?: ReturnType<typeof toastVariants>;
   placement?: ToastVariants["placement"];
-  width?: number | string;
   scaleFactor?: number;
   gap?: number;
   maxVisibleToasts?: number;
   heightsByKey?: Record<string, number>;
+  // Keys of toasts currently playing their exit animation.
+  exitingKeys?: ReadonlySet<string>;
+  isExpanded?: boolean;
   onToastHeightChange?: (key: string, height: number) => void;
   onToastHeightRemove?: (key: string) => void;
 };
 
 const ToastContext = createContext<ToastContext>({});
 
+const VIABLE_TOAST_SELECTOR =
+  '[data-slot="toast"]:not([data-exiting="true"]):not([data-hidden="true"])';
+
+// Mirrors React Aria's focus handling when a focused toast is removed:
+// pointer focus leaves the region (so hover collapse and timers stay live), keyboard focus moves to the nearest remaining toast, newer first.
+const moveFocusFromToast = (toastEl: HTMLElement, isKeyboardFocus: boolean) => {
+  if (!isKeyboardFocus) {
+    (document.activeElement as HTMLElement | null)?.blur();
+
+    return;
+  }
+
+  // Each toast sits in its own <li>, so search the region rather than siblings. DOM order is newest-first.
+  const region = toastEl.closest('[data-slot="toast-region"]');
+  const candidates = Array.from(
+    region?.querySelectorAll<HTMLElement>(VIABLE_TOAST_SELECTOR) ?? [],
+  ).filter((candidate) => candidate !== toastEl);
+  const target =
+    candidates.findLast(
+      (candidate) => candidate.compareDocumentPosition(toastEl) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ) ?? candidates[0];
+
+  if (target) {
+    target.focus();
+  } else {
+    (document.activeElement as HTMLElement | null)?.blur();
+  }
+};
+
 /* ------------------------------------------------------------------------------------------------
  * Toast
  * --------------------------------------------------------------------------------------------- */
 interface ToastProps<T extends object = ToastContentValue>
   extends ToastPrimitiveProps<T>, ToastVariants {
+  /**
+   * How much each toast behind the front one scales down.
+   * Inherited from the provider when omitted.
+   * @default 0.05
+   */
   scaleFactor?: number;
+  ref?: Ref<HTMLDivElement | null>;
 }
 
 const Toast = <T extends object = ToastContentValue>({
   children,
   className,
   placement,
-  scaleFactor = DEFAULT_SCALE_FACTOR,
+  ref,
+  scaleFactor,
+  style,
   toast,
   variant,
   ...rest
 }: ToastProps<T>) => {
   const {
+    exitingKeys,
     gap = DEFAULT_GAP,
     heightsByKey,
+    isExpanded = false,
     maxVisibleToasts = DEFAULT_MAX_VISIBLE_TOAST,
     onToastHeightChange,
     onToastHeightRemove,
@@ -87,28 +135,54 @@ const Toast = <T extends object = ToastContentValue>({
   } = use(ToastContext);
 
   const finalPlacement = placement ?? contextPlacement;
-  const finalScaleFactor = scaleFactor ?? contextScaleFactor;
+  const finalScaleFactor = scaleFactor ?? contextScaleFactor ?? DEFAULT_SCALE_FACTOR;
 
   const state = use(ToastStateContext)!;
   const visibleToasts = state.visibleToasts;
-  const index = visibleToasts.indexOf(toast);
-  const isFrontmost = index <= 0;
-  const isBottom = finalPlacement?.startsWith("bottom");
-  const isHidden = index >= maxVisibleToasts;
   const toastKey = toast?.key;
+  const isExiting = toastKey != null && (exitingKeys?.has(toastKey) ?? false);
+
+  // Exiting toasts are excluded from layout (siblings reposition during the exit animation) but keep their own slot while fading out.
+  const layoutToasts = useMemo(() => {
+    if (!exitingKeys || exitingKeys.size === 0) {
+      return visibleToasts;
+    }
+
+    return visibleToasts.filter((t) => !exitingKeys.has(t.key) || t.key === toastKey);
+  }, [exitingKeys, toastKey, visibleToasts]);
+
+  const fullIndex = visibleToasts.indexOf(toast);
+  const index = layoutToasts.indexOf(toast);
+  const isFrontmost = index <= 0;
+  const isHidden = !isExiting && index >= maxVisibleToasts;
   const toastRef = useRef<HTMLDivElement | null>(null);
+  const mergedRef = useMemo(() => mergeRefs(toastRef, ref), [ref]);
   const {height: toastHeight} = useMeasuredHeight(toastRef);
+  const {isFocusVisible} = useFocusVisible();
+  const [isEntering, setIsEntering] = useState(true);
 
   useEffect(() => {
+    let innerFrame = 0;
+    const outerFrame = requestAnimationFrame(() => {
+      innerFrame = requestAnimationFrame(() => {
+        setIsEntering(false);
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(outerFrame);
+      cancelAnimationFrame(innerFrame);
+    };
+  }, []);
+
+  // Layout effect so siblings have this height before the first paint;
+  // a passive effect would shift the stack one frame later.
+  useLayoutEffect(() => {
     if (toastKey && typeof toastHeight === "number") {
       onToastHeightChange?.(toastKey, toastHeight);
     }
   }, [toastKey, toastHeight, onToastHeightChange]);
 
-  // Drop this toast's entry from the provider's height map when it unmounts
-  // (or when its key changes). Keeps `toastHeights` bounded to currently
-  // mounted toasts without reading external mutable state inside a setState
-  // updater.
   useEffect(() => {
     if (!toastKey) return;
 
@@ -117,68 +191,109 @@ const Toast = <T extends object = ToastContentValue>({
     };
   }, [toastKey, onToastHeightRemove]);
 
-  // ToastProps from react-aria-components does not expose tabIndex as a typed
-  // prop, so set it imperatively on the underlying DOM node. Only the frontmost
-  // toast is reachable via keyboard; stacked/hidden toasts are removed from
-  // the tab order.
+  // react-aria-components filters tabIndex and aria-hidden out of Toast props, so set both imperatively.
   useLayoutEffect(() => {
     const el = toastRef.current;
 
-    if (el) {
-      el.tabIndex = isFrontmost ? 0 : -1;
+    if (!el) {
+      return;
     }
-  }, [isFrontmost]);
 
-  const style = useMemo<CSSProperties>(() => {
-    const frontToastKey = visibleToasts[0]?.key;
+    el.tabIndex = isFrontmost || (isExpanded && !isHidden && !isExiting) ? 0 : -1;
+
+    if (isHidden || isExiting) {
+      // Browsers block aria-hidden around a focused element, so focus must move out first.
+      if (el.contains(document.activeElement)) {
+        moveFocusFromToast(el, isFocusVisible);
+      }
+
+      el.setAttribute("aria-hidden", "true");
+
+      if (isExiting) {
+        // Exiting is one-way: drop the dying controls from the tab order.
+        // inert would also stop pointer events, which must keep hitting the ghost so the stack stays expanded under a resting cursor.
+        for (const control of el.querySelectorAll<HTMLElement>("button, a")) {
+          control.tabIndex = -1;
+        }
+      } else {
+        // Hidden toasts can become visible again; inert is reversible and they are pointer-events: none already.
+        el.setAttribute("inert", "");
+      }
+    } else {
+      el.removeAttribute("aria-hidden");
+      el.removeAttribute("inert");
+    }
+  }, [isFrontmost, isExpanded, isHidden, isExiting, isFocusVisible]);
+
+  const stackingStyle = useMemo<CSSProperties>(() => {
+    const frontToastKey = layoutToasts[0]?.key;
 
     const frontHeight =
       (frontToastKey ? heightsByKey?.[frontToastKey] : undefined) ?? toastHeight ?? 0;
 
-    const offset = index * gap;
-    const translateY = (isBottom ? -1 : 1) * offset;
-    const scale = 1 - index * finalScaleFactor;
+    let heightsBefore = 0;
 
+    for (let i = 0; i < index; i++) {
+      const key = layoutToasts[i]?.key;
+
+      heightsBefore += (key ? heightsByKey?.[key] : undefined) ?? frontHeight;
+    }
+
+    // Deliberately unnamed for view transitions: stacking is animated with CSS
+    // transitions, so a name would only opt toasts into unrelated document-level
+    // transitions with no animation of their own. Consumers who set `wrapUpdate`
+    // can supply a `viewTransitionName` through the `style` prop, which merges.
     return {
-      scale: `${scale}`,
-      translate: `0 ${translateY}px 0`,
-      viewTransitionName: `toast-${String(toast.key).replace(/[^a-zA-Z0-9]/g, "-")}`,
-      zIndex: visibleToasts.length - index,
-      ...(frontHeight
+      "--offset-collapsed": `${index * gap}px`,
+      "--offset-expanded": `${heightsBefore + index * gap}px`,
+      "--scale-collapsed": `${1 - index * finalScaleFactor}`,
+      zIndex: isExiting ? 0 : visibleToasts.length - fullIndex,
+
+      // frontHeight always resolves to a number, so this is unconditional.
+      "--front-height": `${frontHeight}px`,
+
+      ...(typeof toastHeight === "number"
         ? ({
-            "--front-height": `${frontHeight}px`,
+            "--toast-height": `${toastHeight}px`,
           } as CSSProperties)
         : null),
-      opacity: isHidden ? 0 : 1,
-      pointerEvents: isHidden ? "none" : "auto",
-      ...rest.style,
     } as const;
   }, [
     finalScaleFactor,
+    fullIndex,
     gap,
     heightsByKey,
     index,
-    isBottom,
-    isFrontmost,
-    isHidden,
-    rest.style,
-    toast?.key,
+    isExiting,
+    layoutToasts,
     toastHeight,
-    visibleToasts,
+    visibleToasts.length,
   ]);
+
+  const toastStyle = composeRenderProps(
+    style,
+    (userStyle) =>
+      ({
+        ...stackingStyle,
+        ...userStyle,
+      }) as CSSProperties,
+  );
 
   return (
     <ToastPrimitive
-      ref={toastRef}
-      aria-hidden={isHidden}
+      {...rest}
+      ref={mergedRef}
       className={composeTwRenderProps(className, slots?.toast({variant}))}
+      data-entering={dataAttr(isEntering)}
+      data-exiting={dataAttr(isExiting)}
+      data-expanded={dataAttr(isExpanded)}
       data-frontmost={dataAttr(isFrontmost)}
       data-hidden={dataAttr(isHidden)}
       data-index={index}
+      data-placement={finalPlacement}
       data-slot="toast"
-      style={style}
+      style={toastStyle}
       toast={toast}
-      {...rest}
     >
       {children}
     </ToastPrimitive>
@@ -197,9 +312,9 @@ const ToastContent = ({children, className, ...rest}: ToastContentProps) => {
 
   return (
     <ToastContentPrimitive
+      {...rest}
       className={composeSlotClassName(slots?.content, className)}
       data-slot="toast-content"
-      {...rest}
     >
       {children}
     </ToastContentPrimitive>
@@ -225,6 +340,18 @@ const ToastIndicator = <E extends keyof React.JSX.IntrinsicElements = "div">({
 }: ToastIndicatorProps<E> & Omit<React.JSX.IntrinsicElements[E], keyof ToastIndicatorProps<E>>) => {
   const {slots} = use(ToastContext);
 
+  // The swap marker lets CSS animate content that replaces earlier content (a promise toast settling) without animating the first paint.
+  const childrenKind = React.isValidElement(children) ? children.type : (children ?? "default");
+  const previousKindRef = useRef(childrenKind);
+  const [hasSwapped, setHasSwapped] = useState(false);
+
+  useSafeLayoutEffect(() => {
+    if (previousKindRef.current !== childrenKind) {
+      previousKindRef.current = childrenKind;
+      setHasSwapped(true);
+    }
+  }, [childrenKind]);
+
   const getDefaultIcon = useCallback(() => {
     switch (variant) {
       case "accent":
@@ -242,9 +369,10 @@ const ToastIndicator = <E extends keyof React.JSX.IntrinsicElements = "div">({
 
   return (
     <dom.div
+      {...(rest as any)}
       className={composeSlotClassName(slots?.indicator, className)}
       data-slot="toast-indicator"
-      {...(rest as any)}
+      data-swapped={dataAttr(hasSwapped)}
     >
       {children ?? getDefaultIcon()}
     </dom.div>
@@ -263,10 +391,10 @@ const ToastTitle = ({children, className, ...rest}: ToastTitleProps) => {
 
   return (
     <TextPrimitive
+      {...rest}
       className={composeSlotClassName(slots?.title, className)}
       data-slot="toast-title"
       slot="title"
-      {...rest}
     >
       {children}
     </TextPrimitive>
@@ -285,10 +413,10 @@ const ToastDescription = ({children, className, ...rest}: ToastDescriptionProps)
 
   return (
     <TextPrimitive
+      {...rest}
       className={composeSlotClassName(slots?.description, className)}
       data-slot="toast-description"
       slot="description"
-      {...rest}
     >
       {children}
     </TextPrimitive>
@@ -307,10 +435,10 @@ const ToastCloseButton = ({className, ...rest}: ToastCloseButtonProps) => {
 
   return (
     <CloseButton
+      {...rest}
       className={composeTwRenderProps(className, slots?.close())}
       data-slot="toast-close"
       slot="close"
-      {...rest}
     />
   );
 };
@@ -327,9 +455,9 @@ const ToastActionButton = ({children, className, ...rest}: ToastActionButtonProp
 
   return (
     <Button
+      {...rest}
       className={composeTwRenderProps(className, slots?.action?.())}
       data-slot="toast-action-button"
-      {...rest}
     >
       {children}
     </Button>
@@ -349,16 +477,40 @@ interface ToastProviderProps<T extends object = ToastContentValue> extends Omit<
   ToastRegionPrimitiveProps<T>,
   "queue" | "children"
 > {
+  // Custom render function or element replacing the default toast layout.
   children?: ToastRegionPrimitiveProps<T>["children"];
-  /** The gap between toasts. @default 8 */
+  /**
+   * The gap between toasts in pixels.
+   * @default 12
+   */
   gap?: number;
-  /** The maximum number of toasts to display at a time (visual only). */
+  /**
+   * Keeps the stack in its expanded layout instead of expanding only on
+   * hover or keyboard focus. Forced expansion does not pause toast timers.
+   * @default false
+   */
+  isExpanded?: boolean;
+  /**
+   * The maximum number of toasts to display at a time (visual only).
+   * @default 3
+   */
   maxVisibleToasts?: number;
-  /** The scale factor for toasts. @default 0.05 */
+  /**
+   * How much each toast behind the front one scales down.
+   * @default 0.05
+   */
   scaleFactor?: number;
+  /**
+   * Placement of the toast region.
+   * @default "bottom"
+   */
   placement?: ToastVariants["placement"];
+  // Custom toast queue instance; defaults to the shared toastQueue.
   queue?: ToastQueue<T>;
-  /** The width of the toast. @default 460 */
+  /**
+   * The width of the toast; numbers are pixels.
+   * @default 460
+   */
   width?: number | string;
 }
 
@@ -366,25 +518,197 @@ const ToastProvider = <T extends object = ToastContentValue>({
   children,
   className,
   gap = DEFAULT_GAP,
+  isExpanded: isExpandedProp = false,
   maxVisibleToasts,
   placement = "bottom",
   queue: queueProp,
+  ref: refProp,
   scaleFactor = DEFAULT_SCALE_FACTOR,
+  style,
   width = DEFAULT_TOAST_WIDTH,
   ...rest
 }: ToastProviderProps<T>) => {
   const slots = useMemo(() => toastVariants({placement}), [placement]);
   const isMobile = useMediaQuery(mobileMediaQuery);
-  const [toastHeights, setToastHeights] = React.useState<Record<string, number>>({});
+  const [toastHeights, setToastHeights] = useState<Record<string, number>>({});
 
-  const toastQueue = useMemo((): StatelyToastQueue<T> => {
+  const toastQueue = useMemo((): ExitAwareToastQueue<T> => {
     if (queueProp) {
-      // Region consumes the underlying react-stately queue, not the SY INC wrapper.
+      // The region consumes the underlying react-stately queue, not the wrapper.
       return queueProp.getQueue();
     }
 
-    return defaultToastQueue.getQueue() as StatelyToastQueue<T>;
+    return defaultToastQueue.getQueue() as unknown as ExitAwareToastQueue<T>;
   }, [queueProp]);
+
+  // Toasts still mounted but playing their exit animation. The snapshot is empty on the server.
+  const exitingKeys = useSyncExternalStore(
+    toastQueue.subscribeExiting,
+    toastQueue.getExitingKeys,
+    toastQueue.getExitingKeys,
+  );
+
+  const subscribeToQueue = useCallback(
+    (onStoreChange: () => void) => toastQueue.subscribe(onStoreChange),
+    [toastQueue],
+  );
+  const visibleToastCount = useSyncExternalStore(
+    subscribeToQueue,
+    () => toastQueue.visibleToasts.length,
+    () => 0,
+  );
+
+  const [isPointerOrFocusWithin, setIsPointerOrFocusWithin] = useState(false);
+  const pointerWithinRef = useRef(false);
+
+  // The node lives in state so listeners bind in an effect keyed on the node alone:
+  // a new ref identity from the consumer (e.g. an inline callback) re-forwards the ref
+  // without tearing the listeners down and collapsing a hovered stack.
+  const [regionNode, setRegionNode] = useState<HTMLElement | null>(null);
+  const regionRef = useMemo(() => mergeRefs(setRegionNode, refProp), [refProp]);
+
+  // Expansion uses native listeners on the region node — React Aria exposes
+  // neither region hover nor focus-within to the children function. Touch is
+  // ignored so the stack stays collapsed on touch devices. Crossing between
+  // toasts never leaves the region: each toast's ::after hit area covers its
+  // rounded-corner dead zones and the gap toward its neighbor.
+  useEffect(() => {
+    const node = regionNode;
+
+    if (!node) {
+      return;
+    }
+
+    // Focus is checked live against document.activeElement — focus events
+    // are unreliable when the focused toast is removed (no focusout fires),
+    // so a tracked flag would go stale.
+    const collapseIfOutside = () => {
+      if (!pointerWithinRef.current && !node.contains(document.activeElement)) {
+        setIsPointerOrFocusWithin(false);
+      }
+    };
+
+    const handlePointerEnterOrMove = (event: PointerEvent) => {
+      if (event.pointerType === "touch") {
+        return;
+      }
+
+      pointerWithinRef.current = true;
+      setIsPointerOrFocusWithin(true);
+    };
+
+    const handlePointerLeave = (event: PointerEvent) => {
+      if (event.pointerType === "touch") {
+        return;
+      }
+
+      pointerWithinRef.current = false;
+      collapseIfOutside();
+    };
+
+    const handleFocusIn = () => {
+      setIsPointerOrFocusWithin(true);
+    };
+
+    const handleFocusOut = (event: FocusEvent) => {
+      if (event.relatedTarget instanceof Node && node.contains(event.relatedTarget)) {
+        return;
+      }
+
+      collapseIfOutside();
+    };
+
+    // No browser fires pointerleave or focusout when the hovered or focused
+    // toast is removed; the only later signal is a pointerover on an outside
+    // target. Same fallback React Aria's useHover uses.
+    const handleGlobalPointerOver = (event: PointerEvent) => {
+      if (event.pointerType === "touch" || node.contains(event.target as Node)) {
+        return;
+      }
+
+      pointerWithinRef.current = false;
+      collapseIfOutside();
+    };
+
+    // Escape folds the expanded stack; focus is released so the live
+    // focus check doesn't immediately re-expand it.
+    const handleRegionKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      if (node.contains(document.activeElement)) {
+        (document.activeElement as HTMLElement).blur();
+      }
+
+      pointerWithinRef.current = false;
+      setIsPointerOrFocusWithin(false);
+    };
+
+    node.addEventListener("pointerenter", handlePointerEnterOrMove);
+    // pointermove re-expands when the stack shifts under a still cursor;
+    // Safari/Firefox don't re-fire boundary events without movement.
+    node.addEventListener("pointermove", handlePointerEnterOrMove);
+    node.addEventListener("pointerleave", handlePointerLeave);
+    node.addEventListener("focusin", handleFocusIn);
+    node.addEventListener("focusout", handleFocusOut);
+    node.addEventListener("keydown", handleRegionKeyDown);
+    document.addEventListener("pointerover", handleGlobalPointerOver, true);
+
+    return () => {
+      node.removeEventListener("pointerenter", handlePointerEnterOrMove);
+      node.removeEventListener("pointermove", handlePointerEnterOrMove);
+      node.removeEventListener("pointerleave", handlePointerLeave);
+      node.removeEventListener("focusin", handleFocusIn);
+      node.removeEventListener("focusout", handleFocusOut);
+      node.removeEventListener("keydown", handleRegionKeyDown);
+      document.removeEventListener("pointerover", handleGlobalPointerOver, true);
+
+      // The region unmounts when the queue empties — reset so the next
+      // batch starts collapsed.
+      pointerWithinRef.current = false;
+      setIsPointerOrFocusWithin(false);
+    };
+  }, [regionNode]);
+
+  // Interacting with the stack pauses every timer. React Aria's own hover
+  // pause resumes too early when a closing toast vanishes under the cursor.
+  // Not keyed on `isExpanded` — the prop documents that forced expansion
+  // does not pause timers.
+  useEffect(() => {
+    if (!isPointerOrFocusWithin) {
+      return;
+    }
+
+    toastQueue.suspendTimers("interaction");
+
+    return () => {
+      toastQueue.resumeTimers("interaction");
+    };
+  }, [toastQueue, isPointerOrFocusWithin]);
+
+  // Pause timers while the page is hidden so toasts aren't missed in a
+  // background tab.
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        toastQueue.suspendTimers("visibility");
+      } else {
+        toastQueue.resumeTimers("visibility");
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      toastQueue.resumeTimers("visibility");
+    };
+  }, [toastQueue]);
+
+  // A single remaining toast never expands; exiting toasts don't count.
+  const activeToastCount = visibleToastCount - exitingKeys.size;
+  const isExpanded = (isExpandedProp || isPointerOrFocusWithin) && activeToastCount > 1;
 
   const resolvedMaxVisibleToasts = useMemo(() => {
     const queueLimit =
@@ -406,8 +730,6 @@ const ToastProvider = <T extends object = ToastContentValue>({
     });
   }, []);
 
-  // Removes a toast's height entry when it unmounts (called from each Toast's
-  // effect cleanup). Keeps `toastHeights` bounded to currently mounted toasts.
   const handleToastHeightRemove = useCallback((key: string) => {
     setToastHeights((prev) => {
       if (!(key in prev)) {
@@ -458,19 +780,54 @@ const ToastProvider = <T extends object = ToastContentValue>({
     [isMobile, placement, scaleFactor],
   );
 
-  return (
-    <ToastRegionPrimitive<T>
-      className={composeTwRenderProps(className, slots?.region())}
-      data-slot="toast-region"
-      queue={toastQueue}
-      style={{
-        // @ts-expect-error - CSS variables
+  const contextValue = useMemo<ToastContext>(
+    () => ({
+      exitingKeys,
+      gap,
+      heightsByKey: toastHeights,
+      isExpanded,
+      maxVisibleToasts: resolvedMaxVisibleToasts,
+      onToastHeightChange: handleToastHeightChange,
+      onToastHeightRemove: handleToastHeightRemove,
+      placement,
+      scaleFactor,
+      slots,
+    }),
+    [
+      exitingKeys,
+      gap,
+      handleToastHeightChange,
+      handleToastHeightRemove,
+      isExpanded,
+      placement,
+      resolvedMaxVisibleToasts,
+      scaleFactor,
+      slots,
+      toastHeights,
+    ],
+  );
+
+  const regionStyle = composeRenderProps(
+    style,
+    (userStyle) =>
+      ({
         "--gap": `${gap}px`,
         "--placement": placement,
         "--scale-factor": scaleFactor,
         "--toast-width": typeof width === "number" ? `${width}px` : width,
-      }}
+        ...userStyle,
+      }) as CSSProperties,
+  );
+
+  return (
+    <ToastRegionPrimitive<T>
       {...rest}
+      ref={regionRef as ToastRegionPrimitiveProps<T>["ref"]}
+      className={composeTwRenderProps(className, slots?.region())}
+      data-expanded={dataAttr(isExpanded)}
+      data-slot="toast-region"
+      queue={toastQueue}
+      style={regionStyle}
     >
       {(renderProps) => {
         const content = renderProps.toast.content as ToastContentValue;
@@ -480,19 +837,7 @@ const ToastProvider = <T extends object = ToastContentValue>({
         };
 
         return (
-          <ToastContext
-            value={{
-              gap,
-              heightsByKey: toastHeights,
-              maxVisibleToasts: resolvedMaxVisibleToasts,
-              onToastHeightChange: handleToastHeightChange,
-              onToastHeightRemove: handleToastHeightRemove,
-              placement,
-              scaleFactor,
-              slots,
-              width,
-            }}
-          >
+          <ToastContext value={contextValue}>
             {typeof children === "undefined"
               ? getDefaultChildren(renderProps)
               : typeof children === "function"

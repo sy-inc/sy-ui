@@ -55,6 +55,7 @@ export const ScrollShadowRoot = ({
   orientation = "vertical",
   ref,
   size = 40,
+  style: styleProp,
   variant = "fade",
   visibility = "auto",
   ...props
@@ -104,7 +105,7 @@ export const ScrollShadowRoot = ({
 
   const style = {
     "--scroll-shadow-size": `${size}px`,
-    ...props.style,
+    ...styleProp,
   } as React.CSSProperties;
 
   return (

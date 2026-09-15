@@ -93,22 +93,32 @@ function RangeCalendarRoot<T extends DateValue = DateValue>({
     () => getGregorianYearOffset(calendarProp.identifier),
     [calendarProp.identifier],
   );
-  const minValue =
-    minValueProp ??
-    (new CalendarDate(calendarProp, 1900 + gregorianYearOffset, 1, 1) as unknown as T);
-  const maxValue =
-    maxValueProp ??
-    (new CalendarDate(calendarProp, 2099 + gregorianYearOffset, 12, 31) as unknown as T);
+  // React Aria memoizes calendar state against minValue/maxValue identity, so
+  // these bounds must be stable across renders.
+  const minValue = React.useMemo(
+    () =>
+      minValueProp ??
+      (new CalendarDate(calendarProp, 1900 + gregorianYearOffset, 1, 1) as unknown as T),
+    [minValueProp, calendarProp, gregorianYearOffset],
+  );
+  const maxValue = React.useMemo(
+    () =>
+      maxValueProp ??
+      (new CalendarDate(calendarProp, 2099 + gregorianYearOffset, 12, 31) as unknown as T),
+    [maxValueProp, calendarProp, gregorianYearOffset],
+  );
+  const yearPickerContext = React.useMemo(
+    () => ({
+      calendarGridSlot: "range-calendar-grid" as const,
+      isYearPickerOpen,
+      setIsYearPickerOpen,
+      calendarRef,
+    }),
+    [isYearPickerOpen, setIsYearPickerOpen],
+  );
 
   return (
-    <YearPickerContext
-      value={{
-        calendarGridSlot: "range-calendar-grid",
-        isYearPickerOpen,
-        setIsYearPickerOpen,
-        calendarRef,
-      }}
-    >
+    <YearPickerContext value={yearPickerContext}>
       <RangeCalendarPrimitive
         ref={calendarRef}
         data-slot="range-calendar"

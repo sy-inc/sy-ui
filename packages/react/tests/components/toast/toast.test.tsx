@@ -155,7 +155,8 @@ describe("Toast", () => {
       queue.add({title: "Second"});
     });
 
-    const toasts = screen.getAllByRole("alertdialog");
+    // Hidden toasts are aria-hidden, so include them in the role query.
+    const toasts = screen.getAllByRole("alertdialog", {hidden: true});
     const hidden = toasts.find((t) => t.getAttribute("data-hidden") === "true");
     const visible = toasts.find((t) => !t.hasAttribute("data-hidden"));
 
@@ -163,6 +164,8 @@ describe("Toast", () => {
     expect(visible).toBeDefined();
     expect(hidden).toHaveTextContent("First");
     expect(visible).toHaveTextContent("Second");
+    expect(hidden).toHaveAttribute("inert");
+    expect(visible).not.toHaveAttribute("inert");
   });
 
   it("supports custom render children via Toast.Provider function-as-children", () => {
@@ -223,5 +226,137 @@ describe("Toast", () => {
     await user.keyboard("{Enter}");
 
     expect(screen.queryByRole("alertdialog")).toBeNull();
+  });
+
+  describe("lifecycle", () => {
+    it("supports updating a toast in place and restarting its countdown", () => {
+      const queue = new ToastQueue();
+
+      render(<Toast.Provider queue={queue} />);
+
+      let key = "";
+
+      act(() => {
+        key = queue.add({isLoading: true, title: "Saving"}, {timeout: 0});
+      });
+
+      const toastEl = screen.getByRole("alertdialog");
+
+      act(() => {
+        vi.advanceTimersByTime(10_000);
+      });
+      act(() => {
+        expect(queue.update(key, {title: "Saved", variant: "success"}, {timeout: 1000})).toBe(true);
+      });
+
+      expect(screen.getByRole("alertdialog")).toBe(toastEl);
+      expect(toastEl).toHaveTextContent("Saved");
+
+      act(() => {
+        vi.advanceTimersByTime(1000 + 300);
+      });
+
+      expect(screen.queryByRole("alertdialog", {hidden: true})).toBeNull();
+    });
+
+    it("keeps a closing toast mounted for its exit animation and calls onClose at dismissal", () => {
+      const queue = new ToastQueue();
+      const onClose = vi.fn();
+
+      render(<Toast.Provider queue={queue} />);
+
+      let key = "";
+
+      act(() => {
+        key = queue.add({title: "Bye"}, {onClose, timeout: 0});
+      });
+      act(() => {
+        queue.close(key);
+      });
+
+      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(screen.getByRole("alertdialog", {hidden: true})).toHaveAttribute(
+        "data-exiting",
+        "true",
+      );
+
+      act(() => {
+        vi.advanceTimersByTime(300);
+      });
+
+      expect(screen.queryByRole("alertdialog", {hidden: true})).toBeNull();
+      expect(queue.update(key, {title: "Too late"})).toBe(false);
+    });
+
+    it("calls every onClose when the queue is cleared", () => {
+      const queue = new ToastQueue();
+      const onClose = vi.fn();
+
+      render(<Toast.Provider queue={queue} />);
+
+      act(() => {
+        queue.add({title: "First"}, {onClose});
+        queue.add({title: "Second"}, {onClose});
+      });
+      act(() => {
+        queue.clear();
+      });
+
+      expect(onClose).toHaveBeenCalledTimes(2);
+
+      act(() => {
+        vi.advanceTimersByTime(300);
+      });
+
+      expect(screen.queryByRole("alertdialog", {hidden: true})).toBeNull();
+    });
+
+    it("supports pausing timers while hovered, including toasts added during the hover", async () => {
+      const queue = new ToastQueue();
+
+      render(<Toast.Provider queue={queue} />);
+
+      act(() => {
+        queue.add({title: "First"}, {timeout: 1000});
+      });
+
+      await user.hover(screen.getByRole("alertdialog"));
+
+      act(() => {
+        queue.add({title: "Second"}, {timeout: 1000});
+      });
+      act(() => {
+        vi.advanceTimersByTime(5000);
+      });
+
+      expect(screen.getAllByRole("alertdialog")).toHaveLength(2);
+
+      await user.unhover(screen.getByRole("region"));
+
+      act(() => {
+        vi.advanceTimersByTime(1000 + 300);
+      });
+
+      expect(screen.queryByRole("alertdialog", {hidden: true})).toBeNull();
+    });
+
+    it("keeps the stack expanded across re-renders with an inline callback ref", async () => {
+      const queue = new ToastQueue();
+      const regionRef = vi.fn();
+      const {rerender} = render(<Toast.Provider ref={(node) => regionRef(node)} queue={queue} />);
+
+      act(() => {
+        queue.add({title: "First"});
+        queue.add({title: "Second"});
+      });
+
+      await user.hover(screen.getByRole("region"));
+      expect(screen.getByRole("region")).toHaveAttribute("data-expanded", "true");
+
+      rerender(<Toast.Provider ref={(node) => regionRef(node)} queue={queue} />);
+
+      expect(screen.getByRole("region")).toHaveAttribute("data-expanded", "true");
+      expect(regionRef).toHaveBeenLastCalledWith(screen.getByRole("region"));
+    });
   });
 });
