@@ -100,6 +100,16 @@ export const Controlled: Story = {
   render: () => <ControlledExample />,
 };
 
+/** `countries` limits the list to the given codes; omit it to offer every country. */
+export const RestrictedCountries: Story = {
+  render: () => (
+    <InputPhone className="w-80" countries={["US", "CA", "MX"]} defaultCountry="US">
+      <InputPhone.CountrySelect />
+      <InputPhone.Input aria-label="Phone number in North America" />
+    </InputPhone>
+  ),
+};
+
 /** Every part is composable, so the popover's copy is ordinary props. */
 export const CustomCountryPopover: Story = {
   render: () => (

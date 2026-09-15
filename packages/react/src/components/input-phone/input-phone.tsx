@@ -41,34 +41,36 @@ const countryFlag = (code: string) =>
     ...[...code.toUpperCase()].map((letter) => REGIONAL_INDICATOR_OFFSET + letter.charCodeAt(0)),
   );
 
-const countryOptionCache = new Map<string, CountryOption[]>();
-
 /**
  * `Intl.DisplayNames` resolves every code `getCountries()` returns, so the list follows
- * the app locale without bundling a name table. Naming and sorting 245 entries is not
- * free, so each locale is built once.
+ * the app locale without bundling a name table.
  */
+const buildCountryOptions = (locale: string, codes: readonly Country[]) => {
+  const displayNames = new Intl.DisplayNames([locale], {type: "region"});
+
+  // `getCountries()` is ordered by ISO code, which is not the order the names read in.
+  return codes
+    .map((code) => ({
+      callingCode: getCountryCallingCode(code),
+      code,
+      name: displayNames.of(code) ?? code,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name, locale));
+};
+
+const countryOptionCache = new Map<string, CountryOption[]>();
+
+/** Naming and sorting all 245 entries is not free, so each locale is built once. */
 const countryOptions = (locale: string) => {
   let options = countryOptionCache.get(locale);
 
   if (!options) {
-    const displayNames = new Intl.DisplayNames([locale], {type: "region"});
-
-    // `getCountries()` is ordered by ISO code, which is not the order the names read in.
-    options = COUNTRY_CODES.map((code) => ({
-      callingCode: getCountryCallingCode(code),
-      code,
-      name: displayNames.of(code) ?? code,
-    })).sort((a, b) => a.name.localeCompare(b.name, locale));
-
+    options = buildCountryOptions(locale, COUNTRY_CODES);
     countryOptionCache.set(locale, options);
   }
 
   return options;
 };
-
-const countryOption = (locale: string, code: Country | undefined) =>
-  code ? countryOptions(locale).find((option) => option.code === code) : undefined;
 
 /* -------------------------------------------------------------------------------------------------
  * InputPhone Context
@@ -80,18 +82,18 @@ type InputPhoneContextValue = {
   isInvalid?: boolean;
   isReadOnly?: boolean;
   isRequired?: boolean;
-  locale: string;
   name?: string;
   onCountrySelect: (country: Country) => void;
   onValueChange: (value: string | undefined) => void;
+  options: CountryOption[];
   slots: ReturnType<typeof inputPhoneVariants>;
   value?: string;
 };
 
 const InputPhoneContext = createContext<InputPhoneContextValue>({
-  locale: "en-US",
   onCountrySelect: () => {},
   onValueChange: () => {},
+  options: [],
   slots: inputPhoneVariants(),
 });
 
@@ -105,6 +107,8 @@ interface InputPhoneRootProps extends Omit<
   children: ReactNode;
   /** The controlled ISO 3166-1 alpha-2 country used for national formatting. */
   country?: Country;
+  /** Restricts the selectable countries. Omit to offer every country. */
+  countries?: Country[];
   /** The initial country, used until the value or the user selects another one. */
   defaultCountry?: Country;
   /** The uncontrolled E.164 phone number. */
@@ -126,6 +130,7 @@ interface InputPhoneRootProps extends Omit<
 const InputPhoneRoot = ({
   children,
   className,
+  countries,
   country: countryProp,
   defaultCountry,
   defaultValue,
@@ -146,6 +151,11 @@ const InputPhoneRoot = ({
   const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
   const [selectedCountry, setSelectedCountry] = React.useState(defaultCountry);
   const phoneValue = value === undefined ? uncontrolledValue : value;
+  // A whitelist only names and sorts its own codes instead of filtering the full table.
+  const options = React.useMemo(
+    () => (countries ? buildCountryOptions(locale, countries) : countryOptions(locale)),
+    [locale, countries],
+  );
 
   /**
    * An E.164 value carries its own country, so a stored `+44…` has to show the UK
@@ -156,7 +166,9 @@ const InputPhoneRoot = ({
     () => (phoneValue ? parsePhoneNumber(phoneValue)?.country : undefined),
     [phoneValue],
   );
-  const country = countryProp ?? parsedCountry ?? selectedCountry ?? defaultCountry;
+  const resolved = countryProp ?? parsedCountry ?? selectedCountry ?? defaultCountry;
+  // A country outside the whitelist is cleared, while the typed value is left as is.
+  const country = resolved && (!countries || countries.includes(resolved)) ? resolved : undefined;
 
   const handleValueChange = (nextValue: string | undefined) => {
     if (value === undefined) {
@@ -188,10 +200,10 @@ const InputPhoneRoot = ({
         isInvalid,
         isReadOnly,
         isRequired,
-        locale,
         name,
         onCountrySelect: handleCountrySelect,
         onValueChange: handleValueChange,
+        options,
         slots,
         value: phoneValue,
       }}
@@ -281,9 +293,9 @@ interface InputPhoneCountrySelectProps extends Omit<
 }
 
 const InputPhoneCountrySelect = ({children, className, ...props}: InputPhoneCountrySelectProps) => {
-  const {country, isDisabled, isReadOnly, locale, slots} = use(InputPhoneContext);
+  const {country, isDisabled, isReadOnly, options, slots} = use(InputPhoneContext);
   const {contains} = useFilter({sensitivity: "base"});
-  const option = countryOption(locale, country);
+  const option = country ? options.find((o) => o.code === country) : undefined;
 
   return (
     <InputGroup.Prefix className={slots.countryPrefix()}>
@@ -356,7 +368,7 @@ const InputPhoneCountryList = ({
   renderEmptyState = () => <EmptyState>No countries found</EmptyState>,
   ...props
 }: InputPhoneCountryListProps) => {
-  const {country, locale, onCountrySelect, slots} = use(InputPhoneContext);
+  const {country, onCountrySelect, options, slots} = use(InputPhoneContext);
   const overlay = use(OverlayTriggerStateContext);
 
   return (
@@ -369,7 +381,7 @@ const InputPhoneCountryList = ({
       {...props}
       className={slots.countryList({className})}
       data-slot="input-phone-country-list"
-      items={countryOptions(locale)}
+      items={options}
       selectedKeys={country ? [country] : []}
       selectionMode="single"
       onSelectionChange={(keys) => {

@@ -83,6 +83,17 @@ Country names and their order follow the locale from React Aria's `I18nProvider`
 resolved with `Intl.DisplayNames`. No name table is bundled and no `locale` prop is
 needed — wrapping the app in `<I18nProvider locale="zh-CN">` localizes the list.
 
+Pass `countries` to limit the list to specific codes; omit it to offer every country.
+A value whose country falls outside `countries` keeps its digits, but the country is
+cleared and the trigger shows 🌐. Validate such values yourself with `isInvalid`.
+
+```tsx
+<InputPhone countries={["US", "CA", "MX"]} defaultCountry="US">
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="Phone number" />
+</InputPhone>
+```
+
 ### Uncontrolled
 
 Use `defaultValue` when the field owns its state. The value submitted by a form is
@@ -285,6 +296,7 @@ Accepts every `InputGroup` prop — including `fullWidth` (default `true`) and
 | `children` | `ReactNode` | - | The field parts, typically `CountrySelect` and `Input`. |
 | `country` | `Country` | - | Controlled ISO 3166-1 alpha-2 country. Outranks the value's own country. |
 | `defaultCountry` | `Country` | - | Initial country, used until the value or the user picks another. |
+| `countries` | `Country[]` | - | Restricts the selectable countries. Omit to offer every country. |
 | `onCountryChange` | `(country: Country) => void` | - | Called when the user selects a country. |
 | `value` | `string` | - | Controlled E.164 phone number. Provide `onChange` to update it. |
 | `defaultValue` | `string` | - | Uncontrolled initial E.164 phone number. |

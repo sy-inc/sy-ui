@@ -176,6 +176,50 @@ describe("InputPhone", () => {
     expect(names.at(-1)).toContain("Zimbabwe");
   });
 
+  it("supports restricting the selectable countries", async () => {
+    const onCountryChange = vi.fn();
+
+    renderPhone({countries: ["US", "CA", "MX"], onCountryChange});
+
+    await openCountries(user, "Change country, United States");
+
+    const names = screen.getAllByRole("option").map((option) => option.textContent ?? "");
+
+    expect(names).toHaveLength(3);
+    expect(names[0]).toContain("Canada");
+    expect(names[1]).toContain("Mexico");
+    expect(names[2]).toContain("United States");
+
+    const search = screen.getByRole("searchbox", {name: "Search countries"});
+
+    fireEvent.change(search, {target: {value: "Germany"}});
+    expect(screen.getByText("No countries found")).toBeInTheDocument();
+
+    fireEvent.change(search, {target: {value: ""}});
+    await user.click(screen.getByRole("option", {name: /Canada/}));
+    runAllTimers();
+
+    expect(onCountryChange).toHaveBeenCalledWith("CA");
+  });
+
+  it("clears the country when it falls outside countries", () => {
+    renderPhone({countries: ["US", "CA"], defaultValue: "+442071838750"});
+
+    const trigger = screen.getByRole("button", {name: "Select country"});
+
+    expect(trigger).toHaveTextContent("🌐");
+    // The number keeps its digits; only the country is cleared.
+    const input = screen.getByRole("textbox", {name: "Phone number"}) as HTMLInputElement;
+
+    expect(input.value.replace(/\D/g, "")).toContain("2071838750");
+
+    cleanup();
+    renderPhone({countries: ["US"], defaultCountry: "GB"});
+
+    expect(screen.getByRole("button", {name: "Select country"})).toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: /United Kingdom/})).toBeNull();
+  });
+
   it("supports composing the popover with relabelled parts", async () => {
     render(
       <InputPhone defaultCountry="US">
