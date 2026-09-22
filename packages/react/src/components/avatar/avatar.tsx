@@ -3,11 +3,12 @@
 import type {AvatarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
-import {avatarVariants} from "@sy-inc/styles";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import React, {createContext} from "react";
+import {avatarVariants} from "@sy-inc/styles";
+import React, {createContext, use} from "react";
 
 import {composeSlotClassName} from "../../utils/compose";
+import {AvatarGroupContext} from "../avatar-group/avatar-group-context";
 
 /* ------------------------------------------------------------------------------------------------
  * Avatar Context
@@ -22,13 +23,32 @@ const AvatarContext = createContext<AvatarContext>({});
  * Avatar Root
  * -----------------------------------------------------------------------------------------------*/
 interface AvatarRootProps
-  extends Omit<ComponentPropsWithRef<typeof AvatarPrimitive.Root>, "color">, AvatarVariants {}
+  extends Omit<ComponentPropsWithRef<typeof AvatarPrimitive.Root>, "color">, AvatarVariants {
+  __avatar_group_child?: boolean;
+}
 
-const AvatarRoot = ({children, className, color, size, variant, ...props}: AvatarRootProps) => {
-  const slots = React.useMemo(() => avatarVariants({color, size, variant}), [color, size, variant]);
+const AvatarRoot = ({
+  __avatar_group_child: isAvatarGroupChild,
+  children,
+  className,
+  color,
+  size,
+  variant,
+  ...props
+}: AvatarRootProps) => {
+  const avatarGroupContext = use(AvatarGroupContext);
+  const shouldUseContext = isAvatarGroupChild === true;
+  const finalSize = size ?? (shouldUseContext ? avatarGroupContext.size : undefined);
+  const finalColor = color ?? (shouldUseContext ? avatarGroupContext.color : undefined);
+  const finalVariant = variant ?? (shouldUseContext ? avatarGroupContext.variant : undefined);
+  const slots = React.useMemo(
+    () => avatarVariants({color: finalColor, size: finalSize, variant: finalVariant}),
+    [finalColor, finalSize, finalVariant],
+  );
+  const context = React.useMemo(() => ({slots}), [slots]);
 
   return (
-    <AvatarContext value={{slots}}>
+    <AvatarContext value={context}>
       <AvatarPrimitive.Root className={slots.base({className})} {...props}>
         {children}
       </AvatarPrimitive.Root>

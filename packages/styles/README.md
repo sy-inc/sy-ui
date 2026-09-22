@@ -73,6 +73,10 @@ Instead of importing everything, you can import only what you need:
 /* Import Tailwind CSS base */
 @import "tailwindcss";
 
+/* Component CSS uses shared utilities and custom variants */
+@import "@sy-inc/styles/utilities";
+@import "@sy-inc/styles/variants";
+
 /* Import only specific components */
 @import "@sy-inc/styles/components/button.css" layer(components);
 @import "@sy-inc/styles/components/chip.css" layer(components);

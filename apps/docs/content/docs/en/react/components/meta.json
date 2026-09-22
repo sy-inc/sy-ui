@@ -14,6 +14,7 @@
     "(pickers)/autocomplete",
     "(pickers)/cell-select",
     "(media)/avatar",
+    "(media)/avatar-group",
     "(media)/image-preview",
     "(data-display)/badge",
     "(data-display)/chat-message",

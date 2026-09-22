@@ -80,8 +80,10 @@ const TooltipRoot = ({
   const resolvedDelay = delay ?? parseCSSTime(cssDelay);
   const resolvedCloseDelay = closeDelay ?? parseCSSTime(cssCloseDelay);
 
+  const tooltipContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <TooltipContext value={{slots}}>
+    <TooltipContext value={tooltipContextValue}>
       <TooltipTriggerPrimitive
         closeDelay={resolvedCloseDelay}
         data-slot="tooltip-root"

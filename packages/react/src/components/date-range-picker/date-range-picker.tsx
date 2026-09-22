@@ -6,8 +6,8 @@ import type {DateRangePickerVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {DateValue} from "react-aria-components/Calendar";
 
-import {dateRangePickerVariants} from "@sy-inc/styles";
 import {mergeRefs} from "@react-aria/utils";
+import {dateRangePickerVariants} from "@sy-inc/styles";
 import React, {createContext, use, useEffect, useRef} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 import {
@@ -79,8 +79,13 @@ const DateRangePickerRoot = <T extends DateValue>({
     onOpenChange?.(nextIsOpen);
   };
 
+  const dateRangePickerContextValue = React.useMemo(
+    () => ({slots, triggerRef}),
+    [slots, triggerRef],
+  );
+
   return (
-    <DateRangePickerContext value={{slots, triggerRef}}>
+    <DateRangePickerContext value={dateRangePickerContextValue}>
       <DateRangePickerPrimitive
         data-required={dataAttr(props.isRequired)}
         data-slot="date-range-picker"
@@ -109,13 +114,7 @@ const DateRangePickerTrigger = ({
 }: DateRangePickerTriggerProps) => {
   const {slots, triggerRef} = use(DateRangePickerContext);
 
-  const contextRefCallback = React.useCallback(
-    (node: HTMLButtonElement | null) => {
-      triggerRef.current = node;
-    },
-    [triggerRef],
-  );
-  const mergedRef = mergeRefs(contextRefCallback, ref);
+  const mergedRef = React.useMemo(() => mergeRefs(triggerRef, ref), [triggerRef, ref]);
 
   return (
     <ButtonPrimitive

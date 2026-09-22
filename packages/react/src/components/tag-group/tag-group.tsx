@@ -35,9 +35,14 @@ type TagGroupRootProps = ComponentPropsWithRef<typeof TagGroupPrimitive> & {
 const TagGroupRoot = ({children, className, size, variant, ...restProps}: TagGroupRootProps) => {
   const slots = useMemo(() => tagGroupVariants(), []);
 
+  const tagGroupContextValue = React.useMemo(
+    () => ({slots, size, variant}),
+    [slots, size, variant],
+  );
+
   return (
     <FieldSlotsGate>
-      <TagGroupContext value={{slots, size, variant}}>
+      <TagGroupContext value={tagGroupContextValue}>
         <TagGroupPrimitive className={slots.base({className})} data-slot="tag-group" {...restProps}>
           {children}
         </TagGroupPrimitive>

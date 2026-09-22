@@ -1,0 +1,57 @@
+---
+title: 同步上游 v3.2.6
+description: SY INC 的 AvatarGroup、焦点样式、依赖更新与本地 API 兼容性说明。
+---
+
+本文记录 SY INC 对 [HeroUI v3.2.6](https://heroui.com/cn/docs/react/releases/v3-2-6) 的同步情况；上游发布时间为 2026 年 9 月 17 日。**v3.2.6 是上游版本号，不是 SY INC 包的发布版本。** 本地包清单仍为 `0.1.10`，本文不代表已经发布新包，也不修改包版本。
+
+## AvatarGroup
+
+新增独立的 [AvatarGroup](/docs/react/components/avatar-group) 组件，接收复合式 Avatar 子级：
+
+- 一次设置整组的 `size`、`color` 和 `variant`，单个头像可显式覆盖。
+- 使用 `max` 限制可见头像，自动显示剩余数量。
+- 服务端提供总数时，使用 `AvatarGroup.Count`。显式计数替代自动计数，且不会被 `max` 截断。
+- 支持月牙裁切（`overlap="clip"`）、背景色描边（`overlap="ring"`）和换行布局（`isGrid`）。
+- 分组具有语义时，请自行设置 `role="group"` 和标签，组件不会隐式添加角色。
+
+可从 `@sy-inc/react` 或 `@sy-inc/react/avatar-group` 导入。中英文文档、可运行示例及 [Avatar 迁移指南](/docs/react/migration/avatar) 已说明新 API。
+
+## 修复与性能
+
+- 鼠标操作关闭浮层后，焦点样式遵循 React Aria 的键盘焦点状态；普通 HTML 仍保留原生 `:focus-visible` 回退。
+- ColorSlider 的无效颜色空间告警仅在非生产构建中输出，自动修正行为保留。
+- 裸 `.tag` 标记重新具备默认中号的内边距和字号。
+- Breadcrumbs 通过容器与项目的明确间距对齐布局。
+- 对组件 context 值和合并 ref 做 memoize，减少不必要的消费者更新与 ref 重新绑定。InputOTP、DisclosureGroup 和 ComboBox 使用共享空数组替代不稳定的内联默认值。
+
+## 依赖
+
+| 包 | 同步后的本地要求 |
+| --- | --- |
+| `react-aria` | 对等依赖 `^3.52.1`，开发版本 `3.52.1` |
+| `react-aria-components` | 对等依赖 `^1.21.1`，开发版本 `1.21.1` |
+| `@internationalized/date` | 保留现有的 `^3.12.4` 对等依赖要求 |
+| `@radix-ui/react-avatar` | `1.2.6` |
+| `input-otp` | `1.5.0` |
+
+从 `@sy-inc/react` 移除 `tailwind-merge` 和 `@react-aria/i18n` 的直接依赖声明。类名合并由 Tailwind Variants 处理。自定义 [KPI](/docs/react/components/kpi) 改从 `react-aria/useNumberFormatter` 导入格式化工具，保留格式选项、渲染函数 children，以及最近的 `I18nProvider` 区域设置和语言切换行为，不改用运行环境的默认数字格式。
+
+如果应用自身直接导入 `@react-aria/i18n`，应保留应用自己的依赖声明，或单独迁移导入。移除 SY INC 的直接声明并不代表该包一定会从所有使用者的依赖树中消失。
+
+## 兼容性与本地差异
+
+### 保留 SeparatorContent
+
+SY INC 继续保留 `SeparatorContent`、`SeparatorContentProps`、`separatorContentVariants`、`SeparatorContentVariants`，以及 `.separator__container`、`.separator__line` 和 `.separator__content` 样式。本地组件和文档示例仍在使用它们，因此不跟随上游删除这些内容。已有导入无需迁移，也没有被标记为弃用。
+
+### Fieldset CSS 选择器
+
+自定义样式如果使用 `.fieldset__field_group`，需要改为 `.fieldset__field-group`。React 组件 API 不变。
+
+## 升级检查
+
+- 安装包含本次同步内容的已发布 SY INC 版本时，满足上述 React Aria 和日期对等依赖要求。
+- 更新使用旧下划线写法的 Fieldset 自定义选择器。
+- 按需用 AvatarGroup 替换手动头像堆叠；v2 `total` 改为显式的 `AvatarGroup.Count`。
+- 保留现有 SeparatorContent 调用。KPI 使用者无需修改属性或区域设置提供器。

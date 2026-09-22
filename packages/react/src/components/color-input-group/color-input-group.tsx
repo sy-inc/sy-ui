@@ -40,8 +40,10 @@ const ColorInputGroupRoot = ({
     [fullWidth, variant],
   );
 
+  const colorInputGroupContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <ColorInputGroupContext value={{slots}}>
+    <ColorInputGroupContext value={colorInputGroupContextValue}>
       <GroupPrimitive
         className={composeTwRenderProps(className, slots?.base())}
         data-slot="color-input-group"

@@ -1,4 +1,6 @@
-import {Avatar} from "@sy-inc/react";
+"use client";
+
+import {Avatar, AvatarGroup} from "@sy-inc/react";
 
 const users = [
   {
@@ -40,29 +42,15 @@ function initialsFromName(name: string) {
 
 export function Group() {
   return (
-    <div className="flex flex-col gap-6">
-      {/* 基础头像组 */}
-      <div className="flex -space-x-2">
-        {users.slice(0, 4).map((user) => (
-          <Avatar key={user.id} className="ring-2 ring-background">
-            <Avatar.Image alt={`${user.name} 的头像`} src={user.image} />
-            <Avatar.Fallback>{initialsFromName(user.name)}</Avatar.Fallback>
-          </Avatar>
-        ))}
-      </div>
-
-      {/* 带头像数量提示的组合 */}
-      <div className="flex -space-x-2">
-        {users.slice(0, 3).map((user) => (
-          <Avatar key={user.id} className="ring-2 ring-background">
-            <Avatar.Image alt={`${user.name} 的头像`} src={user.image} />
-            <Avatar.Fallback>{initialsFromName(user.name)}</Avatar.Fallback>
-          </Avatar>
-        ))}
-        <Avatar className="ring-2 ring-background">
-          <Avatar.Fallback className="text-xs">+{users.length - 3}</Avatar.Fallback>
+    <AvatarGroup aria-label="团队成员" color="accent" max={3} role="group">
+      {users.map((user) => (
+        <Avatar key={user.id}>
+          <Avatar.Image alt={user.name} src={user.image} />
+          <Avatar.Fallback aria-label={user.name} role="img">
+            {initialsFromName(user.name)}
+          </Avatar.Fallback>
         </Avatar>
-      </div>
-    </div>
+      ))}
+    </AvatarGroup>
   );
 }

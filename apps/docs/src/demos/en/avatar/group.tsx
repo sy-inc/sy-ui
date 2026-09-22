@@ -1,4 +1,6 @@
-import {Avatar} from "@sy-inc/react";
+"use client";
+
+import {Avatar, AvatarGroup} from "@sy-inc/react";
 
 const users = [
   {
@@ -30,39 +32,18 @@ const users = [
 
 export function Group() {
   return (
-    <div className="flex flex-col gap-6">
-      {/* Basic avatar group */}
-      <div className="flex -space-x-2">
-        {users.slice(0, 4).map((user) => (
-          <Avatar key={user.id} className="ring-2 ring-background">
-            <Avatar.Image alt={user.name} src={user.image} />
-            <Avatar.Fallback>
-              {user.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </Avatar.Fallback>
-          </Avatar>
-        ))}
-      </div>
-
-      {/* Avatar group with counter */}
-      <div className="flex -space-x-2">
-        {users.slice(0, 3).map((user) => (
-          <Avatar key={user.id} className="ring-2 ring-background">
-            <Avatar.Image alt={user.name} src={user.image} />
-            <Avatar.Fallback>
-              {user.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </Avatar.Fallback>
-          </Avatar>
-        ))}
-        <Avatar className="ring-2 ring-background">
-          <Avatar.Fallback className="text-xs">+{users.length - 3}</Avatar.Fallback>
+    <AvatarGroup aria-label="Team" color="accent" max={3} role="group">
+      {users.map((user) => (
+        <Avatar key={user.id}>
+          <Avatar.Image alt={user.name} src={user.image} />
+          <Avatar.Fallback aria-label={user.name} role="img">
+            {user.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")}
+          </Avatar.Fallback>
         </Avatar>
-      </div>
-    </div>
+      ))}
+    </AvatarGroup>
   );
 }

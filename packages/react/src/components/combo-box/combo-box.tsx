@@ -47,6 +47,7 @@ type InputGroupInjectedProps = {
 } & Record<string, unknown>;
 
 const inputGroupSlot = createCollectionSlot<InputGroupInjectedProps>("combo-box.inputGroup");
+const EMPTY_SIBLINGS: ReactElement[] = [];
 
 /* -------------------------------------------------------------------------------------------------
  * ComboBox Root
@@ -71,9 +72,11 @@ const ComboBoxRoot = <T extends object = object, M extends "single" | "multiple"
 }: ComboBoxRootProps<T, M>) => {
   const slots = React.useMemo(() => comboBoxVariants({fullWidth}), [fullWidth]);
 
+  const comboBoxContextValue = React.useMemo(() => ({slots, variant}), [slots, variant]);
+
   return (
     <FieldSlotsGate>
-      <ComboBoxContext value={{slots, variant}}>
+      <ComboBoxContext value={comboBoxContextValue}>
         <ComboBoxPrimitive
           data-slot="combo-box"
           menuTrigger={menuTrigger}
@@ -186,7 +189,7 @@ const ComboBoxTrigger = ({children, className, ...props}: ComboBoxTriggerProps) 
   const {
     className: containerClassName,
     render: containerRender,
-    siblings = [],
+    siblings = EMPTY_SIBLINGS,
     ...containerRest
   } = inputGroupProps;
 

@@ -76,9 +76,7 @@ test("reports missing and unregistered component documentation", async () => {
         path.join(components, "meta.json"),
         JSON.stringify({pages: REQUIRED_COMPONENT_DOCS.map((slug) => `(navigation)/${slug}`)}),
       );
-      await writeFile(path.join(components, "(navigation)", "bottom-bar.mdx"), "");
-      await writeFile(path.join(components, "(navigation)", "action-bar.mdx"), "");
-      await writeFile(path.join(components, "(navigation)", "cell-color-picker.mdx"), "");
+      await writeFile(path.join(components, "(navigation)", `${missingSlug}.mdx`), "");
     }
     assert.deepEqual(await getComponentDocGaps(root), []);
   } finally {

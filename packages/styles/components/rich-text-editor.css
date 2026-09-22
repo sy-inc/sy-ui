@@ -84,7 +84,7 @@
     }
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply bg-default-hover outline-none;
   }

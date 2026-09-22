@@ -146,7 +146,7 @@
 }
 .sheet__handle {
   @apply flex h-6 w-8 shrink-0 cursor-grab items-center justify-center self-center;
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }
@@ -164,7 +164,7 @@
     }
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

@@ -34,7 +34,7 @@
     @apply border-b-0;
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused-inset;
   }

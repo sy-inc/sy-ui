@@ -238,6 +238,18 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./avatar/group").then((m) => m.Group),
     file: "en/avatar/group.tsx",
   },
+  "avatar-group-grid": {
+    loader: () => import("./avatar-group/grid").then((m) => m.Grid),
+    file: "en/avatar-group/grid.tsx",
+  },
+  "avatar-group-with-count": {
+    loader: () => import("./avatar-group/with-count").then((m) => m.WithCount),
+    file: "en/avatar-group/with-count.tsx",
+  },
+  "avatar-group-appearance": {
+    loader: () => import("./avatar-group/appearance").then((m) => m.Appearance),
+    file: "en/avatar-group/appearance.tsx",
+  },
   "avatar-custom-styles": {
     loader: () => import("./avatar/custom-styles").then((m) => m.CustomStyles),
     file: "en/avatar/custom-styles.tsx",

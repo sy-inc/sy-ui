@@ -3,6 +3,7 @@ import path from "node:path";
 import {fileURLToPath} from "node:url";
 
 export const REQUIRED_COMPONENT_DOCS = [
+  "avatar-group",
   "cell-color-picker",
   "action-bar",
   "chat-message",

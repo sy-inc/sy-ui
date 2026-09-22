@@ -38,8 +38,10 @@ const ItemCardRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
     </dom.div>
   );
 
+  const itemCardContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <ItemCardContext value={{slots}}>
+    <ItemCardContext value={itemCardContextValue}>
       {variant === "outline" || variant === "transparent" ? (
         content
       ) : (

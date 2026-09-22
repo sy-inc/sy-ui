@@ -1,0 +1,112 @@
+---
+title: AvatarGroup 头像组
+description: 将头像组合展示，统一外观，支持重叠样式和剩余数量提示。
+links:
+  source: avatar-group/avatar-group.tsx
+  styles: avatar-group.css
+  storybook: Components/AvatarGroup
+---
+
+## 用法
+
+```tsx
+"use client";
+
+import {Avatar, AvatarGroup} from "@sy-inc/react";
+```
+
+<ComponentPreview name="avatar-group" />
+
+使用 React Server Components 时，请在同一个客户端组件（`"use client"`）内组合头像组、头像和计数，让直接子组件处于同一客户端边界，以便正确识别自定义计数。
+
+## 结构
+
+将复合式 `Avatar` 作为直接子级。头像组统一提供 `size`、`color` 和 `variant`，单个头像显式传入的属性优先。不要在头像或 `AvatarGroup.Count` 外包裹 Fragment 或其他元素，以便头像组正确识别并计数。
+
+```tsx
+<AvatarGroup aria-label="团队成员" role="group" size="md">
+  <Avatar>
+    <Avatar.Image alt="张明" src="/avatars/zhang.jpg" />
+    <Avatar.Fallback>张明</Avatar.Fallback>
+  </Avatar>
+  <Avatar>
+    <Avatar.Fallback>李华</Avatar.Fallback>
+  </Avatar>
+  <AvatarGroup.Count>+9</AvatarGroup.Count>
+</AvatarGroup>
+```
+
+## 示例
+
+### 限制显示数量
+
+`max={3}` 显示前三个头像子级；存在剩余子级时，自动增加 `+2` 等数量提示。计数不占用 `max`：五个头像配合 `max={3}`，实际显示三个头像和一个计数。省略 `max` 时显示全部头像，不自动生成计数；存在头像且 `max={0}` 时仅显示计数。
+
+<ComponentPreview name="avatar-group" />
+
+### 服务端总数和自定义计数
+
+当十二人的团队只加载了三名成员时，用 `AvatarGroup.Count` 显示 `+9`。组件无法根据已加载的子级推断服务端总数。显式计数会替代自动计数，且不会被 `max` 截断；计数内容需要由调用方计算。这是 v2 `total` 属性的替代方式。
+
+<ComponentPreview name="avatar-group-with-count" />
+
+### 统一外观和重叠方式
+
+通过 `size`、`color` 和 `variant` 统一设置外观。`overlap="clip"` 在前面的头像上裁切月牙形缺口，`overlap="ring"` 使用背景色形成描边间隙。需要整齐裁切时，请让相邻头像保持相同尺寸。
+
+<ComponentPreview name="avatar-group-appearance" />
+
+### 网格布局
+
+`isGrid` 取消重叠，启用带间距的自动换行布局。`max` 和自定义计数仍然有效。
+
+<ComponentPreview name="avatar-group-grid" />
+
+## 无障碍
+
+根节点默认是 `div`，不会隐式添加分组角色。当头像集合具有语义时，请传入 `role="group"` 和描述性的 `aria-label`。为 `Avatar.Image` 提供有意义的 `alt`，并提供可理解的回退内容。头像组不会自动添加键盘导航，也不会把头像变成可交互控件。自定义计数可以明确提供完整含义：
+
+```tsx
+<AvatarGroup.Count role="img" aria-label="另有 9 名团队成员">+9</AvatarGroup.Count>
+```
+
+## 样式参考
+
+| 类名 | 用途 |
+| --- | --- |
+| `.avatar-group` | 行内头像组容器 |
+| `.avatar-group--clip` | 月牙裁切重叠 |
+| `.avatar-group--ring` | 背景色描边间隙 |
+| `.avatar-group--grid` | 无重叠的换行布局 |
+| `.avatar-group__count` | 计数头像 |
+
+根节点提供 `data-slot="avatar-group"`，计数提供 `data-slot="avatar-group-count"`。在头像组上设置 `--avatar-group-overlap`（默认 `0.5rem`）和 `--avatar-group-seam`（默认 `2px`）可调整重叠距离与间隙。单个头像可用常规 [Avatar](/docs/react/components/avatar) 类名定制。
+
+## API 参考
+
+### AvatarGroup / AvatarGroup.Root
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | — | 直接 Avatar 子级及可选 AvatarGroup.Count |
+| `max` | `number` | — | 最多显示的头像数，请使用非负整数 |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | 统一头像尺寸 |
+| `color` | `'default' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | Avatar 默认值 | 统一回退内容颜色 |
+| `variant` | `'default' \| 'soft'` | Avatar 默认值 | 统一外观 |
+| `overlap` | `'clip' \| 'ring'` | `'clip'` | 非网格模式下的重叠方式 |
+| `isGrid` | `boolean` | `false` | 使用带间距的换行布局 |
+| `className` | `string` | — | 根节点类名 |
+| `render` | DOM 渲染属性 | — | 自定义根元素 |
+
+支持透传 `role`、`aria-label`、`style` 等标准根节点 DOM 属性。
+
+### AvatarGroup.Count
+
+接收 Avatar 根节点属性，`children` 可选。未显式设置时，`size`、`color` 和 `variant` 从头像组继承。内容渲染在 `Avatar.Fallback` 内。传入一个直接的 `AvatarGroup.Count` 子级即可覆盖自动计数。
+
+命名导出包括 `AvatarGroupRoot`、`AvatarGroupCount`、`AvatarGroupProps`、`AvatarGroupRootProps`、`AvatarGroupCountProps`、`avatarGroupVariants` 和 `AvatarGroupVariants`。也可以从 `@sy-inc/react/avatar-group` 导入组件。
+
+## 相关组件
+
+- [Avatar](/docs/react/components/avatar)：头像图片和回退内容。
+- [Avatar 迁移指南](/docs/react/migration/avatar)：迁移 v2 头像组与计数。

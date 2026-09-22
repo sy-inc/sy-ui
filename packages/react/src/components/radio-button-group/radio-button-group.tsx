@@ -28,8 +28,10 @@ const RadioButtonGroupRoot = ({
 }: RadioButtonGroupRootProps) => {
   const slots = React.useMemo(() => radioButtonGroupVariants({layout}), [layout]);
 
+  const radioButtonGroupContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <RadioButtonGroupContext value={{slots}}>
+    <RadioButtonGroupContext value={radioButtonGroupContextValue}>
       <RadioGroup
         {...props}
         className={composeTwRenderProps(className, slots.base())}

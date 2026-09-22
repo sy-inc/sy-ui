@@ -30,8 +30,10 @@ interface LinkRootProps extends ComponentPropsWithRef<typeof LinkPrimitive>, Lin
 const LinkRoot = ({children, className, ...props}: LinkRootProps) => {
   const slots = React.useMemo(() => linkVariants(), []);
 
+  const linkContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <LinkContext value={{slots}}>
+    <LinkContext value={linkContextValue}>
       <LinkPrimitive
         data-slot="link"
         {...props}

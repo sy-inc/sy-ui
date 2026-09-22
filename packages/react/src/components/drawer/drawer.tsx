@@ -28,6 +28,8 @@ import {dom} from "../../utils/dom";
 import {CloseButton} from "../close-button";
 import {SurfaceContext} from "../surface";
 
+const DEFAULT_SURFACE_CONTEXT = {variant: "default" as SurfaceVariants["variant"]};
+
 type DrawerPlacement = "top" | "bottom" | "left" | "right";
 
 /* -------------------------------------------------------------------------------------------------
@@ -364,7 +366,7 @@ const DrawerDialog = ({children, className, ...props}: DrawerDialogProps) => {
   const {dialogRef, dragHandlers} = useDrawerDrag(placement, isDismissable);
 
   return (
-    <SurfaceContext value={{variant: "default" as SurfaceVariants["variant"]}}>
+    <SurfaceContext value={DEFAULT_SURFACE_CONTEXT}>
       <DialogPrimitive
         ref={dialogRef}
         className={composeSlotClassName(slots?.dialog, className)}

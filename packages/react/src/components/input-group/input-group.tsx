@@ -64,8 +64,13 @@ const InputGroupRoot = ({
     onClick?.(e);
   };
 
+  const inputGroupContextValue = React.useMemo(
+    () => ({passwordVisible, slots, togglePasswordVisible}),
+    [passwordVisible, slots, togglePasswordVisible],
+  );
+
   return (
-    <InputGroupContext value={{passwordVisible, slots, togglePasswordVisible}}>
+    <InputGroupContext value={inputGroupContextValue}>
       <GroupPrimitive
         {...props}
         ref={groupRef}

@@ -39,8 +39,10 @@ interface DisclosureRootProps
 const DisclosureRoot = ({children, className, ...props}: DisclosureRootProps) => {
   const slots = React.useMemo(() => disclosureVariants({}), []);
 
+  const disclosureContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <DisclosureContext value={{slots}}>
+    <DisclosureContext value={disclosureContextValue}>
       <DisclosurePrimitive
         data-slot="disclosure"
         {...props}

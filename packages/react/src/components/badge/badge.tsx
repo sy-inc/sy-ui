@@ -86,8 +86,10 @@ const BadgeRoot = <E extends keyof React.JSX.IntrinsicElements = "span">({
     return children;
   }, [children]);
 
+  const badgeContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <BadgeContext value={{slots}}>
+    <BadgeContext value={badgeContextValue}>
       <dom.span
         {...(props as any)}
         className={composeSlotClassName(slots.base, className)}

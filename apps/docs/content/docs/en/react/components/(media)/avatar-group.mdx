@@ -1,0 +1,112 @@
+---
+title: AvatarGroup
+description: Group avatars with shared appearance, overlap styles, and overflow counts.
+links:
+  source: avatar-group/avatar-group.tsx
+  styles: avatar-group.css
+  storybook: Components/AvatarGroup
+---
+
+## Usage
+
+```tsx
+"use client";
+
+import {Avatar, AvatarGroup} from "@sy-inc/react";
+```
+
+<ComponentPreview name="avatar-group" />
+
+In React Server Component applications, compose the group and its avatars/count inside a client component (`"use client"`). This keeps the direct child components in the same client boundary so custom counts are identified correctly.
+
+## Anatomy
+
+Pass compound `Avatar` elements as direct children. The group supplies `size`, `color`, and `variant`; an explicit prop on an individual avatar takes precedence. Keep avatars and `AvatarGroup.Count` outside fragments or wrapper elements so the group can identify and count them.
+
+```tsx
+<AvatarGroup aria-label="Team" role="group" size="md">
+  <Avatar>
+    <Avatar.Image alt="Ada" src="/avatars/ada.jpg" />
+    <Avatar.Fallback>Ada</Avatar.Fallback>
+  </Avatar>
+  <Avatar>
+    <Avatar.Fallback>Lin</Avatar.Fallback>
+  </Avatar>
+  <AvatarGroup.Count>+9</AvatarGroup.Count>
+</AvatarGroup>
+```
+
+## Examples
+
+### Limit visible avatars
+
+`max={3}` shows the first three avatar children. If more children exist, the group adds a count such as `+2`. The count is additional to `max`: five avatars with `max={3}` render three avatars and one count. Omitting `max` shows all children without an automatic count; `max={0}` shows only the count when avatars exist.
+
+<ComponentPreview name="avatar-group" />
+
+### Server totals and custom counts
+
+When only three members of a twelve-person team are loaded, render `AvatarGroup.Count` with `+9`. The group cannot infer a server total from the loaded children. An explicit count replaces the automatic count and is never truncated by `max`; its contents are not recalculated for you. Replaces the v2 `total` prop.
+
+<ComponentPreview name="avatar-group-with-count" />
+
+### Shared appearance and overlap
+
+Use `size`, `color`, and `variant` to style the group. `overlap="clip"` cuts a crescent out of preceding avatars; `overlap="ring"` draws a seam using the background color. For uniform clipping, keep adjacent avatars the same size.
+
+<ComponentPreview name="avatar-group-appearance" />
+
+### Grid layout
+
+`isGrid` removes overlap and enables wrapping with a gap. `max` and custom counts still apply.
+
+<ComponentPreview name="avatar-group-grid" />
+
+## Accessibility
+
+The root renders a `div` without an implicit group role. When the collection has meaning, add `role="group"` and a descriptive `aria-label`. Provide meaningful `alt` text on `Avatar.Image` and an understandable fallback. The group does not add keyboard navigation or turn avatars into controls. For a custom count, expose its meaning explicitly:
+
+```tsx
+<AvatarGroup.Count role="img" aria-label="9 more team members">+9</AvatarGroup.Count>
+```
+
+## Styling reference
+
+| Class | Purpose |
+| --- | --- |
+| `.avatar-group` | Inline group container |
+| `.avatar-group--clip` | Crescent overlap |
+| `.avatar-group--ring` | Background-colored seams |
+| `.avatar-group--grid` | Wrapping layout without overlap |
+| `.avatar-group__count` | Count avatar |
+
+The root exposes `data-slot="avatar-group"`; the count exposes `data-slot="avatar-group-count"`. Set `--avatar-group-overlap` (default `0.5rem`) and `--avatar-group-seam` (default `2px`) on the group to adjust spacing. Use the normal [Avatar](/docs/react/components/avatar) classes to customize individual avatars.
+
+## API reference
+
+### AvatarGroup / AvatarGroup.Root
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | — | Direct Avatar children and optional AvatarGroup.Count |
+| `max` | `number` | — | Maximum visible avatars; use a non-negative integer |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared avatar size |
+| `color` | `'default' \| 'accent' \| 'success' \| 'warning' \| 'danger'` | Avatar default | Shared fallback color |
+| `variant` | `'default' \| 'soft'` | Avatar default | Shared appearance |
+| `overlap` | `'clip' \| 'ring'` | `'clip'` | Overlap treatment outside grid mode |
+| `isGrid` | `boolean` | `false` | Wrap avatars with spacing |
+| `className` | `string` | — | Root classes |
+| `render` | DOM render prop | — | Customize the root element |
+
+Standard root DOM attributes, including `role`, `aria-label`, and `style`, are forwarded.
+
+### AvatarGroup.Count
+
+Accepts Avatar root props with optional `children`. `size`, `color`, and `variant` inherit from the group unless explicitly supplied. Content is rendered inside `Avatar.Fallback`. Supply one direct `AvatarGroup.Count` child to override the automatic count.
+
+Named exports include `AvatarGroupRoot`, `AvatarGroupCount`, `AvatarGroupProps`, `AvatarGroupRootProps`, `AvatarGroupCountProps`, `avatarGroupVariants`, and `AvatarGroupVariants`. The component is also available from `@sy-inc/react/avatar-group`.
+
+## Related components
+
+- [Avatar](/docs/react/components/avatar) — images and fallback content.
+- [Avatar migration](/docs/react/migration/avatar) — migrate v2 groups and counts.

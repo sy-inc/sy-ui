@@ -21,6 +21,7 @@ const separatorVariants = tv({
   },
 });
 
+// SY INC's public SeparatorContent still uses these slots; retain them when syncing upstream.
 const separatorContentVariants = tv({
   defaultVariants: {
     variant: "default",

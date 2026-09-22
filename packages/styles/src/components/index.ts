@@ -5,6 +5,7 @@ export * from "./alert-dialog/alert-dialog.styles";
 export * from "./alert/alert.styles";
 export * from "./autocomplete/autocomplete.styles";
 export * from "./avatar/avatar.styles";
+export * from "./avatar-group/avatar-group.styles";
 export * from "./badge/badge.styles";
 export * from "./bottom-bar/bottom-bar.styles";
 export * from "./breadcrumbs/breadcrumbs.styles";

@@ -42,8 +42,10 @@ const PaginationRoot = <E extends keyof React.JSX.IntrinsicElements = "nav">({
 }: PaginationRootProps<E> & Omit<React.JSX.IntrinsicElements[E], keyof PaginationRootProps<E>>) => {
   const slots = React.useMemo(() => paginationVariants({size}), [size]);
 
+  const paginationContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <PaginationContext value={{slots}}>
+    <PaginationContext value={paginationContextValue}>
       <dom.nav
         aria-label="pagination"
         data-slot="pagination"

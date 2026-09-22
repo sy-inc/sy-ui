@@ -96,7 +96,7 @@
   svg {
     @apply size-7;
   }
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }
@@ -237,7 +237,7 @@
   svg {
     @apply size-4;
   }
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }
@@ -275,7 +275,7 @@
 .drop-zone__clear-trigger {
   @apply inline-flex self-start p-0 text-xs font-medium text-muted outline-none;
   cursor: var(--cursor-interactive);
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

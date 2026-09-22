@@ -16,6 +16,8 @@ export default defineConfig({
   // instance, which surfaces as an invalid-hook-call failure in PromptInput.
   optimizeDeps: {
     include: [
+      "@radix-ui/react-avatar",
+      "react-aria/useNumberFormatter",
       "react-aria-components/Form",
       "react-aria-components/GridList",
       "react-aria-components/Label",

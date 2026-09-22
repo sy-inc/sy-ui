@@ -48,19 +48,19 @@ const CardRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
     </dom.div>
   );
 
+  const cardContextValue = React.useMemo(() => ({slots}), [slots]);
+  const surfaceContextValue = React.useMemo(
+    () => ({variant: variant as SurfaceVariants["variant"]}),
+    [variant],
+  );
+
   return (
-    <CardContext value={{slots}}>
+    <CardContext value={cardContextValue}>
       {variant === "transparent" ? (
         content
       ) : (
         // Allows inner components to apply "on-surface" colors for proper contrast
-        <SurfaceContext
-          value={{
-            variant: variant as SurfaceVariants["variant"],
-          }}
-        >
-          {content}
-        </SurfaceContext>
+        <SurfaceContext value={surfaceContextValue}>{content}</SurfaceContext>
       )}
     </CardContext>
   );

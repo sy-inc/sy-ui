@@ -104,7 +104,7 @@
    * bubble's derived accent surface, where only the text colour is guaranteed to
    * contrast in both themes.
    */
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     outline: 2px solid currentColor;
     outline-offset: 2px;

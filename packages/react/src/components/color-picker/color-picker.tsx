@@ -48,8 +48,10 @@ const ColorPickerRoot = ({
 }: ColorPickerRootProps) => {
   const slots = React.useMemo(() => colorPickerVariants(), []);
 
+  const colorPickerContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <ColorPickerContext value={{slots}}>
+    <ColorPickerContext value={colorPickerContextValue}>
       <ColorPickerPrimitive defaultValue={defaultValue} value={value} onChange={onChange}>
         <DialogTriggerPrimitive>
           <div

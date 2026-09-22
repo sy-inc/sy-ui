@@ -91,8 +91,13 @@ const TableRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
     children
   );
 
+  const tableContextValue = React.useMemo(
+    () => ({isTruncate, isResizable, slots}),
+    [isTruncate, isResizable, slots],
+  );
+
   return (
-    <TableContext value={{isTruncate, isResizable, slots}}>
+    <TableContext value={tableContextValue}>
       <dom.div
         className={slots.base({className})}
         data-resizable={isResizable || undefined}
@@ -146,7 +151,13 @@ interface TableContentProps extends Omit<
   onSortChange?: (descriptor: SortDescriptor | undefined) => void;
 }
 
-function TableContent({className, onSortChange, sortDescriptor, style, ...props}: TableContentProps) {
+function TableContent({
+  className,
+  onSortChange,
+  sortDescriptor,
+  style,
+  ...props
+}: TableContentProps) {
   const {slots} = use(TableContext);
   const managedColumns = use(TableManagedColumnsContext);
   const handleSortChange = useCallback(
@@ -395,22 +406,21 @@ type TableCellProps = ComponentPropsWithRef<typeof CellPrimitive>;
 
 const TableCell = ({className, ref, ...props}: TableCellProps) => {
   const {isTruncate, slots} = use(TableContext);
-  const children =
-    isTruncate ? (
-      typeof props.children === "function" ? (
-        (values: unknown) => (
-          <div className="max-w-full min-w-0 truncate" data-slot="table-cell-content">
-            {(props.children as (values: unknown) => ReactNode)(values)}
-          </div>
-        )
-      ) : (
+  const children = isTruncate ? (
+    typeof props.children === "function" ? (
+      (values: unknown) => (
         <div className="max-w-full min-w-0 truncate" data-slot="table-cell-content">
-          {props.children}
+          {(props.children as (values: unknown) => ReactNode)(values)}
         </div>
       )
     ) : (
-      props.children
-    );
+      <div className="max-w-full min-w-0 truncate" data-slot="table-cell-content">
+        {props.children}
+      </div>
+    )
+  ) : (
+    props.children
+  );
 
   return (
     <CellPrimitive

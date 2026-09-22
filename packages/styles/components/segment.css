@@ -24,7 +24,7 @@
     color 150ms var(--ease-smooth),
     opacity 150ms var(--ease-smooth);
   @apply motion-reduce:transition-none;
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

@@ -57,8 +57,10 @@ const SegmentRoot = ({
     [separators, size, variant],
   );
 
+  const segmentContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <SegmentContext value={{slots}}>
+    <SegmentContext value={segmentContextValue}>
       <ToggleButtonGroupPrimitive
         {...props}
         disallowEmptySelection

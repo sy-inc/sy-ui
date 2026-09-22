@@ -55,6 +55,11 @@ const RatingRoot = ({
 }: RatingRootProps) => {
   const slots = React.useMemo(() => ratingVariants({size}), [size]);
 
+  const ratingContextValue = React.useMemo(
+    () => ({getItemLabel, icon, slots}),
+    [getItemLabel, icon, slots],
+  );
+
   return (
     <RadioGroupPrimitive
       data-slot="rating"
@@ -69,7 +74,7 @@ const RatingRoot = ({
         if (Number.isFinite(nextRating)) onValueChange?.(nextRating);
       }}
     >
-      <RatingContext value={{getItemLabel, icon, slots}}>{children}</RatingContext>
+      <RatingContext value={ratingContextValue}>{children}</RatingContext>
     </RadioGroupPrimitive>
   );
 };

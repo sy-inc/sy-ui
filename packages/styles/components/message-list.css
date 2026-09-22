@@ -9,7 +9,7 @@
   /* The hook owns anchoring when the application replaces a fixed-length message window. */
   overflow-anchor: none;
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

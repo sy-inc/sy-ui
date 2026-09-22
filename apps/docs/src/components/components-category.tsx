@@ -99,7 +99,7 @@ const COMPONENT_GROUPS = [
   },
   {
     category: "Media",
-    components: ["(media)/avatar"],
+    components: ["(media)/avatar", "(media)/avatar-group"],
   },
   {
     category: "Pickers",

@@ -157,7 +157,7 @@
   }
 
   /* Focus visible — inset shadow for consistent table focus styling */
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply rounded-lg outline-none;
     box-shadow: inset 0 0 0 2px var(--focus);
@@ -390,7 +390,7 @@
   }
 
   /* Row focus ring: see “Table row focus ring” block below (after `.table__cell`). */
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply outline-none;
   }
@@ -415,7 +415,7 @@
   @apply border-b border-separator-tertiary/50;
 
   /* Focus visible — inset shadow so focus stays within the cell boundaries */
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply rounded-lg outline-none;
     box-shadow: inset 0 0 0 2px var(--focus);
@@ -434,37 +434,38 @@
    `> *:…` covers virtualized wrappers. `:is(:focus-visible, [data-focus-visible])`
    matches row keyboard focus from RAC.
    -------------------------------------------------------------------------- */
-.table__row:is(:focus-visible, [data-focus-visible="true"]) :is(.table__cell, .table__column) {
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
+  :is(.table__cell, .table__column) {
   @apply shadow-none;
 }
 
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > :is(.table__cell, .table__column):only-child,
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > *:only-child
   :is(.table__cell, .table__column) {
   @apply rounded-lg shadow-[inset_0_0_0_2px_var(--focus)] outline-none;
 }
 
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > :is(.table__cell, .table__column):first-child:not(:only-child),
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > *:first-child:not(:only-child)
   :is(.table__cell, .table__column) {
   @apply rounded-s-lg shadow-[inset_2px_0_0_0_var(--focus),inset_0_2px_0_0_var(--focus),inset_0_-2px_0_0_var(--focus)] outline-none;
 }
 
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > :is(.table__cell, .table__column):last-child:not(:only-child),
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > *:last-child:not(:only-child)
   :is(.table__cell, .table__column) {
   @apply rounded-e-lg shadow-[inset_-2px_0_0_0_var(--focus),inset_0_2px_0_0_var(--focus),inset_0_-2px_0_0_var(--focus)] outline-none;
 }
 
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > :is(.table__cell, .table__column):not(:first-child):not(:last-child):not(:only-child),
-.table__row:is(:focus-visible, [data-focus-visible="true"])
+.table__row:is(:focus-visible:not([data-focused]), [data-focus-visible="true"])
   > *:not(:first-child):not(:last-child):not(:only-child)
   :is(.table__cell, .table__column) {
   @apply shadow-[inset_0_2px_0_0_var(--focus),inset_0_-2px_0_0_var(--focus)] outline-none;

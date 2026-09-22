@@ -61,6 +61,7 @@ export const ScrollShadowRoot = ({
   ...props
 }: ScrollShadowRootProps) => {
   const internalRef = useRef<HTMLDivElement | null>(null);
+  const mergedRef = useMemo(() => mergeRefs(internalRef, ref), [ref]);
 
   useScrollShadow({
     containerRef: internalRef as RefObject<HTMLElement>,
@@ -110,7 +111,7 @@ export const ScrollShadowRoot = ({
 
   return (
     <div
-      ref={mergeRefs(internalRef, ref)}
+      ref={mergedRef}
       className={slots.base({className})}
       data-orientation={orientation}
       data-scroll-shadow-size={size}

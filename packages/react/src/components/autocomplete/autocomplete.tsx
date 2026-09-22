@@ -6,8 +6,8 @@ import type {SurfaceVariants} from "../surface";
 import type {AutocompleteVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode, RefObject} from "react";
 
-import {autocompleteVariants} from "@sy-inc/styles";
 import {mergeRefs, useResizeObserver} from "@react-aria/utils";
+import {autocompleteVariants} from "@sy-inc/styles";
 import React, {createContext, use, useCallback, useRef, useState} from "react";
 import {useIsHidden} from "react-aria/private/collections/Hidden";
 import {Autocomplete as AutocompletePrimitive} from "react-aria-components/Autocomplete";
@@ -33,13 +33,13 @@ import {SurfaceContext} from "../surface";
 type AutocompleteContext = {
   slots?: ReturnType<typeof autocompleteVariants>;
   onClear?: () => void;
-  triggerRef: RefObject<HTMLElement | null>;
+  triggerRef: RefObject<HTMLDivElement | null>;
   clearButtonRef: RefObject<HTMLButtonElement | null>;
   isDisabled?: boolean;
 };
 
 const AutocompleteContext = createContext<AutocompleteContext>({
-  triggerRef: {current: null} as RefObject<HTMLElement | null>,
+  triggerRef: {current: null} as RefObject<HTMLDivElement | null>,
   clearButtonRef: {current: null} as RefObject<HTMLButtonElement | null>,
   isDisabled: false,
 });
@@ -67,7 +67,7 @@ const AutocompleteRoot = <T extends object = object, M extends "single" | "multi
     () => autocompleteVariants({fullWidth, variant}),
     [fullWidth, variant],
   );
-  const triggerRef = useRef<HTMLElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
   const clearButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const context = React.useMemo<AutocompleteContext>(
@@ -109,16 +109,7 @@ const AutocompleteTrigger = ({
   const isDisabled = isDisabledProp ?? rootDisabled ?? false;
   const isHidden = useIsHidden();
 
-  // Callback ref to update context ref
-  const contextRefCallback = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      triggerRef.current = node;
-    },
-    [triggerRef],
-  );
-
-  // Merge context ref callback with user-provided ref
-  const mergedRef = mergeRefs(contextRefCallback, ref);
+  const mergedRef = React.useMemo(() => mergeRefs(triggerRef, ref), [triggerRef, ref]);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Don't toggle if clicking the clear button
@@ -300,15 +291,10 @@ const AutocompleteClearButton = <E extends keyof React.JSX.IntrinsicElements = "
   const {clearButtonRef, isDisabled, onClear, slots} = use(AutocompleteContext);
   const state = use(SelectStateContext);
 
-  const clearButtonRefCallback = React.useCallback(
-    (node: HTMLButtonElement | null) => {
-      clearButtonRef.current = node;
-    },
-    [clearButtonRef],
+  const mergedRef = React.useMemo(
+    () => mergeRefs(clearButtonRef, ref as any),
+    [clearButtonRef, ref],
   );
-
-  // Merge context ref callback with user-provided ref
-  const mergedRef = mergeRefs(clearButtonRefCallback, ref as any);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     state?.selectionManager.setSelectedKeys(new Set());

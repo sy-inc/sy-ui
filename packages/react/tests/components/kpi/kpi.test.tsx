@@ -1,6 +1,7 @@
 import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {KPI} from "@/components/kpi";
+import {I18nProvider} from "@/components/rac";
 import {Separator} from "@/components/separator";
 
 describe("KPI", () => {
@@ -53,6 +54,25 @@ describe("KPI", () => {
     expect(screen.getByTestId("currency")).toHaveTextContent("$228,451.00");
     expect(screen.getByTestId("percent")).toHaveTextContent("58%");
     expect(screen.getByTestId("custom")).toHaveTextContent("Total: 1,200");
+  });
+
+  it("supports the nearest locale and updates when it changes", () => {
+    const example = (locale: string) => (
+      <I18nProvider locale="en-US">
+        <KPI.Value data-testid="outer" value={1234.5} />
+        <I18nProvider locale={locale}>
+          <KPI.Value data-testid="localized" value={1234.5} />
+        </I18nProvider>
+      </I18nProvider>
+    );
+    const {rerender} = render(example("de-DE"));
+
+    expect(screen.getByTestId("outer")).toHaveTextContent("1,234.5");
+    expect(screen.getByTestId("localized")).toHaveTextContent("1.234,5");
+
+    rerender(example("en-US"));
+
+    expect(screen.getByTestId("localized")).toHaveTextContent("1,234.5");
   });
 
   it("maps trends and progress semantics", () => {

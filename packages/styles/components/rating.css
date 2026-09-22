@@ -29,7 +29,7 @@
   transition: transform 150ms var(--ease-out);
   @apply motion-reduce:transition-none;
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply rounded-sm status-focused;
   }

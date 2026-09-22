@@ -67,7 +67,7 @@ export default function App() {
 | - | `Avatar.Image` | New: `srcSet`, `sizes`, `loading` for responsive images |
 | - | `Avatar.Fallback` | New: `delayMs` to delay fallback display (prevents flash) |
 | `classNames` | - | Use `className` on parts |
-| AvatarGroup | - | No v3 equivalent; create groups with CSS |
+| AvatarGroup | `AvatarGroup` | Dedicated component with `max`, `overlap`, `isGrid`, and `AvatarGroup.Count` |
 
 ### 3. Variant Prop (New in v3)
 
@@ -127,10 +127,9 @@ export default function App() {
 | `warning` | `warning` | Same |
 | `danger` | `danger` | Same |
 
-### 8. AvatarGroup Removed
+### 8. AvatarGroup
 
-**v2:** Had a dedicated `AvatarGroup` component
-**v3:** No `AvatarGroup` component - create groups manually with CSS classes
+Use the dedicated [AvatarGroup](/docs/react/components/avatar-group) with compound Avatar children. Group `size`, `color`, and `variant` are inherited by direct avatars. Replace v2 `isBordered` with `overlap="ring"`, and `total` with an explicit `AvatarGroup.Count`. A custom count replaces the automatic count from `max` and is never truncated; calculate its contents from the server total minus the visible avatars.
 
 ## Migration Examples
 
@@ -199,22 +198,24 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-inc/react";
+    "use client";
 
-    <div className="flex -space-x-2">
-      <Avatar className="ring-2 ring-background">
+    import { Avatar, AvatarGroup } from "@sy-inc/react";
+
+    <AvatarGroup overlap="ring">
+      <Avatar>
         <Avatar.Image src="https://example.com/1.jpg" alt="User 1" />
         <Avatar.Fallback>U1</Avatar.Fallback>
       </Avatar>
-      <Avatar className="ring-2 ring-background">
+      <Avatar>
         <Avatar.Image src="https://example.com/2.jpg" alt="User 2" />
         <Avatar.Fallback>U2</Avatar.Fallback>
       </Avatar>
-      <Avatar className="ring-2 ring-background">
+      <Avatar>
         <Avatar.Image src="https://example.com/3.jpg" alt="User 3" />
         <Avatar.Fallback>U3</Avatar.Fallback>
       </Avatar>
-    </div>
+    </AvatarGroup>
     ```
   </Tab>
 </Tabs>
@@ -237,7 +238,9 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-inc/react";
+    "use client";
+
+    import { Avatar, AvatarGroup } from "@sy-inc/react";
 
     const users = [
       { id: 1, src: "https://example.com/1.jpg", name: "User 1" },
@@ -247,21 +250,16 @@ export default function App() {
       { id: 5, src: "https://example.com/5.jpg", name: "User 5" },
     ];
 
-    <div className="flex -space-x-2">
-      {users.slice(0, 3).map((user) => (
-        <Avatar key={user.id} className="ring-2 ring-background">
+    <AvatarGroup max={3}>
+      {users.map((user) => (
+        <Avatar key={user.id}>
           <Avatar.Image src={user.src} alt={user.name} />
           <Avatar.Fallback>
             {user.name.split(" ").map(n => n[0]).join("")}
           </Avatar.Fallback>
         </Avatar>
       ))}
-      <Avatar className="ring-2 ring-background">
-        <Avatar.Fallback className="border-none">
-          +{users.length - 3}
-        </Avatar.Fallback>
-      </Avatar>
-    </div>
+    </AvatarGroup>
     ```
   </Tab>
 </Tabs>
@@ -352,6 +350,6 @@ function getInitials(name: string): string {
 8. **Bordered Removed**: Use Tailwind `ring-2 ring-background` classes
 9. **Radius Removed**: Use Tailwind `rounded-*` classes
 10. **Disabled Removed**: Use Tailwind `opacity-50` classes
-11. **AvatarGroup Removed**: Create groups manually with CSS
+11. **AvatarGroup**: Use the dedicated group; replace v2 `total` with `AvatarGroup.Count` and `isBordered` with `overlap="ring"`.
 12. **Icon Prop Removed**: Place icon content in `Avatar.Fallback`
 13. **ClassNames Removed**: Use `className` props on individual components

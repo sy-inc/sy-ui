@@ -53,8 +53,10 @@ const ChipRoot = <E extends keyof React.JSX.IntrinsicElements = "span">({
     return children;
   }, [children]);
 
+  const chipContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <ChipContext value={{slots}}>
+    <ChipContext value={chipContextValue}>
       <dom.span
         {...(props as any)}
         className={composeSlotClassName(slots.base, className)}

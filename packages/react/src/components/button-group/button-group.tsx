@@ -72,8 +72,13 @@ const ButtonGroupRoot = ({
     } as any);
   });
 
+  const buttonGroupContextValue = React.useMemo(
+    () => ({slots, size, variant, isDisabled, fullWidth}),
+    [slots, size, variant, isDisabled, fullWidth],
+  );
+
   return (
-    <ButtonGroupContext value={{slots, size, variant, isDisabled, fullWidth}}>
+    <ButtonGroupContext value={buttonGroupContextValue}>
       <Group
         className={composeTwRenderProps(className, slots.base())}
         data-slot="button-group"

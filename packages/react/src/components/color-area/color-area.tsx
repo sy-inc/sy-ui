@@ -30,8 +30,10 @@ interface ColorAreaRootProps
 const ColorAreaRoot = ({children, className, showDots, style, ...props}: ColorAreaRootProps) => {
   const slots = React.useMemo(() => colorAreaVariants({showDots}), [showDots]);
 
+  const colorAreaContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <ColorAreaContext value={{slots}}>
+    <ColorAreaContext value={colorAreaContextValue}>
       <ColorAreaPrimitive
         {...props}
         className={composeTwRenderProps(className, slots.base())}

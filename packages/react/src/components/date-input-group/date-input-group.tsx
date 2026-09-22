@@ -48,8 +48,10 @@ const DateInputGroupRoot = ({
     [fullWidth, variant],
   );
 
+  const dateInputGroupContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <DateInputGroupContext value={{slots}}>
+    <DateInputGroupContext value={dateInputGroupContextValue}>
       <GroupPrimitive
         className={composeTwRenderProps(className, slots?.base())}
         data-slot="date-input-group"

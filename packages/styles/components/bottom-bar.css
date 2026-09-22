@@ -67,7 +67,7 @@
     transform: scale(0.98);
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible] {
     @apply status-focused;
   }

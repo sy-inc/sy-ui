@@ -28,51 +28,84 @@
   },
   "exports": {
     ".": {
-      "import": "./src/index.ts"
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./package.json": "./package.json",
+    "./avatar-group": {
+      "types": "./src/components/avatar-group/index.ts",
+      "import": "./src/components/avatar-group/index.ts",
+      "default": "./src/components/avatar-group/index.ts"
+    },
+    "./carousel": {
+      "types": "./src/components/carousel/index.ts",
+      "import": "./src/components/carousel/index.ts",
+      "default": "./src/components/carousel/index.ts"
+    },
+    "./checkbox-button-group": {
+      "types": "./src/components/checkbox-button-group/index.ts",
+      "import": "./src/components/checkbox-button-group/index.ts",
+      "default": "./src/components/checkbox-button-group/index.ts"
+    },
+    "./countdown": {
+      "types": "./src/components/countdown/index.ts",
+      "import": "./src/components/countdown/index.ts",
+      "default": "./src/components/countdown/index.ts"
+    },
+    "./file-tree": {
+      "types": "./src/components/file-tree/index.ts",
+      "import": "./src/components/file-tree/index.ts",
+      "default": "./src/components/file-tree/index.ts"
+    },
+    "./image-preview": {
+      "types": "./src/components/image-preview/index.ts",
+      "import": "./src/components/image-preview/index.ts",
+      "default": "./src/components/image-preview/index.ts"
+    },
+    "./input-phone": {
+      "types": "./src/components/input-phone/index.ts",
+      "import": "./src/components/input-phone/index.ts",
+      "default": "./src/components/input-phone/index.ts"
+    },
+    "./kpi": {
+      "types": "./src/components/kpi/index.ts",
+      "import": "./src/components/kpi/index.ts",
+      "default": "./src/components/kpi/index.ts"
+    },
+    "./kpi-group": {
+      "types": "./src/components/kpi-group/index.ts",
+      "import": "./src/components/kpi-group/index.ts",
+      "default": "./src/components/kpi-group/index.ts"
+    },
+    "./message-bubble": {
+      "types": "./src/components/message-bubble/index.ts",
+      "import": "./src/components/message-bubble/index.ts",
+      "default": "./src/components/message-bubble/index.ts"
+    },
+    "./message-list": {
+      "types": "./src/components/message-list/index.ts",
+      "import": "./src/components/message-list/index.ts",
+      "default": "./src/components/message-list/index.ts"
+    },
+    "./overflow-text": {
+      "types": "./src/components/overflow-text/index.ts",
+      "import": "./src/components/overflow-text/index.ts",
+      "default": "./src/components/overflow-text/index.ts"
+    },
+    "./resizable": {
+      "types": "./src/components/resizable/index.ts",
+      "import": "./src/components/resizable/index.ts",
+      "default": "./src/components/resizable/index.ts"
+    },
+    "./rich-text-editor": {
+      "types": "./src/components/rich-text-editor/index.ts",
+      "import": "./src/components/rich-text-editor/index.ts",
+      "default": "./src/components/rich-text-editor/index.ts"
+    },
     "./styles": {
       "style": "./src/styles.css",
       "default": "./src/styles.css"
-    },
-    "./carousel": {
-      "import": "./src/components/carousel/index.ts"
-    },
-    "./checkbox-button-group": {
-      "import": "./src/components/checkbox-button-group/index.ts"
-    },
-    "./file-tree": {
-      "import": "./src/components/file-tree/index.ts"
-    },
-    "./image-preview": {
-      "import": "./src/components/image-preview/index.ts"
-    },
-    "./input-phone": {
-      "import": "./src/components/input-phone/index.ts"
-    },
-    "./kpi": {
-      "import": "./src/components/kpi/index.ts"
-    },
-    "./kpi-group": {
-      "import": "./src/components/kpi-group/index.ts"
-    },
-    "./message-bubble": {
-      "import": "./src/components/message-bubble/index.ts"
-    },
-    "./resizable": {
-      "import": "./src/components/resizable/index.ts"
-    },
-    "./rich-text-editor": {
-      "import": "./src/components/rich-text-editor/index.ts"
-    },
-    "./overflow-text": {
-      "import": "./src/components/overflow-text/index.ts"
-    },
-    "./countdown": {
-      "import": "./src/components/countdown/index.ts"
-    },
-    "./message-list": {
-      "import": "./src/components/message-list/index.ts"
     }
   },
   "repository": {
@@ -101,7 +134,7 @@
   },
   "clean-package": "./clean-package.config.json",
   "dependencies": {
-    "@radix-ui/react-avatar": "1.1.11",
+    "@radix-ui/react-avatar": "1.2.6",
     "@react-stately/utils": "3.12.1",
     "@react-types/color": "3.2.0",
     "@react-types/shared": "3.36.1",
@@ -109,17 +142,15 @@
     "embla-carousel": "9.0.0-rc03",
     "embla-carousel-autoplay": "9.0.0-rc03",
     "embla-carousel-react": "9.0.0-rc03",
-    "input-otp": "1.4.2",
+    "input-otp": "1.5.0",
     "react-medium-image-zoom": "5.4.8",
     "react-resizable-panels": "4.12.3",
-    "tailwind-merge": "3.4.0",
     "tailwind-variants": "3.3.1",
     "use-stick-to-bottom": "1.1.6"
   },
   "devDependencies": {
     "@iconify/react": "6.0.2",
     "@internationalized/date": "3.12.4",
-    "@react-aria/i18n": "3.13.1",
     "@react-aria/ssr": "3.10.1",
     "@react-aria/utils": "3.34.1",
     "@react-stately/data": "3.16.1",
@@ -139,8 +170,8 @@
     "@vitest/coverage-v8": "4.1.11",
     "fs-extra": "11.3.3",
     "react": "19.2.8",
-    "react-aria": "3.52.0",
-    "react-aria-components": "1.21.0",
+    "react-aria": "3.52.1",
+    "react-aria-components": "1.21.1",
     "react-dom": "19.2.8",
     "react-phone-number-input": "3.4.18",
     "recharts": "3.10.1",
@@ -149,7 +180,6 @@
   },
   "peerDependencies": {
     "@internationalized/date": "^3.12.4",
-    "@react-aria/i18n": "^3.13.1",
     "@react-aria/ssr": "^3.10.1",
     "@react-aria/utils": "^3.34.1",
     "@tiptap/core": "^3.30.5",
@@ -158,8 +188,8 @@
     "@tiptap/starter-kit": "^3.30.5",
     "@tiptap/suggestion": "^3.30.5",
     "react": ">=19.0.0",
-    "react-aria": "^3.52.0",
-    "react-aria-components": "^1.21.0",
+    "react-aria": "^3.52.1",
+    "react-aria-components": "^1.21.1",
     "react-dom": ">=19.0.0",
     "react-phone-number-input": "^3.4.18",
     "tailwindcss": ">=4.0.0"

@@ -15,10 +15,12 @@ export interface UseDisclosureGroupNavigationReturn {
   onNext: () => void;
 }
 
+const EMPTY_ITEM_IDS: string[] = [];
+
 export function useDisclosureGroupNavigation({
   allowsMultipleExpanded = false,
   expandedKeys,
-  itemIds = [],
+  itemIds = EMPTY_ITEM_IDS,
   onExpandedChange,
 }: UseDisclosureGroupNavigationProps): UseDisclosureGroupNavigationReturn {
   const currentIndex = useMemo(() => {

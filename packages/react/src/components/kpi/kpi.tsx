@@ -4,9 +4,9 @@ import type {CardProps} from "../card";
 import type {ProgressBarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {useNumberFormatter} from "@react-aria/i18n";
 import {kpiVariants} from "@sy-inc/styles";
 import React from "react";
+import {useNumberFormatter} from "react-aria/useNumberFormatter";
 
 import {composeTwRenderProps} from "../../utils";
 import {Button} from "../button";

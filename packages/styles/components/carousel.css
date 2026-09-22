@@ -114,10 +114,8 @@
 .carousel__item {
   @apply min-w-0 shrink-0 grow-0 basis-full;
   flex-basis: calc(
-    (
-        100% - 2 * var(--carousel-peek) -
-          (var(--carousel-items-per-view) - 1) * var(--carousel-gap)
-      ) / var(--carousel-items-per-view)
+    (100% - 2 * var(--carousel-peek) - (var(--carousel-items-per-view) - 1) * var(--carousel-gap)) /
+      var(--carousel-items-per-view)
   );
 
   &[role="button"] {
@@ -133,7 +131,7 @@
       @apply scale-[.99];
     }
 
-    &:focus-visible,
+    &:focus-visible:not([data-focused]),
     &[data-focus-visible="true"] {
       @apply status-focused;
     }
@@ -208,7 +206,7 @@
     @apply size-5;
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }
@@ -292,7 +290,7 @@
     @apply hidden;
   }
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

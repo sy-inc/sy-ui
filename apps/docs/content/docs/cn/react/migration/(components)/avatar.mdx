@@ -67,7 +67,7 @@ export default function App() {
 | — | `Avatar.Image` | 新增：`srcSet`、`sizes`、`loading`（响应式图片） |
 | — | `Avatar.Fallback` | 新增：`delayMs` 延迟显示后备（减少闪烁） |
 | `classNames` | — | 请在各部分使用 `className` |
-| `AvatarGroup` | — | 无 v3 等价组件；请用 CSS 自行成组 |
+| `AvatarGroup` | `AvatarGroup` | 独立组件，支持 `max`、`overlap`、`isGrid` 和 `AvatarGroup.Count` |
 
 ### 3. `variant` prop（v3 新增）
 
@@ -127,10 +127,9 @@ export default function App() {
 | `warning` | `warning` | 相同 |
 | `danger` | `danger` | 相同 |
 
-### 8. `AvatarGroup` 已移除
+### 8. AvatarGroup
 
-**v2：** 提供独立的 `AvatarGroup` 组件
-**v3：** 无 `AvatarGroup` — 请用 CSS 类手动成组
+使用独立的 [AvatarGroup](/docs/react/components/avatar-group)，将复合式 Avatar 作为直接子级，以继承组内的 `size`、`color` 和 `variant`。v2 `isBordered` 改用 `overlap="ring"`，`total` 改为显式的 `AvatarGroup.Count`。自定义计数会替代 `max` 生成的自动计数，且不会被截断；计数内容由服务端总数减去可见头像数量得到。
 
 ## 迁移示例
 
@@ -199,22 +198,24 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-inc/react";
+    "use client";
 
-    <div className="flex -space-x-2">
-      <Avatar className="ring-2 ring-background">
+    import { Avatar, AvatarGroup } from "@sy-inc/react";
+
+    <AvatarGroup overlap="ring">
+      <Avatar>
         <Avatar.Image src="https://example.com/1.jpg" alt="User 1" />
         <Avatar.Fallback>U1</Avatar.Fallback>
       </Avatar>
-      <Avatar className="ring-2 ring-background">
+      <Avatar>
         <Avatar.Image src="https://example.com/2.jpg" alt="User 2" />
         <Avatar.Fallback>U2</Avatar.Fallback>
       </Avatar>
-      <Avatar className="ring-2 ring-background">
+      <Avatar>
         <Avatar.Image src="https://example.com/3.jpg" alt="User 3" />
         <Avatar.Fallback>U3</Avatar.Fallback>
       </Avatar>
-    </div>
+    </AvatarGroup>
     ```
   </Tab>
 </Tabs>
@@ -237,7 +238,9 @@ export default function App() {
   </Tab>
   <Tab value="v3">
     ```tsx
-    import { Avatar } from "@sy-inc/react";
+    "use client";
+
+    import { Avatar, AvatarGroup } from "@sy-inc/react";
 
     const users = [
       { id: 1, src: "https://example.com/1.jpg", name: "User 1" },
@@ -247,21 +250,16 @@ export default function App() {
       { id: 5, src: "https://example.com/5.jpg", name: "User 5" },
     ];
 
-    <div className="flex -space-x-2">
-      {users.slice(0, 3).map((user) => (
-        <Avatar key={user.id} className="ring-2 ring-background">
+    <AvatarGroup max={3}>
+      {users.map((user) => (
+        <Avatar key={user.id}>
           <Avatar.Image src={user.src} alt={user.name} />
           <Avatar.Fallback>
             {user.name.split(" ").map(n => n[0]).join("")}
           </Avatar.Fallback>
         </Avatar>
       ))}
-      <Avatar className="ring-2 ring-background">
-        <Avatar.Fallback className="border-none">
-          +{users.length - 3}
-        </Avatar.Fallback>
-      </Avatar>
-    </div>
+    </AvatarGroup>
     ```
   </Tab>
 </Tabs>
@@ -352,6 +350,6 @@ function getInitials(name: string): string {
 8. **`isBordered` 已移除**：请使用 Tailwind `ring-2 ring-background` 等类
 9. **`radius` 已移除**：请使用 Tailwind `rounded-*` 类
 10. **`isDisabled` 等已移除**：请使用 Tailwind `opacity-50` 等类
-11. **`AvatarGroup` 已移除**：请用 CSS 手动成组
+11. **AvatarGroup**：使用独立头像组；v2 `total` 改为 `AvatarGroup.Count`，`isBordered` 改为 `overlap="ring"`。
 12. **`icon` prop 已移除**：请将图标内容放入 `Avatar.Fallback`
 13. **`classNames` 已移除**：请在各子组件上使用 `className` prop

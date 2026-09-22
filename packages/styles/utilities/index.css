@@ -119,10 +119,11 @@
 
   /**
    * RAC drives focus-visible via data-focus-visible; the native pseudo-class also
-   * matches when RAC restores focus from a popover after a mouse click, so it is
-   * scoped to non-RAC markup.
+   * matches when RAC restores focus from a popover after a mouse click. React Aria
+   * sets data-focused on the focused element, so the native fallback only applies
+   * when this class is used outside React Aria.
    */
-  &:focus-visible:not([data-rac]),
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
     border-color: var(--field-border-focus);

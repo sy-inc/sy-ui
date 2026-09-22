@@ -29,7 +29,7 @@ import {KPI} from "@sy-inc/react";
 
 ## 数值和趋势
 
-`Value` 通过 React Aria 的 `useNumberFormatter` 调用 `Intl.NumberFormat` 格式化 `value`，locale 来自最近的 `I18nProvider`。任何 `Intl.NumberFormatOptions` 都可以通过 `formatOptions` 传入。渲染函数 children 会收到格式化后的字符串。`Trend` 支持 `trend="up" | "down" | "neutral"`、Chip 的 size 和 variant，默认值为 `up` 与 `soft`。
+`Value` 通过 从 `react-aria/useNumberFormatter` 导入的 React Aria `useNumberFormatter` 调用 `Intl.NumberFormat` 格式化 `value`，locale 来自最近的 `I18nProvider`。任何 `Intl.NumberFormatOptions` 都可以通过 `formatOptions` 传入。渲染函数 children 会收到格式化后的字符串。`Trend` 支持 `trend="up" | "down" | "neutral"`、Chip 的 size 和 variant，默认值为 `up` 与 `soft`。
 
 ## 进度、操作和图表
 

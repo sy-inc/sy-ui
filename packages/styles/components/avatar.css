@@ -20,14 +20,24 @@
 
 /* Size modifiers */
 .avatar--sm {
+  --avatar-size: 2rem;
+
   @apply size-8 rounded-2xl;
+
+  .avatar__fallback {
+    @apply text-xs;
+  }
 }
 
 .avatar--md {
+  --avatar-size: 2.5rem;
+
   /* No styles as this is the default size */
 }
 
 .avatar--lg {
+  --avatar-size: 3rem;
+
   @apply size-12 rounded-3xl;
 
   .avatar__fallback {

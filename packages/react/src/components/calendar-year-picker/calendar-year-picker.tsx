@@ -300,9 +300,15 @@ const CalendarYearPickerGrid = <E extends keyof React.JSX.IntrinsicElements = "d
 
   // useCalendarYearPicker returns a new `items` array every render — derive a stable
   // key so effects don't re-run and steal focus back to the selected year.
-  const itemsKey = items.map((item) => `${item.id}:${item.date.year}`).join("|");
-  const years = items.map((item) => item.date.year);
-  const itemByYear = new Map(items.map((item) => [item.date.year, item]));
+  const itemsKey = items.map((item) => `${item.id}:${item.date.year}:${item.formatted}`).join("|");
+  // The hook returns a fresh array on every render. Its formatted labels are part of
+  // the key so locale, time zone, and format changes replace the cached grid.
+  const stableItems = React.useMemo(() => items, [itemsKey]);
+  const years = React.useMemo(() => stableItems.map((item) => item.date.year), [stableItems]);
+  const itemByYear = React.useMemo(
+    () => new Map(stableItems.map((item) => [item.date.year, item])),
+    [stableItems],
+  );
   const focusedYear = items[focusedItemId as number]?.date.year ?? state.focusedDate.year;
 
   const getFormattedYear = React.useCallback(

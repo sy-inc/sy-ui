@@ -41,7 +41,7 @@
 .file-tree__item {
   @apply relative w-full outline-none;
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     .file-tree__item-content {
       @apply status-focused;
@@ -146,7 +146,7 @@
   block-size: var(--file-tree-control-size);
   inline-size: var(--file-tree-control-size);
 
-  &:focus-visible,
+  &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {
     @apply status-focused;
   }

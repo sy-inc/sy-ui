@@ -1,0 +1,57 @@
+---
+title: Upstream v3.2.6 sync
+description: SY INC integration notes for AvatarGroup, focus styles, dependency updates, and preserved local APIs.
+---
+
+This page records SY INC's integration of [HeroUI v3.2.6](https://heroui.com/en/docs/react/releases/v3-2-6), released upstream on September 17, 2026. **v3.2.6 is the upstream version, not an SY INC package release.** The local package manifests remain at `0.1.10`; these notes do not announce a published package or change its version.
+
+## AvatarGroup
+
+[AvatarGroup](/docs/react/components/avatar-group) is now a dedicated component with compound Avatar children:
+
+- Set `size`, `color`, and `variant` once for the group; individual avatars can override them.
+- Use `max` to limit visible avatars and show the remaining count automatically.
+- Use `AvatarGroup.Count` when the total comes from the server. It replaces the automatic count and is not truncated by `max`.
+- Choose crescent clipping (`overlap="clip"`), background-colored seams (`overlap="ring"`), or a wrapping layout (`isGrid`).
+- Add `role="group"` and a label when grouping conveys meaning; the component does not assign the role automatically.
+
+The component is exported from `@sy-inc/react` and `@sy-inc/react/avatar-group`. English and Chinese documentation, runnable examples, and the [Avatar migration guide](/docs/react/migration/avatar) describe the new API.
+
+## Fixes and performance
+
+- Focus styles respect React Aria's keyboard focus state after mouse-driven overlay dismissal, while retaining the native `:focus-visible` fallback for plain HTML markup.
+- ColorSlider's invalid color-space warnings are limited to non-production builds; automatic correction is retained.
+- Bare `.tag` markup has the default medium padding and text size again.
+- Breadcrumbs use explicit container and item gaps.
+- Component context values and merged refs are memoized to avoid unnecessary consumer updates and ref reattachment. Shared empty defaults replace unstable inline arrays in InputOTP, DisclosureGroup, and ComboBox.
+
+## Dependencies
+
+| Package | Local requirement after this sync |
+| --- | --- |
+| `react-aria` | `^3.52.1` peer; development version `3.52.1` |
+| `react-aria-components` | `^1.21.1` peer; development version `1.21.1` |
+| `@internationalized/date` | Existing `^3.12.4` peer requirement retained |
+| `@radix-ui/react-avatar` | `1.2.6` |
+| `input-otp` | `1.5.0` |
+
+Direct `tailwind-merge` and `@react-aria/i18n` declarations are removed from `@sy-inc/react`. Tailwind Variants handles class merging. The custom [KPI](/docs/react/components/kpi) uses `useNumberFormatter` from `react-aria/useNumberFormatter`, preserving formatting options, render children, and the nearest `I18nProvider` locale, including locale changes. This is not a replacement with environment-default number formatting.
+
+If your application imports `@react-aria/i18n` itself, keep its own dependency declaration or migrate its imports separately. Removing SY INC's direct declaration does not promise that a package disappears from every consumer's dependency tree.
+
+## Compatibility and local differences
+
+### SeparatorContent remains supported
+
+SY INC retains `SeparatorContent`, `SeparatorContentProps`, `separatorContentVariants`, `SeparatorContentVariants`, and their `.separator__container`, `.separator__line`, and `.separator__content` styles. They are used by the local component and documented examples. Upstream's removal of unused separator content styles is deliberately not applied here. Existing imports require no migration and are not deprecated.
+
+### Fieldset CSS selector
+
+Custom styles targeting `.fieldset__field_group` must switch to `.fieldset__field-group`. The React component API is unchanged.
+
+## Upgrade checklist
+
+- Satisfy the React Aria and date peer requirements above when installing a published SY INC version that contains this sync.
+- Update any custom Fieldset selectors using the old underscore form.
+- Use AvatarGroup in place of manual avatar stacking where desired; migrate v2 `total` to an explicit `AvatarGroup.Count`.
+- Keep existing SeparatorContent usage. KPI consumers do not need to change their props or locale provider.

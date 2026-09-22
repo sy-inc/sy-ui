@@ -48,8 +48,10 @@ const BottomBarRoot = ({
     [position, selectionStyle, variant],
   );
 
+  const bottomBarContextValue = React.useMemo(() => ({selectionStyle}), [selectionStyle]);
+
   return (
-    <BottomBarContext value={{selectionStyle}}>
+    <BottomBarContext value={bottomBarContextValue}>
       <Tabs.Root
         {...props}
         aria-label={ariaLabel}

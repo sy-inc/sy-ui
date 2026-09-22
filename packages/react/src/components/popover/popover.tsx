@@ -31,6 +31,8 @@ type PopoverContext = {
 
 const PopoverContext = createContext<PopoverContext>({});
 
+const DEFAULT_SURFACE_CONTEXT = {variant: "default" as SurfaceVariants["variant"]};
+
 /* -------------------------------------------------------------------------------------------------
  * Popover Root
  * -----------------------------------------------------------------------------------------------*/
@@ -42,8 +44,10 @@ const PopoverRoot = ({
 }: ComponentPropsWithRef<typeof PopoverTriggerPrimitive>) => {
   const slots = React.useMemo(() => popoverVariants(), []);
 
+  const popoverContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <PopoverContext value={{slots}}>
+    <PopoverContext value={popoverContextValue}>
       <PopoverTriggerPrimitive data-slot="popover-root" {...props}>
         {children}
       </PopoverTriggerPrimitive>
@@ -63,17 +67,11 @@ const PopoverContent = ({children, className, ...props}: PopoverContentProps) =>
   const {slots} = use(PopoverContext);
 
   return (
-    <PopoverContext value={{slots}}>
-      <SurfaceContext
-        value={{
-          variant: "default" as SurfaceVariants["variant"],
-        }}
-      >
-        <PopoverPrimitive {...props} className={composeTwRenderProps(className, slots?.base())}>
-          {children}
-        </PopoverPrimitive>
-      </SurfaceContext>
-    </PopoverContext>
+    <SurfaceContext value={DEFAULT_SURFACE_CONTEXT}>
+      <PopoverPrimitive {...props} className={composeTwRenderProps(className, slots?.base())}>
+        {children}
+      </PopoverPrimitive>
+    </SurfaceContext>
   );
 };
 

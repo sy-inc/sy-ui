@@ -48,8 +48,10 @@ const DropZoneRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
 }: DropZoneRootProps<E> & Omit<React.JSX.IntrinsicElements[E], keyof DropZoneRootProps<E>>) => {
   const slots = React.useMemo(() => dropZoneVariants({variant}), [variant]);
 
+  const dropZoneContextValue = React.useMemo(() => ({slots}), [slots]);
+
   return (
-    <DropZoneContext value={{slots}}>
+    <DropZoneContext value={dropZoneContextValue}>
       <dom.div className={slots.base({className})} data-slot="drop-zone" {...(props as any)}>
         {children}
       </dom.div>
