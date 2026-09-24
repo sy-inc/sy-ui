@@ -91,6 +91,23 @@ export function ProfilePhone() {
 </InputPhone>
 ```
 
+### 固定国家/地区
+
+当 `countries` 只有一个国家/地区时，组件自动使用该国家/地区，无需设置
+`defaultCountry`。`CountrySelect` 显示静态国旗和区号，不再渲染按钮或弹层，
+也不占用 Tab 焦点。此时 `country` 和 `defaultCountry` 不覆盖唯一允许的国家/地区。
+
+```tsx
+<InputPhone countries={["MY"]}>
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="电话号码" />
+</InputPhone>
+```
+
+已有的其他国家/地区号码会保留完整国际号码并显示静态 🌐 前缀，由应用校验；
+不会自动替换成唯一国家/地区的区号。清空后重新输入时使用唯一允许的国家/地区。
+多国家列表搜索后只剩一个结果时，选择器仍保持可用。
+
 ### 非受控
 
 当字段自行管理状态时使用 `defaultValue`。表单提交的值是 E.164 电话号码，
@@ -260,6 +277,7 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 | Slot | 元素 | 用途 |
 | --- | --- | --- |
 | `input-group` | 根元素 | 字段外壳，同时带有 `.input-phone` |
+| `input-phone-country-display` | 静态国家/地区前缀 | 仅允许一个国家/地区时显示，不可展开 |
 | `input-phone-country-trigger` | 国家/地区触发器 | 打开国家/地区弹层 |
 | `input-phone-country-popover` | 国家/地区弹层 | 包含搜索框与列表 |
 | `input-phone-country-search` | 搜索输入框 | 按名称或区号过滤 |
@@ -279,9 +297,9 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 | 属性 | 类型 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | - | 字段部件，通常是 `CountrySelect` 和 `Input`。 |
-| `country` | `Country` | - | 受控的 ISO 3166-1 alpha-2 国家/地区，优先级高于值自带的国家/地区。 |
+| `country` | `Country` | - | 受控的 ISO 3166-1 alpha-2 国家/地区；多国家模式下优先级高于值自带的国家/地区。 |
 | `defaultCountry` | `Country` | - | 初始国家/地区，在值或用户选择覆盖它之前生效。 |
-| `countries` | `Country[]` | - | 限制可选的国家/地区，省略则提供全部。 |
+| `countries` | `Country[]` | - | 限制可选的国家/地区；仅一个时自动显示静态前缀，省略则提供全部。 |
 | `onCountryChange` | `(country: Country) => void` | - | 用户选择国家/地区时调用。 |
 | `value` | `string` | - | 受控的 E.164 电话号码，需配合 `onChange` 更新。 |
 | `defaultValue` | `string` | - | 非受控的初始 E.164 电话号码。 |
@@ -307,6 +325,8 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 
 接受全部 `Button` 属性。`aria-label` 默认为 `Change country, {name}`。`children`
 会替换弹层内容，默认是 `CountrySearch` 后跟 `CountryList`。
+仅一个国家/地区时，仅字符串形式的 `className` 应用于静态前缀；按钮属性和弹层内容不使用。
+省略 `CountrySearch` 时，列表不保留顶部间距；有搜索框时才添加搜索框与列表之间的间距。
 
 ### InputPhone.CountrySearch
 
@@ -314,6 +334,8 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 `Search countries`。
 
 ### InputPhone.CountryList
+
+国家列表复用 ScrollShadow 的上下边缘渐隐，提示当前方向还有内容可滚动；内容不溢出时自动隐藏，搜索框保持固定。
 
 接受全部 `ListBox` 属性，但不包括绑定到国家/地区集合的那些（`children`、`items`、
 `selectedKeys`、`selectionMode`、`onSelectionChange`）。`aria-label` 默认为

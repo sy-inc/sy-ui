@@ -34,6 +34,10 @@
   --button-bg-pressed: var(--field-focus);
 }
 
+.input-phone__country-display {
+  @apply flex shrink-0 items-center gap-1 self-stretch px-3 text-sm text-field-foreground;
+}
+
 .input-phone__country-flag {
   @apply shrink-0 text-base leading-none;
 }
@@ -55,7 +59,18 @@
   /* `scrollbar` picks up the themed scrollbar and honours a `data-scrollbar` ancestor.
    * `overscroll-contain` stops a flick past the last country from scrolling the page
    * behind the popover, the same guard combo-box and select use. */
-  @apply mt-2 max-h-64 scrollbar overflow-y-auto overscroll-contain p-1 outline-none;
+  @apply max-h-64 scrollbar overflow-y-auto overscroll-contain p-1 outline-none;
+}
+
+/* A short fade hints at more countries without obscuring a whole option row. */
+.input-phone__country-list.scroll-shadow {
+  --scroll-shadow-size: 20px;
+}
+
+/* Search/list spacing belongs to their composition, including virtualized lists. */
+.input-phone__country-popover:has([data-slot="input-phone-country-search"])
+  .input-phone__country-list {
+  @apply mt-2;
 }
 
 /* Row layout for this list only: the flag / name / dial-code arrangement is

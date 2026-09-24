@@ -7,8 +7,10 @@ export const inputPhoneVariants = tv({
     base: "input-phone",
     countryCode: "input-phone__country-code",
     countryDialCode: "input-phone__country-dial-code",
+    countryDisplay: "input-phone__country-display",
     countryFlag: "input-phone__country-flag",
-    countryList: "input-phone__country-list",
+    countryList:
+      "input-phone__country-list scroll-shadow scroll-shadow--vertical scroll-shadow--fade",
     countryName: "input-phone__country-name",
     countryPopover: "input-phone__country-popover",
     countryPrefix: "input-phone__country-prefix",

@@ -1,9 +1,119 @@
 import {render} from "@sy-inc/testing/browser";
+import {createRef} from "react";
+import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 import {page, userEvent} from "vitest/browser";
+
+import {InputPhone} from "@/components/input-phone";
+
+import "../../../../styles/dist/sy-inc.min.css";
 
 import {PhoneField} from "./fixtures";
 
 describe("InputPhone (browser)", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it.each([false, true])(
+    "updates scroll shadows as countries scroll and filter (virtualized: %s)",
+    async (virtualized) => {
+      // React Stately checks this flag at runtime; browser tests must keep real virtualization on.
+      if (virtualized) vi.stubGlobal("process", {env: {NODE_ENV: "test", VIRT_ON: "1"}});
+
+      const ref = createRef<HTMLDivElement>();
+      const countries = <InputPhone.CountryList ref={ref} />;
+
+      await render(
+        <InputPhone defaultCountry="MY">
+          <InputPhone.CountrySelect>
+            <InputPhone.CountrySearch />
+            {virtualized ? (
+              <Virtualizer layout={ListLayout} layoutOptions={{rowHeight: 36}}>
+                {countries}
+              </Virtualizer>
+            ) : (
+              countries
+            )}
+          </InputPhone.CountrySelect>
+          <InputPhone.Input aria-label="Phone number" />
+        </InputPhone>,
+      );
+
+      await page.getByRole("button", {name: "Change country, Malaysia"}).click();
+      const list = page.getByRole("listbox", {name: "Countries"});
+
+      await expect.element(list).toBeInTheDocument();
+      const element = list.element();
+
+      expect(ref.current).toBe(element);
+      await vi.waitFor(() => expect(element.scrollHeight).toBeGreaterThan(element.clientHeight));
+      element.scrollTop = 0;
+      await expect.element(list).toHaveAttribute("data-bottom-scroll", "true");
+      await expect.element(list).toHaveAttribute("data-top-scroll", "false");
+      expect(getComputedStyle(element).maskImage).not.toBe("none");
+
+      element.scrollTop = (element.scrollHeight - element.clientHeight) / 2;
+      await expect.element(list).toHaveAttribute("data-top-bottom-scroll", "true");
+      element.scrollTop = element.scrollHeight;
+      await expect.element(list).toHaveAttribute("data-top-scroll", "true");
+      await expect.element(list).toHaveAttribute("data-bottom-scroll", "false");
+
+      const search = page.getByRole("searchbox", {name: "Search countries"});
+
+      await search.fill("Germany");
+      await expect.element(list).toHaveAttribute("data-top-scroll", "false");
+      await expect.element(list).toHaveAttribute("data-bottom-scroll", "false");
+      expect(getComputedStyle(element).maskImage).toBe("none");
+      await search.fill("");
+      await expect.element(list).toHaveAttribute("data-bottom-scroll", "true");
+    },
+  );
+
+  it("skips the static country prefix during keyboard navigation", async () => {
+    await render(
+      <div>
+        <button type="button">Before phone</button>
+        <PhoneField countries={["MY"]} />
+        <button type="button">After phone</button>
+      </div>,
+    );
+
+    await page.getByRole("button", {name: "Before phone"}).click();
+    await userEvent.tab();
+    await expect.element(page.getByRole("textbox", {name: "Phone number"})).toHaveFocus();
+    await userEvent.tab();
+    await expect.element(page.getByRole("button", {name: "After phone"})).toHaveFocus();
+    await page.getByRole("img", {name: "Malaysia, +60"}).click();
+    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("adds list spacing only when the country search is present", async () => {
+    await render(
+      <div>
+        <InputPhone countries={["MY", "SG"]} defaultCountry="MY">
+          <InputPhone.CountrySelect aria-label="Without search">
+            <InputPhone.CountryList />
+          </InputPhone.CountrySelect>
+          <InputPhone.Input aria-label="Phone without search" />
+        </InputPhone>
+        <InputPhone countries={["MY", "SG"]} defaultCountry="MY">
+          <InputPhone.CountrySelect aria-label="With search" />
+          <InputPhone.Input aria-label="Phone with search" />
+        </InputPhone>
+      </div>,
+    );
+
+    await page.getByRole("button", {name: "Without search"}).click();
+    const list = page.getByRole("listbox", {name: "Countries"});
+
+    await expect.element(list).toBeInTheDocument();
+    expect(getComputedStyle(list.element()).marginTop).toBe("0px");
+    await userEvent.keyboard("{Escape}");
+    await expect.element(list).not.toBeInTheDocument();
+
+    await page.getByRole("button", {name: "With search"}).click();
+    await expect.element(list).toBeInTheDocument();
+    expect(parseFloat(getComputedStyle(list.element()).marginTop)).toBeGreaterThan(0);
+  });
+
   it("opens, searches, selects, dismisses with Escape, restores focus, and accepts input", async () => {
     await render(<PhoneField defaultCountry="US" />);
 

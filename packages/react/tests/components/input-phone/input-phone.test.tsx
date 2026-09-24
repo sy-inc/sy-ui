@@ -128,6 +128,8 @@ describe("InputPhone", () => {
 
     expect(screen.getByRole("option", {name: /Germany/})).toBeInTheDocument();
     expect(screen.queryByRole("option", {name: /United States/})).toBeNull();
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
 
     fireEvent.change(search, {target: {value: "49"}});
 
@@ -212,12 +214,84 @@ describe("InputPhone", () => {
     const input = screen.getByRole("textbox", {name: "Phone number"}) as HTMLInputElement;
 
     expect(input.value.replace(/\D/g, "")).toContain("2071838750");
+  });
 
-    cleanup();
-    renderPhone({countries: ["US"], defaultCountry: "GB"});
+  it("renders a static prefix and accepts national numbers for the only allowed country", async () => {
+    const onChange = vi.fn();
+    const onCountryChange = vi.fn();
 
-    expect(screen.getByRole("button", {name: "Select country"})).toBeInTheDocument();
-    expect(screen.queryByRole("button", {name: /United Kingdom/})).toBeNull();
+    // A stale country/defaultCountry must not override the only allowed country.
+    renderPhone({countries: ["MY"], country: "US", onChange, onCountryChange});
+
+    const prefix = screen.getByRole("img", {name: "Malaysia, +60"});
+    const input = screen.getByRole("textbox", {name: "Phone number"});
+
+    expect(prefix).toHaveAttribute("data-slot", "input-phone-country-display");
+    expect(screen.queryByRole("button")).toBeNull();
+    await user.click(prefix);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(input).toHaveFocus();
+    await user.type(input, "0123456789");
+    expect(onChange).toHaveBeenLastCalledWith("+60123456789");
+    expect(onCountryChange).not.toHaveBeenCalled();
+  });
+
+  it("preserves a foreign stored number in single-country mode until the user replaces it", async () => {
+    const onChange = vi.fn();
+
+    render(
+      <form data-testid="foreign-phone-form">
+        <PhoneField
+          countries={["MY"]}
+          defaultValue="+442071838750"
+          name="phone"
+          onChange={onChange}
+        />
+      </form>,
+    );
+
+    const input = screen.getByRole("textbox", {name: "Phone number"}) as HTMLInputElement;
+
+    expect(screen.getByRole("img", {name: "International phone number"})).toBeInTheDocument();
+    expect(input.value.replace(/\s/g, "")).toBe("+442071838750");
+    expect(
+      new FormData(screen.getByTestId("foreign-phone-form") as HTMLFormElement).get("phone"),
+    ).toBe("+442071838750");
+    expect(onChange).not.toHaveBeenCalled();
+
+    await user.clear(input);
+    expect(screen.getByRole("img", {name: "Malaysia, +60"})).toBeInTheDocument();
+    await user.type(input, "0123456789");
+    expect(onChange).toHaveBeenLastCalledWith("+60123456789");
+  });
+
+  it("closes the selector when countries narrows to one and restores it when expanded", async () => {
+    const onChange = vi.fn();
+    const {rerender} = render(
+      <PhoneField countries={["MY", "SG"]} defaultCountry="MY" onChange={onChange} />,
+    );
+
+    await openCountries(user, "Change country, Malaysia");
+    rerender(<PhoneField countries={["MY"]} defaultCountry="MY" onChange={onChange} />);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(screen.queryByRole("button")).toBeNull();
+    expect(screen.getByRole("img", {name: "Malaysia, +60"})).toBeInTheDocument();
+    expect(onChange).not.toHaveBeenCalled();
+
+    rerender(<PhoneField countries={["MY", "SG"]} defaultCountry="MY" onChange={onChange} />);
+    await openCountries(user, "Change country, Malaysia");
+    expect(screen.getAllByRole("option")).toHaveLength(2);
+  });
+
+  it("preserves an incomplete foreign value when the allowed country changes", () => {
+    const onChange = vi.fn();
+    const {rerender} = renderPhone({countries: ["GB", "MY"], defaultValue: "+44", onChange});
+
+    rerender(<PhoneField countries={["MY"]} defaultValue="+44" onChange={onChange} />);
+
+    expect(screen.getByRole("textbox", {name: "Phone number"})).toHaveValue("+44");
+    expect(screen.getByRole("img", {name: "International phone number"})).toBeInTheDocument();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it("supports composing the popover with relabelled parts", async () => {

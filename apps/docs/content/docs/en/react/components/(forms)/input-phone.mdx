@@ -94,6 +94,25 @@ cleared and the trigger shows 🌐. Validate such values yourself with `isInvali
 </InputPhone>
 ```
 
+### Fixed country
+
+When `countries` contains one country, it is used automatically without a
+`defaultCountry`. `CountrySelect` renders a static flag and calling code with no
+button, popover, or Tab stop. Neither `country` nor `defaultCountry` overrides the
+only allowed country.
+
+```tsx
+<InputPhone countries={["MY"]}>
+  <InputPhone.CountrySelect />
+  <InputPhone.Input aria-label="Phone number" />
+</InputPhone>
+```
+
+Existing foreign numbers keep their full international value and show a static 🌐
+prefix for the application to validate; their calling code is never replaced
+implicitly. Clearing the field restores the only allowed country for new input.
+Filtering a multi-country list down to one search result keeps the selector usable.
+
 ### Uncontrolled
 
 Use `defaultValue` when the field owns its state. The value submitted by a form is
@@ -275,6 +294,7 @@ Use these `data-slot` values to target an individual part:
 | Slot | Element | Purpose |
 | --- | --- | --- |
 | `input-group` | Root | The field shell, also carrying `.input-phone` |
+| `input-phone-country-display` | Static country prefix | Displays the only allowed country without a popover |
 | `input-phone-country-trigger` | Country trigger | Opens the country popover |
 | `input-phone-country-popover` | Country popover | Contains the search and the list |
 | `input-phone-country-search` | Search input | Filters by name or calling code |
@@ -294,9 +314,9 @@ Accepts every `InputGroup` prop — including `fullWidth` (default `true`) and
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | - | The field parts, typically `CountrySelect` and `Input`. |
-| `country` | `Country` | - | Controlled ISO 3166-1 alpha-2 country. Outranks the value's own country. |
+| `country` | `Country` | - | Controlled ISO 3166-1 alpha-2 country. Outranks the value's own country in multi-country mode. |
 | `defaultCountry` | `Country` | - | Initial country, used until the value or the user picks another. |
-| `countries` | `Country[]` | - | Restricts the selectable countries. Omit to offer every country. |
+| `countries` | `Country[]` | - | Restricts the selectable countries; one country renders a static prefix. Omit to offer every country. |
 | `onCountryChange` | `(country: Country) => void` | - | Called when the user selects a country. |
 | `value` | `string` | - | Controlled E.164 phone number. Provide `onChange` to update it. |
 | `defaultValue` | `string` | - | Uncontrolled initial E.164 phone number. |
@@ -324,6 +344,9 @@ receives the normalized E.164 string, not a DOM event; `onFocus`, `onBlur`,
 Accepts every `Button` prop. `aria-label` defaults to `Change country, {name}`.
 `children` replaces the popover body, which defaults to `CountrySearch` followed by
 `CountryList`.
+In single-country mode, only a string `className` applies to the static prefix;
+button props and popover children are unused. Omitting `CountrySearch` removes the
+list’s top spacing; spacing is added only when the search is present.
 
 ### InputPhone.CountrySearch
 
@@ -331,6 +354,8 @@ Accepts every `SearchField.Input` prop, including `placeholder`. `aria-label`
 defaults to `Search countries`.
 
 ### InputPhone.CountryList
+
+The country list reuses ScrollShadow edge fades to indicate more content above or below. Fades disappear when the list fits, and the search stays fixed.
 
 Accepts every `ListBox` prop except the ones bound to the country collection
 (`children`, `items`, `selectedKeys`, `selectionMode`, `onSelectionChange`).

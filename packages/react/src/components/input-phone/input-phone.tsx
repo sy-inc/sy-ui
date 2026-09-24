@@ -1,8 +1,9 @@
 "use client";
 
-import type {ComponentPropsWithRef, ReactNode, Ref} from "react";
+import type {ComponentPropsWithRef, ReactNode, Ref, RefObject} from "react";
 import type {Country} from "react-phone-number-input";
 
+import {mergeRefs} from "@react-aria/utils";
 import {inputPhoneVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Autocomplete as AutocompletePrimitive, useFilter} from "react-aria-components/Autocomplete";
@@ -20,6 +21,7 @@ import {EmptyState} from "../empty-state";
 import {InputGroup} from "../input-group";
 import {ListBox} from "../list-box";
 import {Popover} from "../popover";
+import {useScrollShadow} from "../scroll-shadow";
 import {SearchField} from "../search-field";
 
 /* -------------------------------------------------------------------------------------------------
@@ -107,7 +109,7 @@ interface InputPhoneRootProps extends Omit<
   children: ReactNode;
   /** The controlled ISO 3166-1 alpha-2 country used for national formatting. */
   country?: Country;
-  /** Restricts the selectable countries. Omit to offer every country. */
+  /** Restricts the selectable countries. A single country renders a static prefix. */
   countries?: Country[];
   /** The initial country, used until the value or the user selects another one. */
   defaultCountry?: Country;
@@ -166,9 +168,22 @@ const InputPhoneRoot = ({
     () => (phoneValue ? parsePhoneNumber(phoneValue)?.country : undefined),
     [phoneValue],
   );
-  const resolved = countryProp ?? parsedCountry ?? selectedCountry ?? defaultCountry;
+  const singleCountry = options.length === 1 ? options[0]?.code : undefined;
+  // The only allowed country also supplies the default for an empty field. A foreign
+  // stored value still follows the whitelist fallback below instead of being rewritten.
+  const resolved = singleCountry
+    ? (parsedCountry ?? singleCountry)
+    : (countryProp ?? parsedCountry ?? selectedCountry ?? defaultCountry);
   // A country outside the whitelist is cleared, while the typed value is left as is.
-  const country = resolved && (!countries || countries.includes(resolved)) ? resolved : undefined;
+  // Also preserve incomplete foreign values that parsePhoneNumber cannot resolve yet.
+  const hasForeignPrefix =
+    singleCountry &&
+    phoneValue &&
+    !phoneValue.startsWith(`+${getCountryCallingCode(singleCountry)}`);
+  const country =
+    !hasForeignPrefix && resolved && (!countries || countries.includes(resolved))
+      ? resolved
+      : undefined;
 
   const handleValueChange = (nextValue: string | undefined) => {
     if (value === undefined) {
@@ -296,6 +311,33 @@ const InputPhoneCountrySelect = ({children, className, ...props}: InputPhoneCoun
   const {country, isDisabled, isReadOnly, options, slots} = use(InputPhoneContext);
   const {contains} = useFilter({sensitivity: "base"});
   const option = country ? options.find((o) => o.code === country) : undefined;
+  const countryContent = (
+    <>
+      <span aria-hidden="true" className={slots.countryFlag()}>
+        {option ? countryFlag(option.code) : "🌐"}
+      </span>
+      {option ? <span className={slots.countryCode()}>+{option.callingCode}</span> : null}
+    </>
+  );
+
+  if (options.length === 1) {
+    return (
+      <InputGroup.Prefix className={slots.countryPrefix()}>
+        <span
+          data-slot="input-phone-country-display"
+          role="img"
+          aria-label={
+            option ? `${option.name}, +${option.callingCode}` : "International phone number"
+          }
+          className={slots.countryDisplay({
+            className: typeof className === "string" ? className : undefined,
+          })}
+        >
+          {countryContent}
+        </span>
+      </InputGroup.Prefix>
+    );
+  }
 
   return (
     <InputGroup.Prefix className={slots.countryPrefix()}>
@@ -311,10 +353,7 @@ const InputPhoneCountrySelect = ({children, className, ...props}: InputPhoneCoun
           className={composeTwRenderProps(className, slots.countryTrigger())}
           data-slot="input-phone-country-trigger"
         >
-          <span aria-hidden="true" className={slots.countryFlag()}>
-            {option ? countryFlag(option.code) : "🌐"}
-          </span>
-          {option ? <span className={slots.countryCode()}>+{option.callingCode}</span> : null}
+          {countryContent}
         </Button>
         <Popover.Content className={slots.countryPopover()} data-slot="input-phone-country-popover">
           <Popover.Dialog>
@@ -365,11 +404,22 @@ interface InputPhoneCountryListProps extends Omit<
 
 const InputPhoneCountryList = ({
   className,
+  ref,
   renderEmptyState = () => <EmptyState>No countries found</EmptyState>,
   ...props
 }: InputPhoneCountryListProps) => {
   const {country, onCountrySelect, options, slots} = use(InputPhoneContext);
   const overlay = use(OverlayTriggerStateContext);
+  const listRef = React.useRef<HTMLDivElement>(null);
+  const mergedRef = React.useMemo(() => mergeRefs(listRef, ref), [ref]);
+
+  useScrollShadow({
+    containerRef: listRef as RefObject<HTMLElement>,
+    isEnabled: true,
+    offset: 0,
+    orientation: "vertical",
+    visibility: "auto",
+  });
 
   return (
     // `disallowEmptySelection` keeps re-picking the current country from clearing it,
@@ -379,6 +429,7 @@ const InputPhoneCountryList = ({
       aria-label="Countries"
       renderEmptyState={renderEmptyState}
       {...props}
+      ref={mergedRef}
       className={slots.countryList({className})}
       data-slot="input-phone-country-list"
       items={options}

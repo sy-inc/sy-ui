@@ -110,6 +110,26 @@ export const RestrictedCountries: Story = {
   ),
 };
 
+export const SingleCountry: Story = {
+  render: () => (
+    <InputPhone className="w-80" countries={["MY"]}>
+      <InputPhone.CountrySelect />
+      <InputPhone.Input aria-label="Malaysian phone number" />
+    </InputPhone>
+  ),
+};
+
+export const WithoutCountrySearch: Story = {
+  render: () => (
+    <InputPhone className="w-80" countries={["MY", "SG"]} defaultCountry="MY">
+      <InputPhone.CountrySelect>
+        <InputPhone.CountryList />
+      </InputPhone.CountrySelect>
+      <InputPhone.Input aria-label="Phone number" />
+    </InputPhone>
+  ),
+};
+
 /** Every part is composable, so the popover's copy is ordinary props. */
 export const CustomCountryPopover: Story = {
   render: () => (
