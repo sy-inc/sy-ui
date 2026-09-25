@@ -209,6 +209,23 @@ describe("ImageField", () => {
     expect(screen.getByRole("alert")).toHaveTextContent("Required");
   });
 
+  it("renders the upload failure from getUploadErrorMessage and falls back to labels.uploadFailed", async () => {
+    const pending = stub();
+    const user = setupUser();
+    const getUploadErrorMessage = (error: unknown) =>
+      error instanceof Error && error.message === "UPLOAD_FILE_TYPE_INVALID"
+        ? "The server could not read this image"
+        : undefined;
+
+    render(<ImageField {...props} {...pending} getUploadErrorMessage={getUploadErrorMessage} />);
+    upload();
+    await act(async () => pending.calls[0]!.reject(new Error("UPLOAD_FILE_TYPE_INVALID")));
+    expect(screen.getByRole("alert")).toHaveTextContent("The server could not read this image");
+    await user.click(screen.getByRole("button", {name: "Retry upload"}));
+    await act(async () => pending.calls[1]!.reject(new Error("UNKNOWN")));
+    expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
+  });
+
   it("calls onChange with a path only after a successful upload and with empty string on removal", async () => {
     const pending = stub();
     const onChange = vi.fn();
@@ -217,8 +234,12 @@ describe("ImageField", () => {
     render(<Controlled {...props} {...pending} onChange={onChange} />);
     upload();
     await waitFor(() => expect(pending.calls).toHaveLength(1));
+    // Until onUpload reports progress it is unknown, not 0%.
+    expect(screen.getByRole("progressbar")).not.toHaveAttribute("aria-valuenow");
+    expect(screen.queryByText(/%/)).not.toBeInTheDocument();
     act(() => pending.calls[0]!.context.onProgress(0.64));
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "64");
+    expect(screen.getByText("Uploading 64%")).toBeInTheDocument();
     expect(onChange).not.toHaveBeenCalled();
     await act(async () => pending.calls[0]!.resolve("/stored.png"));
     expect(onChange).toHaveBeenLastCalledWith("/stored.png");

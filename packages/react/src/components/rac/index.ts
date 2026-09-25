@@ -1,12 +1,6 @@
-export {
-  isRTL,
-  useLocale,
-  useFilter,
-  Virtualizer,
-  TableLayout,
-  ListLayout,
-} from "react-aria-components";
-export {getLocalizationScript} from "react-aria-components/i18n";
+"use client";
+
+export {useLocale, useFilter, Virtualizer, TableLayout, ListLayout} from "react-aria-components";
 export {
   Collection,
   FileTrigger,

@@ -587,6 +587,7 @@ const DropZoneSlots = <TResult,>({className, state, ...props}: DropZoneSlotsProp
                   {item.status === "uploading" && (
                     <DropZoneFileProgress
                       aria-label={`Uploading ${item.name}`}
+                      isIndeterminate={!item.progress}
                       value={item.progress * 100}
                     />
                   )}

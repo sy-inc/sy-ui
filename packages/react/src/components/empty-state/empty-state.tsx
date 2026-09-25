@@ -1,3 +1,5 @@
+"use client";
+
 import type {DOMRenderProps} from "../../utils/dom";
 import type {ReactNode} from "react";
 

@@ -250,6 +250,9 @@ describe("DropZone", () => {
 
       render(<UploadDropZone onState={probe.onState} onUpload={upload.onUpload} />);
       await add(probe.state, [png("photo.png")]);
+      expect(screen.getByRole("progressbar", {name: "Uploading photo.png"})).not.toHaveAttribute(
+        "aria-valuenow",
+      );
 
       await act(async () => upload.calls[0]!.context.onProgress(0.5));
       await waitFor(() =>

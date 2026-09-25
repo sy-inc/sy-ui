@@ -64,6 +64,8 @@ export interface ImageFieldProps extends Omit<
   label: string;
   description?: ReactNode;
   errorMessage?: ReactNode;
+  /** Maps what `onUpload` rejected with to the failure message; `null`/`undefined` falls back to `labels.uploadFailed`. */
+  getUploadErrorMessage?: (error: unknown) => ReactNode;
   labels?: Partial<ImageFieldLabels>;
 }
 
@@ -116,6 +118,7 @@ export function ImageFieldRoot({
   className,
   description,
   errorMessage,
+  getUploadErrorMessage,
   isDisabled = false,
   label,
   labels: labelOverrides,
@@ -187,7 +190,9 @@ export function ImageFieldRoot({
   const tooSmall = !!loaded?.width && !!recommendedWidth && loaded.width < recommendedWidth;
   const error =
     state.validationError?.message ??
-    (file?.status === "failed" ? labels.uploadFailed : null) ??
+    (file?.status === "failed"
+      ? (getUploadErrorMessage?.(file.error) ?? labels.uploadFailed)
+      : null) ??
     errorMessage;
   const focusTrigger = () =>
     rootRef.current?.querySelector<HTMLElement>('[data-slot="drop-zone-trigger"]')?.focus();
@@ -356,13 +361,16 @@ export function ImageFieldFrame({
       {!!uploading && (
         <div className={slots.overlay()} data-slot="image-field-feedback">
           <Spinner aria-label={labels.uploading} size="sm" />
+          {/* No progress yet (e.g. a fetch-based onUpload never reports any): don't claim 0%. */}
           <span>
-            {labels.uploading} {Math.round(c.file!.progress * 100)}%
+            {labels.uploading}
+            {!!c.file!.progress && ` ${Math.round(c.file!.progress * 100)}%`}
           </span>
           {c.layout !== "inline" && <ImageFieldCancelButton />}
           <DropZone.FileProgress
             aria-label={labels.uploading}
             className={slots.progress()}
+            isIndeterminate={!c.file!.progress}
             value={c.file!.progress * 100}
           />
         </div>

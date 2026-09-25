@@ -32,7 +32,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 }
 ```
 
-消费方提供 `onUpload(file, {signal, onProgress})`，返回已存储路径；进度范围为 0–1，并应响应 AbortSignal。`resolveSrc` 将路径转换为展示 URL。成功通过 `onChange` 请求更新路径，移除请求空串 `""`。值始终由父组件控制，取消、校验失败或上传失败保留原值。外部 `value` 改变会取消当前上传，取消后的迟到结果不会覆盖字段。
+消费方提供 `onUpload(file, {signal, onProgress})`，返回已存储路径；进度范围为 0–1，并应响应 AbortSignal。进度可选：在 `onProgress` 上报大于 0 的值之前（基于 `fetch` 的上传永远不会上报），框内显示不确定进度条且不显示百分比。`resolveSrc` 将路径转换为展示 URL。成功通过 `onChange` 请求更新路径，移除请求空串 `""`。值始终由父组件控制，取消、校验失败或上传失败保留原值。外部 `value` 改变会取消当前上传，取消后的迟到结果不会覆盖字段。
 
 底层组合 `useDropZoneState`、`DropZone.Area`、`DropZone.Trigger` 和 `ImagePreview`。组件不做裁切、存储、多图管理或语言回退决策。
 
@@ -64,13 +64,14 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `maxFileSize` | `number` | —；字节数 |
 | `description` | `ReactNode` | 尺寸及已知格式，或建议尺寸 |
 | `errorMessage` | `ReactNode` | —；在 Meta 中使用公共 field-error 样式展示表单错误 |
+| `getUploadErrorMessage` | `(error: unknown) => ReactNode` | —；把 `onUpload` 抛出的错误映射为失败文案；返回 `null`/`undefined` 时回退到 `labels.uploadFailed` |
 | `placeholder` | `ReactNode` | —；app 提供空值时的框内内容 |
 | `isDisabled` | `boolean` | `false` |
 | `labels` | `Partial<ImageFieldLabels>` | 英文文案 |
 | `children` | `ReactNode` | 默认组合 |
 | `ref` | `Ref<HTMLDivElement>` | 根节点 |
 
-支持根 div 原生属性、`className`、`style`。`labels` 可覆盖 `upload`、`replace`、`remove`、`preview`、`closePreview`、`retry`、`cancel`、`dropHere`、`broken`、`ratioMismatch`、`tooSmall`、`uploading`、`uploadFailed`、`recommended`、`invalidFileType`、`fileTooLarge`、`tooManyFiles`。服务端原始错误字符串不会直接展示。
+支持根 div 原生属性、`className`、`style`。`labels` 可覆盖 `upload`、`replace`、`remove`、`preview`、`closePreview`、`retry`、`cancel`、`dropHere`、`broken`、`ratioMismatch`、`tooSmall`、`uploading`、`uploadFailed`、`recommended`、`invalidFileType`、`fileTooLarge`、`tooManyFiles`。服务端原始错误字符串不会直接展示，除非经 `getUploadErrorMessage` 映射。
 
 ## 组合与占位
 

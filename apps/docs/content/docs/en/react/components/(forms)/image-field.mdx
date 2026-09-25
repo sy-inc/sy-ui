@@ -32,7 +32,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 }
 ```
 
-`onUpload(file, {signal, onProgress})` is supplied by your app and resolves to a stored path. Report progress from 0 to 1 and honor the abort signal. Use `resolveSrc` to turn stored paths into display URLs. Upload success requests the new path through `onChange`; removal requests `""`. The parent owns the value. Cancellation, validation failure, and upload failure keep the existing path. Changing `value` cancels a pending transfer; late results from cancelled transfers are ignored.
+`onUpload(file, {signal, onProgress})` is supplied by your app and resolves to a stored path. Report progress from 0 to 1 and honor the abort signal. Progress is optional: until `onProgress` reports a value above 0 (a `fetch` upload never does), the frame shows an indeterminate bar with no percentage. Use `resolveSrc` to turn stored paths into display URLs. Upload success requests the new path through `onChange`; removal requests `""`. The parent owns the value. Cancellation, validation failure, and upload failure keep the existing path. Changing `value` cancels a pending transfer; late results from cancelled transfers are ignored.
 
 ImageField composes `useDropZoneState`, `DropZone.Area`, `DropZone.Trigger`, and `ImagePreview`. It never crops, stores files, manages a gallery, or interprets application languages.
 
@@ -64,13 +64,14 @@ The empty frame is a file picker. Dragging shows a release message. Uploading sh
 | `maxFileSize` | `number` | —; bytes |
 | `description` | `ReactNode` | Dimensions and known format, or recommended dimensions |
 | `errorMessage` | `ReactNode` | —; external form error in Meta using shared field-error styles |
+| `getUploadErrorMessage` | `(error: unknown) => ReactNode` | —; maps what `onUpload` rejected with to the failure message; `null`/`undefined` falls back to `labels.uploadFailed` |
 | `placeholder` | `ReactNode` | —; app-provided empty-frame content |
 | `isDisabled` | `boolean` | `false` |
 | `labels` | `Partial<ImageFieldLabels>` | English strings |
 | `children` | `ReactNode` | Default composition |
 | `ref` | `Ref<HTMLDivElement>` | Root element |
 
-Native root div attributes, `className`, and `style` are supported. `labels` keys are `upload`, `replace`, `remove`, `preview`, `closePreview`, `retry`, `cancel`, `dropHere`, `broken`, `ratioMismatch`, `tooSmall`, `uploading`, `uploadFailed`, `recommended`, `invalidFileType`, `fileTooLarge`, and `tooManyFiles`. Override these for the app locale; raw server error strings are not displayed.
+Native root div attributes, `className`, and `style` are supported. `labels` keys are `upload`, `replace`, `remove`, `preview`, `closePreview`, `retry`, `cancel`, `dropHere`, `broken`, `ratioMismatch`, `tooSmall`, `uploading`, `uploadFailed`, `recommended`, `invalidFileType`, `fileTooLarge`, and `tooManyFiles`. Override these for the app locale; raw server error strings are not displayed unless `getUploadErrorMessage` maps them.
 
 ## Composition and placeholders
 

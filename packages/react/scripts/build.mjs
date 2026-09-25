@@ -65,10 +65,8 @@ async function logComponentCount() {
 async function addUseClientDirective() {
   console.log("🔧 Adding directives to files...");
 
-  // Find all JS files in the components and hooks directories
+  // Find all JS files in the components, hooks and utils directories
   const jsFiles = [];
-  const componentsDir = path.join(distDir, "components");
-  const hooksDir = path.join(distDir, "hooks");
   const srcDir = path.join(rootDir, "src");
 
   async function findJsFiles(dir) {
@@ -86,12 +84,10 @@ async function addUseClientDirective() {
     }
   }
 
-  if (await fs.pathExists(componentsDir)) {
-    await findJsFiles(componentsDir);
-  }
-
-  if (await fs.pathExists(hooksDir)) {
-    await findJsFiles(hooksDir);
+  for (const dir of ["components", "hooks", "utils"]) {
+    if (await fs.pathExists(path.join(distDir, dir))) {
+      await findJsFiles(path.join(distDir, dir));
+    }
   }
 
   let useClientCount = 0;
@@ -120,18 +116,22 @@ async function addUseClientDirective() {
     const isTsx = await fs.pathExists(sourcePathTsx);
     const isTs = await fs.pathExists(sourcePathTs);
 
-    if (isTsx) {
-      // .tsx files get "use client"
+    // Rollup strips module directives, so restore them from the source:
+    // .tsx files and .ts files that declare "use client" get it back.
+    const isClientTs =
+      isTs && /^\s*["']use client["']/.test(await fs.readFile(sourcePathTs, "utf-8"));
+
+    if (isTsx || isClientTs) {
       await fs.writeFile(jsFile, `"use client";\n${content}`);
       useClientCount++;
     } else if (isTs) {
-      // .ts files get "use strict"
+      // Other .ts files get "use strict"
       await fs.writeFile(jsFile, `"use strict";\n${content}`);
       useStrictCount++;
     }
   }
 
-  console.log(`✅ Added "use client" to ${useClientCount} files (from .tsx)`);
+  console.log(`✅ Added "use client" to ${useClientCount} files`);
   console.log(`✅ Added "use strict" to ${useStrictCount} files (from .ts)`);
 }
 

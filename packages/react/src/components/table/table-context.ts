@@ -1,3 +1,5 @@
+"use client";
+
 import type {TableColumnDefinition, TableColumnGeometry} from "./table-column-geometry";
 import type {Key} from "@react-types/shared";
 

@@ -21,6 +21,49 @@ const replaceVersion = () => ({
   },
 });
 
+// Rollup hoists `export {x} from "pkg"` up into whichever barrel re-exports it (dist/index.js),
+// so a client-only package would land in the root entry and break Server Components importing it.
+// Inside "use client" modules, bind such re-exports to local consts: rollup can't hoist those.
+const CLIENT_ONLY_REEXPORT =
+  /^(react-aria-components|react-aria|react-stately)$|^@react-(aria|stately)\//;
+const keepClientReexports = () => ({
+  name: "keep-client-reexports",
+  transform(code, id) {
+    if (!/^\s*["']use client["']/.test(code)) return null;
+
+    let output = code;
+    let count = 0;
+    const nodes = this.parse(code).body.filter(
+      (node) =>
+        node.source &&
+        CLIENT_ONLY_REEXPORT.test(node.source.value) &&
+        node.type.startsWith("Export"),
+    );
+
+    for (const node of nodes.reverse()) {
+      if (node.type !== "ExportNamedDeclaration") {
+        this.error(
+          `${id}: \`export *\` from "${node.source.value}" can't be kept client-side; list the names.`,
+        );
+      }
+      const specs = node.specifiers.map((spec) => ({
+        alias: `__client${count++}`,
+        exported: spec.exported.name,
+        local: spec.local.name,
+      }));
+      const replacement = [
+        `import {${specs.map((s) => `${s.local} as ${s.alias}`).join(", ")}} from ${JSON.stringify(node.source.value)};`,
+        `const ${specs.map((s) => `${s.alias}$ = ${s.alias}`).join(", ")};`,
+        `export {${specs.map((s) => `${s.alias}$ as ${s.exported}`).join(", ")}};`,
+      ].join("\n");
+
+      output = output.slice(0, node.start) + replacement + output.slice(node.end);
+    }
+
+    return count ? {code: output, map: null} : null;
+  },
+});
+
 // Get all component directories
 const componentDirs = fs.readdirSync("./src/components").filter((file) => {
   const fullPath = path.join("./src/components", file);
@@ -69,6 +112,7 @@ const plugins = [
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     presets: [["@babel/preset-react", {runtime: "automatic"}], "@babel/preset-typescript"],
   }),
+  keepClientReexports(),
   postcss({
     extract: true,
     minimize: true,
