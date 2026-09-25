@@ -1,0 +1,116 @@
+---
+title: ImageField
+description: A single image path field with proportional previews, uploads, and persistent editing controls.
+links:
+  source: image-field/image-field.tsx
+  styles: image-field.css
+  storybook: Components/ImageField
+---
+
+## Usage
+
+```tsx
+"use client";
+
+import {ImageField, type ImageFieldProps} from "@sy-inc/react";
+import {useState} from "react";
+
+export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
+  const [path, setPath] = useState("");
+
+  return (
+    <ImageField
+      aspectRatio={16 / 5}
+      label="Homepage banner"
+      layout="banner"
+      recommendedWidth={1600}
+      value={path}
+      onChange={setPath}
+      onUpload={upload}
+    />
+  );
+}
+```
+
+`onUpload(file, {signal, onProgress})` is supplied by your app and resolves to a stored path. Report progress from 0 to 1 and honor the abort signal. Use `resolveSrc` to turn stored paths into display URLs. Upload success requests the new path through `onChange`; removal requests `""`. The parent owns the value. Cancellation, validation failure, and upload failure keep the existing path. Changing `value` cancels a pending transfer; late results from cancelled transfers are ignored.
+
+ImageField composes `useDropZoneState`, `DropZone.Area`, `DropZone.Trigger`, and `ImagePreview`. It never crops, stores files, manages a gallery, or interprets application languages.
+
+## Layout and states
+
+| Layout | Geometry | Use |
+| --- | --- | --- |
+| `inline` | 56 × 56px frame, adjacent label and controls | Small icons |
+| `tile` | 176px width, height determined by `aspectRatio` | Logos |
+| `banner` | Container width, height determined by `aspectRatio` | Banners and share cards |
+
+Images use `object-fit: contain` on a checkerboard. Empty, dragging, uploading, uploaded, ratio mismatch, upload failure, placeholder, and broken-link states occupy the same frame. Changing the declared ratio intentionally changes tile/banner geometry; loading and upload state do not. A ratio difference greater than 5% warns without rejecting the file. `naturalWidth < recommendedWidth` produces a resolution warning.
+
+The empty frame is a file picker. Dragging shows a release message. Uploading shows a local preview, spinner, progress, and cancellation. After `onChange(path)`, the local file stays on screen until the stored image loads, then swaps without an empty frame; if the stored image fails, the broken state shows immediately. Validation and upload errors appear in Meta below the frame. The old image stays zoomable and its replace and remove controls remain usable. Upload failure adds retry to the toolbar. When the value is empty, the full-frame picker remains available and the toolbar contains only retry. Upload and file-validation errors take priority over external form errors. Broken links retain the frame, path, replacement, and removal. Clicking the image opens the preview. Tile and banner show replace and remove as a blurred pill in the top-end corner; buttons grow to 44px on coarse pointers. Editing controls are always visible, including on touch devices.
+
+## API
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `value` | `string` | Required; empty string means empty |
+| `onChange` | `(path: string) => void` | Required |
+| `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<string>` | Required |
+| `resolveSrc` | `(path: string) => string` | Identity |
+| `label` | `string` | Required visible and accessible name |
+| `aspectRatio` | `number` | Required; positive finite width / height |
+| `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
+| `recommendedWidth` | `number` | —; source pixel width for guidance and warnings |
+| `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |
+| `maxFileSize` | `number` | —; bytes |
+| `description` | `ReactNode` | Dimensions and known format, or recommended dimensions |
+| `errorMessage` | `ReactNode` | —; external form error in Meta using shared field-error styles |
+| `placeholder` | `ReactNode` | —; app-provided empty-frame content |
+| `isDisabled` | `boolean` | `false` |
+| `labels` | `Partial<ImageFieldLabels>` | English strings |
+| `children` | `ReactNode` | Default composition |
+| `ref` | `Ref<HTMLDivElement>` | Root element |
+
+Native root div attributes, `className`, and `style` are supported. `labels` keys are `upload`, `replace`, `remove`, `preview`, `closePreview`, `retry`, `cancel`, `dropHere`, `broken`, `ratioMismatch`, `tooSmall`, `uploading`, `uploadFailed`, `recommended`, `invalidFileType`, `fileTooLarge`, and `tooManyFiles`. Override these for the app locale; raw server error strings are not displayed.
+
+## Composition and placeholders
+
+```tsx
+<ImageField
+  aspectRatio={1}
+  label="Logo"
+  layout="tile"
+  placeholder={<img alt="Inherited logo" src="/default-logo.png" />}
+  value={path}
+  onChange={setPath}
+  onUpload={upload}
+>
+  <ImageField.Frame />
+  <ImageField.Meta />
+</ImageField>
+```
+
+`ImageField.Root` aliases `ImageField`. `Frame`, `Actions`, and `Meta` consume the root context and accept native div props. Frame renders the preview, feedback, and a default toolbar for tile/banner; inline places Actions beside the frame. The root always renders its visible label. When replacing the root children, include Actions outside Frame for inline if needed. Meta renders errors even when its children provide custom metadata. Application fallback content stays in `placeholder` and does not emit `onChange`.
+
+Action parts compose custom toolbars and render only while they apply: `ReplaceTrigger` / `RemoveButton` (value present, not uploading), `RetryButton` (upload failed), and `CancelButton` (uploading). Each accepts Button props (`variant`, `size`, `isIconOnly`, `className`, children); icon-only is the default without children. Frame children are fixed; pass a toolbar through `actions`. Keep an overlay toolbar `pointer-events-none` so clicking the image still opens the preview:
+
+```tsx
+<ImageField {...props}>
+  <ImageField.Frame
+    className="group"
+    actions={
+      <ImageField.Actions className="pointer-events-none inset-0 justify-center rounded-none bg-black/50 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [&_button]:pointer-events-auto">
+        <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
+        <ImageField.RetryButton />
+        <ImageField.RemoveButton variant="danger" />
+      </ImageField.Actions>
+    }
+  />
+  <ImageField.Meta />
+</ImageField>
+```
+
+## Accessibility and styling
+
+Tab reaches the drag-and-drop target, file picker, and toolbar. Enter/Space open the picker or preview; Escape closes ImagePreview. Paste files on the focused area or its controls; text inputs/contenteditable descendants retain native paste. Disabled areas are inert. Buttons never submit the surrounding form. Removal returns focus to the picker. Metadata and upload progress are announced; the root group references its visible Label with `aria-labelledby` and Meta with `aria-describedby`. The drop target also references the visible Label with `aria-labelledby`.
+
+Stable `data-slot` hooks: `image-field`, `image-field-heading`, `image-field-frame`, `image-field-image`, `image-field-placeholder`, `image-field-feedback`, `image-field-actions`, and `image-field-meta`. The area, trigger, preview, and progress inherit their shared component slots. Root exposes `data-layout`, `data-disabled`, and `data-invalid`. Dragging is `data-drop-target` on DropZone.Area. Frame exposes `data-warning` / `data-invalid`; Meta exposes `data-warning`. Use `--image-field-tile-width` to customize the 176px tile width. `imageFieldVariants` and `ImageFieldVariants` are exported from both React and styles packages.

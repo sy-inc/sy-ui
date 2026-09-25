@@ -1,0 +1,159 @@
+.image-field {
+  @apply w-full min-w-0 text-sm text-foreground;
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+.image-field__area {
+  @apply relative flex min-w-0 flex-col gap-2 rounded-xl;
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+  &[data-drop-target="true"] .image-field__frame {
+    @apply border-accent;
+  }
+}
+.image-field__heading {
+  @apply flex items-center;
+}
+.image-field__frame {
+  @apply relative w-full overflow-hidden rounded-xl border border-border;
+  aspect-ratio: var(--image-field-ratio);
+  background-color: var(--surface);
+  background-image: conic-gradient(
+    var(--default) 25%,
+    transparent 0 50%,
+    var(--default) 0 75%,
+    transparent 0
+  );
+  background-size: 16px 16px;
+  &[data-empty="true"] {
+    @apply border-dashed;
+  }
+  &[data-warning="true"] {
+    @apply border-warning;
+  }
+  &[data-invalid="true"] {
+    @apply border-dashed border-danger;
+  }
+}
+.image-field__preview {
+  @apply absolute inset-0 block size-full;
+  & > div,
+  & > div > div {
+    height: 100%;
+  }
+}
+/* The keyboard zoom button surfaces top-start so it never covers the actions pill. */
+.image-field .image-field__preview [data-rmiz-btn-zoom] {
+  @apply start-2 end-auto;
+}
+.image-field__image {
+  @apply block size-full object-contain;
+}
+/* Local upload shown over the stored image until it loads; see `bridge` in ImageField. */
+.image-field__handoff {
+  @apply pointer-events-none absolute inset-0 block size-full object-contain;
+  border-radius: inherit;
+}
+.image-field__placeholder {
+  & svg {
+    @apply size-6 shrink-0;
+  }
+  @apply absolute inset-0 flex flex-col items-center justify-center gap-2 overflow-hidden text-center text-muted;
+  & img {
+    @apply size-full object-contain;
+  }
+}
+.image-field__empty-trigger {
+  & svg {
+    @apply size-6 shrink-0;
+  }
+  @apply absolute inset-0 flex size-full flex-col items-center justify-center gap-2 rounded-xl p-2 text-center text-muted;
+  &:hover,
+  &[data-hovered="true"] {
+    @apply bg-accent-soft text-accent-soft-foreground;
+  }
+  &:active,
+  &[data-pressed="true"] {
+    @apply bg-accent-soft;
+  }
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused -outline-offset-2;
+  }
+}
+.image-field__actions {
+  @apply absolute end-2 top-2 flex items-center gap-0.5 rounded-full bg-overlay/80 p-0.5 text-overlay-foreground shadow-overlay backdrop-blur-md;
+  max-width: calc(100% - 1rem);
+  @media (pointer: coarse) {
+    & button {
+      @apply min-h-11 min-w-11;
+    }
+  }
+}
+.image-field__divider {
+  @apply h-4 w-px shrink-0 bg-border;
+}
+.image-field__remove.button--ghost {
+  --button-bg-hover: var(--danger-soft);
+  --button-bg-pressed: var(--danger-soft-hover);
+  &:hover,
+  &[data-hovered="true"],
+  &[data-pressed="true"] {
+    --button-fg: var(--danger-soft-foreground);
+  }
+}
+.image-field__overlay {
+  @apply absolute inset-0 flex flex-col items-center justify-center gap-2 bg-surface/80 p-2 text-center text-surface-foreground;
+}
+.image-field__drop-overlay {
+  @apply pointer-events-none absolute inset-0 flex items-center justify-center bg-accent-soft text-accent-soft-foreground;
+}
+.image-field__progress {
+  @apply absolute inset-x-0 bottom-0;
+}
+.image-field__meta {
+  @apply min-h-12 text-xs text-muted;
+  overflow-wrap: anywhere;
+  &[data-warning="true"] {
+    @apply text-warning;
+  }
+}
+.image-field--tile {
+  width: min(100%, var(--image-field-tile-width, 176px));
+}
+.image-field--inline {
+  & .image-field__area {
+    @apply grid items-center gap-x-3 gap-y-0;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+  }
+  & .image-field__frame {
+    @apply col-start-1 row-start-1 row-end-3 size-14;
+    overflow: visible;
+  }
+  & .image-field__heading {
+    @apply col-start-2 row-start-1;
+  }
+  & .image-field__meta {
+    @apply col-start-2 row-start-2 min-h-6;
+  }
+  & .image-field__actions {
+    max-width: none;
+    @apply static col-start-3 row-start-1 row-end-3 gap-1 bg-transparent p-0 shadow-none backdrop-blur-none;
+  }
+  & .image-field__divider {
+    @apply hidden;
+  }
+  & .image-field__placeholder > span,
+  & .image-field__empty-trigger > span {
+    @apply sr-only;
+  }
+  & .image-field__overlay {
+    @apply gap-0 p-0;
+    & > span {
+      @apply sr-only;
+    }
+  }
+}

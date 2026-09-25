@@ -41,6 +41,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "rating",
   "countdown",
   "image-preview",
+  "image-field",
 ];
 
 const LANGUAGES = ["en", "cn"];

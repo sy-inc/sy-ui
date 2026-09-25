@@ -1,0 +1,116 @@
+---
+title: ImageField
+description: 单图路径字段，提供比例预览、上传状态与常驻编辑操作。
+links:
+  source: image-field/image-field.tsx
+  styles: image-field.css
+  storybook: Components/ImageField
+---
+
+## 用法
+
+```tsx
+"use client";
+
+import {ImageField, type ImageFieldProps} from "@sy-inc/react";
+import {useState} from "react";
+
+export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
+  const [path, setPath] = useState("");
+
+  return (
+    <ImageField
+      aspectRatio={16 / 5}
+      label="首页横幅"
+      layout="banner"
+      recommendedWidth={1600}
+      value={path}
+      onChange={setPath}
+      onUpload={upload}
+    />
+  );
+}
+```
+
+消费方提供 `onUpload(file, {signal, onProgress})`，返回已存储路径；进度范围为 0–1，并应响应 AbortSignal。`resolveSrc` 将路径转换为展示 URL。成功通过 `onChange` 请求更新路径，移除请求空串 `""`。值始终由父组件控制，取消、校验失败或上传失败保留原值。外部 `value` 改变会取消当前上传，取消后的迟到结果不会覆盖字段。
+
+底层组合 `useDropZoneState`、`DropZone.Area`、`DropZone.Trigger` 和 `ImagePreview`。组件不做裁切、存储、多图管理或语言回退决策。
+
+## 布局与状态
+
+| 布局 | 尺寸 | 用途 |
+| --- | --- | --- |
+| `inline` | 56 × 56px 方框，旁边是名称与操作 | 小图标 |
+| `tile` | 宽 176px，高度按 `aspectRatio` 计算 | Logo |
+| `banner` | 撑满容器，高度按 `aspectRatio` 计算 | 横幅、分享图 |
+
+图片在棋盘格上以 `object-fit: contain` 完整展示。空、拖入中、上传中、已上传、比例不符、上传失败、placeholder、链接失效均占用同一个框。主动修改比例会改变 tile/banner 的几何尺寸，图片加载和上传状态不会。实际比例偏差超过 5% 时只提示、不拒收；源图宽度小于 `recommendedWidth` 时显示低清提示。
+
+空框整块可选文件，拖入时提示松开。上传中显示本地预览、转圈、进度和取消操作；`onChange(path)` 之后本地图继续显示，直到服务端图片加载完成再无闪烁切换；服务端图片加载失败则立即进入无法加载状态。校验和上传错误统一显示在框下的 Meta，原图仍可点击放大，替换、删除操作仍可用，上传失败在工具条中增加重试。空值时保留整框上传入口，工具条只显示重试；上传或文件校验错误优先于外部表单错误。坏链仍显示框、路径以及替换/删除。点击图片即可预览；tile/banner 的替换、删除以毛玻璃胶囊常驻右上角，粗指针设备按钮放大到 44px。工具条常驻，触屏不依赖 hover。
+
+## API
+
+| 属性 | 类型 | 默认值 |
+| --- | --- | --- |
+| `value` | `string` | 必填，空串表示未设置 |
+| `onChange` | `(path: string) => void` | 必填 |
+| `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<string>` | 必填 |
+| `resolveSrc` | `(path: string) => string` | 原样返回 |
+| `label` | `string` | 必填，可见名称及无障碍名称 |
+| `aspectRatio` | `number` | 必填，正有限数，宽 / 高 |
+| `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
+| `recommendedWidth` | `number` | —；源图像素宽度建议与低清阈值 |
+| `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |
+| `maxFileSize` | `number` | —；字节数 |
+| `description` | `ReactNode` | 尺寸及已知格式，或建议尺寸 |
+| `errorMessage` | `ReactNode` | —；在 Meta 中使用公共 field-error 样式展示表单错误 |
+| `placeholder` | `ReactNode` | —；app 提供空值时的框内内容 |
+| `isDisabled` | `boolean` | `false` |
+| `labels` | `Partial<ImageFieldLabels>` | 英文文案 |
+| `children` | `ReactNode` | 默认组合 |
+| `ref` | `Ref<HTMLDivElement>` | 根节点 |
+
+支持根 div 原生属性、`className`、`style`。`labels` 可覆盖 `upload`、`replace`、`remove`、`preview`、`closePreview`、`retry`、`cancel`、`dropHere`、`broken`、`ratioMismatch`、`tooSmall`、`uploading`、`uploadFailed`、`recommended`、`invalidFileType`、`fileTooLarge`、`tooManyFiles`。服务端原始错误字符串不会直接展示。
+
+## 组合与占位
+
+```tsx
+<ImageField
+  aspectRatio={1}
+  label="Logo"
+  layout="tile"
+  placeholder={<img alt="沿用的 Logo" src="/default-logo.png" />}
+  value={path}
+  onChange={setPath}
+  onUpload={upload}
+>
+  <ImageField.Frame />
+  <ImageField.Meta />
+</ImageField>
+```
+
+`ImageField.Root` 是根组件别名。`Frame`、`Actions`、`Meta` 从根 context 读取状态，支持原生 div 属性。Frame 默认包含预览、反馈和 tile/banner 工具条；inline 的默认工具条位于框旁。根组件始终渲染可见 Label。自定义根 children 时，inline 需要时在 Frame 外组合 Actions；Meta 即使提供自定义 children 也会展示错误。业务回退图通过 `placeholder` 传入，不触发 `onChange`。
+
+操作原子部件用于自定义工具条，只在适用时渲染：`ReplaceTrigger` / `RemoveButton`（有值且未上传中）、`RetryButton`（上传失败）、`CancelButton`（上传中）。均支持 Button 属性（`variant`、`size`、`isIconOnly`、`className`、children），无 children 时默认仅图标。Frame 的 children 固定，自定义工具条通过 `actions` 传入。覆盖式工具条需设为 `pointer-events-none`，保证点击图片仍能打开预览：
+
+```tsx
+<ImageField {...props}>
+  <ImageField.Frame
+    className="group"
+    actions={
+      <ImageField.Actions className="pointer-events-none inset-0 justify-center rounded-none bg-black/50 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 [&_button]:pointer-events-auto">
+        <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
+        <ImageField.RetryButton />
+        <ImageField.RemoveButton variant="danger" />
+      </ImageField.Actions>
+    }
+  />
+  <ImageField.Meta />
+</ImageField>
+```
+
+## 无障碍与样式
+
+Tab 可到拖放目标、选文件按钮与工具条；Enter/Space 打开文件选择或预览，Escape 关闭 ImagePreview。聚焦区域或其操作按钮后可粘贴文件；文本框和 contenteditable 保持原生粘贴行为。禁用区域设为 inert。按钮不提交外围表单；移除后焦点回到选择按钮。元信息和上传进度可被读屏播报，根 group 通过 `aria-labelledby` 关联可见 Label，通过 `aria-describedby` 关联 Meta；拖放目标也通过 `aria-labelledby` 关联可见 Label。
+
+稳定的 `data-slot`：`image-field`、`image-field-heading`、`image-field-frame`、`image-field-image`、`image-field-placeholder`、`image-field-feedback`、`image-field-actions`、`image-field-meta`。拖放、选择、预览、进度沿用共享组件的 slot。根提供 `data-layout`、`data-disabled`、`data-invalid`；拖入态由 DropZone.Area 的 `data-drop-target` 表示。Frame 提供 `data-warning` / `data-invalid`，Meta 提供 `data-warning`。通过 `--image-field-tile-width` 调整默认 176px 宽度。React 与 styles 两个包均导出 `imageFieldVariants` 和 `ImageFieldVariants`。

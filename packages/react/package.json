@@ -58,6 +58,11 @@
       "import": "./src/components/file-tree/index.ts",
       "default": "./src/components/file-tree/index.ts"
     },
+    "./image-field": {
+      "types": "./src/components/image-field/index.ts",
+      "import": "./src/components/image-field/index.ts",
+      "default": "./src/components/image-field/index.ts"
+    },
     "./image-preview": {
       "types": "./src/components/image-preview/index.ts",
       "import": "./src/components/image-preview/index.ts",

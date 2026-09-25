@@ -1,12 +1,14 @@
 import type {
+  DropZoneAreaProps,
   DropZoneFile,
   DropZoneUploadContext,
   UseDropZoneStateProps,
   UseDropZoneStateResult,
 } from "@/components/drop-zone";
 
-import {act, render, screen, setupUser, waitFor} from "@sy-inc/testing/helpers";
+import {act, fireEvent, render, screen, setupUser, waitFor} from "@sy-inc/testing/helpers";
 import {useEffect, useState} from "react";
+import {expectTypeOf} from "vitest";
 
 import {DropZone, formatFileType, useDropZoneState} from "@/components/drop-zone";
 
@@ -24,11 +26,11 @@ const stateProbe = () => {
   let state: UseDropZoneStateResult | undefined;
 
   return {
-    get state() {
-      return state!;
-    },
     onState: (next: UseDropZoneStateResult) => {
       state = next;
+    },
+    get state() {
+      return state!;
     },
   };
 };
@@ -488,5 +490,142 @@ describe("DropZone", () => {
 
     await user.click(screen.getByText("Area copy"));
     expect(click).not.toHaveBeenCalled();
+  });
+});
+
+describe("DropZone replacement and clipboard", () => {
+  it("does not start an asynchronously decoded drop after the field is cleared", async () => {
+    const probe = stateProbe();
+    const onUpload = vi.fn(async () => "path");
+    let release: (file: File) => void;
+    const item = {
+      ...createFileDropItem(png("pending.png")),
+      getFile: () =>
+        new Promise<File>((resolve) => {
+          release = resolve;
+        }),
+    };
+
+    render(<StateHarness onState={probe.onState} onUpload={onUpload} />);
+    const receiving = probe.state.replaceFiles(createDropEvent([item]));
+
+    await waitFor(() => expect(release).toBeTypeOf("function"));
+    await act(async () => {
+      probe.state.clear();
+      release!(png("pending.png"));
+      await receiving;
+    });
+    expect(onUpload).not.toHaveBeenCalled();
+    expect(probe.state.files).toEqual([]);
+  });
+  it("validates replacement before aborting the previous upload and ignores its late result", async () => {
+    const probe = stateProbe();
+    const upload = createUploadStub();
+    const success = vi.fn();
+
+    render(
+      <StateHarness
+        accept="image/*"
+        onState={probe.onState}
+        onUpload={upload.onUpload}
+        onUploadSuccess={success}
+      />,
+    );
+    await add(probe.state, [png("old.png")]);
+    await act(async () => probe.state.replaceFiles([pdf("bad.pdf")]));
+    expect(upload.calls[0]!.context.signal.aborted).toBe(false);
+    expect(probe.state.files[0]!.name).toBe("old.png");
+    await act(async () => probe.state.replaceFiles([png("new.png")]));
+    expect(upload.calls[0]!.context.signal.aborted).toBe(true);
+    expect(probe.state.files).toHaveLength(1);
+    expect(probe.state.files[0]!.name).toBe("new.png");
+    await act(async () => upload.calls[0]!.resolve("old"));
+    expect(success).not.toHaveBeenCalled();
+    await act(async () => upload.calls[1]!.resolve("new"));
+    expect(success).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives pasted files from the visible trigger exactly once through normal validation", async () => {
+    const onUpload = vi.fn(async () => "path");
+    const user = setupUser();
+
+    render(<UploadDropZone accept="image/*" onUpload={onUpload} />);
+    const trigger = screen.getByRole("button", {name: "Select files"});
+
+    await user.click(trigger);
+    fireEvent.paste(trigger, {clipboardData: {files: [png("pasted.png")]}});
+    await waitFor(() => expect(onUpload).toHaveBeenCalledTimes(1));
+    expect(screen.getByText("pasted.png")).toBeInTheDocument();
+  });
+
+  it("requires an accessible name and supports referencing a visible label", () => {
+    expectTypeOf<{}>().not.toExtend<DropZoneAreaProps>();
+    expectTypeOf<{"aria-label": string}>().toExtend<DropZoneAreaProps>();
+    expectTypeOf<{"aria-labelledby": string}>().toExtend<DropZoneAreaProps>();
+    render(
+      <>
+        <span id="upload-label">Upload avatar</span>
+        <DropZone.Area aria-labelledby="upload-label" />
+      </>,
+    );
+    expect(screen.getByRole("button", {name: /Upload avatar/})).toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: "DropZone"})).not.toBeInTheDocument();
+  });
+
+  it("preserves object and callback refs while delivering paste to the latest handler without rebinding", () => {
+    const ref = {current: null as HTMLDivElement | null};
+    const first = vi.fn();
+    const latest = vi.fn();
+    const callbackRef = vi.fn();
+    const view = render(
+      <DropZone.Area ref={ref} aria-label="Files" onDrop={first}>
+        <DropZone.Trigger />
+      </DropZone.Area>,
+    );
+    const area = ref.current!;
+
+    expect(area).toHaveAttribute("data-slot", "drop-zone-area");
+    const added = vi.spyOn(area, "addEventListener");
+    const removed = vi.spyOn(area, "removeEventListener");
+    const trigger = screen.getByRole("button", {name: "Select files"});
+
+    fireEvent.paste(trigger, {clipboardData: {files: [png("image.png")]}});
+    expect(first).toHaveBeenCalledTimes(1);
+    view.rerender(
+      <DropZone.Area ref={callbackRef} aria-label="Files" onDrop={latest}>
+        <DropZone.Trigger />
+      </DropZone.Area>,
+    );
+    expect(ref.current).toBeNull();
+    expect(callbackRef).toHaveBeenLastCalledWith(area);
+    expect(added.mock.calls.filter(([type]) => type === "paste")).toHaveLength(0);
+    expect(removed.mock.calls.filter(([type]) => type === "paste")).toHaveLength(0);
+    fireEvent.paste(trigger, {clipboardData: {files: [png("image.png")]}});
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(latest).toHaveBeenCalledTimes(1);
+    view.unmount();
+    expect(callbackRef).toHaveBeenLastCalledWith(null);
+    expect(removed.mock.calls.filter(([type]) => type === "paste")).toHaveLength(1);
+  });
+
+  it("ignores disabled paste and leaves text paste to editable children", () => {
+    const onDrop = vi.fn();
+    const view = render(
+      <DropZone.Area aria-label="Files" onDrop={onDrop}>
+        <input aria-label="Caption" />
+      </DropZone.Area>,
+    );
+
+    fireEvent.paste(screen.getByRole("textbox"), {clipboardData: {files: [png("ignored.png")]}});
+    expect(onDrop).not.toHaveBeenCalled();
+    view.rerender(
+      <DropZone.Area isDisabled aria-label="Files" onDrop={onDrop}>
+        <DropZone.Trigger />
+      </DropZone.Area>,
+    );
+    fireEvent.paste(screen.getByRole("button", {name: "Select files"}), {
+      clipboardData: {files: [png("ignored.png")]},
+    });
+    expect(onDrop).not.toHaveBeenCalled();
   });
 });

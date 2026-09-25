@@ -5,8 +5,8 @@ import type {DropZoneFileStatus, UseDropZoneStateResult} from "./use-drop-zone-s
 import type {DOMRenderProps} from "../../utils/dom";
 import type {DropZoneVariants} from "@sy-inc/styles";
 import type {ComponentProps, ComponentPropsWithRef, ReactNode} from "react";
-import type {DropZoneProps as DropZonePrimitiveProps} from "react-aria-components/DropZone";
 
+import {mergeRefs} from "@react-aria/utils";
 import {dropZoneVariants} from "@sy-inc/styles";
 import React, {createContext, use, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {VisuallyHidden} from "react-aria";
@@ -59,10 +59,9 @@ const DropZoneRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-export interface DropZoneAreaProps extends Omit<DropZonePrimitiveProps, "aria-label"> {
-  "aria-label": string;
+export type DropZoneAreaProps = ComponentPropsWithRef<typeof DropZonePrimitive> & {
   announcement?: string;
-}
+} & ({"aria-label": string} | {"aria-labelledby": string});
 
 const DropZoneArea = ({
   announcement,
@@ -70,17 +69,65 @@ const DropZoneArea = ({
   className,
   inert,
   isDisabled = false,
+  onDrop,
+  ref,
   ...props
 }: DropZoneAreaProps) => {
   const {slots} = use(DropZoneContext);
+  const areaRef = useRef<HTMLDivElement>(null);
+  const onDropRef = useRef(onDrop);
+
+  useLayoutEffect(() => {
+    onDropRef.current = onDrop;
+  }, [onDrop]);
+
+  useEffect(() => {
+    const area = areaRef.current;
+
+    if (!area || isDisabled || inert) return;
+    // RAC handles paste only on its hidden drop target and filters DOM clipboard props.
+    // Listen on the Area to include its visible controls, then use the same onDrop pipeline.
+    const paste = (event: ClipboardEvent) => {
+      if (
+        event.defaultPrevented ||
+        (event.target instanceof Element &&
+          event.target.closest("input, textarea, [contenteditable]"))
+      )
+        return;
+      const files = Array.from(event.clipboardData?.files ?? []);
+
+      if (!files.length || !onDropRef.current) return;
+      event.preventDefault();
+      event.stopPropagation();
+      onDropRef.current({
+        dropOperation: "copy",
+        items: files.map((file) => ({
+          getFile: async () => file,
+          getText: async () => file.text(),
+          kind: "file",
+          name: file.name,
+          type: file.type,
+        })),
+        type: "drop",
+        x: 0,
+        y: 0,
+      });
+    };
+
+    area.addEventListener("paste", paste);
+
+    return () => area.removeEventListener("paste", paste);
+  }, [inert, isDisabled]);
 
   return (
     <DropZonePrimitive
       {...props}
+      ref={mergeRefs(areaRef, ref)}
       className={composeTwRenderProps(className, slots?.area())}
       data-slot="drop-zone-area"
       inert={(inert ?? isDisabled) || undefined}
       isDisabled={isDisabled}
+      onDrop={onDrop}
     >
       {(values) => (
         <>
@@ -93,18 +140,25 @@ const DropZoneArea = ({
 };
 
 export interface DropZoneTriggerProps extends Omit<ComponentProps<typeof FileTrigger>, "children"> {
+  "aria-label"?: string;
   className?: string;
   children?: ReactNode;
   isDisabled?: boolean;
 }
 
-const DropZoneTrigger = ({children, className, isDisabled, ...props}: DropZoneTriggerProps) => {
+const DropZoneTrigger = ({
+  "aria-label": ariaLabel = "Select files",
+  children,
+  className,
+  isDisabled,
+  ...props
+}: DropZoneTriggerProps) => {
   const {slots} = use(DropZoneContext);
 
   return (
     <FileTrigger {...props}>
       <ButtonPrimitive
-        aria-label="Select files"
+        aria-label={ariaLabel}
         className={composeTwRenderProps(className, slots?.trigger())}
         data-slot="drop-zone-trigger"
         isDisabled={isDisabled}

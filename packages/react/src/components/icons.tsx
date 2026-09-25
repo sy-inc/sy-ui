@@ -199,6 +199,48 @@ export const EyeSlashIcon = (props: IconProps) => (
   </svg>
 );
 
+export const ArrowsRotateIcon = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M13.25 8a5.25 5.25 0 0 1-9.4 3.2M2.75 8a5.25 5.25 0 0 1 9.4-3.2M12.25 2v2.9h-2.9M3.75 14v-2.9h2.9"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.25"
+    />
+  </svg>
+);
+
+export const TrashBinIcon = (props: IconProps) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    height={16}
+    role="presentation"
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M2.75 4.25h10.5M6.25 4.25V3a1 1 0 0 1 1-1h1.5a1 1 0 0 1 1 1v1.25M4 4.25l.6 8.45A1.5 1.5 0 0 0 6.1 14h3.8a1.5 1.5 0 0 0 1.5-1.3L12 4.25M6.75 7v4M9.25 7v4"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.25"
+    />
+  </svg>
+);
+
 export const UploadCloudIcon = (props: IconProps) => (
   <svg
     aria-hidden="true"

@@ -192,12 +192,14 @@ export const useDropZoneState = <TResult = unknown>(props: UseDropZoneStateProps
   const objectUrlsRef = useRef(new Map<string, string>());
   const filesRef = useRef(files);
   const nextFileIdRef = useRef(0);
+  const receiveGenerationRef = useRef(0);
 
   useEffect(() => {
     filesRef.current = files;
   }, [files]);
   useEffect(
     () => () => {
+      receiveGenerationRef.current++;
       controllersRef.current.forEach((controller) => controller.abort());
       objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
       objectUrlsRef.current.clear();
@@ -270,20 +272,28 @@ export const useDropZoneState = <TResult = unknown>(props: UseDropZoneStateProps
       });
   };
 
-  const addFiles = async (source: FileList | File[] | DropEvent) => {
+  const receiveFiles = async (source: FileList | File[] | DropEvent, replace = false) => {
+    if (isDisabled) return;
+    const generation = receiveGenerationRef.current;
     const incoming = "items" in source ? await flattenDropItems(source.items) : Array.from(source);
 
-    if (incoming.length === 0) return;
+    if (incoming.length === 0 || generation !== receiveGenerationRef.current) return;
     const {accepted, error} = validateFiles(incoming, {
       accept: toAcceptList(accept),
-      currentCount: filesRef.current.length,
+      currentCount: replace ? 0 : filesRef.current.length,
       errorMessage,
       maxFileSize,
       maxFiles,
     });
 
+    if (accepted.length === 0) {
+      setValidationError(error);
+
+      return;
+    }
+    // Validate first: a rejected replacement must not remove or abort the existing files.
+    if (replace) clear();
     setValidationError(error);
-    if (accepted.length === 0) return;
     const added = accepted.map<DropZoneFile<TResult>>((file) => ({
       file,
       id: `drop-zone-file-${nextFileIdRef.current++}`,
@@ -296,6 +306,13 @@ export const useDropZoneState = <TResult = unknown>(props: UseDropZoneStateProps
 
     commit((current) => [...current, ...added]);
     added.forEach(upload);
+  };
+
+  const addFiles = (source: FileList | File[] | DropEvent) => receiveFiles(source);
+  const replaceFiles = (source: FileList | File[] | DropEvent) => {
+    receiveGenerationRef.current++;
+
+    return receiveFiles(source, true);
   };
 
   const releasePreview = (id: string) => {
@@ -329,6 +346,8 @@ export const useDropZoneState = <TResult = unknown>(props: UseDropZoneStateProps
     if (target?.file) upload(target);
   };
   const clear = () => {
+    receiveGenerationRef.current++;
+    setValidationError(null);
     [...filesRef.current].forEach((item) => remove(item.id));
   };
 
@@ -389,6 +408,7 @@ export const useDropZoneState = <TResult = unknown>(props: UseDropZoneStateProps
     previews,
     releasePreview,
     remove,
+    replaceFiles,
     retry,
     validationError,
   };

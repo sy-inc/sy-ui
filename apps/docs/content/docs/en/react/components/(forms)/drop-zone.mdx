@@ -34,7 +34,7 @@ const state = useDropZoneState({maxFiles: 3});
 
 **DropZone** is built on [React Aria DropZone](https://react-spectrum.adobe.com/react-aria/DropZone.html). `Area` is the only drop target. `Slots` renders one capsule per row — a file card for each active file, plus a trailing empty trigger while there is room for another file.
 
-The title and supporting copy use the shared `Label` and `Description` components. Validation copy belongs below the area in the shared `ErrorMessage` component. `DropZone.Area` always requires an accessible `aria-label`.
+The title and supporting copy use the shared `Label` and `Description` components. Validation copy belongs below the area in the shared `ErrorMessage` component. `DropZone.Area` requires either `aria-label` or `aria-labelledby` for its accessible name.
 
 <Callout>
   React Aria's DropZone routes **pasted** files through the same `onDrop`, so pasting into a focused
@@ -244,11 +244,12 @@ Supports native `div` attributes.
 
 ### DropZone.Area
 
-Wraps React Aria's `DropZone`. The `aria-label` prop is required.
+Wraps React Aria's `DropZone`, including `ref`. Supply either `aria-label` or `aria-labelledby`. Object and callback refs point to the area div without affecting paste handling.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `aria-label` | `string` | — | Accessible name for the drop target. |
+| `aria-label` | `string` | Required unless `aria-labelledby` is provided | Accessible name for the drop target. |
+| `aria-labelledby` | `string` | Required unless `aria-label` is provided | ID of the visible label for the drop target. |
 | `isDisabled` | `boolean` | `false` | Rejects drops and makes the area `inert`, so every action inside — including on cards — is unreachable. |
 | `announcement` | `string` | — | Polite live announcement rendered visually hidden inside the area. |
 
@@ -381,3 +382,10 @@ isImageFile({name: 'photo.png', type: 'image/png'}); // true
 ## Related Components
 
 <RelatedComponents component="dropzone" />
+
+
+## Replacement and clipboard
+
+`state.replaceFiles(source)` accepts the same FileList, File array, or DropEvent as `addFiles`. It validates before replacing the list; rejected replacements preserve existing files and uploads. Accepted replacements abort old uploads and release local previews before starting the new files. Respect `state.isDisabled` when wiring custom controls. For a replacement picker, use `getTriggerProps()` for accepted types, override `isDisabled` with `state.isDisabled`, and send `onSelect` to `replaceFiles`.
+
+`DropZone.Trigger` accepts `aria-label` (default: `Select files`) for localized accessible names. Area routes pasted files from its focused target or visible controls through the same `onDrop` handler. Editable descendants retain native paste; disabled areas ignore paste. No image-specific variant is added.

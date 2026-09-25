@@ -55,6 +55,7 @@
     "(overlays)/drawer",
     "(overlays)/sheet",
     "(forms)/drop-zone",
+    "(forms)/image-field",
     "(collections)/dropdown",
     "(collections)/file-tree",
     "(forms)/error-message",
