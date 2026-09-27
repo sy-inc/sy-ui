@@ -98,12 +98,17 @@
   }
 }
 
-/* No slide beyond one view means nothing to peek at and nowhere to scroll: drop the side
-   insets so a short set fills the viewport instead of floating between blank gutters, and
-   hide the scroll chrome that could only ever render disabled. */
+/* No slide beyond one view means nothing to peek at: drop the side insets so a short set fills
+   the viewport instead of floating between blank gutters. Only on a settled "false" — dropping
+   them before Embla reports would shift the common scrollable layout on hydration. */
 .carousel[data-scrollable="false"] {
   --carousel-peek: 0px;
+}
 
+/* Scroll chrome shows only once Embla confirms there is somewhere to scroll. Before that (SSR,
+   pre-hydration) the controls are inert anyway, and absolute positioning means appearing late
+   shifts nothing — whereas showing first would flash them on every short set. */
+.carousel:not([data-scrollable="true"]) {
   .carousel__previous,
   .carousel__next,
   .carousel__pagination {

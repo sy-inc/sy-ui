@@ -72,6 +72,7 @@ type CarouselContextValue = {
   canScrollPrevious: boolean;
   clickable: boolean;
   orientation: CarouselOrientation;
+  scrollable?: boolean;
   selectedIndex: number;
   slots: ReturnType<typeof carouselVariants>;
   viewportRef: ReturnType<typeof useEmblaCarousel>[0];
@@ -318,7 +319,6 @@ const CarouselRoot = ({
       forward ? api.goToNext() : api.goToPrev();
     };
 
-    viewport.tabIndex = 0;
     viewport.addEventListener("keydown", onKeyDown);
     viewport.addEventListener("wheel", onWheel, {passive: false});
 
@@ -456,6 +456,7 @@ const CarouselRoot = ({
       canScrollPrevious,
       clickable,
       orientation,
+      scrollable,
       selectedIndex,
       slots,
       toggleAutoplay,
@@ -469,6 +470,7 @@ const CarouselRoot = ({
       canScrollPrevious,
       clickable,
       orientation,
+      scrollable,
       selectedIndex,
       slots,
       toggleAutoplay,
@@ -509,10 +511,16 @@ CarouselRoot.displayName = "SY INC.Carousel";
 interface CarouselContentProps extends ComponentPropsWithRef<"div"> {}
 
 const CarouselContent = ({className, ref, ...props}: CarouselContentProps) => {
-  const {orientation, slots, viewportRef} = useCarouselContext();
+  const {orientation, scrollable, slots, viewportRef} = useCarouselContext();
 
   return (
-    <div ref={viewportRef} className={slots.viewport()} data-slot="carousel-viewport">
+    <div
+      ref={viewportRef}
+      className={slots.viewport()}
+      data-slot="carousel-viewport"
+      // A tab stop only while there is somewhere for the arrow keys to go.
+      tabIndex={scrollable ? 0 : undefined}
+    >
       <div
         ref={ref}
         className={slots.content({className})}

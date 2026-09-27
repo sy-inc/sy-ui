@@ -678,6 +678,27 @@ describe("Carousel", () => {
     expect(preventDefault).not.toHaveBeenCalled();
   });
 
+  it("exposes the viewport as a tab stop only when there is somewhere to scroll", async () => {
+    const {unmount} = render(<CarouselFixture />);
+    const viewport = () => document.querySelector('[data-slot="carousel-viewport"]')!;
+
+    await vi.waitFor(() => expect(viewport()).toHaveAttribute("tabindex", "0"));
+    unmount();
+
+    render(
+      <Carousel aria-label="Single slide">
+        <Carousel.Content>
+          <Carousel.Item>Only slide</Carousel.Item>
+        </Carousel.Content>
+      </Carousel>,
+    );
+
+    await vi.waitFor(() =>
+      expect(screen.getByRole("region")).toHaveAttribute("data-scrollable", "false"),
+    );
+    expect(viewport()).not.toHaveAttribute("tabindex");
+  });
+
   it("selects an interactive item once and ignores nested controls", async () => {
     const onSelectionChange = vi.fn();
     const onItemClick = vi.fn();

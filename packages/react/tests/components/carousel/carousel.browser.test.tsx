@@ -1,4 +1,5 @@
 import {render} from "@sy-inc/testing/browser";
+import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
 
 import "../../../../styles/dist/sy-inc.min.css";
@@ -223,6 +224,39 @@ describe("Carousel (browser)", () => {
     expect(page.getByRole("button", {name: "Previous slide"}).query()).toBeNull();
     expect(page.getByRole("button", {name: "Next slide"}).query()).toBeNull();
     expect(page.getByRole("button", {name: "Go to slide 1"}).query()).toBeNull();
+  });
+
+  it("hides the scroll chrome in server markup until Embla reports a scrollable set", async () => {
+    // Server markup mounted without hydrating: data-scrollable is still unset, as it is on first
+    // paint before Embla initializes.
+    const host = document.createElement("div");
+
+    host.innerHTML = renderToString(
+      <Carousel aria-label="Server markup" style={{width: 400}}>
+        <Carousel.Content>
+          {[1, 2, 3].map((value) => (
+            <Carousel.Item key={value}>{value}</Carousel.Item>
+          ))}
+        </Carousel.Content>
+        <Carousel.Previous />
+        <Carousel.Next />
+        <Carousel.Pagination aria-label="Choose slide" />
+      </Carousel>,
+    );
+    document.body.append(host);
+
+    try {
+      const root = host.querySelector('[data-slot="carousel"]')!;
+
+      expect(root).not.toHaveAttribute("data-scrollable");
+      for (const slot of ["carousel-previous", "carousel-next", "carousel-pagination"]) {
+        const node = root.querySelector(`[data-slot="${slot}"]`)!;
+
+        expect(getComputedStyle(node).display).toBe("none");
+      }
+    } finally {
+      host.remove();
+    }
   });
 
   it("drops the peek gutters when the slides do not overflow one view", async () => {
