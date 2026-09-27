@@ -29,6 +29,11 @@
 
 .radio-button-group--grid {
   @apply grid;
+
+  /* Group-level label/description/error span the full row, not a grid cell. */
+  & > :is([data-slot="label"], [data-slot="description"], [data-slot="field-error"]) {
+    grid-column: 1 / -1;
+  }
 }
 
 .radio-button-group__item {

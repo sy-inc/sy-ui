@@ -98,7 +98,7 @@ export const GridLayout: Story = {
       defaultValue={["backups", "monitoring"]}
       layout="grid"
     >
-      <Label className="col-span-full">Add-ons</Label>
+      <Label>Add-ons</Label>
       <AddOnOptions />
     </CheckboxButtonGroup>
   ),
@@ -122,7 +122,7 @@ export const CustomIndicator: Story = {
       defaultValue={["updates", "alerts"]}
       layout="grid"
     >
-      <Label className="col-span-full">Notification preferences</Label>
+      <Label>Notification preferences</Label>
       {[
         ["updates", "Product updates", "Weekly product updates and tips", "4,200 subscribers"],
         [
@@ -211,7 +211,7 @@ export const WithIcons: Story = {
       defaultValue={["content", "analytics"]}
       layout="grid"
     >
-      <Label className="col-span-full">Role permissions</Label>
+      <Label>Role permissions</Label>
       {[
         ["content", "gravity-ui:cloud", "Content Management", "Create, edit, and delete content"],
         ["users", "gravity-ui:shield", "User Administration", "Manage team members and roles"],
@@ -251,7 +251,7 @@ export const WithPressFeedback: Story = {
       defaultValue={["github"]}
       layout="grid"
     >
-      <Label className="col-span-full">Integrations</Label>
+      <Label>Integrations</Label>
       {[
         ["github", "GitHub", "Connect your GitHub repositories"],
         ["slack", "Slack", "Push notifications to Slack channels"],

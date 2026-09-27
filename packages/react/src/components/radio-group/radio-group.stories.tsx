@@ -201,9 +201,9 @@ export const WithCustomIndicator: Story = {
 
 export const Orientation: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 px-4">
-      <Label>Subscription plan</Label>
+    <div className="px-4">
       <RadioGroup defaultValue="pro" name="plan-orientation" orientation="horizontal">
+        <Label>Subscription plan</Label>
         <Radio value="starter">
           <Radio.Content>
             <Radio.Control>

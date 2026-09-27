@@ -11,6 +11,11 @@
 
   &[data-orientation="horizontal"] {
     @apply flex-row flex-wrap gap-4;
+
+    /* Group-level label/description/error take their own line, not a slot in the row. */
+    & > :is([data-slot="label"], [data-slot="description"], [data-slot="field-error"]) {
+      flex-basis: 100%;
+    }
   }
 }
 

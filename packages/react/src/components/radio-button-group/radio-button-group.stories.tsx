@@ -91,12 +91,8 @@ export const Default: Story = {
 export const GridLayout: Story = {
   name: "Grid Layout",
   render: () => (
-    <RadioButtonGroup
-      aria-label="Delivery method"
-      className="max-w-[672px] sm:grid-cols-3"
-      defaultValue="express"
-      layout="grid"
-    >
+    <RadioButtonGroup className="max-w-[672px] sm:grid-cols-3" defaultValue="express" layout="grid">
+      <Label>Delivery method</Label>
       <PlanItem description="4-10 business days" title="Standard · US$5.00" value="standard" />
       <PlanItem description="2-5 business days" title="Express · US$16.00" value="express" />
       <PlanItem description="1 business day" title="Super Fast · US$25.00" value="super-fast" />

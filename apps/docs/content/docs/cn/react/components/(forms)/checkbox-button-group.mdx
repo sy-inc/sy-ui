@@ -64,7 +64,7 @@ const Option = ({value, title}: {value: string; title: string}) => <CheckboxButt
 ```
 ### Grid Layout
 ```tsx
-<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label className="col-span-full">Add-ons</Label><Option value="backup" title="Backups" /></CheckboxButtonGroup>
+<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label>Add-ons</Label><Option value="backup" title="Backups" /></CheckboxButtonGroup>
 ```
 ### No Indicator
 ```tsx
@@ -112,7 +112,7 @@ const [value, setValue] = useState<string[]>(["backup"]); <CheckboxButtonGroup v
 
 ```tsx
 // Grid Layout / Custom Indicator / With Press Feedback
-<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label className="col-span-full">Add-ons</Label><CheckboxButtonGroup.Item className="checkbox-button-group__item--pressable" value="backups"><CheckboxButtonGroup.Indicator>{/* 自定义图标 */}</CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Backups</Label><Description>Automated daily backups</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
+<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label>Add-ons</Label><CheckboxButtonGroup.Item className="checkbox-button-group__item--pressable" value="backups"><CheckboxButtonGroup.Indicator>{/* 自定义图标 */}</CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Backups</Label><Description>Automated daily backups</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item></CheckboxButtonGroup>
 ```
 
 ```tsx

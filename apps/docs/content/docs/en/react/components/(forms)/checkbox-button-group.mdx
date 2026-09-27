@@ -64,7 +64,7 @@ const Option = ({value, title}: {value: string; title: string}) => <CheckboxButt
 ```
 ### Grid Layout
 ```tsx
-<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label className="col-span-full">Add-ons</Label><Option value="backup" title="Backups" /></CheckboxButtonGroup>
+<CheckboxButtonGroup className="grid-cols-3" layout="grid"><Label>Add-ons</Label><Option value="backup" title="Backups" /></CheckboxButtonGroup>
 ```
 ### No Indicator
 ```tsx
@@ -116,7 +116,7 @@ All 11 Storybook examples are directly runnable with the public parts shown belo
 ```tsx
 // Grid Layout / Custom Indicator / With Press Feedback
 <CheckboxButtonGroup className="grid-cols-3" layout="grid">
-  <Label className="col-span-full">Add-ons</Label>
+  <Label>Add-ons</Label>
   <CheckboxButtonGroup.Item className="checkbox-button-group__item--pressable" value="backups"><CheckboxButtonGroup.Indicator>{/* custom icon */}</CheckboxButtonGroup.Indicator><CheckboxButtonGroup.ItemContent><Label>Backups</Label><Description>Automated daily backups</Description></CheckboxButtonGroup.ItemContent></CheckboxButtonGroup.Item>
 </CheckboxButtonGroup>
 ```
