@@ -115,8 +115,12 @@
   @apply absolute inset-x-0 bottom-0;
 }
 .image-field__meta {
-  @apply min-h-12 text-xs text-muted;
+  @apply text-xs text-muted;
   overflow-wrap: anywhere;
+  /* Stays mounted as the live region; cancels the area gap while it has nothing to say. */
+  &:empty {
+    @apply -mt-2;
+  }
   &[data-warning="true"] {
     @apply text-warning;
   }
@@ -137,7 +141,7 @@
     @apply col-start-2 row-start-1;
   }
   & .image-field__meta {
-    @apply col-start-2 row-start-2 min-h-6;
+    @apply col-start-2 row-start-2 mt-0 min-h-6;
   }
   & .image-field__actions {
     max-width: none;

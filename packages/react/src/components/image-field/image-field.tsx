@@ -548,6 +548,11 @@ export function ImageFieldMeta({children, className, ...props}: ImageFieldMetaPr
   const {aspectRatio, labels, loaded, recommendedWidth, slots} = c;
   const format = formatFileType(c.file?.type, c.file?.name ?? c.value.split(/[?#]/)[0]);
   const warning = c.mismatch ? labels.ratioMismatch : c.tooSmall ? labels.tooSmall : null;
+  const size = loaded?.width
+    ? `${loaded.width} × ${loaded.height}${format === "FILE" ? "" : ` · ${format}`}`
+    : recommendedWidth
+      ? `${labels.recommended} ${recommendedWidth} × ${Math.round(recommendedWidth / aspectRatio)}`
+      : null;
 
   return (
     <div
@@ -574,15 +579,7 @@ export function ImageFieldMeta({children, className, ...props}: ImageFieldMetaPr
             ) : c.failed ? (
               <span>{c.value}</span>
             ) : (
-              (c.description ?? (
-                <Description>
-                  {loaded?.width
-                    ? `${loaded.width} × ${loaded.height}${format === "FILE" ? "" : ` · ${format}`}`
-                    : recommendedWidth
-                      ? `${labels.recommended} ${recommendedWidth} × ${Math.round(recommendedWidth / aspectRatio)}`
-                      : null}
-                </Description>
-              ))
+              (c.description ?? (!!size && <Description>{size}</Description>))
             )}
           </>
         ))}

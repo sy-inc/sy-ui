@@ -57,6 +57,14 @@ describe("ImageField", () => {
     expect(screen.getByRole("group", {name: "Banner"})).toHaveStyle({"--image-field-ratio": "3.2"});
   });
 
+  it("renders an empty meta live region when there is no guidance to show", () => {
+    render(<ImageField {...props} />);
+    const meta = document.querySelector('[data-slot="image-field-meta"]');
+
+    expect(meta).toBeEmptyDOMElement();
+    expect(meta).toHaveAttribute("aria-live", "polite");
+  });
+
   it("reads the image format from its saved path even when the display URL has no extension", () => {
     render(
       <ImageField
