@@ -7,12 +7,13 @@ import type {ValidationResult} from "react-aria-components/FieldError";
 import {fieldErrorVariants} from "@sy-inc/styles";
 import {use} from "react";
 import {
-  FieldError as FieldErrorPrimitive,
   FieldErrorContext,
+  FieldError as FieldErrorPrimitive,
 } from "react-aria-components/FieldError";
 import {TextContext} from "react-aria-components/Text";
 
 import {composeTwRenderProps} from "../../utils/compose";
+import {useHasTextSlot} from "../../utils/use-has-text-slot";
 
 /* -------------------------------------------------------------------------------------------------
  * Field Error Root
@@ -35,6 +36,11 @@ const isEmpty = (children: ReactNode) =>
 
 const FieldErrorRoot = ({children, className, ...rest}: FieldErrorRootProps) => {
   const fieldValidation = use(FieldErrorContext);
+  // `Calendar`, `RangeCalendar` and `TagGroup` expose an `errorMessage` slot that wires `aria-describedby`.
+  const textContext = use(TextContext) as {slots?: Record<string, unknown>} | null;
+  const hasErrorSlot = textContext?.slots?.["errorMessage"] != null;
+  // False only during a gated collection's hidden pass (e.g. `TagGroup`), before its slots exist.
+  const canRender = useHasTextSlot("errorMessage");
 
   const error = (
     <FieldErrorPrimitive
@@ -50,13 +56,13 @@ const FieldErrorRoot = ({children, className, ...rest}: FieldErrorRootProps) => 
   // Inside a field (`TextField`, `Select`, …) the field decides visibility and wires `aria-describedby`.
   if (fieldValidation) return error;
 
-  if (typeof children !== "function" && isEmpty(children)) return null;
+  if (!canRender || (typeof children !== "function" && isEmpty(children))) return null;
 
-  // Standalone: shown while it has content. Reset `TextContext` so an ancestor (e.g. `DropZone`)
-  // can't inject its label id or slots into this message.
+  // Standalone: shown while it has content. Without an `errorMessage` slot, reset `TextContext` so an
+  // ancestor (e.g. `DropZone`) can't inject its label id or slots into this message.
   return (
     <FieldErrorContext value={STANDALONE_VALIDATION}>
-      <TextContext value={null}>{error}</TextContext>
+      {hasErrorSlot ? error : <TextContext value={null}>{error}</TextContext>}
     </FieldErrorContext>
   );
 };

@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import {expectTypeOf} from "vitest";
 
 import {DropZone, formatFileType, useDropZoneState} from "@/components/drop-zone";
+import {FieldError} from "@/components/field-error";
 
 import {createDirectoryDropItem, createDropEvent, createFileDropItem} from "./drop-items";
 import {UploadDropZone} from "./fixtures";
@@ -573,6 +574,31 @@ describe("DropZone replacement and clipboard", () => {
     );
     expect(screen.getByRole("button", {name: /Upload avatar/})).toBeInTheDocument();
     expect(screen.queryByRole("button", {name: "DropZone"})).not.toBeInTheDocument();
+  });
+
+  it("links an error message to its triggers through the Area's aria-describedby", () => {
+    render(
+      <>
+        <DropZone.Area aria-describedby="upload-error" aria-label="Files">
+          <DropZone.Trigger />
+        </DropZone.Area>
+        <FieldError id="upload-error">Only PNG files</FieldError>
+      </>,
+    );
+
+    expect(screen.getByRole("button", {name: "Select files"})).toHaveAccessibleDescription(
+      "Only PNG files",
+    );
+  });
+
+  it("keeps a FieldError inside the Area from taking over the drop label", () => {
+    render(
+      <DropZone.Area aria-label="Files">
+        <FieldError id="inner-error">Too large</FieldError>
+      </DropZone.Area>,
+    );
+
+    expect(screen.getByText("Too large")).toHaveAttribute("id", "inner-error");
   });
 
   it("preserves object and callback refs while delivering paste to the latest handler without rebinding", () => {

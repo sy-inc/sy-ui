@@ -121,6 +121,7 @@ hover 预览是纯 CSS 实现的，因此 `data-active` 只反映已提交的值
 | `onValueChange` | `(value: number) => void` | — | 选择后调用 |
 | `icon` | `ReactNode` | 实心星形 | 未提供 children 时的图标 |
 | `isReadOnly` | `boolean` | `false` | 显示不可交互的评分 |
+| `isInvalid` | `boolean` | `false` | 标记为无效，未填充的星星变为危险色。在评分内搭配 `FieldError` |
 | `getItemLabel` | `(value: number) => string` | `` `${value} stars` `` | 每个选项的无障碍标签 |
 
 ### Rating.Item

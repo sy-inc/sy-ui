@@ -21,7 +21,7 @@ import { TagGroup } from '@sy-inc/react';
 ## 组件结构
 
 ```tsx
-import { TagGroup, Tag, Label, Description, ErrorMessage } from '@sy-inc/react';
+import { TagGroup, Tag, Label, Description, FieldError } from '@sy-inc/react';
 
 export default () => (
   <TagGroup>
@@ -32,7 +32,7 @@ export default () => (
       </Tag>
     </TagGroup.List>
     <Description />
-    <ErrorMessage />
+    <FieldError />
   </TagGroup>
 )
 ```
@@ -145,7 +145,7 @@ TagGroup 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy
 
 #### 插槽类 [!toc]
 - `.tag-group [slot="description"]` - Description 插槽样式
-- `.tag-group [slot="errorMessage"]` - ErrorMessage 插槽样式
+- `.tag-group [slot="errorMessage"]` - 错误消息插槽样式（`FieldError`）
 
 #### 尺寸类 [!toc]
 - `.tag--sm` - 小尺寸标签

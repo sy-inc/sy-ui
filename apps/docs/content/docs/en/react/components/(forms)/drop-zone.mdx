@@ -11,7 +11,7 @@ links:
 ## Usage
 
 ```tsx
-import {Description, DropZone, ErrorMessage, Label, useDropZoneState} from '@sy-inc/react';
+import {Description, DropZone, FieldError, Label, useDropZoneState} from '@sy-inc/react';
 ```
 
 <ComponentPreview name="drop-zone-basic" />
@@ -24,17 +24,21 @@ const state = useDropZoneState({maxFiles: 3});
 <DropZone variant="bordered">
   <Label>Attachments</Label>
   <Description>PDF or PNG up to 10 MB.</Description>
-  <DropZone.Area {...state.getAreaProps()} aria-label="Upload files">
+  <DropZone.Area
+    {...state.getAreaProps()}
+    aria-describedby={state.validationError ? "upload-error" : undefined}
+    aria-label="Upload files"
+  >
     <DropZone.Slots state={state} />
   </DropZone.Area>
-  {!!state.validationError && <ErrorMessage>{state.validationError.message}</ErrorMessage>}
+  <FieldError id="upload-error">{state.validationError?.message}</FieldError>
   {state.files.length > 0 && <DropZone.ClearTrigger onPress={state.clear} />}
 </DropZone>;
 ```
 
 **DropZone** is built on [React Aria DropZone](https://react-spectrum.adobe.com/react-aria/DropZone.html). `Area` is the only drop target. `Slots` renders one capsule per row — a file card for each active file, plus a trailing empty trigger while there is room for another file.
 
-The title and supporting copy use the shared `Label` and `Description` components. Validation copy belongs below the area in the shared `ErrorMessage` component. `DropZone.Area` requires either `aria-label` or `aria-labelledby` for its accessible name.
+The title and supporting copy use the shared `Label` and `Description` components. Validation copy belongs below the area in the shared `FieldError` component; pass its `id` to `DropZone.Area` as `aria-describedby` and the Area links it to its upload triggers. `DropZone.Area` requires either `aria-label` or `aria-labelledby` for its accessible name.
 
 <Callout>
   React Aria's DropZone routes **pasted** files through the same `onDrop`, so pasting into a focused

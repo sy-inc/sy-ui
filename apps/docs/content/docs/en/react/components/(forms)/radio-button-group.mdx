@@ -29,7 +29,7 @@ Compose `ItemContent` from `Label` and `Description` rather than raw elements: i
 
 ## Props and events
 
-`value`, `defaultValue`, `onChange`, `isDisabled`, validation props, labels, descriptions, and render props are passed to the underlying `RadioGroup` and `Radio`. `onChange(value)` receives the selected value.
+`value`, `defaultValue`, `onChange`, `isDisabled`, validation props, labels, descriptions, and render props are passed to the underlying `RadioGroup` and `Radio`. `onChange(value)` receives the selected value. `isInvalid` gives the cards a danger edge; place a `FieldError` inside the group for the message.
 
 `layout` is `"flex"` by default; use `"grid"` for a grid.
 

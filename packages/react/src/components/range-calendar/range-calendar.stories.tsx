@@ -16,6 +16,7 @@ import {I18nProvider, useLocale} from "react-aria-components/I18nProvider";
 import {Button} from "../button";
 import {ButtonGroup} from "../button-group";
 import {Description} from "../description";
+import {FieldError} from "../field-error";
 import {Label} from "../label";
 import {ListBox} from "../list-box";
 import {Select} from "../select";
@@ -56,9 +57,10 @@ type DateRange = {
 /* -------------------------------------------------------------------------------------------------
  * Helper component to render a basic range calendar structure
  * -----------------------------------------------------------------------------------------------*/
-const RangeCalendarTemplate = (
-  props: Omit<React.ComponentProps<typeof RangeCalendar>, "children">,
-) => (
+const RangeCalendarTemplate = ({
+  footer,
+  ...props
+}: Omit<React.ComponentProps<typeof RangeCalendar>, "children"> & {footer?: React.ReactNode}) => (
   <RangeCalendar {...props}>
     <RangeCalendar.Header>
       <RangeCalendar.Heading />
@@ -73,6 +75,7 @@ const RangeCalendarTemplate = (
         {(date) => <RangeCalendar.Cell date={date} />}
       </RangeCalendar.GridBody>
     </RangeCalendar.Grid>
+    {footer}
   </RangeCalendar>
 );
 
@@ -401,15 +404,12 @@ export const Invalid: Story = {
         <RangeCalendarTemplate
           {...args}
           aria-label="Trip dates"
+          footer={<FieldError>{isInvalid && "Maximum stay duration is 1 week"}</FieldError>}
           isInvalid={isInvalid}
           value={value}
           onChange={setValue}
         />
-        {isInvalid ? (
-          <p className="text-sm text-danger">Maximum stay duration is 1 week</p>
-        ) : (
-          <Description className="text-center">Select a stay of up to 7 days</Description>
-        )}
+        <Description className="text-center">Select a stay of up to 7 days</Description>
       </div>
     );
   },

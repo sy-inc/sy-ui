@@ -8,6 +8,11 @@
     @apply status-disabled;
   }
 
+  /* Invalid: tint the unfilled stars */
+  &[data-invalid="true"] {
+    --rating-inactive-color: var(--color-danger-soft);
+  }
+
   &[data-readonly="true"] {
     pointer-events: none;
 

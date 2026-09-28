@@ -140,6 +140,15 @@
   .switch:has([data-slot="switch-content"][data-pressed="true"])[data-selected="true"] & {
     background-color: var(--switch-control-bg-checked-hover);
   }
+
+  /* Invalid states (after checked/hover/pressed so they win the tie) */
+  .switch[data-invalid="true"] & {
+    @apply status-invalid-field;
+  }
+
+  .switch[data-invalid="true"][data-selected="true"] & {
+    @apply bg-danger;
+  }
 }
 
 /* Switch content — the clickable label (control + label text) */

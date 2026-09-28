@@ -268,6 +268,22 @@
     @apply rounded-ss-3xl rounded-es-3xl;
   }
 
+  /* Invalid range (React Aria marks selected cells when the calendar is invalid) */
+  &[data-selected="true"][data-invalid="true"]:not([data-outside-month="true"]) {
+    @apply bg-danger-soft;
+
+    .range-calendar__cell-button {
+      @apply text-danger-soft-foreground;
+    }
+  }
+
+  &:is([data-selection-start="true"], [data-selection-end="true"])[data-invalid="true"]:not(
+      [data-outside-month="true"]
+    )
+    .range-calendar__cell-button {
+    @apply bg-danger text-danger-foreground;
+  }
+
   &[data-selection-end="true"]:not([data-outside-month="true"]) {
     @apply rounded-se-3xl rounded-ee-3xl;
   }

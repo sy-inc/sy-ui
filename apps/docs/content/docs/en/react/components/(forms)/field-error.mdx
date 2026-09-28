@@ -17,7 +17,7 @@ import { FieldError } from '@sy-inc/react';
   name="field-error-basic"
 />
 
-FieldError displays the error message for a form control and renders nothing when there is no error. Inside a React Aria field (`TextField`, `Select`, `RadioGroup`, …) the field's invalid state decides; next to any other control, the message you pass decides. See [Outside React Aria Fields](#outside-react-aria-fields).
+FieldError displays the error message for a form control and renders nothing when there is no error. Inside a React Aria field (`TextField`, `Select`, `RadioGroup`, …) the field's invalid state decides; everywhere else, the message you pass decides. See [Outside React Aria Fields](#outside-react-aria-fields).
 
 ## Examples
 
@@ -92,7 +92,7 @@ function EmailField() {
 
 ### Outside React Aria Fields
 
-The same `FieldError` works next to controls that are not React Aria fields — `InputOTP`, `InputPhone`, a multi-select `ListBox`. There is no field state to read, so the content is the error: pass a message and it shows; pass nothing (`undefined`, `null`, `false`, `""`, `[]`) and it renders nothing.
+The same `FieldError` works next to any control. Where there is no field state to read, the content is the error: pass a message and it shows; pass nothing (`undefined`, `null`, `false`, `""`, `[]`) and it renders nothing.
 
 ```tsx
 <InputOTP aria-describedby={error ? "code-error" : undefined} isInvalid={!!error} maxLength={6}>
@@ -101,9 +101,14 @@ The same `FieldError` works next to controls that are not React Aria fields — 
 <FieldError id="code-error">{error}</FieldError>
 ```
 
-A React Aria field links the message to its input for you. Anywhere else, give `FieldError` an `id`, point the control's `aria-describedby` at it, and set `isInvalid` on the control (`InputOTP`, `InputPhone` and `ListBox` all accept it).
+| Control | Mark invalid | Link the message |
+|---------|--------------|------------------|
+| React Aria fields (`TextField`, `Select`, `CheckboxGroup`, `RadioGroup`, `Switch`, …) | `isInvalid` on the field | Automatic — place `FieldError` inside the field |
+| `Calendar`, `RangeCalendar`, `TagGroup` | `isInvalid` on `Calendar` / `RangeCalendar` | Automatic — place `FieldError` inside the component |
+| `InputOTP`, `InputPhone`, `ListBox`, `CellColorPicker` | `isInvalid` | `aria-describedby` on the control (`InputPhone.Input`, `CellColorPicker.Trigger`) |
+| `DropZone` | — (the Area shows its own validation state) | `aria-describedby` on `DropZone.Area`; it forwards to the upload triggers |
 
-`<FieldError>{error}</FieldError>` reads the same in both places — inside a field, pair it with `isInvalid={!!error}` on the field.
+`<FieldError>{error}</FieldError>` reads the same everywhere — inside a field, pair it with `isInvalid={!!error}` on the field.
 
 ## Customization
 
@@ -152,6 +157,7 @@ The FieldError component uses these CSS classes ([View source styles](https://gi
 The FieldError component ensures accessibility by:
 
 - Inside a React Aria field, linking the message to the input through `aria-describedby` and rendering it only while the field is invalid
+- Inside `Calendar`, `RangeCalendar` and `TagGroup`, linking the message to the grid automatically
 - Outside a field, rendering only while it has content; link it with `id` + `aria-describedby` on the control
 - Not rendering hidden messages, so screen readers never read a stale error
 

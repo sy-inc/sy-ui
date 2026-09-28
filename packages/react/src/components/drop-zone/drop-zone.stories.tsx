@@ -5,7 +5,7 @@ import type {ReactNode} from "react";
 import React, {useEffect, useState} from "react";
 
 import {Description} from "../description";
-import {ErrorMessage} from "../error-message";
+import {FieldError} from "../field-error";
 import {Label} from "../label";
 
 import {DropZone, useDropZoneState} from "./index";
@@ -71,10 +71,14 @@ const UploadDropZone = ({
     <DropZone variant={variant}>
       <Label>{label}</Label>
       <Description>{description}</Description>
-      <DropZone.Area {...state.getAreaProps()} aria-label="Upload files">
+      <DropZone.Area
+        {...state.getAreaProps()}
+        aria-describedby={state.validationError ? "upload-error" : undefined}
+        aria-label="Upload files"
+      >
         <DropZone.Slots state={state} />
       </DropZone.Area>
-      {!!state.validationError && <ErrorMessage>{state.validationError.message}</ErrorMessage>}
+      <FieldError id="upload-error">{state.validationError?.message}</FieldError>
       {state.files.length > 0 && <DropZone.ClearTrigger onPress={state.clear} />}
     </DropZone>
   );

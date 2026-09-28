@@ -1,6 +1,6 @@
 "use client";
 
-import {Description, DropZone, ErrorMessage, Label, useDropZoneState} from "@sy-inc/react";
+import {Description, DropZone, FieldError, Label, useDropZoneState} from "@sy-inc/react";
 
 export function Constraints() {
   const state = useDropZoneState({
@@ -18,10 +18,14 @@ export function Constraints() {
     <DropZone className="w-[380px]">
       <Label>Attachments</Label>
       <Description>PNG or PDF, up to 2 files, 5 MB each.</Description>
-      <DropZone.Area {...state.getAreaProps()} aria-label="Upload files">
+      <DropZone.Area
+        {...state.getAreaProps()}
+        aria-describedby={state.validationError ? "constraints-error" : undefined}
+        aria-label="Upload files"
+      >
         <DropZone.Slots state={state} />
       </DropZone.Area>
-      {!!state.validationError && <ErrorMessage>{state.validationError.message}</ErrorMessage>}
+      <FieldError id="constraints-error">{state.validationError?.message}</FieldError>
     </DropZone>
   );
 }

@@ -2,7 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
-import {Description, RangeCalendar} from "@sy-inc/react";
+import {Description, FieldError, RangeCalendar} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {useState} from "react";
 
@@ -41,12 +41,9 @@ export function Invalid() {
             {(date) => <RangeCalendar.Cell date={date} />}
           </RangeCalendar.GridBody>
         </RangeCalendar.Grid>
+        <FieldError>{isInvalid && "Maximum stay duration is 1 week"}</FieldError>
       </RangeCalendar>
-      {isInvalid ? (
-        <p className="text-sm text-danger">Maximum stay duration is 1 week</p>
-      ) : (
-        <Description className="text-center">Select a stay of up to 7 days</Description>
-      )}
+      <Description className="text-center">Select a stay of up to 7 days</Description>
     </div>
   );
 }

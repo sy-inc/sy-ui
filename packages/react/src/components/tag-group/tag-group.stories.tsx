@@ -4,7 +4,7 @@ import type {Meta, StoryObj} from "@storybook/react";
 import {Icon} from "@iconify/react";
 import React, {useMemo, useState} from "react";
 
-import {Avatar, Description, EmptyState, ErrorMessage, Label, Tag} from "../";
+import {Avatar, Description, EmptyState, FieldError, Label, Tag} from "../";
 import {useListData} from "../../";
 
 import {TagGroup} from "./";
@@ -225,7 +225,7 @@ export const WithErrorMessage: Story = {
             ? "Select at least one category"
             : "Selected: " + Array.from(selected).join(", ")}
         </Description>
-        {!!isInvalid && <ErrorMessage>Please select at least one category</ErrorMessage>}
+        <FieldError>{isInvalid && "Please select at least one category"}</FieldError>
       </TagGroup>
     );
   },

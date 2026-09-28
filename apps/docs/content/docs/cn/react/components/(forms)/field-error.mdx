@@ -17,7 +17,7 @@ import { FieldError } from '@sy-inc/react';
   name="field-error-basic"
 />
 
-FieldError 展示表单控件的错误消息，没有错误时不渲染。在 React Aria 字段（`TextField`、`Select`、`RadioGroup` 等）内，由字段的无效状态决定显示；放在其他控件旁边时，由传入的消息决定。参见[在 React Aria 字段之外使用](#在-react-aria-字段之外使用)。
+FieldError 展示表单控件的错误消息，没有错误时不渲染。在 React Aria 字段（`TextField`、`Select`、`RadioGroup` 等）内，由字段的无效状态决定显示；其他任何地方，由传入的消息决定。参见[在 React Aria 字段之外使用](#在-react-aria-字段之外使用)。
 
 ## 示例
 
@@ -92,7 +92,7 @@ function EmailField() {
 
 ### 在 React Aria 字段之外使用
 
-同一个 `FieldError` 也可以放在不是 React Aria 字段的控件旁边——`InputOTP`、`InputPhone`、多选 `ListBox`。这时没有字段状态可读，内容本身就是错误：传入消息就显示；什么都不传（`undefined`、`null`、`false`、`""`、`[]`）就不渲染。
+同一个 `FieldError` 可以放在任何控件旁边。没有字段状态可读时，内容本身就是错误：传入消息就显示；什么都不传（`undefined`、`null`、`false`、`""`、`[]`）就不渲染。
 
 ```tsx
 <InputOTP aria-describedby={error ? "code-error" : undefined} isInvalid={!!error} maxLength={6}>
@@ -101,9 +101,14 @@ function EmailField() {
 <FieldError id="code-error">{error}</FieldError>
 ```
 
-React Aria 字段会自动把消息关联到输入框。在其他地方，给 `FieldError` 一个 `id`，让控件的 `aria-describedby` 指向它，并在控件上设置 `isInvalid`（`InputOTP`、`InputPhone`、`ListBox` 都支持）。
+| 控件 | 标记无效 | 关联错误消息 |
+|------|----------|--------------|
+| React Aria 字段（`TextField`、`Select`、`CheckboxGroup`、`RadioGroup`、`Switch` 等） | 在字段上设 `isInvalid` | 自动——把 `FieldError` 放在字段内 |
+| `Calendar`、`RangeCalendar`、`TagGroup` | 在 `Calendar` / `RangeCalendar` 上设 `isInvalid` | 自动——把 `FieldError` 放在组件内 |
+| `InputOTP`、`InputPhone`、`ListBox`、`CellColorPicker` | `isInvalid` | 控件上的 `aria-describedby`（设在 `InputPhone.Input`、`CellColorPicker.Trigger` 上） |
+| `DropZone` | —（Area 自带校验状态展示） | `DropZone.Area` 上的 `aria-describedby`，会转交给其中的上传按钮 |
 
-`<FieldError>{error}</FieldError>` 在两种场景下写法一致——放在字段内时，给字段配上 `isInvalid={!!error}` 即可。
+`<FieldError>{error}</FieldError>` 在任何地方写法一致——放在字段内时，给字段配上 `isInvalid={!!error}` 即可。
 
 ## 自定义样式
 
@@ -152,6 +157,7 @@ FieldError 组件使用以下 CSS 类（[查看源码样式](https://github.com/
 FieldError 组件通过以下方式确保无障碍性：
 
 - 在 React Aria 字段内，通过 `aria-describedby` 把消息关联到输入框，并且只在字段无效时渲染
+- 在 `Calendar`、`RangeCalendar`、`TagGroup` 内，自动关联到日期/标签网格
 - 在字段之外，只在有内容时渲染；用 `id` 加控件上的 `aria-describedby` 关联
 - 隐藏的消息不渲染，读屏不会读到过期的错误
 

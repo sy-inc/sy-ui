@@ -36,10 +36,10 @@ import {CellColorPicker, ColorArea, ColorSlider} from "@sy-inc/react";
   </CellColorPicker.Trigger>
   <CellColorPicker.Popover>{/* ColorArea 与 ColorSlider */}</CellColorPicker.Popover>
 </CellColorPicker>
-<p id="accent-error" role="alert">请选择可访问的品牌颜色。</p>
+<FieldError id="accent-error">请选择可访问的品牌颜色。</FieldError>
 ```
 
-设置行需要外部标签时，使用共享 `Label` 并用 `aria-labelledby` 关联。共享 `Description`、`ErrorMessage` 仅应在 React Aria field context 提供 text slot 时使用；本独立行使用上例的 ID 关联描述或错误。`FieldError` 依赖 FieldContext，不是 CellColorPicker part。
+设置行需要外部标签时，使用共享 `Label` 并用 `aria-labelledby` 关联。错误文案使用共享 [`FieldError`](/docs/components/field-error#在-react-aria-字段之外使用)，并按上例用 ID 关联；描述文字同样用 ID 关联。
 
 ## 结构与 API
 

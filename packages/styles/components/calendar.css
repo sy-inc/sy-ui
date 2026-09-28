@@ -220,6 +220,11 @@
     @apply bg-accent text-accent-foreground;
   }
 
+  /* Invalid selection (React Aria marks the selected cell when the calendar is invalid) */
+  &[data-selected="true"][data-invalid="true"] {
+    @apply bg-danger text-danger-foreground;
+  }
+
   /* Pressed state */
   &:active,
   &[data-pressed="true"] {

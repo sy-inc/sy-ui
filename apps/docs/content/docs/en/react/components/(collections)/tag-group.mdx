@@ -21,7 +21,7 @@ import { TagGroup } from '@sy-inc/react';
 ## Anatomy
 
 ```tsx
-import { TagGroup, Tag, Label, Description, ErrorMessage } from '@sy-inc/react';
+import { TagGroup, Tag, Label, Description, FieldError } from '@sy-inc/react';
 
 export default () => (
   <TagGroup>
@@ -32,7 +32,7 @@ export default () => (
       </Tag>
     </TagGroup.List>
     <Description />
-    <ErrorMessage />
+    <FieldError />
   </TagGroup>
 )
 ```
@@ -146,7 +146,7 @@ The TagGroup component uses these CSS classes ([View source styles](https://gith
 
 #### Slot Classes [!toc]
 - `.tag-group [slot="description"]` - Description slot styles
-- `.tag-group [slot="errorMessage"]` - ErrorMessage slot styles
+- `.tag-group [slot="errorMessage"]` - Error message slot styles (`FieldError`)
 
 #### Size Classes [!toc]
 - `.tag--sm` - Small size tag

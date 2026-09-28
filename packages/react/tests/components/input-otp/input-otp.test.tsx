@@ -1,6 +1,6 @@
 import type {InputOTPProps} from "@/components/input-otp";
 
-import {cleanup, render, setupUser} from "@sy-inc/testing/helpers";
+import {cleanup, render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {InputOTP} from "@/components/input-otp";
 
@@ -101,6 +101,7 @@ describe("InputOTP", () => {
     const root = document.querySelector('[data-slot="input-otp"]');
 
     expect(root).toHaveAttribute("data-invalid", "true");
+    expect(screen.getByRole("textbox")).toHaveAttribute("aria-invalid", "true");
     expect(document.querySelector('[data-slot="input-otp-slot"]')).toHaveAttribute(
       "data-invalid",
       "true",

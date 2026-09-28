@@ -170,6 +170,15 @@
     @apply border-transparent ring-2 ring-accent;
   }
 
+  /* Invalid: danger edge; a selected card keeps its ring, in danger. */
+  &[data-invalid="true"] {
+    @apply border-danger;
+  }
+
+  &[data-invalid="true"][data-selected="true"] {
+    @apply border-transparent ring-danger;
+  }
+
   &[data-disabled="true"] {
     @apply status-disabled;
   }

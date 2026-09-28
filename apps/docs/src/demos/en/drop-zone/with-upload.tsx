@@ -2,7 +2,7 @@
 
 import type {DropZoneUploadContext} from "@sy-inc/react";
 
-import {Description, DropZone, ErrorMessage, Label, useDropZoneState} from "@sy-inc/react";
+import {Description, DropZone, FieldError, Label, useDropZoneState} from "@sy-inc/react";
 
 /** Stand-in for a real request: reports progress, rejects any file named "fail". */
 const uploadFile = (file: File, {onProgress, signal}: DropZoneUploadContext) =>
@@ -44,10 +44,14 @@ export function WithUpload() {
       <Description>
         Name a file &ldquo;fail&rdquo; to see the inline error and retry action.
       </Description>
-      <DropZone.Area {...state.getAreaProps()} aria-label="Upload files">
+      <DropZone.Area
+        {...state.getAreaProps()}
+        aria-describedby={validationError ? "upload-error" : undefined}
+        aria-label="Upload files"
+      >
         <DropZone.Slots state={state} />
       </DropZone.Area>
-      {!!validationError && <ErrorMessage>{validationError.message}</ErrorMessage>}
+      <FieldError id="upload-error">{validationError?.message}</FieldError>
     </DropZone>
   );
 }

@@ -2,7 +2,7 @@
 
 import type {Key} from "@sy-inc/react";
 
-import {Description, ErrorMessage, Label, Tag, TagGroup} from "@sy-inc/react";
+import {Description, FieldError, Label, Tag, TagGroup} from "@sy-inc/react";
 import {useMemo, useState} from "react";
 
 export function TagGroupWithErrorMessage() {
@@ -27,7 +27,7 @@ export function TagGroupWithErrorMessage() {
       <Description>
         {isInvalid ? "请至少选择一个分类" : "已选：" + Array.from(selected).join(", ")}
       </Description>
-      <ErrorMessage>{!!isInvalid && <>请至少选择一个分类</>}</ErrorMessage>
+      <FieldError>{isInvalid && "请至少选择一个分类"}</FieldError>
     </TagGroup>
   );
 }

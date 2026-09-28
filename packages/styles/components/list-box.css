@@ -18,6 +18,11 @@
     @apply mt-1;
   }
 
+  /* Invalid state (form-field usage, e.g. multi-select) */
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+  }
+
   /* This makes the horizontal separator take up 94% of the width and be centered */
   [data-slot="separator"][data-orientation="horizontal"] {
     @apply ms-[3%] w-[94%];

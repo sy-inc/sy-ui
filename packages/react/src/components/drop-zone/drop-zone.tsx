@@ -31,6 +31,8 @@ import {formatFileSize, formatFileType, getFileFormatColor, isImageFile} from ".
 
 type DropZoneContextValue = {slots?: ReturnType<typeof dropZoneVariants>};
 const DropZoneContext = createContext<DropZoneContextValue>({});
+// React Aria's DropZone drops `aria-describedby`; the Area hands it to the triggers it renders instead.
+const DropZoneAreaDescribedByContext = createContext<string | undefined>(undefined);
 
 export interface DropZoneRootProps<
   E extends keyof React.JSX.IntrinsicElements = "div",
@@ -65,6 +67,7 @@ export type DropZoneAreaProps = ComponentPropsWithRef<typeof DropZonePrimitive> 
 
 const DropZoneArea = ({
   announcement,
+  "aria-describedby": ariaDescribedBy,
   children,
   className,
   inert,
@@ -130,10 +133,10 @@ const DropZoneArea = ({
       onDrop={onDrop}
     >
       {(values) => (
-        <>
+        <DropZoneAreaDescribedByContext value={ariaDescribedBy}>
           <VisuallyHidden aria-live="polite">{announcement}</VisuallyHidden>
           {typeof children === "function" ? children(values) : children}
-        </>
+        </DropZoneAreaDescribedByContext>
       )}
     </DropZonePrimitive>
   );
@@ -154,10 +157,12 @@ const DropZoneTrigger = ({
   ...props
 }: DropZoneTriggerProps) => {
   const {slots} = use(DropZoneContext);
+  const ariaDescribedBy = use(DropZoneAreaDescribedByContext);
 
   return (
     <FileTrigger {...props}>
       <ButtonPrimitive
+        aria-describedby={ariaDescribedBy}
         aria-label={ariaLabel}
         className={composeTwRenderProps(className, slots?.trigger())}
         data-slot="drop-zone-trigger"

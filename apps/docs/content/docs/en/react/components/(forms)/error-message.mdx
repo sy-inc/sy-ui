@@ -17,7 +17,9 @@ import { ErrorMessage } from '@sy-inc/react';
   name="error-message-basic"
 />
 
-`ErrorMessage` is a low-level component built on React Aria's `Text` component with an `errorMessage` slot. It's designed for displaying error messages in **non-form components** such as `TagGroup`, `Calendar`, and other collection-based components.
+`ErrorMessage` is a low-level component built on React Aria's `Text` component with an `errorMessage` slot. It always renders its content and does no linking of its own.
+
+> For validation errors, use [`FieldError`](/docs/components/field-error) everywhere — React Aria fields, `TagGroup`, `Calendar`, `RangeCalendar`, and any other control. `ErrorMessage` is kept for custom compositions that need a bare `errorMessage` slot.
 
 ## Anatomy
 
@@ -36,19 +38,14 @@ import { TagGroup, Tag, Label, Description, ErrorMessage } from '@sy-inc/react';
 
 ## When to Use
 
-`ErrorMessage` is **not tied to forms**. It's a generic error display component for non-form contexts.
-
-- **Recommended for** non-form components (e.g., `TagGroup`, `Calendar`, collection components)
-- **For form fields**, we recommend using [`FieldError`](/docs/components/field-error) instead, which provides form-specific validation features and automatic error handling, following standardized form validation patterns.
+Reach for [`FieldError`](/docs/components/field-error) first: it renders only when there is an error, links itself to the control inside React Aria fields, `TagGroup`, `Calendar` and `RangeCalendar`, and works next to any other control through `id` + `aria-describedby`.
 
 ## ErrorMessage vs FieldError
 
-| Component | Use Case | Form Integration | Example Components |
-|-----------|----------|------------------|---------------------|
-| `ErrorMessage` | Non-form components | No | `TagGroup`, `Calendar` |
-| `FieldError` | Form fields (recommended) | Yes | `TextField`, `NumberField`, `Select` |
-
-For form validation, we recommend using `FieldError` as it follows standardized form validation patterns and provides form-specific features. See the [FieldError documentation](/docs/components/field-error) and the [Form guide](/docs/components/form) for examples and best practices.
+| Component | Renders | Linked to the control | Use for |
+|-----------|---------|-----------------------|---------|
+| `FieldError` | Only when there is an error | Automatically in fields, `TagGroup`, `Calendar`, `RangeCalendar`; via `aria-describedby` elsewhere | All validation errors (recommended) |
+| `ErrorMessage` | Always | Only through a parent's `errorMessage` slot | Custom compositions |
 
 ## Customization
 

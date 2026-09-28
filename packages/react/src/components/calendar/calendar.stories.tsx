@@ -16,6 +16,7 @@ import {I18nProvider, useLocale} from "react-aria-components/I18nProvider";
 import {Button} from "../button";
 import {ButtonGroup} from "../button-group";
 import {Description} from "../description";
+import {FieldError} from "../field-error";
 import {Label} from "../label";
 import {ListBox} from "../list-box";
 import {Select} from "../select";
@@ -52,7 +53,10 @@ type Story = StoryObj<typeof Calendar>;
 /* -------------------------------------------------------------------------------------------------
  * Helper component to render a basic calendar structure
  * -----------------------------------------------------------------------------------------------*/
-const CalendarTemplate = (props: Omit<React.ComponentProps<typeof Calendar>, "children">) => (
+const CalendarTemplate = ({
+  footer,
+  ...props
+}: Omit<React.ComponentProps<typeof Calendar>, "children"> & {footer?: React.ReactNode}) => (
   <Calendar {...props}>
     <Calendar.Header>
       <Calendar.Heading />
@@ -65,6 +69,7 @@ const CalendarTemplate = (props: Omit<React.ComponentProps<typeof Calendar>, "ch
       </Calendar.GridHeader>
       <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
     </Calendar.Grid>
+    {footer}
   </Calendar>
 );
 
@@ -354,15 +359,12 @@ export const Invalid: Story = {
         <CalendarTemplate
           {...args}
           aria-label="Event date"
+          footer={<FieldError>{isInvalid && "Date must be today or in the future"}</FieldError>}
           isInvalid={isInvalid}
           value={value}
           onChange={setValue}
         />
-        {isInvalid ? (
-          <p className="text-sm text-danger">Date must be today or in the future</p>
-        ) : (
-          <Description className="text-center">Select a future date</Description>
-        )}
+        <Description className="text-center">Select a future date</Description>
       </div>
     );
   },

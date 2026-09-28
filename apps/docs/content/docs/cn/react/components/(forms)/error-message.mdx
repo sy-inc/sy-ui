@@ -17,7 +17,9 @@ import { ErrorMessage } from '@sy-inc/react';
   name="error-message-basic"
 />
 
-`ErrorMessage` 是基于 React Aria `Text` 组件、`errorMessage` slot 的底层组件，用于在 **非表单组件**（如 `TagGroup`、`Calendar` 及其他集合类组件）中展示错误消息。
+`ErrorMessage` 是基于 React Aria `Text` 组件、`errorMessage` slot 的底层组件，它总是渲染内容，自身不做任何关联。
+
+> 校验错误请统一使用 [`FieldError`](/docs/components/field-error)——React Aria 字段、`TagGroup`、`Calendar`、`RangeCalendar` 及其他任何控件都适用。`ErrorMessage` 保留给需要裸 `errorMessage` slot 的自定义组合。
 
 ## 组件结构
 
@@ -36,19 +38,14 @@ import { TagGroup, Tag, Label, Description, ErrorMessage } from '@sy-inc/react';
 
 ## 何时使用
 
-`ErrorMessage` **不绑定表单**，是用于非表单上下文的通用错误展示组件。
-
-- **推荐用于** 非表单组件（如 `TagGroup`、`Calendar`、集合类组件）
-- **表单字段** 建议使用 [`FieldError`](/docs/components/field-error)，它提供表单专用校验特性与自动错误处理，遵循标准化表单校验模式。
+优先使用 [`FieldError`](/docs/components/field-error)：只在有错误时渲染；在 React Aria 字段、`TagGroup`、`Calendar`、`RangeCalendar` 内自动关联到控件；放在其他控件旁边时通过 `id` + `aria-describedby` 关联。
 
 ## ErrorMessage 与 FieldError
 
-| 组件 | 使用场景 | 表单集成 | 示例组件 |
+| 组件 | 何时渲染 | 与控件的关联 | 用途 |
 |-----------|----------|------------------|---------------------|
-| `ErrorMessage` | 非表单组件 | 否 | `TagGroup`、`Calendar` |
-| `FieldError` | 表单字段（推荐） | 是 | `TextField`、`NumberField`、`Select` |
-
-表单校验建议使用 `FieldError`，它遵循标准化表单校验模式并提供表单专用特性。参见 [FieldError 文档](/docs/components/field-error) 与 [Form 指南](/docs/components/form)。
+| `FieldError` | 仅在有错误时 | 字段、`TagGroup`、`Calendar`、`RangeCalendar` 内自动关联；其他地方通过 `aria-describedby` | 所有校验错误（推荐） |
+| `ErrorMessage` | 总是 | 仅通过父组件的 `errorMessage` slot | 自定义组合 |
 
 ## 自定义样式
 

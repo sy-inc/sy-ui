@@ -1,8 +1,12 @@
+import {parseDate} from "@internationalized/date";
 import {render, screen} from "@sy-inc/testing/helpers";
 
+import {Calendar} from "@/components/calendar";
 import {FieldError} from "@/components/field-error";
 import {Input} from "@/components/input";
 import {Label} from "@/components/label";
+import {Tag} from "@/components/tag";
+import {TagGroup} from "@/components/tag-group";
 import {TextField} from "@/components/textfield";
 
 describe("FieldError", () => {
@@ -70,5 +74,46 @@ describe("FieldError outside a field", () => {
     render(<FieldError>{() => null}</FieldError>);
 
     expect(document.querySelector('[data-slot="field-error"]')).toBeNull();
+  });
+});
+
+describe("FieldError in components with an errorMessage slot", () => {
+  it("links itself to the TagGroup grid and hides while empty", () => {
+    const {rerender} = render(
+      <TagGroup aria-label="Tags">
+        <TagGroup.List>
+          <Tag id="a">A</Tag>
+        </TagGroup.List>
+        <FieldError>{"Pick one"}</FieldError>
+      </TagGroup>,
+    );
+
+    expect(screen.getByRole("grid")).toHaveAccessibleDescription("Pick one");
+
+    rerender(
+      <TagGroup aria-label="Tags">
+        <TagGroup.List>
+          <Tag id="a">A</Tag>
+        </TagGroup.List>
+        <FieldError>{false}</FieldError>
+      </TagGroup>,
+    );
+
+    expect(screen.queryByText("Pick one")).toBeNull();
+  });
+
+  it("links itself to an invalid Calendar", () => {
+    render(
+      <Calendar isInvalid aria-label="Date" defaultValue={parseDate("2025-01-15")}>
+        <Calendar.Grid>
+          <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
+        </Calendar.Grid>
+        <FieldError>Pick a future date</FieldError>
+      </Calendar>,
+    );
+
+    expect(screen.getByText("15").closest("[aria-describedby]")).toHaveAccessibleDescription(
+      expect.stringContaining("Pick a future date"),
+    );
   });
 });

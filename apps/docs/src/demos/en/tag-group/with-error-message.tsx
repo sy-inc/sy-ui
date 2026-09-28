@@ -2,7 +2,7 @@
 
 import type {Key} from "@sy-inc/react";
 
-import {Description, ErrorMessage, Label, Tag, TagGroup} from "@sy-inc/react";
+import {Description, FieldError, Label, Tag, TagGroup} from "@sy-inc/react";
 import {useMemo, useState} from "react";
 
 export function TagGroupWithErrorMessage() {
@@ -29,7 +29,7 @@ export function TagGroupWithErrorMessage() {
           ? "Select at least one category"
           : "Selected: " + Array.from(selected).join(", ")}
       </Description>
-      <ErrorMessage>{!!isInvalid && <>Please select at least one category</>}</ErrorMessage>
+      <FieldError>{isInvalid && "Please select at least one category"}</FieldError>
     </TagGroup>
   );
 }

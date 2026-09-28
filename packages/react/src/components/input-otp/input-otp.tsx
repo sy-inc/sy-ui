@@ -57,6 +57,7 @@ const InputOTPRoot = ({
       <OTPInput
         // OTP Input package uses the `className` prop for the actual `input` element which is not visible to the user so no need to pass it to the base container
         className={slots.input({className: inputClassName})}
+        aria-invalid={isInvalid || undefined}
         containerClassName={slots.base({className})}
         data-disabled={dataAttr(isDisabled)}
         data-invalid={dataAttr(isInvalid)}

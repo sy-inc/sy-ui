@@ -11,7 +11,7 @@ links:
 ## 用法
 
 ```tsx
-import {Description, DropZone, ErrorMessage, Label, useDropZoneState} from '@sy-inc/react';
+import {Description, DropZone, FieldError, Label, useDropZoneState} from '@sy-inc/react';
 ```
 
 <ComponentPreview name="drop-zone-basic" />
@@ -24,17 +24,21 @@ const state = useDropZoneState({maxFiles: 3});
 <DropZone variant="bordered">
   <Label>附件</Label>
   <Description>支持 PDF 或 PNG，单个不超过 10 MB。</Description>
-  <DropZone.Area {...state.getAreaProps()} aria-label="上传文件">
+  <DropZone.Area
+    {...state.getAreaProps()}
+    aria-describedby={state.validationError ? "upload-error" : undefined}
+    aria-label="上传文件"
+  >
     <DropZone.Slots state={state} />
   </DropZone.Area>
-  {!!state.validationError && <ErrorMessage>{state.validationError.message}</ErrorMessage>}
+  <FieldError id="upload-error">{state.validationError?.message}</FieldError>
   {state.files.length > 0 && <DropZone.ClearTrigger onPress={state.clear} />}
 </DropZone>;
 ```
 
 **DropZone** 基于 [React Aria DropZone](https://react-spectrum.adobe.com/react-aria/DropZone.html) 构建。`Area` 是唯一的拖放目标，`Slots` 为每一行渲染一个胶囊——每个活动文件对应一张文件卡片；有剩余容量时，末尾始终保留一个空的选择方块。
 
-标题和说明使用共享的 `Label`、`Description` 组件，校验文案使用区域下方的共享 `ErrorMessage`。`DropZone.Area` 必须提供 `aria-label` 或 `aria-labelledby` 作为无障碍名称。
+标题和说明使用共享的 `Label`、`Description` 组件，校验文案使用区域下方的共享 `FieldError`；把它的 `id` 作为 `aria-describedby` 传给 `DropZone.Area`，Area 会关联到其中的上传按钮。`DropZone.Area` 必须提供 `aria-label` 或 `aria-labelledby` 作为无障碍名称。
 
 <Callout>
   React Aria 的 DropZone 会把**粘贴**文件走同一个 `onDrop`，聚焦拖放区后直接粘贴即可，无需额外接线。拖入**目录**时会递归展开到任意深度，并按拖入顺序扁平化成文件。
