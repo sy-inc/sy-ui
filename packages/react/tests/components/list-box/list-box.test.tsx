@@ -91,4 +91,28 @@ describe("ListBox", () => {
     await tester.toggleOptionSelection({option: "Copy link"});
     expect(onAction).toHaveBeenCalledWith("copy-link");
   });
+
+  it("exposes invalid state for form validation", () => {
+    render(
+      <ListBox isInvalid aria-label="Tags" selectionMode="multiple">
+        <ListBox.Item id="a">A</ListBox.Item>
+      </ListBox>,
+    );
+
+    const listbox = screen.getByRole("listbox");
+
+    expect(listbox).toHaveAttribute("aria-invalid", "true");
+    expect(listbox).toHaveAttribute("data-invalid", "true");
+  });
+
+  it("renders no invalid attributes by default", () => {
+    render(
+      <ListBox aria-label="Tags">
+        <ListBox.Item id="a">A</ListBox.Item>
+      </ListBox>,
+    );
+
+    expect(screen.getByRole("listbox")).not.toHaveAttribute("aria-invalid");
+    expect(screen.getByRole("listbox")).not.toHaveAttribute("data-invalid");
+  });
 });

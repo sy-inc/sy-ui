@@ -161,6 +161,7 @@ The component supports both CSS pseudo-classes and data attributes for flexibili
 | `aria-label` | `string` | - | Accessibility label for the listbox |
 | `aria-labelledby` | `string` | - | ID of element that labels the listbox |
 | `selectionMode` | `"none" \| "single" \| "multiple"` | `"single"` | Selection behavior |
+| `isInvalid` | `boolean` | `false` | Marks the listbox invalid (`aria-invalid`, `data-invalid`) when used as a form field. Pair with a [`FieldError`](/docs/components/field-error#outside-react-aria-fields) linked through `aria-describedby` |
 | `selectedKeys` | `Selection` | - | Controlled selected keys |
 | `defaultSelectedKeys` | `Selection` | - | Initial selected keys |
 | `onSelectionChange` | `(keys: Selection) => void` | - | Handler called when selection changes |

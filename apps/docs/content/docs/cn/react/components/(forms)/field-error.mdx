@@ -101,7 +101,7 @@ function EmailField() {
 <FieldError id="code-error">{error}</FieldError>
 ```
 
-React Aria 字段会自动把消息关联到输入框。在其他地方，给 `FieldError` 一个 `id`，让控件的 `aria-describedby` 指向它，并把控件标记为无效（`isInvalid`；没有该属性的控件用 `aria-invalid`）。
+React Aria 字段会自动把消息关联到输入框。在其他地方，给 `FieldError` 一个 `id`，让控件的 `aria-describedby` 指向它，并在控件上设置 `isInvalid`（`InputOTP`、`InputPhone`、`ListBox` 都支持）。
 
 `<FieldError>{error}</FieldError>` 在两种场景下写法一致——放在字段内时，给字段配上 `isInvalid={!!error}` 即可。
 

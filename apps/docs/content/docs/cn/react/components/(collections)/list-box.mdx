@@ -159,6 +159,7 @@ ListBox 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-
 | `aria-label` | `string` | - | ListBox 的无障碍标签。 |
 | `aria-labelledby` | `string` | - | 标注 ListBox 的元素 id。 |
 | `selectionMode` | `"none" \| "single" \| "multiple"` | `"single"` | 选择行为。 |
+| `isInvalid` | `boolean` | `false` | 作为表单字段使用时标记为无效（输出 `aria-invalid`、`data-invalid`）。搭配通过 `aria-describedby` 关联的 [`FieldError`](/docs/components/field-error#在-react-aria-字段之外使用)。 |
 | `selectedKeys` | `Selection` | - | 受控的选中 key。 |
 | `defaultSelectedKeys` | `Selection` | - | 初始选中 key。 |
 | `onSelectionChange` | `(keys: Selection) => void` | - | 选中变化时调用的事件处理函数。 |

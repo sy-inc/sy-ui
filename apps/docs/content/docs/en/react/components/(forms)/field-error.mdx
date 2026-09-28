@@ -101,7 +101,7 @@ The same `FieldError` works next to controls that are not React Aria fields — 
 <FieldError id="code-error">{error}</FieldError>
 ```
 
-A React Aria field links the message to its input for you. Anywhere else, give `FieldError` an `id`, point the control's `aria-describedby` at it, and mark the control invalid (`isInvalid`, or `aria-invalid` on controls without it).
+A React Aria field links the message to its input for you. Anywhere else, give `FieldError` an `id`, point the control's `aria-describedby` at it, and set `isInvalid` on the control (`InputOTP`, `InputPhone` and `ListBox` all accept it).
 
 `<FieldError>{error}</FieldError>` reads the same in both places — inside a field, pair it with `isInvalid={!!error}` on the field.
 
