@@ -176,20 +176,21 @@ const [value, setValue] = useState<string | undefined>("+442071838750");
 import {Description, FieldError, Label} from "@sy-inc/react";
 import {InputPhone} from "@sy-inc/react/input-phone";
 
-export function ValidatedPhone() {
+export function ValidatedPhone({error}: {error?: string}) {
   return (
     <div>
-      <Label htmlFor="contact-phone">电话号码</Label>
-      <InputPhone defaultCountry="CN" isInvalid name="phone">
+      <Label htmlFor="contact-phone" isInvalid={!!error}>
+        电话号码
+      </Label>
+      <InputPhone defaultCountry="CN" isInvalid={!!error} name="phone">
         <InputPhone.CountrySelect />
         <InputPhone.Input
-          aria-describedby="contact-phone-description"
-          aria-errormessage="contact-phone-error"
+          aria-describedby={error ? "contact-phone-description contact-phone-error" : "contact-phone-description"}
           id="contact-phone"
         />
       </InputPhone>
       <Description id="contact-phone-description">输入号码时请包含国家/地区区号。</Description>
-      <FieldError id="contact-phone-error">请输入有效的电话号码。</FieldError>
+      <FieldError id="contact-phone-error">{error}</FieldError>
     </div>
   );
 }
@@ -261,7 +262,7 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 - `isDisabled` 阻止编辑、禁用国家/地区触发器，并把字段从表单数据中移除。
 - `isReadOnly` 阻止编辑并让国家/地区触发器不可用，同时仍允许聚焦和读取值。
 - `isInvalid` 给输入组打上 `data-invalid="true"`，并在电话输入框上设置
-  `aria-invalid="true"`。请与 `FieldError` 搭配使用。
+  `aria-invalid="true"`。请搭配 `FieldError`，并通过 `aria-describedby` 关联。
 - `isRequired` 给电话输入框加上原生 `required` 属性。
 
 这四个都是根组件属性，因此不会出现某个部件与字段状态不一致的情况。
@@ -346,8 +347,8 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 ### 标签与错误
 
 `InputPhone` 自身不提供标签。请给 `InputPhone.Input` 传 `aria-label`，或用
-`htmlFor` 与 `id` 连接一个 `Label`。字段无效时，让 `aria-errormessage` 指向
-`FieldError`，错误信息才会被朗读。
+`htmlFor` 与 `id` 连接一个 `Label`。字段无效时，把 `FieldError` 的 `id` 加进输入框的
+`aria-describedby`，错误信息才会被朗读。
 
 ### 键盘与焦点
 

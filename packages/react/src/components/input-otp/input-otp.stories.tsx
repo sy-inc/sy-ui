@@ -4,6 +4,7 @@ import React from "react";
 
 import {Button} from "../button";
 import {Description} from "../description";
+import {FieldError} from "../field-error";
 import {Form} from "../form";
 import {Label} from "../label";
 import {Link} from "../link";
@@ -255,9 +256,7 @@ export const WithValidation: Story = {
               <InputOTP.Slot index={5} />
             </InputOTP.Group>
           </InputOTP>
-          <span className="field-error" data-visible={isInvalid} id="code-error">
-            Invalid code. Please try again.
-          </span>
+          <FieldError id="code-error">{isInvalid && "Invalid code. Please try again."}</FieldError>
           <Button isDisabled={value.length !== 6} type="submit">
             Submit
           </Button>
@@ -375,6 +374,7 @@ export const FormExample: Story = {
           <Description>Enter the 6-digit code from your authenticator app</Description>
           <InputOTP
             {...args}
+            aria-describedby={error ? "code-error" : undefined}
             isInvalid={!!error}
             maxLength={6}
             value={value}
@@ -395,9 +395,7 @@ export const FormExample: Story = {
               <InputOTP.Slot index={5} />
             </InputOTP.Group>
           </InputOTP>
-          <span className="field-error" data-visible={!!error} id="code-error">
-            {error}
-          </span>
+          <FieldError id="code-error">{error}</FieldError>
         </div>
         <Button
           className="w-full"

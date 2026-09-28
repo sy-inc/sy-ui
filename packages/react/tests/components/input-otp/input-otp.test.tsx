@@ -1,8 +1,7 @@
 import type {InputOTPProps} from "@/components/input-otp";
 
-import {cleanup, render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {cleanup, render, setupUser} from "@sy-inc/testing/helpers";
 
-import {FieldError} from "@/components/field-error";
 import {InputOTP} from "@/components/input-otp";
 
 const renderOtp = (props: Omit<Partial<InputOTPProps>, "children"> = {}) => {
@@ -96,17 +95,8 @@ describe("InputOTP", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  it("supports invalid state with FieldError", () => {
-    render(
-      <InputOTP isInvalid maxLength={6} validationErrors={["Invalid code"]}>
-        <InputOTP.Group>
-          <InputOTP.Slot index={0} />
-          <InputOTP.Slot index={1} />
-          <InputOTP.Slot index={2} />
-        </InputOTP.Group>
-        <FieldError>Invalid code</FieldError>
-      </InputOTP>,
-    );
+  it("exposes invalid state on root and slots", () => {
+    renderOtp({isInvalid: true});
 
     const root = document.querySelector('[data-slot="input-otp"]');
 
@@ -115,7 +105,6 @@ describe("InputOTP", () => {
       "data-invalid",
       "true",
     );
-    expect(screen.getByText("Invalid code")).toBeInTheDocument();
   });
 
   it("supports filling slots from paste", async () => {

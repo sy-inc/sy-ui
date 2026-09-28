@@ -47,3 +47,28 @@ describe("FieldError", () => {
     expect(screen.getByText("Rendered via props")).toBeInTheDocument();
   });
 });
+
+describe("FieldError outside a field", () => {
+  it("renders its content as a visible error", () => {
+    render(<FieldError id="code-error">Invalid code</FieldError>);
+
+    const error = screen.getByText("Invalid code");
+
+    expect(error).toHaveTextContent("Invalid code");
+    expect(error).toHaveAttribute("id", "code-error");
+    expect(error).toHaveAttribute("data-slot", "field-error");
+    expect(error).toHaveAttribute("data-visible");
+  });
+
+  it.each([undefined, null, false, "", []])("renders nothing for empty content (%j)", (content) => {
+    render(<FieldError>{content}</FieldError>);
+
+    expect(document.querySelector('[data-slot="field-error"]')).toBeNull();
+  });
+
+  it("renders nothing when a render function returns nothing", () => {
+    render(<FieldError>{() => null}</FieldError>);
+
+    expect(document.querySelector('[data-slot="field-error"]')).toBeNull();
+  });
+});

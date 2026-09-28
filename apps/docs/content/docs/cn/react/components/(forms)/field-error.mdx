@@ -17,7 +17,7 @@ import { FieldError } from '@sy-inc/react';
   name="field-error-basic"
 />
 
-FieldError 组件展示表单字段的校验错误消息。当父字段标记为无效时自动显示，并提供平滑的透明度过渡。
+FieldError 展示表单控件的错误消息，没有错误时不渲染。在 React Aria 字段（`TextField`、`Select`、`RadioGroup` 等）内，由字段的无效状态决定显示；放在其他控件旁边时，由传入的消息决定。参见[在 React Aria 字段之外使用](#在-react-aria-字段之外使用)。
 
 ## 示例
 
@@ -90,6 +90,21 @@ function EmailField() {
 </TextField>
 ```
 
+### 在 React Aria 字段之外使用
+
+同一个 `FieldError` 也可以放在不是 React Aria 字段的控件旁边——`InputOTP`、`InputPhone`、多选 `ListBox`。这时没有字段状态可读，内容本身就是错误：传入消息就显示；什么都不传（`undefined`、`null`、`false`、`""`、`[]`）就不渲染。
+
+```tsx
+<InputOTP aria-describedby={error ? "code-error" : undefined} isInvalid={!!error} maxLength={6}>
+  ...
+</InputOTP>
+<FieldError id="code-error">{error}</FieldError>
+```
+
+React Aria 字段会自动把消息关联到输入框。在其他地方，给 `FieldError` 一个 `id`，让控件的 `aria-describedby` 指向它，并把控件标记为无效（`isInvalid`；没有该属性的控件用 `aria-invalid`）。
+
+`<FieldError>{error}</FieldError>` 在两种场景下写法一致——放在字段内时，给字段配上 `isInvalid={!!error}` 即可。
+
 ## 自定义样式
 
 ### Tailwind CSS
@@ -120,7 +135,7 @@ FieldError 组件使用以下 CSS 类（[查看源码样式](https://github.com/
 
 - `.field-error` - 基础错误样式，danger 色
 - 仅在存在 `data-visible` 属性时显示
-- 长消息以省略号截断
+- 长消息自动换行
 
 ## API 参考
 
@@ -129,16 +144,16 @@ FieldError 组件使用以下 CSS 类（[查看源码样式](https://github.com/
 | Prop | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
 | `className` | `string` | - | 附加 CSS 类 |
-| `children` | `ReactNode \| ((validation: ValidationResult) => ReactNode)` | - | 错误消息内容或 render 函数 |
+| `children` | `ReactNode \| ((validation: ValidationResult) => ReactNode)` | - | 错误消息内容或 render 函数。在 React Aria 字段之外，内容为空时不渲染 |
+| `id` | `string` | - | 在 React Aria 字段之外，供控件的 `aria-describedby` 指向 |
 
 ## 无障碍
 
 FieldError 组件通过以下方式确保无障碍性：
 
-- 使用适当的 ARIA 属性播报错误
-- 语义化 HTML 支持屏幕阅读器
-- 提供视觉与程序化错误指示
-- 根据校验状态自动管理可见性
+- 在 React Aria 字段内，通过 `aria-describedby` 把消息关联到输入框，并且只在字段无效时渲染
+- 在字段之外，只在有内容时渲染；用 `id` 加控件上的 `aria-describedby` 关联
+- 隐藏的消息不渲染，读屏不会读到过期的错误
 
 ## 相关组件
 

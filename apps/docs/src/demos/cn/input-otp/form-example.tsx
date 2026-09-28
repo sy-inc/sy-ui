@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, Form, InputOTP, Label, Link, Spinner} from "@sy-inc/react";
+import {Button, Description, FieldError, Form, InputOTP, Label, Link, Spinner} from "@sy-inc/react";
 import React from "react";
 
 export function FormExample() {
@@ -38,6 +38,7 @@ export function FormExample() {
         <Label>双重身份验证</Label>
         <Description>请输入身份验证器应用中的 6 位验证码</Description>
         <InputOTP
+          aria-describedby={error ? "code-error" : undefined}
           isInvalid={!!error}
           maxLength={6}
           value={value}
@@ -58,9 +59,7 @@ export function FormExample() {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-        <span className="field-error" data-visible={!!error} id="code-error">
-          {error}
-        </span>
+        <FieldError id="code-error">{error}</FieldError>
       </div>
       <Button
         className="w-full"

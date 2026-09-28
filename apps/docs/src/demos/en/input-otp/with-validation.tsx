@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, Form, InputOTP, Label} from "@sy-inc/react";
+import {Button, Description, FieldError, Form, InputOTP, Label} from "@sy-inc/react";
 import React from "react";
 
 export function WithValidation() {
@@ -54,9 +54,7 @@ export function WithValidation() {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-        <span className="field-error" data-visible={isInvalid} id="code-error">
-          Invalid code. Please try again.
-        </span>
+        <FieldError id="code-error">{isInvalid && "Invalid code. Please try again."}</FieldError>
         <Button isDisabled={value.length !== 6} type="submit">
           Submit
         </Button>

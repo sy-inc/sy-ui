@@ -564,7 +564,7 @@ export function ImageFieldMeta({children, className, ...props}: ImageFieldMetaPr
       id={c.metaId}
     >
       {!!c.error && (
-        <span className={fieldErrorVariants()} data-slot="field-error" role="alert">
+        <span className={fieldErrorVariants()} data-slot="field-error" data-visible role="alert">
           {c.error}
         </span>
       )}

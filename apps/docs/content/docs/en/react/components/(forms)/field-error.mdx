@@ -17,7 +17,7 @@ import { FieldError } from '@sy-inc/react';
   name="field-error-basic"
 />
 
-The FieldError component displays validation error messages for form fields. It automatically appears when the parent field is marked as invalid and provides smooth opacity transitions.
+FieldError displays the error message for a form control and renders nothing when there is no error. Inside a React Aria field (`TextField`, `Select`, `RadioGroup`, …) the field's invalid state decides; next to any other control, the message you pass decides. See [Outside React Aria Fields](#outside-react-aria-fields).
 
 ## Examples
 
@@ -90,6 +90,21 @@ function EmailField() {
 </TextField>
 ```
 
+### Outside React Aria Fields
+
+The same `FieldError` works next to controls that are not React Aria fields — `InputOTP`, `InputPhone`, a multi-select `ListBox`. There is no field state to read, so the content is the error: pass a message and it shows; pass nothing (`undefined`, `null`, `false`, `""`, `[]`) and it renders nothing.
+
+```tsx
+<InputOTP aria-describedby={error ? "code-error" : undefined} isInvalid={!!error} maxLength={6}>
+  ...
+</InputOTP>
+<FieldError id="code-error">{error}</FieldError>
+```
+
+A React Aria field links the message to its input for you. Anywhere else, give `FieldError` an `id`, point the control's `aria-describedby` at it, and mark the control invalid (`isInvalid`, or `aria-invalid` on controls without it).
+
+`<FieldError>{error}</FieldError>` reads the same in both places — inside a field, pair it with `isInvalid={!!error}` on the field.
+
 ## Customization
 
 ### Tailwind CSS
@@ -120,7 +135,7 @@ The FieldError component uses these CSS classes ([View source styles](https://gi
 
 - `.field-error` - Base error styles with danger color
 - Only shows when the `data-visible` attribute is present
-- Text is truncated with ellipsis for long messages
+- Long messages wrap onto multiple lines
 
 ## API Reference
 
@@ -129,16 +144,16 @@ The FieldError component uses these CSS classes ([View source styles](https://gi
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `className` | `string` | - | Additional CSS classes |
-| `children` | `ReactNode \| ((validation: ValidationResult) => ReactNode)` | - | Error message content or render function |
+| `children` | `ReactNode \| ((validation: ValidationResult) => ReactNode)` | - | Error message content or render function. Outside a React Aria field, empty content renders nothing |
+| `id` | `string` | - | Target for the control's `aria-describedby` outside a React Aria field |
 
 ## Accessibility
 
 The FieldError component ensures accessibility by:
 
-- Using proper ARIA attributes for error announcement
-- Supporting screen readers with semantic HTML
-- Providing visual and programmatic error indication
-- Automatically managing visibility based on validation state
+- Inside a React Aria field, linking the message to the input through `aria-describedby` and rendering it only while the field is invalid
+- Outside a field, rendering only while it has content; link it with `id` + `aria-describedby` on the control
+- Not rendering hidden messages, so screen readers never read a stale error
 
 ## Related Components
 

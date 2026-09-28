@@ -90,7 +90,7 @@ InputOTP 组件支持两种视觉变体：
 
 ### 带校验
 
-配合 `isInvalid` 与校验消息展示错误。
+配合 `isInvalid` 与通过 `aria-describedby` 关联的 [`FieldError`](/docs/components/field-error#在-react-aria-字段之外使用) 展示错误。
 
 <ComponentPreview name="input-otp-with-validation" />
 
@@ -184,8 +184,6 @@ InputOTP 基于 [input-otp](https://github.com/guilhermerodz/input-otp) 库构�
 |------|------|---------|-------------|
 | `isDisabled` | `boolean` | `false` | 是否禁用 |
 | `isInvalid` | `boolean` | `false` | 是否处于无效状态 |
-| `validationErrors` | `string[]` | - | 服务端或自定义校验错误 |
-| `validationDetails` | `ValidityState` | - | HTML5 校验详情 |
 
 #### Input Props
 

@@ -90,7 +90,7 @@ Use the `pattern` prop to restrict input to specific characters. SY INC exports 
 
 ### With Validation
 
-Use `isInvalid` together with validation messages to surface errors.
+Use `isInvalid` and a [`FieldError`](/docs/components/field-error#outside-react-aria-fields) linked through `aria-describedby` to surface errors.
 
 <ComponentPreview name="input-otp-with-validation" />
 
@@ -184,8 +184,6 @@ InputOTP is built on top of the [input-otp](https://github.com/guilhermerodz/inp
 |------|------|---------|-------------|
 | `isDisabled` | `boolean` | `false` | Whether the input is disabled. |
 | `isInvalid` | `boolean` | `false` | Whether the input is in an invalid state. |
-| `validationErrors` | `string[]` | - | Server-side or custom validation errors. |
-| `validationDetails` | `ValidityState` | - | HTML5 validation details. |
 
 #### Input Props
 

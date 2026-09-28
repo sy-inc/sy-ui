@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, Form, InputOTP, Label, Link, Spinner} from "@sy-inc/react";
+import {Button, Description, FieldError, Form, InputOTP, Label, Link, Spinner} from "@sy-inc/react";
 import React from "react";
 
 export function FormExample() {
@@ -38,6 +38,7 @@ export function FormExample() {
         <Label>Two-factor authentication</Label>
         <Description>Enter the 6-digit code from your authenticator app</Description>
         <InputOTP
+          aria-describedby={error ? "code-error" : undefined}
           isInvalid={!!error}
           maxLength={6}
           value={value}
@@ -58,9 +59,7 @@ export function FormExample() {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-        <span className="field-error" data-visible={!!error} id="code-error">
-          {error}
-        </span>
+        <FieldError id="code-error">{error}</FieldError>
       </div>
       <Button
         className="w-full"

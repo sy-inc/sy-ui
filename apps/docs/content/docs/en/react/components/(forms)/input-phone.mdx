@@ -185,22 +185,23 @@ relationships.
 import {Description, FieldError, Label} from "@sy-inc/react";
 import {InputPhone} from "@sy-inc/react/input-phone";
 
-export function ValidatedPhone() {
+export function ValidatedPhone({error}: {error?: string}) {
   return (
     <div>
-      <Label htmlFor="contact-phone">Phone number</Label>
-      <InputPhone defaultCountry="US" isInvalid name="phone">
+      <Label htmlFor="contact-phone" isInvalid={!!error}>
+        Phone number
+      </Label>
+      <InputPhone defaultCountry="US" isInvalid={!!error} name="phone">
         <InputPhone.CountrySelect />
         <InputPhone.Input
-          aria-describedby="contact-phone-description"
-          aria-errormessage="contact-phone-error"
+          aria-describedby={error ? "contact-phone-description contact-phone-error" : "contact-phone-description"}
           id="contact-phone"
         />
       </InputPhone>
       <Description id="contact-phone-description">
         Include the country code when you enter a number.
       </Description>
-      <FieldError id="contact-phone-error">Enter a valid phone number.</FieldError>
+      <FieldError id="contact-phone-error">{error}</FieldError>
     </div>
   );
 }
@@ -277,7 +278,7 @@ import {ListLayout, Virtualizer} from "react-aria-components/Virtualizer";
 - `isReadOnly` prevents editing and keeps the country trigger unavailable, while
   still allowing the value to be focused and read.
 - `isInvalid` marks the input group with `data-invalid="true"` and sets
-  `aria-invalid="true"` on the telephone input. Pair it with a `FieldError`.
+  `aria-invalid="true"` on the telephone input. Pair it with a `FieldError` linked through `aria-describedby`.
 - `isRequired` applies the native `required` attribute to the telephone input.
 
 All four are root props, so a part never disagrees with the field about its state.
@@ -367,8 +368,8 @@ Accepts every `ListBox` prop except the ones bound to the country collection
 ### Labeling and errors
 
 `InputPhone` provides no label of its own. Give `InputPhone.Input` an `aria-label`,
-or connect a `Label` with `htmlFor` and an `id`. When the field is invalid, point
-`aria-errormessage` at a `FieldError` so the message is announced.
+or connect a `Label` with `htmlFor` and an `id`. When the field is invalid, add the
+`FieldError` `id` to the input's `aria-describedby` so the message is announced.
 
 ### Keyboard and focus
 

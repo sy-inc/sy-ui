@@ -2,12 +2,10 @@
 
 import type {InputOTPVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
-import type {ValidationResult} from "react-aria-components/CheckboxGroup";
 
 import {inputOTPVariants} from "@sy-inc/styles";
 import {OTPInput, OTPInputContext} from "input-otp";
 import React, {createContext, use} from "react";
-import {FieldErrorContext} from "react-aria-components/FieldError";
 
 import {dataAttr} from "../../utils/assertion";
 import {composeSlotClassName} from "../../utils/compose";
@@ -35,35 +33,19 @@ interface InputOTPRootProps
     InputOTPVariants {
   isDisabled?: boolean;
   isInvalid?: boolean;
-  validationErrors?: string[];
-  validationDetails?: ValidityState;
   inputClassName?: string;
   children: React.ReactNode;
 }
-
-const EMPTY_VALIDATION_ERRORS: string[] = [];
 
 const InputOTPRoot = ({
   className,
   inputClassName,
   isDisabled = false,
   isInvalid = false,
-  validationDetails,
-  validationErrors = EMPTY_VALIDATION_ERRORS,
   variant,
   ...props
 }: InputOTPRootProps) => {
   const slots = React.useMemo(() => inputOTPVariants({variant}), [variant]);
-
-  const validation = React.useMemo(
-    () =>
-      ({
-        isInvalid,
-        validationErrors,
-        validationDetails,
-      }) as ValidationResult,
-    [isInvalid, validationErrors, validationDetails],
-  );
 
   const inputOTPContextValue = React.useMemo(
     () => ({slots, isDisabled, isInvalid}),
@@ -72,18 +54,16 @@ const InputOTPRoot = ({
 
   return (
     <InputOTPContext value={inputOTPContextValue}>
-      <FieldErrorContext value={validation}>
-        <OTPInput
-          // OTP Input package uses the `className` prop for the actual `input` element which is not visible to the user so no need to pass it to the base container
-          className={slots.input({className: inputClassName})}
-          containerClassName={slots.base({className})}
-          data-disabled={dataAttr(isDisabled)}
-          data-invalid={dataAttr(isInvalid)}
-          data-slot="input-otp"
-          disabled={isDisabled}
-          {...props}
-        />
-      </FieldErrorContext>
+      <OTPInput
+        // OTP Input package uses the `className` prop for the actual `input` element which is not visible to the user so no need to pass it to the base container
+        className={slots.input({className: inputClassName})}
+        containerClassName={slots.base({className})}
+        data-disabled={dataAttr(isDisabled)}
+        data-invalid={dataAttr(isInvalid)}
+        data-slot="input-otp"
+        disabled={isDisabled}
+        {...props}
+      />
     </InputOTPContext>
   );
 };
