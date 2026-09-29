@@ -44,7 +44,7 @@ ImageField composes `useDropZoneState`, `DropZone.Area`, `DropZone.Trigger`, and
 | `tile` | 176px width, height determined by `aspectRatio` | Logos |
 | `banner` | Container width, height determined by `aspectRatio` | Banners and share cards |
 
-Images use `object-fit: contain` on a checkerboard. Empty, dragging, uploading, uploaded, ratio mismatch, upload failure, placeholder, and broken-link states occupy the same frame. Changing the declared ratio intentionally changes tile/banner geometry; loading and upload state do not. A ratio difference greater than 5% warns without rejecting the file. `naturalWidth < recommendedWidth` produces a resolution warning.
+Images use `object-fit: contain` on a checkerboard. Empty, dragging, uploading, uploaded, ratio mismatch, upload failure, placeholder, and broken-link states occupy the same frame. Changing the declared ratio intentionally changes tile/banner geometry; loading and upload state do not. A ratio difference greater than 5% warns without rejecting the file. Omit `aspectRatio` for images of any shape: the frame takes the loaded image's proportions (16:9 for banner, 1:1 for tile while empty or loading), is capped at `--image-field-max-height` (default 32rem), and recommended guidance shows width only. `naturalWidth < recommendedWidth` produces a resolution warning.
 
 The empty frame is a file picker. Dragging shows a release message. Uploading shows a local preview, spinner, progress, and cancellation. After `onChange(path)`, the local file stays on screen until the stored image loads, then swaps without an empty frame; if the stored image fails, the broken state shows immediately. Validation and upload errors appear in Meta below the frame. The old image stays zoomable and its replace and remove controls remain usable. Upload failure adds retry to the toolbar. When the value is empty, the full-frame picker remains available and the toolbar contains only retry. Upload and file-validation errors take priority over external form errors. Broken links retain the frame, path, replacement, and removal. Clicking the image opens the preview. Tile and banner show replace and remove as a blurred pill in the top-end corner; buttons grow to 44px on coarse pointers. Editing controls are always visible, including on touch devices.
 
@@ -57,7 +57,7 @@ The empty frame is a file picker. Dragging shows a release message. Uploading sh
 | `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<string>` | Required |
 | `resolveSrc` | `(path: string) => string` | Identity |
 | `label` | `string` | Required visible and accessible name |
-| `aspectRatio` | `number` | Required; positive finite width / height |
+| `aspectRatio` | `number` | —; positive finite width / height. Omitted: the frame follows the image's own proportions and no ratio check runs |
 | `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
 | `recommendedWidth` | `number` | —; source pixel width for guidance and warnings |
 | `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |

@@ -54,7 +54,8 @@ export interface ImageFieldProps extends Omit<
   onChange: (value: string) => void;
   onUpload: NonNullable<UseDropZoneStateProps<string>["onUpload"]>;
   resolveSrc?: (path: string) => string;
-  aspectRatio: number;
+  /** Width / height. Omit to follow the image's own proportions and skip the ratio check. */
+  aspectRatio?: number;
   layout?: ImageFieldVariants["layout"];
   recommendedWidth?: number;
   placeholder?: ReactNode;
@@ -183,7 +184,11 @@ export function ImageFieldRoot({
   const failed = !!value && (!src || !!loaded?.failed);
   const bridge =
     handoff?.path === value && !uploading && !loaded && !failed ? handoff.url : undefined;
+  // `image` keeps the last loaded size while a new src loads, so an unset ratio doesn't jump back to the fallback.
+  const naturalRatio = image?.width && image.height ? image.width / image.height : undefined;
+  const ratio = aspectRatio ?? (src && !failed ? naturalRatio : undefined);
   const mismatch =
+    !!aspectRatio &&
     !!loaded?.width &&
     !!loaded.height &&
     Math.abs(loaded.width / loaded.height / aspectRatio - 1) > 0.05;
@@ -246,7 +251,7 @@ export function ImageFieldRoot({
       data-layout={layout}
       data-slot="image-field"
       role="group"
-      style={{"--image-field-ratio": aspectRatio, ...style} as CSSProperties}
+      style={{"--image-field-ratio": ratio, ...style} as CSSProperties}
     >
       <DropZone.Area
         {...state.getAreaProps()}
@@ -294,6 +299,7 @@ export function ImageFieldFrame({
     <div
       {...props}
       className={composeSlotClassName(slots.frame, className)}
+      data-auto-ratio={c.aspectRatio === undefined || undefined}
       data-empty={!c.value || undefined}
       data-invalid={!!error || undefined}
       data-slot="image-field-frame"
@@ -551,7 +557,7 @@ export function ImageFieldMeta({children, className, ...props}: ImageFieldMetaPr
   const size = loaded?.width
     ? `${loaded.width} × ${loaded.height}${format === "FILE" ? "" : ` · ${format}`}`
     : recommendedWidth
-      ? `${labels.recommended} ${recommendedWidth} × ${Math.round(recommendedWidth / aspectRatio)}`
+      ? `${labels.recommended} ${recommendedWidth}${aspectRatio ? ` × ${Math.round(recommendedWidth / aspectRatio)}` : "px"}`
       : null;
 
   return (

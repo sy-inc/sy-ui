@@ -73,6 +73,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Uploaded: Story = {args: {value: "/banner.svg"}};
 export const Disabled: Story = {args: {isDisabled: true, value: "/banner.svg"}};
+export const AnyRatio: Story = {
+  args: {aspectRatio: undefined, label: "Movie banner", value: "/square.svg"},
+};
 export const Composition: Story = {
   args: {
     aspectRatio: 1,

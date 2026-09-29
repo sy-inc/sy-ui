@@ -44,7 +44,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `tile` | 宽 176px，高度按 `aspectRatio` 计算 | Logo |
 | `banner` | 撑满容器，高度按 `aspectRatio` 计算 | 横幅、分享图 |
 
-图片在棋盘格上以 `object-fit: contain` 完整展示。空、拖入中、上传中、已上传、比例不符、上传失败、placeholder、链接失效均占用同一个框。主动修改比例会改变 tile/banner 的几何尺寸，图片加载和上传状态不会。实际比例偏差超过 5% 时只提示、不拒收；源图宽度小于 `recommendedWidth` 时显示低清提示。
+图片在棋盘格上以 `object-fit: contain` 完整展示。空、拖入中、上传中、已上传、比例不符、上传失败、placeholder、链接失效均占用同一个框。主动修改比例会改变 tile/banner 的几何尺寸，图片加载和上传状态不会。实际比例偏差超过 5% 时只提示、不拒收。比例不限的图可不传 `aspectRatio`：框按已加载图片的比例显示（空值或加载前 banner 为 16:9、tile 为 1:1），高度上限为 `--image-field-max-height`（默认 32rem），建议尺寸只显示宽度；源图宽度小于 `recommendedWidth` 时显示低清提示。
 
 空框整块可选文件，拖入时提示松开。上传中显示本地预览、转圈、进度和取消操作；`onChange(path)` 之后本地图继续显示，直到服务端图片加载完成再无闪烁切换；服务端图片加载失败则立即进入无法加载状态。校验和上传错误统一显示在框下的 Meta，原图仍可点击放大，替换、删除操作仍可用，上传失败在工具条中增加重试。空值时保留整框上传入口，工具条只显示重试；上传或文件校验错误优先于外部表单错误。坏链仍显示框、路径以及替换/删除。点击图片即可预览；tile/banner 的替换、删除以毛玻璃胶囊常驻右上角，粗指针设备按钮放大到 44px。工具条常驻，触屏不依赖 hover。
 
@@ -57,7 +57,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<string>` | 必填 |
 | `resolveSrc` | `(path: string) => string` | 原样返回 |
 | `label` | `string` | 必填，可见名称及无障碍名称 |
-| `aspectRatio` | `number` | 必填，正有限数，宽 / 高 |
+| `aspectRatio` | `number` | —；正有限数，宽 / 高。不传时框按原图比例显示，且不做比例校验 |
 | `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
 | `recommendedWidth` | `number` | —；源图像素宽度建议与低清阈值 |
 | `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |

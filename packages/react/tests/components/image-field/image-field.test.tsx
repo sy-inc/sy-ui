@@ -49,12 +49,34 @@ function Controlled({onChange, value: initialValue = "", ...rest}: ImageFieldPro
 }
 
 describe("ImageField", () => {
-  it("requires an explicit aspect ratio and shows readable size guidance without a decimal ratio", () => {
-    expectTypeOf<ImageFieldProps>().toExtend<{aspectRatio: number}>();
+  it("shows readable size guidance without a decimal ratio", () => {
     render(<ImageField {...props} aspectRatio={16 / 5} recommendedWidth={1600} />);
     expect(screen.getByText("Recommended 1600 × 500")).toBeInTheDocument();
     expect(screen.queryByText("3.2:1")).not.toBeInTheDocument();
     expect(screen.getByRole("group", {name: "Banner"})).toHaveStyle({"--image-field-ratio": "3.2"});
+  });
+
+  it("supports omitting aspectRatio by following the image's proportions without a ratio warning", () => {
+    expectTypeOf<ImageFieldProps["aspectRatio"]>().toEqualTypeOf<number | undefined>();
+    const {aspectRatio: _, ...rest} = props;
+    const view = render(<ImageField {...rest} recommendedWidth={1600} />);
+    const group = screen.getByRole("group", {name: "Banner"});
+
+    expect(screen.getByText("Recommended 1600px")).toBeInTheDocument();
+    expect(group.style.getPropertyValue("--image-field-ratio")).toBe("");
+    expect(frame()).toHaveAttribute("data-auto-ratio", "true");
+
+    view.rerender(<ImageField {...rest} value="/poster.png" />);
+    const image = screen.getByRole("img", {name: "Banner"});
+
+    Object.defineProperties(image, {naturalHeight: {value: 1500}, naturalWidth: {value: 1000}});
+    fireEvent.load(image);
+    expect(group).toHaveStyle({"--image-field-ratio": String(1000 / 1500)});
+    expect(screen.queryByText(/Image proportions differ/)).not.toBeInTheDocument();
+    expect(screen.getByText("1000 × 1500 · PNG")).toBeInTheDocument();
+
+    view.rerender(<ImageField {...rest} value="" />);
+    expect(group.style.getPropertyValue("--image-field-ratio")).toBe("");
   });
 
   it("renders an empty meta live region when there is no guidance to show", () => {

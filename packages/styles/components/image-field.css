@@ -19,7 +19,7 @@
 }
 .image-field__frame {
   @apply relative w-full overflow-hidden rounded-xl border border-border;
-  aspect-ratio: var(--image-field-ratio);
+  aspect-ratio: var(--image-field-ratio, 16 / 9);
   background-color: var(--surface);
   background-image: conic-gradient(
     var(--default) 25%,
@@ -28,6 +28,10 @@
     transparent 0
   );
   background-size: 16px 16px;
+  /* Unset ratio follows the image; cap tall sources, which letterbox via object-contain. */
+  &[data-auto-ratio="true"] {
+    max-height: var(--image-field-max-height, 32rem);
+  }
   &[data-empty="true"] {
     @apply border-dashed;
   }
@@ -127,6 +131,9 @@
 }
 .image-field--tile {
   width: min(100%, var(--image-field-tile-width, 176px));
+  & .image-field__frame {
+    aspect-ratio: var(--image-field-ratio, 1);
+  }
 }
 .image-field--inline {
   & .image-field__area {
