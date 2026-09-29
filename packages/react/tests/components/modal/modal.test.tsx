@@ -1,9 +1,10 @@
+import type {ModalFixtureProps} from "./fixtures";
+
 import {User, cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {ModalFixture} from "./fixtures";
 
-const renderModal = (props: {defaultOpen?: boolean; onOpenChange?: (open: boolean) => void} = {}) =>
-  render(<ModalFixture {...props} />);
+const renderModal = (props: ModalFixtureProps = {}) => render(<ModalFixture {...props} />);
 
 describe("Modal", () => {
   let user: ReturnType<typeof setupUser>;
@@ -80,5 +81,22 @@ describe("Modal", () => {
     runAllTimers();
 
     expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it("supports bare appearance on the dialog", () => {
+    renderModal({appearance: "bare", defaultOpen: true});
+    runAllTimers();
+
+    const dialog = screen.getByRole("dialog");
+
+    expect(dialog).toHaveClass("modal__dialog", "modal__dialog--bare");
+    expect(screen.getByRole("heading", {name: "Welcome"})).toBeInTheDocument();
+  });
+
+  it("renders the default surface without the bare modifier", () => {
+    renderModal({defaultOpen: true});
+    runAllTimers();
+
+    expect(screen.getByRole("dialog")).not.toHaveClass("modal__dialog--bare");
   });
 });

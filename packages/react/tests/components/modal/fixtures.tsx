@@ -2,6 +2,7 @@ import {Button} from "@/components/button";
 import {Modal} from "@/components/modal";
 
 export type ModalFixtureProps = {
+  appearance?: "default" | "bare";
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
@@ -10,7 +11,7 @@ export const ModalFixture = (props: ModalFixtureProps = {}) => (
   <Modal defaultOpen={props.defaultOpen} onOpenChange={props.onOpenChange}>
     <Button>Open modal</Button>
     <Modal.Backdrop>
-      <Modal.Container>
+      <Modal.Container appearance={props.appearance}>
         <Modal.Dialog>
           <Modal.CloseTrigger />
           <Modal.Header>

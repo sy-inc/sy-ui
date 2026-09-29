@@ -152,6 +152,9 @@ Modal 使用以下 CSS 类（[查看源码样式](https://github.com/sy-inc/sy-i
 - `.modal__body--scroll-inside` — 仅 body 区域可滚动
 - `.modal__body--scroll-outside` — 允许整页滚动
 
+#### 外观变体 [!toc]
+- `.modal__dialog--bare` — 透明对话框，无内边距、阴影与圆角
+
 ### 交互状态
 
 组件支持以下交互状态：
@@ -194,6 +197,7 @@ Modal 使用以下 CSS 类（[查看源码样式](https://github.com/sy-inc/sy-i
 
 | Prop        | 类型                                      | 默认值    | 描述                |
 | ----------- | ----------------------------------------- | --------- | ------------------- |
+| `appearance` | `"default" \| "bare"` | `"default"` | 去除对话框外观（背景、阴影、圆角、内边距） |
 | `placement` | `"auto" \| "center" \| "top" \| "bottom"` | `"auto"`  | Modal 在屏幕上的位置 |
 | `scroll`    | `"inside" \| "outside"`                   | `"inside"` | 滚动行为            |
 | `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "cover" \| "full"` | `"md"` | Modal 尺寸变体      |

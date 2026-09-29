@@ -155,6 +155,10 @@ The Modal component uses these CSS classes ([View source styles](https://github.
 - `.modal__body--scroll-inside` - Makes only the body scrollable
 - `.modal__body--scroll-outside` - Allows full-page scrolling
 
+#### Appearance Variants [!toc]
+
+- `.modal__dialog--bare` - Transparent dialog with no padding, shadow, or radius
+
 ### Interactive States
 
 The component supports these interactive states:
@@ -197,6 +201,7 @@ The component supports these interactive states:
 
 | Prop        | Type                                      | Default    | Description               |
 | ----------- | ----------------------------------------- | ---------- | ------------------------- |
+| `appearance` | `"default" \| "bare"` | `"default"` | Remove dialog surface (bg, shadow, radius, padding) |
 | `placement` | `"auto" \| "center" \| "top" \| "bottom"` | `"auto"`   | Modal position on screen  |
 | `scroll`    | `"inside" \| "outside"`                   | `"inside"` | Scroll behavior           |
 | `size`      | `"xs" \| "sm" \| "md" \| "lg" \| "cover" \| "full"` | `"md"` | Modal size variant        |

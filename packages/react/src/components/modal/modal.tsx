@@ -8,8 +8,8 @@ import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {Button as ButtonPrimitive} from "react-aria-components/Button";
 import type {DialogProps as DialogPrimitiveProps} from "react-aria-components/Dialog";
 
-import {modalVariants} from "@sy-inc/styles";
 import {mergeProps} from "@react-aria/utils";
+import {modalVariants} from "@sy-inc/styles";
 import {createContext, use, useMemo} from "react";
 import {
   Dialog as DialogPrimitive,
@@ -155,12 +155,18 @@ interface ModalContainerProps extends Omit<
   ComponentPropsWithRef<typeof ModalPrimitive>,
   Exclude<keyof ModalBackdropProps, "children" | "className">
 > {
+  /**
+   * `bare` removes the dialog surface (background, shadow, radius, padding) so content is fully author-controlled.
+   * @default "default"
+   */
+  appearance?: ModalVariants["appearance"];
   placement?: ModalPlacement;
   scroll?: ModalVariants["scroll"];
   size?: ModalVariants["size"];
 }
 
 const ModalContainer = ({
+  appearance,
   children,
   className,
   placement = "auto",
@@ -170,7 +176,10 @@ const ModalContainer = ({
 }: ModalContainerProps) => {
   const {slots: contextSlots} = use(ModalContext);
 
-  const updatedSlots = useMemo(() => modalVariants({scroll, size}), [scroll, size]);
+  const updatedSlots = useMemo(
+    () => modalVariants({appearance, scroll, size}),
+    [appearance, scroll, size],
+  );
 
   const updatedModalContext = useMemo<ModalContext>(
     () => ({placement, slots: {...contextSlots, ...updatedSlots}}),

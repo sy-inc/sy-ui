@@ -199,6 +199,24 @@ export const Sizes = () => {
   );
 };
 
+export const Bare = () => (
+  <Modal>
+    <Button variant="secondary">Open bare modal</Button>
+    <Modal.Backdrop>
+      <Modal.Container appearance="bare" className="sm:w-auto">
+        <Modal.Dialog aria-label="Promotion" className="max-w-full">
+          <img
+            alt="Promotion"
+            className="block max-h-[80vh] rounded-3xl"
+            src="https://picsum.photos/seed/sy-inc-modal/640/800"
+          />
+          <Modal.CloseTrigger />
+        </Modal.Dialog>
+      </Modal.Container>
+    </Modal.Backdrop>
+  </Modal>
+);
+
 export const CustomBackdrop = () => (
   <Modal>
     <Button variant="secondary">Custom Backdrop</Button>

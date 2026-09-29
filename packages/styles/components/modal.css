@@ -258,6 +258,14 @@
 }
 
 /**
+ * Modifier: dialog--bare
+ * Drops the surface (background, shadow, radius, padding); keeps layout and focus handling.
+ */
+.modal__dialog--bare {
+  @apply rounded-none bg-transparent p-0 shadow-none;
+}
+
+/**
  * Element: header - the top section with the title
  */
 .modal__header {

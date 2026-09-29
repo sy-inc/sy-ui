@@ -4,6 +4,7 @@ import {tv} from "tailwind-variants";
 
 export const modalVariants = tv({
   defaultVariants: {
+    appearance: "default",
     scroll: "inside",
     size: "md",
     variant: "opaque",
@@ -21,6 +22,12 @@ export const modalVariants = tv({
     trigger: "modal__trigger",
   },
   variants: {
+    appearance: {
+      bare: {
+        dialog: "modal__dialog--bare",
+      },
+      default: {},
+    },
     scroll: {
       inside: {
         body: "modal__body--scroll-inside",
