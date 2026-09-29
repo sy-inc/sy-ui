@@ -165,6 +165,7 @@ The component supports both CSS pseudo-classes and data attributes:
 - **Hover**: `:hover` or `[data-hovered="true"]`
 - **Focus**: `:focus-visible` or `[data-focus-visible="true"]`
 - **Disabled**: `[aria-disabled="true"]`
+- **Inactive (force-mounted panel)**: `[data-inert="true"]` — hidden by default
 
 ## API Reference
 
@@ -208,6 +209,7 @@ The component supports both CSS pseudo-classes and data attributes:
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `id` | `string` | - | Panel identifier matching tab id |
+| `shouldForceMount` | `boolean` | `false` | Keep the panel mounted while inactive (e.g. to preserve form state). Inactive panels get `inert` + `[data-inert="true"]` and are hidden by default |
 | `className` | `string` | - | Additional CSS classes |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, TabPanelRenderProps>` | - | Overrides the default DOM element with a custom render function.|
 

@@ -243,4 +243,37 @@ describe("Tabs (browser)", () => {
       await expect.poll(() => settledOn("T3")).toEqual({offset: [0, 0, 0], translate: ""});
     });
   });
+
+  describe("panel", () => {
+    it("hides inactive force-mounted panels and keeps their state", async () => {
+      await render(
+        <Tabs.Root defaultSelectedKey="t1">
+          <Tabs.List aria-label="Sections">
+            <Tabs.Tab id="t1">T1</Tabs.Tab>
+            <Tabs.Tab id="t2">T2</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel shouldForceMount id="t1">
+            <input aria-label="Draft" />
+          </Tabs.Panel>
+          <Tabs.Panel shouldForceMount id="t2">
+            Two
+          </Tabs.Panel>
+        </Tabs.Root>,
+      );
+
+      const panels = () => [...document.querySelectorAll<HTMLElement>('[data-slot="tabs-panel"]')];
+      const displays = () => panels().map((panel) => getComputedStyle(panel).display);
+
+      expect(panels()).toHaveLength(2);
+      expect(displays()).toEqual(["block", "none"]);
+
+      await userEvent.type(page.getByRole("textbox", {name: "Draft"}), "unsaved");
+      await userEvent.click(page.getByRole("tab", {name: "T2"}));
+      await expect.poll(displays).toEqual(["none", "block"]);
+
+      await userEvent.click(page.getByRole("tab", {name: "T1"}));
+      await expect.poll(displays).toEqual(["block", "none"]);
+      expect(page.getByRole("textbox", {name: "Draft"}).element()).toHaveValue("unsaved");
+    });
+  });
 });

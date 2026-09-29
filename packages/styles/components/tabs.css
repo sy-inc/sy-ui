@@ -209,6 +209,11 @@
 .tabs__panel {
   @apply w-full p-2 outline-none;
 
+  /* shouldForceMount: inactive panels stay mounted but hidden; exiting panels stay visible for exit animations */
+  &[data-inert="true"]:not([data-exiting="true"]) {
+    @apply hidden;
+  }
+
   /* Exiting animations */
   &[data-exiting="true"] {
     @apply absolute start-0 top-0 w-full;
