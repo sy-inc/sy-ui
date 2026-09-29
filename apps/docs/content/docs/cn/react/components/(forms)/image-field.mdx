@@ -56,7 +56,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `onChange` | `(path: string) => void` | 必填 |
 | `onUpload` | `(file: File, context: DropZoneUploadContext) => Promise<string>` | 必填 |
 | `resolveSrc` | `(path: string) => string` | 原样返回 |
-| `label` | `string` | 必填，可见名称及无障碍名称 |
+| `label` | `string` | 可见名称及无障碍名称。省略时不渲染标题，此时必须传 `aria-label` |
 | `aspectRatio` | `number` | —；正有限数，宽 / 高。不传时框按原图比例显示，且不做比例校验 |
 | `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
 | `recommendedWidth` | `number` | —；源图像素宽度建议与低清阈值 |
@@ -90,7 +90,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 </ImageField>
 ```
 
-`ImageField.Root` 是根组件别名。`Frame`、`Actions`、`Meta` 从根 context 读取状态，支持原生 div 属性。Frame 默认包含预览、反馈和 tile/banner 工具条；inline 的默认工具条位于框旁。根组件始终渲染可见 Label。自定义根 children 时，inline 需要时在 Frame 外组合 Actions；Meta 即使提供自定义 children 也会展示错误。业务回退图通过 `placeholder` 传入，不触发 `onChange`。
+`ImageField.Root` 是根组件别名。`Frame`、`Actions`、`Meta` 从根 context 读取状态，支持原生 div 属性。Frame 默认包含预览、反馈和 tile/banner 工具条；inline 的默认工具条位于框旁。传入 `label` 时根组件渲染可见 Label；省略时由 `aria-label` 命名，inline 布局的元信息与框垂直居中。自定义根 children 时，inline 需要时在 Frame 外组合 Actions；Meta 即使提供自定义 children 也会展示错误。业务回退图通过 `placeholder` 传入，不触发 `onChange`。
 
 操作原子部件用于自定义工具条，只在适用时渲染：`ReplaceTrigger` / `RemoveButton`（有值且未上传中）、`RetryButton`（上传失败）、`CancelButton`（上传中）。均支持 Button 属性（`variant`、`size`、`isIconOnly`、`className`、children），无 children 时默认仅图标。Frame 的 children 固定，自定义工具条通过 `actions` 传入。覆盖式工具条需设为 `pointer-events-none`，保证点击图片仍能打开预览：
 
@@ -112,6 +112,6 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 
 ## 无障碍与样式
 
-Tab 可到拖放目标、选文件按钮与工具条；Enter/Space 打开文件选择或预览，Escape 关闭 ImagePreview。聚焦区域或其操作按钮后可粘贴文件；文本框和 contenteditable 保持原生粘贴行为。禁用区域设为 inert。按钮不提交外围表单；移除后焦点回到选择按钮。元信息和上传进度可被读屏播报，根 group 通过 `aria-labelledby` 关联可见 Label，通过 `aria-describedby` 关联 Meta；拖放目标也通过 `aria-labelledby` 关联可见 Label。
+Tab 可到拖放目标、选文件按钮与工具条；Enter/Space 打开文件选择或预览，Escape 关闭 ImagePreview。聚焦区域或其操作按钮后可粘贴文件；文本框和 contenteditable 保持原生粘贴行为。禁用区域设为 inert。按钮不提交外围表单；移除后焦点回到选择按钮。元信息和上传进度可被读屏播报，根 group 通过 `aria-labelledby` 关联可见 Label（无 `label` 时使用 `aria-label`），通过 `aria-describedby` 关联 Meta；拖放目标和图片 alt 使用同一名称。
 
 稳定的 `data-slot`：`image-field`、`image-field-heading`、`image-field-frame`、`image-field-image`、`image-field-placeholder`、`image-field-feedback`、`image-field-actions`、`image-field-meta`。拖放、选择、预览、进度沿用共享组件的 slot。根提供 `data-layout`、`data-disabled`、`data-invalid`；拖入态由 DropZone.Area 的 `data-drop-target` 表示。Frame 提供 `data-warning` / `data-invalid`，Meta 提供 `data-warning`。通过 `--image-field-tile-width` 调整默认 176px 宽度。React 与 styles 两个包均导出 `imageFieldVariants` 和 `ImageFieldVariants`。

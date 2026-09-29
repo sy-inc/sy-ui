@@ -289,6 +289,24 @@ describe("ImageField (browser)", () => {
     await expect.element(page.getByRole("button", {name: "Replace image"})).toBeVisible();
   });
 
+  it("centers inline meta beside the frame when the label is not visible", async () => {
+    await render(
+      <ImageField
+        aria-label="Logo"
+        aspectRatio={1}
+        layout="inline"
+        recommendedWidth={512}
+        value=""
+        onChange={() => {}}
+        onUpload={async () => "/logo.svg"}
+      />,
+    );
+    const meta = document.querySelector('[data-slot="image-field-meta"]')!.getBoundingClientRect();
+    const box = frame().getBoundingClientRect();
+
+    expect(Math.abs(meta.top + meta.height / 2 - (box.top + box.height / 2))).toBeLessThan(1);
+  });
+
   it("opens the preview from the image and closes with Escape", async () => {
     await render(
       <ImageField

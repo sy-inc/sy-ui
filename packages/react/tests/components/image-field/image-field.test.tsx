@@ -219,6 +219,19 @@ describe("ImageField", () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
+  it("supports omitting label by naming the field with aria-label and rendering no heading", () => {
+    const {label: _, ...rest} = props;
+
+    render(<ImageField {...rest} aria-label="Banner" value="/banner.png" />);
+
+    expect(screen.getByRole("group", {name: "Banner"})).not.toHaveAttribute("aria-labelledby");
+    expect(screen.getByRole("button", {name: /Banner/})).toBeInTheDocument();
+    expect(screen.getByRole("img", {name: "Banner"})).toBeInTheDocument();
+    expect(document.querySelector('[data-slot="image-field-heading"]')).not.toBeInTheDocument();
+    expectTypeOf<typeof rest & {"aria-label": string}>().toExtend<ImageFieldProps>();
+    expectTypeOf<typeof rest>().not.toExtend<ImageFieldProps>();
+  });
+
   it("prioritizes upload errors over form errors and restores the form error after cancellation", async () => {
     const pending = stub();
     const user = setupUser();

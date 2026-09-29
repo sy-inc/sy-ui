@@ -76,6 +76,20 @@ export const Disabled: Story = {args: {isDisabled: true, value: "/banner.svg"}};
 export const AnyRatio: Story = {
   args: {aspectRatio: undefined, label: "Movie banner", value: "/square.svg"},
 };
+// The title lives elsewhere on the page: no visible heading, `aria-label` names the field.
+export const WithoutVisibleLabel: Story = {
+  args: {"aria-label": "Banner", label: undefined, value: "/banner.svg"},
+};
+export const InlineWithoutVisibleLabel: Story = {
+  args: {
+    "aria-label": "Logo",
+    aspectRatio: 1,
+    label: undefined,
+    layout: "inline",
+    recommendedWidth: 512,
+    value: "/square.svg",
+  },
+};
 export const Composition: Story = {
   args: {
     aspectRatio: 1,

@@ -150,6 +150,10 @@
   & .image-field__meta {
     @apply col-start-2 row-start-2 mt-0 min-h-6;
   }
+  /* No visible label: meta takes both rows, centered beside the frame. */
+  & .image-field__area:not(:has(> .image-field__heading)) .image-field__meta {
+    @apply row-start-1 row-end-3;
+  }
   & .image-field__actions {
     max-width: none;
     @apply static col-start-3 row-start-1 row-end-3 gap-1 bg-transparent p-0 shadow-none backdrop-blur-none;

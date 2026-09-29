@@ -46,9 +46,9 @@ const defaultLabels = {
 
 export type ImageFieldLabels = typeof defaultLabels;
 
-export interface ImageFieldProps extends Omit<
+interface ImageFieldBaseProps extends Omit<
   ComponentPropsWithRef<"div">,
-  "onChange" | "placeholder"
+  "aria-label" | "onChange" | "placeholder"
 > {
   value: string;
   onChange: (value: string) => void;
@@ -62,7 +62,6 @@ export interface ImageFieldProps extends Omit<
   accept?: string | string[];
   maxFileSize?: number;
   isDisabled?: boolean;
-  label: string;
   description?: ReactNode;
   errorMessage?: ReactNode;
   /** Maps what `onUpload` rejected with to the failure message; `null`/`undefined` falls back to `labels.uploadFailed`. */
@@ -70,13 +69,16 @@ export interface ImageFieldProps extends Omit<
   labels?: Partial<ImageFieldLabels>;
 }
 
+/** Omit `label` to render no visible heading; `aria-label` then names the field. */
+export type ImageFieldProps = ImageFieldBaseProps &
+  ({label: string; "aria-label"?: string} | {label?: never; "aria-label": string});
+
 const identity = (path: string) => path;
 
 type LoadedImage = {src: string; width?: number; height?: number; failed?: boolean};
 
 type ImageFieldContextValue = Pick<
   ImageFieldProps,
-  | "label"
   | "value"
   | "aspectRatio"
   | "layout"
@@ -93,6 +95,8 @@ type ImageFieldContextValue = Pick<
   isDropTarget: boolean;
   labels: ImageFieldLabels;
   loaded?: LoadedImage;
+  /** Accessible name: the visible label, else `aria-label`. */
+  name: string;
   metaId: string;
   mismatch: boolean;
   remove: () => void;
@@ -114,6 +118,7 @@ const useImageFieldContext = () => {
 
 export function ImageFieldRoot({
   accept = "image/jpeg,image/png,image/webp,image/gif",
+  "aria-label": ariaLabel,
   aspectRatio,
   children,
   className,
@@ -214,11 +219,11 @@ export function ImageFieldRoot({
     failed,
     file,
     isDisabled,
-    label,
     labels,
     layout,
     loaded,
     metaId,
+    name: (label ?? ariaLabel)!,
     mismatch,
     placeholder,
     recommendedWidth,
@@ -244,7 +249,8 @@ export function ImageFieldRoot({
       {...domProps}
       ref={mergeRefs(rootRef, ref)}
       aria-describedby={[domProps["aria-describedby"], metaId].filter(Boolean).join(" ")}
-      aria-labelledby={labelId}
+      aria-label={ariaLabel}
+      aria-labelledby={label ? labelId : undefined}
       className={slots.base({className})}
       data-disabled={isDisabled || undefined}
       data-invalid={!!error || undefined}
@@ -255,7 +261,7 @@ export function ImageFieldRoot({
     >
       <DropZone.Area
         {...state.getAreaProps()}
-        aria-labelledby={labelId}
+        {...(label ? {"aria-labelledby": labelId} : {"aria-label": ariaLabel!})}
         className={slots.area()}
         onDrop={(event) => {
           void state.replaceFiles(event);
@@ -264,9 +270,11 @@ export function ImageFieldRoot({
         {({isDropTarget}) => (
           <TextContext value={null}>
             <ImageFieldContext value={{...context, isDropTarget}}>
-              <div className={slots.heading()} data-slot="image-field-heading">
-                <Label id={labelId}>{label}</Label>
-              </div>
+              {!!label && (
+                <div className={slots.heading()} data-slot="image-field-heading">
+                  <Label id={labelId}>{label}</Label>
+                </div>
+              )}
               {children ?? (
                 <>
                   <ImageFieldFrame />
@@ -314,7 +322,7 @@ export function ImageFieldFrame({
           openLabel={labels.preview}
         >
           <img
-            alt={c.label}
+            alt={c.name}
             className={slots.image()}
             data-slot="image-field-image"
             src={src}
