@@ -56,6 +56,8 @@ interface ImageFieldBaseProps extends Omit<
   resolveSrc?: (path: string) => string;
   /** Width / height. Omit to follow the image's own proportions and skip the ratio check. */
   aspectRatio?: number;
+  /** Warn when the image's proportions differ from `aspectRatio`. `false` keeps the frame shape without checking. @default true */
+  validateRatio?: boolean;
   layout?: ImageFieldVariants["layout"];
   recommendedWidth?: number;
   placeholder?: ReactNode;
@@ -137,6 +139,7 @@ export function ImageFieldRoot({
   ref,
   resolveSrc = identity,
   style,
+  validateRatio = true,
   value,
   ...domProps
 }: ImageFieldProps) {
@@ -193,6 +196,7 @@ export function ImageFieldRoot({
   const naturalRatio = image?.width && image.height ? image.width / image.height : undefined;
   const ratio = aspectRatio ?? (src && !failed ? naturalRatio : undefined);
   const mismatch =
+    validateRatio &&
     !!aspectRatio &&
     !!loaded?.width &&
     !!loaded.height &&

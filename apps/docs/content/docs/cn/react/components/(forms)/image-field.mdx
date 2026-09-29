@@ -58,6 +58,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `resolveSrc` | `(path: string) => string` | 原样返回 |
 | `label` | `string` | 可见名称及无障碍名称。省略时不渲染标题，此时必须传 `aria-label` |
 | `aspectRatio` | `number` | —；正有限数，宽 / 高。不传时框按原图比例显示，且不做比例校验 |
+| `validateRatio` | `boolean` | `true`；设为 `false` 时保留 `aspectRatio` 框形但不做比例校验（如宽 logo 以 contain 放进方框） |
 | `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
 | `recommendedWidth` | `number` | —；源图像素宽度建议与低清阈值 |
 | `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |

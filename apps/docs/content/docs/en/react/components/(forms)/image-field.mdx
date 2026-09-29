@@ -58,6 +58,7 @@ The empty frame is a file picker. Dragging shows a release message. Uploading sh
 | `resolveSrc` | `(path: string) => string` | Identity |
 | `label` | `string` | Visible and accessible name. Omit it to render no heading; `aria-label` is then required |
 | `aspectRatio` | `number` | —; positive finite width / height. Omitted: the frame follows the image's own proportions and no ratio check runs |
+| `validateRatio` | `boolean` | `true`; `false` keeps the `aspectRatio` frame but skips the ratio warning (e.g. wide logos contained in a square tile) |
 | `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
 | `recommendedWidth` | `number` | —; source pixel width for guidance and warnings |
 | `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |

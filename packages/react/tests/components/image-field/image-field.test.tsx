@@ -79,6 +79,18 @@ describe("ImageField", () => {
     expect(group.style.getPropertyValue("--image-field-ratio")).toBe("");
   });
 
+  it("supports validateRatio={false} by keeping the declared frame without a ratio warning", () => {
+    render(<ImageField {...props} validateRatio={false} value="/wide.png" />);
+    const image = screen.getByRole("img", {name: "Banner"});
+
+    Object.defineProperties(image, {naturalHeight: {value: 100}, naturalWidth: {value: 400}});
+    fireEvent.load(image);
+    expect(screen.getByRole("group", {name: "Banner"})).toHaveStyle({"--image-field-ratio": "1"});
+    expect(frame()).not.toHaveAttribute("data-auto-ratio");
+    expect(frame()).not.toHaveAttribute("data-warning");
+    expect(screen.queryByText(/Image proportions differ/)).not.toBeInTheDocument();
+  });
+
   it("renders an empty meta live region when there is no guidance to show", () => {
     render(<ImageField {...props} />);
     const meta = document.querySelector('[data-slot="image-field-meta"]');
