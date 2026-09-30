@@ -47,59 +47,6 @@ type ColorSliderChannelProps =
   | {channel: AlphaChannel; colorSpace?: ColorSpace};
 
 /* -------------------------------------------------------------------------------------------------
- * ColorSlider Validation Utilities
- * -----------------------------------------------------------------------------------------------*/
-
-/** Maps channels to their required color space (for channels that are color-space specific) */
-const CHANNEL_TO_REQUIRED_COLORSPACE: Partial<Record<string, ColorSpace>> = {
-  red: "rgb",
-  green: "rgb",
-  blue: "rgb",
-  lightness: "hsl",
-  brightness: "hsb",
-};
-
-/** Channels that only work with HSL or HSB (not RGB) */
-const HSL_HSB_ONLY_CHANNELS = new Set(["hue", "saturation"]);
-
-function warnInDev(message: string) {
-  if (typeof process !== "undefined" && process.env?.["NODE_ENV"] !== "production") {
-    // eslint-disable-next-line no-console
-    console.warn(message);
-  }
-}
-
-/**
- * Validates and returns a valid colorSpace for the given channel.
- * If an invalid combination is detected, logs a warning and returns the correct colorSpace.
- */
-function getValidColorSpace(channel: string, colorSpace?: ColorSpace): ColorSpace | undefined {
-  // Check if channel requires a specific color space (e.g., "red" requires "rgb")
-  const requiredSpace = CHANNEL_TO_REQUIRED_COLORSPACE[channel];
-
-  if (requiredSpace && colorSpace && colorSpace !== requiredSpace) {
-    warnInDev(
-      `[SY INC ColorSlider] Invalid combination: channel="${channel}" requires colorSpace="${requiredSpace}", ` +
-        `but received colorSpace="${colorSpace}". Auto-correcting to "${requiredSpace}".`,
-    );
-
-    return requiredSpace;
-  }
-
-  // Check if channel is HSL/HSB only (hue, saturation) but RGB was specified
-  if (HSL_HSB_ONLY_CHANNELS.has(channel) && colorSpace === "rgb") {
-    warnInDev(
-      `[SY INC ColorSlider] Invalid combination: channel="${channel}" is not available in RGB color space. ` +
-        `Use colorSpace="hsl" or colorSpace="hsb" instead. Auto-correcting to "hsl".`,
-    );
-
-    return "hsl";
-  }
-
-  return colorSpace;
-}
-
-/* -------------------------------------------------------------------------------------------------
  * ColorSlider Context
  * -----------------------------------------------------------------------------------------------*/
 interface ColorSliderContext {
@@ -109,6 +56,8 @@ interface ColorSliderContext {
 }
 
 const ColorSliderContext = createContext<ColorSliderContext>({});
+
+const colorSliderSlots = colorSliderVariants();
 
 /* -------------------------------------------------------------------------------------------------
  * ColorSlider Root
@@ -128,22 +77,17 @@ const ColorSliderRoot = ({
   orientation = "horizontal",
   ...props
 }: ColorSliderRootProps) => {
-  const slots = React.useMemo(() => colorSliderVariants({}), []);
-
-  // Validate and auto-correct invalid channel/colorSpace combinations
-  const validColorSpace = getValidColorSpace(channel, colorSpace);
-
   return (
     <ColorSliderPrimitive
       channel={channel}
-      colorSpace={validColorSpace}
+      colorSpace={colorSpace}
       data-slot="color-slider"
       orientation={orientation}
       {...props}
-      className={composeTwRenderProps(className, slots.base())}
+      className={composeTwRenderProps(className, colorSliderSlots.base())}
     >
       {(values) => (
-        <ColorSliderContext value={{channel, slots, state: values}}>
+        <ColorSliderContext value={{channel, slots: colorSliderSlots, state: values}}>
           {typeof children === "function" ? children(values) : children}
         </ColorSliderContext>
       )}

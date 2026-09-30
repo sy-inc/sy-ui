@@ -173,7 +173,7 @@ Sheet 组件使用以下类（[查看源码样式](https://github.com/sy-inc/sy-
 | `isHandleOnly` | `boolean` | `false` | 仅允许从 `Sheet.Handle` 开始拖拽 |
 | `isModal` | `boolean` | `true` | 使用模态焦点与 backdrop 行为 |
 | `shouldScaleBackground` | `boolean` | `false` | 缩放标记为 `data-sheet-background` 的元素 |
-| `onDrag` / `onRelease` | `(event) => void` | - | Sheet 指针拖拽与释放时调用 |
+| `onDrag` / `onRelease` | `(event) => void` | - | 拖拽过程中，以及拖拽结束或被取消时调用 |
 | `onClose` | `() => void` | - | Root 请求关闭后调用 |
 | `onAnimationEnd` | `(event) => void` | - | 面板动画结束时调用 |
 | `state` | `UseOverlayStateReturn` | - | 从外部控制打开状态 |
@@ -309,6 +309,9 @@ Sheet 基于 React Aria 的 dialog 与 modal 原语构建：
   禁用指针事件。
 - **拖拽安全**：文本框、链接、按钮与 `Sheet.Body` 不会在普通模式下开始拖拽。仅允许手柄时使用
   `isHandleOnly`。
+- **拖拽手势**：指针移动超过 8px 才开始拖拽，轻点不会让面板抖动。除非存在更大的 snap point，面板只会朝关闭
+  方向移动；指针被取消（例如浏览器接管手势）时面板回弹且不关闭；嵌套 sheet 与父级互不带动。`onDrag` 与
+  `onRelease` 只在真正发生拖拽时触发。
 
 ## 相关组件
 

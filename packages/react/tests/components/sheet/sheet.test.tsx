@@ -48,6 +48,18 @@ describe("Sheet", () => {
     expect(document.querySelector('[data-slot="sheet-footer"]')).not.toBeNull();
   });
 
+  it("renders non-modal sheets only while open", async () => {
+    renderSheet({isModal: false});
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", {name: "Open Sheet"}));
+    expect(screen.getByRole("dialog", {name: "Sheet Title"})).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", {name: "Close"}));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
   it("exposes official backdrop variants and calls onClose after dismissal", async () => {
     const onClose = vi.fn();
 

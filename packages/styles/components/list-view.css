@@ -8,11 +8,7 @@
    ========================================================================== */
 
 .list-view--primary {
-  @apply rounded-[20px] bg-surface-secondary p-1;
-}
-
-.list-view--secondary {
-  @apply bg-transparent p-0;
+  @apply rounded-2.5xl bg-surface-secondary p-1;
 }
 
 .list-view__section {
@@ -88,8 +84,6 @@
 
 /* Transparent rows on the page background. */
 .list-view--secondary .list-view__item {
-  @apply rounded-none bg-transparent;
-
   @media (hover: hover) {
     &:hover,
     &[data-hovered="true"] {

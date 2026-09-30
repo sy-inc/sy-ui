@@ -53,7 +53,7 @@
   }
 
   .color-slider__track {
-    @apply relative rounded-2xl;
+    @apply relative;
 
     grid-area: track;
     /* Edge cap pseudo-elements */
@@ -114,8 +114,6 @@
 
   /* Horizontal orientation */
   &[data-orientation="horizontal"] {
-    flex-direction: column;
-
     .color-slider__track {
       @apply h-5 justify-self-center rounded-none;
       width: calc(100% - 1.25rem);
@@ -164,7 +162,6 @@
   &[data-orientation="vertical"] {
     @apply h-full gap-2;
 
-    flex-direction: row;
     grid-template-areas:
       "output"
       "track"
@@ -223,8 +220,8 @@
 
       &::before {
         bottom: -0.625rem;
-        border-end-start-radius: 999px;
-        border-end-end-radius: 999px;
+        border-end-start-radius: var(--radius-2xl);
+        border-end-end-radius: var(--radius-2xl);
         /* Left, right, and bottom borders for bottom cap */
         box-shadow:
           inset 1px 0 0 0 rgba(0, 0, 0, 0.1),
@@ -237,8 +234,8 @@
 
       &::after {
         top: -0.625rem;
-        border-start-start-radius: 999px;
-        border-start-end-radius: 999px;
+        border-start-start-radius: var(--radius-2xl);
+        border-start-end-radius: var(--radius-2xl);
         /* Left, right, and top borders for top cap */
         box-shadow:
           inset 1px 0 0 0 rgba(0, 0, 0, 0.1),

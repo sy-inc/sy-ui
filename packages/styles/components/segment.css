@@ -1,5 +1,5 @@
 .segment {
-  @apply relative inline-flex h-10 w-fit items-center rounded-[20px] bg-default p-1;
+  @apply relative inline-flex h-10 w-fit items-center rounded-2.5xl bg-default p-1;
 }
 .segment--sm {
   @apply h-9;

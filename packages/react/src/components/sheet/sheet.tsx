@@ -4,11 +4,11 @@ import type {UseOverlayStateReturn} from "../../hooks/use-overlay-state";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
 import type {SheetVariants} from "@sy-inc/styles";
-import type {CSSProperties, ComponentPropsWithRef, ReactElement, ReactNode} from "react";
+import type {ComponentPropsWithRef, ReactElement, ReactNode} from "react";
 import type {ButtonProps as ButtonPrimitiveProps} from "react-aria-components/Button";
 import type {DialogProps as DialogPrimitiveProps} from "react-aria-components/Dialog";
 
-import {mergeProps, mergeRefs} from "@react-aria/utils";
+import {filterDOMProps, mergeRefs} from "@react-aria/utils";
 import {sheetVariants} from "@sy-inc/styles";
 import React, {createContext, use, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {
@@ -33,12 +33,6 @@ type ParsedSnapPoint = {css: string; unit: "px" | "relative"; value: number};
 
 const EMPTY_SNAP_POINTS: readonly SheetSnapPoint[] = [];
 const backgroundScales = new WeakMap<HTMLElement, number>();
-const nestedTransforms: Record<SheetPlacement, string> = {
-  bottom: "scale(0.9875) translate3d(0, -16px, 0)",
-  left: "scale(0.9875) translate3d(16px, 0, 0)",
-  right: "scale(0.9875) translate3d(-16px, 0, 0)",
-  top: "scale(0.9875) translate3d(0, 16px, 0)",
-};
 
 function parseSnapPoint(point: SheetSnapPoint): ParsedSnapPoint {
   if (typeof point === "number") {
@@ -68,15 +62,12 @@ function validateSnapPoints(points: readonly SheetSnapPoint[]) {
   return parsed;
 }
 
-function pointPixels(point: SheetSnapPoint, dimension: number) {
-  const parsed = parseSnapPoint(point);
-
-  return parsed.unit === "px" ? parsed.value : parsed.value * dimension;
+function pointPixels(point: ParsedSnapPoint, dimension: number) {
+  return point.unit === "px" ? point.value : point.value * dimension;
 }
 
 function snapPointIndex(points: readonly SheetSnapPoint[], value: SheetSnapPoint | undefined) {
-  if (value === undefined) return Math.max(0, points.length - 1);
-  const index = points.findIndex((point) => point === value);
+  const index = value === undefined ? -1 : points.indexOf(value);
 
   return index < 0 ? Math.max(0, points.length - 1) : index;
 }
@@ -121,6 +112,7 @@ type SheetContextValue = {
   onDrag?: (event: React.PointerEvent<Element>) => void;
   onRelease?: (event: React.PointerEvent<Element>) => void;
   nestedOpen: boolean;
+  parsedSnapPoints: readonly ParsedSnapPoint[];
   placement: SheetPlacement;
   shouldScaleBackground: boolean;
   parentSetNestedOpen?: (open: boolean) => void;
@@ -155,122 +147,166 @@ function sheetData(context: SheetContextValue) {
   };
 }
 
+type OverlayState = React.ContextType<typeof OverlayTriggerStateContext>;
+
+// Non-modal parts are plain divs: resolve RAC render props against a static open state and keep
+// only DOM props so overlay-only props (isDismissable, isEntering, …) don't leak onto the div.
+function nonModalProps(
+  {children, className, ref, render, style, ...props}: SheetContentProps,
+  defaultClassName: string | undefined,
+  state: OverlayState,
+) {
+  const values = {defaultClassName, isEntering: false, isExiting: false, state: state!};
+  const resolvedClassName = composeTwRenderProps(className, defaultClassName);
+
+  return {
+    ...filterDOMProps(props, {global: true, labelable: true}),
+    children:
+      typeof children === "function" ? children({...values, defaultChildren: undefined}) : children,
+    className:
+      typeof resolvedClassName === "function" ? resolvedClassName(values) : resolvedClassName,
+    ref,
+    render: render as DOMRenderProps<"div", unknown>["render"],
+    style: typeof style === "function" ? style({...values, defaultStyle: {}}) : style,
+  };
+}
+
+// px of movement before a press becomes a drag, so taps don't nudge the panel.
+const DRAG_THRESHOLD = 8;
+
 function useSheetDrag(contentRef: React.RefObject<HTMLDivElement | null>) {
   const context = useSheetContext();
   const overlayState = use(OverlayTriggerStateContext);
-  const start = useRef(0),
-    offset = useRef(0),
-    velocity = useRef(0),
-    last = useRef(0),
-    lastTime = useRef(0),
-    active = useRef(false);
+  const drag = useRef({
+    active: false,
+    dragging: false,
+    last: 0,
+    lastTime: 0,
+    offset: 0,
+    start: 0,
+    velocity: 0,
+  });
   const vertical = context.placement === "top" || context.placement === "bottom";
   const direction = context.placement === "top" || context.placement === "left" ? -1 : 1;
-  const position = useCallback(
-    (event: React.PointerEvent) => (vertical ? event.clientY : event.clientX),
-    [vertical],
-  );
-  const onPointerDown = useCallback(
-    (event: React.PointerEvent) => {
-      if (event.button !== 0) return;
-      const target = event.target as HTMLElement;
+  const position = (event: React.PointerEvent) => (vertical ? event.clientY : event.clientX);
+  const resetTransform = (element: HTMLElement) => {
+    element.style.transition = "transform 200ms var(--sheet-ease)";
+    element.style.transform = "";
+    const clear = () => {
+      element.style.transition = "";
+    };
 
-      if (context.isHandleOnly && !target.closest("[data-slot='sheet-handle']")) return;
-      if (
-        !context.isHandleOnly &&
-        target.closest(
-          "input, textarea, button, [role='button'], select, a, [data-slot='sheet-body']",
-        )
+    element.addEventListener("transitionend", clear, {once: true});
+    window.setTimeout(clear, 250);
+  };
+
+  const onPointerDown = (event: React.PointerEvent) => {
+    if (event.button !== 0) return;
+    const target = event.target as HTMLElement;
+
+    // React bubbles events from nested (portaled) sheets through this one; only drag our own content.
+    if (target.closest("[data-slot='sheet-content']") !== event.currentTarget) return;
+    if (context.isHandleOnly && !target.closest("[data-slot='sheet-handle']")) return;
+    if (
+      !context.isHandleOnly &&
+      target.closest(
+        "input, textarea, button, [role='button'], select, a, [data-slot='sheet-body']",
       )
-        return;
-      start.current = position(event);
-      last.current = start.current;
-      lastTime.current = event.timeStamp;
-      offset.current = 0;
-      velocity.current = 0;
-      active.current = true;
+    )
+      return;
+    const start = position(event);
+
+    drag.current = {
+      active: true,
+      dragging: false,
+      last: start,
+      lastTime: event.timeStamp,
+      offset: 0,
+      start,
+      velocity: 0,
+    };
+  };
+  const onPointerMove = (event: React.PointerEvent) => {
+    const state = drag.current;
+    const element = contentRef.current;
+
+    if (!state.active || !element) return;
+    const current = position(event);
+    const delta = current - state.start;
+    const elapsed = event.timeStamp - state.lastTime;
+
+    if (elapsed > 0) state.velocity = (current - state.last) / elapsed;
+    state.last = current;
+    state.lastTime = event.timeStamp;
+    if (!state.dragging) {
+      if (Math.abs(delta) < DRAG_THRESHOLD) return;
+      state.dragging = true;
+      element.style.transition = "none";
       try {
-        contentRef.current?.setPointerCapture(event.pointerId);
+        element.setPointerCapture(event.pointerId);
       } catch {
         // Pointer capture is unavailable in some browser and test environments.
       }
-    },
-    [contentRef, context.isHandleOnly, position],
-  );
-  const onPointerMove = useCallback(
-    (event: React.PointerEvent) => {
-      if (!active.current || !contentRef.current) return;
-      const current = position(event);
-
-      offset.current = current - start.current;
-      const elapsed = event.timeStamp - lastTime.current;
-
-      if (elapsed > 0) velocity.current = (current - last.current) / elapsed;
-      last.current = current;
-      lastTime.current = event.timeStamp;
-      contentRef.current.style.transition = "none";
-      contentRef.current.style.transform = `translate${vertical ? "Y" : "X"}(${offset.current}px)`;
       context.setDragging(true);
-      context.onDrag?.(event);
-    },
-    [contentRef, context, position, vertical],
-  );
-  const onPointerUp = useCallback(
-    (event: React.PointerEvent) => {
-      if (!active.current) return;
-      active.current = false;
-      context.onRelease?.(event);
-      const element = contentRef.current;
+    }
+    // Dragging away from dismissal is only meaningful while a larger snap point exists.
+    const canExpand = context.activeIndex < context.parsedSnapPoints.length - 1;
 
-      if (!element) return;
-      try {
-        element.releasePointerCapture(event.pointerId);
-      } catch {
-        // The browser may already have released this pointer.
-      }
-      const dimension = vertical ? element.offsetHeight : element.offsetWidth;
-      const shouldClose =
-        context.isDismissable &&
-        (direction * offset.current > dimension * context.closeThreshold ||
-          direction * velocity.current > 0.5);
-      const resetDrag = () => {
-        element.style.transition = "transform 200ms var(--sheet-ease)";
-        element.style.transform = "";
-        const clear = () => {
-          element.style.transition = "";
-        };
+    state.offset = canExpand ? delta : direction * Math.max(0, direction * delta);
+    element.style.transform = `translate${vertical ? "Y" : "X"}(${state.offset}px)`;
+    context.onDrag?.(event);
+  };
+  // Ends the gesture; returns the content element when a drag actually happened.
+  const endDrag = (event: React.PointerEvent) => {
+    const state = drag.current;
+    const element = contentRef.current;
+    const wasDragging = state.active && state.dragging;
 
-        element.addEventListener("transitionend", clear, {once: true});
-        window.setTimeout(clear, 250);
-      };
+    state.active = false;
+    state.dragging = false;
+    if (!wasDragging || !element) return null;
+    context.onRelease?.(event);
+    context.setDragging(false);
 
-      if (shouldClose) {
-        overlayState?.close();
-        resetDrag();
-      } else if (context.snapPoints.length) {
-        const desired =
-          pointPixels(context.snapPoints[context.activeIndex]!, dimension) -
-          direction * offset.current;
-        let nearest = 0;
+    return element;
+  };
+  const onPointerUp = (event: React.PointerEvent) => {
+    const state = drag.current;
+    const element = endDrag(event);
 
-        context.snapPoints.forEach((point, index) => {
-          if (
-            Math.abs(pointPixels(point, dimension) - desired) <
-            Math.abs(pointPixels(context.snapPoints[nearest]!, dimension) - desired)
-          )
-            nearest = index;
-        });
-        context.setSnapIndex(nearest);
-        resetDrag();
-      } else resetDrag();
-      context.setDragging(false);
-      offset.current = 0;
-      velocity.current = 0;
-    },
-    [contentRef, context, direction, overlayState, vertical],
-  );
+    if (!element) return;
+    try {
+      element.releasePointerCapture(event.pointerId);
+    } catch {
+      // The browser may already have released this pointer.
+    }
+    const dimension = vertical ? element.offsetHeight : element.offsetWidth;
+    const shouldClose =
+      context.isDismissable &&
+      (direction * state.offset > dimension * context.closeThreshold ||
+        direction * state.velocity > 0.5);
 
-  return {onPointerDown, onPointerMove, onPointerUp};
+    if (shouldClose) overlayState?.close();
+    else if (context.parsedSnapPoints.length) {
+      const points = context.parsedSnapPoints.map((point) => pointPixels(point, dimension));
+      const desired = points[context.activeIndex]! - direction * state.offset;
+      let nearest = 0;
+
+      points.forEach((point, index) => {
+        if (Math.abs(point - desired) < Math.abs(points[nearest]! - desired)) nearest = index;
+      });
+      context.setSnapIndex(nearest);
+    }
+    resetTransform(element);
+  };
+  // The browser took over the gesture (e.g. scroll or zoom): abandon it without closing or snapping.
+  const onPointerCancel = (event: React.PointerEvent) => {
+    const element = endDrag(event);
+
+    if (element) resetTransform(element);
+  };
+
+  return {onPointerCancel, onPointerDown, onPointerMove, onPointerUp};
 }
 
 export interface SheetRootProps extends ComponentPropsWithRef<typeof DialogTriggerPrimitive> {
@@ -318,7 +354,10 @@ const SheetRootBase = ({
 }: SheetRootBaseProps) => {
   if (closeThreshold < 0 || closeThreshold > 1)
     throw new Error("Sheet closeThreshold must be between 0 and 1.");
-  validateSnapPoints(providedSnapPoints);
+  const parsedSnapPoints = useMemo(
+    () => validateSnapPoints(providedSnapPoints),
+    [providedSnapPoints],
+  );
   const parent = use(SheetContext);
   const resolvedFadeFromIndex = fadeFromIndex ?? Math.max(0, providedSnapPoints.length - 1);
 
@@ -368,6 +407,7 @@ const SheetRootBase = ({
       onDrag,
       onRelease,
       parentSetNestedOpen: parent?.setNestedOpen,
+      parsedSnapPoints,
       placement,
       setDragging,
       setNestedOpen,
@@ -390,6 +430,7 @@ const SheetRootBase = ({
       onDrag,
       onRelease,
       parent?.setNestedOpen,
+      parsedSnapPoints,
       placement,
       providedSnapPoints,
       resolvedFadeFromIndex,
@@ -397,14 +438,13 @@ const SheetRootBase = ({
       shouldScaleBackground,
     ],
   );
-  const controlledProps = state ? {isOpen: state.isOpen} : {};
 
   return (
     <SheetContext value={context}>
       <DialogTriggerPrimitive
-        {...(mergeProps(triggerProps as object, controlledProps, {
-          onOpenChange: handleOpenChange,
-        }) as object)}
+        {...triggerProps}
+        {...(state && {isOpen: state.isOpen})}
+        onOpenChange={handleOpenChange}
       >
         {children}
       </DialogTriggerPrimitive>
@@ -448,23 +488,17 @@ export const SheetBackdrop = ({
   }, [context.isNested, context.parentSetNestedOpen, open]);
   // Non-modal backdrops are pointer-events:none so the page behind stays interactive;
   // outside-click dismissal is modal-only.
-  if (!context.isModal)
+  if (!context.isModal) {
+    if (!open) return null;
+
     return (
       <dom.div
         data-slot="sheet-backdrop"
         {...sheetData(context)}
-        style={style as CSSProperties}
-        {...(props as any)}
-        className={
-          typeof className === "function"
-            ? className({defaultClassName: backdrop()} as never)
-            : composeSlotClassName(backdrop, className)
-        }
-        onClick={onClick as React.MouseEventHandler<HTMLDivElement>}
-      >
-        {children}
-      </dom.div>
+        {...nonModalProps({...props, children, className, onClick, style}, backdrop(), state)}
+      />
     );
+  }
 
   return (
     <ModalOverlayPrimitive
@@ -493,56 +527,44 @@ export const SheetContent = ({
   ...props
 }: SheetContentProps) => {
   const context = useSheetContext();
+  const state = use(OverlayTriggerStateContext);
   const contentRef = useRef<HTMLDivElement>(null);
   const mergedRef = mergeRefs(contentRef, ref);
   const dragHandlers = useSheetDrag(contentRef);
-  const point = context.snapPoints[context.activeIndex];
+  const point = context.parsedSnapPoints[context.activeIndex];
   const extent =
     point === undefined
       ? undefined
       : context.placement === "top" || context.placement === "bottom"
-        ? {height: parseSnapPoint(point).css}
-        : {width: parseSnapPoint(point).css};
-  const nestedStyle: CSSProperties = context.nestedOpen
-    ? {
-        borderRadius: 8,
-        overflow: "hidden",
-        transform: nestedTransforms[context.placement],
-        transition: "transform 500ms var(--sheet-ease)",
-      }
-    : {};
+        ? {height: point.css}
+        : {width: point.css};
   const contentStyle =
     typeof style === "function"
-      ? (renderProps: Parameters<typeof style>[0]) => ({
-          ...extent,
-          ...nestedStyle,
-          ...style(renderProps),
-        })
-      : {...extent, ...nestedStyle, ...style};
+      ? (renderProps: Parameters<typeof style>[0]) => ({...extent, ...style(renderProps)})
+      : {...extent, ...style};
   const handleAnimationEnd: React.AnimationEventHandler<HTMLDivElement> = (event) => {
     context.onAnimationEnd?.(event);
     onAnimationEnd?.(event);
   };
 
-  if (!context.isModal)
+  if (!context.isModal) {
+    if (state && !state.isOpen) return null;
+
     return (
       <dom.div
-        ref={mergedRef}
         data-slot="sheet-content"
         {...sheetData(context)}
         {...dragHandlers}
-        {...(props as any)}
-        style={contentStyle as CSSProperties}
-        className={
-          typeof className === "function"
-            ? className({defaultClassName: context.slots?.content()} as never)
-            : composeSlotClassName(context.slots?.content, className)
-        }
+        {...nonModalProps(
+          {...props, children, className, style: contentStyle},
+          context.slots?.content(),
+          state,
+        )}
+        ref={mergedRef}
         onAnimationEnd={handleAnimationEnd}
-      >
-        {children}
-      </dom.div>
+      />
     );
+  }
 
   return (
     <ModalPrimitive
@@ -669,9 +691,8 @@ export interface SheetCloseTriggerProps extends ButtonPrimitiveProps {
   children?: ReactNode;
   className?: string;
 }
-export const SheetCloseTrigger = ({className, onPress, ...props}: SheetCloseTriggerProps) => {
+export const SheetCloseTrigger = ({className, ...props}: SheetCloseTriggerProps) => {
   const context = useSheetContext();
-  const state = use(OverlayTriggerStateContext);
 
   return (
     <CloseButton
@@ -679,10 +700,6 @@ export const SheetCloseTrigger = ({className, onPress, ...props}: SheetCloseTrig
       data-slot="sheet-close-trigger"
       slot="close"
       {...props}
-      onPress={(event) => {
-        onPress?.(event);
-        state?.close();
-      }}
     />
   );
 };

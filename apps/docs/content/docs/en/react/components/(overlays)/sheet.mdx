@@ -177,7 +177,7 @@ The parts expose state through data attributes including:
 | `isHandleOnly` | `boolean` | `false` | Restricts dragging to `Sheet.Handle` |
 | `isModal` | `boolean` | `true` | Uses modal focus and backdrop behavior |
 | `shouldScaleBackground` | `boolean` | `false` | Scales elements marked `data-sheet-background` |
-| `onDrag` / `onRelease` | `(event) => void` | - | Called for sheet pointer drag and release events |
+| `onDrag` / `onRelease` | `(event) => void` | - | Called while dragging and when a drag ends or is cancelled |
 | `onClose` | `() => void` | - | Called after the root requests closing |
 | `onAnimationEnd` | `(event) => void` | - | Called when the panel animation ends |
 | `state` | `UseOverlayStateReturn` | - | Controls open state externally |
@@ -316,6 +316,10 @@ Sheet is built on React Aria's dialog and modal primitives:
   interactive; the backdrop becomes transparent and pointer-events are disabled.
 - **Drag safety**: Text fields, links, buttons, and `Sheet.Body` are excluded from regular drag
   starts. Set `isHandleOnly` when only the handle should begin a drag.
+- **Drag gestures**: A drag starts after 8px of movement, so taps don't nudge the panel. The panel
+  only moves toward dismissal unless a larger snap point exists, a cancelled pointer (for example,
+  the browser taking over a gesture) snaps it back without closing, and a nested sheet drags
+  independently of its parent. `onDrag` and `onRelease` fire only for gestures that became a drag.
 
 ## Related Components
 

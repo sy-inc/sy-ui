@@ -44,7 +44,7 @@
   @apply motion-reduce:transition-none;
 
   box-shadow: var(--overlay-shadow);
-  border-radius: min(32px, calc(var(--radius) * 2.5));
+  border-radius: min(32px, var(--radius-2_5xl));
 
   &:focus-visible:not([data-focused]),
   &[data-focus-visible="true"] {

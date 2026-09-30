@@ -93,7 +93,7 @@ describe("Sheet (browser)", () => {
 
   it("snaps to the nearest point after a non-dismiss drag and clears drag transform", async () => {
     await render(
-      <SheetFixture defaultActiveSnapPoint={0.25} defaultOpen snapPoints={[0.25, 0.8]} />,
+      <SheetFixture defaultOpen defaultActiveSnapPoint={0.25} snapPoints={[0.25, 0.8]} />,
     );
 
     const dialog = page.getByRole("dialog", {name: "Sheet Title"});
@@ -107,9 +107,9 @@ describe("Sheet (browser)", () => {
   it("exposes backdrop visibility below fadeFromIndex", async () => {
     await render(
       <SheetFixture
+        defaultOpen
         backdropVariant="blur"
         defaultActiveSnapPoint={0.25}
-        defaultOpen
         snapPoints={[0.25, 0.8]}
       />,
     );
@@ -152,6 +152,121 @@ describe("Sheet (browser)", () => {
 
     expect(onDrag).toHaveBeenCalledTimes(1);
     expect(onRelease).toHaveBeenCalledTimes(1);
+  });
+
+  describe("drag gestures", () => {
+    const getContent = () => document.querySelector<HTMLElement>('[data-slot="sheet-content"]')!;
+
+    it("ignores pointer movement below the drag threshold", async () => {
+      const onDrag = vi.fn();
+      const onActiveSnapPointChange = vi.fn();
+
+      await render(
+        <Sheet
+          defaultOpen
+          snapPoints={[0.5, 0.8]}
+          onActiveSnapPointChange={onActiveSnapPointChange}
+          onDrag={onDrag}
+        >
+          <Sheet.Trigger>
+            <Button variant="secondary">Open Sheet</Button>
+          </Sheet.Trigger>
+          <Sheet.Backdrop>
+            <Sheet.Content>
+              <Sheet.Dialog>
+                <Sheet.Heading>Threshold Sheet</Sheet.Heading>
+              </Sheet.Dialog>
+            </Sheet.Content>
+          </Sheet.Backdrop>
+        </Sheet>,
+      );
+
+      const dialog = page.getByRole("dialog", {name: "Threshold Sheet"}).element();
+
+      dispatchPointer(dialog, "pointerdown", 100, 100);
+      dispatchPointer(dialog, "pointermove", 100, 104);
+
+      expect(getContent().style.transform).toBe("");
+
+      dispatchPointer(dialog, "pointerup", 100, 104);
+
+      expect(onDrag).not.toHaveBeenCalled();
+      expect(onActiveSnapPointChange).not.toHaveBeenCalled();
+    });
+
+    it("only drags toward dismissal when no larger snap point exists", async () => {
+      await render(<SheetFixture defaultOpen />);
+
+      const dialog = page.getByRole("dialog", {name: "Sheet Title"}).element();
+
+      dispatchPointer(dialog, "pointerdown", 100, 300);
+      dispatchPointer(dialog, "pointermove", 100, 200);
+
+      expect(getContent().style.transform).toBe("translateY(0px)");
+
+      dispatchPointer(dialog, "pointerup", 100, 200);
+    });
+
+    it("resets the drag when the pointer is cancelled", async () => {
+      await render(<SheetFixture defaultOpen />);
+
+      const dialog = page.getByRole("dialog", {name: "Sheet Title"});
+      const content = getContent();
+
+      dispatchPointer(dialog.element(), "pointerdown", 100, 100);
+      dispatchPointer(dialog.element(), "pointermove", 100, 140);
+      expect(content.style.transform).toBe("translateY(40px)");
+
+      dispatchPointer(dialog.element(), "pointercancel", 100, 140);
+
+      expect(content.style.transform).toBe("");
+      await expect.element(dialog).toBeInTheDocument();
+      await expect.poll(() => content.hasAttribute("data-dragging")).toBe(false);
+    });
+
+    it("drags only the nested sheet the gesture started in", async () => {
+      await render(
+        <Sheet defaultOpen>
+          <Sheet.Trigger>
+            <Button variant="secondary">Open parent</Button>
+          </Sheet.Trigger>
+          <Sheet.Backdrop>
+            <Sheet.Content>
+              <Sheet.Dialog>
+                <Sheet.Heading>Parent</Sheet.Heading>
+                <Sheet.NestedRoot>
+                  <Sheet.Trigger>
+                    <Button variant="secondary">Open child</Button>
+                  </Sheet.Trigger>
+                  <Sheet.Backdrop>
+                    <Sheet.Content>
+                      <Sheet.Dialog>
+                        <Sheet.Heading>Child</Sheet.Heading>
+                      </Sheet.Dialog>
+                    </Sheet.Content>
+                  </Sheet.Backdrop>
+                </Sheet.NestedRoot>
+              </Sheet.Dialog>
+            </Sheet.Content>
+          </Sheet.Backdrop>
+        </Sheet>,
+      );
+
+      await page.getByRole("button", {name: "Open child"}).click();
+
+      const child = page.getByRole("dialog", {name: "Child"}).element();
+      const parent = page.getByRole("dialog", {name: "Parent"}).element();
+      const contentOf = (dialog: Element) =>
+        dialog.closest<HTMLElement>('[data-slot="sheet-content"]')!;
+
+      dispatchPointer(child, "pointerdown", 100, 100);
+      dispatchPointer(child, "pointermove", 100, 140);
+
+      expect(contentOf(child).style.transform).toBe("translateY(40px)");
+      expect(contentOf(parent).style.transform).toBe("");
+
+      dispatchPointer(child, "pointerup", 100, 140);
+    });
   });
 
   it("supports detached sheets and restricts handle-only dragging to the handle", async () => {
@@ -210,8 +325,7 @@ describe("Sheet (browser)", () => {
 
     const parentContent = document.querySelectorAll<HTMLElement>('[data-slot="sheet-content"]')[0]!;
 
-    expect(getComputedStyle(parentContent).transform).not.toBe("none");
-    expect(getComputedStyle(parentContent).borderRadius).toBe("8px");
+    expect(parentContent).toHaveAttribute("data-nested-open", "true");
 
     await page.getByRole("button", {name: "Close"}).click();
     await expect.element(child).not.toBeInTheDocument();
@@ -225,7 +339,7 @@ describe("Sheet (browser)", () => {
     await render(
       <div data-sheet-background>
         <Button onPress={onBackgroundPress}>Background action</Button>
-        <Sheet isModal={false} shouldScaleBackground>
+        <Sheet shouldScaleBackground isModal={false}>
           <Sheet.Trigger>
             <Button variant="secondary">Open non-modal</Button>
           </Sheet.Trigger>

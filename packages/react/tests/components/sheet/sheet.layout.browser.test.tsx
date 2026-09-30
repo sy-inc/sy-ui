@@ -24,4 +24,14 @@ describe("Sheet layout (browser)", () => {
       expect(window.innerHeight - rect.bottom).toBe(8);
     }
   });
+
+  it("hands touch gestures to the drag handler while keeping the body scrollable", async () => {
+    await render(<SheetFixture defaultOpen />);
+
+    const content = document.querySelector<HTMLElement>('[data-slot="sheet-content"]')!;
+    const body = document.querySelector<HTMLElement>('[data-slot="sheet-body"]')!;
+
+    expect(getComputedStyle(content).touchAction).toBe("none");
+    expect(getComputedStyle(body).touchAction).toBe("auto");
+  });
 });

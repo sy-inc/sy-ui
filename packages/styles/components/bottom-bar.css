@@ -37,15 +37,15 @@
   max-width: none;
   border-inline: 0;
   border-bottom: 0;
-  border-radius: 1.5rem 1.5rem 0 0;
+  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
   box-shadow: none;
 }
 
 .bottom-bar__link {
-  @apply relative isolate flex h-12 max-h-12 min-h-12 min-w-0 flex-1 basis-0 appearance-none flex-col items-center justify-center gap-0.5 rounded-2xl border-0 bg-transparent px-2 py-1 text-center text-xs leading-none font-medium text-muted outline-none no-highlight;
+  @apply relative isolate flex h-12 max-h-12 min-h-12 min-w-0 flex-1 basis-0 appearance-none flex-col items-center justify-center gap-0.5 border-0 bg-transparent px-2 py-1 text-center text-xs leading-none font-medium text-muted outline-none no-highlight;
 
   /* Nested radius: outer radius (24px) = inner radius (20px) + 4px inset. */
-  border-radius: calc(var(--radius) * 2.5);
+  border-radius: var(--radius-2_5xl);
 
   cursor: var(--cursor-interactive);
   transition:
@@ -84,9 +84,9 @@
 }
 
 .bottom-bar__indicator {
-  @apply pointer-events-none absolute inset-0 rounded-2xl bg-segment/80 opacity-0;
+  @apply pointer-events-none absolute inset-0 bg-segment/80 opacity-0;
 
-  border-radius: calc(var(--radius) * 2.5);
+  border-radius: var(--radius-2_5xl);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 
