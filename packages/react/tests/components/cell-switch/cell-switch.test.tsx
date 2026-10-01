@@ -32,6 +32,7 @@ describe("CellSwitch", () => {
 
   it("calls controlled onChange without changing its controlled state", async () => {
     const onChange = vi.fn();
+
     render(
       <CellSwitch isSelected={false} onChange={onChange}>
         Animations
@@ -46,6 +47,7 @@ describe("CellSwitch", () => {
 
   it("keeps disabled switches unchanged", async () => {
     const onChange = vi.fn();
+
     render(
       <CellSwitch defaultSelected isDisabled onChange={onChange}>
         Animations
@@ -65,6 +67,22 @@ describe("CellSwitch", () => {
     expect(document.querySelector('[data-slot="switch"]')?.className).toContain(
       "switch--cell-secondary",
     );
+  });
+
+  it("supports a description row that grows past the compact height", () => {
+    render(
+      <>
+        <CellSwitch>Single line</CellSwitch>
+        <CellSwitch description="Exported in plain text.">With description</CellSwitch>
+      </>,
+    );
+
+    const [single, withDescription] = document.querySelectorAll('[data-slot="switch"]');
+
+    expect(single?.className).toContain("switch--cell-compact");
+    expect(withDescription?.className).not.toContain("switch--cell-compact");
+    expect(screen.getByRole("switch", {name: /With description/})).toBeInTheDocument();
+    expect(screen.getByText("Exported in plain text.")).toHaveAttribute("data-slot", "description");
   });
 
   it("exposes variant and feature content hooks", () => {

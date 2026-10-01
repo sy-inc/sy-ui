@@ -39,6 +39,24 @@ export const Variants: Story = {
   ),
 };
 
+export const WithDescription: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3">
+      <CellSwitch description="Includes payment gateway credentials, exported in plain text.">
+        Export secrets
+      </CellSwitch>
+      <CellSwitch
+        defaultSelected
+        description="Includes payment gateway credentials, exported in plain text."
+        variant="secondary"
+      >
+        Export secrets
+      </CellSwitch>
+      <CellSwitch defaultSelected>Single line</CellSwitch>
+    </div>
+  ),
+};
+
 export const Controlled: Story = {
   render: function ControlledCellSwitch() {
     const [isSelected, setIsSelected] = React.useState(true);

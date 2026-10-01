@@ -10,7 +10,7 @@ import {Description} from "../description";
 import {Label} from "../label";
 import {Switch} from "../switch";
 
-/* The variant only marks the root, so the slots are constant per variant. */
+/* The variants only mark the root, so the other slots are constant. */
 const slots = cellSwitchVariants();
 
 /* -------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ interface CellSwitchProps
 }
 
 /**
- * Single-line settings switch. For any other composition, use
+ * Settings switch row with an optional description line. For any other composition, use
  * `<Switch variant="cell">` with the Switch parts directly.
  */
 const CellSwitch = ({
@@ -40,7 +40,7 @@ const CellSwitch = ({
 }: CellSwitchProps) => (
   <Switch
     {...props}
-    className={slots.base({variant, className})}
+    className={slots.base({className, compact: description == null, variant})}
     variant={cellSwitchSurface[variant]}
   >
     <Switch.Content>

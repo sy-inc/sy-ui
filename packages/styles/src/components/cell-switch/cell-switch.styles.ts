@@ -9,14 +9,20 @@ import {tv} from "tailwind-variants";
  */
 export const cellSwitchVariants = tv({
   defaultVariants: {
+    compact: true,
     variant: "default",
   },
   slots: {
     badge: "cell-switch__badge",
-    base: "cell-switch switch--cell-compact",
+    base: "cell-switch",
     copy: "cell-switch__copy",
   },
   variants: {
+    /* A description adds a second line, so the row grows instead of the fixed compact height. */
+    compact: {
+      false: {},
+      true: {base: "switch--cell-compact"},
+    },
     variant: {
       default: {},
       feature: {base: "cell-switch--feature switch--cell-flat"},
@@ -25,7 +31,8 @@ export const cellSwitchVariants = tv({
   },
 });
 
-export type CellSwitchVariants = VariantProps<typeof cellSwitchVariants>;
+/* `compact` is derived from `description`, so it is not a public prop. */
+export type CellSwitchVariants = Omit<VariantProps<typeof cellSwitchVariants>, "compact">;
 
 /** Maps a cell variant onto the `Switch` variant that paints the row surface. */
 export const cellSwitchSurface = {
