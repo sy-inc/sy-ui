@@ -58,7 +58,12 @@
   @media (hover: hover) {
     &:not([data-selected="true"]):not([data-disabled]):hover,
     &[data-hovered]:not([data-selected="true"]):not([data-disabled]) {
-      @apply bg-surface-hover text-foreground;
+      @apply text-foreground;
+
+      /* Hover fill only pairs with the indicator pill; color/underline selections have no fill. */
+      .bottom-bar:not(.bottom-bar--color, .bottom-bar--underline) & {
+        @apply bg-surface-hover;
+      }
     }
   }
 
