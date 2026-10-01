@@ -63,7 +63,6 @@ export * from "./prompt-input";
 export * from "./radio-button-group";
 export * from "./rating";
 export * from "./segment";
-export * from "./sheet";
 export * from "./sidebar";
 export * from "./stepper";
 export * from "./time-field";

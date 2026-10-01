@@ -1,0 +1,61 @@
+---
+title: Drawer 重构
+description: Drawer 改为基于原 Sheet 的实现，新增 snap points、嵌套与非模态模式，并保留现有 API。
+---
+
+<Callout type="info">
+  **尚未发布。** 这些变更会随 `0.1.25` 之后的下一个 `@sy-inc/react` 与 `@sy-inc/styles` 版本发布。
+</Callout>
+
+[Drawer](/docs/react/components/drawer) 现在使用原先以 `Sheet` 发布的实现。两个组件几乎完全重叠，因此合并为一个：`Sheet` 已移除，它的功能并入 `Drawer`。
+
+**现有的 Drawer 代码无需修改即可继续使用。** 之前 Drawer 的所有部件、props 与导出都仍然可用，包括 `Drawer.Content` 上的 `placement`、`Drawer.Backdrop` 上的 `isDismissable`、作为按钮渲染的 `Drawer.Trigger`，以及不包裹 `Drawer.Root`、直接用 `isOpen` 受控的 `Drawer.Backdrop`。变化的是默认视觉设计和少数 CSS 自定义钩子，详见下文。
+
+## 新功能
+
+- **Snap points**：`snapPoints`、`defaultActiveSnapPoint`、`activeSnapPoint`、`onActiveSnapPointChange` 与 `fadeFromIndex`。存在两个及以上 snap point 时，`Drawer.Handle` 可通过键盘操作。
+- **嵌套 Drawer**：渲染在另一个 `Drawer` 内部的 `Drawer` 会自动成为嵌套 Drawer，子级打开时父级面板后退。
+- **非模态模式**：`isModal={false}` 让 Drawer 后方的页面保持可交互。
+- **展示方式**：`isDetached` 为面板添加内边距与圆角；`shouldScaleBackground` 在 Drawer 打开时缩放标记为 `data-drawer-background` 的元素。
+- **拖拽控制**：`isHandleOnly`、`closeThreshold`（默认 `0.25`），以及 `onDrag` / `onRelease` 回调。
+- **Root 级配置**：`placement` 与 `isDismissable` 可以直接设置在 `Drawer` 上；部件上的同名 props 仍会覆盖它们。
+- **回调**：Root 上新增 `onClose`。
+- **导出**：新增 `DrawerPlacement` 与 `DrawerSnapPoint`。
+
+## 视觉变化
+
+| 区域 | 之前 | 现在 |
+| --- | --- | --- |
+| 内边距 | `.drawer__dialog` 上的 `p-6` | header 与 footer 为 `px-5 py-4`，body 为 `px-5`；dialog 上不再有内边距 |
+| 部件间距 | header、body、footer 之间的外边距 | 已移除；各部件自带内边距 |
+| 标题 | `text-base font-medium` | `text-lg font-semibold` |
+| 顶部与底部最大高度 | `85vh` | `96vh` |
+| 左右方向最大宽度 | `85vw` | `96vw`（默认宽度仍为 `w-80`、`sm:w-96`） |
+| 左右方向圆角 | 直角 | 内侧边缘为圆角 |
+| 手柄 | `h-1 w-9` 的手柄条，separator 颜色 | `h-[0.3rem] w-8` 的全圆角手柄条，default 颜色，`cursor-grab` |
+| 关闭按钮 | 默认颜色 | muted 颜色，悬停时为 foreground |
+| 遮罩淡入 | 250ms | 150ms |
+| 退出时长 | 200ms | 250ms |
+
+## CSS 自定义变化
+
+类名、`data-slot` 值与位置修饰类保持不变。以下钩子的行为有所不同：
+
+- **面板移到了 `.drawer__content`。** 它之前是覆盖整个视口、`pointer-events: none` 的包裹层，现在就是面板本身：固定在所在边缘，尺寸与面板一致。进入、退出与拖拽动画改为作用在 `.drawer__content` 的 `transform` 上，而不再是 `.drawer__dialog` 的 `translate`。
+- **动画变量需要设置在 `.drawer__content` 或其祖先元素上。** `--drawer-enter-duration`、`--drawer-exit-duration`、`--drawer-enter-ease` 与 `--drawer-exit-ease` 名称不变，但设置在 `.drawer__dialog` 上已不再生效。未设置时会回退到新的共享变量 `--drawer-duration`（`250ms`）与 `--drawer-ease`。
+- **宽度可以设置在 `Drawer.Content` 或 `Drawer.Dialog` 上。** 左右方向的面板会贴合 dialog 的宽度，所以两个部件都可以。
+- **`.drawer__handle-bar`** 现在作为类名出现在手柄条上，原有的 `[data-slot="drawer-handle-bar"]` 仍然保留。
+- **新增用于样式的状态属性**：`data-dragging`、`data-detached`、`data-modal`、`data-nested`、`data-nested-open`、`data-handle-only`、`data-active-snap-point`、`data-snap-points`、`data-drawer-snap-points` 与 `data-drawer-backdrop-visible`。
+
+## 移除
+
+- **`Sheet`**：`Sheet` 及其部件、`SheetProps` 等相关类型、`sheetVariants`，以及 `sheet__*` 类名均已移除。请把 `Sheet` 替换为 `Drawer`，并把类名、data 属性与 CSS 变量中的 `sheet` 替换为 `drawer`。
+- **Storybook 路径**：stories 从 `Components/Overlays/Drawer` 移到了 `Components/Drawer`。
+
+## 升级清单
+
+- 现有的 Drawer 用法不需要修改代码。
+- 检查对外观有要求的 Drawer；如有需要，可在各部件上用 `className` 恢复之前的样式。
+- 把设置在 `.drawer__dialog` 上的 `--drawer-*` 动画变量移到 `.drawer__content` 上。
+- 更新用 `translate` 为 `.drawer__dialog` 做动画或定位、或者依赖 `.drawer__content` 覆盖整个视口的自定义 CSS。
+- 如果使用过 `Sheet`，请按上文把它改名为 `Drawer`。

@@ -7,3 +7,5 @@ export {Placements} from "./placements";
 export {ScrollableContent} from "./scrollable-content";
 export {WithForm} from "./with-form";
 export {CustomStyles} from "./custom-styles";
+export {Advanced} from "./advanced";
+export {SnapPoints} from "./snap-points";

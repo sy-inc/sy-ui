@@ -22,7 +22,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "text-shimmer",
   "rich-text-editor",
   "prompt-input",
-  "sheet",
+  "drawer",
   "input-phone",
   "widget",
   "radio-button-group",

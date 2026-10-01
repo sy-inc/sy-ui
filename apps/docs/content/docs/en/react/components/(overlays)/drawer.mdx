@@ -6,13 +6,16 @@ links:
   rac: Modal
   source: drawer/drawer.tsx
   styles: drawer.css
-  storybook: Components/Overlays/Drawer
+  storybook: Components/Drawer
 ---
 
 ## Usage
 
+Use `Drawer` for a panel that enters from an edge of the viewport. It supports pointer dragging,
+optional snap points, nested drawers, and modal or non-modal presentation.
+
 ```tsx
-import { Drawer, Button } from "@sy-inc/react";
+import {Button, Drawer} from "@sy-inc/react";
 ```
 
 <ComponentPreview name="drawer-basic" />
@@ -20,21 +23,21 @@ import { Drawer, Button } from "@sy-inc/react";
 ## Anatomy
 
 ```tsx
-import { Drawer, Button } from "@sy-inc/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 export default () => (
   <Drawer>
-    <Button>Open Drawer</Button>
+    <Button variant="secondary">Open Drawer</Button>
     <Drawer.Backdrop>
       <Drawer.Content>
         <Drawer.Dialog>
-          <Drawer.Handle /> {/* Optional: Drag handle */}
-          <Drawer.CloseTrigger /> {/* Optional: Close button */}
+          <Drawer.Handle /> {/* Optional drag handle */}
+          <Drawer.CloseTrigger /> {/* Optional close button */}
           <Drawer.Header>
-            <Drawer.Heading />
+            <Drawer.Heading>Drawer title</Drawer.Heading>
           </Drawer.Header>
-          <Drawer.Body />
-          <Drawer.Footer />
+          <Drawer.Body>Drawer content</Drawer.Body>
+          <Drawer.Footer>Drawer actions</Drawer.Footer>
         </Drawer.Dialog>
       </Drawer.Content>
     </Drawer.Backdrop>
@@ -42,9 +45,13 @@ export default () => (
 );
 ```
 
+`Drawer` is also available as `Drawer.Root`. Render a `Drawer` inside another drawer to nest it.
+
 ## Examples
 
 ### Placement
+
+`placement` controls the edge from which the drawer enters. The default is `bottom`.
 
 <ComponentPreview name="drawer-placements" />
 
@@ -72,9 +79,42 @@ The `Drawer.Body` automatically handles overflow with native scrolling. Drag-to-
 
 <ComponentPreview name="drawer-navigation" />
 
-### Backdrop Variants
+### Backdrop
+
+`Drawer.Backdrop` uses `opaque` by default. Use `blur` to blur the page behind the drawer or
+`transparent` when a visual scrim is not wanted; all three retain the same dismissal behavior.
 
 <ComponentPreview name="drawer-backdrop-variants" />
+
+### Snap Points
+
+Snap points describe the visible extent of the dialog along its active axis:
+
+- A number must be between `0` and `1` and is a relative fraction (`0.5` is `50%`).
+- A value ending in `%` is relative to the drawer dimension.
+- A value ending in `px` is an absolute dimension.
+- Points must be strictly increasing and a list cannot mix `px` with relative values (numbers or
+  `%`).
+
+When `defaultActiveSnapPoint` is omitted, the last snap point is selected. Pass
+`activeSnapPoint` with `onActiveSnapPointChange` for a controlled snap point.
+
+<ComponentPreview name="drawer-snap-points" />
+
+### Advanced
+
+The advanced example matches the official three-level nested composition. A `Drawer` rendered
+inside another `Drawer` is nested automatically: each parent panel scales and shifts while its child
+is open.
+
+The parent panel gets `[data-nested-open="true"]` while a child is open. To keep a parent still,
+override the recede styles on its `Drawer.Content`:
+
+```tsx
+<Drawer.Content className="data-[nested-open=true]:transform-none data-[nested-open=true]:overflow-visible data-[nested-open=true]:rounded-none">
+```
+
+<ComponentPreview name="drawer-advanced" />
 
 ## Customization
 
@@ -82,195 +122,243 @@ The `Drawer.Body` automatically handles overflow with native scrolling. Drag-to-
 
 <ComponentPreview name="drawer-custom-styles" />
 
+Every compound part accepts `className`, so local utility classes can be applied without replacing
+the component structure.
+
 ### Global CSS
 
-To customize the Drawer component classes, you can use the `@layer components` directive.
+Customize Drawer classes with the `@layer components` directive.
 
 [Learn more](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes).
 
 ```css
 @layer components {
-  .drawer__backdrop {
-    @apply bg-gradient-to-br from-black/50 to-black/70;
-  }
-
   .drawer__dialog {
-    @apply rounded-2xl border border-white/10 shadow-2xl;
+    @apply border border-border/80 bg-surface;
   }
 
-  .drawer__header {
-    @apply text-center;
+  .drawer__heading {
+    @apply text-lg font-semibold;
   }
 
-  .drawer__close-trigger {
-    @apply rounded-full bg-white/10 hover:bg-white/20;
+  .drawer__handle-bar {
+    @apply w-12 bg-accent;
   }
 }
 ```
 
 ## Styling Reference
 
-SY INC follows the [BEM](https://getbem.com/) methodology to ensure component variants and states are reusable and easy to customize.
+SY INC follows the [BEM](https://getbem.com/) methodology so component parts and states can be
+customized consistently.
 
 ### CSS Classes
 
-The Drawer component uses these CSS classes ([View source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/drawer.css)):
+The Drawer component uses these classes ([View source styles](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/drawer.css)):
 
 #### Base Classes [!toc]
 
-- `.drawer__trigger` - Trigger element that opens the drawer
-- `.drawer__backdrop` - Overlay backdrop behind the drawer
-- `.drawer__content` - Positioning wrapper for the drawer panel
+- `.drawer__trigger` - Trigger button rendered by `Drawer.Trigger`
+- `.drawer__backdrop` - Overlay layer behind the drawer
+- `.drawer__content` - Fixed positioning wrapper for the panel
 - `.drawer__dialog` - The drawer panel itself
 - `.drawer__header` - Header section for titles
 - `.drawer__heading` - Main title text
-- `.drawer__body` - Main scrollable content area
-- `.drawer__footer` - Footer section for actions
-- `.drawer__handle` - Visual drag handle indicator
+- `.drawer__body` - Scrollable body content
+- `.drawer__footer` - Action area
+- `.drawer__handle` - Drag handle container
+- `.drawer__handle-bar` - Visible handle bar
 - `.drawer__close-trigger` - Close button element
 
-#### Backdrop Variants [!toc]
+#### Placement Classes [!toc]
 
-- `.drawer__backdrop--opaque` - Opaque colored backdrop (default)
-- `.drawer__backdrop--blur` - Blurred backdrop with glass effect
-- `.drawer__backdrop--transparent` - Transparent backdrop (no overlay)
+- `.drawer__content--bottom` / `.drawer__dialog--bottom` - Enters from the bottom (default)
+- `.drawer__content--top` / `.drawer__dialog--top` - Enters from the top
+- `.drawer__content--left` / `.drawer__dialog--left` - Enters from the left
+- `.drawer__content--right` / `.drawer__dialog--right` - Enters from the right
 
-#### Placement Variants [!toc]
+### Data Attributes and States
 
-- `.drawer__content--bottom` - Slides up from the bottom edge (default)
-- `.drawer__content--top` - Slides down from the top edge
-- `.drawer__content--left` - Slides in from the left edge
-- `.drawer__content--right` - Slides in from the right edge
+The parts expose state through data attributes including:
 
-#### Dialog Variants [!toc]
-
-- `.drawer__dialog--top` - Slides down from the top edge
-- `.drawer__dialog--bottom` - Slides up from the bottom edge
-- `.drawer__dialog--left` - Slides in from the left edge
-- `.drawer__dialog--right` - Slides in from the right edge
-
-### Interactive States
-
-The component supports these interactive states:
-
-- **Focus**: `:focus-visible` or `[data-focus-visible="true"]` - Applied to trigger and close button
-- **Hover**: `:hover` or `[data-hovered="true"]` - Applied to close button on hover
-- **Active**: `:active` or `[data-pressed="true"]` - Applied to trigger and close button when pressed
-- **Entering**: `[data-entering]` - Applied during drawer opening animation
-- **Exiting**: `[data-exiting]` - Applied during drawer closing animation
-- **Placement**: `[data-placement="*"]` - Applied based on drawer position (top, bottom, left, right)
+- `[data-placement]` - Current placement (`top`, `bottom`, `left`, or `right`)
+- `[data-entering]` and `[data-exiting]` - Open and close transitions
+- `[data-active-snap-point]` and `[data-snap-points]` - Current and configured snap points
+- `[data-dragging]` - Pointer dragging is active
+- `[data-detached]`, `[data-handle-only]`, `[data-modal]`, and `[data-nested]` - Root modes
+- `[data-drawer-snap-points="true"]` and `--snap-point-height` - Snap-point layout state
+- `[data-drawer-background-scaled="true"]` - A background target is scaled while a drawer is open
 
 ## API Reference
 
-### Drawer
+### Drawer / Drawer.Root
 
-| Prop       | Type                   | Default | Description                    |
-| ---------- | ---------------------- | ------- | ------------------------------ |
-| `children` | `ReactNode`            | -       | Trigger and backdrop elements  |
-| `state`    | `UseOverlayStateReturn` | -      | Controlled overlay state       |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Trigger and overlay parts |
+| `isOpen` | `boolean` | - | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial uncontrolled open state |
+| `onOpenChange` | `(isOpen: boolean) => void` | - | Called when the open state changes |
+| `placement` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Edge from which the panel enters |
+| `snapPoints` | `readonly DrawerSnapPoint[]` | `[]` | Strictly increasing panel extents |
+| `fadeFromIndex` | `number` | `0` | First snap point that shows the backdrop; lower points hide it |
+| `defaultActiveSnapPoint` | `DrawerSnapPoint` | Last point | Initial uncontrolled snap point |
+| `activeSnapPoint` | `DrawerSnapPoint` | - | Controlled active snap point |
+| `onActiveSnapPointChange` | `(point: DrawerSnapPoint) => void` | - | Called when the active point changes |
+| `closeThreshold` | `number` (`0` to `1`) | `0.25` | Drag distance fraction required to dismiss |
+| `isDetached` | `boolean` | `false` | Adds an inset margin and rounded corners |
+| `isDismissable` | `boolean` | `true` | Allows backdrop, Escape, and drag dismissal |
+| `isHandleOnly` | `boolean` | `false` | Restricts dragging to `Drawer.Handle` |
+| `isModal` | `boolean` | `true` | Uses modal focus and backdrop behavior |
+| `shouldScaleBackground` | `boolean` | `false` | Scales elements marked `data-drawer-background` |
+| `onDrag` / `onRelease` | `(event) => void` | - | Called while dragging and when a drag ends or is cancelled |
+| `onClose` | `() => void` | - | Called after the root requests closing |
+| `state` | `UseOverlayStateReturn` | - | Controls open state externally |
 
 ### Drawer.Trigger
 
-| Prop        | Type        | Default | Description            |
-| ----------- | ----------- | ------- | ---------------------- |
-| `children`  | `ReactNode` | -       | Custom trigger content |
-| `className` | `string`    | -       | CSS classes            |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode \| (values) => ReactNode` | - | Trigger button content |
+| `className` | `string \| (values) => string` | - | Trigger button CSS classes |
+
+`Drawer.Trigger` renders a React Aria `Button` with the `.drawer__trigger` class and forwards Button
+props. To use an existing pressable such as `Button` as the trigger, place it directly inside
+`Drawer` instead of wrapping it in `Drawer.Trigger`.
 
 ### Drawer.Backdrop
 
-| Prop                        | Type                                  | Default    | Description               |
-| --------------------------- | ------------------------------------- | ---------- | ------------------------- |
-| `variant`                   | `"opaque" \| "blur" \| "transparent"` | `"opaque"` | Backdrop overlay style    |
-| `isDismissable`             | `boolean`                             | `true`     | Close on backdrop click   |
-| `isKeyboardDismissDisabled` | `boolean`                             | `false`    | Disable ESC key to close  |
-| `isOpen`                    | `boolean`                             | -          | Controlled open state     |
-| `onOpenChange`              | `(isOpen: boolean) => void`           | -          | Open state change handler |
-| `className`                 | `string \| (values) => string`        | -          | Backdrop CSS classes      |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Content wrapper and dialog |
+| `className` | `string \| (values) => string` | - | Backdrop CSS classes |
+| `variant` | `"opaque" \| "blur" \| "transparent"` | `"opaque"` | Visual backdrop treatment |
+| `onClick` | `(event) => void` | - | Additional click handler |
+| `isDismissable` | `boolean` | Root value | Overrides the root `isDismissable` for backdrop and drag dismissal |
+
+React Aria ModalOverlay props (such as `isKeyboardDismissDisabled`) are forwarded in modal mode.
+`Drawer.Backdrop` can also be used without `Drawer.Root` by passing `isOpen` and `onOpenChange`.
 
 ### Drawer.Content
 
-| Prop        | Type                                          | Default    | Description               |
-| ----------- | --------------------------------------------- | ---------- | ------------------------- |
-| `placement` | `"top" \| "bottom" \| "left" \| "right"`      | `"bottom"` | Edge the drawer slides from |
-| `className` | `string \| (values) => string`                | -          | Content CSS classes       |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Dialog container content |
+| `className` | `string \| (values) => string` | - | Content CSS classes |
+| `placement` | `"top" \| "bottom" \| "left" \| "right"` | Root value | Overrides the root `placement` for this panel |
+
+React Aria Modal props are forwarded. Left and right panels default to `w-80` (`sm:w-96`); a width
+set on either `Drawer.Content` or `Drawer.Dialog` overrides it.
+
+Motion can be tuned with `--drawer-duration` and `--drawer-ease`, or per phase with
+`--drawer-enter-duration`, `--drawer-exit-duration`, `--drawer-enter-ease`, and `--drawer-exit-ease`.
+Set them on `Drawer.Content` or an ancestor.
 
 ### Drawer.Dialog
 
-| Prop               | Type                           | Default    | Description                |
-| ------------------ | ------------------------------ | ---------- | -------------------------- |
-| `children`         | `ReactNode`                    | -          | Dialog content             |
-| `className`        | `string`                       | -          | CSS classes                |
-| `role`             | `string`                       | `"dialog"` | ARIA role                  |
-| `aria-label`       | `string`                       | -          | Accessibility label        |
-| `aria-labelledby`  | `string`                       | -          | ID of label element        |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Panel content |
+| `className` | `string` | - | Dialog CSS classes |
+| `style` | `CSSProperties` | - | Additional inline styles |
+| `aria-label` / `aria-labelledby` | `string` | - | Accessible name for the dialog |
 
-### Drawer.Header
-
-| Prop        | Type        | Default | Description    |
-| ----------- | ----------- | ------- | -------------- |
-| `children`  | `ReactNode` | -       | Header content |
-| `className` | `string`    | -       | CSS classes    |
-
-### Drawer.Heading
-
-| Prop        | Type        | Default | Description  |
-| ----------- | ----------- | ------- | ------------ |
-| `children`  | `ReactNode` | -       | Title text   |
-| `className` | `string`    | -       | CSS classes  |
-
-### Drawer.Body
-
-| Prop        | Type        | Default | Description  |
-| ----------- | ----------- | ------- | ------------ |
-| `children`  | `ReactNode` | -       | Body content |
-| `className` | `string`    | -       | CSS classes  |
-
-### Drawer.Footer
-
-| Prop        | Type        | Default | Description    |
-| ----------- | ----------- | ------- | -------------- |
-| `children`  | `ReactNode` | -       | Footer content |
-| `className` | `string`    | -       | CSS classes    |
+The content panel receives the active snap point as its height (top/bottom) or width (left/right).
 
 ### Drawer.Handle
 
-| Prop        | Type     | Default | Description          |
-| ----------- | -------- | ------- | -------------------- |
-| `className` | `string` | -       | CSS classes          |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Handle CSS classes |
+| `aria-label` | `string` | `"Adjust drawer size"` | Accessible name for keyboard resizing |
+
+With two or more snap points the handle has `role="button"` and `tabIndex={0}`. Click or use Arrow
+Up/Right to move to the next snap point, or Arrow Down/Left to move to the previous point. Without
+snap points it is a decorative drag affordance (`aria-hidden`).
+
+### Drawer.Header, Drawer.Body, and Drawer.Footer
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Part content |
+| `className` | `string` | - | Part CSS classes |
+
+These parts are div-like elements and accept the corresponding DOM attributes.
+
+### Drawer.Heading
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Accessible dialog title |
+| `className` | `string` | - | Heading CSS classes |
+
+The heading is rendered in React Aria's `title` slot.
 
 ### Drawer.CloseTrigger
 
-| Prop        | Type                           | Default | Description         |
-| ----------- | ------------------------------ | ------- | ------------------- |
-| `children`  | `ReactNode`                    | -       | Custom close button |
-| `className` | `string \| (values) => string` | -       | CSS classes         |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | Built-in close icon | Close button content |
+| `className` | `string \| (values) => string` | - | Close button CSS classes |
+| `onPress` | `(event) => void` | - | Additional press handler |
 
-### useOverlayState Hook
+Pressing it closes the current drawer.
+
+### useOverlayState
+
+Use `useOverlayState` with the root `state` prop when a parent owns the open state:
+
+The Root also exposes `isOpen`, `defaultOpen`, and `onOpenChange` directly for controlled or
+uncontrolled open state when a separate `useOverlayState` object is not needed.
 
 ```tsx
-import { useOverlayState } from "@sy-inc/react";
+"use client";
 
-const state = useOverlayState({
-  defaultOpen: false,
-  onOpenChange: (isOpen) => console.log(isOpen),
-});
+import {Button, Drawer, useOverlayState} from "@sy-inc/react";
 
-state.isOpen; // Current state
-state.open(); // Open drawer
-state.close(); // Close drawer
-state.toggle(); // Toggle state
-state.setOpen(); // Set state directly
+export function ControlledDrawer() {
+  const state = useOverlayState({defaultOpen: false});
+
+  return (
+    <>
+      <Button onPress={state.open}>Open Drawer</Button>
+      <Drawer state={state}>
+        <Button variant="secondary">Open Drawer</Button>
+        <Drawer.Backdrop>
+          <Drawer.Content>
+            <Drawer.Dialog>
+              <Drawer.Heading>Controlled Drawer</Drawer.Heading>
+              <Drawer.CloseTrigger />
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>
+    </>
+  );
+}
 ```
+
+The returned state exposes `isOpen`, `open()`, `close()`, `toggle()`, and `setOpen()`.
 
 ## Accessibility
 
-Implements [WAI-ARIA Dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/):
+Drawer is built on React Aria's dialog and modal primitives:
 
-- **Focus trap**: Focus locked within drawer when open
-- **Keyboard**: `ESC` closes (when dismissable), `Tab` cycles elements
-- **Screen readers**: Proper ARIA attributes via React Aria
-- **Scroll lock**: Body scroll disabled when open
-- **Drag to dismiss**: Supports pointer-based drag gestures on handle, header, and footer areas
+- **Dialog semantics**: Use `Drawer.Heading` or an explicit `aria-label`/`aria-labelledby` so the
+  panel has an accessible name.
+- **Focus and keyboard behavior**: Modal drawers use the React Aria focus containment behavior;
+  `Escape` dismisses when `isDismissable` is `true`.
+- **Keyboard resizing**: With snap points, `Drawer.Handle` is a labeled button-like control with
+  arrow-key snap point navigation; otherwise it is hidden from assistive technology.
+- **Reduced motion**: Drawer transitions are disabled when `prefers-reduced-motion: reduce` is set.
+- **Non-modal mode**: Set `isModal={false}` intentionally when background content should remain
+  interactive; the backdrop becomes transparent and pointer-events are disabled.
+- **Drag safety**: Text fields, links, buttons, and `Drawer.Body` are excluded from regular drag
+  starts. Set `isHandleOnly` when only the handle should begin a drag.
+- **Drag gestures**: A drag starts after 8px of movement, so taps don't nudge the panel. The panel
+  only moves toward dismissal unless a larger snap point exists, a cancelled pointer (for example,
+  the browser taking over a gesture) snaps it back without closing, and a nested drawer drags
+  independently of its parent. `onDrag` and `onRelease` fire only for gestures that became a drag.
 
 ## Related Components
 

@@ -89,6 +89,7 @@ export default function App() {
 - **拖动手柄**：`Drawer.Handle` 是视觉拖动指示器组件
 - **内置关闭触发器**：`Drawer.CloseTrigger` 会渲染一个关闭按钮
 - **基于 slot 的关闭**：带有 `slot="close"` 的按钮会自动关闭 Drawer
+- **Snap points、嵌套与非模态模式**：`snapPoints`、在 `Drawer` 内部渲染 `Drawer` 与 `isModal={false}`
 
 ### 4. Prop 变更
 
@@ -96,12 +97,12 @@ export default function App() {
 | ------- | ----------- | ---- |
 | `isOpen` | `Drawer.Backdrop` 的 `isOpen` | 或使用 `useOverlayState` |
 | `onOpenChange` | `Drawer.Backdrop` 的 `onOpenChange` | 或使用 `useOverlayState` |
-| `onClose` | - | 在按钮上使用 `onOpenChange` 或 `slot="close"` |
-| `placement` | `Drawer.Content` 的 `placement` | `"right"` → `"right"`、`"left"` → `"left"`、`"top"` → `"top"`、`"bottom"` → `"bottom"`。默认值从 `"right"` 改为 `"bottom"` |
+| `onClose` | `Drawer` 的 `onClose` | Drawer 请求关闭后调用；带 `slot="close"` 的按钮也会关闭它 |
+| `placement` | `Drawer` 或 `Drawer.Content` 的 `placement` | `"right"` → `"right"`、`"left"` → `"left"`、`"top"` → `"top"`、`"bottom"` → `"bottom"`。默认值从 `"right"` 改为 `"bottom"` |
 | `size` | - | 已移除（请在 `Drawer.Dialog` 上使用 Tailwind CSS） |
 | `radius` | - | 已移除（请改用 Tailwind CSS） |
 | `backdrop` | `Drawer.Backdrop` 的 `variant` | 值保持一致：`"opaque"`、`"blur"`、`"transparent"` |
-| `isDismissable` | `Drawer.Backdrop` 的 `isDismissable` | 保持一致 |
+| `isDismissable` | `Drawer` 或 `Drawer.Backdrop` 的 `isDismissable` | 保持一致 |
 | `isKeyboardDismissDisabled` | `Drawer.Backdrop` 的 `isKeyboardDismissDisabled` | 保持一致 |
 | `shouldBlockScroll` | - | v3 中始终会阻止滚动 |
 | `hideCloseButton` | - | 省略 `Drawer.CloseTrigger` 即可隐藏 |
@@ -412,12 +413,23 @@ Drawer (Root)
               └── Drawer.Footer
 ```
 
+## 从之前的 v3 Drawer 升级
+
+如果你已经在使用 v3 Drawer，[Drawer 重构](/docs/react/releases/drawer-rewrite)之后代码可以继续使用，只有默认外观和少数 CSS 钩子有变化：
+
+- 内边距从 `.drawer__dialog` 移到了 header、body 与 footer 上，标题字号也更大。可以在各部件上用 `className` 恢复之前的样式。
+- 进入、退出与拖拽动画改为在 `.drawer__content` 上使用 `transform`。`--drawer-*` 动画变量请设置在 `.drawer__content` 上，而不是 `.drawer__dialog`。
+- 宽度可以设置在 `Drawer.Content` 或 `Drawer.Dialog` 上。
+- `Sheet` 已移除，请改名为 `Drawer`。
+
+完整变更请参阅[发布说明](/docs/react/releases/drawer-rewrite)。
+
 ## 总结
 
 1. **组件结构**：渲染回调模式 → 带显式子组件的复合组件
 2. **触发模式**：外部 `useDisclosure` + `onPress` → 内置触发器（`Drawer` 的第一个子节点）
 3. **状态钩子**：`useDisclosure` → `useOverlayState`，并使用 `open()`、`close()`、`toggle()` 方法
-4. **位置**：`Drawer` 上的 prop → `Drawer.Content` 上的 prop。默认值从 `"right"` 改为 `"bottom"`
+4. **位置**：可以继续放在 `Drawer` 上，也可以移到 `Drawer.Content` 上。默认值从 `"right"` 改为 `"bottom"`
 5. **遮罩**：`backdrop` prop → `Drawer.Backdrop` 的 `variant` prop
 6. **关闭按钮**：`hideCloseButton` / `closeButton` props → 省略或自定义 `Drawer.CloseTrigger`
 7. **基于 slot 的关闭**：带有 `slot="close"` 的按钮会自动关闭 Drawer

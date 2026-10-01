@@ -8,6 +8,6 @@ describe("Drawer SSR", () => {
   });
 
   it("renders without hydration mismatch when defaultOpen", async () => {
-    await ssrSmoke(<DrawerFixture defaultOpen />);
+    await ssrSmoke(<DrawerFixture defaultOpen snapPoints={[0.4, 0.8]} />);
   });
 });

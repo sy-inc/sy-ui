@@ -6,6 +6,8 @@
   "pages": [
     "---Overview---",
     "index",
+    "---Unreleased---",
+    "drawer-rewrite",
     "---Releases---",
     "v3-2-6",
     "v3-2-4",

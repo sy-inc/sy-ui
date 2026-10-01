@@ -89,6 +89,7 @@ export default function App() {
 - **Drag handle**: `Drawer.Handle` component for visual drag indicator
 - **Built-in close trigger**: `Drawer.CloseTrigger` renders a close button
 - **Slot-based close**: Buttons with `slot="close"` automatically close the drawer
+- **Snap points, nesting, and non-modal mode**: `snapPoints`, a `Drawer` inside another `Drawer`, and `isModal={false}`
 
 ### 4. Prop Changes
 
@@ -96,12 +97,12 @@ export default function App() {
 |---------|---------------|-------|
 | `isOpen` | `Drawer.Backdrop` `isOpen` | Or use `useOverlayState` |
 | `onOpenChange` | `Drawer.Backdrop` `onOpenChange` | Or use `useOverlayState` |
-| `onClose` | - | Use `onOpenChange` or `slot="close"` on buttons |
-| `placement` | `Drawer.Content` `placement` | `"right"` → `"right"`, `"left"` → `"left"`, `"top"` → `"top"`, `"bottom"` → `"bottom"`. Default changed from `"right"` to `"bottom"` |
+| `onClose` | `Drawer` `onClose` | Called after the drawer requests closing; `slot="close"` on buttons also closes it |
+| `placement` | `Drawer` or `Drawer.Content` `placement` | `"right"` → `"right"`, `"left"` → `"left"`, `"top"` → `"top"`, `"bottom"` → `"bottom"`. Default changed from `"right"` to `"bottom"` |
 | `size` | - | Removed (use Tailwind CSS on `Drawer.Dialog`) |
 | `radius` | - | Removed (use Tailwind CSS) |
 | `backdrop` | `Drawer.Backdrop` `variant` | Same values: `"opaque"`, `"blur"`, `"transparent"` |
-| `isDismissable` | `Drawer.Backdrop` `isDismissable` | Same |
+| `isDismissable` | `Drawer` or `Drawer.Backdrop` `isDismissable` | Same |
 | `isKeyboardDismissDisabled` | `Drawer.Backdrop` `isKeyboardDismissDisabled` | Same |
 | `shouldBlockScroll` | - | Always blocks scroll in v3 |
 | `hideCloseButton` | - | Omit `Drawer.CloseTrigger` to hide |
@@ -412,12 +413,23 @@ Drawer (Root)
               └── Drawer.Footer
 ```
 
+## Upgrading from the earlier v3 Drawer
+
+If you already use the v3 Drawer, your code keeps working after the [Drawer rewrite](/docs/react/releases/drawer-rewrite). Only the default look and a few CSS hooks change:
+
+- Padding moved from `.drawer__dialog` to the header, body, and footer, and the heading is larger. Use `className` on the parts to restore the previous look.
+- Enter, exit, and drag motion run on `.drawer__content` with `transform`. Set `--drawer-*` motion variables on `.drawer__content` instead of `.drawer__dialog`.
+- Width can be set on `Drawer.Content` or `Drawer.Dialog`.
+- `Sheet` is removed; rename it to `Drawer`.
+
+See the [release notes](/docs/react/releases/drawer-rewrite) for the full list.
+
 ## Summary
 
 1. **Component Structure**: Render callback pattern → compound components with explicit subcomponents
 2. **Trigger Pattern**: External `useDisclosure` + `onPress` → built-in trigger (first child of `Drawer`)
 3. **State Hook**: `useDisclosure` → `useOverlayState` with `open()`, `close()`, `toggle()` methods
-4. **Placement**: Prop on `Drawer` → prop on `Drawer.Content`. Default changed from `"right"` to `"bottom"`
+4. **Placement**: Stays on `Drawer` or moves to `Drawer.Content`. Default changed from `"right"` to `"bottom"`
 5. **Backdrop**: `backdrop` prop → `Drawer.Backdrop` `variant` prop
 6. **Close Button**: `hideCloseButton`/`closeButton` props → omit or customize `Drawer.CloseTrigger`
 7. **Slot-Based Close**: Buttons with `slot="close"` automatically close the drawer

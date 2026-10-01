@@ -53,7 +53,6 @@
     "(navigation)/disclosure",
     "(navigation)/disclosure-group",
     "(overlays)/drawer",
-    "(overlays)/sheet",
     "(forms)/drop-zone",
     "(forms)/image-field",
     "(collections)/dropdown",

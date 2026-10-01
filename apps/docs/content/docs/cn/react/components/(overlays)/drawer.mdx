@@ -1,17 +1,21 @@
 ---
 title: Drawer 抽屉
 description: 用于补充内容与操作的滑出面板
+
 links:
   rac: Modal
   source: drawer/drawer.tsx
   styles: drawer.css
-  storybook: Components/Overlays/Drawer
+  storybook: Components/Drawer
 ---
 
 ## 用法
 
+`Drawer` 用于从视口边缘进入的面板。它支持指针拖拽、可选的 snap points、嵌套面板，以及模态或
+非模态展示。
+
 ```tsx
-import { Drawer, Button } from "@sy-inc/react";
+import {Button, Drawer} from "@sy-inc/react";
 ```
 
 <ComponentPreview name="drawer-basic" />
@@ -19,21 +23,21 @@ import { Drawer, Button } from "@sy-inc/react";
 ## 组件结构
 
 ```tsx
-import { Drawer, Button } from "@sy-inc/react";
+import {Button, Drawer} from "@sy-inc/react";
 
 export default () => (
   <Drawer>
-    <Button>Open Drawer</Button>
+    <Button variant="secondary">Open Drawer</Button>
     <Drawer.Backdrop>
       <Drawer.Content>
         <Drawer.Dialog>
-          <Drawer.Handle /> {/* Optional: Drag handle */}
-          <Drawer.CloseTrigger /> {/* Optional: Close button */}
+          <Drawer.Handle /> {/* 可选拖拽手柄 */}
+          <Drawer.CloseTrigger /> {/* 可选关闭按钮 */}
           <Drawer.Header>
-            <Drawer.Heading />
+            <Drawer.Heading>Drawer title</Drawer.Heading>
           </Drawer.Header>
-          <Drawer.Body />
-          <Drawer.Footer />
+          <Drawer.Body>Drawer content</Drawer.Body>
+          <Drawer.Footer>Drawer actions</Drawer.Footer>
         </Drawer.Dialog>
       </Drawer.Content>
     </Drawer.Backdrop>
@@ -41,9 +45,13 @@ export default () => (
 );
 ```
 
+`Drawer` 也可以写成 `Drawer.Root`。在另一个 Drawer 内部渲染 `Drawer` 即可形成嵌套。
+
 ## 示例
 
 ### 弹出位置
+
+`placement` 控制 Drawer 从哪个边缘进入，默认值为 `bottom`。
 
 <ComponentPreview name="drawer-placements" />
 
@@ -71,9 +79,38 @@ export default () => (
 
 <ComponentPreview name="drawer-navigation" />
 
-### 遮罩变体
+### 背景层
+
+`Drawer.Backdrop` 默认使用 `opaque` 变体。需要模糊 Drawer 后方页面时使用 `blur`，不需要视觉遮罩时
+使用 `transparent`；三种变体的关闭行为相同。
 
 <ComponentPreview name="drawer-backdrop-variants" />
+
+### Snap Points
+
+Snap points 描述 dialog 在当前轴上的可见范围：
+
+- 数字必须在 `0` 到 `1` 之间，并表示相对比例（`0.5` 即 `50%`）。
+- 以 `%` 结尾的值表示相对于 Drawer 尺寸的比例。
+- 以 `px` 结尾的值表示绝对尺寸。
+- points 必须严格递增，同一个列表不能混合 `px` 与相对值（数字或 `%`）。
+
+省略 `defaultActiveSnapPoint` 时，默认选中最后一个 snap point。受控模式可同时传入
+`activeSnapPoint` 与 `onActiveSnapPointChange`。
+
+<ComponentPreview name="drawer-snap-points" />
+
+### 高级用法
+
+高级示例对齐官方的三层嵌套结构。渲染在另一个 `Drawer` 内部的 `Drawer` 会自动成为嵌套 Drawer：子层打开时，每个父面板都会缩小并产生位移。
+
+子层打开期间，父面板带有 `[data-nested-open="true"]`。如果希望父面板保持不动，在它的 `Drawer.Content` 上覆盖后退样式：
+
+```tsx
+<Drawer.Content className="data-[nested-open=true]:transform-none data-[nested-open=true]:overflow-visible data-[nested-open=true]:rounded-none">
+```
+
+<ComponentPreview name="drawer-advanced" />
 
 ## 自定义样式
 
@@ -81,195 +118,238 @@ export default () => (
 
 <ComponentPreview name="drawer-custom-styles" />
 
+每个复合部件都支持 `className`，可以添加局部工具类而不改变组件结构。
+
 ### 全局 CSS
 
-可使用 `@layer components` 指令自定义 Drawer 组件类。
+可使用 `@layer components` 指令自定义 Drawer 类。
 
 [了解更多](https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes)。
 
 ```css
 @layer components {
-  .drawer__backdrop {
-    @apply bg-gradient-to-br from-black/50 to-black/70;
-  }
-
   .drawer__dialog {
-    @apply rounded-2xl border border-white/10 shadow-2xl;
+    @apply border border-border/80 bg-surface;
   }
 
-  .drawer__header {
-    @apply text-center;
+  .drawer__heading {
+    @apply text-lg font-semibold;
   }
 
-  .drawer__close-trigger {
-    @apply rounded-full bg-white/10 hover:bg-white/20;
+  .drawer__handle-bar {
+    @apply w-12 bg-accent;
   }
 }
 ```
 
 ## 样式参考
 
-SY INC 遵循 [BEM](https://getbem.com/) 方法论，确保组件变体与状态可复用且易于自定义。
+SY INC 遵循 [BEM](https://getbem.com/) 方法论，使组件部件与状态可以一致地自定义。
 
 ### CSS 类
 
-Drawer 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/drawer.css)）：
+Drawer 组件使用以下类（[查看源码样式](https://github.com/sy-inc/sy-inc/blob/v3/packages/styles/components/drawer.css)）：
 
 #### 基础类 [!toc]
 
-- `.drawer__trigger` - 打开抽屉的触发元素
-- `.drawer__backdrop` - 抽屉背后的遮罩层
-- `.drawer__content` - 抽屉面板的定位包裹层
-- `.drawer__dialog` - 抽屉面板本身
+- `.drawer__trigger` - `Drawer.Trigger` 渲染的触发按钮
+- `.drawer__backdrop` - Drawer 背后的覆盖层
+- `.drawer__content` - 面板的固定定位包裹层
+- `.drawer__dialog` - Drawer 面板本身
 - `.drawer__header` - 标题区域
 - `.drawer__heading` - 主标题文本
-- `.drawer__body` - 主可滚动内容区域
-- `.drawer__footer` - 操作按钮区域
-- `.drawer__handle` - 视觉拖拽手柄指示器
+- `.drawer__body` - 可滚动的主体内容
+- `.drawer__footer` - 操作区域
+- `.drawer__handle` - 拖拽手柄容器
+- `.drawer__handle-bar` - 可见的手柄条
 - `.drawer__close-trigger` - 关闭按钮元素
 
-#### 遮罩变体 [!toc]
+#### 位置类 [!toc]
 
-- `.drawer__backdrop--opaque` - 不透明彩色遮罩（默认）
-- `.drawer__backdrop--blur` - 模糊遮罩，玻璃效果
-- `.drawer__backdrop--transparent` - 透明遮罩（无覆盖层）
+- `.drawer__content--bottom` / `.drawer__dialog--bottom` - 从底部进入（默认）
+- `.drawer__content--top` / `.drawer__dialog--top` - 从顶部进入
+- `.drawer__content--left` / `.drawer__dialog--left` - 从左侧进入
+- `.drawer__content--right` / `.drawer__dialog--right` - 从右侧进入
 
-#### 位置变体 [!toc]
+### 数据属性与状态
 
-- `.drawer__content--bottom` - 从底部边缘滑入（默认）
-- `.drawer__content--top` - 从顶部边缘滑入
-- `.drawer__content--left` - 从左侧边缘滑入
-- `.drawer__content--right` - 从右侧边缘滑入
+各部件会通过数据属性暴露状态，包括：
 
-#### 对话框变体 [!toc]
-
-- `.drawer__dialog--top` - 从顶部边缘滑入
-- `.drawer__dialog--bottom` - 从底部边缘滑入
-- `.drawer__dialog--left` - 从左侧边缘滑入
-- `.drawer__dialog--right` - 从右侧边缘滑入
-
-### 交互状态
-
-组件支持以下交互状态：
-
-- **Focus**：`:focus-visible` 或 `[data-focus-visible="true"]` - 应用于触发器与关闭按钮
-- **Hover**：`:hover` 或 `[data-hovered="true"]` - 悬停时应用于关闭按钮
-- **Active**：`:active` 或 `[data-pressed="true"]` - 按下时应用于触发器与关闭按钮
-- **Entering**：`[data-entering]` - 抽屉打开动画期间
-- **Exiting**：`[data-exiting]` - 抽屉关闭动画期间
-- **Placement**：`[data-placement="*"]` - 根据抽屉位置（top、bottom、left、right）应用
+- `[data-placement]` - 当前位置（`top`、`bottom`、`left` 或 `right`）
+- `[data-entering]` 与 `[data-exiting]` - 打开与关闭过渡
+- `[data-active-snap-point]` 与 `[data-snap-points]` - 当前及配置的 snap points
+- `[data-dragging]` - 当前正在进行指针拖拽
+- `[data-drawer-snap-points="true"]` 与 `--snap-point-height` - snap point 布局状态
+- `[data-detached]`、`[data-handle-only]`、`[data-modal]` 与 `[data-nested]` - Root 模式
+- `[data-drawer-background-scaled="true"]` - Drawer 打开时被缩放的背景目标
 
 ## API 参考
 
-### Drawer
+### Drawer / Drawer.Root
 
-| Prop       | 类型                   | 默认值 | 描述                    |
-| ---------- | ---------------------- | ------- | ------------------------------ |
-| `children` | `ReactNode`            | -       | 触发器与 backdrop 元素  |
-| `state`    | `UseOverlayStateReturn` | -      | 受控 overlay 状态       |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 触发器与覆盖层部件 |
+| `isOpen` | `boolean` | - | 受控打开状态 |
+| `defaultOpen` | `boolean` | `false` | 非受控模式的初始打开状态 |
+| `onOpenChange` | `(isOpen: boolean) => void` | - | 打开状态变化时调用 |
+| `placement` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | 面板进入的边缘 |
+| `snapPoints` | `readonly DrawerSnapPoint[]` | `[]` | 严格递增的面板范围列表 |
+| `fadeFromIndex` | `number` | `0` | 开始显示背景层的第一个 snap point；更低的点会隐藏背景层 |
+| `defaultActiveSnapPoint` | `DrawerSnapPoint` | 最后一个 point | 非受控模式的初始 snap point |
+| `activeSnapPoint` | `DrawerSnapPoint` | - | 受控的当前 snap point |
+| `onActiveSnapPointChange` | `(point: DrawerSnapPoint) => void` | - | 当前 point 变化时调用 |
+| `closeThreshold` | `number`（`0` 到 `1`） | `0.25` | 触发关闭所需的拖拽距离比例 |
+| `isDetached` | `boolean` | `false` | 添加内边距与圆角 |
+| `isDismissable` | `boolean` | `true` | 允许通过 backdrop、Escape 与拖拽关闭 |
+| `isHandleOnly` | `boolean` | `false` | 仅允许从 `Drawer.Handle` 开始拖拽 |
+| `isModal` | `boolean` | `true` | 使用模态焦点与 backdrop 行为 |
+| `shouldScaleBackground` | `boolean` | `false` | 缩放标记为 `data-drawer-background` 的元素 |
+| `onDrag` / `onRelease` | `(event) => void` | - | 拖拽过程中，以及拖拽结束或被取消时调用 |
+| `onClose` | `() => void` | - | Root 请求关闭后调用 |
+| `state` | `UseOverlayStateReturn` | - | 从外部控制打开状态 |
 
 ### Drawer.Trigger
 
-| Prop        | 类型        | 默认值 | 描述            |
-| ----------- | ----------- | ------- | ---------------------- |
-| `children`  | `ReactNode` | -       | 自定义触发器内容 |
-| `className` | `string`    | -       | CSS 类            |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode \| (values) => ReactNode` | - | 触发按钮内容 |
+| `className` | `string \| (values) => string` | - | 触发按钮 CSS 类 |
+
+`Drawer.Trigger` 会渲染带 `.drawer__trigger` 类的 React Aria `Button`，并传递 Button props。如果要把
+`Button` 等已有的可按压元素作为触发器，请直接放在 `Drawer` 内，不要再用 `Drawer.Trigger` 包裹。
 
 ### Drawer.Backdrop
 
-| Prop                        | 类型                                  | 默认值    | 描述               |
-| --------------------------- | ------------------------------------- | ---------- | ------------------------- |
-| `variant`                   | `"opaque" \| "blur" \| "transparent"` | `"opaque"` | 遮罩覆盖层样式    |
-| `isDismissable`             | `boolean`                             | `true`     | 点击 backdrop 关闭   |
-| `isKeyboardDismissDisabled` | `boolean`                             | `false`    | 禁用 ESC 关闭  |
-| `isOpen`                    | `boolean`                             | -          | 受控打开状态     |
-| `onOpenChange`              | `(isOpen: boolean) => void`           | -          | 打开状态变化处理函数 |
-| `className`                 | `string \| (values) => string`        | -          | Backdrop CSS 类      |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Content 包裹层与 dialog |
+| `className` | `string \| (values) => string` | - | backdrop CSS 类 |
+| `variant` | `"opaque" \| "blur" \| "transparent"` | `"opaque"` | 背景层视觉效果 |
+| `onClick` | `(event) => void` | - | 额外的点击处理函数 |
+| `isDismissable` | `boolean` | Root 的值 | 覆盖 Root 的 `isDismissable`，作用于 backdrop 与拖拽关闭 |
+
+模态模式下会继续传递 React Aria ModalOverlay props（例如 `isKeyboardDismissDisabled`）。
+`Drawer.Backdrop` 也可以不包裹在 `Drawer.Root` 中，直接传入 `isOpen` 与 `onOpenChange` 使用。
 
 ### Drawer.Content
 
-| Prop        | 类型                                          | 默认值    | 描述               |
-| ----------- | --------------------------------------------- | ---------- | ------------------------- |
-| `placement` | `"top" \| "bottom" \| "left" \| "right"`      | `"bottom"` | 抽屉滑入的边缘 |
-| `className` | `string \| (values) => string`                | -          | Content CSS 类       |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Dialog 容器内容 |
+| `className` | `string \| (values) => string` | - | Content CSS 类 |
+| `placement` | `"top" \| "bottom" \| "left" \| "right"` | Root 的值 | 覆盖 Root 的 `placement` |
+
+React Aria Modal props 会继续传递。左右方向的面板默认宽度为 `w-80`（`sm:w-96`），在
+`Drawer.Content` 或 `Drawer.Dialog` 上设置宽度都可以覆盖它。
+
+动画可以通过 `--drawer-duration` 与 `--drawer-ease` 调整，也可以用 `--drawer-enter-duration`、
+`--drawer-exit-duration`、`--drawer-enter-ease` 与 `--drawer-exit-ease` 分别调整进入和退出阶段。
+请在 `Drawer.Content` 或其祖先元素上设置。
 
 ### Drawer.Dialog
 
-| Prop               | 类型                           | 默认值    | 描述                |
-| ------------------ | ------------------------------ | ---------- | -------------------------- |
-| `children`         | `ReactNode`                    | -          | Dialog 内容             |
-| `className`        | `string`                       | -          | CSS 类                |
-| `role`             | `string`                       | `"dialog"` | ARIA role                  |
-| `aria-label`       | `string`                       | -          | 无障碍标签        |
-| `aria-labelledby`  | `string`                       | -          | 标签元素 ID        |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 面板内容 |
+| `className` | `string` | - | Dialog CSS 类 |
+| `style` | `CSSProperties` | - | 额外的行内样式 |
+| `aria-label` / `aria-labelledby` | `string` | - | Dialog 的无障碍名称 |
 
-### Drawer.Header
-
-| Prop        | 类型        | 默认值 | 描述    |
-| ----------- | ----------- | ------- | -------------- |
-| `children`  | `ReactNode` | -       | Header 内容 |
-| `className` | `string`    | -       | CSS 类    |
-
-### Drawer.Heading
-
-| Prop        | 类型        | 默认值 | 描述  |
-| ----------- | ----------- | ------- | ------------ |
-| `children`  | `ReactNode` | -       | 标题文本   |
-| `className` | `string`    | -       | CSS 类  |
-
-### Drawer.Body
-
-| Prop        | 类型        | 默认值 | 描述  |
-| ----------- | ----------- | ------- | ------------ |
-| `children`  | `ReactNode` | -       | Body 内容 |
-| `className` | `string`    | -       | CSS 类  |
-
-### Drawer.Footer
-
-| Prop        | 类型        | 默认值 | 描述    |
-| ----------- | ----------- | ------- | -------------- |
-| `children`  | `ReactNode` | -       | Footer 内容 |
-| `className` | `string`    | -       | CSS 类    |
+Content 面板会根据当前 snap point 设置高度（顶部/底部）或宽度（左侧/右侧）。
 
 ### Drawer.Handle
 
-| Prop        | 类型     | 默认值 | 描述          |
-| ----------- | -------- | ------- | -------------------- |
-| `className` | `string` | -       | CSS 类          |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Handle CSS 类 |
+| `aria-label` | `string` | `"Adjust drawer size"` | 键盘调整大小时的无障碍名称 |
+
+存在两个及以上 snap point 时，Handle 具有 `role="button"` 与 `tabIndex={0}`。点击或使用 Arrow
+Up/Right 可切换到下一个 snap point，使用 Arrow Down/Left 可切换到上一个 snap point。没有 snap
+point 时它只是装饰性的拖拽提示（`aria-hidden`）。
+
+### Drawer.Header、Drawer.Body 与 Drawer.Footer
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | 部件内容 |
+| `className` | `string` | - | 部件 CSS 类 |
+
+这些部件是类似 div 的元素，并接受对应的 DOM 属性。
+
+### Drawer.Heading
+
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Dialog 的无障碍标题 |
+| `className` | `string` | - | Heading CSS 类 |
+
+Heading 会渲染到 React Aria 的 `title` slot。
 
 ### Drawer.CloseTrigger
 
-| Prop        | 类型                           | 默认值 | 描述         |
-| ----------- | ------------------------------ | ------- | ------------------- |
-| `children`  | `ReactNode`                    | -       | 自定义关闭按钮 |
-| `className` | `string \| (values) => string` | -       | CSS 类         |
+| Prop | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | 内置关闭图标 | 关闭按钮内容 |
+| `className` | `string \| (values) => string` | - | 关闭按钮 CSS 类 |
+| `onPress` | `(event) => void` | - | 额外的按压处理函数 |
 
-### useOverlayState Hook
+按下它会关闭当前 Drawer。
+
+### 受控状态
+
+当父组件拥有打开状态时，可将 `useOverlayState` 与 Root 的 `state` prop 一起使用：
+
+当不需要单独的 `useOverlayState` 对象时，也可以直接使用 Root 暴露的 `isOpen`、`defaultOpen` 与
+`onOpenChange` 控制受控或非受控的打开状态。
 
 ```tsx
-import { useOverlayState } from "@sy-inc/react";
+"use client";
 
-const state = useOverlayState({
-  defaultOpen: false,
-  onOpenChange: (isOpen) => console.log(isOpen),
-});
+import {Button, Drawer, useOverlayState} from "@sy-inc/react";
 
-state.isOpen; // Current state
-state.open(); // Open drawer
-state.close(); // Close drawer
-state.toggle(); // Toggle state
-state.setOpen(); // Set state directly
+export function ControlledDrawer() {
+  const state = useOverlayState({defaultOpen: false});
+
+  return (
+    <>
+      <Button onPress={state.open}>Open Drawer</Button>
+      <Drawer state={state}>
+        <Button variant="secondary">Open Drawer</Button>
+        <Drawer.Backdrop>
+          <Drawer.Content>
+            <Drawer.Dialog>
+              <Drawer.Heading>Controlled Drawer</Drawer.Heading>
+              <Drawer.CloseTrigger />
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>
+    </>
+  );
+}
 ```
+
+返回的 state 提供 `isOpen`、`open()`、`close()`、`toggle()` 与 `setOpen()`。
 
 ## 无障碍
 
-实现 [WAI-ARIA Dialog 模式](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)：
+Drawer 基于 React Aria 的 dialog 与 modal 原语构建：
 
-- **焦点陷阱**：打开时焦点锁定在抽屉内
-- **键盘**：`ESC` 关闭（可关闭时），`Tab` 循环元素
-- **屏幕阅读器**：通过 React Aria 提供正确的 ARIA 属性
-- **滚动锁定**：打开时禁用 body 滚动
-- **拖拽关闭**：在 handle、header 和 footer 区域支持指针拖拽手势
+- **Dialog 语义**：使用 `Drawer.Heading` 或明确的 `aria-label`/`aria-labelledby`，为面板提供无障碍名称。
+- **焦点与键盘行为**：模态 Drawer 使用 React Aria 的焦点约束；`isDismissable` 为 `true` 时可用
+  `Escape` 关闭。
+- **键盘调整大小**：存在 snap point 时，`Drawer.Handle` 是带标签的类按钮控件，可用方向键切换
+  snap point；否则会对辅助技术隐藏。
+- **减少动画**：设置 `prefers-reduced-motion: reduce` 时会禁用 Drawer 过渡动画。
+- **非模态模式**：当背景内容需要保持可交互时，明确设置 `isModal={false}`；此时 backdrop 透明且
+  禁用指针事件。
+- **拖拽安全**：文本框、链接、按钮与 `Drawer.Body` 不会在普通模式下开始拖拽。仅允许手柄时使用
+  `isHandleOnly`。
+- **拖拽手势**：指针移动超过 8px 才开始拖拽，轻点不会让面板抖动。除非存在更大的 snap point，面板只会朝关闭
+  方向移动；指针被取消（例如浏览器接管手势）时面板回弹且不关闭；嵌套 drawer 与父级互不带动。`onDrag` 与
+  `onRelease` 只在真正发生拖拽时触发。
 
 ## 相关组件
 

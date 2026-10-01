@@ -1,0 +1,62 @@
+---
+title: Drawer rewrite
+description: Drawer is rebuilt on the former Sheet implementation, adding snap points, nesting, and non-modal mode while keeping the existing API.
+---
+
+<Callout type="info">
+  **Unreleased.** These changes ship in the next `@sy-inc/react` and `@sy-inc/styles` release after
+  `0.1.25`.
+</Callout>
+
+[Drawer](/docs/react/components/drawer) now uses the implementation previously published as `Sheet`. The two components overlapped almost entirely, so they are merged into one: `Sheet` is removed and its features live in `Drawer`.
+
+**Existing Drawer code keeps working without changes.** Every part, prop, and export of the previous Drawer is still available, including `placement` on `Drawer.Content`, `isDismissable` on `Drawer.Backdrop`, `Drawer.Trigger` as a button, and a `Drawer.Backdrop` controlled with `isOpen` without `Drawer.Root`. What changes is the default visual design and a few CSS customization hooks, listed below.
+
+## New features
+
+- **Snap points**: `snapPoints`, `defaultActiveSnapPoint`, `activeSnapPoint`, `onActiveSnapPointChange`, and `fadeFromIndex`. With two or more snap points, `Drawer.Handle` becomes a keyboard-operable control.
+- **Nested drawers**: a `Drawer` rendered inside another `Drawer` is nested automatically, and the parent panel recedes while the child is open.
+- **Non-modal mode**: `isModal={false}` keeps the page behind the drawer interactive.
+- **Presentation**: `isDetached` insets the panel with rounded corners; `shouldScaleBackground` scales elements marked `data-drawer-background` while the drawer is open.
+- **Drag control**: `isHandleOnly`, `closeThreshold` (default `0.25`), and the `onDrag` / `onRelease` callbacks.
+- **Root-level configuration**: `placement` and `isDismissable` can be set on `Drawer`; the part-level props still override them.
+- **Callbacks**: `onClose` on the root.
+- **Exports**: `DrawerPlacement` and `DrawerSnapPoint`.
+
+## Visual changes
+
+| Area | Before | Now |
+| --- | --- | --- |
+| Padding | `p-6` on `.drawer__dialog` | `px-5 py-4` on header and footer, `px-5` on body; none on the dialog |
+| Spacing between parts | Margins between header, body, and footer | Removed; each part carries its own padding |
+| Heading | `text-base font-medium` | `text-lg font-semibold` |
+| Top and bottom max height | `85vh` | `96vh` |
+| Left and right max width | `85vw` | `96vw` (default width stays `w-80`, `sm:w-96`) |
+| Left and right corners | Square | Inner edge rounded |
+| Handle | `h-1 w-9` bar, separator color | `h-[0.3rem] w-8` fully rounded bar, default color, `cursor-grab` |
+| Close button | Default color | Muted, foreground on hover |
+| Backdrop fade-in | 250ms | 150ms |
+| Exit duration | 200ms | 250ms |
+
+## CSS customization changes
+
+Class names, `data-slot` values, and placement modifiers are unchanged. The following hooks behave differently:
+
+- **The panel moved to `.drawer__content`.** It used to be a full-viewport, `pointer-events: none` wrapper; it is now the panel itself, fixed to its edge and sized to it. Enter, exit, and drag motion use `transform` on `.drawer__content` instead of `translate` on `.drawer__dialog`.
+- **Motion variables are set on `.drawer__content` or an ancestor.** `--drawer-enter-duration`, `--drawer-exit-duration`, `--drawer-enter-ease`, and `--drawer-exit-ease` keep their names, but setting them on `.drawer__dialog` no longer has an effect. They fall back to the new shared `--drawer-duration` (`250ms`) and `--drawer-ease`.
+- **Width can be set on `Drawer.Content` or `Drawer.Dialog`.** Left and right panels size to the dialog, so either part works.
+- **`.drawer__handle-bar`** is now a class on the handle bar, next to the existing `[data-slot="drawer-handle-bar"]`.
+- **New state attributes** for styling: `data-dragging`, `data-detached`, `data-modal`, `data-nested`, `data-nested-open`, `data-handle-only`, `data-active-snap-point`, `data-snap-points`, `data-drawer-snap-points`, and `data-drawer-backdrop-visible`.
+
+## Removed
+
+- **`Sheet`**: `Sheet`, its parts, `SheetProps` and related types, `sheetVariants`, and the `sheet__*` classes are removed. Replace `Sheet` with `Drawer` and `sheet` with `drawer` in class names, data attributes, and CSS variables.
+- **Storybook path**: the stories moved from `Components/Overlays/Drawer` to `Components/Drawer`.
+
+## Upgrade checklist
+
+- No code changes are required for existing Drawer usage.
+- Review drawers whose appearance matters; restore the previous look with `className` on the parts if needed.
+- Move overrides of `--drawer-*` motion variables from `.drawer__dialog` to `.drawer__content`.
+- Update custom CSS that animated or positioned `.drawer__dialog` with `translate`, or relied on `.drawer__content` spanning the viewport.
+- If you used `Sheet`, rename it to `Drawer` as described above.

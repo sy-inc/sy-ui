@@ -14,23 +14,19 @@ import {
   DrawerTrigger,
 } from "./drawer";
 
-/* -------------------------------------------------------------------------------------------------
- * Compound Component
- * -----------------------------------------------------------------------------------------------*/
 export const Drawer = Object.assign(DrawerRoot, {
-  Root: DrawerRoot,
-  Trigger: DrawerTrigger,
   Backdrop: DrawerBackdrop,
+  Body: DrawerBody,
+  CloseTrigger: DrawerCloseTrigger,
   Content: DrawerContent,
   Dialog: DrawerDialog,
-  Header: DrawerHeader,
-  Heading: DrawerHeading,
-  Body: DrawerBody,
   Footer: DrawerFooter,
   Handle: DrawerHandle,
-  CloseTrigger: DrawerCloseTrigger,
+  Header: DrawerHeader,
+  Heading: DrawerHeading,
+  Root: DrawerRoot,
+  Trigger: DrawerTrigger,
 });
-
 export type Drawer = {
   Props: ComponentProps<typeof DrawerRoot>;
   RootProps: ComponentProps<typeof DrawerRoot>;
@@ -38,49 +34,41 @@ export type Drawer = {
   BackdropProps: ComponentProps<typeof DrawerBackdrop>;
   ContentProps: ComponentProps<typeof DrawerContent>;
   DialogProps: ComponentProps<typeof DrawerDialog>;
+  HandleProps: ComponentProps<typeof DrawerHandle>;
   HeaderProps: ComponentProps<typeof DrawerHeader>;
   HeadingProps: ComponentProps<typeof DrawerHeading>;
   BodyProps: ComponentProps<typeof DrawerBody>;
   FooterProps: ComponentProps<typeof DrawerFooter>;
-  HandleProps: ComponentProps<typeof DrawerHandle>;
   CloseTriggerProps: ComponentProps<typeof DrawerCloseTrigger>;
 };
-
-/* -------------------------------------------------------------------------------------------------
- * Named Component
- * -----------------------------------------------------------------------------------------------*/
 export {
-  DrawerRoot,
-  DrawerTrigger,
   DrawerBackdrop,
+  DrawerBody,
+  DrawerCloseTrigger,
   DrawerContent,
   DrawerDialog,
-  DrawerHeader,
-  DrawerHeading,
-  DrawerBody,
   DrawerFooter,
   DrawerHandle,
-  DrawerCloseTrigger,
+  DrawerHeader,
+  DrawerHeading,
+  DrawerRoot,
+  DrawerTrigger,
 };
-
 export type {
-  DrawerRootProps,
-  DrawerRootProps as DrawerProps,
-  DrawerTriggerProps,
   DrawerBackdropProps,
+  DrawerBodyProps,
+  DrawerCloseTriggerProps,
   DrawerContentProps,
   DrawerDialogProps,
-  DrawerHeaderProps,
-  DrawerHeadingProps,
-  DrawerBodyProps,
   DrawerFooterProps,
   DrawerHandleProps,
-  DrawerCloseTriggerProps,
+  DrawerHeaderProps,
+  DrawerHeadingProps,
+  DrawerPlacement,
+  DrawerRootProps,
+  DrawerRootProps as DrawerProps,
+  DrawerSnapPoint,
+  DrawerTriggerProps,
 } from "./drawer";
-
-/* -------------------------------------------------------------------------------------------------
- * Variants
- * -----------------------------------------------------------------------------------------------*/
 export {drawerVariants} from "@sy-inc/styles";
-
 export type {DrawerVariants} from "@sy-inc/styles";

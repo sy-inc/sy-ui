@@ -92,7 +92,6 @@ export * from "./search-field/search-field.styles";
 export * from "./segment/segment.styles";
 export * from "./select/select.styles";
 export * from "./separator/separator.styles";
-export * from "./sheet/sheet.styles";
 export * from "./sidebar/sidebar.styles";
 export * from "./skeleton/skeleton.styles";
 export * from "./slider/slider.styles";
