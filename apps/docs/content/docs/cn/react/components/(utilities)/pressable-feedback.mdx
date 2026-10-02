@@ -208,6 +208,28 @@ export default function ClickToPublish() {
 
 由于计时绑定的是"完成的点击"而不是"按下"，按住后拖离再松手不会确认该操作。
 
+### 图片按钮
+
+根组件没有底色、内边距和圆角，悬停效果也只来自 `Highlight` 层，同时保留了键盘
+聚焦环和 React Aria 的按压交互。不放任何反馈层时，它就是一个无样式按钮，适合
+把整张图片当作按钮，例如由运营配置的入口图。
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function ImageButton({src}: {src: string}) {
+  return (
+    <PressableFeedback aria-label="联系客服" className="rounded-xl">
+      <img alt="" className="block h-14 w-auto" src={src} />
+    </PressableFeedback>
+  );
+}
+```
+
+按钮里没有可见文字时，要在根组件上设置 `aria-label`，并把图片的 `alt` 设为空，
+避免读屏软件重复朗读。图片带圆角时，在根组件上加相同的 `rounded-*`，聚焦环会
+沿着同样的圆角绘制。
+
 ### 可按压卡片
 
 根组件是一个没有自身尺寸和内边距的普通按钮，因此可以包裹整张卡片。卡片内部

@@ -219,6 +219,29 @@ Because the run is tied to a completed press rather than to press-down,
 pressing the surface and dragging away before releasing never confirms the
 action.
 
+### Image button
+
+The root has no background, padding or radius, and hover feedback only comes from
+the `Highlight` layer, while it keeps the keyboard focus ring and React Aria press
+handling. With no feedback layers it is an unstyled button, which suits using a
+whole image as the button, such as an operator-configured entry image.
+
+```tsx
+import {PressableFeedback} from '@sy-inc/react';
+
+export default function ImageButton({src}: {src: string}) {
+  return (
+    <PressableFeedback aria-label="Contact support" className="rounded-xl">
+      <img alt="" className="block h-14 w-auto" src={src} />
+    </PressableFeedback>
+  );
+}
+```
+
+When the button has no visible text, set `aria-label` on the root and give the
+image an empty `alt` so screen readers don't announce it twice. If the image has
+rounded corners, add the same `rounded-*` to the root so the focus ring follows them.
+
 ### Pressable cards
 
 Because the root is a plain button with no size or padding of its own, it can
