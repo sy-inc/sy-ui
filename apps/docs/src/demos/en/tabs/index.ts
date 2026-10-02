@@ -5,5 +5,7 @@ export {Disabled} from "./disabled";
 export {WithSeparator} from "./with-separator";
 export {Secondary} from "./secondary";
 export {SecondaryVertical} from "./secondary-vertical";
+export {Tertiary} from "./tertiary";
+export {TertiaryVertical} from "./tertiary-vertical";
 export {RenderFunction} from "./render-function";
 export {CustomStyles} from "./custom-styles";

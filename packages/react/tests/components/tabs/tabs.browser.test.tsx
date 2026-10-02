@@ -246,6 +246,45 @@ describe("Tabs (browser)", () => {
     );
   });
 
+  describe("layout", () => {
+    it.each(
+      (["primary", "secondary", "tertiary"] as const).flatMap((variant) =>
+        (["horizontal", "vertical"] as const).map((orientation) => ({orientation, variant})),
+      ),
+    )(
+      "supports $variant $orientation tabs leaving room for the panel",
+      async ({orientation, variant}) => {
+        await render(
+          <div style={{width: 800}}>
+            <Tabs orientation={orientation} variant={variant}>
+              <Tabs.ListContainer>
+                <Tabs.List aria-label="Sections">
+                  <Tabs.Tab id="a">Alpha</Tabs.Tab>
+                  <Tabs.Tab id="b">Beta</Tabs.Tab>
+                </Tabs.List>
+              </Tabs.ListContainer>
+              <Tabs.Panel id="a">Panel</Tabs.Panel>
+            </Tabs>
+          </div>,
+        );
+
+        const width = (slot: string) =>
+          document.querySelector(`[data-slot="${slot}"]`)!.getBoundingClientRect().width;
+
+        if (orientation === "vertical") {
+          // Side by side: the list hugs its tabs and the panel takes the rest of the row.
+          expect(width("tabs-list-container")).toBeLessThan(200);
+          expect(width("tabs-panel")).toBeGreaterThan(600);
+        } else {
+          // Stacked: the panel spans the row; only tertiary stretches its strip to match.
+          expect(width("tabs-panel")).toBe(800);
+          if (variant === "tertiary") expect(width("tabs-list-container")).toBe(800);
+          else expect(width("tabs-list-container")).toBeLessThan(200);
+        }
+      },
+    );
+  });
+
   describe("indicator", () => {
     it("settles on the selected tab when nested inside another tab panel", async () => {
       await hydrateStrict(

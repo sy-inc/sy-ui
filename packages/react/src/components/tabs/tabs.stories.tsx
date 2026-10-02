@@ -658,6 +658,15 @@ export const Tertiary: Story = {
   render: DefaultTemplate,
 };
 
+export const TertiaryVertical: Story = {
+  args: {
+    children: null,
+    orientation: "vertical",
+    variant: "tertiary",
+  },
+  render: VerticalTemplate,
+};
+
 export const SecondaryVertical: Story = {
   args: {
     children: null,

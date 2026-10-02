@@ -340,7 +340,7 @@
 
   /* Transparent strip with floating scroll buttons over a longer edge fade */
   > .tabs__list-container {
-    @apply w-full rounded-none bg-transparent;
+    @apply rounded-none bg-transparent;
 
     > .tabs__list-container__scroller {
       --scroll-shadow-size: min(144px, 50%);
@@ -350,5 +350,10 @@
     > .tabs__list-container__scroll-next {
       @apply size-9 rounded-xl bg-default opacity-100;
     }
+  }
+
+  /* Full-width strip only when stacked; in a vertical (row) root it would split the row with the panel */
+  &[data-orientation="horizontal"] > .tabs__list-container {
+    @apply w-full;
   }
 }

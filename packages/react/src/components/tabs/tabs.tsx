@@ -144,80 +144,71 @@ const TabList = ({children, className, ...props}: TabListProps) => {
     scrollTabsBy(el, isVertical, delta);
   };
 
-  // Without ListContainer, stay a thin RAC TabList
-  if (!listContainerProps) {
-    return (
-      <TabListPrimitive
-        {...restProps}
-        className={composeTwRenderProps(className, slots?.tabList())}
-        data-slot="tabs-list"
-      >
-        {children}
-      </TabListPrimitive>
-    );
-  }
-
-  const {
-    className: containerClassName,
-    render: containerRender,
-    ...containerRest
-  } = listContainerProps;
-
   return (
     <TabListPrimitive
       {...restProps}
       className={composeTwRenderProps(className, slots?.tabList())}
       data-slot="tabs-list"
-      render={(renderProps) => {
-        const {
-          children: listChildren,
-          className: listClassName,
-          ref: listRef,
-          ...listRest
-        } = renderProps as typeof renderProps & {
-          ref?: React.Ref<HTMLDivElement>;
-        };
+      // Without ListContainer, stay a thin RAC TabList
+      render={
+        listContainerProps
+          ? (renderProps) => {
+              const {
+                className: containerClassName,
+                render: containerRender,
+                ...containerRest
+              } = listContainerProps;
+              const {
+                children: listChildren,
+                className: listClassName,
+                ref: listRef,
+                ...listRest
+              } = renderProps as typeof renderProps & {
+                ref?: React.Ref<HTMLDivElement>;
+              };
 
-        return (
-          <dom.div
-            className={composeSlotClassName(slots?.tabListContainer, containerClassName)}
-            data-slot="tabs-list-container"
-            render={containerRender}
-            {...containerRest}
-          >
-            <ScrollShadow
-              ref={scrollerRef}
-              hideScrollBar
-              className={composeSlotClassName(slots?.scroller)}
-              orientation={orientation}
-            >
-              <div {...listRest} ref={listRef} className={listClassName}>
-                {listChildren}
-              </div>
-            </ScrollShadow>
+              return (
+                <dom.div
+                  className={composeSlotClassName(slots?.tabListContainer, containerClassName)}
+                  data-slot="tabs-list-container"
+                  render={containerRender}
+                  {...containerRest}
+                >
+                  <ScrollShadow
+                    ref={scrollerRef}
+                    hideScrollBar
+                    className={composeSlotClassName(slots?.scroller)}
+                    orientation={orientation}
+                  >
+                    <div {...listRest} ref={listRef} className={listClassName}>
+                      {listChildren}
+                    </div>
+                  </ScrollShadow>
 
-            <button
-              aria-label={isVertical ? "Scroll tabs up" : "Scroll tabs left"}
-              className={composeSlotClassName(slots?.scrollPrev)}
-              tabIndex={-1}
-              type="button"
-              onClick={() => scrollBy(-1)}
-            >
-              {isVertical ? <IconChevronUp /> : <IconChevronLeft />}
-            </button>
+                  <button
+                    aria-label={isVertical ? "Scroll tabs up" : "Scroll tabs left"}
+                    className={composeSlotClassName(slots?.scrollPrev)}
+                    tabIndex={-1}
+                    type="button"
+                    onClick={() => scrollBy(-1)}
+                  >
+                    {isVertical ? <IconChevronUp /> : <IconChevronLeft />}
+                  </button>
 
-            <button
-              aria-label={isVertical ? "Scroll tabs down" : "Scroll tabs right"}
-              className={composeSlotClassName(slots?.scrollNext)}
-              tabIndex={-1}
-              type="button"
-              onClick={() => scrollBy(1)}
-            >
-              {isVertical ? <IconChevronDown /> : <IconChevronRight />}
-            </button>
-          </dom.div>
-        );
-      }}
+                  <button
+                    aria-label={isVertical ? "Scroll tabs down" : "Scroll tabs right"}
+                    className={composeSlotClassName(slots?.scrollNext)}
+                    tabIndex={-1}
+                    type="button"
+                    onClick={() => scrollBy(1)}
+                  >
+                    {isVertical ? <IconChevronDown /> : <IconChevronRight />}
+                  </button>
+                </dom.div>
+              );
+            }
+          : restProps.render
+      }
     >
       {children}
     </TabListPrimitive>

@@ -2523,6 +2523,14 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./tabs/secondary-vertical").then((m) => m.SecondaryVertical),
     file: "cn/tabs/secondary-vertical.tsx",
   },
+  "tabs-tertiary": {
+    loader: () => import("./tabs/tertiary").then((m) => m.Tertiary),
+    file: "cn/tabs/tertiary.tsx",
+  },
+  "tabs-tertiary-vertical": {
+    loader: () => import("./tabs/tertiary-vertical").then((m) => m.TertiaryVertical),
+    file: "cn/tabs/tertiary-vertical.tsx",
+  },
   "tabs-render-function": {
     loader: () => import("./tabs/render-function").then((m) => m.RenderFunction),
     file: "cn/tabs/render-function.tsx",
