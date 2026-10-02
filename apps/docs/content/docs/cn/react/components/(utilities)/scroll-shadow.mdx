@@ -91,7 +91,7 @@ ScrollShadow 组件使用 CSS 变量设置渐变遮罩尺寸，并为可见的�
 
 | 变量                              | 默认值                                 | 描述                                                                                                               |
 | --------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `--scroll-shadow-size`            | `40px`                                 | 控制渐变阴影尺寸。该值由 `size` prop 设置。                                                                         |
+| `--scroll-shadow-size`            | `40px`                                 | 控制渐变阴影尺寸。可在 CSS 中覆盖；显式传入 `size` prop 时写入行内样式并优先生效。                                                                         |
 | `--scroll-shadow-scrollbar-size`  | `10px`（`hideScrollBar` 时为 `0px`）   | 为原生滚动条保留一段实色遮罩区域，避免渐变覆盖滚动条。使用更宽的自定义滚动条时可以覆盖该值。                       |
 
 ### Data 属性
@@ -101,7 +101,7 @@ ScrollShadow 组件使用 CSS 变量设置渐变遮罩尺寸，并为可见的�
 - **滚动状态**：`[data-top-scroll]`、`[data-bottom-scroll]`、`[data-left-scroll]`、`[data-right-scroll]` — 当内容可向对应方向滚动时应用
 - **组合状态**：`[data-top-bottom-scroll]`、`[data-left-right-scroll]` — 当内容可向两个方向滚动时应用
 - **方向**：`[data-orientation="vertical"]` 或 `[data-orientation="horizontal"]` — 表示滚动方向
-- **尺寸**：`[data-scroll-shadow-size]` — 阴影渐变尺寸数值
+- **尺寸**：`[data-scroll-shadow-size]` — `size` prop 的值，仅在传入 `size` 时存在
 
 ## API 参考
 

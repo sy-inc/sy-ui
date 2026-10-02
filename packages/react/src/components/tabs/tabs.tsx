@@ -190,13 +190,6 @@ const TabList = ({children, className, ...props}: TabListProps) => {
               hideScrollBar
               className={composeSlotClassName(slots?.scroller)}
               orientation={orientation}
-              style={
-                {
-                  "--scroll-shadow-size": "var(--tabs-scroll-shadow-size, 130px)",
-                  // Fully hide content under the chevron (start-1 + size-4 = 20px)
-                  "--scroll-shadow-solid-size": "var(--tabs-scroll-shadow-solid-size, 40px)",
-                } as React.CSSProperties
-              }
             >
               <div {...listRest} ref={listRef} className={listClassName}>
                 {listChildren}

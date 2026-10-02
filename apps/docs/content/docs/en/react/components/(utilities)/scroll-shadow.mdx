@@ -92,7 +92,7 @@ The ScrollShadow component uses CSS variables to size the fade mask and reserve 
 
 | Variable                         | Default                             | Description                                                                                                      |
 | -------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `--scroll-shadow-size`           | `40px`                              | Controls the fade gradient size. This is set from the `size` prop.                                               |
+| `--scroll-shadow-size`           | `40px`                              | Controls the fade gradient size. Override it in CSS; an explicit `size` prop is written inline and takes precedence.|
 | `--scroll-shadow-scrollbar-size` | `10px` (`0px` when `hideScrollBar`) | Reserves a solid mask gutter for the native scrollbar so the fade does not cover it. Override for wider scrollbars. |
 
 ### Data Attributes
@@ -102,7 +102,7 @@ The component uses data attributes to control shadow visibility:
 - **Scroll States**: `[data-top-scroll]`, `[data-bottom-scroll]`, `[data-left-scroll]`, `[data-right-scroll]` - Applied when content can be scrolled in that direction
 - **Combined States**: `[data-top-bottom-scroll]`, `[data-left-right-scroll]` - Applied when content can be scrolled in both directions
 - **Orientation**: `[data-orientation="vertical"]` or `[data-orientation="horizontal"]` - Indicates scroll direction
-- **Size**: `[data-scroll-shadow-size]` - Contains the shadow gradient size value
+- **Size**: `[data-scroll-shadow-size]` - The `size` prop value, present only when `size` is passed
 
 ## API Reference
 

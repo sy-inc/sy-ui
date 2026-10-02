@@ -3,21 +3,20 @@
 import type {ScrollShadowVariants} from "@sy-inc/styles";
 import type {RefObject} from "react";
 
-import {scrollShadowVariants} from "@sy-inc/styles";
 import {mergeRefs} from "@react-aria/utils";
+import {scrollShadowVariants} from "@sy-inc/styles";
 import {useMemo, useRef} from "react";
 
 import {useSafeLayoutEffect} from "../../hooks/use-safe-layout-effect";
 
-import {useScrollShadow} from "./use-scroll-shadow";
+import {useScrollShadow, writeScrollState} from "./use-scroll-shadow";
 
 export type ScrollShadowVisibility = "auto" | "both" | "top" | "bottom" | "left" | "right" | "none";
 
 export interface ScrollShadowRootProps
   extends Omit<React.ComponentProps<"div">, "size">, ScrollShadowVariants {
   /**
-   * The shadow size in pixels
-   * @default 40
+   * The shadow size in pixels. When omitted, `--scroll-shadow-size` comes from CSS (40px by default).
    */
   size?: number;
 
@@ -54,7 +53,7 @@ export const ScrollShadowRoot = ({
   onVisibilityChange,
   orientation = "vertical",
   ref,
-  size = 40,
+  size,
   style: styleProp,
   variant = "fade",
   visibility = "auto",
@@ -78,20 +77,10 @@ export const ScrollShadowRoot = ({
 
     if (!el || visibility === "auto") return;
 
-    // Clear all data attributes
-    delete el.dataset["topScroll"];
-    delete el.dataset["bottomScroll"];
-    delete el.dataset["topBottomScroll"];
-    delete el.dataset["leftScroll"];
-    delete el.dataset["rightScroll"];
-    delete el.dataset["leftRightScroll"];
+    const before = visibility === "both" || visibility === "top" || visibility === "left";
+    const after = visibility === "both" || visibility === "bottom" || visibility === "right";
 
-    // Set controlled visibility
-    if (visibility === "both") {
-      el.dataset[orientation === "vertical" ? "topBottomScroll" : "leftRightScroll"] = "true";
-    } else if (visibility !== "none") {
-      el.dataset[`${visibility}Scroll`] = "true";
-    }
+    writeScrollState(el, orientation, before, after);
   }, [visibility, orientation]);
 
   const slots = useMemo(
@@ -104,8 +93,9 @@ export const ScrollShadowRoot = ({
     [orientation, hideScrollBar, variant],
   );
 
+  // Only an explicit `size` is written inline, so CSS can set `--scroll-shadow-size` otherwise.
   const style = {
-    "--scroll-shadow-size": `${size}px`,
+    ...(size !== undefined && {"--scroll-shadow-size": `${size}px`}),
     ...styleProp,
   } as React.CSSProperties;
 

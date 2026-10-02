@@ -5,6 +5,31 @@ import type {RefObject} from "react";
 
 import {useCallback, useEffect, useRef} from "react";
 
+const SCROLL_KEYS = {
+  horizontal: ["leftScroll", "rightScroll", "leftRightScroll"],
+  vertical: ["topScroll", "bottomScroll", "topBottomScroll"],
+} as const;
+
+/** Writes the scroll-state data attributes the scroll-shadow CSS reads. */
+export const writeScrollState = (
+  el: HTMLElement,
+  orientation: "vertical" | "horizontal",
+  before: boolean,
+  after: boolean,
+) => {
+  const [start, end, both] = SCROLL_KEYS[orientation];
+
+  if (before && after) {
+    el.dataset[both] = "true";
+    delete el.dataset[start];
+    delete el.dataset[end];
+  } else {
+    el.dataset[start] = String(before);
+    el.dataset[end] = String(after);
+    delete el.dataset[both];
+  }
+};
+
 export interface UseScrollShadowProps {
   containerRef: RefObject<HTMLElement>;
   orientation: "vertical" | "horizontal";
@@ -71,53 +96,19 @@ export const useScrollShadow = (props: UseScrollShadowProps) => {
     rafIdRef.current = requestAnimationFrame(() => {
       rafIdRef.current = null;
 
-      const notify = onVisibilityChangeRef.current;
+      writeScrollState(el, orientation, hasScrollBefore, hasScrollAfter);
 
-      if (isVertical) {
-        if (hasScrollBefore && hasScrollAfter) {
-          el.dataset["topBottomScroll"] = "true";
-          delete el.dataset["topScroll"];
-          delete el.dataset["bottomScroll"];
+      const [start, end] = isVertical ? (["top", "bottom"] as const) : (["left", "right"] as const);
 
-          notify?.("both");
-        } else {
-          el.dataset["topScroll"] = String(hasScrollBefore);
-          el.dataset["bottomScroll"] = String(hasScrollAfter);
-          delete el.dataset["topBottomScroll"];
-
-          if (notify) {
-            if (hasScrollBefore) {
-              notify("top");
-            } else if (hasScrollAfter) {
-              notify("bottom");
-            } else {
-              notify("none");
-            }
-          }
-        }
-      } else {
-        if (hasScrollBefore && hasScrollAfter) {
-          el.dataset["leftRightScroll"] = "true";
-          delete el.dataset["leftScroll"];
-          delete el.dataset["rightScroll"];
-
-          notify?.("both");
-        } else {
-          el.dataset["leftScroll"] = String(hasScrollBefore);
-          el.dataset["rightScroll"] = String(hasScrollAfter);
-          delete el.dataset["leftRightScroll"];
-
-          if (notify) {
-            if (hasScrollBefore) {
-              notify("left");
-            } else if (hasScrollAfter) {
-              notify("right");
-            } else {
-              notify("none");
-            }
-          }
-        }
-      }
+      onVisibilityChangeRef.current?.(
+        hasScrollBefore && hasScrollAfter
+          ? "both"
+          : hasScrollBefore
+            ? start
+            : hasScrollAfter
+              ? end
+              : "none",
+      );
     });
   }, [containerRef, orientation, offset]);
 

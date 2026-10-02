@@ -18,6 +18,12 @@
 
   border-radius: var(--radius-2_5xl);
 
+  /* Long edge fade; the solid band fully hides content under the chevron */
+  > .tabs__list-container__scroller {
+    --scroll-shadow-size: 130px;
+    --scroll-shadow-solid-size: 40px;
+  }
+
   /* Vertical scroller fills the container height so overflow detection
      engages when the wrapper height is constrained (e.g. h-[240px]) */
   > .tabs__list-container__scroller[data-orientation="vertical"] {
@@ -335,7 +341,10 @@
   /* Transparent strip with floating scroll buttons over a longer edge fade */
   > .tabs__list-container {
     @apply w-full rounded-none bg-transparent;
-    --tabs-scroll-shadow-size: min(144px, 50%);
+
+    > .tabs__list-container__scroller {
+      --scroll-shadow-size: min(144px, 50%);
+    }
 
     > .tabs__list-container__scroll-prev,
     > .tabs__list-container__scroll-next {
