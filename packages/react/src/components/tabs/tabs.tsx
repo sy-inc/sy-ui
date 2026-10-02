@@ -5,7 +5,7 @@ import type {TabsVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
 import {tabsVariants} from "@sy-inc/styles";
-import React, {createContext, use, useCallback, useRef} from "react";
+import React, {createContext, use, useRef} from "react";
 import {
   TabList as TabListPrimitive,
   TabPanel as TabPanelPrimitive,
@@ -111,18 +111,9 @@ const TabsRoot = ({
  * -----------------------------------------------------------------------------------------------*/
 interface TabListContainerProps extends ListContainerInjectedProps {}
 
-const TabListContainer = ({
-  children,
-  className,
-  render,
-  ...containerProps
-}: TabListContainerProps) => {
-  return (
-    <listContainerSlot.Injector {...containerProps} className={className} render={render}>
-      {children}
-    </listContainerSlot.Injector>
-  );
-};
+const TabListContainer = (props: TabListContainerProps) => (
+  <listContainerSlot.Injector {...props} />
+);
 
 /* -------------------------------------------------------------------------------------------------
  * Tabs List
@@ -139,22 +130,19 @@ const TabList = ({children, className, ...props}: TabListProps) => {
 
   const [listContainerProps, restProps] = listContainerSlot.useSlot(props);
 
-  const scrollBy = useCallback(
-    (direction: 1 | -1) => {
-      const el = scrollerRef.current;
+  const scrollBy = (direction: 1 | -1) => {
+    const el = scrollerRef.current;
 
-      if (!el) return;
-      const size = isVertical ? el.clientHeight : el.clientWidth;
+    if (!el) return;
+    const size = isVertical ? el.clientHeight : el.clientWidth;
 
-      // In RTL, the horizontal scroll range runs from 0 (start, on the right) to negative,
-      // so the delta sign must be flipped for `scrollLeft` to move toward the intended edge.
-      const isRTL = !isVertical && getComputedStyle(el).direction === "rtl";
-      const delta = direction * size * 0.8 * (isRTL ? -1 : 1);
+    // In RTL, the horizontal scroll range runs from 0 (start, on the right) to negative,
+    // so the delta sign must be flipped for `scrollLeft` to move toward the intended edge.
+    const isRTL = !isVertical && getComputedStyle(el).direction === "rtl";
+    const delta = direction * size * 0.8 * (isRTL ? -1 : 1);
 
-      scrollTabsBy(el, isVertical, delta);
-    },
-    [isVertical],
-  );
+    scrollTabsBy(el, isVertical, delta);
+  };
 
   // Without ListContainer, stay a thin RAC TabList
   if (!listContainerProps) {
@@ -202,7 +190,13 @@ const TabList = ({children, className, ...props}: TabListProps) => {
               hideScrollBar
               className={composeSlotClassName(slots?.scroller)}
               orientation={orientation}
-              size={64}
+              style={
+                {
+                  "--scroll-shadow-size": "var(--tabs-scroll-shadow-size, 130px)",
+                  // Fully hide content under the chevron (start-1 + size-4 = 20px)
+                  "--scroll-shadow-solid-size": "var(--tabs-scroll-shadow-solid-size, 40px)",
+                } as React.CSSProperties
+              }
             >
               <div {...listRest} ref={listRef} className={listClassName}>
                 {listChildren}

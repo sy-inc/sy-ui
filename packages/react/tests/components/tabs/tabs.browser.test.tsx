@@ -57,6 +57,71 @@ const FlatTabs = ({selectedKey}: {selectedKey: string}) => (
 
 describe("Tabs (browser)", () => {
   describe("scrolling", () => {
+    it("supports tertiary scroll buttons over an edge fade without hover styling", async () => {
+      await render(
+        <>
+          <Tabs variant="tertiary">
+            <Tabs.ListContainer style={{width: 360}}>
+              <Tabs.List aria-label="Overflowing sections">
+                {Array.from({length: 8}, (_, i) => (
+                  <Tabs.Tab key={i} id={`t${i + 1}`} style={{width: 100}}>
+                    Section {i + 1}
+                  </Tabs.Tab>
+                ))}
+              </Tabs.List>
+            </Tabs.ListContainer>
+          </Tabs>
+          <Tabs variant="tertiary">
+            <Tabs.ListContainer style={{width: 360}}>
+              <Tabs.List aria-label="Fitting sections">
+                <Tabs.Tab id="one">One</Tabs.Tab>
+                <Tabs.Tab id="two">Two</Tabs.Tab>
+              </Tabs.List>
+            </Tabs.ListContainer>
+          </Tabs>
+        </>,
+      );
+
+      const tab = page.getByRole("tab", {name: "Section 2"});
+      const next = page
+        .getByRole("button", {includeHidden: true, name: "Scroll tabs right"})
+        .first();
+      const prev = page
+        .getByRole("button", {includeHidden: true, name: "Scroll tabs left"})
+        .first();
+      const faded = (el: Element) =>
+        getComputedStyle(el.closest('[data-slot="tabs-list-container"]')!.firstElementChild!)
+          .maskImage !== "none";
+      const appearance = (el: Element) => {
+        const style = getComputedStyle(el);
+
+        return {background: style.backgroundColor, opacity: style.opacity};
+      };
+      const tabAppearance = appearance(tab.element());
+      const buttonAppearance = appearance(next.element());
+
+      // Overflow shows the fade and the button for the hidden edge only, without hover.
+      await expect.element(next).toBeVisible();
+      await expect.element(prev).not.toBeVisible();
+      await expect.poll(() => faded(tab.element())).toBe(true);
+
+      await userEvent.hover(tab);
+      expect(appearance(tab.element())).toEqual(tabAppearance);
+      await userEvent.hover(next);
+      await expect.poll(() => appearance(next.element())).toEqual(buttonAppearance);
+
+      // A fitting list has neither fade nor buttons.
+      const fitting = page.getByRole("tab", {exact: true, name: "One"}).element();
+      const fittingButtons = fitting
+        .closest('[data-slot="tabs-list-container"]')!
+        .querySelectorAll("button");
+
+      expect(faded(fitting)).toBe(false);
+      expect(
+        [...fittingButtons].every((button) => getComputedStyle(button).display === "none"),
+      ).toBe(true);
+    });
+
     it.each([
       {dir: "ltr", nextKey: "{ArrowRight}", orientation: "horizontal"},
       {dir: "rtl", nextKey: "{ArrowLeft}", orientation: "horizontal"},

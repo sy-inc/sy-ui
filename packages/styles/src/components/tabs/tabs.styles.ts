@@ -34,6 +34,9 @@ export const tabsVariants = tv({
       secondary: {
         base: "tabs--secondary",
       },
+      tertiary: {
+        base: "tabs--tertiary",
+      },
     },
   },
 });

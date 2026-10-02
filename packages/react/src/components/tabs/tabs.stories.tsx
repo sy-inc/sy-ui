@@ -121,7 +121,7 @@ const LongLabelsTemplate = (args: Story["args"]) => (
 
 const OverflowTemplate = (args: Story["args"]) => {
   return (
-    <div className="w-[400px]">
+    <div className="w-[700px]">
       <Tabs {...args}>
         <Tabs.ListContainer>
           <Tabs.List aria-label="Overflow options">
@@ -553,6 +553,30 @@ export const Overflow: Story = {
   render: OverflowTemplate,
 };
 
+export const TertiaryOverflow: Story = {
+  args: {
+    children: null,
+    variant: "tertiary",
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Button tabs on a transparent strip, with floating scroll buttons over a longer edge fade.",
+      },
+    },
+  },
+  render: OverflowTemplate,
+};
+
+export const SecondaryOverflow: Story = {
+  args: {
+    children: null,
+    variant: "secondary",
+  },
+  render: OverflowTemplate,
+};
+
 export const FitContent: Story = {
   args: {
     children: null,
@@ -624,6 +648,14 @@ export const Secondary: Story = {
     variant: "secondary",
   },
   render: SecondaryTemplate,
+};
+
+export const Tertiary: Story = {
+  args: {
+    children: null,
+    variant: "tertiary",
+  },
+  render: DefaultTemplate,
 };
 
 export const SecondaryVertical: Story = {

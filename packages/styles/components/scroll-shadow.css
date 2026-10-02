@@ -2,6 +2,8 @@
 .scroll-shadow {
   @apply relative;
   --scroll-shadow-size: 40px;
+  /* Fully hidden band at the scrollable edge (inside the fade), e.g. to seat an overlay button */
+  --scroll-shadow-solid-size: 0px;
   --scroll-shadow-scrollbar-size: 10px;
 }
 
@@ -37,17 +39,22 @@
   }
 
   &[data-top-scroll="true"] {
-    --scroll-linear-gradient: 0deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+    --scroll-linear-gradient:
+      0deg, #000 calc(100% - var(--scroll-shadow-size)),
+      transparent calc(100% - var(--scroll-shadow-solid-size));
   }
 
   &[data-bottom-scroll="true"] {
-    --scroll-linear-gradient: 180deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+    --scroll-linear-gradient:
+      180deg, #000 calc(100% - var(--scroll-shadow-size)),
+      transparent calc(100% - var(--scroll-shadow-solid-size));
   }
 
   &[data-top-bottom-scroll="true"] {
     --scroll-linear-gradient:
-      #000, #000, transparent 0, #000 var(--scroll-shadow-size),
-      #000 calc(100% - var(--scroll-shadow-size)), transparent;
+      transparent var(--scroll-shadow-solid-size), #000 var(--scroll-shadow-size),
+      #000 calc(100% - var(--scroll-shadow-size)),
+      transparent calc(100% - var(--scroll-shadow-solid-size));
   }
 }
 
@@ -75,25 +82,34 @@
   /* `left`/`right` data attributes are logical (before/end of scroll). In RTL the
      start edge is on the right, so the physical fade direction must be swapped. */
   &[data-left-scroll="true"] {
-    --scroll-linear-gradient: 270deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+    --scroll-linear-gradient:
+      270deg, #000 calc(100% - var(--scroll-shadow-size)),
+      transparent calc(100% - var(--scroll-shadow-solid-size));
 
     &:dir(rtl) {
-      --scroll-linear-gradient: 90deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+      --scroll-linear-gradient:
+        90deg, #000 calc(100% - var(--scroll-shadow-size)),
+        transparent calc(100% - var(--scroll-shadow-solid-size));
     }
   }
 
   &[data-right-scroll="true"] {
-    --scroll-linear-gradient: 90deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+    --scroll-linear-gradient:
+      90deg, #000 calc(100% - var(--scroll-shadow-size)),
+      transparent calc(100% - var(--scroll-shadow-solid-size));
 
     &:dir(rtl) {
-      --scroll-linear-gradient: 270deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+      --scroll-linear-gradient:
+        270deg, #000 calc(100% - var(--scroll-shadow-size)),
+        transparent calc(100% - var(--scroll-shadow-solid-size));
     }
   }
 
   &[data-left-right-scroll="true"] {
     --scroll-linear-gradient:
-      to right, #000, #000, transparent 0, #000 var(--scroll-shadow-size),
-      #000 calc(100% - var(--scroll-shadow-size)), transparent;
+      to right, transparent var(--scroll-shadow-solid-size), #000 var(--scroll-shadow-size),
+      #000 calc(100% - var(--scroll-shadow-size)),
+      transparent calc(100% - var(--scroll-shadow-solid-size));
   }
 }
 

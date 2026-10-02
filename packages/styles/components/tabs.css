@@ -299,3 +299,47 @@
     }
   }
 }
+
+/* ==========================================================================
+   Tertiary Variant
+   ========================================================================== */
+
+.tabs--tertiary {
+  /* Button tabs - scoped like alignment so they also apply without a ListContainer */
+  > :is(.tabs__list-container, .tabs__list) {
+    .tabs__list,
+    &.tabs__list {
+      @apply gap-2;
+    }
+
+    /* Selection is the tab's own background: no sliding indicator or separators */
+    .tabs__indicator,
+    .tabs__separator {
+      @apply hidden;
+    }
+
+    .tabs__tab {
+      @apply h-11 rounded-xl bg-default px-5 text-foreground;
+
+      &[data-selected="true"] {
+        @apply bg-accent text-accent-foreground;
+      }
+
+      /* Backgrounds stay unchanged on hover */
+      &:not([data-disabled="true"]):is(:hover, [data-hovered="true"]) {
+        @apply opacity-100;
+      }
+    }
+  }
+
+  /* Transparent strip with floating scroll buttons over a longer edge fade */
+  > .tabs__list-container {
+    @apply w-full rounded-none bg-transparent;
+    --tabs-scroll-shadow-size: min(144px, 50%);
+
+    > .tabs__list-container__scroll-prev,
+    > .tabs__list-container__scroll-next {
+      @apply size-9 rounded-xl bg-default opacity-100;
+    }
+  }
+}
