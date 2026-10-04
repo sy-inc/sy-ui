@@ -29,6 +29,7 @@
     "(layout)/card",
     "(forms)/cell-color-picker",
     "(layout)/resizable",
+    "(layout)/split-view",
     "(forms)/checkbox",
     "(forms)/checkbox-group",
     "(data-display)/chip",

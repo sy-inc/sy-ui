@@ -1,0 +1,208 @@
+---
+title: SplitView 自适应分栏
+description: 组合可在单栏、双栏与三栏之间适配，并支持 SSR 的工作区。
+links:
+  source: split-view/split-view.tsx
+  styles: split-view.css
+  storybook: Components/SplitView
+---
+
+## 用法
+
+SplitView 负责工作区布局和焦点连续性。选中项、路由、栏位切换与未保存离开的确认由页面管理。
+
+```tsx
+import {Button, SplitView, type SplitViewPaneName} from "@sy-inc/react";
+import {useState} from "react";
+
+function Workspace() {
+  const [activePane, setActivePane] = useState<SplitViewPaneName>("start");
+
+  return (
+    <div className="h-96 bg-background p-3">
+      <SplitView activePane={activePane}>
+        <SplitView.Pane aria-label="文件">
+          <Button onPress={() => setActivePane("content")}>打开文件</Button>
+        </SplitView.Pane>
+        <SplitView.Content aria-label="编辑器" className="p-4" variant="surface">
+          <SplitView.Back aria-label="返回文件列表" onPress={() => setActivePane("start")} />
+          <textarea aria-label="草稿" defaultValue="未保存的内容" />
+        </SplitView.Content>
+      </SplitView>
+    </div>
+  );
+}
+```
+
+## 结构
+
+恰好组合一个 `SplitView.Content`，以及每个逻辑侧边至多一个 `SplitView.Pane`。
+各部件必须生成根组件内部布局的直接 DOM 子元素：包装元素放在部件内部。
+`Root` 是 `SplitView` 的别名。
+
+- `Content`：伸缩主栏，标识为 `"content"`。
+- `Pane position="start"`：可选的导航或列表侧栏，标识为 `"start"`。
+- `Pane position="end"`：可选的属性或辅助侧栏，标识为 `"end"`。
+- `Back`：目标栏被隐藏时显示的 Button 快捷部件，放在栏位内部。
+
+“主内容＋辅助栏”可以省略起始侧栏。指定的当前侧栏不存在或已关闭时，回退到 Content。
+栏位位置跟随书写方向，包括 RTL。
+
+## 容器适配
+
+根节点建立具名的 inline-size 容器。CSS 按它的可用宽度适配，而非浏览器视口；
+应用侧边栏占用的空间因此会正确影响布局。
+
+| 档位    | 容器宽度           | 显示的栏                                               |
+| ------- | ------------------ | ------------------------------------------------------ |
+| compact | 小于 40rem         | 指定的当前栏；对应侧栏不存在或关闭时显示 Content       |
+| medium  | 40rem 至小于 72rem | Start＋Content；选择已打开的 End 时，默认由 Start 让位 |
+| wide    | 至少 72rem         | 全部已打开的栏；Content 占用剩余空间                   |
+
+wide 不会因为 `activePane` 隐藏其他打开的栏。
+`Pane isOpen={false}` 在所有档位关闭侧栏，同时保留它的 DOM 和子组件状态。
+
+medium 中选择 End 时：
+
+- `mediumBehavior="replace-start"` 保留 Content＋End，适用于聊天线程与客户信息。
+- `mediumBehavior="replace-content"` 保留 Start＋End，适用于列表与下一层详情。
+- 不存在打开的 Start 时，两种策略都保留 Content＋End。
+
+## 外观
+
+`Pane` 与 `Content` 默认使用 `variant="transparent"`，不绘制背景、边框、阴影或强制圆角。
+在任一部件上设置 `variant="surface"`，就只为该栏提供带轻阴影的圆角 surface。
+Root 不提供外观 variant，也不绘制背景或外框。
+
+```tsx
+<div className="h-96 bg-background p-3">
+  <SplitView activePane={activePane}>
+    <SplitView.Pane aria-label="设置导航" width="15rem">
+      {navigation}
+    </SplitView.Pane>
+    <SplitView.Content aria-label="设置内容" className="p-6" variant="surface">
+      {settings}
+    </SplitView.Content>
+  </SplitView>
+</div>
+```
+
+每栏独立选择外观：可以采用无框导航＋浮起内容，也可以让多栏浮起，或全部保持透明。
+根节点默认栏间距为 0.75rem，可通过 Root 的 `className="gap-4"` 或 `style={{gap: 16}}`
+调整。页面决定外部留白与背景，各栏通过自己的 `className` 设置内边距和其他外观覆盖。
+
+surface 栏会提供 `default` 的 `SurfaceContext`，让 `MessageBubble` 等子组件适配该背景；
+透明栏继承所在页面的 surface context。各栏不会影响兄弟栏，切换 variant 也会保留子组件挂载与内部状态。
+
+栏因导航或尺寸变化而显示时，会淡入并从所在一侧短距离滑入：Start 来自起始侧，
+End 来自末尾侧，Content 默认来自末尾侧，上一个当前栏是 End 时来自起始侧。
+隐藏的栏立即消失，焦点修复和 `onLayoutChange` 立刻得到新布局。宽度不做动画。
+动效在挂载后才启用，服务端 HTML 和客户端首帧不会播放；`prefers-reduced-motion`
+下关闭。需要改写时，用 `@starting-style` 定位
+`.split-view__layout[data-motion] > [data-pane]`，或给栏位设置 `transition: none`。
+
+## 三栏与关闭
+
+```tsx
+<SplitView activePane={customerOpen ? "end" : selectedId ? "content" : "start"}>
+  <SplitView.Pane aria-label="会话列表" width="20rem">
+    {conversationList}
+  </SplitView.Pane>
+  <SplitView.Content aria-label="聊天线程" scroll="none" variant="surface">
+    {thread}
+  </SplitView.Content>
+  <SplitView.Pane aria-label="客户信息" isOpen={customerOpen} position="end">
+    <SplitView.Back
+      aria-label="返回聊天线程"
+      onPress={() => setCustomerOpen(false)}
+      targetPane="content"
+    />
+    {customerInfo}
+  </SplitView.Pane>
+</SplitView>
+```
+
+上面组合里的标识和状态属于消费页面。如果目标栏仍然可见时也需要关闭辅助栏，
+请另外提供关闭操作：没有被隐藏的目标栏时 Back 不显示。
+
+## 尺寸与滚动
+
+根组件填满父容器；需要独立滚动时，父容器应提供明确的高度。
+各栏默认垂直自动滚动。需要固定线程头、独立滚动消息区和固定输入区时，设置
+`scroll="none"`，在栏内组合 flex column，并给滚动主体设置 `min-h-0`。
+
+Start 默认 18rem，End 默认 20rem。宽度约束仅在多栏布局中生效；
+compact 占满容器。End 替换 Content 时，占用主栏的伸缩空间而非自身侧栏宽度。
+
+用栏位 props 或根节点的 `--split-view-start-width`、`--split-view-end-width`
+变量调整宽度。更大的宽度约束可能需要调整 CSS 容器阈值。
+默认阈值是 CSS 规则，没有 JS 断点 prop；覆写相关具名容器规则时，同时覆写档位标记。
+JS 读取计算后的标记，不维护另一套阈值表。
+
+## API
+
+原生 DOM 属性、style、className、children 与 ref 透传到对应节点。
+
+| 部件          | Prop                            | 类型                                       | 默认值                 | 说明                                                                         |
+| ------------- | ------------------------------- | ------------------------------------------ | ---------------------- | ---------------------------------------------------------------------------- |
+| Root          | `activePane`                    | `"start" \| "content" \| "end"`            | `"start"`              | 空间不足时位于前台的栏。                                                     |
+| Root          | `mediumBehavior`                | `"replace-start" \| "replace-content"`     | `"replace-start"`      | medium 中由哪栏为 End 让位。                                                 |
+| Root          | `onLayoutChange`                | `(layout: SplitViewLayout) => void`        | —                      | 挂载后及实际 CSS 布局变化时通知 `{tier, visiblePanes}`。                     |
+| Root          | `onPaneFocus`                   | `(event: SplitViewPaneFocusEvent) => void` | —                      | 接收 `pane`、`reason`（`navigation` 或 `visibility`）与 `preventDefault()`。 |
+| Pane          | `position`                      | `"start" \| "end"`                         | `"start"`              | Content 的逻辑侧边。                                                         |
+| Pane          | `isOpen`                        | `boolean`                                  | `true`                 | 关闭时仍挂载，在所有档位隐藏。                                               |
+| Pane          | `width`、`minWidth`、`maxWidth` | CSS 宽度值                                 | 18rem / 20rem、0、none | 数值单位为像素，仅约束多栏尺寸。                                             |
+| Content、Pane | `variant` | `"transparent" \| "surface"` | `"transparent"` | 每栏独立选择无框透明，或带轻阴影的圆角 surface。 |
+| Content、Pane | `scroll`                        | `"auto" \| "none"`                         | `"auto"`               | 栏位滚动，或裁切并由子元素管理滚动。                                         |
+| Back          | `aria-label`                    | `string`                                   | 必填                   | 图标按钮的本地化无障碍名称。                                                 |
+| Back          | `targetPane`                    | `"start" \| "content" \| "end"`            | `"start"`              | 只决定显隐。                                                                 |
+| Back          | `onPress`                       | Button onPress                             | —                      | 原样透传，不修改 activePane 或浏览器 history。                               |
+
+Root 的 ref 指向 div；Content、Pane 指向 section；Back 指向 button。
+公开具名部件、Props 类型与 `splitViewVariants` 和复合组件一起导出；`splitViewVariants` 映射各栏的 `variant` 轴，Root 与 Back 不接收该属性。
+
+## 无障碍与焦点
+
+每栏提供 `aria-label` 或 `aria-labelledby`。
+section 默认 `tabIndex={-1}` 用于程序化聚焦，自身不绘制焦点环：入场的栏本身就是提示，
+下一次 Tab 会到达带焦点环的控件。隐藏的栏退出无障碍树与 Tab 顺序。
+
+导航到新显示的目标栏时转移焦点。缩放、关闭或移除当前焦点栏时，转移到可见目标。
+返回某栏时，优先恢复它记住的控件；控件不可用则聚焦栏本身。
+可见的控件和工作区外部焦点不受影响。
+
+处理 `onPaneFocus` 并调用 `event.preventDefault()` 可取消本次焦点移动、自行管理焦点。
+例如改为用 ref 聚焦带 `tabIndex={-1}` 的标题，并传入 `{preventScroll: true}`。
+
+SplitView 是非模态布局，不圈闭焦点，不接管 Escape、方向键、浏览器返回或 history。
+
+## SSR 与生命周期
+
+服务端与客户端第一次渲染使用同一套栏位树。
+库样式表在首帧前加载时，容器 CSS 可在水合前决定显隐。
+ResizeObserver 和 DOM 测量只在挂载后运行；页面 JS 在 `onLayoutChange` 首次通知前
+不知道实际档位。首次挂载和水合不转移焦点。
+服务端与客户端必须提供一致的初始 activePane、打开状态和内容；
+不要用 localStorage 或 window 尺寸决定第一次渲染。
+
+保留挂载的内容仍运行 effects 和订阅。用 `onLayoutChange` 暂停隐藏栏中的工作，
+在编辑器或虚拟列表重新显示时测量尺寸，并关闭栏位所属的 Portal 弹层。
+挂到栏位 DOM 外部的 Portal 不会随栏位 CSS 隐藏。
+接受丢失局部状态时，可以由页面明确卸载昂贵的 children。
+
+组件不提供拖拽调整、URL 选中项、history、宽度持久化或业务栏头与过滤器，
+这些能力由页面组合。
+
+## 样式钩子
+
+| 节点     | 钩子                                                                                                            |
+| -------- | --------------------------------------------------------------------------------------------------------------- |
+| 根节点   | `.split-view`、`[data-slot="split-view"]`                                                 |
+| 内部布局 | `.split-view__layout`、`[data-slot="split-view-layout"]`、`[data-active]`、`[data-from]`、`[data-medium-behavior]`、`[data-motion]` |
+| 主栏     | `.split-view__content`、`.split-view__content--surface`、`[data-variant]`、`[data-slot="split-view-content"]`、`[data-pane="content"]`、`[data-scroll]`            |
+| 侧栏     | `.split-view__pane`、`.split-view__pane--surface`、`[data-variant]`、`[data-slot="split-view-pane"]`、`[data-pane="start"\|"end"]`、`[hidden]`、`[data-scroll]` |
+| 返回按钮 | `.split-view__back`、`[data-slot="split-view-back"]`、`[data-target-pane]`                                      |
+
+CSS 的 `--split-view-tier` 标记位于内部布局节点，不在容器本身。
+栏位尺寸覆盖使用 `--split-view-pane-width`、`--split-view-pane-min-width` 与
+`--split-view-pane-max-width`。

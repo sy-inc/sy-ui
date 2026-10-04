@@ -123,3 +123,5 @@ export * from "./countdown/countdown.styles";
 export * from "./image-preview/image-preview.styles";
 
 export * from "./image-field/image-field.styles";
+
+export * from "./split-view/split-view.styles";

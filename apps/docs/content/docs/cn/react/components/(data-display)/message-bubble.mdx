@@ -113,7 +113,7 @@ import {MessageBubble, MessageList} from "@sy-inc/react";
 }
 ```
 
-received 气泡使用现有的 surface 与 foreground token。sent 气泡保留 `--accent-foreground`，并从 `--accent` 派生较低的 `oklch` 明度，因此在内置亮暗主题中保持 accent 表面与可读性，同时不新增组件 token。它保留空白与换行、会换行长 URL 或无空格文本；时间使用比正文更淡的颜色、12px 字号与常规字重。图片按容器宽度等比缩放，链接始终有下划线并支持可见焦点。它不管理消息列表滚动、头像、已读状态、回复、菜单、日期或时间格式化。
+received 气泡使用现有的 surface 与 foreground token。在提供 `default` surface 的 `SurfaceContext` 组件内（Card、Modal、Popover、Drawer、`variant="surface"` 的 `SplitView.Pane` / `SplitView.Content`等），根节点会带上 `data-surface="default"`，气泡改用 `--surface-secondary` 以保持可见；secondary 与 tertiary surface 本身已与 `--surface` 形成对比。自定义 surface 若没有该 context，可包一层 `Surface` 或自行提供 `SurfaceContext`。sent 气泡保留 `--accent-foreground`，并从 `--accent` 派生较低的 `oklch` 明度，因此在内置亮暗主题中保持 accent 表面与可读性，同时不新增组件 token。它保留空白与换行、会换行长 URL 或无空格文本；时间使用比正文更淡的颜色、12px 字号与常规字重。图片按容器宽度等比缩放，链接始终有下划线并支持可见焦点。它不管理消息列表滚动、头像、已读状态、回复、菜单、日期或时间格式化。
 
 ## 无障碍
 

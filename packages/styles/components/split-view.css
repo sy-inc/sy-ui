@@ -1,0 +1,202 @@
+.split-view {
+  @apply flex h-full min-h-0 w-full min-w-0 gap-3;
+
+  container: sy-split-view / inline-size;
+  --split-view-start-width: 18rem;
+  --split-view-end-width: 20rem;
+}
+
+/* Each section opts into its own surface; transparent sections inherit the page. */
+.split-view__pane--surface,
+.split-view__content--surface {
+  @apply rounded-2xl bg-surface text-surface-foreground shadow-surface;
+}
+
+.split-view__layout {
+  @apply flex min-h-0 min-w-0 flex-1;
+
+  /* Let the root's gap utilities control spacing without an appearance prop. */
+  gap: inherit;
+
+  --split-view-tier: compact;
+  --split-view-back-to-start: none;
+  --split-view-back-to-content: none;
+  --split-view-back-to-end: none;
+  /* Entering panes travel from the inline end by default; negated for the start side. */
+  --split-view-enter-offset: 1.5rem;
+
+  &:dir(rtl) {
+    --split-view-enter-offset: -1.5rem;
+  }
+
+  > [data-pane][hidden] {
+    display: none !important;
+  }
+}
+
+/* Entry-only motion, enabled after mount so SSR and the first paint never animate. Leaving
+   panes hide at once: they must stop reporting client rects for focus and layout reads. */
+.split-view__layout[data-motion] {
+  > [data-pane] {
+    @starting-style {
+      opacity: 0;
+      translate: var(--split-view-enter-offset) 0;
+    }
+  }
+
+  /* Content returns from the inspector toward the start side. */
+  > [data-pane="start"],
+  &[data-from="end"] > [data-pane="content"] {
+    @starting-style {
+      translate: calc(var(--split-view-enter-offset) * -1) 0;
+    }
+  }
+}
+
+.split-view__pane,
+.split-view__content {
+  /* Panes are programmatic focus targets (tabIndex -1), not controls: their entry is the cue,
+     and the next Tab lands on a control with its own ring. */
+  @apply min-h-0 min-w-0 flex-col overflow-y-auto outline-hidden;
+
+  transition:
+    opacity 200ms var(--ease-smooth),
+    translate 300ms var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+
+  &[data-scroll="none"] {
+    overflow: hidden;
+  }
+}
+
+.split-view__pane {
+  @apply hidden w-full;
+
+  &[data-pane="start"] {
+    order: 0;
+  }
+  &[data-pane="end"] {
+    order: 2;
+  }
+}
+
+.split-view__content {
+  @apply flex flex-1;
+
+  order: 1;
+}
+
+.split-view__back {
+  &[data-target-pane="start"] {
+    display: var(--split-view-back-to-start, none);
+  }
+  &[data-target-pane="content"] {
+    display: var(--split-view-back-to-content, none);
+  }
+  &[data-target-pane="end"] {
+    display: var(--split-view-back-to-end, none);
+  }
+
+  &:dir(rtl) > svg {
+    transform: rotate(180deg);
+  }
+}
+
+/* Query the root's size, styling only its descendants. Nested layouts own their tier. */
+@container sy-split-view (width < 40rem) {
+  .split-view__layout {
+    &:has(> [data-pane="start"]:not([hidden])) {
+      --split-view-back-to-start: inline-flex;
+    }
+    &:has(> [data-pane="end"]:not([hidden])) {
+      --split-view-back-to-end: inline-flex;
+    }
+
+    &[data-active="start"]:has(> [data-pane="start"]:not([hidden])) {
+      --split-view-back-to-start: none;
+      --split-view-back-to-content: inline-flex;
+      > .split-view__content {
+        display: none;
+      }
+      > [data-pane="start"] {
+        display: flex;
+      }
+    }
+
+    &[data-active="end"]:has(> [data-pane="end"]:not([hidden])) {
+      --split-view-back-to-end: none;
+      --split-view-back-to-content: inline-flex;
+      > .split-view__content {
+        display: none;
+      }
+      > [data-pane="end"] {
+        display: flex;
+      }
+    }
+  }
+}
+
+@container sy-split-view (width >= 40rem) {
+  .split-view__layout {
+    --split-view-tier: medium;
+
+    > [data-pane="start"] {
+      display: flex;
+    }
+    > .split-view__pane {
+      inline-size: var(--split-view-pane-width, var(--split-view-start-width));
+      min-inline-size: var(--split-view-pane-min-width, 0);
+      max-inline-size: var(--split-view-pane-max-width, none);
+      flex: 0 1 auto;
+    }
+    > [data-pane="end"] {
+      inline-size: var(--split-view-pane-width, var(--split-view-end-width));
+    }
+  }
+}
+
+@container sy-split-view (40rem <= width < 72rem) {
+  .split-view__layout {
+    &:has(> [data-pane="end"]:not([hidden])) {
+      --split-view-back-to-end: inline-flex;
+    }
+  }
+
+  .split-view__layout[data-active="end"]:has(> [data-pane="end"]:not([hidden])) {
+    --split-view-back-to-end: none;
+    > [data-pane="end"] {
+      display: flex;
+    }
+
+    &[data-medium-behavior="replace-start"] {
+      > [data-pane="start"] {
+        display: none;
+      }
+      &:has(> [data-pane="start"]:not([hidden])) {
+        --split-view-back-to-start: inline-flex;
+      }
+    }
+
+    &[data-medium-behavior="replace-content"]:has(> [data-pane="start"]:not([hidden])) {
+      --split-view-back-to-content: inline-flex;
+      > .split-view__content {
+        display: none;
+      }
+      > [data-pane="end"] {
+        flex: 1;
+        inline-size: auto;
+        min-inline-size: 0;
+        max-inline-size: none;
+      }
+    }
+  }
+}
+
+@container sy-split-view (width >= 72rem) {
+  .split-view__layout {
+    --split-view-tier: wide;
+    > [data-pane="end"] {
+      display: flex;
+    }
+  }
+}

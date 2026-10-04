@@ -3,9 +3,9 @@ import type {BottomBarProps} from "@/components/bottom-bar";
 import {render} from "@sy-inc/testing/browser";
 import {page} from "vitest/browser";
 
-import "../../../../styles/dist/sy-inc.min.css";
-
 import {BottomBar} from "@/components/bottom-bar";
+
+import "../../../../styles/dist/sy-inc.min.css";
 
 const TRANSPARENT = "rgba(0, 0, 0, 0)";
 
@@ -42,6 +42,9 @@ describe("BottomBar (browser)", () => {
       await render(<HoverBottomBar selectionStyle={selectionStyle} />);
 
       const profile = page.getByRole("tab", {name: "Profile"});
+
+      // Previous cases may leave the pointer over Profile at the same position.
+      await page.getByRole("tab", {name: "Home"}).hover();
       const restColor = getComputedStyle(profile.element()).color;
 
       await profile.hover();

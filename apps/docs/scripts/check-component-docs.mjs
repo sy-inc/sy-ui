@@ -32,6 +32,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "item-card-group",
   "pressable-feedback",
   "resizable",
+  "split-view",
   "file-tree",
   "cell-select",
   "marquee",

@@ -5,7 +5,18 @@
 }
 
 .message-bubble--received {
+  --message-bubble-received-bg: var(--surface);
+  --message-bubble-received-fg: var(--surface-foreground);
   @apply justify-start;
+}
+
+/*
+ * On a default surface (Card, Modal, Popover, …) --surface would vanish into its
+ * parent. Secondary and tertiary surfaces already contrast with --surface.
+ */
+.message-bubble--received[data-surface="default"] {
+  --message-bubble-received-bg: var(--surface-secondary);
+  --message-bubble-received-fg: var(--surface-secondary-foreground);
 }
 
 .message-bubble--sent {
@@ -21,7 +32,9 @@
 }
 
 .message-bubble--received .message-bubble__content {
-  @apply rounded-es-sm bg-surface text-surface-foreground;
+  @apply rounded-es-sm;
+  background-color: var(--message-bubble-received-bg);
+  color: var(--message-bubble-received-fg);
 }
 
 .message-bubble--sent .message-bubble__content {
@@ -50,7 +63,11 @@
 }
 
 .message-bubble--received .message-bubble__time {
-  color: color-mix(in oklab, var(--surface-foreground) 65%, var(--surface));
+  color: color-mix(
+    in oklab,
+    var(--message-bubble-received-fg) 65%,
+    var(--message-bubble-received-bg)
+  );
 }
 
 .message-bubble--sent .message-bubble__time {

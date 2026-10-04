@@ -4,8 +4,10 @@ import type {MessageBubbleVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
 
 import {messageBubbleVariants} from "@sy-inc/styles";
+import {use} from "react";
 
 import {composeSlotClassName} from "../../utils/compose";
+import {SurfaceContext} from "../surface";
 
 /* The non-root parts carry no variant, so their classes are constant. */
 const slots = messageBubbleVariants();
@@ -22,6 +24,8 @@ export const MessageBubbleRoot = ({
   ...props
 }: MessageBubbleRootProps) => {
   const slots = messageBubbleVariants({direction});
+  // The received bubble paints --surface, so it needs to know when it sits on one.
+  const {variant: surface} = use(SurfaceContext);
 
   return (
     <div
@@ -29,6 +33,7 @@ export const MessageBubbleRoot = ({
       className={composeSlotClassName(slots.root, className)}
       data-direction={direction}
       data-slot="message-bubble"
+      data-surface={surface}
     />
   );
 };

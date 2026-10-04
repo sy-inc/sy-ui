@@ -1,0 +1,226 @@
+---
+title: SplitView
+description: Compose an SSR-safe workspace that adapts between one, two, and three panes.
+links:
+  source: split-view/split-view.tsx
+  styles: split-view.css
+  storybook: Components/SplitView
+---
+
+## Usage
+
+SplitView handles workspace layout and focus continuity. The page owns selection,
+routing, pane switching, and unsaved-change confirmation.
+
+```tsx
+import {Button, SplitView, type SplitViewPaneName} from "@sy-inc/react";
+import {useState} from "react";
+
+function Workspace() {
+  const [activePane, setActivePane] = useState<SplitViewPaneName>("start");
+
+  return (
+    <div className="h-96 bg-background p-3">
+      <SplitView activePane={activePane}>
+        <SplitView.Pane aria-label="Files">
+          <Button onPress={() => setActivePane("content")}>Open file</Button>
+        </SplitView.Pane>
+        <SplitView.Content aria-label="Editor" className="p-4" variant="surface">
+          <SplitView.Back aria-label="Back to files" onPress={() => setActivePane("start")} />
+          <textarea aria-label="Draft" defaultValue="Unsaved content" />
+        </SplitView.Content>
+      </SplitView>
+    </div>
+  );
+}
+```
+
+## Anatomy
+
+Use exactly one `SplitView.Content`, plus at most one `SplitView.Pane` on each
+logical side. Parts must produce direct DOM children of the root's internal layout:
+put wrappers inside the parts. `Root` is an alias of `SplitView`.
+
+- `Content`: the flexible main section, identified by `"content"`.
+- `Pane position="start"`: an optional navigation/list section, identified by `"start"`.
+- `Pane position="end"`: an optional inspector/supporting section, identified by `"end"`.
+- `Back`: a Button shortcut shown while its target pane is displaced. Put it inside a section.
+
+A content-and-inspector workspace can omit the start pane. Missing or closed active
+side panes fall back to Content. Pane position follows writing direction, including RTL.
+
+## Container adaptation
+
+The root establishes a named inline-size container. CSS uses its available width,
+not the browser viewport. An application sidebar therefore reduces the space correctly.
+
+| Tier    | Container width      | Visible panes                                                            |
+| ------- | -------------------- | ------------------------------------------------------------------------ |
+| compact | Below 40rem          | The requested active pane, or Content if that side pane is absent/closed |
+| medium  | 40rem to below 72rem | Start + Content; selecting an open End pane displaces Start by default   |
+| wide    | At least 72rem       | All open panes; Content takes the remaining width                        |
+
+`activePane` does not hide open panes in wide. `Pane isOpen={false}` closes a side pane
+in every tier while preserving its DOM and child state.
+
+When End is active in medium:
+
+- `mediumBehavior="replace-start"` keeps Content + End. Use it for a conversation with customer information.
+- `mediumBehavior="replace-content"` keeps Start + End. Use it for a list with a deeper detail view.
+- Without an open Start pane, both behaviors keep Content + End.
+
+## Appearance
+
+`Pane` and `Content` default to `variant="transparent"`: no background, border,
+shadow, or forced rounding. Set `variant="surface"` on either part to give only that
+section a rounded surface with a subtle shadow. Root has no appearance variant and
+does not paint a background or impose an outer frame.
+
+```tsx
+<div className="h-96 bg-background p-3">
+  <SplitView activePane={activePane}>
+    <SplitView.Pane aria-label="Settings navigation" width="15rem">
+      {navigation}
+    </SplitView.Pane>
+    <SplitView.Content aria-label="Settings" className="p-6" variant="surface">
+      {settings}
+    </SplitView.Content>
+  </SplitView>
+</div>
+```
+
+Each section chooses its own appearance: a transparent navigation pane with a surface
+content panel, several surface panes, or entirely transparent sections are all supported.
+The root's default gap is 0.75rem; use a gap utility such as `className="gap-4"` or
+`style={{gap: 16}}` on Root to change it. The page owns outer padding and background,
+and each section's `className` controls its own padding and other visual overrides.
+
+Surface sections provide a `default` `SurfaceContext`, so children such as
+`MessageBubble` adapt to the painted background. Transparent sections inherit the
+surrounding surface context. Neither affects sibling sections, and changing a section's
+variant preserves its mounted children and their state.
+
+A pane that becomes visible, through navigation or a resize, fades in and slides a short
+distance from its own side: Start from the start side, End from the end side, and Content
+from the end side unless the previous active pane was End. Hidden panes disappear at once,
+so focus repair and `onLayoutChange` see the new layout immediately. Widths do not animate.
+Motion starts after mount, so server HTML and the first client paint never animate, and it
+is turned off under `prefers-reduced-motion`. To restyle it, target
+`.split-view__layout[data-motion] > [data-pane]` with `@starting-style`, or set
+`transition: none` on the sections.
+
+## Three panes and closing
+
+```tsx
+<SplitView activePane={customerOpen ? "end" : selectedId ? "content" : "start"}>
+  <SplitView.Pane aria-label="Conversations" width="20rem">
+    {conversationList}
+  </SplitView.Pane>
+  <SplitView.Content aria-label="Conversation" scroll="none" variant="surface">
+    {thread}
+  </SplitView.Content>
+  <SplitView.Pane aria-label="Customer information" isOpen={customerOpen} position="end">
+    <SplitView.Back
+      aria-label="Back to conversation"
+      onPress={() => setCustomerOpen(false)}
+      targetPane="content"
+    />
+    {customerInfo}
+  </SplitView.Pane>
+</SplitView>
+```
+
+The identifiers and state in this composition belong to the consuming page.
+Provide a separate Close action if the inspector should be dismissible while its
+target remains visible: Back is hidden when there is no displaced target.
+
+## Sizing and scrolling
+
+The root fills its parent; the parent supplies a bounded height for independent scrolling.
+Sections default to vertical auto scrolling. Set `scroll="none"` when children own
+scrolling, such as a fixed thread header, a scrolling message body, and a fixed composer.
+Compose these inside a flex column using `min-h-0` on the scrolling body.
+
+Side widths default to 18rem at Start and 20rem at End. Width bounds apply only in
+multi-pane layouts. Compact panes fill the container. When End replaces Content,
+it takes Content's flexible space instead of its side width.
+
+Adjust widths through pane props or the root's `--split-view-start-width` and
+`--split-view-end-width` variables. Larger width constraints may require different CSS
+container thresholds. The default thresholds are CSS rules, not a JS breakpoint prop;
+override the relevant named container rules and tier marker together. JS reads the
+computed marker, so it does not maintain a second threshold table.
+
+## API
+
+Native DOM attributes, styles, classes, children, and refs are forwarded.
+
+| Part          | Prop                            | Type                                       | Default                | Description                                                                                     |
+| ------------- | ------------------------------- | ------------------------------------------ | ---------------------- | ----------------------------------------------------------------------------------------------- |
+| Root          | `activePane`                    | `"start" \| "content" \| "end"`            | `"start"`              | The foreground pane when space is limited.                                                      |
+| Root          | `mediumBehavior`                | `"replace-start" \| "replace-content"`     | `"replace-start"`      | Which section End displaces in medium.                                                          |
+| Root          | `onLayoutChange`                | `(layout: SplitViewLayout) => void`        | —                      | Reports `{tier, visiblePanes}` after mount and when the actual CSS layout changes.              |
+| Root          | `onPaneFocus`                   | `(event: SplitViewPaneFocusEvent) => void` | —                      | Receives `pane`, `reason` (`navigation` or `visibility`), and `preventDefault()`.               |
+| Pane          | `position`                      | `"start" \| "end"`                         | `"start"`              | Logical side of Content.                                                                        |
+| Pane          | `isOpen`                        | `boolean`                                  | `true`                 | Closed panes stay mounted and are hidden in every tier.                                         |
+| Pane          | `width`, `minWidth`, `maxWidth` | CSS width value                            | 18rem / 20rem, 0, none | Numbers are pixels; sizing constraints apply in multi-pane layouts.                             |
+| Content, Pane | `variant` | `"transparent" \| "surface"` | `"transparent"` | Independent section appearance: frameless, or a rounded surface with a subtle shadow. |
+| Content, Pane | `scroll`                        | `"auto" \| "none"`                         | `"auto"`               | Section scrolling, or clipping for a child-owned scroll layout.                                 |
+| Back          | `aria-label`                    | `string`                                   | Required               | Localized accessible name of the icon button.                                                   |
+| Back          | `targetPane`                    | `"start" \| "content" \| "end"`            | `"start"`              | Determines visibility only.                                                                     |
+| Back          | `onPress`                       | Button onPress                             | —                      | Forwarded unchanged; does not change activePane or browser history.                             |
+
+Root refs point to a div; Content and Pane refs point to their section; Back refs
+point to the button. Public named parts, Props types, and `splitViewVariants` are exported
+alongside the compound component; `splitViewVariants` maps the section `variant` axis. Root and Back do not accept it.
+
+## Accessibility and focus
+
+Give every section an `aria-label` or `aria-labelledby`. Sections have `tabIndex={-1}`
+for programmatic focus and draw no focus ring of their own: the entering pane is the cue,
+and the next Tab reaches a control with its own ring. Hidden sections leave the
+accessibility tree and tab order.
+
+A newly revealed navigation destination receives focus. If a resize, close, or removal
+hides the focused section, focus moves to a visible destination. Returning to a section
+restores its remembered control when it is still available; otherwise the section
+receives focus. Visible controls and focus outside the workspace remain undisturbed.
+
+To cancel a move and manage focus yourself, handle `onPaneFocus` and call
+`event.preventDefault()`. For example, focus a heading ref with `tabIndex={-1}` and
+`{preventScroll: true}` instead.
+
+SplitView is a non-modal layout: it does not trap focus or intercept Escape, arrow
+keys, browser Back, or history.
+
+## SSR and lifecycle
+
+Server rendering and the hydrating client render the same pane tree. Container CSS
+selects visibility before hydration, provided the library stylesheet is loaded before
+paint. ResizeObserver and DOM measurement run only after mount; the initial layout is
+unknown to application JS until `onLayoutChange` runs. Initial mount/hydration never
+moves focus. Keep initial activePane, open state, and content consistent between server
+and client; do not derive the first render from localStorage or window size.
+
+Keep-mounted content still runs effects and subscriptions. Use `onLayoutChange` to
+pause work in hidden panes, remeasure editors or virtualized lists when revealed, and
+close pane-owned portaled overlays. A portal outside the pane DOM is not hidden by the
+pane's CSS. Explicitly unmount expensive children in the page when losing their local
+state is acceptable.
+
+This component does not add drag resizing, URL selection, history, persisted widths,
+or business headers and filters. Compose these at the page level.
+
+## Styling hooks
+
+| Node            | Hooks                                                                                                           |
+| --------------- | --------------------------------------------------------------------------------------------------------------- |
+| Root            | `.split-view`, `[data-slot="split-view"]`                                                 |
+| Internal layout | `.split-view__layout`, `[data-slot="split-view-layout"]`, `[data-active]`, `[data-from]`, `[data-medium-behavior]`, `[data-motion]` |
+| Content         | `.split-view__content`, `.split-view__content--surface`, `[data-variant]`, `[data-slot="split-view-content"]`, `[data-pane="content"]`, `[data-scroll]`            |
+| Pane            | `.split-view__pane`, `.split-view__pane--surface`, `[data-variant]`, `[data-slot="split-view-pane"]`, `[data-pane="start"\|"end"]`, `[hidden]`, `[data-scroll]` |
+| Back            | `.split-view__back`, `[data-slot="split-view-back"]`, `[data-target-pane]`                                      |
+
+The CSS `--split-view-tier` marker lives on the internal layout rather than the
+container itself. Pane size overrides use `--split-view-pane-width`,
+`--split-view-pane-min-width`, and `--split-view-pane-max-width`.

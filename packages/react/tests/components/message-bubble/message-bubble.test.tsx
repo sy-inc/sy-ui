@@ -1,6 +1,8 @@
 import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
+import {Card} from "@/components/card";
 import {MessageBubble} from "@/components/message-bubble";
+import {Surface} from "@/components/surface";
 
 describe("MessageBubble", () => {
   it("renders the composed parts in the order they are written", () => {
@@ -163,5 +165,27 @@ describe("MessageBubble", () => {
     expect(root.querySelector("button")).toBeNull();
     expect(root).not.toHaveAttribute("tabindex");
     expect(root).not.toHaveAttribute("aria-live");
+  });
+
+  it("exposes the surface it sits on for the received tone", () => {
+    const bubble = (label: string) => (
+      <MessageBubble aria-label={label}>
+        <MessageBubble.Content>
+          <MessageBubble.Text>Hello</MessageBubble.Text>
+        </MessageBubble.Content>
+      </MessageBubble>
+    );
+
+    render(
+      <>
+        {bubble("Page")}
+        <Card>{bubble("Card")}</Card>
+        <Surface variant="secondary">{bubble("Secondary")}</Surface>
+      </>,
+    );
+
+    expect(screen.getByLabelText("Page")).not.toHaveAttribute("data-surface");
+    expect(screen.getByLabelText("Card")).toHaveAttribute("data-surface", "default");
+    expect(screen.getByLabelText("Secondary")).toHaveAttribute("data-surface", "secondary");
   });
 });

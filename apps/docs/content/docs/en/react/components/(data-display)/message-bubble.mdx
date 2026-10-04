@@ -113,7 +113,7 @@ Use `data-direction="sent"` or `data-direction="received"` on the root and the d
 }
 ```
 
-The received bubble uses the existing surface and foreground tokens. The sent bubble derives a darker `oklch` lightness from `--accent` while retaining `--accent-foreground`; this keeps the accent treatment readable in both built-in themes without adding a component token. It preserves whitespace and newlines, wraps long URLs and unspaced content, and uses a muted 12px, regular-weight timestamp. Images scale proportionally to fit the bubble; links have persistent underlines and visible focus. It does not manage message lists, scrolling, avatars, receipts, replies, menus, dates, or time formatting.
+The received bubble uses the existing surface and foreground tokens. Inside a component that provides `SurfaceContext` with a `default` surface (Card, Modal, Popover, Drawer, `SplitView.Pane` / `SplitView.Content` with `variant="surface"`, …) the root gets `data-surface="default"` and the bubble steps to `--surface-secondary` so it stays visible; secondary and tertiary surfaces already contrast with `--surface`. For a custom surface without that context, wrap it in `Surface` or provide `SurfaceContext` yourself. The sent bubble derives a darker `oklch` lightness from `--accent` while retaining `--accent-foreground`; this keeps the accent treatment readable in both built-in themes without adding a component token. It preserves whitespace and newlines, wraps long URLs and unspaced content, and uses a muted 12px, regular-weight timestamp. Images scale proportionally to fit the bubble; links have persistent underlines and visible focus. It does not manage message lists, scrolling, avatars, receipts, replies, menus, dates, or time formatting.
 
 ## Accessibility
 

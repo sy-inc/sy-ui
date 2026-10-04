@@ -200,3 +200,5 @@
 
 /* ImageField composes DropZone and ImagePreview. */
 @import "./image-field.css";
+
+@import "./split-view.css";

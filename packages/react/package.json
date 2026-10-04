@@ -108,6 +108,11 @@
       "import": "./src/components/rich-text-editor/index.ts",
       "default": "./src/components/rich-text-editor/index.ts"
     },
+    "./split-view": {
+      "types": "./src/components/split-view/index.ts",
+      "import": "./src/components/split-view/index.ts",
+      "default": "./src/components/split-view/index.ts"
+    },
     "./styles": {
       "style": "./src/styles.css",
       "default": "./src/styles.css"

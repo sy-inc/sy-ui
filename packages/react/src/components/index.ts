@@ -64,6 +64,7 @@ export * from "./radio-button-group";
 export * from "./rating";
 export * from "./segment";
 export * from "./sidebar";
+export * from "./split-view";
 export * from "./stepper";
 export * from "./time-field";
 export * from "./disclosure";

@@ -2,6 +2,7 @@ import {render} from "@sy-inc/testing/browser";
 import {page, userEvent} from "vitest/browser";
 
 import {MessageBubble} from "@/components/message-bubble";
+import {Surface} from "@/components/surface";
 
 import "../../../../styles/dist/sy-inc.min.css";
 
@@ -97,7 +98,7 @@ describe("MessageBubble (browser)", () => {
   it.each(["received", "sent"] as const)(
     "overlays %s image-only time without adding a blank footer",
     async (direction) => {
-      const image = <img alt="Photo" height={100} src={blankSvg(150, 100)} width={150} />;
+      const image = <img alt="Sunset" height={100} src={blankSvg(150, 100)} width={150} />;
 
       await render(
         <div style={{width: 260}}>
@@ -291,6 +292,28 @@ describe("MessageBubble (browser)", () => {
       );
       expect(contentRect.left).toBeGreaterThanOrEqual(rootRect.left);
       expect(contentRect.right).toBeLessThanOrEqual(rootRect.right + 1);
+    },
+  );
+
+  it.each(["light", "dark"] as const)(
+    "keeps the %s received bubble distinct and readable on a default surface",
+    async (theme) => {
+      await render(
+        <div data-theme={theme}>
+          <Surface style={{width: 260}}>
+            <Bubble>A message on a card.</Bubble>
+          </Surface>
+        </div>,
+      );
+
+      const surface = document.querySelector<HTMLElement>('[data-slot="surface"]')!;
+      const content = document.querySelector<HTMLElement>('[data-slot="message-bubble-content"]')!;
+      const time = document.querySelector<HTMLElement>('[data-slot="message-bubble-time"]')!;
+      const background = getComputedStyle(content).backgroundColor;
+
+      expect(background).not.toBe(getComputedStyle(surface).backgroundColor);
+      expect(contrast(getComputedStyle(content).color, background)).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(getComputedStyle(time).color, background)).toBeGreaterThanOrEqual(4.5);
     },
   );
 

@@ -362,7 +362,8 @@ describe("Carousel", () => {
 
   describe("autoplay", () => {
     beforeEach(() => {
-      vi.useFakeTimers({shouldAdvanceTime: true});
+      // Boundary assertions must advance only by the time requested in each test.
+      vi.useFakeTimers();
     });
 
     afterEach(() => {
@@ -426,7 +427,7 @@ describe("Carousel", () => {
     });
 
     it("pauses and resumes autoplay from its accessible control", async () => {
-      render(<CarouselFixture autoplay={{delay: 1000}} showAutoplayControl />);
+      render(<CarouselFixture showAutoplayControl autoplay={{delay: 1000}} />);
       const pause = screen.getByRole("button", {name: "Pause autoplay"});
 
       fireEvent.click(pause);
@@ -601,7 +602,7 @@ describe("Carousel", () => {
     });
 
     it("keeps an explicit pause when the pointer leaves", async () => {
-      render(<CarouselFixture autoplay={{delay: 1000}} showAutoplayControl />);
+      render(<CarouselFixture showAutoplayControl autoplay={{delay: 1000}} />);
       const root = screen.getByRole("region", {name: "Featured content"});
 
       fireEvent.click(screen.getByRole("button", {name: "Pause autoplay"}));
@@ -632,9 +633,9 @@ describe("Carousel", () => {
       try {
         const {unmount} = render(
           <CarouselFixture
+            showAutoplayControl
             autoplay={{delay: 1000}}
             onApiChange={(nextApi) => (api = nextApi)}
-            showAutoplayControl
           />,
         );
 
