@@ -6,7 +6,7 @@
    "sticky top-0 + translucent surface + backdrop blur/saturate" stack.
    No dark: pairing needed here, the surface token already flips with the theme. */
 .navbar--blur {
-  @apply sticky top-0 rounded-xl bg-surface-secondary/10 shadow-sm backdrop-blur-lg backdrop-saturate-150;
+  @apply sticky top-0 bg-surface-secondary/10 backdrop-blur-lg backdrop-saturate-150;
 }
 
 .navbar__brand,

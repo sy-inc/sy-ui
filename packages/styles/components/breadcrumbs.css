@@ -1,10 +1,11 @@
 /* Base breadcrumbs container */
 .breadcrumbs {
-  @apply flex items-center gap-1.5;
+  @apply flex items-center gap-1.5 text-sm leading-5 font-medium;
 
-  /* Breadcrumb link */
+  /* Breadcrumb link: inherits type from the root, so `<Breadcrumbs className="text-base">` resizes it */
   .breadcrumbs__link {
-    @apply relative text-sm leading-5 font-medium text-muted no-underline opacity-100;
+    @apply relative text-muted no-underline opacity-100;
+    font: inherit;
 
     &:hover,
     &[data-hovered="true"] {
