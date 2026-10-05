@@ -126,7 +126,7 @@ const SidebarNavigation = () => (
 
 const meta = {
   argTypes: {
-    collapseBreakpoint: {control: "number"},
+    collapseBreakpoint: {control: "select", options: [undefined, "lg", "xl", "2xl"]},
     collapsible: {control: "select", options: ["offcanvas", "icon", "none"]},
     side: {control: "select", options: ["left", "right"]},
     variant: {control: "select", options: ["sidebar", "floating", "inset"]},
@@ -147,7 +147,11 @@ const CookiePersistedSidebar = (props: React.ComponentProps<typeof Sidebar>) => 
     ?.split("=")[1];
 
   return (
-    <Sidebar {...props} className="h-svh min-h-[640px]" defaultOpen={cookieValue !== "false"}>
+    <Sidebar
+      {...props}
+      className="h-svh min-h-[640px]"
+      defaultOpen={cookieValue ? cookieValue === "true" : "auto"}
+    >
       <SidebarNavigation />
       <Sidebar.Inset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border px-4">
@@ -180,7 +184,7 @@ export const HeaderTrigger: Story = {
     <Sidebar {...args} className="h-svh min-h-[640px]">
       <Sidebar.Panel aria-label="Workspace navigation">
         <Sidebar.Header className="flex-row items-center">
-          <span className="group-data-[state=collapsed]/sidebar:hidden">Workspace</span>
+          <span className="sidebar-collapsed:hidden">Workspace</span>
           <Sidebar.Trigger className="ml-auto" />
         </Sidebar.Header>
       </Sidebar.Panel>
@@ -229,27 +233,27 @@ export const TabsInPanel: Story = {
 };
 
 export const CollapseBreakpoint: Story = {
-  args: {collapseBreakpoint: 1024},
+  args: {collapseBreakpoint: "lg"},
   render: (args) => <CookiePersistedSidebar {...args} />,
 };
 
 export const FloatingCollapseBreakpoint: Story = {
-  args: {collapseBreakpoint: 1024, variant: "floating"},
+  args: {collapseBreakpoint: "lg", variant: "floating"},
   render: (args) => <CookiePersistedSidebar {...args} />,
 };
 
 export const InsetCollapseBreakpoint: Story = {
-  args: {collapseBreakpoint: 1024, variant: "inset"},
+  args: {collapseBreakpoint: "lg", variant: "inset"},
   render: (args) => <CookiePersistedSidebar {...args} />,
 };
 
 export const FloatingOffcanvasCollapseBreakpoint: Story = {
-  args: {collapseBreakpoint: 1024, collapsible: "offcanvas", variant: "floating"},
+  args: {collapseBreakpoint: "lg", collapsible: "offcanvas", variant: "floating"},
   render: (args) => <CookiePersistedSidebar {...args} />,
 };
 
 export const InsetOffcanvasCollapseBreakpoint: Story = {
-  args: {collapseBreakpoint: 1024, collapsible: "offcanvas", variant: "inset"},
+  args: {collapseBreakpoint: "lg", collapsible: "offcanvas", variant: "inset"},
   render: (args) => <CookiePersistedSidebar {...args} />,
 };
 

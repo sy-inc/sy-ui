@@ -104,3 +104,34 @@
     }
   }
 }
+
+/* -------------------------------------------------------------------------------------------------
+ * sidebar-collapsed — Styles for a collapsed Sidebar, applied to its descendants
+ * Explicit: .sidebar--collapsed (visitor's choice, or the JS state after hydration)
+ * Auto: .sidebar--auto-collapse-* below the breakpoint, so the server-rendered page is already
+ * collapsed before React knows the viewport width.
+ * Keep the queries in sync with `sidebarCollapseMediaQueries` in src/utils/index.ts.
+ * ------------------------------------------------------------------------------------------------- */
+@custom-variant sidebar-collapsed {
+  &:is(.sidebar--collapsed *) {
+    @slot;
+  }
+
+  @media (width < 64rem) {
+    &:is(.sidebar--auto-collapse-lg *) {
+      @slot;
+    }
+  }
+
+  @media (width < 80rem) {
+    &:is(.sidebar--auto-collapse-xl *) {
+      @slot;
+    }
+  }
+
+  @media (width < 96rem) {
+    &:is(.sidebar--auto-collapse-2xl *) {
+      @slot;
+    }
+  }
+}

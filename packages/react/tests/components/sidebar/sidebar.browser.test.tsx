@@ -3,31 +3,37 @@ import {isDocumentScrollLocked} from "@sy-inc/testing/helpers";
 import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
 
+import {Sidebar} from "@/components/sidebar";
+import {Tabs} from "@/components/tabs";
+
 // Browser geometry tests load the generated CSS artifact directly.
 import "../../../../styles/dist/sy-inc.min.css";
 
 import {SidebarFixture} from "./fixtures";
-import {Sidebar} from "@/components/sidebar";
-import {Tabs} from "@/components/tabs";
 
 describe("Sidebar (browser)", () => {
   const originalMatchMedia = window.matchMedia.bind(window);
-
-  beforeEach(() => {
+  /** Stubs `matchMedia`; returning `undefined` for a query leaves it on the real implementation. */
+  const stubMatchMedia = (matches: (query: string) => boolean | undefined) => {
     window.matchMedia = (query) => {
-      if (query !== "(max-width: 767px)") return originalMatchMedia(query);
+      const match = matches(query);
+
+      if (match === undefined) return originalMatchMedia(query);
 
       return {
+        ...originalMatchMedia(query),
         addEventListener: () => undefined,
-        addListener: () => undefined,
-        dispatchEvent: () => false,
-        matches: true,
+        matches: match,
         media: query,
-        onchange: null,
         removeEventListener: () => undefined,
-        removeListener: () => undefined,
       };
     };
+  };
+  const stubDesktopMedia = () => stubMatchMedia(() => false);
+
+  // The runner's iframe is phone-sized: default to the mobile layout, desktop tests opt out.
+  beforeEach(() => {
+    stubMatchMedia((query) => (query === "(max-width: 767px)" ? true : undefined));
   });
 
   afterEach(() => {
@@ -71,14 +77,48 @@ describe("Sidebar (browser)", () => {
     }
   });
 
+  it("collapses below the breakpoint on the SSR first paint, before hydration", async () => {
+    const {innerHeight, innerWidth} = window;
+    // Fresh markup per viewport: resizing a mounted sidebar would sample a running transition.
+    const paintAt = async (width: number) => {
+      await page.viewport(width, 800);
+
+      const container = document.createElement("div");
+
+      container.innerHTML = renderToString(<SidebarFixture collapseBreakpoint="xl" />);
+      document.body.append(container);
+
+      const gap = container.querySelector<HTMLElement>('[data-slot="sidebar-gap"]')!;
+      const label = [...container.querySelectorAll("span")].find(
+        (span) => span.textContent === "Models",
+      )!;
+
+      return {
+        container,
+        gapWidth: Math.round(gap.getBoundingClientRect().width),
+        isLabelHidden: getComputedStyle(label).display === "none",
+      };
+    };
+
+    try {
+      const narrow = await paintAt(1100);
+
+      expect(narrow.gapWidth).toBe(48);
+      expect(narrow.isLabelHidden).toBe(true);
+      narrow.container.remove();
+
+      const wide = await paintAt(1400);
+
+      expect(wide.gapWidth).toBe(256);
+      expect(wide.isLabelHidden).toBe(false);
+      wide.container.remove();
+    } finally {
+      await page.viewport(innerWidth, innerHeight);
+    }
+  });
+
   it("renders the shadcn desktop geometry in expanded and icon states", async () => {
-    window.matchMedia = (query) => ({
-      ...originalMatchMedia(query),
-      addEventListener: () => undefined,
-      matches: false,
-      media: query,
-      removeEventListener: () => undefined,
-    });
+    stubDesktopMedia();
     await render(
       <div style={{height: 398, width: 800}}>
         <SidebarFixture />
@@ -129,13 +169,7 @@ describe("Sidebar (browser)", () => {
   });
 
   it("clips horizontal overflow without becoming horizontally scrollable", async () => {
-    window.matchMedia = (query) => ({
-      ...originalMatchMedia(query),
-      addEventListener: () => undefined,
-      matches: false,
-      media: query,
-      removeEventListener: () => undefined,
-    });
+    stubDesktopMedia();
     await render(
       <div style={{height: 398, width: 800}}>
         <SidebarFixture />
@@ -153,13 +187,7 @@ describe("Sidebar (browser)", () => {
   });
 
   it("keeps focused overflowing tabs inside their own scroller", async () => {
-    window.matchMedia = (query) => ({
-      ...originalMatchMedia(query),
-      addEventListener: () => undefined,
-      matches: query === "(prefers-reduced-motion: reduce)",
-      media: query,
-      removeEventListener: () => undefined,
-    });
+    stubMatchMedia((query) => query === "(prefers-reduced-motion: reduce)");
     await render(
       <Sidebar collapsible="none" width={220}>
         <Sidebar.Panel aria-label="Workspace navigation" style={{overflowX: "auto", width: 220}}>
@@ -214,18 +242,12 @@ describe("Sidebar (browser)", () => {
   });
 
   it("supports a collapsible header trigger composition", async () => {
-    window.matchMedia = (query) => ({
-      ...originalMatchMedia(query),
-      addEventListener: () => undefined,
-      matches: false,
-      media: query,
-      removeEventListener: () => undefined,
-    });
+    stubDesktopMedia();
     await render(
       <Sidebar collapsible="icon">
         <Sidebar.Panel aria-label="Workspace navigation">
           <Sidebar.Header className="flex-row items-center">
-            <span className="group-data-[state=collapsed]/sidebar:hidden">Workspace</span>
+            <span className="sidebar-collapsed:hidden">Workspace</span>
             <Sidebar.Trigger className="ml-auto" />
           </Sidebar.Header>
         </Sidebar.Panel>
@@ -253,13 +275,7 @@ describe("Sidebar (browser)", () => {
   });
 
   it("renders floating geometry within the declared sidebar width", async () => {
-    window.matchMedia = (query) => ({
-      ...originalMatchMedia(query),
-      addEventListener: () => undefined,
-      matches: false,
-      media: query,
-      removeEventListener: () => undefined,
-    });
+    stubDesktopMedia();
     await render(
       <div style={{height: 398, width: 800}}>
         <SidebarFixture variant="floating" />
@@ -284,13 +300,7 @@ describe("Sidebar (browser)", () => {
   });
 
   it("renders the inset gutter behind the page surface", async () => {
-    window.matchMedia = (query) => ({
-      ...originalMatchMedia(query),
-      addEventListener: () => undefined,
-      matches: false,
-      media: query,
-      removeEventListener: () => undefined,
-    });
+    stubDesktopMedia();
     await render(<SidebarFixture variant="inset" />);
 
     const root = document.querySelector<HTMLElement>('[data-slot="sidebar"]')!;

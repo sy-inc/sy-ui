@@ -1,22 +1,22 @@
 import {Disclosure} from "@/components/disclosure";
 import {Sidebar} from "@/components/sidebar";
 
-const TestIcon = () => <svg aria-hidden="true" data-icon viewBox="0 0 16 16" />;
+const TestIcon = () => <svg data-icon aria-hidden="true" viewBox="0 0 16 16" />;
 
 export interface SidebarFixtureProps {
   collapsible?: "icon" | "none" | "offcanvas";
   toggleShortcut?: string | false;
-  collapseBreakpoint?: number;
-  defaultOpen?: boolean;
-  isOpen?: boolean;
+  collapseBreakpoint?: "2xl" | "lg" | "xl";
+  defaultOpen?: boolean | "auto";
+  isOpen?: boolean | "auto";
   onOpenChange?: (isOpen: boolean) => void;
   side?: "left" | "right";
   variant?: "floating" | "inset" | "sidebar";
 }
 
 export const SidebarFixture = ({
-  collapsible = "icon",
   collapseBreakpoint,
+  collapsible = "icon",
   defaultOpen,
   isOpen,
   onOpenChange,
@@ -25,8 +25,8 @@ export const SidebarFixture = ({
   variant,
 }: SidebarFixtureProps) => (
   <Sidebar
-    collapsible={collapsible}
     collapseBreakpoint={collapseBreakpoint}
+    collapsible={collapsible}
     defaultOpen={defaultOpen}
     isOpen={isOpen}
     side={side}

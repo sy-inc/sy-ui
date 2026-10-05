@@ -33,7 +33,6 @@ export const sidebarVariants = tv({
     menuSubButton: "sidebar__menu-sub-button",
     menuSubItem: "sidebar__menu-sub-item",
     mobileBackdrop: "sidebar__mobile-backdrop",
-    mobileContent: "sidebar__mobile-content",
     mobileDescription: "sidebar__mobile-description",
     mobileDialog: "sidebar__mobile-dialog",
     panel: "sidebar__panel",
@@ -42,6 +41,12 @@ export const sidebarVariants = tv({
     trigger: "sidebar__trigger",
   },
   variants: {
+    /** Only resolved while the open state is `"auto"`; see the `sidebar-collapsed` variant. */
+    collapseBreakpoint: {
+      "2xl": {base: "sidebar--auto-collapse-2xl"},
+      lg: {base: "sidebar--auto-collapse-lg"},
+      xl: {base: "sidebar--auto-collapse-xl"},
+    },
     collapsible: {
       icon: {base: "sidebar--collapsible-icon"},
       none: {base: "sidebar--collapsible-none"},

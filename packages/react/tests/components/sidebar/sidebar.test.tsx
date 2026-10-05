@@ -417,57 +417,112 @@ describe("Sidebar", () => {
     );
   });
 
-  it("auto-collapses uncontrolled state when crossing the collapse breakpoint", () => {
-    let isBelowBreakpoint = false;
+  describe("collapse breakpoint", () => {
+    const XL_QUERY = "(width < 80rem)";
+    let isBelowBreakpoint: boolean;
     let notify: (() => void) | undefined;
 
-    window.matchMedia = (query) => {
-      const mediaQuery = desktopMedia(query);
+    const resize = (isBelow: boolean) =>
+      act(() => {
+        isBelowBreakpoint = isBelow;
+        notify?.();
+      });
 
-      if (query !== "(max-width: 1024px)") return mediaQuery;
-
-      return {
-        ...mediaQuery,
-        addEventListener: ((_: string, listener: () => void) => {
-          notify = listener;
-        }) as MediaQueryList["addEventListener"],
-        get matches() {
-          return isBelowBreakpoint;
-        },
-      } as MediaQueryList;
-    };
-
-    render(<SidebarFixture collapseBreakpoint={1024} />);
-
-    act(() => {
-      isBelowBreakpoint = true;
-      notify?.();
-    });
-    expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
-      "data-state",
-      "collapsed",
-    );
-
-    act(() => {
+    beforeEach(() => {
       isBelowBreakpoint = false;
-      notify?.();
+      notify = undefined;
+      window.matchMedia = (query) => {
+        const mediaQuery = desktopMedia(query);
+
+        if (query !== XL_QUERY) return mediaQuery;
+
+        return {
+          ...mediaQuery,
+          addEventListener: ((_: string, listener: () => void) => {
+            notify = listener;
+          }) as MediaQueryList["addEventListener"],
+          get matches() {
+            return isBelowBreakpoint;
+          },
+        } as MediaQueryList;
+      };
     });
-    expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
-      "data-state",
-      "expanded",
-    );
-  });
 
-  it("starts collapsed when mounted below the collapse breakpoint", () => {
-    window.matchMedia = (query) =>
-      ({...desktopMedia(query), matches: query === "(max-width: 1024px)"}) as MediaQueryList;
+    const getRoot = () => document.querySelector('[data-slot="sidebar"]');
+    const getTrigger = () =>
+      within(screen.getByRole("main")).getByRole("button", {name: "Toggle sidebar"});
 
-    render(<SidebarFixture collapseBreakpoint={1024} />);
+    it("renders the auto-collapse class while the visitor has not chosen", () => {
+      render(<SidebarFixture collapseBreakpoint="xl" />);
 
-    expect(document.querySelector('[data-slot="sidebar"]')).toHaveAttribute(
-      "data-state",
-      "collapsed",
-    );
+      expect(getRoot()).toHaveClass("sidebar--auto-collapse-xl");
+      expect(getRoot()).not.toHaveClass("sidebar--collapsed");
+    });
+
+    it("reports the breakpoint state without persisting it", () => {
+      const onOpenChange = vi.fn();
+
+      render(<SidebarFixture collapseBreakpoint="xl" onOpenChange={onOpenChange} />);
+
+      resize(true);
+      expect(getRoot()).toHaveAttribute("data-state", "collapsed");
+      expect(getTrigger()).toHaveAttribute("aria-expanded", "false");
+
+      resize(false);
+      expect(getRoot()).toHaveAttribute("data-state", "expanded");
+      expect(getTrigger()).toHaveAttribute("aria-expanded", "true");
+
+      expect(onOpenChange).not.toHaveBeenCalled();
+      expect(document.cookie).not.toContain("sidebar_state");
+    });
+
+    it("expands on the first toggle below the breakpoint and stops following it", async () => {
+      const user = setupUser();
+      const onOpenChange = vi.fn();
+
+      isBelowBreakpoint = true;
+      render(<SidebarFixture collapseBreakpoint="xl" onOpenChange={onOpenChange} />);
+
+      expect(getTrigger()).toHaveAttribute("aria-expanded", "false");
+      await user.click(getTrigger());
+
+      expect(onOpenChange).toHaveBeenCalledExactlyOnceWith(true);
+      expect(document.cookie).toContain("sidebar_state=true");
+      expect(getRoot()).toHaveAttribute("data-state", "expanded");
+      expect(getRoot()).not.toHaveClass("sidebar--auto-collapse-xl");
+
+      resize(false);
+      resize(true);
+      expect(getRoot()).toHaveAttribute("data-state", "expanded");
+    });
+
+    it("ignores the breakpoint once the visitor has chosen", () => {
+      isBelowBreakpoint = true;
+      render(<SidebarFixture defaultOpen collapseBreakpoint="xl" />);
+
+      expect(getRoot()).toHaveAttribute("data-state", "expanded");
+      expect(getRoot()).not.toHaveClass("sidebar--auto-collapse-xl");
+    });
+
+    it("supports a controlled auto state", async () => {
+      const user = setupUser();
+      const onOpenChange = vi.fn();
+
+      isBelowBreakpoint = true;
+      render(<SidebarFixture collapseBreakpoint="xl" isOpen="auto" onOpenChange={onOpenChange} />);
+
+      expect(getRoot()).toHaveAttribute("data-state", "collapsed");
+      await user.click(getTrigger());
+      expect(onOpenChange).toHaveBeenCalledExactlyOnceWith(true);
+    });
+
+    it("ignores the breakpoint when collapsible is none", () => {
+      isBelowBreakpoint = true;
+      render(<SidebarFixture collapseBreakpoint="xl" collapsible="none" />);
+
+      expect(getRoot()).toHaveAttribute("data-state", "expanded");
+      expect(getRoot()).not.toHaveClass("sidebar--auto-collapse-xl");
+    });
   });
 
   it("exposes desktop state and setter through useSidebar", async () => {

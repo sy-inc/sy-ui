@@ -76,12 +76,26 @@ export default function Example() {
 | `side` | `"left" \| "right"` | `"left"` | 面板所在侧。 |
 | `variant` | `"sidebar" \| "floating" \| "inset"` | `"sidebar"` | 布局外观。 |
 | `width` / `collapsedWidth` / `mobileWidth` | `number \| string` | `16rem` / `3rem` / `18rem` | 面板宽度；数字按像素处理。 |
-| `defaultOpen` | `boolean` | `true` | 非受控桌面状态初值。 |
-| `isOpen` / `onOpenChange` | 受控状态 | - | 受控桌面状态。 |
-| `collapseBreakpoint` | `number` | - | 非受控桌面状态自动折叠阈值；挂载时与缩放时都会生效。 |
+| `defaultOpen` | `boolean \| "auto"` | `"auto"` | 非受控桌面状态初值。`"auto"` 表示访客尚未做出选择。 |
+| `isOpen` / `onOpenChange` | 受控状态 | - | 受控桌面状态（`isOpen` 也接受 `"auto"`）。`onOpenChange` 仅在访客切换时触发。 |
+| `collapseBreakpoint` | `"lg" \| "xl" \| "2xl"` | - | 状态为 `"auto"` 时，视口低于该 Tailwind 断点（1024 / 1280 / 1536px）即折叠。 |
 | `toggleShortcut` | `string \| false` | `"b"` | 配合 `Ctrl`/`⌘` 切换侧边栏的按键，传 `false` 可关闭。 |
 
-在 767px 及以下，允许折叠的面板会渲染为 Drawer。`Sidebar.Trigger`、`Sidebar.Rail` 与 `Ctrl/⌘ + B` 会切换当前桌面或移动端状态；当焦点位于输入框、文本域、下拉或可编辑区域时快捷键不会触发，也可通过 `toggleShortcut={false}` 关闭。桌面状态变化写入 `sidebar_state` cookie。自定义子组件可通过 `useSidebar()` 获取状态与 setter（`setOpen(isOpen)` / `setOpenMobile(isOpen)`，仅接受布尔值）。
+在 767px 及以下，允许折叠的面板会渲染为 Drawer。`Sidebar.Trigger`、`Sidebar.Rail` 与 `Ctrl/⌘ + B` 会切换当前桌面或移动端状态；当焦点位于输入框、文本域、下拉或可编辑区域时快捷键不会触发，也可通过 `toggleShortcut={false}` 关闭。访客切换桌面状态时写入 `sidebar_state` cookie。自定义子组件可通过 `useSidebar()` 获取状态与 setter（`setOpen(isOpen)` / `setOpenMobile(isOpen)`，仅接受布尔值）。
+
+### 自动折叠与持久化
+
+访客切换之前，打开状态为 `"auto"`：默认展开，视口低于 `collapseBreakpoint` 时折叠。折叠由 CSS 媒体查询完成，服务端渲染的首屏即为正确状态，不会闪烁。访客第一次切换后状态变为布尔值并写入 `sidebar_state` cookie，此后断点不再生效。断点本身从不写 cookie，也不会触发 `onOpenChange`。
+
+在服务端读取 cookie 以恢复访客的选择：
+
+```tsx
+const saved = (await cookies()).get('sidebar_state')?.value;
+
+<Sidebar collapseBreakpoint="xl" defaultOpen={saved ? saved === 'true' : 'auto'}>
+```
+
+自定义内容请使用 `sidebar-collapsed:` 变体（例如 `sidebar-collapsed:hidden`）。状态为 `"auto"` 时 `data-state` 要到水合后才准确，而该变体在首屏同样生效。
 
 `Sidebar.Inset` 只是面板旁边的页面区域：一个占满剩余宽度的纵向 flex 容器。它不内置任何 header，页面框架自行把 header（例如 `Navbar`）作为第一个子节点渲染进去，并让可滚动区域使用 `flex-1`。
 

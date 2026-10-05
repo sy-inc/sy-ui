@@ -76,12 +76,26 @@ Submenus use `MenuSub`, `MenuSubItem`, and `MenuSubButton`; loading rows use `Me
 | `side` | `"left" \| "right"` | `"left"` | Panel side. |
 | `variant` | `"sidebar" \| "floating" \| "inset"` | `"sidebar"` | Layout treatment. |
 | `width` / `collapsedWidth` / `mobileWidth` | `number \| string` | `16rem` / `3rem` / `18rem` | Panel widths; numbers are pixels. |
-| `defaultOpen` | `boolean` | `true` | Initial uncontrolled desktop state. |
-| `isOpen` / `onOpenChange` | controlled state | - | Controlled desktop state. |
-| `collapseBreakpoint` | `number` | - | Auto-collapse threshold for uncontrolled desktop state; applied on mount as well as on resize. |
+| `defaultOpen` | `boolean \| "auto"` | `"auto"` | Initial uncontrolled desktop state. `"auto"` means the visitor has not chosen yet. |
+| `isOpen` / `onOpenChange` | controlled state | - | Controlled desktop state (`isOpen` also accepts `"auto"`). `onOpenChange` fires only when the visitor toggles. |
+| `collapseBreakpoint` | `"lg" \| "xl" \| "2xl"` | - | While the state is `"auto"`, collapse below this Tailwind breakpoint (1024 / 1280 / 1536px). |
 | `toggleShortcut` | `string \| false` | `"b"` | Key that toggles the sidebar with `Ctrl`/`⌘`. Pass `false` to disable. |
 
-At 767px and below, a collapsible panel is rendered as a Drawer. `Sidebar.Trigger`, `Sidebar.Rail`, and `Ctrl/⌘ + B` toggle the appropriate desktop or mobile state. The shortcut is ignored while an input, textarea, select, or contenteditable element has focus, and can be turned off with `toggleShortcut={false}`. Desktop changes are persisted to the `sidebar_state` cookie. `useSidebar()` exposes the current state and state setters (`setOpen(isOpen)` / `setOpenMobile(isOpen)`, boolean only) to custom children.
+At 767px and below, a collapsible panel is rendered as a Drawer. `Sidebar.Trigger`, `Sidebar.Rail`, and `Ctrl/⌘ + B` toggle the appropriate desktop or mobile state. The shortcut is ignored while an input, textarea, select, or contenteditable element has focus, and can be turned off with `toggleShortcut={false}`. Desktop toggles are persisted to the `sidebar_state` cookie. `useSidebar()` exposes the current state and state setters (`setOpen(isOpen)` / `setOpenMobile(isOpen)`, boolean only) to custom children.
+
+### Auto-collapse and persistence
+
+Until the visitor toggles the sidebar, its open state is `"auto"`: expanded, or collapsed below `collapseBreakpoint`. The collapse is applied by a CSS media query, so server-rendered pages are correct on first paint with no flash. The first toggle turns the state into a boolean, writes the `sidebar_state` cookie, and the breakpoint stops applying. The breakpoint itself never writes the cookie or calls `onOpenChange`.
+
+Read the cookie on the server to restore the visitor's choice:
+
+```tsx
+const saved = (await cookies()).get('sidebar_state')?.value;
+
+<Sidebar collapseBreakpoint="xl" defaultOpen={saved ? saved === 'true' : 'auto'}>
+```
+
+Style your own content with the `sidebar-collapsed:` variant (for example `sidebar-collapsed:hidden`). Unlike `data-state`, which is only accurate after hydration while the state is `"auto"`, it also covers the first paint.
 
 `Sidebar.Inset` is only the page surface next to the panel: a flex column that fills the remaining width. It ships no header of its own, so the page frame renders its own header (a `Navbar`, for example) as the first child and gives the scrolling region `flex-1`.
 

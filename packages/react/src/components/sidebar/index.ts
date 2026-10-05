@@ -124,6 +124,7 @@ export type {
   SidebarMenuSkeletonProps,
   SidebarMenuSubButtonProps,
   SidebarState,
+  SidebarOpenState,
   SidebarSide,
   SidebarVariant,
   SidebarCollapsible,

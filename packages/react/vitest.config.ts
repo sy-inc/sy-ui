@@ -22,6 +22,7 @@ export default defineConfig({
       "react-aria-components/GridList",
       "react-aria-components/Label",
       "react-aria-components/RadioGroup",
+      "react-aria-components/SharedElementTransition",
       "react-aria-components/Slider",
       "react-aria-components/useDragAndDrop",
     ],

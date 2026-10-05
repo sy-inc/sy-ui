@@ -1,6 +1,6 @@
 ---
 title: Bottom Bar
-description: A compact, single-selection navigation bar for primary destinations.
+description: A compact navigation bar for primary destinations.
 links:
   source: bottom-bar/bottom-bar.tsx
   storybook: Components/Navigation/BottomBar
@@ -11,14 +11,14 @@ links:
 ```tsx
 import {BottomBar} from '@sy-inc/react';
 
-export default function Example() {
+export default function Example({pathname}: {pathname: string}) {
   return (
-    <BottomBar aria-label="Primary navigation" defaultSelectedKey="home">
-      <BottomBar.Item id="home">
+    <BottomBar aria-label="Primary navigation">
+      <BottomBar.Item href="/home" isActive={pathname === '/home'}>
         <BottomBar.Icon>⌂</BottomBar.Icon>
         <BottomBar.Label>Home</BottomBar.Label>
       </BottomBar.Item>
-      <BottomBar.Item id="search">
+      <BottomBar.Item href="/search" isActive={pathname.startsWith('/search')}>
         <BottomBar.Icon>⌕</BottomBar.Icon>
         <BottomBar.Label>Search</BottomBar.Label>
       </BottomBar.Item>
@@ -31,28 +31,34 @@ export default function Example() {
 
 ```tsx
 <BottomBar>
-  <BottomBar.Item id="destination">
+  <BottomBar.Item href="/destination" isActive>
     <BottomBar.Icon />
     <BottomBar.Label />
   </BottomBar.Item>
 </BottomBar>
 ```
 
-`BottomBar` owns one selected key. Use `selectedKey` and `onSelectionChange` when a router or application state owns the current destination. Items intentionally do not accept `href`; perform navigation from the selection change handler.
+Each item declares whether it is the current destination with `isActive`. When the current page is not in the bar, leave every item inactive: nothing is highlighted and every item stays reachable with `Tab`.
+
+An item with `href` renders a link. Wrap the app in `RouterProvider` to route these links through a client-side router. An item without `href` renders a button; use `onPress` to switch views within a page.
 
 ## Key props and behavior
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `defaultSelectedKey` | `Key` | - | Initial selection for uncontrolled usage. |
-| `selectedKey` | `Key` | - | Controlled selected item. |
-| `onSelectionChange` | `(key: Key) => void` | - | Called when the selected item changes. |
 | `position` | `"fixed" \| "sticky" \| "static"` | `"fixed"` | Placement strategy. |
 | `variant` | `"floating" \| "edge"` | `"floating"` | Container treatment. |
-| `selectionStyle` | `"color" \| "indicator" \| "underline"` | `"indicator"` | Selected-item treatment. |
+| `selectionStyle` | `"color" \| "indicator" \| "underline"` | `"indicator"` | Active-item treatment. The indicator slides between items when the active item changes. |
 
-Each `BottomBar.Item` requires a stable `id` and supports tab state such as `isDisabled`. Its children may be a render function receiving the tab render state.
+| Item prop | Type | Default | Description |
+|---|---|---|---|
+| `href` | `string` | - | Renders a link. Without it, the item renders a button. |
+| `isActive` | `boolean` | `false` | Marks the current destination. |
+| `isDisabled` | `boolean` | `false` | Disables the item. |
+| `onPress` | `(e: PressEvent) => void` | - | Called when the item is pressed. |
+
+Item children may be a render function receiving `{isActive, isHovered, isPressed, isFocused, isFocusVisible, isDisabled}`.
 
 ## Accessibility
 
-The root renders a `navigation` landmark and the items use accessible tab selection behavior. Always provide `aria-label` or `aria-labelledby` on the root, keep a text label for every destination, and treat `BottomBar.Icon` as decorative—it is automatically hidden from assistive technology.
+The root renders a `navigation` landmark containing a list. The active item gets `aria-current="page"` on links and `aria-current="true"` on buttons. Always provide `aria-label` or `aria-labelledby` on the root, keep a text label (or `aria-label`) for every destination, and treat `BottomBar.Icon` as decorative—it is automatically hidden from assistive technology.

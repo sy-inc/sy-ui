@@ -1,79 +1,63 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
-import type {TabsRootProps, TabProps as TabsTabProps} from "../tabs";
 import type {BottomBarVariants} from "@sy-inc/styles";
 import type {ReactNode} from "react";
-import type {TabRenderProps} from "react-aria-components/Tabs";
+import type {ButtonProps, ButtonRenderProps} from "react-aria-components/Button";
 
 import {bottomBarVariants} from "@sy-inc/styles";
 import React from "react";
+import {Button as ButtonPrimitive} from "react-aria-components/Button";
+import {Link as LinkPrimitive} from "react-aria-components/Link";
+import {SharedElementTransition} from "react-aria-components/SharedElementTransition";
 
-import {composeSlotClassName} from "../../utils/compose";
+import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
-import {Tabs} from "../tabs";
+import {SelectionIndicator} from "../rac/selection-indicator";
 
 const bottomBarSlots = bottomBarVariants();
 
 type BottomBarSelectionStyle = "color" | "indicator" | "underline";
 
-const BottomBarContext = React.createContext<{selectionStyle: BottomBarSelectionStyle}>({
-  selectionStyle: "indicator",
-});
+const BottomBarContext = React.createContext<BottomBarSelectionStyle>("indicator");
 
 /* -------------------------------------------------------------------------------------------------
  * Bottom Bar Root
  * -----------------------------------------------------------------------------------------------*/
 interface BottomBarRootProps
   extends
-    Omit<TabsRootProps, "children" | "className" | "orientation" | "variant">,
+    Omit<React.ComponentPropsWithRef<"nav">, "children" | "className">,
+    DOMRenderProps<"nav", undefined>,
     BottomBarVariants {
   children: ReactNode;
   className?: string;
 }
 
 const BottomBarRoot = ({
-  "aria-label": ariaLabel,
-  "aria-labelledby": ariaLabelledBy,
   children,
   className,
   position = "fixed",
-  render,
   selectionStyle = "indicator",
   variant = "floating",
   ...props
 }: BottomBarRootProps) => {
-  const slots = React.useMemo(
-    () => bottomBarVariants({position, selectionStyle, variant}),
-    [position, selectionStyle, variant],
-  );
-
-  const bottomBarContextValue = React.useMemo(() => ({selectionStyle}), [selectionStyle]);
-
   return (
-    <BottomBarContext value={bottomBarContextValue}>
-      <Tabs.Root
+    <BottomBarContext value={selectionStyle}>
+      <dom.nav
         {...props}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        className={composeSlotClassName(slots.base, className)}
-        orientation="horizontal"
-        render={(tabsProps, tabsRenderProps) => {
-          const rootProps = {
-            ...tabsProps,
-            "aria-label": ariaLabel,
-            "aria-labelledby": ariaLabelledBy,
-            "data-slot": "bottom-bar",
-            role: "navigation",
-          } as React.JSX.IntrinsicElements["div"];
-
-          return render ? render(rootProps, tabsRenderProps) : <div {...rootProps} />;
-        }}
+        data-slot="bottom-bar"
+        className={composeSlotClassName(
+          bottomBarVariants({position, selectionStyle, variant}).base,
+          className,
+        )}
       >
-        <Tabs.List aria-label={ariaLabel} aria-labelledby={ariaLabelledBy} className={slots.list()}>
-          {children}
-        </Tabs.List>
-      </Tabs.Root>
+        {/* Scopes the indicator so it slides from the previous active item to the next. */}
+        <SharedElementTransition>
+          <ul className={bottomBarSlots.list()} data-slot="bottom-bar-list">
+            {children}
+          </ul>
+        </SharedElementTransition>
+      </dom.nav>
     </BottomBarContext>
   );
 };
@@ -81,29 +65,67 @@ const BottomBarRoot = ({
 /* -------------------------------------------------------------------------------------------------
  * Bottom Bar Item
  * -----------------------------------------------------------------------------------------------*/
-type BottomBarItemRenderProps = TabRenderProps;
+type BottomBarItemRenderProps = Pick<
+  ButtonRenderProps,
+  "isDisabled" | "isFocused" | "isFocusVisible" | "isHovered" | "isPressed"
+> & {
+  isActive: boolean;
+};
 
-interface BottomBarItemProps extends Omit<TabsTabProps, "children" | "className" | "href"> {
+type BottomBarItemBaseProps = {
   children: ReactNode | ((values: BottomBarItemRenderProps) => ReactNode);
-  className?: TabsTabProps["className"];
-  /** Stable selection key. BottomBar items intentionally do not navigate via href. */
-  id: NonNullable<TabsTabProps["id"]>;
-}
+  /**
+   * Marks the current destination. Leave every item inactive when the current page is not in the
+   * bar. Sets `aria-current="page"` on links and `aria-current="true"` on buttons.
+   */
+  isActive?: boolean;
+};
 
-const BottomBarItem = ({children, className, id, ...props}: BottomBarItemProps) => {
-  const {selectionStyle} = React.use(BottomBarContext);
+/** A link when `href` is present (route destinations), a button otherwise (in-page views). */
+type BottomBarItemProps = BottomBarItemBaseProps &
+  (
+    | (Omit<React.ComponentPropsWithRef<typeof ButtonPrimitive>, "children"> & {href?: never})
+    | (Omit<React.ComponentPropsWithRef<typeof LinkPrimitive>, "children"> & {href: string})
+  );
+
+const BottomBarItem = ({
+  children,
+  className,
+  href,
+  isActive = false,
+  ...props
+}: BottomBarItemProps) => {
+  const selectionStyle = React.use(BottomBarContext);
+  const Control = (href !== undefined ? LinkPrimitive : ButtonPrimitive) as typeof ButtonPrimitive;
 
   return (
-    <Tabs.Tab {...props} className={composeSlotClassName(bottomBarSlots.link, className)} id={id}>
-      {(values) => (
-        <>
-          {selectionStyle !== "color" && (
-            <Tabs.Indicator aria-hidden className={bottomBarSlots.indicator()} />
-          )}
-          {typeof children === "function" ? children(values) : children}
-        </>
-      )}
-    </Tabs.Tab>
+    <li className={bottomBarSlots.item()} data-slot="bottom-bar-item">
+      <Control
+        {...(props as ButtonProps)}
+        {...((href !== undefined ? {href} : {}) as object)}
+        aria-current={isActive ? (href !== undefined ? "page" : "true") : undefined}
+        data-active={isActive || undefined}
+        data-slot="bottom-bar-link"
+        className={composeTwRenderProps(
+          className as ButtonProps["className"],
+          bottomBarSlots.link(),
+        )}
+      >
+        {(values) => (
+          <>
+            {selectionStyle !== "color" && (
+              <SelectionIndicator
+                aria-hidden
+                className={bottomBarSlots.indicator()}
+                data-slot="bottom-bar-indicator"
+                isSelected={isActive}
+              />
+            )}
+            {typeof children === "function" ? children({...values, isActive}) : children}
+          </>
+        )}
+      </Control>
+    </li>
   );
 };
 

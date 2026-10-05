@@ -5,7 +5,6 @@ import {hydrateRoot} from "react-dom/client";
 import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
 
-import {BottomBar} from "@/components/bottom-bar";
 import {Tabs} from "@/components/tabs";
 
 import "../../../../styles/dist/sy-inc.min.css";
@@ -20,7 +19,12 @@ const hydrateStrict = async (ui: React.ReactElement) => {
 
   container.innerHTML = renderToString(tree);
   document.body.appendChild(container);
-  hydrateRoot(container, tree);
+  const root = hydrateRoot(container, tree);
+
+  onTestFinished(() => {
+    root.unmount();
+    container.remove();
+  });
   await wait(2000);
 };
 
@@ -306,20 +310,6 @@ describe("Tabs (browser)", () => {
       await hydrateStrict(<FlatTabs selectedKey="t5" />);
 
       expect(settledOn("T5")).toEqual({offset: [0, 0, 0], translate: ""});
-    });
-
-    it("settles on a controlled BottomBar selection that is not the first item", async () => {
-      await hydrateStrict(
-        <BottomBar selectedKey="b4">
-          {["b1", "b2", "b3", "b4"].map((key) => (
-            <BottomBar.Item key={key} id={key}>
-              <BottomBar.Label>{key.toUpperCase()}</BottomBar.Label>
-            </BottomBar.Item>
-          ))}
-        </BottomBar>,
-      );
-
-      expect(settledOn("B4")).toEqual({offset: [0, 0, 0], translate: ""});
     });
 
     it("slides between tabs and settles on the new selection", async () => {

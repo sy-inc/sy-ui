@@ -3,6 +3,7 @@ import type {Meta, StoryObj} from "@storybook/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
+import {RouterProvider} from "../rac";
 import {Spinner} from "../spinner";
 
 import {BottomBar} from "./index";
@@ -14,18 +15,35 @@ const destinations = [
   {id: "profile", icon: "gravity-ui:person", label: "Profile"},
 ] as const;
 
-const NavigationItems = () => (
-  <>
-    {destinations.map((destination) => (
-      <BottomBar.Item key={destination.id} id={destination.id}>
-        <BottomBar.Icon>
-          <Icon icon={destination.icon} />
-        </BottomBar.Icon>
-        {/* <BottomBar.Label>{destination.label}</BottomBar.Label> */}
-      </BottomBar.Item>
-    ))}
-  </>
-);
+/**
+ * Links to `/<id>`; the RouterProvider stands in for the app router, so the story keeps the
+ * current page in state instead of navigating the frame.
+ */
+const RoutedBottomBar = ({
+  initialPage = "/home",
+  ...props
+}: Omit<React.ComponentProps<typeof BottomBar>, "children"> & {initialPage?: string}) => {
+  const [currentPage, setCurrentPage] = React.useState(initialPage);
+
+  return (
+    <RouterProvider navigate={setCurrentPage}>
+      <BottomBar aria-label="Primary navigation" {...props}>
+        {destinations.map((destination) => (
+          <BottomBar.Item
+            key={destination.id}
+            aria-label={destination.label}
+            href={`/${destination.id}`}
+            isActive={currentPage === `/${destination.id}`}
+          >
+            <BottomBar.Icon>
+              <Icon icon={destination.icon} />
+            </BottomBar.Icon>
+          </BottomBar.Item>
+        ))}
+      </BottomBar>
+    </RouterProvider>
+  );
+};
 
 const meta = {
   argTypes: {
@@ -51,9 +69,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: (args) => (
     <div className="w-[390px] rounded-4xl bg-background p-4 pt-72">
-      <BottomBar {...args} aria-label="Primary navigation" defaultSelectedKey="home">
-        <NavigationItems />
-      </BottomBar>
+      <RoutedBottomBar {...args} />
     </div>
   ),
 };
@@ -61,9 +77,7 @@ export const Default: Story = {
 export const ColorSelection: Story = {
   render: () => (
     <div className="w-[390px] rounded-4xl bg-background p-4 pt-72">
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="home" selectionStyle="color">
-        <NavigationItems />
-      </BottomBar>
+      <RoutedBottomBar selectionStyle="color" />
     </div>
   ),
 };
@@ -71,13 +85,7 @@ export const ColorSelection: Story = {
 export const UnderlineSelection: Story = {
   render: () => (
     <div className="w-[390px] rounded-4xl bg-background p-4 pt-72">
-      <BottomBar
-        aria-label="Primary navigation"
-        defaultSelectedKey="home"
-        selectionStyle="underline"
-      >
-        <NavigationItems />
-      </BottomBar>
+      <RoutedBottomBar selectionStyle="underline" />
     </div>
   ),
 };
@@ -98,14 +106,7 @@ export const EdgeAttached: Story = {
           </div>
         ))}
       </div>
-      <BottomBar
-        aria-label="Primary navigation"
-        defaultSelectedKey="home"
-        position="fixed"
-        variant="edge"
-      >
-        <NavigationItems />
-      </BottomBar>
+      <RoutedBottomBar position="fixed" variant="edge" />
     </div>
   ),
 };
@@ -126,26 +127,33 @@ export const FixedWithScrollingContent: Story = {
           </div>
         ))}
       </div>
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="home" position="fixed">
-        <NavigationItems />
-      </BottomBar>
+      <RoutedBottomBar position="fixed" />
     </div>
   ),
 };
 
-export const RouterOwnedCurrentPage: Story = {
+/** The current page (`/settings`) is not in the bar, so no item is highlighted. */
+export const NoActiveDestination: Story = {
+  render: (args) => (
+    <div className="w-[390px] rounded-4xl bg-background p-4 pt-72">
+      <RoutedBottomBar {...args} initialPage="/settings" />
+    </div>
+  ),
+};
+
+/** Items without `href` render buttons, for switching views within one page. */
+export const InPageViews: Story = {
   render: (args) => {
-    const [currentId, setCurrentId] = React.useState("search");
+    const [view, setView] = React.useState("inbox");
 
     return (
       <div className="w-[390px] rounded-4xl bg-background p-4 pt-72">
-        <BottomBar
-          {...args}
-          aria-label="Primary navigation"
-          selectedKey={currentId}
-          onSelectionChange={(key) => setCurrentId(String(key))}
-        >
-          <NavigationItems />
+        <BottomBar {...args} aria-label="Mailbox views">
+          {["inbox", "archive", "trash"].map((id) => (
+            <BottomBar.Item key={id} isActive={view === id} onPress={() => setView(id)}>
+              <BottomBar.Label className="capitalize">{id}</BottomBar.Label>
+            </BottomBar.Item>
+          ))}
         </BottomBar>
       </div>
     );
@@ -155,14 +163,14 @@ export const RouterOwnedCurrentPage: Story = {
 export const DisabledAndPending: Story = {
   render: (args) => (
     <div className="w-[390px] rounded-4xl bg-background p-4 pt-72">
-      <BottomBar {...args} aria-label="Primary navigation" defaultSelectedKey="home">
-        <BottomBar.Item id="home">
+      <BottomBar {...args} aria-label="Primary navigation">
+        <BottomBar.Item isActive href="#home">
           <BottomBar.Icon>
             <Icon icon="gravity-ui:house" />
           </BottomBar.Icon>
           <BottomBar.Label>Home</BottomBar.Label>
         </BottomBar.Item>
-        <BottomBar.Item aria-describedby="sync-status" id="sync">
+        <BottomBar.Item aria-describedby="sync-status" href="#sync">
           <BottomBar.Icon>
             <Spinner color="current" size="sm" />
           </BottomBar.Icon>
@@ -173,7 +181,7 @@ export const DisabledAndPending: Story = {
             </span>
           </BottomBar.Label>
         </BottomBar.Item>
-        <BottomBar.Item isDisabled id="profile">
+        <BottomBar.Item isDisabled href="#profile">
           <BottomBar.Icon>
             <Icon icon="gravity-ui:person" />
           </BottomBar.Icon>

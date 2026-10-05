@@ -24,3 +24,16 @@ export const MOBILE_BREAKPOINT = 768;
 
 /** Media query matching viewports below {@link MOBILE_BREAKPOINT}. */
 export const mobileMediaQuery = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`;
+
+/**
+ * Media queries below which an undecided (`"auto"`) Sidebar renders collapsed. Mirrors Tailwind's
+ * `lg` / `xl` / `2xl` breakpoints.
+ *
+ * IMPORTANT: must match the `sidebar-collapsed` variant in `variants/index.css` — the CSS paints
+ * the collapsed state, and the React tree reads these to report it (`aria-expanded`, tooltips).
+ */
+export const sidebarCollapseMediaQueries = {
+  "2xl": "(width < 96rem)",
+  lg: "(width < 64rem)",
+  xl: "(width < 80rem)",
+} as const;

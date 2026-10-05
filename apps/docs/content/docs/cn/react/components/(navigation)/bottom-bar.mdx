@@ -1,6 +1,6 @@
 ---
 title: Bottom Bar 底部导航栏
-description: 用于主要目的地的紧凑型单选导航栏。
+description: 用于主要目的地的紧凑型导航栏。
 links:
   source: bottom-bar/bottom-bar.tsx
   storybook: Components/Navigation/BottomBar
@@ -11,14 +11,14 @@ links:
 ```tsx
 import {BottomBar} from '@sy-inc/react';
 
-export default function Example() {
+export default function Example({pathname}: {pathname: string}) {
   return (
-    <BottomBar aria-label="主要导航" defaultSelectedKey="home">
-      <BottomBar.Item id="home">
+    <BottomBar aria-label="主要导航">
+      <BottomBar.Item href="/home" isActive={pathname === '/home'}>
         <BottomBar.Icon>⌂</BottomBar.Icon>
         <BottomBar.Label>首页</BottomBar.Label>
       </BottomBar.Item>
-      <BottomBar.Item id="search">
+      <BottomBar.Item href="/search" isActive={pathname.startsWith('/search')}>
         <BottomBar.Icon>⌕</BottomBar.Icon>
         <BottomBar.Label>搜索</BottomBar.Label>
       </BottomBar.Item>
@@ -31,28 +31,34 @@ export default function Example() {
 
 ```tsx
 <BottomBar>
-  <BottomBar.Item id="destination">
+  <BottomBar.Item href="/destination" isActive>
     <BottomBar.Icon />
     <BottomBar.Label />
   </BottomBar.Item>
 </BottomBar>
 ```
 
-`BottomBar` 管理一个选中 key。若当前目的地由路由或应用状态管理，请使用 `selectedKey` 与 `onSelectionChange`。Item 刻意不接受 `href`，应在选中回调中执行导航。
+每个 Item 通过 `isActive` 声明自己是否为当前目的地。当前页面不在底栏中时，所有 Item 都不传 `isActive`：不会高亮任何一项，且每一项都可以用 `Tab` 聚焦。
+
+带 `href` 的 Item 渲染为链接；在应用外层包裹 `RouterProvider` 即可让这些链接走客户端路由。不带 `href` 的 Item 渲染为按钮，可通过 `onPress` 在页面内切换视图。
 
 ## 关键属性与行为
 
 | 属性 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `defaultSelectedKey` | `Key` | - | 非受控模式的初始选中项。 |
-| `selectedKey` | `Key` | - | 受控的选中项。 |
-| `onSelectionChange` | `(key: Key) => void` | - | 选中项变化时调用。 |
 | `position` | `"fixed" \| "sticky" \| "static"` | `"fixed"` | 定位方式。 |
 | `variant` | `"floating" \| "edge"` | `"floating"` | 容器外观。 |
-| `selectionStyle` | `"color" \| "indicator" \| "underline"` | `"indicator"` | 选中态样式。 |
+| `selectionStyle` | `"color" \| "indicator" \| "underline"` | `"indicator"` | 当前项样式。当前项变化时指示器会滑动过去。 |
 
-每个 `BottomBar.Item` 都必须提供稳定的 `id`，并支持 `isDisabled` 等 Tab 状态；其 children 也可使用接收 Tab 状态的渲染函数。
+| Item 属性 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `href` | `string` | - | 渲染为链接；不传则渲染为按钮。 |
+| `isActive` | `boolean` | `false` | 标记当前目的地。 |
+| `isDisabled` | `boolean` | `false` | 禁用该项。 |
+| `onPress` | `(e: PressEvent) => void` | - | 按下该项时调用。 |
+
+Item 的 children 也可以是渲染函数，参数为 `{isActive, isHovered, isPressed, isFocused, isFocusVisible, isDisabled}`。
 
 ## 无障碍
 
-根元素渲染为 `navigation` 地标，Item 使用可访问的 Tab 单选交互。根元素必须提供 `aria-label` 或 `aria-labelledby`；每个目的地应保留文本标签。`BottomBar.Icon` 会自动从辅助技术中隐藏，因此仅应用于装饰图标。
+根元素渲染为包含列表的 `navigation` 地标。当前项在链接上带 `aria-current="page"`，在按钮上带 `aria-current="true"`。根元素必须提供 `aria-label` 或 `aria-labelledby`；每个目的地应保留文本标签（或 `aria-label`）。`BottomBar.Icon` 会自动从辅助技术中隐藏，因此仅应用于装饰图标。

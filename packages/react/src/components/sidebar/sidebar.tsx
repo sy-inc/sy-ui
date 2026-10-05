@@ -7,7 +7,9 @@ import type {SidebarVariants} from "@sy-inc/styles";
 import type {CSSProperties, ReactNode} from "react";
 import type {ButtonProps, LinkProps} from "react-aria-components";
 
-import {mobileMediaQuery, sidebarVariants} from "@sy-inc/styles";
+import {useEffectEvent} from "@react-aria/utils";
+import {useControlledState} from "@react-stately/utils";
+import {mobileMediaQuery, sidebarCollapseMediaQueries, sidebarVariants} from "@sy-inc/styles";
 import React from "react";
 
 import {useMediaQuery, useOverlayState} from "../../hooks";
@@ -38,6 +40,8 @@ const slotClass = (slot: SidebarSlot, className?: string) =>
   (slots[slot] as (props?: {className?: string}) => string)({className});
 
 type SidebarState = "collapsed" | "expanded";
+/** `"auto"`: the visitor has not chosen yet, so `collapseBreakpoint` decides (in CSS). */
+type SidebarOpenState = boolean | "auto";
 type SidebarSide = NonNullable<SidebarVariants["side"]>;
 type SidebarVariant = NonNullable<SidebarVariants["variant"]>;
 type SidebarCollapsible = NonNullable<SidebarVariants["collapsible"]>;
@@ -92,21 +96,23 @@ const isEditableTarget = (target: EventTarget | null) =>
  * Sidebar Root
  * -----------------------------------------------------------------------------------------------*/
 interface SidebarRootProps
-  extends Omit<React.ComponentPropsWithRef<"div">, "onChange">, SidebarVariants {
+  extends Omit<React.ComponentPropsWithRef<"div">, "onChange">, Omit<SidebarVariants, "state"> {
   /** Width of the expanded desktop panel. @default "16rem" */
   width?: number | string;
   /** Width of the icon-collapsed desktop panel. @default "3rem" */
   collapsedWidth?: number | string;
   /** Width of the mobile drawer. @default "18rem" */
   mobileWidth?: number | string;
-  /** Initial desktop state when uncontrolled. @default true */
-  defaultOpen?: boolean;
+  /**
+   * Initial desktop state when uncontrolled. `"auto"` means the visitor has not chosen yet: the
+   * sidebar is expanded, or collapsed below `collapseBreakpoint`, until the first toggle.
+   * @default "auto"
+   */
+  defaultOpen?: SidebarOpenState;
   /** Controlled desktop state. */
-  isOpen?: boolean;
-  /** Called when the desktop state changes. */
+  isOpen?: SidebarOpenState;
+  /** Called when the visitor toggles the desktop state. Never called by `collapseBreakpoint`. */
   onOpenChange?: (isOpen: boolean) => void;
-  /** Viewport width (px) at or below which the uncontrolled sidebar auto-collapses. */
-  collapseBreakpoint?: number;
   /**
    * Key that toggles the sidebar when pressed with `⌘`/`Ctrl`. Pass `false` to disable the
    * shortcut — e.g. when the app embeds a rich text editor that owns `⌘B`.
@@ -118,10 +124,10 @@ interface SidebarRootProps
 const SidebarRoot = ({
   children,
   className,
-  collapsedWidth = "3rem",
   collapseBreakpoint,
+  collapsedWidth = "3rem",
   collapsible = "offcanvas",
-  defaultOpen = true,
+  defaultOpen = "auto",
   isOpen: controlledIsOpen,
   mobileWidth = "18rem",
   onOpenChange,
@@ -132,20 +138,25 @@ const SidebarRoot = ({
   width = "16rem",
   ...props
 }: SidebarRootProps) => {
-  const desktopState = useOverlayState({
+  // The setter only takes booleans: `"auto"` can be passed in, never set by a toggle.
+  const [openState, setOpenState] = useControlledState<SidebarOpenState, boolean>(
+    controlledIsOpen,
     defaultOpen,
-    isOpen: controlledIsOpen,
     onOpenChange,
-  });
+  );
   const mobileState = useOverlayState();
   const isMobile = useMediaQuery(mobileMediaQuery);
+  const autoCollapseBreakpoint =
+    openState === "auto" && collapsible !== "none" ? collapseBreakpoint : undefined;
+  // Read-only: the `sidebar-collapsed` CSS variant paints the auto state (correct before
+  // hydration); this only reports it to aria-expanded, tooltips, `useSidebar` and `toggle`.
   // `not all` never matches, so the hook stays mounted while the feature is off.
   const isBelowCollapseBreakpoint = useMediaQuery(
-    collapseBreakpoint == null ? "not all" : `(max-width: ${collapseBreakpoint}px)`,
+    autoCollapseBreakpoint ? sidebarCollapseMediaQueries[autoCollapseBreakpoint] : "not all",
   );
+  const isOpenDesktop = openState === "auto" ? !isBelowCollapseBreakpoint : openState;
   const panelId = React.useId();
   const mobileWidthValue = toCSSLength(mobileWidth);
-  const {isOpen: isOpenDesktop, setOpen: setDesktopOpen} = desktopState;
   const state: SidebarState = isOpenDesktop ? "expanded" : "collapsed";
   const {
     close: closeMobile,
@@ -155,46 +166,40 @@ const SidebarRoot = ({
   } = mobileState;
   const setOpen = React.useCallback(
     (nextIsOpen: boolean) => {
-      setDesktopOpen(nextIsOpen);
+      setOpenState(nextIsOpen);
       document.cookie = `${SIDEBAR_COOKIE_NAME}=${nextIsOpen}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
     },
-    [setDesktopOpen],
+    [setOpenState],
   );
   const toggle = React.useCallback(() => {
     if (isMobile) toggleMobile();
     else setOpen(!isOpenDesktop);
   }, [isMobile, isOpenDesktop, setOpen, toggleMobile]);
-  const toggleRef = React.useRef(toggle);
-  const context = React.useMemo<SidebarInternalContextValue>(
-    () => ({
-      collapsible,
-      isMobile,
-      isOpen: isOpenDesktop,
-      isOpenMobile,
-      mobileState,
-      mobileWidth: mobileWidthValue,
-      panelId,
-      setOpen,
-      setOpenMobile,
-      side,
-      state,
-      toggle,
-    }),
-    [
-      collapsible,
-      isMobile,
-      isOpenDesktop,
-      isOpenMobile,
-      mobileState,
-      mobileWidthValue,
-      panelId,
-      setOpen,
-      setOpenMobile,
-      side,
-      state,
-      toggle,
-    ],
-  );
+  // Always calls the latest `toggle`, so the shortcut listener never has to re-subscribe.
+  const toggleFromShortcut = useEffectEvent(toggle);
+  // Not memoized: `mobileState` is a fresh object every render, and every consumer is a
+  // descendant that re-renders with the Root anyway.
+  const context: SidebarInternalContextValue = {
+    collapsible,
+    isMobile,
+    isOpen: isOpenDesktop,
+    isOpenMobile,
+    mobileState,
+    mobileWidth: mobileWidthValue,
+    panelId,
+    setOpen,
+    setOpenMobile,
+    side,
+    state,
+    toggle,
+  };
+  const rootClassName = sidebarVariants({
+    collapseBreakpoint: autoCollapseBreakpoint,
+    collapsible,
+    side,
+    state,
+    variant,
+  }).base({className});
   const rootStyle: SidebarVariables = {
     "--sidebar-width": toCSSLength(width),
     "--sidebar-width-collapsed": toCSSLength(collapsedWidth),
@@ -206,16 +211,6 @@ const SidebarRoot = ({
     if (!isMobile) closeMobile();
   }, [closeMobile, isMobile]);
 
-  // Applies on mount as well as on resize, so loading below the breakpoint starts collapsed.
-  React.useEffect(() => {
-    if (collapseBreakpoint == null || collapsible === "none") return;
-    if (controlledIsOpen === undefined) setOpen(!isBelowCollapseBreakpoint);
-  }, [collapseBreakpoint, collapsible, controlledIsOpen, isBelowCollapseBreakpoint, setOpen]);
-
-  React.useEffect(() => {
-    toggleRef.current = toggle;
-  }, [toggle]);
-
   React.useEffect(() => {
     if (toggleShortcut === false) return;
 
@@ -226,7 +221,7 @@ const SidebarRoot = ({
       if (isEditableTarget(event.target)) return;
 
       event.preventDefault();
-      toggleRef.current();
+      toggleFromShortcut();
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -238,7 +233,7 @@ const SidebarRoot = ({
     <SidebarContext value={context}>
       <div
         {...props}
-        className={sidebarVariants({collapsible, side, state, variant}).base({className})}
+        className={rootClassName}
         data-collapsible={collapsible}
         data-side={side}
         data-slot="sidebar"
@@ -275,7 +270,7 @@ const SidebarPanel = ({
     return (
       <Drawer.Root state={mobileState}>
         <Drawer.Backdrop className={slotClass("mobileBackdrop")}>
-          <Drawer.Content className={slotClass("mobileContent")} placement={side}>
+          <Drawer.Content placement={side}>
             <Drawer.Dialog
               {...(props as any)}
               aria-describedby={description ? descriptionId : undefined}
@@ -419,9 +414,7 @@ const SidebarSeparator = ({className, ...props}: SidebarSeparatorProps) => (
 type SidebarElementProps<E extends keyof React.JSX.IntrinsicElements> =
   React.ComponentPropsWithRef<E>;
 
-interface SidebarGroupActionProps extends Omit<ButtonProps, "className"> {
-  className?: ButtonProps["className"];
-}
+interface SidebarGroupActionProps extends ButtonProps {}
 
 const SidebarGroupAction = ({className, ...props}: SidebarGroupActionProps) => (
   <Button.Root
@@ -448,8 +441,7 @@ const SidebarMenuItem = ({className, hideCollapsed, ...props}: SidebarMenuItemPr
 
 SidebarMenuItem.displayName = "SY INC.Sidebar.MenuItem";
 
-interface SidebarMenuActionProps extends Omit<ButtonProps, "className"> {
-  className?: ButtonProps["className"];
+interface SidebarMenuActionProps extends ButtonProps {
   showOnHover?: boolean;
 }
 
@@ -463,9 +455,7 @@ const SidebarMenuAction = ({className, showOnHover = false, ...props}: SidebarMe
   />
 );
 
-type SidebarButtonProps =
-  | (Omit<LinkProps, "className"> & {className?: LinkProps["className"]; href: string})
-  | (Omit<ButtonProps, "className"> & {className?: ButtonProps["className"]; href?: never});
+type SidebarButtonProps = (LinkProps & {href: string}) | (ButtonProps & {href?: never});
 
 /**
  * Renders a Link when `href` is present and a ghost Button otherwise. The public prop types on
@@ -586,7 +576,7 @@ const SidebarMenuSkeleton = ({className, showIcon = false, ...props}: SidebarMen
     className={slotClass("menuSkeleton", className)}
     data-slot="sidebar-menu-skeleton"
   >
-    {showIcon && (
+    {!!showIcon && (
       <Skeleton className={slotClass("menuSkeletonIcon")} data-slot="sidebar-menu-skeleton-icon" />
     )}
     <Skeleton className={slotClass("menuSkeletonText")} data-slot="sidebar-menu-skeleton-text" />
@@ -696,11 +686,13 @@ export {
   SidebarSeparator,
   SidebarTrigger,
   SidebarRail,
+  // eslint-disable-next-line react-refresh/only-export-components
   useSidebar,
 };
 
 export type {
   SidebarState,
+  SidebarOpenState,
   SidebarSide,
   SidebarVariant,
   SidebarCollapsible,

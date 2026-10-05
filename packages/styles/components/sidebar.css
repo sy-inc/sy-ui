@@ -47,21 +47,29 @@
   @apply right-0 border-l;
 }
 
-.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__gap {
-  width: 0;
+.sidebar--collapsible-offcanvas .sidebar__gap {
+  @variant sidebar-collapsed {
+    width: 0;
+  }
 }
 
-.sidebar--left.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__panel {
-  transform: translateX(-100%);
+.sidebar--left.sidebar--collapsible-offcanvas .sidebar__panel {
+  @variant sidebar-collapsed {
+    transform: translateX(-100%);
+  }
 }
 
-.sidebar--right.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__panel {
-  transform: translateX(100%);
+.sidebar--right.sidebar--collapsible-offcanvas .sidebar__panel {
+  @variant sidebar-collapsed {
+    transform: translateX(100%);
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__panel,
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__gap {
-  width: var(--sidebar-width-collapsed);
+.sidebar--collapsible-icon .sidebar__panel,
+.sidebar--collapsible-icon .sidebar__gap {
+  @variant sidebar-collapsed {
+    width: var(--sidebar-width-collapsed);
+  }
 }
 
 .sidebar--floating .sidebar__panel {
@@ -76,24 +84,32 @@
   width: calc(var(--sidebar-width) - 1rem);
 }
 
-.sidebar--floating.sidebar--collapsible-icon.sidebar--collapsed .sidebar__gap,
-.sidebar--inset.sidebar--collapsible-icon.sidebar--collapsed .sidebar__gap {
-  width: calc(var(--sidebar-width-collapsed) + 1rem);
+.sidebar--floating.sidebar--collapsible-icon .sidebar__gap,
+.sidebar--inset.sidebar--collapsible-icon .sidebar__gap {
+  @variant sidebar-collapsed {
+    width: calc(var(--sidebar-width-collapsed) + 1rem);
+  }
 }
 
-.sidebar--floating.sidebar--collapsible-icon.sidebar--collapsed .sidebar__panel,
-.sidebar--inset.sidebar--collapsible-icon.sidebar--collapsed .sidebar__panel {
-  width: calc(var(--sidebar-width-collapsed) + 2px);
+.sidebar--floating.sidebar--collapsible-icon .sidebar__panel,
+.sidebar--inset.sidebar--collapsible-icon .sidebar__panel {
+  @variant sidebar-collapsed {
+    width: calc(var(--sidebar-width-collapsed) + 2px);
+  }
 }
 
-.sidebar--left.sidebar--floating.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__panel,
-.sidebar--left.sidebar--inset.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__panel {
-  transform: translateX(calc(-100% - 1rem));
+.sidebar--left.sidebar--floating.sidebar--collapsible-offcanvas .sidebar__panel,
+.sidebar--left.sidebar--inset.sidebar--collapsible-offcanvas .sidebar__panel {
+  @variant sidebar-collapsed {
+    transform: translateX(calc(-100% - 1rem));
+  }
 }
 
-.sidebar--right.sidebar--floating.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__panel,
-.sidebar--right.sidebar--inset.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__panel {
-  transform: translateX(calc(100% + 1rem));
+.sidebar--right.sidebar--floating.sidebar--collapsible-offcanvas .sidebar__panel,
+.sidebar--right.sidebar--inset.sidebar--collapsible-offcanvas .sidebar__panel {
+  @variant sidebar-collapsed {
+    transform: translateX(calc(100% + 1rem));
+  }
 }
 
 .sidebar__header,
@@ -101,8 +117,10 @@
   @apply flex shrink-0 flex-col gap-2 p-2;
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__header > .sidebar__trigger {
-  @apply mx-auto size-8;
+.sidebar--collapsible-icon .sidebar__header > .sidebar__trigger {
+  @variant sidebar-collapsed {
+    @apply mx-auto size-8;
+  }
 }
 
 .sidebar__content {
@@ -270,44 +288,62 @@
   @apply text-sm;
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__group-label {
-  @apply -mt-8 opacity-0;
+.sidebar--collapsible-icon .sidebar__group-label {
+  @variant sidebar-collapsed {
+    @apply -mt-8 opacity-0;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__content {
-  @apply overflow-hidden;
+.sidebar--collapsible-icon .sidebar__content {
+  @variant sidebar-collapsed {
+    @apply overflow-hidden;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-button {
-  @apply size-8 px-2;
+.sidebar--collapsible-icon .sidebar__menu-button {
+  @variant sidebar-collapsed {
+    @apply size-8 px-2;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-button[data-size="lg"] {
-  @apply p-0;
+.sidebar--collapsible-icon .sidebar__menu-button[data-size="lg"] {
+  @variant sidebar-collapsed {
+    @apply p-0;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-skeleton {
-  @apply size-8 p-2;
+.sidebar--collapsible-icon .sidebar__menu-skeleton {
+  @variant sidebar-collapsed {
+    @apply size-8 p-2;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-skeleton-text {
-  @apply hidden;
+.sidebar--collapsible-icon .sidebar__menu-skeleton-text {
+  @variant sidebar-collapsed {
+    @apply hidden;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-button > :not(:first-child) {
-  @apply hidden;
+.sidebar--collapsible-icon .sidebar__menu-button > :not(:first-child) {
+  @variant sidebar-collapsed {
+    @apply hidden;
+  }
 }
 
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-badge,
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-action,
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__group-action,
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-sub,
-.sidebar--collapsible-icon.sidebar--collapsed .sidebar__menu-item .disclosure__content {
-  @apply hidden;
+.sidebar--collapsible-icon .sidebar__menu-badge,
+.sidebar--collapsible-icon .sidebar__menu-action,
+.sidebar--collapsible-icon .sidebar__group-action,
+.sidebar--collapsible-icon .sidebar__menu-sub,
+.sidebar--collapsible-icon .sidebar__menu-item .disclosure__content {
+  @variant sidebar-collapsed {
+    @apply hidden;
+  }
 }
 
-.sidebar--collapsed .sidebar__menu-item[data-hide-collapsed="true"] {
-  @apply hidden;
+.sidebar__menu-item[data-hide-collapsed="true"] {
+  @variant sidebar-collapsed {
+    @apply hidden;
+  }
 }
 
 /* Page surface next to the panel. A plain flex column, nothing else: the page frame renders
@@ -324,12 +360,16 @@
   @apply mr-0 ml-2;
 }
 
-.sidebar--left.sidebar--inset.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__inset {
-  @apply ml-2;
+.sidebar--left.sidebar--inset.sidebar--collapsible-offcanvas .sidebar__inset {
+  @variant sidebar-collapsed {
+    @apply ml-2;
+  }
 }
 
-.sidebar--right.sidebar--inset.sidebar--collapsible-offcanvas.sidebar--collapsed .sidebar__inset {
-  @apply mr-2;
+.sidebar--right.sidebar--inset.sidebar--collapsible-offcanvas .sidebar__inset {
+  @variant sidebar-collapsed {
+    @apply mr-2;
+  }
 }
 
 .sidebar__trigger {
@@ -349,15 +389,14 @@
   transition: opacity 150ms var(--ease-smooth);
 }
 
+/* Native <button>: only pseudo-classes apply, React Aria data attributes are never set on it. */
 .sidebar__rail:hover::after,
-.sidebar__rail[data-hovered]::after,
-.sidebar__rail:focus-visible::after,
-.sidebar__rail[data-focus-visible]::after {
+.sidebar__rail:focus-visible::after {
   @apply opacity-100;
 }
 
 .sidebar__panel:hover .sidebar__rail,
-.sidebar__rail[data-focus-visible] {
+.sidebar__rail:focus-visible {
   @apply opacity-100;
 }
 

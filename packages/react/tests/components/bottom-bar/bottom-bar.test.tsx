@@ -1,32 +1,25 @@
 import type {BottomBarProps} from "@/components/bottom-bar";
-import type {AnchorHTMLAttributes, ReactElement, Ref} from "react";
+import type {AnchorHTMLAttributes, Ref} from "react";
 
-import {act, render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 import {createRef} from "react";
 
 import {BottomBar} from "@/components/bottom-bar";
+import {RouterProvider} from "@/components/rac";
 
 interface TestBottomBarProps extends Omit<BottomBarProps, "children"> {
-  currentKey?: string;
+  currentHref?: string;
 }
 
-const TestBottomBar = ({currentKey = "#home", ...props}: TestBottomBarProps) => (
-  <BottomBar aria-label="Primary navigation" selectedKey={currentKey} {...props}>
-    <BottomBar.Item id="#home">Home</BottomBar.Item>
-    <BottomBar.Item id="#activity">Activity</BottomBar.Item>
-    <BottomBar.Item id="#profile">Profile</BottomBar.Item>
+const TestBottomBar = ({currentHref = "/home", ...props}: TestBottomBarProps) => (
+  <BottomBar aria-label="Primary navigation" {...props}>
+    {["/home", "/activity", "/profile"].map((href) => (
+      <BottomBar.Item key={href} href={href} isActive={href === currentHref}>
+        {href.slice(1)}
+      </BottomBar.Item>
+    ))}
   </BottomBar>
 );
-
-const renderBottomBar = async (ui: ReactElement) => {
-  const result = render(ui);
-
-  await act(async () => {
-    await Promise.resolve();
-  });
-
-  return result;
-};
 
 describe("BottomBar", () => {
   let user: ReturnType<typeof setupUser>;
@@ -35,102 +28,112 @@ describe("BottomBar", () => {
     user = setupUser();
   });
 
-  it("composes Tabs with navigation and tab semantics", async () => {
-    await renderBottomBar(<TestBottomBar />);
+  it("renders a navigation landmark with a list of links", async () => {
+    render(<TestBottomBar />);
 
     const navigation = screen.getByRole("navigation", {name: "Primary navigation"});
-    const tabList = screen.getByRole("tablist", {name: "Primary navigation"});
-    const tabs = screen.getAllByRole("tab");
 
-    expect(navigation).toHaveClass("tabs", "bottom-bar", "bottom-bar--fixed");
-    expect(tabList).toHaveAttribute("data-slot", "tabs-list");
-    expect(tabs).toHaveLength(3);
-    expect(tabs[0]).not.toHaveAttribute("href");
-    expect(tabs[0]).toHaveAttribute("data-slot", "tabs-tab");
-    expect(screen.queryByRole("list")).not.toBeInTheDocument();
+    expect(navigation).toHaveClass("bottom-bar", "bottom-bar--fixed");
+    expect(screen.getByRole("list")).toHaveClass("bottom-bar__list");
+    expect(screen.getAllByRole("listitem")).toHaveLength(3);
+    expect(screen.getAllByRole("link")).toHaveLength(3);
+    expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
   });
 
-  it("takes selected state from the owner", async () => {
-    const view = await renderBottomBar(<TestBottomBar currentKey="#home" />);
-    const home = screen.getByRole("tab", {name: "Home"});
-    const profile = screen.getByRole("tab", {name: "Profile"});
+  it("marks only the active destination as the current page", async () => {
+    const view = render(<TestBottomBar currentHref="/home" />);
+    const home = screen.getByRole("link", {name: "home"});
+    const profile = screen.getByRole("link", {name: "profile"});
 
-    expect(home).toHaveAttribute("aria-selected", "true");
-    expect(home).toHaveAttribute("data-selected", "true");
-    expect(profile).toHaveAttribute("aria-selected", "false");
+    expect(home).toHaveAttribute("aria-current", "page");
+    expect(home).toHaveAttribute("data-active", "true");
+    expect(profile).not.toHaveAttribute("aria-current");
 
-    await user.click(profile);
-    expect(home).toHaveAttribute("aria-selected", "true");
+    view.rerender(<TestBottomBar currentHref="/profile" />);
 
-    await act(async () => {
-      view.rerender(<TestBottomBar currentKey="#profile" />);
-      await Promise.resolve();
-    });
-
-    expect(home).toHaveAttribute("aria-selected", "false");
-    expect(profile).toHaveAttribute("aria-selected", "true");
+    expect(home).not.toHaveAttribute("aria-current");
+    expect(profile).toHaveAttribute("aria-current", "page");
   });
 
-  it("keeps item activation inside the component without URL navigation", async () => {
-    await renderBottomBar(
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="#home">
-        <BottomBar.Item id="#home">Home</BottomBar.Item>
-        <BottomBar.Item id="#profile">Profile</BottomBar.Item>
+  it("supports no active destination and keeps every item reachable by Tab", async () => {
+    render(<TestBottomBar currentHref="/settings" />);
+
+    const links = screen.getAllByRole("link");
+
+    for (const link of links) expect(link).not.toHaveAttribute("aria-current");
+    expect(document.querySelector('[data-slot="bottom-bar-indicator"]')).not.toBeInTheDocument();
+
+    for (const link of links) {
+      await user.tab();
+      expect(link).toHaveFocus();
+    }
+  });
+
+  it("navigates through the client router", async () => {
+    const navigate = vi.fn();
+
+    render(
+      <RouterProvider navigate={navigate}>
+        <TestBottomBar />
+      </RouterProvider>,
+    );
+
+    await user.click(screen.getByRole("link", {name: "profile"}));
+
+    expect(navigate).toHaveBeenCalledWith("/profile", undefined);
+  });
+
+  it("renders button items for in-page views", async () => {
+    const onPress = vi.fn();
+
+    render(
+      <BottomBar aria-label="Views">
+        <BottomBar.Item isActive>Inbox</BottomBar.Item>
+        <BottomBar.Item onPress={onPress}>Archive</BottomBar.Item>
       </BottomBar>,
     );
 
-    const profile = screen.getByRole("tab", {name: "Profile"});
-    const urlBeforeClick = window.location.href;
+    expect(screen.getByRole("button", {name: "Inbox"})).toHaveAttribute("aria-current", "true");
 
-    expect(profile).not.toHaveAttribute("href");
+    await user.click(screen.getByRole("button", {name: "Archive"}));
 
-    await user.click(profile);
-
-    expect(window.location.href).toBe(urlBeforeClick);
-    expect(profile).toHaveAttribute("aria-selected", "true");
+    expect(onPress).toHaveBeenCalledOnce();
   });
 
   it("supports color selection without rendering a sliding indicator", async () => {
-    await renderBottomBar(
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="#home" selectionStyle="color">
-        <BottomBar.Item id="#home">Home</BottomBar.Item>
-        <BottomBar.Item id="#profile">Profile</BottomBar.Item>
-      </BottomBar>,
-    );
+    render(<TestBottomBar selectionStyle="color" />);
 
     expect(screen.getByRole("navigation")).toHaveClass("bottom-bar--color");
-    expect(document.querySelector('[data-slot="tabs-indicator"]')).not.toBeInTheDocument();
+    expect(document.querySelector('[data-slot="bottom-bar-indicator"]')).not.toBeInTheDocument();
   });
 
-  it("exposes Tabs render props and composes children", async () => {
-    await renderBottomBar(
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="#home">
-        <BottomBar.Item className="route-current" id="#home">
-          {({isSelected}) => (
-            <BottomBar.Label>{isSelected ? "Current Home" : "Home"}</BottomBar.Label>
-          )}
+  it("exposes render props and composes children", async () => {
+    render(
+      <BottomBar aria-label="Primary navigation">
+        <BottomBar.Item isActive className="route-current" href="/home">
+          {({isActive}) => <BottomBar.Label>{isActive ? "Current Home" : "Home"}</BottomBar.Label>}
         </BottomBar.Item>
       </BottomBar>,
     );
 
-    const home = screen.getByRole("tab", {name: "Current Home"});
+    const home = screen.getByRole("link", {name: "Current Home"});
 
     expect(home).toHaveClass("bottom-bar__link", "route-current");
-    expect(home).toHaveAttribute("data-slot", "tabs-tab");
+    expect(home).toHaveAttribute("data-slot", "bottom-bar-link");
   });
 
   it("blocks disabled destinations", async () => {
     const onPress = vi.fn();
 
-    await renderBottomBar(
+    render(
       <BottomBar aria-label="Primary navigation">
-        <BottomBar.Item isDisabled id="#profile" onPress={onPress}>
+        <BottomBar.Item isDisabled href="/profile" onPress={onPress}>
           Profile
         </BottomBar.Item>
       </BottomBar>,
     );
 
-    const profile = screen.getByRole("tab", {name: "Profile"});
+    const profile = screen.getByRole("link", {name: "Profile"});
 
     expect(profile).toHaveAttribute("aria-disabled", "true");
     expect(profile).toHaveAttribute("data-disabled", "true");
@@ -138,30 +141,10 @@ describe("BottomBar", () => {
     expect(onPress).not.toHaveBeenCalled();
   });
 
-  it("uses Tabs roving focus behavior", async () => {
-    await renderBottomBar(
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="#home">
-        <BottomBar.Item id="#home">Home</BottomBar.Item>
-        <BottomBar.Item id="#profile">Profile</BottomBar.Item>
-      </BottomBar>,
-    );
-
-    const home = screen.getByRole("tab", {name: "Home"});
-    const profile = screen.getByRole("tab", {name: "Profile"});
-
-    await user.tab();
-    expect(home).toHaveFocus();
-    expect(home).toHaveAttribute("data-focus-visible", "true");
-
-    await user.keyboard("{ArrowRight}");
-    expect(profile).toHaveFocus();
-    expect(profile).toHaveAttribute("aria-selected", "true");
-  });
-
   it("keeps labels accessible and decorative icons hidden", async () => {
-    await renderBottomBar(
-      <BottomBar aria-label="Primary navigation" defaultSelectedKey="#home">
-        <BottomBar.Item id="#home">
+    render(
+      <BottomBar aria-label="Primary navigation">
+        <BottomBar.Item isActive href="/home">
           <BottomBar.Icon>
             <svg data-testid="home-icon" />
           </BottomBar.Icon>
@@ -170,28 +153,28 @@ describe("BottomBar", () => {
       </BottomBar>,
     );
 
-    expect(screen.getByRole("tab", {name: "Home dashboard"})).toBeInTheDocument();
+    expect(screen.getByRole("link", {name: "Home dashboard"})).toBeInTheDocument();
     expect(screen.getByTestId("home-icon").parentElement).toHaveAttribute("aria-hidden", "true");
 
-    const indicator = document.querySelector('[data-slot="tabs-indicator"]');
+    const indicator = document.querySelector('[data-slot="bottom-bar-indicator"]');
 
     expect(indicator).toHaveClass("bottom-bar__indicator");
     expect(indicator).toHaveAttribute("aria-hidden", "true");
   });
 
-  it("forwards Tabs render adapters and refs", async () => {
-    const tabRef = createRef<HTMLDivElement>();
-    const rootRef = createRef<HTMLDivElement>();
+  it("forwards render adapters and refs", async () => {
+    const itemRef = createRef<HTMLAnchorElement>();
+    const rootRef = createRef<HTMLElement>();
 
-    await renderBottomBar(
+    render(
       <BottomBar
         ref={rootRef}
         aria-label="Primary navigation"
-        render={(props) => <div {...props} data-router-tabs="true" />}
+        render={(props) => <nav {...props} data-router-nav="true" />}
       >
         <BottomBar.Item
-          ref={tabRef}
-          id="#home"
+          ref={itemRef}
+          href="/home"
           render={({children, ref, ...props}) => (
             <a
               {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -207,21 +190,18 @@ describe("BottomBar", () => {
       </BottomBar>,
     );
 
-    expect(rootRef.current).toHaveAttribute("data-router-tabs", "true");
-    expect(tabRef.current).toHaveAttribute("data-router-link", "true");
-    expect(tabRef.current).not.toHaveAttribute("href");
+    expect(rootRef.current).toHaveAttribute("data-router-nav", "true");
+    expect(itemRef.current).toHaveAttribute("data-router-link", "true");
+    expect(itemRef.current).toHaveAttribute("href", "/home");
   });
 
   it("supports explicit sticky and fixed positioning variants", async () => {
-    const view = await renderBottomBar(<TestBottomBar position="sticky" />);
+    const view = render(<TestBottomBar position="sticky" />);
     const navigation = screen.getByRole("navigation");
 
     expect(navigation).toHaveClass("bottom-bar--sticky");
 
-    await act(async () => {
-      view.rerender(<TestBottomBar position="fixed" />);
-      await Promise.resolve();
-    });
+    view.rerender(<TestBottomBar position="fixed" />);
 
     expect(navigation).toHaveClass("bottom-bar--fixed");
   });
