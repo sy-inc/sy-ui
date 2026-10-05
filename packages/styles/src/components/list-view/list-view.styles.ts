@@ -10,6 +10,7 @@ export const listViewVariants = tv({
     base: "list-view",
     content: "list-view__content",
     description: "list-view__description",
+    header: "list-view__header",
     item: "list-view__item",
     section: "list-view__section",
     selection: "list-view__selection",

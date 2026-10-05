@@ -3,7 +3,6 @@ import type {Selection} from "@react-types/shared";
 import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Button} from "@/components/button";
-import {Header} from "@/components/header";
 import {ListView} from "@/components/list-view";
 
 const renderListView = (
@@ -79,6 +78,17 @@ describe("ListView", () => {
     );
   });
 
+  it("exposes the single selection mode on the selected row", async () => {
+    renderListView({selectionMode: "single"});
+
+    await user.click(screen.getByRole("checkbox", {name: /^Select Noah Williams/}));
+
+    const row = screen.getByRole("row", {name: /Noah Williams/});
+
+    expect(row).toHaveAttribute("data-selected", "true");
+    expect(row).toHaveAttribute("data-selection-mode", "single");
+  });
+
   it("moves focus between options with ArrowDown", async () => {
     renderListView();
 
@@ -114,7 +124,7 @@ describe("ListView", () => {
     render(
       <ListView aria-label="Files">
         <ListView.Section>
-          <Header>Recent</Header>
+          <ListView.Header>Recent</ListView.Header>
           <ListView.Item id="brief" textValue="Brief">
             <ListView.Content>
               <ListView.Title>Brief</ListView.Title>
@@ -124,7 +134,14 @@ describe("ListView", () => {
       </ListView>,
     );
 
-    expect(screen.getByRole("rowgroup")).toHaveAttribute("data-slot", "list-view-section");
+    expect(screen.getByRole("rowgroup", {name: "Recent"})).toHaveAttribute(
+      "data-slot",
+      "list-view-section",
+    );
+    expect(screen.getByRole("rowheader", {name: "Recent"}).closest("[role='row']")).toHaveAttribute(
+      "data-slot",
+      "list-view-header",
+    );
   });
 
   it("defaults to no selection until selectionMode is set", async () => {

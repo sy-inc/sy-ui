@@ -6,6 +6,7 @@ import type {ComponentProps, ComponentPropsWithRef} from "react";
 import {listViewVariants} from "@sy-inc/styles";
 import {createContext, use, useMemo} from "react";
 import {
+  GridListHeader as GridListHeaderPrimitive,
   GridListItem as GridListItemPrimitive,
   GridList as GridListPrimitive,
   GridListSection as GridListSectionPrimitive,
@@ -81,6 +82,20 @@ function ListViewSection({className, ...props}: ListViewSectionProps) {
 }
 
 /* -------------------------------------------------------------------------------------------------
+ * ListView Header — a section's visible label. GridListHeader renders it as a row header, which
+ * names the section's row group; a generic `Header` would not.
+ * -----------------------------------------------------------------------------------------------*/
+interface ListViewHeaderProps extends ComponentPropsWithRef<"div"> {}
+
+function ListViewHeader({className, ...props}: ListViewHeaderProps) {
+  const {slots} = use(ListViewContext);
+  // RAC types GridListHeader without className/children but forwards every prop to its div.
+  const headerProps = {...props, className: slots?.header({class: className})};
+
+  return <GridListHeaderPrimitive data-slot="list-view-header" {...headerProps} />;
+}
+
+/* -------------------------------------------------------------------------------------------------
  * ListView Selection
  * -----------------------------------------------------------------------------------------------*/
 interface ListViewSelectionProps extends ComponentProps<typeof Checkbox.Selection> {}
@@ -141,6 +156,7 @@ function ListViewDescription({className, ...props}: ListViewDescriptionProps) {
 ListViewRoot.displayName = "SY INC.ListView";
 ListViewItem.displayName = "SY INC.ListView.Item";
 ListViewSection.displayName = "SY INC.ListView.Section";
+ListViewHeader.displayName = "SY INC.ListView.Header";
 ListViewSelection.displayName = "SY INC.ListView.Selection";
 ListViewContent.displayName = "SY INC.ListView.Content";
 ListViewTitle.displayName = "SY INC.ListView.Title";
@@ -150,6 +166,7 @@ export {
   ListViewRoot,
   ListViewItem,
   ListViewSection,
+  ListViewHeader,
   ListViewSelection,
   ListViewContent,
   ListViewTitle,
@@ -159,6 +176,7 @@ export type {
   ListViewRootProps,
   ListViewItemProps,
   ListViewSectionProps,
+  ListViewHeaderProps,
   ListViewSelectionProps,
   ListViewContentProps,
   ListViewTitleProps,

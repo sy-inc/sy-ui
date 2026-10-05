@@ -28,7 +28,7 @@ import { ListView } from '@sy-inc/react';
     </ListView.Content>
   </ListView.Item>
   <ListView.Section>
-    <Header>Archived</Header>
+    <ListView.Header>Archived</ListView.Header>
     <ListView.Item id="noah" textValue="Noah Williams">
       <ListView.Content>
         <ListView.Title>Noah Williams</ListView.Title>
@@ -63,7 +63,11 @@ ListView forwards React Aria GridList props. Selection is off until you set `sel
 
 ### ListView.Section
 
-`Section` forwards React Aria GridListSection props. Place a `Header` or other visible label first so the group has an accessible name.
+`Section` forwards React Aria GridListSection props. Place a `ListView.Header` first so the group has an accessible name.
+
+### ListView.Header
+
+The section's visible label, rendered as a React Aria GridListHeader (a `row` with a `rowheader`) that names its row group. It shares the row padding, so the label lines up with the row text. Use it instead of the generic `Header`, which does not label a GridList section.
 
 ### ListView.Selection
 
@@ -85,11 +89,12 @@ Secondary row text. Truncates on overflow.
 
 - The root has `role="grid"`; each row has `role="row"` and wraps its content in a `role="gridcell"`.
 - Arrow up/down move roving focus between rows, arrow left/right move within a row, Space toggles selection, Enter triggers `onAction`, and typeahead uses `textValue`.
-- The root, rows, and sections expose `data-slot="list-view"`, `data-slot="list-view-item"`, and `data-slot="list-view-section"`.
+- Each section is a `rowgroup` named by its `ListView.Header`.
+- The root, rows, sections, and section headers expose `data-slot="list-view"`, `data-slot="list-view-item"`, `data-slot="list-view-section"`, and `data-slot="list-view-header"`.
 - Rows retain a visible keyboard-only focus indicator and expose selected and disabled states through React Aria data attributes.
 
 ## Styling
 
-`variant="primary"` stacks opaque `--surface` rows on a tinted container and varies their alpha for hover, press, and selection — a lower alpha lets the container show through, so it reads darker. `variant="secondary"` drops the container, tints hover and press with `--default`, and marks a selected row with `--accent-soft`. The BEM hooks are `.list-view`, `.list-view__item`, `.list-view__section`, `.list-view__content`, `.list-view__title`, and `.list-view__description`; selected rows match `[data-selected="true"]`.
+`variant="primary"` stacks opaque `--surface` rows on a tinted container and varies their alpha for hover, press, and selection — a lower alpha lets the container show through, so it reads darker. With `selectionMode="single"` there is no checkbox to carry the state, so the selected row uses `--accent-soft` instead. `variant="secondary"` drops the container, tints hover and press with `--default`, and marks a selected row with `--accent-soft`. The BEM hooks are `.list-view`, `.list-view__item`, `.list-view__section`, `.list-view__header`, `.list-view__content`, `.list-view__title`, and `.list-view__description`; selected rows match `[data-selected="true"]`.
 
 <RelatedComponents component="list-box" />

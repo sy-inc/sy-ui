@@ -28,7 +28,7 @@ import { ListView } from '@sy-inc/react';
     </ListView.Content>
   </ListView.Item>
   <ListView.Section>
-    <Header>Archived</Header>
+    <ListView.Header>Archived</ListView.Header>
     <ListView.Item id="noah" textValue="Noah Williams">
       <ListView.Content>
         <ListView.Title>Noah Williams</ListView.Title>
@@ -63,7 +63,11 @@ ListView 透传 React Aria GridList props。未设置 `selectionMode` 时不开�
 
 ### ListView.Section
 
-`Section` 透传 React Aria GridListSection props。请将 `Header` 或其他可见标签放在首位，以便为分组提供无障碍名称。
+`Section` 透传 React Aria GridListSection props。请将 `ListView.Header` 放在首位，以便为分组提供无障碍名称。
+
+### ListView.Header
+
+分组的可见标签，渲染为 React Aria GridListHeader（`row` 内含 `rowheader`），为所在 row group 提供名称。它与行使用相同的水平内边距，标签与行文字左缘对齐。请用它代替通用的 `Header`——后者无法为 GridList 分组命名。
 
 ### ListView.Selection
 
@@ -85,11 +89,12 @@ ListView 透传 React Aria GridList props。未设置 `selectionMode` 时不开�
 
 - 根节点具有 `role="grid"`；每一行具有 `role="row"`，其内容包裹在 `role="gridcell"` 中。
 - 上下方向键在行之间移动 roving focus，左右方向键在行内移动，Space 切换选择，Enter 触发 `onAction`，`textValue` 支持首字母导航。
-- 根、行和分组分别暴露 `data-slot="list-view"`、`data-slot="list-view-item"` 和 `data-slot="list-view-section"`。
+- 每个分组是一个 `rowgroup`，由其 `ListView.Header` 命名。
+- 根、行、分组和分组标签分别暴露 `data-slot="list-view"`、`data-slot="list-view-item"`、`data-slot="list-view-section"` 和 `data-slot="list-view-header"`。
 - 行保留仅键盘可见的焦点指示器；选择与禁用状态通过 React Aria data attributes 暴露。
 
 ## 样式
 
-`variant="primary"` 将不透明的 `--surface` 行叠在带底色的容器上，通过调整 alpha 表达 hover、按下与选中——alpha 越低容器透出越多，视觉上越深。`variant="secondary"` 去掉容器，hover 与按下使用 `--default`，选中行使用 `--accent-soft`。BEM hooks 为 `.list-view`、`.list-view__item`、`.list-view__section`、`.list-view__content`、`.list-view__title` 和 `.list-view__description`；选中行可通过 `[data-selected="true"]` 定位。
+`variant="primary"` 将不透明的 `--surface` 行叠在带底色的容器上，通过调整 alpha 表达 hover、按下与选中——alpha 越低容器透出越多，视觉上越深。`selectionMode="single"` 时没有复选框承载选中状态，选中行改用 `--accent-soft`。`variant="secondary"` 去掉容器，hover 与按下使用 `--default`，选中行使用 `--accent-soft`。BEM hooks 为 `.list-view`、`.list-view__item`、`.list-view__section`、`.list-view__header`、`.list-view__content`、`.list-view__title` 和 `.list-view__description`；选中行可通过 `[data-selected="true"]` 定位。
 
 <RelatedComponents component="list-box" />

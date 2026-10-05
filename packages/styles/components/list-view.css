@@ -11,8 +11,9 @@
   @apply rounded-2.5xl bg-surface-secondary p-1;
 }
 
-.list-view__section {
-  @apply grid;
+/* Section label. Shares the row padding so it lines up with the row text. */
+.list-view__header {
+  @apply px-4 py-1 text-start text-xs leading-4 font-medium text-muted;
 }
 
 /* ==========================================================================
@@ -72,6 +73,22 @@
   &[data-selected="true"] {
     @apply bg-surface/10;
   }
+
+  /* Single selection has no checkbox to carry the state, so the row takes the accent.
+     `--accent-soft` is translucent: layer it on the opaque surface so the tinted
+     container doesn't show through and muddy it. */
+  &[data-selected="true"][data-selection-mode="single"] {
+    @apply bg-surface;
+
+    background-image: linear-gradient(var(--accent-soft), var(--accent-soft));
+
+    @media (hover: hover) {
+      &:hover,
+      &[data-hovered="true"] {
+        background-image: linear-gradient(var(--accent-soft-hover), var(--accent-soft-hover));
+      }
+    }
+  }
 }
 
 .list-view--primary .list-view__item:first-child {
@@ -80,6 +97,16 @@
 
 .list-view--primary .list-view__item:last-child {
   @apply rounded-b-2xl;
+}
+
+/* Each section is its own rounded group: its header takes `:first-child`, and a row
+   followed by a section closes the group above it. */
+.list-view--primary .list-view__header + .list-view__item {
+  @apply rounded-t-2xl;
+}
+
+.list-view--primary .list-view__item:has(+ .list-view__section) {
+  @apply rounded-b-2xl border-b-0;
 }
 
 /* Transparent rows on the page background. */

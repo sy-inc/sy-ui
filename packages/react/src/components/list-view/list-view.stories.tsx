@@ -203,6 +203,58 @@ export const SecondaryVariant: Story = {
   ),
 };
 
+const folders = files.filter((file) => file.icon === "gravity-ui:folder");
+const looseFiles = files
+  .filter((file) => file.icon !== "gravity-ui:folder")
+  .map((file) =>
+    file.id === "readme"
+      ? {...file, updated: "Updated 3 hours ago by a long-running release pipeline job"}
+      : file,
+  );
+
+/**
+ * Each section's `Header` names its row group and lines up with the row text. Single
+ * selection marks the selected row with an accent, and long descriptions truncate
+ * instead of pushing trailing actions out of the section.
+ */
+export const Sections: Story = {
+  render: () => (
+    <ListViewCanvas>
+      <ListView
+        aria-label="Grouped project files"
+        defaultSelectedKeys={["documents"]}
+        selectionMode="single"
+      >
+        <ListView.Section>
+          <ListView.Header>Folders</ListView.Header>
+          {folders.map((file) => (
+            <ListViewRow key={file.id} file={file} selectable={false} />
+          ))}
+        </ListView.Section>
+        <ListView.Section>
+          <ListView.Header>Files</ListView.Header>
+          {looseFiles.map((file) => (
+            <ListViewRow
+              key={file.id}
+              file={file}
+              selectable={false}
+              trailing={
+                <Button
+                  aria-label={`Download ${file.name}`}
+                  className="size-8 shrink-0 px-0"
+                  variant="ghost"
+                >
+                  <Icon aria-hidden icon="gravity-ui:arrow-down-to-line" />
+                </Button>
+              }
+            />
+          ))}
+        </ListView.Section>
+      </ListView>
+    </ListViewCanvas>
+  ),
+};
+
 export const WithActionBar: Story = {
   render: () => <WithActionBarTemplate />,
 };

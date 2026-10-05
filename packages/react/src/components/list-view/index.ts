@@ -3,6 +3,7 @@ import type {ComponentProps} from "react";
 import {
   ListViewContent,
   ListViewDescription,
+  ListViewHeader,
   ListViewItem,
   ListViewRoot,
   ListViewSection,
@@ -13,6 +14,7 @@ import {
 export const ListView = Object.assign(ListViewRoot, {
   Content: ListViewContent,
   Description: ListViewDescription,
+  Header: ListViewHeader,
   Item: ListViewItem,
   Root: ListViewRoot,
   Section: ListViewSection,
@@ -25,6 +27,7 @@ export type ListView = {
   Props: ComponentProps<typeof ListViewRoot>;
   RootProps: ComponentProps<typeof ListViewRoot>;
   SectionProps: ComponentProps<typeof ListViewSection>;
+  HeaderProps: ComponentProps<typeof ListViewHeader>;
   SelectionProps: ComponentProps<typeof ListViewSelection>;
   ContentProps: ComponentProps<typeof ListViewContent>;
   TitleProps: ComponentProps<typeof ListViewTitle>;
@@ -35,6 +38,7 @@ export {
   ListViewItem,
   ListViewRoot,
   ListViewSection,
+  ListViewHeader,
   ListViewSelection,
   ListViewContent,
   ListViewTitle,
@@ -43,6 +47,7 @@ export {
 export type {
   ListViewContentProps,
   ListViewDescriptionProps,
+  ListViewHeaderProps,
   ListViewItemProps,
   ListViewRootProps,
   ListViewRootProps as ListViewProps,
