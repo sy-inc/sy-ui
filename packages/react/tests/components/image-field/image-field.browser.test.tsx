@@ -290,7 +290,7 @@ describe("ImageField (browser)", () => {
     await expect.poll(() => onUpload.mock.calls.length).toBe(3);
   });
 
-  it("renders a 50px icon-only square by default, sized by the consumer, and keeps a failed URL frame", async () => {
+  it("renders a 100px icon-only square by default, sized by the consumer, and keeps a failed URL frame", async () => {
     const field = (value: string, size?: CSSProperties) => (
       <ImageField
         aria-label="Logo"
@@ -307,18 +307,17 @@ describe("ImageField (browser)", () => {
     );
     const view = await render(field(""));
 
-    expect(dimensions()).toEqual([50, 50]);
+    expect(dimensions()).toEqual([100, 100]);
     expect(frame().textContent).toBe("");
-    // The two-button pill is wider than 50px: the height stays, the width grows to fit it.
+    // The default two-button pill fits the 100px square.
     await view.rerender(field("/logo.svg"));
     await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
-    expect(dimensions()[1]).toBe(50);
-    expect(dimensions()[0]).toBeGreaterThan(50);
-    await view.rerender(field("/logo.svg", {height: 96, width: 96}));
-    expect(dimensions()).toEqual([96, 96]);
-    await view.rerender(field("/does-not-exist.png", {height: 96, width: 96}));
+    expect(dimensions()).toEqual([100, 100]);
+    await view.rerender(field("/logo.svg", {height: 144, width: 144}));
+    expect(dimensions()).toEqual([144, 144]);
+    await view.rerender(field("/does-not-exist.png", {height: 144, width: 144}));
     await expect.element(page.getByText("Image could not be loaded")).toBeInTheDocument();
-    expect(dimensions()).toEqual([96, 96]);
+    expect(dimensions()).toEqual([144, 144]);
     await expect.element(page.getByRole("button", {name: "Replace image"})).toBeVisible();
   });
 
@@ -361,8 +360,8 @@ describe("ImageField (browser)", () => {
       .querySelector('[data-slot="image-field-actions"]')!
       .getBoundingClientRect();
 
-    expect(height).toBe(50);
-    expect(width).toBeGreaterThan(50);
+    expect(height).toBe(100);
+    expect(width).toBeGreaterThan(100);
     expect(actions.right).toBeLessThanOrEqual(frame().getBoundingClientRect().right);
   });
 
@@ -412,7 +411,7 @@ describe("ImageField (browser)", () => {
     const actions = document.querySelector<HTMLElement>('[data-slot="image-field-actions"]')!;
 
     await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
-    expect(dimensions()).toEqual([50, 50]);
+    expect(dimensions()).toEqual([100, 100]);
     expect(actions.getBoundingClientRect().left).toBeGreaterThan(
       frame().getBoundingClientRect().right,
     );

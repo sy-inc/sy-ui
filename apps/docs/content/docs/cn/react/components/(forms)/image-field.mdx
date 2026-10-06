@@ -42,7 +42,7 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 
 ## 尺寸与状态
 
-只有一种形态：上传框。默认是 50 × 50px 的小方块，空框里只有一个上传图标，没有任何文字。尺寸由使用方自己控制，直接给 Frame 写 `className`。`aspectRatio` 以框高 `--image-field-size` 横向展开：默认 16:5 为 160 × 50，`className="[--image-field-size:7rem]"` 约为 358 × 112。`size-24`、`h-28 w-full` 这类固定尺寸会把宽高都写死，`aspectRatio` 和工具条不再影响框形（比例校验照常进行）。工具条放在框内；按钮放不下时框被撑开（宽度随按钮变宽），而不是压缩按钮。50px 的框放不下工具条，有图时胶囊会盖住整张图，小尺寸建议把 Actions 放到框外（见组合）或把框调大。需要撑满容器时给 Frame 加 `className="aspect-[var(--image-field-ratio,16/9)] w-full"`，高度随比例计算。
+只有一种形态：上传框。默认是 100 × 100px 的小方块，空框里只有一个上传图标，没有任何文字。尺寸由使用方自己控制，直接给 Frame 写 `className`。`aspectRatio` 以框高 `--image-field-size` 横向展开：默认 16:5 为 320 × 100，`className="[--image-field-size:7rem]"` 约为 358 × 112。`size-32`、`h-28 w-full` 这类固定尺寸会把宽高都写死，`aspectRatio` 和工具条不再影响框形（比例校验照常进行）。工具条放在框内；按钮放不下时框被撑开（宽度随按钮变宽），而不是压缩按钮。默认 100px 的框能放下替换、删除两个图标按钮；100px 同时也是最小值，更小的框需要设置 `--image-field-size`（如 `className="[--image-field-size:4rem]"`），并建议把 Actions 放到框外（见组合）。需要撑满容器时给 Frame 加 `className="aspect-[var(--image-field-ratio,16/9)] w-full"`，高度随比例计算。
 
 需要文字时用 Placeholder 组合进去，它会替换默认的上传图标，图标和文字都由你决定：
 

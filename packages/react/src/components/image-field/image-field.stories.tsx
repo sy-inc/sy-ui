@@ -122,7 +122,7 @@ export const Sized: Story = {
     children: (
       <>
         <Label>Logo</Label>
-        <ImageField.Frame className="size-24">
+        <ImageField.Frame className="size-32">
           <ImageField.Actions />
         </ImageField.Frame>
         <ImageField.Meta />

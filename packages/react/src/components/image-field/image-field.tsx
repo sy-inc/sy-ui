@@ -49,7 +49,7 @@ export type ImageFieldLabels = typeof defaultLabels;
 /**
  * Compose a `<Label>` child to name the field, or pass `aria-label` when there is no visible label.
  * Actions, placeholder content, description and form errors are composed as children of Frame / Meta.
- * The frame is a 50px square holding only an upload icon; size it with `className` on Frame.
+ * The frame is a 100px square holding only an upload icon; size it with `className` on Frame.
  * `aspectRatio` widens it, and wide toolbars stretch it instead of squeezing the buttons.
  */
 export interface ImageFieldProps extends Omit<ComponentPropsWithRef<"div">, "onChange"> {
