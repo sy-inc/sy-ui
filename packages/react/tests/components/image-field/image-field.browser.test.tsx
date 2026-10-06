@@ -321,6 +321,33 @@ describe("ImageField (browser)", () => {
     await expect.element(page.getByRole("button", {name: "Replace image"})).toBeVisible();
   });
 
+  it("keeps the default 100px square inside an auto-width table cell", async () => {
+    const field = (value: string) => (
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <ImageField
+                aria-label="Logo"
+                aspectRatio={1}
+                resolveSrc={() => source}
+                value={value}
+                onChange={() => {}}
+                onUpload={async () => "/logo.svg"}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    );
+    const view = await render(field(""));
+
+    expect(dimensions()).toEqual([100, 100]);
+    await view.rerender(field("/logo.svg"));
+    await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
+    expect(dimensions()).toEqual([100, 100]);
+  });
+
   it("replaces the upload icon with composed Placeholder content", async () => {
     await render(
       <ImageField aria-label="Logo" value="" onChange={() => {}} onUpload={async () => "/logo.svg"}>

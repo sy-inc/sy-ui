@@ -27,15 +27,17 @@
  * A 100px square holding only the upload icon. Size it with `className` on Frame (e.g. `size-32`);
  * go below 100px through `--image-field-size`, which sets the minimums.
  * `aspectRatio` (or the loaded image) sets the width from the height, and an Actions pill larger
- * than the frame stretches it instead of squeezing its buttons.
+ * than the frame stretches it instead of squeezing its buttons (`min-width` beats `max-width`).
  * No `aspect-ratio` here: it would pin the intrinsic width and stop that stretch.
  * Fill a container with `className="w-full aspect-[var(--image-field-ratio,16/9)]"`.
  */
 .image-field__frame {
   @apply relative flex flex-none items-start justify-end overflow-hidden rounded-xl border border-transparent bg-surface-secondary;
   min-height: var(--image-field-size, 100px);
-  width: max-content;
-  min-width: min(100%, calc(var(--image-field-size, 100px) * var(--image-field-ratio, 1)));
+  /* Width comes from the size, never from `100%`: inside shrink-to-fit containers (auto-width
+     table cells) a cyclic percentage resolves to 0 and would collapse the frame to its toolbar. */
+  width: calc(var(--image-field-size, 100px) * var(--image-field-ratio, 1));
+  min-width: max-content;
   max-width: 100%;
   /* Unset ratio follows the image; cap tall sources, which letterbox via object-contain. */
   &[data-auto-ratio="true"] {
