@@ -3,8 +3,6 @@ import type {ReactNode} from "react";
 import {parseDate} from "@internationalized/date";
 import {render} from "@sy-inc/testing/browser";
 
-import "../../../../styles/dist/sy-inc.min.css";
-
 import {
   Autocomplete,
   Calendar,
@@ -41,6 +39,8 @@ import {DropZone, useDropZoneState} from "@/components/drop-zone";
 import {ImageField} from "@/components/image-field";
 import {InputPhone} from "@/components/input-phone";
 
+import "../../../../styles/dist/sy-inc.min.css";
+
 /**
  * Cross-component contract for the invalid state: every form control must turn red when invalid
  * (jsdom can't see CSS, so this runs in Chromium against the built stylesheet), link its
@@ -73,7 +73,7 @@ const UploadField = ({isInvalid}: {isInvalid: boolean}) => {
       >
         <DropZone.Slots state={state} />
       </DropZone.Area>
-      <FieldError id="upload-error">{isInvalid && ERR}</FieldError>
+      <FieldError id="upload-error">{!!isInvalid && ERR}</FieldError>
     </DropZone>
   );
 };
@@ -106,7 +106,7 @@ const fixtures: Record<string, Fixture> = {
         <Calendar.Grid>
           <Calendar.GridBody>{(date) => <Calendar.Cell date={date} />}</Calendar.GridBody>
         </Calendar.Grid>
-        <FieldError>{i && ERR}</FieldError>
+        <FieldError>{!!i && ERR}</FieldError>
       </Calendar>
     ),
   },
@@ -126,7 +126,7 @@ const fixtures: Record<string, Fixture> = {
             />
           </CellColorPicker.Popover>
         </CellColorPicker>
-        <FieldError id="color-error">{i && ERR}</FieldError>
+        <FieldError id="color-error">{!!i && ERR}</FieldError>
       </>
     ),
   },
@@ -240,12 +240,17 @@ const fixtures: Record<string, Fixture> = {
     render: (i) => (
       <ImageField
         aspectRatio={1}
-        errorMessage={i ? ERR : undefined}
-        label="L"
+        isInvalid={i}
         value=""
         onChange={() => {}}
         onUpload={async () => "x"}
-      />
+      >
+        <Label>L</Label>
+        <ImageField.Frame />
+        <ImageField.Meta>
+          <FieldError>{!!i && ERR}</FieldError>
+        </ImageField.Meta>
+      </ImageField>
     ),
   },
   InputOTP: {
@@ -257,7 +262,7 @@ const fixtures: Record<string, Fixture> = {
             <InputOTP.Slot index={1} />
           </InputOTP.Group>
         </InputOTP>
-        <FieldError id="otp-error">{i && ERR}</FieldError>
+        <FieldError id="otp-error">{!!i && ERR}</FieldError>
       </>
     ),
   },
@@ -268,7 +273,7 @@ const fixtures: Record<string, Fixture> = {
           <InputPhone.CountrySelect />
           <InputPhone.Input aria-describedby={i ? "phone-error" : undefined} aria-label="Phone" />
         </InputPhone>
-        <FieldError id="phone-error">{i && ERR}</FieldError>
+        <FieldError id="phone-error">{!!i && ERR}</FieldError>
       </>
     ),
   },
@@ -285,7 +290,7 @@ const fixtures: Record<string, Fixture> = {
             A
           </ListBox.Item>
         </ListBox>
-        <FieldError id="listbox-error">{i && ERR}</FieldError>
+        <FieldError id="listbox-error">{!!i && ERR}</FieldError>
       </>
     ),
   },
@@ -336,7 +341,7 @@ const fixtures: Record<string, Fixture> = {
             {(date) => <RangeCalendar.Cell date={date} />}
           </RangeCalendar.GridBody>
         </RangeCalendar.Grid>
-        <FieldError>{i && ERR}</FieldError>
+        <FieldError>{!!i && ERR}</FieldError>
       </RangeCalendar>
     ),
   },

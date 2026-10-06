@@ -94,6 +94,8 @@ content panel, several surface panes, or entirely transparent sections are all s
 The root's default gap is 0.75rem; use a gap utility such as `className="gap-4"` or
 `style={{gap: 16}}` on Root to change it. The page owns outer padding and background,
 and each section's `className` controls its own padding and other visual overrides.
+A scrolling section clips child shadows at its edges; for flush cards with shadows, add equal
+negative margin and padding on the section, such as `className="-mx-2 px-2"`.
 
 Surface sections provide a `default` `SurfaceContext`, so children such as
 `MessageBubble` adapt to the painted background. Transparent sections inherit the

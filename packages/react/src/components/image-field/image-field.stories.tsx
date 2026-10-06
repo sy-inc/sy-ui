@@ -1,7 +1,12 @@
 import type {ImageFieldProps} from "./index";
 import type {Meta, StoryObj} from "@storybook/react";
+import type {ReactNode} from "react";
 
 import {useEffect, useRef, useState} from "react";
+
+import {Button} from "../button";
+import {Description} from "../description";
+import {Label} from "../label";
 
 import {ImageField} from "./index";
 
@@ -45,6 +50,16 @@ function useStoryValue(initialValue: string) {
   return [value, setValue] as const;
 }
 
+// The full v3 composition: every part is written out, nothing is configured through props.
+const parts = (label: string, placeholder?: ReactNode) => (
+  <>
+    <Label>{label}</Label>
+    <ImageField.Frame>{placeholder}</ImageField.Frame>
+    <ImageField.Actions />
+    <ImageField.Meta />
+  </>
+);
+
 function Example(props: ImageFieldProps) {
   const [value, setValue] = useStoryValue(props.value);
 
@@ -54,7 +69,7 @@ function Example(props: ImageFieldProps) {
 const meta = {
   args: {
     aspectRatio: 16 / 5,
-    label: "Banner",
+    children: parts("Banner"),
     onChange: () => {},
     onUpload: upload,
     recommendedWidth: 1600,
@@ -74,17 +89,17 @@ export const Default: Story = {};
 export const Uploaded: Story = {args: {value: "/banner.svg"}};
 export const Disabled: Story = {args: {isDisabled: true, value: "/banner.svg"}};
 export const AnyRatio: Story = {
-  args: {aspectRatio: undefined, label: "Movie banner", value: "/square.svg"},
+  args: {aspectRatio: undefined, children: parts("Movie banner"), value: "/square.svg"},
 };
-// The title lives elsewhere on the page: no visible heading, `aria-label` names the field.
+// The title lives elsewhere on the page: no Label part, `aria-label` names the field.
 export const WithoutVisibleLabel: Story = {
-  args: {"aria-label": "Banner", label: undefined, value: "/banner.svg"},
+  args: {"aria-label": "Banner", children: undefined, value: "/banner.svg"},
 };
 export const InlineWithoutVisibleLabel: Story = {
   args: {
     "aria-label": "Logo",
     aspectRatio: 1,
-    label: undefined,
+    children: undefined,
     layout: "inline",
     recommendedWidth: 512,
     value: "/square.svg",
@@ -95,8 +110,13 @@ export const Composition: Story = {
     aspectRatio: 1,
     children: (
       <>
+        <Label>Logo</Label>
         <ImageField.Frame />
-        <ImageField.Meta>Custom metadata</ImageField.Meta>
+        <ImageField.Actions />
+        <ImageField.Meta>
+          <ImageField.Warning />
+          <Description>Shown on the member site header</Description>
+        </ImageField.Meta>
       </>
     ),
     layout: "tile",
@@ -111,22 +131,56 @@ export const HoverOverlay: Story = {
   args: {
     children: (
       <>
-        <ImageField.Frame
-          className="group"
-          actions={
-            <ImageField.Actions className="pointer-events-none inset-0 max-w-none justify-center gap-2 rounded-none bg-black/50 opacity-0 shadow-none backdrop-blur-none transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 pointer-coarse:opacity-100 [&_button]:pointer-events-auto">
-              <ImageField.ReplaceTrigger className={overlayButton}>
-                Replace
-              </ImageField.ReplaceTrigger>
-              <ImageField.RetryButton />
-              <ImageField.RemoveButton variant="danger" />
-            </ImageField.Actions>
-          }
-        />
+        <Label>Banner</Label>
+        <ImageField.Frame className="peer" />
+        <ImageField.Actions className="pointer-events-none m-0 max-w-none justify-center gap-2 place-self-stretch rounded-xl bg-black/50 opacity-0 shadow-none backdrop-blur-none transition-opacity peer-hover:opacity-100 focus-within:opacity-100 hover:opacity-100 pointer-coarse:opacity-100 [&_button]:pointer-events-auto">
+          <ImageField.ReplaceTrigger className={overlayButton}>Replace</ImageField.ReplaceTrigger>
+          <ImageField.RetryButton />
+          <ImageField.RemoveButton variant="danger" />
+        </ImageField.Actions>
         <ImageField.Meta />
       </>
     ),
     value: "/banner.svg",
+  },
+};
+
+// Per-state toolbar: "Library" shows with or without an image, "Copy link" only with one.
+export const PerStateActions: Story = {
+  render: function Render(args) {
+    const [value, setValue] = useStoryValue(args.value);
+
+    return (
+      <ImageField {...args} value={value} onChange={setValue}>
+        <Label>Banner</Label>
+        <ImageField.Frame />
+        <ImageField.Actions>
+          {({isEmpty, isUploading}) => (
+            <>
+              <ImageField.CancelButton />
+              <ImageField.RetryButton />
+              <ImageField.ReplaceTrigger />
+              <ImageField.RemoveButton />
+              {!isUploading && (
+                <Button size="sm" variant="ghost" onPress={() => setValue("/banner.svg")}>
+                  Library
+                </Button>
+              )}
+              {!isEmpty && !isUploading && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onPress={() => navigator.clipboard.writeText(value)}
+                >
+                  Copy link
+                </Button>
+              )}
+            </>
+          )}
+        </ImageField.Actions>
+        <ImageField.Meta />
+      </ImageField>
+    );
   },
 };
 
@@ -186,14 +240,10 @@ function StateExample({index, layout}: {layout: ImageFieldProps["layout"]; index
       ref={ref}
       accept="image/*"
       aspectRatio={layout === "banner" ? 16 / 5 : 1}
-      label={states[index]!}
       labels={index === 1 ? {upload: "Release to upload"} : undefined}
       layout={layout}
       resolveSrc={resolveSrc}
       value={value}
-      placeholder={
-        index === 6 ? <img alt="Inherited banner supplied by the app" src={banner} /> : undefined
-      }
       onChange={setValue}
       onUpload={async (file, context) => {
         if (index === 5) throw new Error("Upload failed");
@@ -205,7 +255,12 @@ function StateExample({index, layout}: {layout: ImageFieldProps["layout"]; index
 
         return upload(file, context);
       }}
-    />
+    >
+      {parts(
+        states[index]!,
+        index === 6 && <img alt="Inherited banner supplied by the app" src={banner} />,
+      )}
+    </ImageField>
   );
 }
 

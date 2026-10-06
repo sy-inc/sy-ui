@@ -9,9 +9,10 @@ import type {
 import type {ButtonVariants, ImageFieldVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentProps, ComponentPropsWithRef, ReactNode} from "react";
 
-import {mergeRefs} from "@react-aria/utils";
+import {mergeRefs, useEffectEvent, useLayoutEffect} from "@react-aria/utils";
 import {buttonVariants, fieldErrorVariants, imageFieldVariants} from "@sy-inc/styles";
 import {createContext, use, useEffect, useId, useRef, useState} from "react";
+import {LabelContext} from "react-aria-components/Label";
 import {TextContext} from "react-aria-components/Text";
 
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
@@ -20,7 +21,6 @@ import {Description} from "../description";
 import {DropZone, formatFileType, useDropZoneState} from "../drop-zone";
 import {ArrowsRotateIcon, EyeSlashIcon, TrashBinIcon, UploadCloudIcon} from "../icons";
 import {ImagePreview} from "../image-preview";
-import {Label} from "../label";
 import {Spinner} from "../spinner";
 import {Tooltip} from "../tooltip";
 
@@ -46,10 +46,11 @@ const defaultLabels = {
 
 export type ImageFieldLabels = typeof defaultLabels;
 
-interface ImageFieldBaseProps extends Omit<
-  ComponentPropsWithRef<"div">,
-  "aria-label" | "onChange" | "placeholder"
-> {
+/**
+ * Compose a `<Label>` child to name the field, or pass `aria-label` when there is no visible label.
+ * Placeholder content, description and form errors are composed as children of Frame / Meta.
+ */
+export interface ImageFieldProps extends Omit<ComponentPropsWithRef<"div">, "onChange"> {
   value: string;
   onChange: (value: string) => void;
   onUpload: NonNullable<UseDropZoneStateProps<string>["onUpload"]>;
@@ -60,20 +61,15 @@ interface ImageFieldBaseProps extends Omit<
   validateRatio?: boolean;
   layout?: ImageFieldVariants["layout"];
   recommendedWidth?: number;
-  placeholder?: ReactNode;
   accept?: string | string[];
   maxFileSize?: number;
   isDisabled?: boolean;
-  description?: ReactNode;
-  errorMessage?: ReactNode;
+  /** Marks the field invalid (e.g. a form error composed with `<FieldError>`); upload errors set it on their own. */
+  isInvalid?: boolean;
   /** Maps what `onUpload` rejected with to the failure message; `null`/`undefined` falls back to `labels.uploadFailed`. */
   getUploadErrorMessage?: (error: unknown) => ReactNode;
   labels?: Partial<ImageFieldLabels>;
 }
-
-/** Omit `label` to render no visible heading; `aria-label` then names the field. */
-export type ImageFieldProps = ImageFieldBaseProps &
-  ({label: string; "aria-label"?: string} | {label?: never; "aria-label": string});
 
 const identity = (path: string) => path;
 
@@ -81,13 +77,7 @@ type LoadedImage = {src: string; width?: number; height?: number; failed?: boole
 
 type ImageFieldContextValue = Pick<
   ImageFieldProps,
-  | "value"
-  | "aspectRatio"
-  | "layout"
-  | "isDisabled"
-  | "recommendedWidth"
-  | "placeholder"
-  | "description"
+  "value" | "aspectRatio" | "isDisabled" | "recommendedWidth"
 > & {
   bridge?: string;
   cancel: () => void;
@@ -95,19 +85,20 @@ type ImageFieldContextValue = Pick<
   failed: boolean;
   file?: DropZoneFile<string>;
   isDropTarget: boolean;
+  isInvalid: boolean;
   labels: ImageFieldLabels;
   loaded?: LoadedImage;
-  /** Accessible name: the visible label, else `aria-label`. */
+  /** Accessible name: `aria-label`, else the composed Label's text. */
   name: string;
   metaId: string;
-  mismatch: boolean;
   remove: () => void;
   setImage: (image: LoadedImage) => void;
   slots: ReturnType<typeof imageFieldVariants>;
   src: string;
   state: UseDropZoneStateResult<string>;
-  tooSmall: boolean;
   uploading: boolean;
+  /** Ratio or resolution warning; `null` while the image fits. */
+  warning: ReactNode;
 };
 const ImageFieldContext = createContext<ImageFieldContextValue | null>(null);
 const useImageFieldContext = () => {
@@ -124,17 +115,14 @@ export function ImageFieldRoot({
   aspectRatio,
   children,
   className,
-  description,
-  errorMessage,
   getUploadErrorMessage,
   isDisabled = false,
-  label,
+  isInvalid = false,
   labels: labelOverrides,
   layout = "banner",
   maxFileSize,
   onChange,
   onUpload,
-  placeholder,
   recommendedWidth,
   ref,
   resolveSrc = identity,
@@ -160,7 +148,8 @@ export function ImageFieldRoot({
     isDisabled,
     maxFileSize,
     maxFiles: 1,
-    messages: {uploadFailed: () => labels.uploadFailed, uploaded: () => ""},
+    // Meta announces upload errors itself (role="alert"); keep the drop zone's live region silent.
+    messages: {uploadFailed: () => "", uploaded: () => ""},
     onUpload,
     onUploadSuccess: ({file}, path) => {
       if (file) setHandoff({path, url: URL.createObjectURL(file)});
@@ -169,14 +158,9 @@ export function ImageFieldRoot({
     },
   });
   // Persisted paths never become synthetic Files. An external reset invalidates the current transfer.
-  const clearRef = useRef(state.clear);
+  const clearOnReset = useEffectEvent(() => state.clear());
 
-  useEffect(() => {
-    clearRef.current = state.clear;
-  });
-  useEffect(() => {
-    clearRef.current();
-  }, [value]);
+  useEffect(() => clearOnReset(), [value]);
   useEffect(
     () => () => {
       if (handoff) URL.revokeObjectURL(handoff.url);
@@ -202,15 +186,24 @@ export function ImageFieldRoot({
     !!loaded.height &&
     Math.abs(loaded.width / loaded.height / aspectRatio - 1) > 0.05;
   const tooSmall = !!loaded?.width && !!recommendedWidth && loaded.width < recommendedWidth;
+  const warning = mismatch ? labels.ratioMismatch : tooSmall ? labels.tooSmall : null;
   const error =
     state.validationError?.message ??
     (file?.status === "failed"
       ? (getUploadErrorMessage?.(file.error) ?? labels.uploadFailed)
-      : null) ??
-    errorMessage;
+      : null);
+  // The composed <Label> gets `labelId` through LabelContext; its text becomes the image alt.
+  const [labelText, setLabelText] = useState<string>();
+
+  useLayoutEffect(() => {
+    const text = rootRef.current?.ownerDocument.getElementById(labelId)?.textContent ?? undefined;
+
+    setLabelText((previous) => (previous === text ? previous : text));
+  });
   const focusTrigger = () =>
     rootRef.current?.querySelector<HTMLElement>('[data-slot="drop-zone-trigger"]')?.focus();
   const slots = imageFieldVariants({layout});
+  const invalid = !!error || isInvalid;
   const context = {
     aspectRatio,
     bridge,
@@ -218,18 +211,15 @@ export function ImageFieldRoot({
       state.clear();
       requestAnimationFrame(focusTrigger);
     },
-    description,
     error,
     failed,
     file,
     isDisabled,
+    isInvalid: invalid,
     labels,
-    layout,
     loaded,
     metaId,
-    name: (label ?? ariaLabel)!,
-    mismatch,
-    placeholder,
+    name: ariaLabel ?? labelText ?? "",
     recommendedWidth,
     remove: () => {
       state.clear();
@@ -243,9 +233,9 @@ export function ImageFieldRoot({
     slots,
     src,
     state,
-    tooSmall,
     uploading,
     value,
+    warning,
   };
 
   return (
@@ -254,10 +244,10 @@ export function ImageFieldRoot({
       ref={mergeRefs(rootRef, ref)}
       aria-describedby={[domProps["aria-describedby"], metaId].filter(Boolean).join(" ")}
       aria-label={ariaLabel}
-      aria-labelledby={label ? labelId : undefined}
+      aria-labelledby={ariaLabel ? undefined : labelId}
       className={slots.base({className})}
       data-disabled={isDisabled || undefined}
-      data-invalid={!!error || undefined}
+      data-invalid={invalid || undefined}
       data-layout={layout}
       data-slot="image-field"
       role="group"
@@ -265,46 +255,39 @@ export function ImageFieldRoot({
     >
       <DropZone.Area
         {...state.getAreaProps()}
-        {...(label ? {"aria-labelledby": labelId} : {"aria-label": ariaLabel!})}
+        {...(ariaLabel ? {"aria-label": ariaLabel} : {"aria-labelledby": labelId})}
         className={slots.area()}
         onDrop={(event) => {
           void state.replaceFiles(event);
         }}
       >
         {({isDropTarget}) => (
-          <TextContext value={null}>
-            <ImageFieldContext value={{...context, isDropTarget}}>
-              {!!label && (
-                <div className={slots.heading()} data-slot="image-field-heading">
-                  <Label id={labelId}>{label}</Label>
-                </div>
-              )}
-              {children ?? (
-                <>
-                  <ImageFieldFrame />
-                  <ImageFieldMeta />
-                  {layout === "inline" && !!(value || file) && <ImageFieldActions />}
-                </>
-              )}
-            </ImageFieldContext>
-          </TextContext>
+          <LabelContext value={{id: labelId}}>
+            <TextContext value={null}>
+              <ImageFieldContext value={{...context, isDropTarget}}>
+                {children ?? (
+                  <>
+                    <ImageFieldFrame />
+                    <ImageFieldActions />
+                    <ImageFieldMeta />
+                  </>
+                )}
+              </ImageFieldContext>
+            </TextContext>
+          </LabelContext>
         )}
       </DropZone.Area>
     </div>
   );
 }
 
-export interface ImageFieldFrameProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
-  /** Toolbar rendered over tile/banner frames when an image or failed upload exists. @default <ImageField.Actions /> */
-  actions?: ReactNode;
+export interface ImageFieldFrameProps extends ComponentPropsWithRef<"div"> {
+  /** Shown in the empty frame, e.g. the fallback image the app falls back to. Never emits `onChange`. */
+  children?: ReactNode;
 }
-export function ImageFieldFrame({
-  actions = <ImageFieldActions />,
-  className,
-  ...props
-}: ImageFieldFrameProps) {
+export function ImageFieldFrame({children, className, ...props}: ImageFieldFrameProps) {
   const c = useImageFieldContext();
-  const {error, failed, isDropTarget, labels, placeholder, slots, src, state, uploading} = c;
+  const {failed, isDropTarget, labels, slots, src, state, uploading} = c;
   const hasImage = !!src && !failed;
 
   return (
@@ -313,9 +296,9 @@ export function ImageFieldFrame({
       className={composeSlotClassName(slots.frame, className)}
       data-auto-ratio={c.aspectRatio === undefined || undefined}
       data-empty={!c.value || undefined}
-      data-invalid={!!error || undefined}
+      data-invalid={c.isInvalid || undefined}
       data-slot="image-field-frame"
-      data-warning={c.mismatch || c.tooSmall || undefined}
+      data-warning={!!c.warning || undefined}
     >
       {!!hasImage && (
         <ImagePreview
@@ -358,7 +341,7 @@ export function ImageFieldFrame({
               <span>{labels.broken}</span>
             </>
           ) : (
-            placeholder
+            children
           )}
         </div>
       )}
@@ -384,7 +367,6 @@ export function ImageFieldFrame({
             {labels.uploading}
             {!!c.file!.progress && ` ${Math.round(c.file!.progress * 100)}%`}
           </span>
-          {c.layout !== "inline" && <ImageFieldCancelButton />}
           <DropZone.FileProgress
             aria-label={labels.uploading}
             className={slots.progress()}
@@ -393,7 +375,6 @@ export function ImageFieldFrame({
           />
         </div>
       )}
-      {!uploading && !!(c.value || c.file) && c.layout !== "inline" && actions}
       {!!isDropTarget && (
         <div aria-hidden="true" className={slots.dropOverlay()}>
           {labels.dropHere}
@@ -403,18 +384,33 @@ export function ImageFieldFrame({
   );
 }
 
-export interface ImageFieldActionsProps extends ComponentPropsWithRef<"div"> {}
+/** Also exposed as `data-empty` / `data-uploading` / `data-disabled` for CSS-only state styling. */
+export type ImageFieldActionsRenderProps = {
+  isDisabled: boolean;
+  isEmpty: boolean;
+  isUploading: boolean;
+};
+export interface ImageFieldActionsProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
+  /** Replaces the default toolbar. A function receives the field state to show buttons per state. */
+  children?: ReactNode | ((state: ImageFieldActionsRenderProps) => ReactNode);
+}
+/** Sibling of Frame: layered over tile/banner frames, beside inline ones. Hides itself while empty. */
 export function ImageFieldActions({children, className, ...props}: ImageFieldActionsProps) {
   const c = useImageFieldContext();
   const {labels, slots} = c;
+  const state = {isDisabled: !!c.isDisabled, isEmpty: !c.value, isUploading: c.uploading};
+  const content = typeof children === "function" ? children(state) : children;
 
   return (
     <div
       {...props}
       className={composeSlotClassName(slots.actions, className)}
+      data-disabled={state.isDisabled || undefined}
+      data-empty={state.isEmpty || undefined}
       data-slot="image-field-actions"
+      data-uploading={state.isUploading || undefined}
     >
-      {children ?? (
+      {content ?? (
         <>
           <ImageFieldCancelButton />
           <ImageFieldRetryButton />
@@ -463,13 +459,13 @@ export function ImageFieldReplaceTrigger({
       {...c.state.getTriggerProps()}
       aria-label={c.labels.replace}
       {...props}
+      isDisabled={c.isDisabled || isDisabled}
       className={buttonVariants({
         className: c.slots.replaceTrigger({className}),
         isIconOnly,
         size,
         variant,
       })}
-      isDisabled={c.isDisabled || isDisabled}
       onSelect={(files) => {
         if (files) void c.state.replaceFiles(files);
       }}
@@ -561,47 +557,69 @@ export function ImageFieldCancelButton({children, onPress, ...props}: ImageField
 }
 
 export interface ImageFieldMetaProps extends ComponentPropsWithRef<"div"> {}
+/** Live region below the frame and the field's description target. Upload and validation errors always render first. */
 export function ImageFieldMeta({children, className, ...props}: ImageFieldMetaProps) {
   const c = useImageFieldContext();
-  const {aspectRatio, labels, loaded, recommendedWidth, slots} = c;
+
+  return (
+    <div
+      {...props}
+      aria-live="polite"
+      className={composeSlotClassName(c.slots.meta, className)}
+      data-slot="image-field-meta"
+      data-warning={!!c.warning || undefined}
+      id={c.metaId}
+    >
+      {!!c.error && (
+        <span data-visible className={fieldErrorVariants()} data-slot="field-error" role="alert">
+          {c.error}
+        </span>
+      )}
+      {children ?? (
+        <>
+          <ImageFieldWarning />
+          <ImageFieldSize />
+        </>
+      )}
+    </div>
+  );
+}
+
+// Guidance parts render only while they apply (never beside an upload error), like the action parts.
+export interface ImageFieldGuidanceProps extends ComponentPropsWithRef<"span"> {}
+
+/** Ratio or resolution warning, or the unreachable path of a broken image. */
+export function ImageFieldWarning(props: ImageFieldGuidanceProps) {
+  const c = useImageFieldContext();
+  const {warning} = c;
+
+  if (c.error || (!warning && !c.failed)) return null;
+
+  return (
+    <span data-slot="image-field-warning" {...props}>
+      {warning ?? c.value}
+      {!!warning && !!c.loaded?.width && ` · ${c.loaded.width} × ${c.loaded.height}`}
+    </span>
+  );
+}
+
+/** Loaded dimensions and format, or the recommended size before an image loads. */
+export function ImageFieldSize(props: ImageFieldGuidanceProps) {
+  const c = useImageFieldContext();
+  const {aspectRatio, labels, loaded, recommendedWidth, warning} = c;
   const format = formatFileType(c.file?.type, c.file?.name ?? c.value.split(/[?#]/)[0]);
-  const warning = c.mismatch ? labels.ratioMismatch : c.tooSmall ? labels.tooSmall : null;
   const size = loaded?.width
     ? `${loaded.width} × ${loaded.height}${format === "FILE" ? "" : ` · ${format}`}`
     : recommendedWidth
       ? `${labels.recommended} ${recommendedWidth}${aspectRatio ? ` × ${Math.round(recommendedWidth / aspectRatio)}` : "px"}`
       : null;
 
+  if (c.error || warning || c.failed || !size) return null;
+
   return (
-    <div
-      {...props}
-      aria-live="polite"
-      className={composeSlotClassName(slots.meta, className)}
-      data-slot="image-field-meta"
-      data-warning={!!warning || undefined}
-      id={c.metaId}
-    >
-      {!!c.error && (
-        <span className={fieldErrorVariants()} data-slot="field-error" data-visible role="alert">
-          {c.error}
-        </span>
-      )}
-      {children ??
-        (!c.error && (
-          <>
-            {warning ? (
-              <span>
-                {warning}
-                {!!loaded?.width && ` · ${loaded.width} × ${loaded.height}`}
-              </span>
-            ) : c.failed ? (
-              <span>{c.value}</span>
-            ) : (
-              (c.description ?? (!!size && <Description>{size}</Description>))
-            )}
-          </>
-        ))}
-    </div>
+    <Description data-slot="image-field-size" {...props}>
+      {size}
+    </Description>
   );
 }
 
@@ -613,3 +631,5 @@ ImageFieldRemoveButton.displayName = "SY INC.ImageField.RemoveButton";
 ImageFieldRetryButton.displayName = "SY INC.ImageField.RetryButton";
 ImageFieldCancelButton.displayName = "SY INC.ImageField.CancelButton";
 ImageFieldMeta.displayName = "SY INC.ImageField.Meta";
+ImageFieldWarning.displayName = "SY INC.ImageField.Warning";
+ImageFieldSize.displayName = "SY INC.ImageField.Size";

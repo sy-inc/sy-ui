@@ -5,6 +5,7 @@ import {act, fireEvent, render, screen, setupUser, waitFor} from "@sy-inc/testin
 import {useState} from "react";
 import {expectTypeOf} from "vitest";
 
+import {Description, FieldError, Label} from "@/components";
 import {ImageField} from "@/components/image-field";
 
 const png = (name = "image.png") => new File(["image"], name, {type: "image/png"});
@@ -26,8 +27,8 @@ const stub = () => {
   return {calls, onUpload};
 };
 const props = {
+  "aria-label": "Banner",
   aspectRatio: 1,
-  label: "Banner",
   onChange: vi.fn(),
   onUpload: async () => "/uploaded.png",
   value: "",
@@ -124,6 +125,8 @@ describe("ImageField", () => {
       upload();
       await act(async () => pending.calls[0]!.reject(new Error("failed")));
       expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
+      // Announced once: the drop zone's own live region stays silent.
+      expect(screen.getAllByText("Upload failed")).toHaveLength(1);
       expect(screen.getByRole("button", {name: "Retry upload"})).toBeEnabled();
       expect(screen.getByRole("button", {name: "Drop, paste or click to upload"})).toBeEnabled();
       expect(screen.queryByRole("button", {name: "Replace image"})).not.toBeInTheDocument();
@@ -180,22 +183,18 @@ describe("ImageField", () => {
 
     render(
       <Controlled {...props} value="/saved.png" onChange={onChange}>
-        <ImageField.Frame
-          actions={
-            <ImageField.Actions className="custom-toolbar">
-              <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
-              <ImageField.RetryButton />
-              <ImageField.RemoveButton variant="danger">Remove</ImageField.RemoveButton>
-            </ImageField.Actions>
-          }
-        />
+        <ImageField.Frame />
+        <ImageField.Actions className="custom-toolbar">
+          <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
+          <ImageField.RetryButton />
+          <ImageField.RemoveButton variant="danger">Remove</ImageField.RemoveButton>
+        </ImageField.Actions>
         <ImageField.Meta />
       </Controlled>,
     );
     const actions = document.querySelector('[data-slot="image-field-actions"]')!;
 
     expect(actions).toHaveClass("image-field__actions", "custom-toolbar");
-    expect(frame()).toContainElement(actions as HTMLElement);
     expect(actions).toHaveTextContent("ReplaceRemove");
     expect(screen.getByRole("button", {name: "Replace image"})).toBeEnabled();
     expect(screen.queryByRole("button", {name: "Retry upload"})).not.toBeInTheDocument();
@@ -204,23 +203,88 @@ describe("ImageField", () => {
     expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
   });
 
-  it("renders a labelled empty field and keeps placeholder content out of its value", () => {
+  it.each(["banner", "tile", "inline"] as const)(
+    "supports per-state toolbar buttons through the Actions render function in %s",
+    async (layout) => {
+      const onPick = vi.fn();
+      const user = setupUser();
+      const pending = stub();
+
+      render(
+        <Controlled {...props} {...pending} layout={layout}>
+          <ImageField.Frame />
+          <ImageField.Actions>
+            {({isEmpty, isUploading}) => (
+              <>
+                <ImageField.CancelButton />
+                <ImageField.RemoveButton />
+                {!isUploading && (
+                  <button type="button" onClick={onPick}>
+                    Choose from library
+                  </button>
+                )}
+                {!isEmpty && <button type="button">Edit</button>}
+              </>
+            )}
+          </ImageField.Actions>
+          <ImageField.Meta />
+        </Controlled>,
+      );
+      const actions = document.querySelector('[data-slot="image-field-actions"]');
+
+      expect(actions).toHaveAttribute("data-empty", "true");
+      expect(actions).not.toHaveAttribute("data-uploading");
+      expect(screen.getByRole("button", {name: "Drop, paste or click to upload"})).toBeEnabled();
+      expect(screen.queryByRole("button", {name: "Edit"})).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
+      await user.click(screen.getByRole("button", {name: "Choose from library"}));
+      expect(onPick).toHaveBeenCalledOnce();
+
+      upload();
+      await waitFor(() => expect(pending.calls).toHaveLength(1));
+      expect(screen.getByRole("button", {name: "Cancel upload"})).toBeEnabled();
+      expect(screen.queryByRole("button", {name: "Choose from library"})).not.toBeInTheDocument();
+      expect(actions).toHaveAttribute("data-uploading", "true");
+
+      await act(async () => pending.calls[0]!.resolve("/new.png"));
+      expect(screen.getByRole("button", {name: "Choose from library"})).toBeEnabled();
+      expect(screen.getByRole("button", {name: "Edit"})).toBeEnabled();
+      expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
+      expect(actions).not.toHaveAttribute("data-empty");
+    },
+  );
+
+  it.each(["banner", "tile", "inline"] as const)(
+    "renders the default %s toolbar beside the frame and empty when nothing applies",
+    (layout) => {
+      render(<ImageField {...props} layout={layout} />);
+      const actions = document.querySelector('[data-slot="image-field-actions"]');
+
+      expect(actions).toBeEmptyDOMElement();
+      expect(frame()).not.toContainElement(actions as HTMLElement);
+    },
+  );
+
+  it("supports a composed Label as the field name and Frame children as empty-frame content", () => {
     const onChange = vi.fn();
-
-    render(
-      <ImageField
-        {...props}
-        placeholder={<img alt="Fallback" src="/fallback.png" />}
-        onChange={onChange}
-      />,
+    const {"aria-label": _, ...rest} = props;
+    const field = (value: string) => (
+      <ImageField {...rest} value={value} onChange={onChange}>
+        <Label>Banner</Label>
+        <ImageField.Frame>
+          <img alt="Fallback" src="/fallback.png" />
+        </ImageField.Frame>
+        <ImageField.Actions />
+        <ImageField.Meta />
+      </ImageField>
     );
+    const view = render(field(""));
     const group = screen.getByRole("group", {name: "Banner"});
+    const label = document.getElementById(group.getAttribute("aria-labelledby")!)!;
 
-    expect(document.getElementById(group.getAttribute("aria-labelledby")!)).toHaveTextContent(
-      "Banner",
-    );
+    expect(label).toHaveTextContent("Banner");
+    expect(label).toHaveAttribute("data-slot", "label");
     expect(screen.getByRole("button", {name: /Banner/})).toBeInTheDocument();
-    expect(screen.queryByRole("button", {name: "DropZone"})).not.toBeInTheDocument();
     expect(document.querySelector('[data-slot="drop-zone-area"]')).not.toHaveAttribute(
       "aria-label",
     );
@@ -229,39 +293,80 @@ describe("ImageField", () => {
       screen.getByRole("button", {name: "Drop, paste or click to upload"}),
     ).toBeInTheDocument();
     expect(onChange).not.toHaveBeenCalled();
+
+    view.rerender(field("/banner.png"));
+    expect(screen.getByRole("img", {name: "Banner"})).toBeInTheDocument();
+    expect(screen.queryByRole("img", {name: "Fallback"})).not.toBeInTheDocument();
   });
 
-  it("supports omitting label by naming the field with aria-label and rendering no heading", () => {
-    const {label: _, ...rest} = props;
-
-    render(<ImageField {...rest} aria-label="Banner" value="/banner.png" />);
+  it("supports naming the field with aria-label and no visible Label", () => {
+    render(<ImageField {...props} value="/banner.png" />);
 
     expect(screen.getByRole("group", {name: "Banner"})).not.toHaveAttribute("aria-labelledby");
     expect(screen.getByRole("button", {name: /Banner/})).toBeInTheDocument();
     expect(screen.getByRole("img", {name: "Banner"})).toBeInTheDocument();
-    expect(document.querySelector('[data-slot="image-field-heading"]')).not.toBeInTheDocument();
-    expectTypeOf<typeof rest & {"aria-label": string}>().toExtend<ImageFieldProps>();
-    expectTypeOf<typeof rest>().not.toExtend<ImageFieldProps>();
+    expect(document.querySelector('[data-slot="label"]')).not.toBeInTheDocument();
   });
 
-  it("prioritizes upload errors over form errors and restores the form error after cancellation", async () => {
+  it("supports composing Description and FieldError in Meta beside upload errors", async () => {
     const pending = stub();
     const user = setupUser();
 
-    render(<ImageField {...props} {...pending} errorMessage="Required" />);
-    expect(screen.getByRole("alert")).toHaveTextContent("Required");
+    render(
+      <ImageField {...props} {...pending} isInvalid>
+        <ImageField.Frame />
+        <ImageField.Actions />
+        <ImageField.Meta>
+          <Description>Falls back to English</Description>
+          <FieldError>Required</FieldError>
+        </ImageField.Meta>
+      </ImageField>,
+    );
+    const group = screen.getByRole("group", {name: "Banner"});
+    const meta = document.querySelector('[data-slot="image-field-meta"]')!;
+
+    expect(group).toHaveAttribute("data-invalid", "true");
+    expect(frame()).toHaveAttribute("data-invalid", "true");
+    expect(group.getAttribute("aria-describedby")).toBe(meta.id);
+    expect(meta).toContainElement(screen.getByText("Falls back to English"));
+    expect(meta).toContainElement(screen.getByText("Required"));
     upload(new File(["text"], "bad.txt", {type: "text/plain"}));
     await waitFor(() =>
       expect(screen.getByRole("alert")).toHaveTextContent("Unsupported image format"),
     );
-    expect(screen.queryByText("Required")).not.toBeInTheDocument();
+    expect(screen.getByText("Required")).toBeInTheDocument();
     upload();
     await act(async () => pending.calls[0]!.reject(new Error("server failed")));
     expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
-    expect(screen.queryByText("Required")).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", {name: "Retry upload"}));
     await user.click(screen.getByRole("button", {name: "Cancel upload"}));
-    expect(screen.getByRole("alert")).toHaveTextContent("Required");
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.getByText("Required")).toBeInTheDocument();
+  });
+
+  it("supports composing guidance parts that render only while they apply", () => {
+    const view = render(
+      <ImageField {...props} aspectRatio={2} recommendedWidth={1600}>
+        <ImageField.Frame />
+        <ImageField.Meta>
+          <ImageField.Warning />
+        </ImageField.Meta>
+      </ImageField>,
+    );
+
+    expect(document.querySelector('[data-slot="image-field-meta"]')).toBeEmptyDOMElement();
+    view.rerender(
+      <ImageField {...props} aspectRatio={2} recommendedWidth={1600}>
+        <ImageField.Frame />
+        <ImageField.Meta>
+          <ImageField.Size />
+        </ImageField.Meta>
+      </ImageField>,
+    );
+    expect(screen.getByText("Recommended 1600 × 800")).toHaveAttribute(
+      "data-slot",
+      "image-field-size",
+    );
   });
 
   it("renders the upload failure from getUploadErrorMessage and falls back to labels.uploadFailed", async () => {
@@ -480,16 +585,20 @@ describe("ImageField", () => {
       <ImageField.Root
         {...props}
         ref={ref}
+        isInvalid
         aria-describedby="help"
         className="custom-field"
-        errorMessage="Required"
         labels={{remove: "删除", replace: "替换"}}
         style={{width: 320}}
         title="Custom root"
         value="/old.png"
       >
         <ImageField.Frame />
-        <ImageField.Meta>Custom metadata</ImageField.Meta>
+        <ImageField.Actions />
+        <ImageField.Meta>
+          <FieldError>Required</FieldError>
+          Custom metadata
+        </ImageField.Meta>
       </ImageField.Root>,
     );
     expect(ref.current).toHaveAttribute("data-slot", "image-field");
@@ -499,9 +608,9 @@ describe("ImageField", () => {
     expect(ref.current).not.toHaveAttribute("value");
     expect(ref.current).not.toHaveAttribute("accept");
     expect(screen.getByRole("group", {name: "Banner"})).toBe(ref.current);
-    const error = screen.getByRole("alert");
-    const meta = error.closest('[data-slot="image-field-meta"]')!;
+    const meta = screen.getByText("Required").closest('[data-slot="image-field-meta"]')!;
 
+    expect(ref.current).toHaveAttribute("data-invalid", "true");
     expect(ref.current?.getAttribute("aria-describedby")?.split(" ")).toEqual(["help", meta.id]);
     expect(screen.getByRole("button", {name: "替换"})).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "删除"})).toBeInTheDocument();
@@ -520,6 +629,10 @@ describe("ImageField", () => {
 
     expect(document.querySelector('[data-slot="drop-zone-area"]')).toHaveAttribute("inert");
     expect(screen.getByRole("button", {name: "Replace image"})).toBeDisabled();
+    expect(document.querySelector('[data-slot="image-field-actions"]')).toHaveAttribute(
+      "data-disabled",
+      "true",
+    );
     upload();
     expect(pending.onUpload).not.toHaveBeenCalled();
     view.rerender(

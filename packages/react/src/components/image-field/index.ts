@@ -9,6 +9,8 @@ import {
   ImageFieldReplaceTrigger,
   ImageFieldRetryButton,
   ImageFieldRoot,
+  ImageFieldSize,
+  ImageFieldWarning,
 } from "./image-field";
 
 export const ImageField = Object.assign(ImageFieldRoot, {
@@ -20,6 +22,8 @@ export const ImageField = Object.assign(ImageFieldRoot, {
   ReplaceTrigger: ImageFieldReplaceTrigger,
   RetryButton: ImageFieldRetryButton,
   Root: ImageFieldRoot,
+  Size: ImageFieldSize,
+  Warning: ImageFieldWarning,
 });
 export {
   ImageFieldRoot,
@@ -30,12 +34,16 @@ export {
   ImageFieldRemoveButton,
   ImageFieldRetryButton,
   ImageFieldCancelButton,
+  ImageFieldWarning,
+  ImageFieldSize,
 };
 export type {
   ImageFieldProps,
   ImageFieldFrameProps,
   ImageFieldActionsProps,
+  ImageFieldActionsRenderProps,
   ImageFieldMetaProps,
+  ImageFieldGuidanceProps,
   ImageFieldButtonProps,
   ImageFieldReplaceTriggerProps,
   ImageFieldLabels,
@@ -48,6 +56,7 @@ export type ImageField = {
   FrameProps: ComponentProps<typeof ImageFieldFrame>;
   ActionsProps: ComponentProps<typeof ImageFieldActions>;
   MetaProps: ComponentProps<typeof ImageFieldMeta>;
+  GuidanceProps: ComponentProps<typeof ImageFieldWarning>;
   ButtonProps: ComponentProps<typeof ImageFieldRemoveButton>;
   ReplaceTriggerProps: ComponentProps<typeof ImageFieldReplaceTrigger>;
 };

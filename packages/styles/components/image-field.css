@@ -4,8 +4,18 @@
     @apply status-disabled;
   }
 }
+/* Layout is grid areas only: Actions shares the frame's cell, so every layout composes the same parts. */
 .image-field__area {
-  @apply relative flex min-w-0 flex-col gap-2 rounded-xl;
+  @apply relative grid min-w-0 gap-2 rounded-xl;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "frame" "meta";
+  &:has(> [data-slot="label"]) {
+    grid-template-areas: "label" "frame" "meta";
+  }
+  /* The composed <Label>. */
+  & > [data-slot="label"] {
+    grid-area: label;
+  }
   &:focus-visible,
   &[data-focus-visible="true"] {
     @apply status-focused;
@@ -14,11 +24,9 @@
     @apply border-accent;
   }
 }
-.image-field__heading {
-  @apply flex items-center;
-}
 .image-field__frame {
   @apply relative w-full overflow-hidden rounded-xl border border-border;
+  grid-area: frame;
   aspect-ratio: var(--image-field-ratio, 16 / 9);
   background-color: var(--surface);
   background-image: conic-gradient(
@@ -89,8 +97,13 @@
   }
 }
 .image-field__actions {
-  @apply absolute end-2 top-2 flex items-center gap-0.5 rounded-full bg-overlay/80 p-0.5 text-overlay-foreground shadow-overlay backdrop-blur-md;
+  @apply relative z-1 m-2 flex items-center gap-0.5 self-start justify-self-end rounded-full bg-overlay/80 p-0.5 text-overlay-foreground shadow-overlay backdrop-blur-md;
+  grid-area: frame;
   max-width: calc(100% - 1rem);
+  /* Nothing applies in the current state. */
+  &:empty {
+    @apply hidden;
+  }
   @media (pointer: coarse) {
     & button {
       @apply min-h-11 min-w-11;
@@ -119,7 +132,9 @@
   @apply absolute inset-x-0 bottom-0;
 }
 .image-field__meta {
-  @apply text-xs text-muted;
+  /* Composed parts (Warning, Size, Description, FieldError) stack one per line. */
+  @apply flex flex-col gap-0.5 text-xs text-muted;
+  grid-area: meta;
   overflow-wrap: anywhere;
   /* Stays mounted as the live region; cancels the area gap while it has nothing to say. */
   &:empty {
@@ -137,26 +152,25 @@
 }
 .image-field--inline {
   & .image-field__area {
-    @apply grid items-center gap-x-3 gap-y-0;
+    @apply items-center gap-x-3 gap-y-0;
     grid-template-columns: 56px minmax(0, 1fr) auto;
+    /* No visible label: meta takes both rows, centered beside the frame. */
+    grid-template-areas: "frame meta actions" "frame meta actions";
+    &:has(> [data-slot="label"]) {
+      grid-template-areas: "frame label actions" "frame meta actions";
+    }
   }
   & .image-field__frame {
-    @apply col-start-1 row-start-1 row-end-3 size-14;
+    @apply size-14;
     overflow: visible;
   }
-  & .image-field__heading {
-    @apply col-start-2 row-start-1;
-  }
   & .image-field__meta {
-    @apply col-start-2 row-start-2 mt-0 min-h-6;
-  }
-  /* No visible label: meta takes both rows, centered beside the frame. */
-  & .image-field__area:not(:has(> .image-field__heading)) .image-field__meta {
-    @apply row-start-1 row-end-3;
+    @apply mt-0 min-h-6;
   }
   & .image-field__actions {
+    grid-area: actions;
     max-width: none;
-    @apply static col-start-3 row-start-1 row-end-3 gap-1 bg-transparent p-0 shadow-none backdrop-blur-none;
+    @apply m-0 gap-1 self-center bg-transparent p-0 shadow-none backdrop-blur-none;
   }
   & .image-field__divider {
     @apply hidden;

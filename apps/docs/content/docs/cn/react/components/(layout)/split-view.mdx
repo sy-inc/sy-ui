@@ -90,6 +90,8 @@ Root 不提供外观 variant，也不绘制背景或外框。
 每栏独立选择外观：可以采用无框导航＋浮起内容，也可以让多栏浮起，或全部保持透明。
 根节点默认栏间距为 0.75rem，可通过 Root 的 `className="gap-4"` 或 `style={{gap: 16}}`
 调整。页面决定外部留白与背景，各栏通过自己的 `className` 设置内边距和其他外观覆盖。
+栏位滚动时会裁切子元素超出边缘的阴影；需要贴边的带阴影卡片时，在栏上用等量的负外边距和内边距
+留出空间，例如 `className="-mx-2 px-2"`。
 
 surface 栏会提供 `default` 的 `SurfaceContext`，让 `MessageBubble` 等子组件适配该背景；
 透明栏继承所在页面的 surface context。各栏不会影响兄弟栏，切换 variant 也会保留子组件挂载与内部状态。

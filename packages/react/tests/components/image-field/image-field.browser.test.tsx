@@ -4,6 +4,7 @@ import {render} from "@sy-inc/testing/browser";
 import {useState} from "react";
 import {page, userEvent} from "vitest/browser";
 
+import {Label} from "@/components";
 import {ImageField} from "@/components/image-field";
 import story from "@/components/image-field/image-field.stories";
 
@@ -106,8 +107,8 @@ describe("ImageField (browser)", () => {
           <div style={{width: 560}}>
             <ImageField
               accept="image/*"
+              aria-label="Logo"
               aspectRatio={layout === "banner" ? 16 / 5 : 1}
-              label="Logo"
               layout={layout}
               resolveSrc={() => source}
               value={value}
@@ -149,8 +150,8 @@ describe("ImageField (browser)", () => {
       await render(
         <div style={{width: 560}}>
           <ImageField
+            aria-label="Logo"
             aspectRatio={1}
-            label="Logo"
             layout={layout}
             resolveSrc={() => source}
             value="/logo.svg"
@@ -206,6 +207,58 @@ describe("ImageField (browser)", () => {
     },
   );
 
+  it.each(["tile", "banner"] as const)(
+    "keeps a custom toolbar button on the empty %s frame clickable above the upload picker",
+    async (layout) => {
+      const onPick = vi.fn();
+
+      await render(
+        <div style={{width: 560}}>
+          <ImageField
+            aria-label="Logo"
+            aspectRatio={1}
+            layout={layout}
+            value=""
+            onChange={() => {}}
+            onUpload={async () => "/uploaded.png"}
+          >
+            <ImageField.Frame />
+            <ImageField.Actions>
+              <ImageField.ReplaceTrigger />
+              <button type="button" onClick={onPick}>
+                Choose from library
+              </button>
+            </ImageField.Actions>
+            <ImageField.Meta />
+          </ImageField>
+        </div>,
+      );
+      const pick = page.getByRole("button", {name: "Choose from library"});
+
+      await expect.element(pick).toBeVisible();
+      await expect
+        .element(page.getByRole("button", {name: "Drop, paste or click to upload"}))
+        .toBeVisible();
+      await pick.click();
+      expect(onPick).toHaveBeenCalledOnce();
+    },
+  );
+
+  it("hides the default toolbar on an empty frame", async () => {
+    await render(
+      <ImageField
+        aria-label="Logo"
+        aspectRatio={1}
+        value=""
+        onChange={() => {}}
+        onUpload={async () => "/uploaded.png"}
+      />,
+    );
+    const actions = document.querySelector<HTMLElement>('[data-slot="image-field-actions"]')!;
+
+    expect(getComputedStyle(actions).display).toBe("none");
+  });
+
   it.each(["inline", "tile", "banner"] as const)(
     "keeps the %s empty upload picker usable after failure with only retry in the toolbar",
     async (layout) => {
@@ -217,8 +270,8 @@ describe("ImageField (browser)", () => {
         <div style={{width: 560}}>
           <ImageField
             accept="image/*"
+            aria-label="Logo"
             aspectRatio={1}
-            label="Logo"
             layout={layout}
             value=""
             onChange={() => {}}
@@ -251,8 +304,8 @@ describe("ImageField (browser)", () => {
   it("uses 56px inline and 176px tile frames and preserves a failed URL frame", async () => {
     const view = await render(
       <ImageField
+        aria-label="Logo"
         aspectRatio={1}
-        label="Logo"
         layout="inline"
         resolveSrc={() => source}
         value="/logo.svg"
@@ -264,8 +317,8 @@ describe("ImageField (browser)", () => {
     expect(dimensions()).toEqual([56, 56]);
     await view.rerender(
       <ImageField
+        aria-label="Logo"
         aspectRatio={1}
-        label="Logo"
         layout="tile"
         resolveSrc={() => source}
         value="/logo.svg"
@@ -276,8 +329,8 @@ describe("ImageField (browser)", () => {
     expect(dimensions()).toEqual([176, 176]);
     await view.rerender(
       <ImageField
+        aria-label="Logo"
         aspectRatio={1}
-        label="Logo"
         layout="tile"
         value="/does-not-exist.png"
         onChange={() => {}}
@@ -288,6 +341,43 @@ describe("ImageField (browser)", () => {
     expect(dimensions()).toEqual([176, 176]);
     await expect.element(page.getByRole("button", {name: "Replace image"})).toBeVisible();
   });
+
+  it.each(["inline", "banner"] as const)(
+    "places a composed Label in the %s label area",
+    async (layout) => {
+      await render(
+        <div style={{width: 560}}>
+          <ImageField
+            aspectRatio={1}
+            layout={layout}
+            recommendedWidth={512}
+            value=""
+            onChange={() => {}}
+            onUpload={async () => "/logo.svg"}
+          >
+            <Label>Logo</Label>
+            <ImageField.Frame />
+            <ImageField.Actions />
+            <ImageField.Meta />
+          </ImageField>
+        </div>,
+      );
+      await expect.element(page.getByRole("group", {name: "Logo"})).toBeVisible();
+      const label = document.querySelector('[data-slot="label"]')!.getBoundingClientRect();
+      const meta = document
+        .querySelector('[data-slot="image-field-meta"]')!
+        .getBoundingClientRect();
+      const box = frame().getBoundingClientRect();
+
+      if (layout === "inline") {
+        expect(label.left).toBeGreaterThan(box.right);
+        expect(label.bottom).toBeLessThanOrEqual(meta.top);
+      } else {
+        expect(label.bottom).toBeLessThanOrEqual(box.top);
+        expect(meta.top).toBeGreaterThanOrEqual(box.bottom);
+      }
+    },
+  );
 
   it("centers inline meta beside the frame when the label is not visible", async () => {
     await render(
@@ -310,8 +400,8 @@ describe("ImageField (browser)", () => {
   it("opens the preview from the image and closes with Escape", async () => {
     await render(
       <ImageField
+        aria-label="Logo"
         aspectRatio={1}
-        label="Logo"
         layout="tile"
         resolveSrc={() => source}
         value="/logo.svg"
@@ -340,8 +430,8 @@ describe("ImageField (browser)", () => {
       <div style={{width: 560}}>
         <ImageField
           accept="image/*"
+          aria-label="Logo"
           aspectRatio={1}
-          label="Logo"
           resolveSrc={() => source}
           value="/logo.svg"
           onChange={() => {}}
@@ -366,8 +456,8 @@ describe("ImageField (browser)", () => {
     await view.rerender(
       <div style={{width: 560}}>
         <ImageField
+          aria-label="Logo"
           aspectRatio={16 / 5}
-          label="Logo"
           resolveSrc={() => source}
           value="/logo.svg"
           onChange={() => {}}
