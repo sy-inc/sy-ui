@@ -3,7 +3,6 @@ import type {VariantProps} from "tailwind-variants";
 import {tv} from "tailwind-variants";
 
 export const imageFieldVariants = tv({
-  defaultVariants: {layout: "banner"},
   slots: {
     actions: "image-field__actions",
     area: "image-field__area",
@@ -20,14 +19,6 @@ export const imageFieldVariants = tv({
     preview: "image-field__preview",
     progress: "image-field__progress",
     remove: "image-field__remove",
-    replaceTrigger: "image-field__replace-trigger",
-  },
-  variants: {
-    layout: {
-      banner: {},
-      inline: {base: "image-field--inline"},
-      tile: {base: "image-field--tile"},
-    },
   },
 });
 export type ImageFieldVariants = VariantProps<typeof imageFieldVariants>;

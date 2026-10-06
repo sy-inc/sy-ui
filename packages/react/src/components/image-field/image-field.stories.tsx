@@ -50,12 +50,14 @@ function useStoryValue(initialValue: string) {
   return [value, setValue] as const;
 }
 
-// The full v3 composition: every part is written out, nothing is configured through props.
+// The full composition: every part is written out, nothing is configured through props.
 const parts = (label: string, placeholder?: ReactNode) => (
   <>
     <Label>{label}</Label>
-    <ImageField.Frame>{placeholder}</ImageField.Frame>
-    <ImageField.Actions />
+    <ImageField.Frame>
+      {!!placeholder && <ImageField.Placeholder>{placeholder}</ImageField.Placeholder>}
+      <ImageField.Actions />
+    </ImageField.Frame>
     <ImageField.Meta />
   </>
 );
@@ -68,11 +70,11 @@ function Example(props: ImageFieldProps) {
 
 const meta = {
   args: {
-    aspectRatio: 16 / 5,
-    children: parts("Banner"),
+    aspectRatio: 1,
+    children: parts("Logo"),
     onChange: () => {},
     onUpload: upload,
-    recommendedWidth: 1600,
+    recommendedWidth: 512,
     resolveSrc,
     value: "",
   },
@@ -86,24 +88,84 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Uploaded: Story = {args: {value: "/banner.svg"}};
-export const Disabled: Story = {args: {isDisabled: true, value: "/banner.svg"}};
+export const Uploaded: Story = {args: {value: "/square.svg"}};
+export const Disabled: Story = {args: {isDisabled: true, value: "/square.svg"}};
+// `aspectRatio` widens the frame from its height.
+export const Banner: Story = {
+  args: {
+    aspectRatio: 16 / 5,
+    children: parts("Banner"),
+    recommendedWidth: 1600,
+    value: "/banner.svg",
+  },
+};
+// Fill the container: the height follows the ratio.
+export const FullWidth: Story = {
+  args: {
+    aspectRatio: 16 / 5,
+    children: (
+      <>
+        <Label>Banner</Label>
+        <ImageField.Frame className="aspect-[var(--image-field-ratio,16/9)] w-full">
+          <ImageField.Actions />
+        </ImageField.Frame>
+        <ImageField.Meta />
+      </>
+    ),
+    recommendedWidth: 1600,
+    value: "/banner.svg",
+  },
+};
+// The consumer owns the size: write it on Frame.
+export const Sized: Story = {
+  args: {
+    children: (
+      <>
+        <Label>Logo</Label>
+        <ImageField.Frame className="size-24">
+          <ImageField.Actions />
+        </ImageField.Frame>
+        <ImageField.Meta />
+      </>
+    ),
+    value: "/square.svg",
+  },
+};
+// Text only where it's needed: Placeholder replaces the default upload icon.
+export const WithText: Story = {
+  args: {
+    children: (
+      <>
+        <Label>Banner</Label>
+        <ImageField.Frame className="h-28 w-full">
+          <ImageField.Placeholder>Click or drop to upload</ImageField.Placeholder>
+          <ImageField.Actions />
+        </ImageField.Frame>
+        <ImageField.Meta />
+      </>
+    ),
+  },
+};
+// Actions composed beside the frame render as plain buttons next to it.
+export const ActionsOutside: Story = {
+  args: {
+    children: (
+      <>
+        <Label>Logo</Label>
+        <ImageField.Frame />
+        <ImageField.Actions />
+        <ImageField.Meta />
+      </>
+    ),
+    value: "/square.svg",
+  },
+};
 export const AnyRatio: Story = {
   args: {aspectRatio: undefined, children: parts("Movie banner"), value: "/square.svg"},
 };
 // The title lives elsewhere on the page: no Label part, `aria-label` names the field.
 export const WithoutVisibleLabel: Story = {
-  args: {"aria-label": "Banner", children: undefined, value: "/banner.svg"},
-};
-export const InlineWithoutVisibleLabel: Story = {
-  args: {
-    "aria-label": "Logo",
-    aspectRatio: 1,
-    children: undefined,
-    layout: "inline",
-    recommendedWidth: 512,
-    value: "/square.svg",
-  },
+  args: {"aria-label": "Logo", children: undefined, value: "/square.svg"},
 };
 export const Composition: Story = {
   args: {
@@ -111,15 +173,15 @@ export const Composition: Story = {
     children: (
       <>
         <Label>Logo</Label>
-        <ImageField.Frame />
-        <ImageField.Actions />
+        <ImageField.Frame>
+          <ImageField.Actions />
+        </ImageField.Frame>
         <ImageField.Meta>
           <ImageField.Warning />
           <Description>Shown on the member site header</Description>
         </ImageField.Meta>
       </>
     ),
-    layout: "tile",
     value: "/square.svg",
   },
 };
@@ -131,53 +193,56 @@ export const HoverOverlay: Story = {
   args: {
     children: (
       <>
-        <Label>Banner</Label>
-        <ImageField.Frame className="peer" />
-        <ImageField.Actions className="pointer-events-none m-0 max-w-none justify-center gap-2 place-self-stretch rounded-xl bg-black/50 opacity-0 shadow-none backdrop-blur-none transition-opacity peer-hover:opacity-100 focus-within:opacity-100 hover:opacity-100 pointer-coarse:opacity-100 [&_button]:pointer-events-auto">
-          <ImageField.ReplaceTrigger className={overlayButton}>Replace</ImageField.ReplaceTrigger>
-          <ImageField.RetryButton />
-          <ImageField.RemoveButton variant="danger" />
-        </ImageField.Actions>
+        <Label>Logo</Label>
+        <ImageField.Frame className="group">
+          <ImageField.Actions className="pointer-events-none absolute inset-0 m-0 max-w-none justify-center gap-2 rounded-none bg-black/50 opacity-0 shadow-none backdrop-blur-none transition-opacity group-hover:opacity-100 focus-within:opacity-100 pointer-coarse:opacity-100 [&_button]:pointer-events-auto">
+            <ImageField.ReplaceTrigger className={overlayButton} />
+            <ImageField.RetryButton />
+            <ImageField.RemoveButton variant="danger" />
+          </ImageField.Actions>
+        </ImageField.Frame>
         <ImageField.Meta />
       </>
     ),
-    value: "/banner.svg",
+    value: "/square.svg",
   },
 };
 
 // Per-state toolbar: "Library" shows with or without an image, "Copy link" only with one.
+// The wider toolbar stretches the square frame into a rectangle.
 export const PerStateActions: Story = {
   render: function Render(args) {
     const [value, setValue] = useStoryValue(args.value);
 
     return (
       <ImageField {...args} value={value} onChange={setValue}>
-        <Label>Banner</Label>
-        <ImageField.Frame />
-        <ImageField.Actions>
-          {({isEmpty, isUploading}) => (
-            <>
-              <ImageField.CancelButton />
-              <ImageField.RetryButton />
-              <ImageField.ReplaceTrigger />
-              <ImageField.RemoveButton />
-              {!isUploading && (
-                <Button size="sm" variant="ghost" onPress={() => setValue("/banner.svg")}>
-                  Library
-                </Button>
-              )}
-              {!isEmpty && !isUploading && (
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onPress={() => navigator.clipboard.writeText(value)}
-                >
-                  Copy link
-                </Button>
-              )}
-            </>
-          )}
-        </ImageField.Actions>
+        <Label>Logo</Label>
+        <ImageField.Frame>
+          <ImageField.Actions>
+            {({isEmpty, isUploading}) => (
+              <>
+                <ImageField.CancelButton />
+                <ImageField.RetryButton />
+                <ImageField.ReplaceTrigger />
+                <ImageField.RemoveButton />
+                {!isUploading && (
+                  <Button size="sm" variant="ghost" onPress={() => setValue("/square.svg")}>
+                    Library
+                  </Button>
+                )}
+                {!isEmpty && !isUploading && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onPress={() => navigator.clipboard.writeText(value)}
+                  >
+                    Copy link
+                  </Button>
+                )}
+              </>
+            )}
+          </ImageField.Actions>
+        </ImageField.Frame>
         <ImageField.Meta />
       </ImageField>
     );
@@ -195,15 +260,15 @@ const states = [
   "Broken URL",
 ] as const;
 
-function StateExample({index, layout}: {layout: ImageFieldProps["layout"]; index: number}) {
+function StateExample({index, wide}: {index: number; wide: boolean}) {
   const ref = useRef<HTMLDivElement>(null);
   const [value, setValue] = useStoryValue(
     index === 3 || index === 5
-      ? layout === "banner"
+      ? wide
         ? "/banner.svg"
         : "/square.svg"
       : index === 4
-        ? layout === "banner"
+        ? wide
           ? "/square.svg"
           : "/banner.svg"
         : index === 7
@@ -239,9 +304,8 @@ function StateExample({index, layout}: {layout: ImageFieldProps["layout"]; index
     <ImageField
       ref={ref}
       accept="image/*"
-      aspectRatio={layout === "banner" ? 16 / 5 : 1}
+      aspectRatio={wide ? 16 / 5 : 1}
       labels={index === 1 ? {upload: "Release to upload"} : undefined}
-      layout={layout}
       resolveSrc={resolveSrc}
       value={value}
       onChange={setValue}
@@ -267,12 +331,18 @@ function StateExample({index, layout}: {layout: ImageFieldProps["layout"]; index
 export const StateMatrix: Story = {
   render: () => (
     <div className="flex flex-col gap-10">
-      {(["inline", "tile", "banner"] as const).map((layout) => (
-        <section key={layout}>
-          <h2 className="mb-4 text-lg font-semibold">{layout}</h2>
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      {[false, true].map((wide) => (
+        <section key={String(wide)}>
+          <h2 className="mb-4 text-lg font-semibold">{wide ? "16 : 5" : "1 : 1"}</h2>
+          <div
+            className={
+              wide
+                ? "grid grid-cols-1 gap-6 lg:grid-cols-2"
+                : "grid grid-cols-2 gap-6 md:grid-cols-4"
+            }
+          >
             {states.map((state, index) => (
-              <StateExample key={state} index={index} layout={layout} />
+              <StateExample key={state} index={index} wide={wide} />
             ))}
           </div>
         </section>

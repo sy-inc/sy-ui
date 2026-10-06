@@ -1,4 +1,5 @@
 import type {DropZoneUploadContext} from "@/components/drop-zone";
+import type {CSSProperties} from "react";
 
 import {render} from "@sy-inc/testing/browser";
 import {useState} from "react";
@@ -11,6 +12,8 @@ import story from "@/components/image-field/image-field.stories";
 import "../../../../styles/dist/sy-inc.min.css";
 
 const source = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><circle cx="256" cy="256" r="240" fill="blue"/></svg>')}`;
+// A consumer-sized frame (`className="[--image-field-size:8rem]"`) that keeps its ratio and fits every default toolbar.
+const sized = {"--image-field-size": "8rem"} as CSSProperties;
 const frame = () => document.querySelector<HTMLElement>('[data-slot="image-field-frame"]')!;
 const dimensions = () => {
   const {height, width} = frame().getBoundingClientRect();
@@ -63,7 +66,7 @@ describe("ImageField (browser)", () => {
       .toBeVisible();
     await select(80);
     await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
-    const image = () => page.getByRole("img", {name: "Banner"}).element() as HTMLImageElement;
+    const image = () => page.getByRole("img", {name: "Logo"}).element() as HTMLImageElement;
 
     await expect.poll(() => image().naturalWidth).toBe(80);
     const first = image().src;
@@ -87,9 +90,9 @@ describe("ImageField (browser)", () => {
       .toBeVisible();
   });
 
-  it.each(["inline", "tile", "banner"] as const)(
-    "keeps %s geometry stable through paste, progress, completion and removal",
-    async (layout) => {
+  it.each([1, 16 / 5])(
+    "keeps the %d ratio frame stable through paste, progress, completion and removal",
+    async (ratio) => {
       let finish: (path: string) => void;
       let context: DropZoneUploadContext;
       const onUpload = vi.fn((_: File, next: DropZoneUploadContext) => {
@@ -108,9 +111,9 @@ describe("ImageField (browser)", () => {
             <ImageField
               accept="image/*"
               aria-label="Logo"
-              aspectRatio={layout === "banner" ? 16 / 5 : 1}
-              layout={layout}
+              aspectRatio={ratio}
               resolveSrc={() => source}
+              style={sized}
               value={value}
               onChange={setValue}
               onUpload={onUpload}
@@ -140,109 +143,101 @@ describe("ImageField (browser)", () => {
     },
   );
 
-  it.each(["inline", "tile", "banner"] as const)(
-    "keeps the %s image usable and geometry stable after invalid selection and upload failure",
-    async (layout) => {
-      const onUpload = vi.fn(async () => {
-        throw new Error("server failed");
-      });
+  it("keeps the image usable and geometry stable after invalid selection and upload failure", async () => {
+    const onUpload = vi.fn(async () => {
+      throw new Error("server failed");
+    });
 
-      await render(
-        <div style={{width: 560}}>
-          <ImageField
-            aria-label="Logo"
-            aspectRatio={1}
-            layout={layout}
-            resolveSrc={() => source}
-            value="/logo.svg"
-            onChange={() => {}}
-            onUpload={onUpload}
-          />
-        </div>,
-      );
-      await expect
-        .poll(
-          () => (page.getByRole("img", {name: "Logo"}).element() as HTMLImageElement).naturalWidth,
-        )
-        .toBe(512);
-      const before = dimensions();
-      const select = (file: File) => {
-        const input = document.querySelector<HTMLInputElement>('input[type="file"]')!;
-        const transfer = new DataTransfer();
+    await render(
+      <div style={{width: 560}}>
+        <ImageField
+          aria-label="Logo"
+          aspectRatio={1}
+          resolveSrc={() => source}
+          style={sized}
+          value="/logo.svg"
+          onChange={() => {}}
+          onUpload={onUpload}
+        />
+      </div>,
+    );
+    await expect
+      .poll(
+        () => (page.getByRole("img", {name: "Logo"}).element() as HTMLImageElement).naturalWidth,
+      )
+      .toBe(512);
+    const before = dimensions();
+    const select = (file: File) => {
+      const input = document.querySelector<HTMLInputElement>('input[type="file"]')!;
+      const transfer = new DataTransfer();
 
-        transfer.items.add(file);
-        input.files = transfer.files;
-        input.dispatchEvent(new Event("change", {bubbles: true}));
-      };
+      transfer.items.add(file);
+      input.files = transfer.files;
+      input.dispatchEvent(new Event("change", {bubbles: true}));
+    };
 
-      select(new File(["text"], "bad.txt", {type: "text/plain"}));
-      await expect.element(page.getByRole("alert")).toHaveTextContent("Unsupported image format");
-      expect(onUpload).not.toHaveBeenCalled();
-      expect(dimensions()).toEqual(before);
-      await page.getByRole("img", {name: "Logo"}).click();
-      await expect.element(page.getByRole("dialog", {name: "Logo"})).toBeVisible();
-      await userEvent.keyboard("{Escape}");
-      select(new File(["png"], "image.png", {type: "image/png"}));
-      await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
-      expect(dimensions()).toEqual(before);
-      const retry = page.getByRole("button", {name: "Retry upload"});
+    select(new File(["text"], "bad.txt", {type: "text/plain"}));
+    await expect.element(page.getByRole("alert")).toHaveTextContent("Unsupported image format");
+    expect(onUpload).not.toHaveBeenCalled();
+    expect(dimensions()).toEqual(before);
+    await page.getByRole("img", {name: "Logo"}).click();
+    await expect.element(page.getByRole("dialog", {name: "Logo"})).toBeVisible();
+    await userEvent.keyboard("{Escape}");
+    select(new File(["png"], "image.png", {type: "image/png"}));
+    await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
+    const retry = page.getByRole("button", {name: "Retry upload"});
 
-      await expect.element(retry).toBeVisible();
-      await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
-      if (layout !== "inline") {
-        const bounds = frame().getBoundingClientRect();
+    await expect.element(retry).toBeVisible();
+    await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
+    // Retry, replace and remove still fit the sized square.
+    expect(dimensions()).toEqual(before);
+    const bounds = frame().getBoundingClientRect();
 
-        for (const button of document.querySelectorAll(
-          '[data-slot="image-field-actions"] button',
-        )) {
-          const rect = button.getBoundingClientRect();
+    for (const button of document.querySelectorAll('[data-slot="image-field-actions"] button')) {
+      const rect = button.getBoundingClientRect();
 
-          expect(rect.left).toBeGreaterThanOrEqual(bounds.left);
-          expect(rect.right).toBeLessThanOrEqual(bounds.right);
-          expect(rect.bottom).toBeLessThanOrEqual(bounds.bottom);
-        }
-      }
-      await retry.click();
-      await expect.poll(() => onUpload.mock.calls.length).toBe(2);
-    },
-  );
+      expect(rect.width).toBe(rect.height);
+      expect(rect.left).toBeGreaterThanOrEqual(bounds.left);
+      expect(rect.right).toBeLessThanOrEqual(bounds.right);
+      expect(rect.bottom).toBeLessThanOrEqual(bounds.bottom);
+    }
+    await retry.click();
+    await expect.poll(() => onUpload.mock.calls.length).toBe(2);
+  });
 
-  it.each(["tile", "banner"] as const)(
-    "keeps a custom toolbar button on the empty %s frame clickable above the upload picker",
-    async (layout) => {
-      const onPick = vi.fn();
+  it("keeps a custom toolbar button on the empty frame clickable above the upload picker", async () => {
+    const onPick = vi.fn();
 
-      await render(
-        <div style={{width: 560}}>
-          <ImageField
-            aria-label="Logo"
-            aspectRatio={1}
-            layout={layout}
-            value=""
-            onChange={() => {}}
-            onUpload={async () => "/uploaded.png"}
-          >
-            <ImageField.Frame />
+    await render(
+      <div style={{width: 560}}>
+        <ImageField
+          aria-label="Logo"
+          aspectRatio={1}
+          value=""
+          onChange={() => {}}
+          onUpload={async () => "/uploaded.png"}
+        >
+          <ImageField.Frame>
             <ImageField.Actions>
               <ImageField.ReplaceTrigger />
               <button type="button" onClick={onPick}>
                 Choose from library
               </button>
             </ImageField.Actions>
-            <ImageField.Meta />
-          </ImageField>
-        </div>,
-      );
-      const pick = page.getByRole("button", {name: "Choose from library"});
+          </ImageField.Frame>
+          <ImageField.Meta />
+        </ImageField>
+      </div>,
+    );
+    const pick = page.getByRole("button", {name: "Choose from library"});
 
-      await expect.element(pick).toBeVisible();
-      await expect
-        .element(page.getByRole("button", {name: "Drop, paste or click to upload"}))
-        .toBeVisible();
-      await pick.click();
-      expect(onPick).toHaveBeenCalledOnce();
-    },
-  );
+    await expect.element(pick).toBeVisible();
+    await expect
+      .element(page.getByRole("button", {name: "Drop, paste or click to upload"}))
+      .toBeVisible();
+    await pick.click();
+    expect(onPick).toHaveBeenCalledOnce();
+  });
 
   it("hides the default toolbar on an empty frame", async () => {
     await render(
@@ -259,142 +254,169 @@ describe("ImageField (browser)", () => {
     expect(getComputedStyle(actions).display).toBe("none");
   });
 
-  it.each(["inline", "tile", "banner"] as const)(
-    "keeps the %s empty upload picker usable after failure with only retry in the toolbar",
-    async (layout) => {
-      const onUpload = vi.fn(async () => {
-        throw new Error("failed");
-      });
+  it("keeps the empty upload picker usable after failure with only retry in the toolbar", async () => {
+    const onUpload = vi.fn(async () => {
+      throw new Error("failed");
+    });
 
-      await render(
-        <div style={{width: 560}}>
-          <ImageField
-            accept="image/*"
-            aria-label="Logo"
-            aspectRatio={1}
-            layout={layout}
-            value=""
-            onChange={() => {}}
-            onUpload={onUpload}
-          />
-        </div>,
-      );
-      const before = dimensions();
-      const picker = page.getByRole("button", {name: "Drop, paste or click to upload"});
-      const target = page.getByRole("button", {name: /Logo/});
+    await render(
+      <div style={{width: 560}}>
+        <ImageField
+          accept="image/*"
+          aria-label="Logo"
+          aspectRatio={1}
+          value=""
+          onChange={() => {}}
+          onUpload={onUpload}
+        />
+      </div>,
+    );
+    const before = dimensions();
+    const picker = page.getByRole("button", {name: "Drop, paste or click to upload"});
+    const target = page.getByRole("button", {name: /Logo/});
 
-      await expect.element(target).toHaveAccessibleName(/Logo/);
-      paste(picker.element());
-      await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
-      await expect.element(picker).toBeVisible();
-      await expect.element(picker).toBeEnabled();
-      await expect
-        .element(page.getByRole("button", {name: "Remove image"}))
-        .not.toBeInTheDocument();
-      expect(document.querySelectorAll('[data-slot="image-field-actions"] button')).toHaveLength(1);
-      expect(dimensions()).toEqual(before);
-      await page.getByRole("button", {name: "Retry upload"}).click();
-      await expect.poll(() => onUpload.mock.calls.length).toBe(2);
-      await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
-      paste(picker.element());
-      await expect.poll(() => onUpload.mock.calls.length).toBe(3);
-    },
-  );
+    await expect.element(target).toHaveAccessibleName(/Logo/);
+    paste(picker.element());
+    await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
+    await expect.element(picker).toBeVisible();
+    await expect.element(picker).toBeEnabled();
+    await expect.element(page.getByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
+    expect(document.querySelectorAll('[data-slot="image-field-actions"] button')).toHaveLength(1);
+    expect(dimensions()).toEqual(before);
+    await page.getByRole("button", {name: "Retry upload"}).click();
+    await expect.poll(() => onUpload.mock.calls.length).toBe(2);
+    await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
+    paste(picker.element());
+    await expect.poll(() => onUpload.mock.calls.length).toBe(3);
+  });
 
-  it("uses 56px inline and 176px tile frames and preserves a failed URL frame", async () => {
-    const view = await render(
+  it("renders a 50px icon-only square by default, sized by the consumer, and keeps a failed URL frame", async () => {
+    const field = (value: string, size?: CSSProperties) => (
       <ImageField
         aria-label="Logo"
         aspectRatio={1}
-        layout="inline"
-        resolveSrc={() => source}
-        value="/logo.svg"
+        resolveSrc={(path) => (path === "/logo.svg" ? source : path)}
+        value={value}
         onChange={() => {}}
         onUpload={async () => "/logo.svg"}
-      />,
+      >
+        <ImageField.Frame style={size}>
+          <ImageField.Actions />
+        </ImageField.Frame>
+      </ImageField>
     );
+    const view = await render(field(""));
 
-    expect(dimensions()).toEqual([56, 56]);
-    await view.rerender(
-      <ImageField
-        aria-label="Logo"
-        aspectRatio={1}
-        layout="tile"
-        resolveSrc={() => source}
-        value="/logo.svg"
-        onChange={() => {}}
-        onUpload={async () => "/logo.svg"}
-      />,
-    );
-    expect(dimensions()).toEqual([176, 176]);
-    await view.rerender(
-      <ImageField
-        aria-label="Logo"
-        aspectRatio={1}
-        layout="tile"
-        value="/does-not-exist.png"
-        onChange={() => {}}
-        onUpload={async () => "/logo.svg"}
-      />,
-    );
-    await expect.element(page.getByText("Image could not be loaded")).toBeVisible();
-    expect(dimensions()).toEqual([176, 176]);
+    expect(dimensions()).toEqual([50, 50]);
+    expect(frame().textContent).toBe("");
+    // The two-button pill is wider than 50px: the height stays, the width grows to fit it.
+    await view.rerender(field("/logo.svg"));
+    await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
+    expect(dimensions()[1]).toBe(50);
+    expect(dimensions()[0]).toBeGreaterThan(50);
+    await view.rerender(field("/logo.svg", {height: 96, width: 96}));
+    expect(dimensions()).toEqual([96, 96]);
+    await view.rerender(field("/does-not-exist.png", {height: 96, width: 96}));
+    await expect.element(page.getByText("Image could not be loaded")).toBeInTheDocument();
+    expect(dimensions()).toEqual([96, 96]);
     await expect.element(page.getByRole("button", {name: "Replace image"})).toBeVisible();
   });
 
-  it.each(["inline", "banner"] as const)(
-    "places a composed Label in the %s label area",
-    async (layout) => {
-      await render(
-        <div style={{width: 560}}>
-          <ImageField
-            aspectRatio={1}
-            layout={layout}
-            recommendedWidth={512}
-            value=""
-            onChange={() => {}}
-            onUpload={async () => "/logo.svg"}
-          >
-            <Label>Logo</Label>
-            <ImageField.Frame />
-            <ImageField.Actions />
-            <ImageField.Meta />
-          </ImageField>
-        </div>,
-      );
-      await expect.element(page.getByRole("group", {name: "Logo"})).toBeVisible();
-      const label = document.querySelector('[data-slot="label"]')!.getBoundingClientRect();
-      const meta = document
-        .querySelector('[data-slot="image-field-meta"]')!
-        .getBoundingClientRect();
-      const box = frame().getBoundingClientRect();
-
-      if (layout === "inline") {
-        expect(label.left).toBeGreaterThan(box.right);
-        expect(label.bottom).toBeLessThanOrEqual(meta.top);
-      } else {
-        expect(label.bottom).toBeLessThanOrEqual(box.top);
-        expect(meta.top).toBeGreaterThanOrEqual(box.bottom);
-      }
-    },
-  );
-
-  it("centers inline meta beside the frame when the label is not visible", async () => {
+  it("replaces the upload icon with composed Placeholder content", async () => {
     await render(
-      <ImageField
-        aria-label="Logo"
-        aspectRatio={1}
-        layout="inline"
-        recommendedWidth={512}
-        value=""
-        onChange={() => {}}
-        onUpload={async () => "/logo.svg"}
-      />,
+      <ImageField aria-label="Logo" value="" onChange={() => {}} onUpload={async () => "/logo.svg"}>
+        <ImageField.Frame>
+          <ImageField.Placeholder>Upload logo</ImageField.Placeholder>
+        </ImageField.Frame>
+      </ImageField>,
     );
+    const icon = document.querySelector('[data-slot="drop-zone-trigger"] svg')!;
+
+    await expect.element(page.getByText("Upload logo")).toBeVisible();
+    expect(getComputedStyle(icon).display).toBe("none");
+  });
+
+  it("stretches the square into a rectangle when the toolbar is wider", async () => {
+    await render(
+      <div style={{width: 560}}>
+        <ImageField
+          aria-label="Logo"
+          aspectRatio={1}
+          resolveSrc={() => source}
+          value="/logo.svg"
+          onChange={() => {}}
+          onUpload={async () => "/logo.svg"}
+        >
+          <ImageField.Frame>
+            <ImageField.Actions>
+              <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
+              <ImageField.RemoveButton>Remove</ImageField.RemoveButton>
+            </ImageField.Actions>
+          </ImageField.Frame>
+        </ImageField>
+      </div>,
+    );
+    const [width, height] = dimensions();
+    const actions = document
+      .querySelector('[data-slot="image-field-actions"]')!
+      .getBoundingClientRect();
+
+    expect(height).toBe(50);
+    expect(width).toBeGreaterThan(50);
+    expect(actions.right).toBeLessThanOrEqual(frame().getBoundingClientRect().right);
+  });
+
+  it("places a composed Label above the frame and Meta below it", async () => {
+    await render(
+      <div style={{width: 560}}>
+        <ImageField
+          aspectRatio={1}
+          recommendedWidth={512}
+          value=""
+          onChange={() => {}}
+          onUpload={async () => "/logo.svg"}
+        >
+          <Label>Logo</Label>
+          <ImageField.Frame>
+            <ImageField.Actions />
+          </ImageField.Frame>
+          <ImageField.Meta />
+        </ImageField>
+      </div>,
+    );
+    await expect.element(page.getByRole("group", {name: "Logo"})).toBeVisible();
+    const label = document.querySelector('[data-slot="label"]')!.getBoundingClientRect();
     const meta = document.querySelector('[data-slot="image-field-meta"]')!.getBoundingClientRect();
     const box = frame().getBoundingClientRect();
 
-    expect(Math.abs(meta.top + meta.height / 2 - (box.top + box.height / 2))).toBeLessThan(1);
+    expect(label.bottom).toBeLessThanOrEqual(box.top);
+    expect(meta.top).toBeGreaterThanOrEqual(box.bottom);
+  });
+
+  it("renders Actions composed beside the frame as plain buttons next to it", async () => {
+    await render(
+      <div style={{width: 560}}>
+        <ImageField
+          aria-label="Logo"
+          aspectRatio={1}
+          resolveSrc={() => source}
+          value="/logo.svg"
+          onChange={() => {}}
+          onUpload={async () => "/logo.svg"}
+        >
+          <ImageField.Frame />
+          <ImageField.Actions />
+        </ImageField>
+      </div>,
+    );
+    const actions = document.querySelector<HTMLElement>('[data-slot="image-field-actions"]')!;
+
+    await expect.element(page.getByRole("button", {name: "Remove image"})).toBeVisible();
+    expect(dimensions()).toEqual([50, 50]);
+    expect(actions.getBoundingClientRect().left).toBeGreaterThan(
+      frame().getBoundingClientRect().right,
+    );
+    expect(getComputedStyle(actions).backgroundColor).toBe("rgba(0, 0, 0, 0)");
   });
 
   it("opens the preview from the image and closes with Escape", async () => {
@@ -402,7 +424,6 @@ describe("ImageField (browser)", () => {
       <ImageField
         aria-label="Logo"
         aspectRatio={1}
-        layout="tile"
         resolveSrc={() => source}
         value="/logo.svg"
         onChange={() => {}}
@@ -449,7 +470,7 @@ describe("ImageField (browser)", () => {
 
     area.dispatchEvent(new DragEvent("dragenter", {bubbles: true, dataTransfer: transfer}));
     area.dispatchEvent(new DragEvent("dragover", {bubbles: true, dataTransfer: transfer}));
-    await expect.element(page.getByText("Release to upload")).toBeVisible();
+    await expect.element(page.getByText("Release to upload")).toBeInTheDocument();
     area.dispatchEvent(new DragEvent("drop", {bubbles: true, dataTransfer: transfer}));
     entry.mockRestore();
     await expect.poll(() => onUpload.mock.calls.length).toBe(1);

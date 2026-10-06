@@ -115,67 +115,67 @@ describe("ImageField", () => {
     expect(screen.getByText("512 × 512 · WEBP")).toBeInTheDocument();
   });
 
-  it.each(["banner", "tile", "inline"] as const)(
-    "allows retrying or replacing a failed initial upload in %s",
-    async (layout) => {
-      const pending = stub();
-      const user = setupUser();
+  it("allows retrying or replacing a failed initial upload", async () => {
+    const pending = stub();
+    const user = setupUser();
 
-      render(<Controlled {...props} {...pending} layout={layout} />);
-      upload();
-      await act(async () => pending.calls[0]!.reject(new Error("failed")));
-      expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
-      // Announced once: the drop zone's own live region stays silent.
-      expect(screen.getAllByText("Upload failed")).toHaveLength(1);
-      expect(screen.getByRole("button", {name: "Retry upload"})).toBeEnabled();
-      expect(screen.getByRole("button", {name: "Drop, paste or click to upload"})).toBeEnabled();
-      expect(screen.queryByRole("button", {name: "Replace image"})).not.toBeInTheDocument();
-      expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
-      const actions = document.querySelector('[data-slot="image-field-actions"]')!;
+    render(<Controlled {...props} {...pending} />);
+    upload();
+    await act(async () => pending.calls[0]!.reject(new Error("failed")));
+    expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
+    // Announced once: the drop zone's own live region stays silent.
+    expect(screen.getAllByText("Upload failed")).toHaveLength(1);
+    expect(screen.getByRole("button", {name: "Retry upload"})).toBeEnabled();
+    expect(screen.getByRole("button", {name: "Drop, paste or click to upload"})).toBeEnabled();
+    expect(screen.queryByRole("button", {name: "Replace image"})).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
+    const actions = document.querySelector('[data-slot="image-field-actions"]')!;
 
-      expect(actions.querySelectorAll("button")).toHaveLength(1);
-      await user.click(screen.getByRole("button", {name: "Retry upload"}));
-      expect(pending.calls).toHaveLength(2);
-      await act(async () => pending.calls[1]!.reject(new Error("again")));
-      upload(png("replacement.png"));
-      await waitFor(() => expect(pending.calls).toHaveLength(3));
-      expect(pending.onUpload.mock.calls[2]![0].name).toBe("replacement.png");
-      await act(async () => pending.calls[2]!.resolve("/new.png"));
-      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-      expect(screen.getByRole("img", {name: "Banner"})).toHaveAttribute("src", "/new.png");
-    },
-  );
+    expect(actions.querySelectorAll("button")).toHaveLength(1);
+    await user.click(screen.getByRole("button", {name: "Retry upload"}));
+    expect(pending.calls).toHaveLength(2);
+    await act(async () => pending.calls[1]!.reject(new Error("again")));
+    upload(png("replacement.png"));
+    await waitFor(() => expect(pending.calls).toHaveLength(3));
+    expect(pending.onUpload.mock.calls[2]![0].name).toBe("replacement.png");
+    await act(async () => pending.calls[2]!.resolve("/new.png"));
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    expect(screen.getByRole("img", {name: "Banner"})).toHaveAttribute("src", "/new.png");
+  });
 
-  it.each(["banner", "tile", "inline"] as const)(
-    "keeps saved image controls usable after rejected replacement in %s",
-    async (layout) => {
-      const onChange = vi.fn();
-      const user = setupUser();
+  it("validates replacement format and size and keeps saved image controls usable", async () => {
+    const onUpload = vi.fn();
+    const onChange = vi.fn();
+    const user = setupUser();
 
-      render(
-        <Controlled
-          {...props}
-          aspectRatio={1}
-          layout={layout}
-          value="/saved.png"
-          onChange={onChange}
-        />,
-      );
-      upload(new File(["text"], "invalid.txt", {type: "text/plain"}));
-      await waitFor(() =>
-        expect(screen.getByRole("alert")).toHaveTextContent("Unsupported image format"),
-      );
-      expect(screen.getByRole("img", {name: "Banner"})).toHaveAttribute("src", "/saved.png");
-      expect(screen.getByRole("button", {name: "Replace image"})).toBeEnabled();
-      expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
-      expect(screen.getByRole("alert").closest('[data-slot="image-field-meta"]')).not.toBeNull();
-      expect(frame()).not.toContainElement(screen.getByRole("alert"));
-      expect(onChange).not.toHaveBeenCalled();
-      await user.click(screen.getByRole("button", {name: "Remove image"}));
-      expect(onChange).toHaveBeenLastCalledWith("");
-      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-    },
-  );
+    render(
+      <Controlled
+        {...props}
+        maxFileSize={2}
+        value="/saved.png"
+        onChange={onChange}
+        onUpload={onUpload}
+      />,
+    );
+    upload(new File(["text"], "invalid.txt", {type: "text/plain"}));
+    await waitFor(() =>
+      expect(screen.getByRole("alert")).toHaveTextContent("Unsupported image format"),
+    );
+    upload();
+    await waitFor(() =>
+      expect(screen.getByRole("alert")).toHaveTextContent("Image exceeds the size limit"),
+    );
+    expect(onUpload).not.toHaveBeenCalled();
+    expect(screen.getByRole("img", {name: "Banner"})).toHaveAttribute("src", "/saved.png");
+    expect(screen.getByRole("button", {name: "Replace image"})).toBeEnabled();
+    expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
+    expect(screen.getByRole("alert").closest('[data-slot="image-field-meta"]')).not.toBeNull();
+    expect(frame()).not.toContainElement(screen.getByRole("alert"));
+    expect(onChange).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", {name: "Remove image"}));
+    expect(onChange).toHaveBeenLastCalledWith("");
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
 
   it("supports composing a custom toolbar from the action parts", async () => {
     const onChange = vi.fn();
@@ -203,78 +203,74 @@ describe("ImageField", () => {
     expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
   });
 
-  it.each(["banner", "tile", "inline"] as const)(
-    "supports per-state toolbar buttons through the Actions render function in %s",
-    async (layout) => {
-      const onPick = vi.fn();
-      const user = setupUser();
-      const pending = stub();
+  it("supports per-state toolbar buttons through the Actions render function", async () => {
+    const onPick = vi.fn();
+    const user = setupUser();
+    const pending = stub();
 
-      render(
-        <Controlled {...props} {...pending} layout={layout}>
-          <ImageField.Frame />
-          <ImageField.Actions>
-            {({isEmpty, isUploading}) => (
-              <>
-                <ImageField.CancelButton />
-                <ImageField.RemoveButton />
-                {!isUploading && (
-                  <button type="button" onClick={onPick}>
-                    Choose from library
-                  </button>
-                )}
-                {!isEmpty && <button type="button">Edit</button>}
-              </>
-            )}
-          </ImageField.Actions>
-          <ImageField.Meta />
-        </Controlled>,
-      );
-      const actions = document.querySelector('[data-slot="image-field-actions"]');
+    render(
+      <Controlled {...props} {...pending}>
+        <ImageField.Frame />
+        <ImageField.Actions>
+          {({isEmpty, isUploading}) => (
+            <>
+              <ImageField.CancelButton />
+              <ImageField.RemoveButton />
+              {!isUploading && (
+                <button type="button" onClick={onPick}>
+                  Choose from library
+                </button>
+              )}
+              {!isEmpty && <button type="button">Edit</button>}
+            </>
+          )}
+        </ImageField.Actions>
+        <ImageField.Meta />
+      </Controlled>,
+    );
+    const actions = document.querySelector('[data-slot="image-field-actions"]');
 
-      expect(actions).toHaveAttribute("data-empty", "true");
-      expect(actions).not.toHaveAttribute("data-uploading");
-      expect(screen.getByRole("button", {name: "Drop, paste or click to upload"})).toBeEnabled();
-      expect(screen.queryByRole("button", {name: "Edit"})).not.toBeInTheDocument();
-      expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
-      await user.click(screen.getByRole("button", {name: "Choose from library"}));
-      expect(onPick).toHaveBeenCalledOnce();
+    expect(actions).toHaveAttribute("data-empty", "true");
+    expect(actions).not.toHaveAttribute("data-uploading");
+    expect(screen.getByRole("button", {name: "Drop, paste or click to upload"})).toBeEnabled();
+    expect(screen.queryByRole("button", {name: "Edit"})).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", {name: "Choose from library"}));
+    expect(onPick).toHaveBeenCalledOnce();
 
-      upload();
-      await waitFor(() => expect(pending.calls).toHaveLength(1));
-      expect(screen.getByRole("button", {name: "Cancel upload"})).toBeEnabled();
-      expect(screen.queryByRole("button", {name: "Choose from library"})).not.toBeInTheDocument();
-      expect(actions).toHaveAttribute("data-uploading", "true");
+    upload();
+    await waitFor(() => expect(pending.calls).toHaveLength(1));
+    expect(screen.getByRole("button", {name: "Cancel upload"})).toBeEnabled();
+    expect(screen.queryByRole("button", {name: "Choose from library"})).not.toBeInTheDocument();
+    expect(actions).toHaveAttribute("data-uploading", "true");
 
-      await act(async () => pending.calls[0]!.resolve("/new.png"));
-      expect(screen.getByRole("button", {name: "Choose from library"})).toBeEnabled();
-      expect(screen.getByRole("button", {name: "Edit"})).toBeEnabled();
-      expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
-      expect(actions).not.toHaveAttribute("data-empty");
-    },
-  );
+    await act(async () => pending.calls[0]!.resolve("/new.png"));
+    expect(screen.getByRole("button", {name: "Choose from library"})).toBeEnabled();
+    expect(screen.getByRole("button", {name: "Edit"})).toBeEnabled();
+    expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
+    expect(actions).not.toHaveAttribute("data-empty");
+  });
 
-  it.each(["banner", "tile", "inline"] as const)(
-    "renders the default %s toolbar beside the frame and empty when nothing applies",
-    (layout) => {
-      render(<ImageField {...props} layout={layout} />);
-      const actions = document.querySelector('[data-slot="image-field-actions"]');
+  it("renders the default toolbar inside the frame and empty when nothing applies", () => {
+    render(<ImageField {...props} />);
+    const actions = document.querySelector('[data-slot="image-field-actions"]');
 
-      expect(actions).toBeEmptyDOMElement();
-      expect(frame()).not.toContainElement(actions as HTMLElement);
-    },
-  );
+    expect(actions).toBeEmptyDOMElement();
+    expect(frame()).toContainElement(actions as HTMLElement);
+  });
 
-  it("supports a composed Label as the field name and Frame children as empty-frame content", () => {
+  it("supports a composed Label as the field name and Placeholder as empty-frame content", () => {
     const onChange = vi.fn();
     const {"aria-label": _, ...rest} = props;
     const field = (value: string) => (
       <ImageField {...rest} value={value} onChange={onChange}>
         <Label>Banner</Label>
         <ImageField.Frame>
-          <img alt="Fallback" src="/fallback.png" />
+          <ImageField.Placeholder>
+            <img alt="Fallback" src="/fallback.png" />
+          </ImageField.Placeholder>
+          <ImageField.Actions />
         </ImageField.Frame>
-        <ImageField.Actions />
         <ImageField.Meta />
       </ImageField>
     );
@@ -412,40 +408,32 @@ describe("ImageField", () => {
     );
   });
 
-  it.each(["banner", "tile", "inline"] as const)(
-    "preserves the original value and toolbar on failure and retries in %s",
-    async (layout) => {
-      const pending = stub();
-      const onChange = vi.fn();
-      const user = setupUser();
+  // Retry after failure is covered by the empty-value case above.
+  it("preserves the original value and toolbar on failure", async () => {
+    const pending = stub();
+    const onChange = vi.fn();
 
-      render(
-        <ImageField {...props} {...pending} layout={layout} value="/old.png" onChange={onChange} />,
-      );
-      upload();
-      await act(async () => pending.calls[0]!.reject(new Error("server failed")));
-      expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
-      expect(screen.getByRole("alert").closest('[data-slot="image-field-meta"]')).not.toBeNull();
-      expect(
-        screen
-          .getByRole("button", {name: "Retry upload"})
-          .closest('[data-slot="image-field-actions"]'),
-      ).not.toBeNull();
-      expect(screen.getByRole("button", {name: "Replace image"})).toBeEnabled();
-      expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
-      expect(onChange).not.toHaveBeenCalled();
-      await user.click(screen.getByRole("button", {name: "Retry upload"}));
-      expect(pending.calls).toHaveLength(2);
-      await act(async () => pending.calls[1]!.reject(new Error("again")));
-      upload(png("replacement.png"));
-      await waitFor(() => expect(pending.calls).toHaveLength(3));
-      await act(async () => pending.calls[2]!.resolve("/new.png"));
-      expect(onChange).toHaveBeenCalledExactlyOnceWith("/new.png");
-      // A controlled parent may decline the requested change.
-      expect(screen.getByRole("img", {name: "Banner"})).toHaveAttribute("src", "/old.png");
-      expect(handoff()).toBeNull();
-    },
-  );
+    render(<ImageField {...props} {...pending} value="/old.png" onChange={onChange} />);
+    upload();
+    await act(async () => pending.calls[0]!.reject(new Error("server failed")));
+    expect(screen.getByRole("alert")).toHaveTextContent("Upload failed");
+    expect(screen.getByRole("alert").closest('[data-slot="image-field-meta"]')).not.toBeNull();
+    expect(
+      screen
+        .getByRole("button", {name: "Retry upload"})
+        .closest('[data-slot="image-field-actions"]'),
+    ).not.toBeNull();
+    expect(screen.getByRole("button", {name: "Replace image"})).toBeEnabled();
+    expect(screen.getByRole("button", {name: "Remove image"})).toBeEnabled();
+    expect(onChange).not.toHaveBeenCalled();
+    upload(png("replacement.png"));
+    await waitFor(() => expect(pending.calls).toHaveLength(2));
+    await act(async () => pending.calls[1]!.resolve("/new.png"));
+    expect(onChange).toHaveBeenCalledExactlyOnceWith("/new.png");
+    // A controlled parent may decline the requested change.
+    expect(screen.getByRole("img", {name: "Banner"})).toHaveAttribute("src", "/old.png");
+    expect(handoff()).toBeNull();
+  });
 
   it.each([
     ["load", null],
@@ -500,32 +488,6 @@ describe("ImageField", () => {
     upload();
     view.unmount();
     expect(pending.calls[1]!.context.signal.aborted).toBe(true);
-  });
-
-  it("validates replacement format and size without altering the saved value", async () => {
-    const onUpload = vi.fn();
-    const onChange = vi.fn();
-
-    render(
-      <ImageField
-        {...props}
-        maxFileSize={2}
-        value="/old.png"
-        onChange={onChange}
-        onUpload={onUpload}
-      />,
-    );
-    upload(new File(["pdf"], "bad.pdf", {type: "application/pdf"}));
-    await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent("Unsupported image format"),
-    );
-    upload();
-    await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent("Image exceeds the size limit"),
-    );
-    expect(onUpload).not.toHaveBeenCalled();
-    expect(onChange).not.toHaveBeenCalled();
-    expect(frame()).toBeInTheDocument();
   });
 
   it("renders ratio and resolution warnings and keeps a broken URL removable", async () => {

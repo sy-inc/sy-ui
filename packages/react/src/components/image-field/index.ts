@@ -5,6 +5,7 @@ import {
   ImageFieldCancelButton,
   ImageFieldFrame,
   ImageFieldMeta,
+  ImageFieldPlaceholder,
   ImageFieldRemoveButton,
   ImageFieldReplaceTrigger,
   ImageFieldRetryButton,
@@ -18,6 +19,7 @@ export const ImageField = Object.assign(ImageFieldRoot, {
   CancelButton: ImageFieldCancelButton,
   Frame: ImageFieldFrame,
   Meta: ImageFieldMeta,
+  Placeholder: ImageFieldPlaceholder,
   RemoveButton: ImageFieldRemoveButton,
   ReplaceTrigger: ImageFieldReplaceTrigger,
   RetryButton: ImageFieldRetryButton,
@@ -28,6 +30,7 @@ export const ImageField = Object.assign(ImageFieldRoot, {
 export {
   ImageFieldRoot,
   ImageFieldFrame,
+  ImageFieldPlaceholder,
   ImageFieldActions,
   ImageFieldMeta,
   ImageFieldReplaceTrigger,
@@ -40,6 +43,7 @@ export {
 export type {
   ImageFieldProps,
   ImageFieldFrameProps,
+  ImageFieldPlaceholderProps,
   ImageFieldActionsProps,
   ImageFieldActionsRenderProps,
   ImageFieldMetaProps,
@@ -54,6 +58,7 @@ export type ImageField = {
   Props: ComponentProps<typeof ImageFieldRoot>;
   RootProps: ComponentProps<typeof ImageFieldRoot>;
   FrameProps: ComponentProps<typeof ImageFieldFrame>;
+  PlaceholderProps: ComponentProps<typeof ImageFieldPlaceholder>;
   ActionsProps: ComponentProps<typeof ImageFieldActions>;
   MetaProps: ComponentProps<typeof ImageFieldMeta>;
   GuidanceProps: ComponentProps<typeof ImageFieldWarning>;

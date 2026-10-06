@@ -6,7 +6,7 @@ import type {
   UseDropZoneStateProps,
   UseDropZoneStateResult,
 } from "../drop-zone";
-import type {ButtonVariants, ImageFieldVariants} from "@sy-inc/styles";
+import type {ButtonVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentProps, ComponentPropsWithRef, ReactNode} from "react";
 
 import {mergeRefs, useEffectEvent, useLayoutEffect} from "@react-aria/utils";
@@ -19,7 +19,7 @@ import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {Button} from "../button";
 import {Description} from "../description";
 import {DropZone, formatFileType, useDropZoneState} from "../drop-zone";
-import {ArrowsRotateIcon, EyeSlashIcon, TrashBinIcon, UploadCloudIcon} from "../icons";
+import {ArrowsRotateIcon, CloseIcon, EyeSlashIcon, TrashBinIcon, UploadCloudIcon} from "../icons";
 import {ImagePreview} from "../image-preview";
 import {Spinner} from "../spinner";
 import {Tooltip} from "../tooltip";
@@ -48,7 +48,9 @@ export type ImageFieldLabels = typeof defaultLabels;
 
 /**
  * Compose a `<Label>` child to name the field, or pass `aria-label` when there is no visible label.
- * Placeholder content, description and form errors are composed as children of Frame / Meta.
+ * Actions, placeholder content, description and form errors are composed as children of Frame / Meta.
+ * The frame is a 50px square holding only an upload icon; size it with `className` on Frame.
+ * `aspectRatio` widens it, and wide toolbars stretch it instead of squeezing the buttons.
  */
 export interface ImageFieldProps extends Omit<ComponentPropsWithRef<"div">, "onChange"> {
   value: string;
@@ -59,7 +61,6 @@ export interface ImageFieldProps extends Omit<ComponentPropsWithRef<"div">, "onC
   aspectRatio?: number;
   /** Warn when the image's proportions differ from `aspectRatio`. `false` keeps the frame shape without checking. @default true */
   validateRatio?: boolean;
-  layout?: ImageFieldVariants["layout"];
   recommendedWidth?: number;
   accept?: string | string[];
   maxFileSize?: number;
@@ -119,7 +120,6 @@ export function ImageFieldRoot({
   isDisabled = false,
   isInvalid = false,
   labels: labelOverrides,
-  layout = "banner",
   maxFileSize,
   onChange,
   onUpload,
@@ -202,7 +202,7 @@ export function ImageFieldRoot({
   });
   const focusTrigger = () =>
     rootRef.current?.querySelector<HTMLElement>('[data-slot="drop-zone-trigger"]')?.focus();
-  const slots = imageFieldVariants({layout});
+  const slots = imageFieldVariants();
   const invalid = !!error || isInvalid;
   const context = {
     aspectRatio,
@@ -248,7 +248,6 @@ export function ImageFieldRoot({
       className={slots.base({className})}
       data-disabled={isDisabled || undefined}
       data-invalid={invalid || undefined}
-      data-layout={layout}
       data-slot="image-field"
       role="group"
       style={{"--image-field-ratio": ratio, ...style} as CSSProperties}
@@ -267,8 +266,9 @@ export function ImageFieldRoot({
               <ImageFieldContext value={{...context, isDropTarget}}>
                 {children ?? (
                   <>
-                    <ImageFieldFrame />
-                    <ImageFieldActions />
+                    <ImageFieldFrame>
+                      <ImageFieldActions />
+                    </ImageFieldFrame>
                     <ImageFieldMeta />
                   </>
                 )}
@@ -282,7 +282,7 @@ export function ImageFieldRoot({
 }
 
 export interface ImageFieldFrameProps extends ComponentPropsWithRef<"div"> {
-  /** Shown in the empty frame, e.g. the fallback image the app falls back to. Never emits `onChange`. */
+  /** Layered over the image: usually `<ImageField.Actions />` and `<ImageField.Placeholder />`. */
   children?: ReactNode;
 }
 export function ImageFieldFrame({children, className, ...props}: ImageFieldFrameProps) {
@@ -333,16 +333,10 @@ export function ImageFieldFrame({children, className, ...props}: ImageFieldFrame
           src={c.bridge}
         />
       )}
-      {!hasImage && !uploading && (
-        <div className={slots.placeholder()} data-slot="image-field-placeholder">
-          {failed ? (
-            <>
-              <EyeSlashIcon aria-hidden="true" />
-              <span>{labels.broken}</span>
-            </>
-          ) : (
-            children
-          )}
+      {!!failed && !uploading && (
+        <div data-broken className={slots.placeholder()} data-slot="image-field-placeholder">
+          <EyeSlashIcon aria-hidden="true" />
+          <span>{labels.broken}</span>
         </div>
       )}
       {!c.value && !uploading && (
@@ -356,7 +350,6 @@ export function ImageFieldFrame({children, className, ...props}: ImageFieldFrame
           }}
         >
           <UploadCloudIcon aria-hidden="true" />
-          <span>{isDropTarget ? labels.dropHere : labels.upload}</span>
         </DropZone.Trigger>
       )}
       {!!uploading && (
@@ -377,10 +370,28 @@ export function ImageFieldFrame({children, className, ...props}: ImageFieldFrame
       )}
       {!!isDropTarget && (
         <div aria-hidden="true" className={slots.dropOverlay()}>
-          {labels.dropHere}
+          <UploadCloudIcon />
+          <span>{labels.dropHere}</span>
         </div>
       )}
+      {children}
     </div>
+  );
+}
+
+export interface ImageFieldPlaceholderProps extends ComponentPropsWithRef<"div"> {}
+/** Replaces the empty frame's upload icon, e.g. with text or the app's fallback image. Never emits `onChange`. */
+export function ImageFieldPlaceholder({className, ...props}: ImageFieldPlaceholderProps) {
+  const c = useImageFieldContext();
+
+  if (c.value || c.uploading) return null;
+
+  return (
+    <div
+      {...props}
+      className={composeSlotClassName(c.slots.placeholder, className)}
+      data-slot="image-field-placeholder"
+    />
   );
 }
 
@@ -394,7 +405,7 @@ export interface ImageFieldActionsProps extends Omit<ComponentPropsWithRef<"div"
   /** Replaces the default toolbar. A function receives the field state to show buttons per state. */
   children?: ReactNode | ((state: ImageFieldActionsRenderProps) => ReactNode);
 }
-/** Sibling of Frame: layered over tile/banner frames, beside inline ones. Hides itself while empty. */
+/** Inside Frame: a pill over the image that widens the frame when needed. Beside Frame: plain buttons next to it. Hides itself while empty. */
 export function ImageFieldActions({children, className, ...props}: ImageFieldActionsProps) {
   const c = useImageFieldContext();
   const {labels, slots} = c;
@@ -412,8 +423,18 @@ export function ImageFieldActions({children, className, ...props}: ImageFieldAct
     >
       {content ?? (
         <>
-          <ImageFieldCancelButton />
-          <ImageFieldRetryButton />
+          {!!c.uploading && (
+            <Tooltip>
+              <ImageFieldCancelButton />
+              <Tooltip.Content>{labels.cancel}</Tooltip.Content>
+            </Tooltip>
+          )}
+          {c.file?.status === "failed" && (
+            <Tooltip>
+              <ImageFieldRetryButton />
+              <Tooltip.Content>{labels.retry}</Tooltip.Content>
+            </Tooltip>
+          )}
           {!!c.value && !c.uploading && (
             <>
               <Tooltip>
@@ -461,7 +482,7 @@ export function ImageFieldReplaceTrigger({
       {...props}
       isDisabled={c.isDisabled || isDisabled}
       className={buttonVariants({
-        className: c.slots.replaceTrigger({className}),
+        className,
         isIconOnly,
         size,
         variant,
@@ -470,7 +491,7 @@ export function ImageFieldReplaceTrigger({
         if (files) void c.state.replaceFiles(files);
       }}
     >
-      {children ?? <ArrowsRotateIcon />}
+      {children ?? <UploadCloudIcon />}
     </DropZone.Trigger>
   );
 }
@@ -510,6 +531,7 @@ export function ImageFieldRemoveButton({
 export function ImageFieldRetryButton({
   children,
   isDisabled,
+  isIconOnly = !children,
   onPress,
   ...props
 }: ImageFieldButtonProps) {
@@ -520,6 +542,8 @@ export function ImageFieldRetryButton({
 
   return (
     <Button
+      aria-label={c.labels.retry}
+      isIconOnly={isIconOnly}
       size="sm"
       type="button"
       variant="danger-soft"
@@ -530,28 +554,35 @@ export function ImageFieldRetryButton({
         c.state.retry(file.id);
       }}
     >
-      {children ?? c.labels.retry}
+      {children ?? <ArrowsRotateIcon />}
     </Button>
   );
 }
 
-export function ImageFieldCancelButton({children, onPress, ...props}: ImageFieldButtonProps) {
+export function ImageFieldCancelButton({
+  children,
+  isIconOnly = !children,
+  onPress,
+  ...props
+}: ImageFieldButtonProps) {
   const c = useImageFieldContext();
 
   if (!c.uploading) return null;
 
   return (
     <Button
+      aria-label={c.labels.cancel}
+      isIconOnly={isIconOnly}
       size="sm"
       type="button"
-      variant="secondary"
+      variant="ghost"
       {...props}
       onPress={(event) => {
         onPress?.(event);
         c.cancel();
       }}
     >
-      {children ?? c.labels.cancel}
+      {children ?? <CloseIcon />}
     </Button>
   );
 }
@@ -625,6 +656,7 @@ export function ImageFieldSize(props: ImageFieldGuidanceProps) {
 
 ImageFieldRoot.displayName = "SY INC.ImageField";
 ImageFieldFrame.displayName = "SY INC.ImageField.Frame";
+ImageFieldPlaceholder.displayName = "SY INC.ImageField.Placeholder";
 ImageFieldActions.displayName = "SY INC.ImageField.Actions";
 ImageFieldReplaceTrigger.displayName = "SY INC.ImageField.ReplaceTrigger";
 ImageFieldRemoveButton.displayName = "SY INC.ImageField.RemoveButton";

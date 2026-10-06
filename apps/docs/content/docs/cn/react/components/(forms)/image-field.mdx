@@ -21,15 +21,15 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
   return (
     <ImageField
       aspectRatio={16 / 5}
-      layout="banner"
       recommendedWidth={1600}
       value={path}
       onChange={setPath}
       onUpload={upload}
     >
       <Label>首页横幅</Label>
-      <ImageField.Frame />
-      <ImageField.Actions />
+      <ImageField.Frame>
+        <ImageField.Actions />
+      </ImageField.Frame>
       <ImageField.Meta />
     </ImageField>
   );
@@ -40,17 +40,25 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 
 底层组合 `useDropZoneState`、`DropZone.Area`、`DropZone.Trigger` 和 `ImagePreview`。组件不做裁切、存储、多图管理或语言回退决策。
 
-## 布局与状态
+## 尺寸与状态
 
-| 布局 | 尺寸 | 用途 |
-| --- | --- | --- |
-| `inline` | 56 × 56px 方框，旁边是名称与操作 | 小图标 |
-| `tile` | 宽 176px，高度按 `aspectRatio` 计算 | Logo |
-| `banner` | 撑满容器，高度按 `aspectRatio` 计算 | 横幅、分享图 |
+只有一种形态：上传框。默认是 50 × 50px 的小方块，空框里只有一个上传图标，没有任何文字。尺寸由使用方自己控制，直接给 Frame 写 `className`。`aspectRatio` 以框高 `--image-field-size` 横向展开：默认 16:5 为 160 × 50，`className="[--image-field-size:7rem]"` 约为 358 × 112。`size-24`、`h-28 w-full` 这类固定尺寸会把宽高都写死，`aspectRatio` 和工具条不再影响框形（比例校验照常进行）。工具条放在框内；按钮放不下时框被撑开（宽度随按钮变宽），而不是压缩按钮。50px 的框放不下工具条，有图时胶囊会盖住整张图，小尺寸建议把 Actions 放到框外（见组合）或把框调大。需要撑满容器时给 Frame 加 `className="aspect-[var(--image-field-ratio,16/9)] w-full"`，高度随比例计算。
 
-图片在棋盘格上以 `object-fit: contain` 完整展示。空、拖入中、上传中、已上传、比例不符、上传失败、placeholder、链接失效均占用同一个框。主动修改比例会改变 tile/banner 的几何尺寸，图片加载和上传状态不会。实际比例偏差超过 5% 时只提示、不拒收。比例不限的图可不传 `aspectRatio`：框按已加载图片的比例显示（空值或加载前 banner 为 16:9、tile 为 1:1），高度上限为 `--image-field-max-height`（默认 32rem），建议尺寸只显示宽度；源图宽度小于 `recommendedWidth` 时显示低清提示。
+需要文字时用 Placeholder 组合进去，它会替换默认的上传图标，图标和文字都由你决定：
 
-空框整块可选文件，拖入时提示松开。上传中显示本地预览、转圈和进度，取消按钮在工具条中；`onChange(path)` 之后本地图继续显示，直到服务端图片加载完成再无闪烁切换；服务端图片加载失败则立即进入无法加载状态。校验和上传错误统一显示在框下的 Meta，原图仍可点击放大，替换、删除操作仍可用，上传失败在工具条中增加重试。空值时保留整框上传入口，工具条只显示重试；上传或文件校验错误在 Meta 中最先显示，位于自行组合的 Description、FieldError 之前。坏链仍显示框、路径以及替换/删除。点击图片即可预览；tile/banner 的工具条以毛玻璃胶囊常驻右上角，粗指针设备按钮放大到 44px。工具条常驻，触屏不依赖 hover。
+```tsx
+<ImageField.Frame className="h-28 w-full">
+  <ImageField.Placeholder>
+    <Icon icon="gravity-ui:cloud-arrow-up-in" />
+    <span>点击或拖入上传</span>
+  </ImageField.Placeholder>
+  <ImageField.Actions />
+</ImageField.Frame>
+```
+
+图片以 `object-fit: contain` 完整展示在单色灰底（`--surface-secondary`）上，悬停、按下依次加深到 `--surface-tertiary`、`--default`。空、拖入中、上传中、已上传、比例不符、上传失败、placeholder、链接失效均占用同一个框。主动修改比例会改变框的尺寸，图片加载和上传状态不会。实际比例偏差超过 5% 时只提示、不拒收。比例不限的图可不传 `aspectRatio`：框按已加载图片的比例显示（空值或加载前为正方形），建议尺寸只显示宽度；源图宽度小于 `recommendedWidth` 时显示低清提示。
+
+空框整块可选文件。框内的状态反馈只用图标：拖入时显示上传图标，上传中显示转圈和底部进度条，链接失效显示断图图标；对应文案（`dropHere`、`uploading`、`broken`）仍保留给读屏。图标取消按钮在工具条中；`onChange(path)` 之后本地图继续显示，直到服务端图片加载完成再无闪烁切换；服务端图片加载失败则立即进入无法加载状态。校验和上传错误统一显示在框下的 Meta，原图仍可点击放大，替换、删除操作仍可用，上传失败在工具条中增加图标重试按钮。空值时保留整框上传入口，工具条只显示重试；上传或文件校验错误在 Meta 中最先显示，位于自行组合的 Description、FieldError 之前。坏链仍显示框、路径以及替换/删除。点击图片即可预览；工具条以毛玻璃胶囊常驻框内右上角，默认按钮都有 Tooltip，粗指针设备按钮放大到 44px。工具条常驻，触屏不依赖 hover。
 
 ## API
 
@@ -63,7 +71,6 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `aria-label` | `string` | —；未组合 `<Label>` 时为字段命名 |
 | `aspectRatio` | `number` | —；正有限数，宽 / 高。不传时框按原图比例显示，且不做比例校验 |
 | `validateRatio` | `boolean` | `true`；设为 `false` 时保留 `aspectRatio` 框形但不做比例校验（如宽 logo 以 contain 放进方框） |
-| `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
 | `recommendedWidth` | `number` | —；源图像素宽度建议与低清阈值 |
 | `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |
 | `maxFileSize` | `number` | —；字节数 |
@@ -71,22 +78,24 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | `isDisabled` | `boolean` | `false` |
 | `isInvalid` | `boolean` | `false`；配合组合的 `<FieldError>` 标记字段无效。上传错误会自动标记 |
 | `labels` | `Partial<ImageFieldLabels>` | 英文文案 |
-| `children` | `ReactNode` | Frame、Actions、Meta |
+| `children` | `ReactNode` | Frame（内含 Actions）、Meta |
 | `ref` | `Ref<HTMLDivElement>` | 根节点 |
 
 支持根 div 原生属性、`className`、`style`。`labels` 可覆盖 `upload`、`replace`、`remove`、`preview`、`closePreview`、`retry`、`cancel`、`dropHere`、`broken`、`ratioMismatch`、`tooSmall`、`uploading`、`uploadFailed`、`recommended`、`invalidFileType`、`fileTooLarge`、`tooManyFiles`。服务端原始错误字符串不会直接展示，除非经 `getUploadErrorMessage` 映射。
 
 ## 组合
 
-所有部件都显式写出，结构和文案不通过属性配置。写什么就渲染什么，所有布局一致：
+所有部件都显式写出，结构和文案不通过属性配置。写什么就渲染什么：
 
 ```tsx
-<ImageField aspectRatio={1} isInvalid={!!formError} layout="tile" value={path} onChange={setPath} onUpload={upload}>
+<ImageField aspectRatio={1} isInvalid={!!formError} value={path} onChange={setPath} onUpload={upload}>
   <Label>Logo</Label>
   <ImageField.Frame>
-    <img alt="沿用的 Logo" src="/default-logo.png" />
+    <ImageField.Placeholder>
+      <img alt="沿用的 Logo" src="/default-logo.png" />
+    </ImageField.Placeholder>
+    <ImageField.Actions />
   </ImageField.Frame>
-  <ImageField.Actions />
   <ImageField.Meta>
     <ImageField.Warning />
     <ImageField.Size />
@@ -99,51 +108,64 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 | 部件 | 渲染内容 |
 | --- | --- |
 | `<Label>` | 公共 Label；根节点通过 `aria-labelledby` 关联它，并以其文字作为图片 alt。标题在页面别处时省略它并传 `aria-label` |
-| `ImageField.Frame` | 预览、上传入口、进度和拖放反馈。children 显示在空框内（如 app 沿用的回退图），不触发 `onChange` |
-| `ImageField.Actions` | 工具条，见下文 |
+| `ImageField.Frame` | 预览、上传入口、进度和拖放反馈。children 叠在图片之上，通常是 Placeholder 和 Actions |
+| `ImageField.Placeholder` | 空框内容（如文字或 app 沿用的回退图），替换默认上传图标，只在空值时渲染，不触发 `onChange` |
+| `ImageField.Actions` | 工具条，见下文。放在 Frame 内是叠在图上的胶囊；与 Frame 并列时是框旁的普通按钮 |
 | `ImageField.Meta` | 框下的播报区域，也是根节点 `aria-describedby` 的目标。上传和文件校验错误始终最先显示。不写 children 时渲染 `Warning` 和 `Size` |
 | `ImageField.Warning` | 比例或低清警告，或坏链图片的路径 |
 | `ImageField.Size` | 已加载图片的尺寸与格式，或加载前的建议尺寸 |
 | `<Description>` / `<FieldError>` | 公共部件，写在 Meta 内即可被播报并关联到字段 |
 
-`ImageField.Root` 是根组件别名。不写 children 时渲染 Frame、Actions、Meta，此时需要 `aria-label`。布局只由 CSS 决定：Label 占框上方一行（inline 在框旁），tile/banner 的 Actions 与框共用同一个 grid 格、以毛玻璃胶囊叠在右上角，inline 的 Actions 位于框旁，Meta 内的部件在框下逐行排列。Actions 没有可显示的按钮时自动隐藏，所以空框时也保留在组合里；不需要操作按钮时省略即可。`Warning`、`Size` 和操作部件一样只在适用时渲染，且不会与上传错误同时出现。紧凑场景（如表格中的 tile）写 `<ImageField.Meta><ImageField.Warning /></ImageField.Meta>`：Meta 平时为空且不占高度，出错或有警告时才显示。表单错误用 `<FieldError>` 加 `isInvalid` 表达，框会和上传错误一样标红。
+`ImageField.Root` 是根组件别名。不写 children 时渲染 Frame（内含 Actions）和 Meta，此时需要 `aria-label`。Label 占框上方一行，Meta 内的部件在框下逐行排列。Actions 默认放在 Frame 内；需要把按钮放到框外时，把它写成 Frame 的兄弟节点即可：
+
+```tsx
+<ImageField {...props}>
+  <Label>Logo</Label>
+  <ImageField.Frame />
+  <ImageField.Actions />
+  <ImageField.Meta />
+</ImageField>
+```
+Actions 没有可显示的按钮时自动隐藏，所以空框时也保留在组合里；不需要操作按钮时省略即可。`Warning`、`Size` 和操作部件一样只在适用时渲染，且不会与上传错误同时出现。紧凑场景（如表格行）写 `<ImageField.Meta><ImageField.Warning /></ImageField.Meta>`：Meta 平时为空且不占高度，出错或有警告时才显示。表单错误用 `<FieldError>` 加 `isInvalid` 表达，框会和上传错误一样标红。
 
 操作原子部件用于自定义工具条，只在适用时渲染：`ReplaceTrigger` / `RemoveButton`（有值且未上传中）、`RetryButton`（上传失败）、`CancelButton`（上传中）。均支持 Button 属性（`variant`、`size`、`isIconOnly`、`className`、children），无 children 时默认仅图标。Actions 的 children 会替换默认工具条，写什么就渲染什么。children 传函数可按状态显示自定义按钮，参数为 `{isDisabled, isEmpty, isUploading}`，Actions 同时提供对应的 `data-disabled` / `data-empty` / `data-uploading`，纯样式需求可直接用 data 属性：
 ```tsx
 <ImageField {...props}>
-  <ImageField.Frame />
-  <ImageField.Actions>
-    {({isEmpty, isUploading}) => (
-      <>
-        <ImageField.CancelButton />
-        <ImageField.RetryButton />
-        <ImageField.ReplaceTrigger />
-        <ImageField.RemoveButton />
-        {/* 有图、无图都显示 */}
-        {!isUploading && (
-          <Button isIconOnly size="sm" variant="ghost" aria-label="从图库选择" onPress={openLibrary}>
-            <Icon icon="gravity-ui:picture" />
-          </Button>
-        )}
-        {/* 仅有图时显示 */}
-        {!isEmpty && !isUploading && <Button size="sm" variant="ghost" onPress={edit}>编辑</Button>}
-      </>
-    )}
-  </ImageField.Actions>
+  <ImageField.Frame>
+    <ImageField.Actions>
+      {({isEmpty, isUploading}) => (
+        <>
+          <ImageField.CancelButton />
+          <ImageField.RetryButton />
+          <ImageField.ReplaceTrigger />
+          <ImageField.RemoveButton />
+          {/* 有图、无图都显示 */}
+          {!isUploading && (
+            <Button isIconOnly size="sm" variant="ghost" aria-label="从图库选择" onPress={openLibrary}>
+              <Icon icon="gravity-ui:picture" />
+            </Button>
+          )}
+          {/* 仅有图时显示：工具条变宽会撑开框 */}
+          {!isEmpty && !isUploading && <Button size="sm" variant="ghost" onPress={edit}>编辑</Button>}
+        </>
+      )}
+    </ImageField.Actions>
+  </ImageField.Frame>
   <ImageField.Meta />
 </ImageField>
 ```
 
-通过 `className` 改造 Actions 样式。做成悬停遮罩时，将它拉伸覆盖整个框并设为 `pointer-events-none`，保证点击图片仍能打开预览：
+通过 `className` 改造 Actions 样式。做成悬停遮罩时，将它绝对定位覆盖整个框并设为 `pointer-events-none`，保证点击图片仍能打开预览：
 
 ```tsx
 <ImageField {...props}>
-  <ImageField.Frame className="peer" />
-  <ImageField.Actions className="pointer-events-none m-0 max-w-none place-self-stretch justify-center rounded-xl bg-black/50 opacity-0 peer-hover:opacity-100 hover:opacity-100 focus-within:opacity-100 [&_button]:pointer-events-auto">
-    <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
-    <ImageField.RetryButton />
-    <ImageField.RemoveButton variant="danger" />
-  </ImageField.Actions>
+  <ImageField.Frame className="group">
+    <ImageField.Actions className="pointer-events-none absolute inset-0 m-0 justify-center rounded-none bg-black/50 opacity-0 group-hover:opacity-100 focus-within:opacity-100 [&_button]:pointer-events-auto">
+      <ImageField.ReplaceTrigger />
+      <ImageField.RetryButton />
+      <ImageField.RemoveButton variant="danger" />
+    </ImageField.Actions>
+  </ImageField.Frame>
   <ImageField.Meta />
 </ImageField>
 ```
@@ -152,4 +174,4 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 
 Tab 可到拖放目标、选文件按钮与工具条；Enter/Space 打开文件选择或预览，Escape 关闭 ImagePreview。聚焦区域或其操作按钮后可粘贴文件；文本框和 contenteditable 保持原生粘贴行为。禁用区域设为 inert。按钮不提交外围表单；移除后焦点回到选择按钮。元信息和上传进度可被读屏播报，根 group 通过 `aria-labelledby` 关联组合的 `<Label>`（未组合时使用 `aria-label`），通过 `aria-describedby` 关联 Meta；拖放目标和图片 alt 使用同一名称。
 
-稳定的 `data-slot`：`image-field`、`image-field-frame`、`image-field-image`、`image-field-placeholder`、`image-field-feedback`、`image-field-actions`、`image-field-meta`、`image-field-warning`、`image-field-size`；组合的 Label 保留 `label`。拖放、选择、预览、进度沿用共享组件的 slot。根提供 `data-layout`、`data-disabled`、`data-invalid`；拖入态由 DropZone.Area 的 `data-drop-target` 表示。Frame 提供 `data-warning` / `data-invalid`，Actions 提供 `data-empty` / `data-uploading` / `data-disabled`，Meta 提供 `data-warning`。通过 `--image-field-tile-width` 调整默认 176px 宽度。React 与 styles 两个包均导出 `imageFieldVariants` 和 `ImageFieldVariants`。
+稳定的 `data-slot`：`image-field`、`image-field-frame`、`image-field-image`、`image-field-placeholder`、`image-field-feedback`、`image-field-actions`、`image-field-meta`、`image-field-warning`、`image-field-size`；组合的 Label 保留 `label`。拖放、选择、预览、进度沿用共享组件的 slot。根提供 `data-disabled`、`data-invalid`；拖入态由 DropZone.Area 的 `data-drop-target` 表示。Frame 提供 `data-warning` / `data-invalid`，Actions 提供 `data-empty` / `data-uploading` / `data-disabled`，Meta 提供 `data-warning`。框的尺寸直接用 Frame 的 `className` 控制；需要宽度跟随 `aspectRatio` 时设置 `--image-field-size`。React 与 styles 两个包均导出 `imageFieldVariants` 和 `ImageFieldVariants`。

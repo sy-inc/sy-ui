@@ -21,15 +21,15 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
   return (
     <ImageField
       aspectRatio={16 / 5}
-      layout="banner"
       recommendedWidth={1600}
       value={path}
       onChange={setPath}
       onUpload={upload}
     >
       <Label>Homepage banner</Label>
-      <ImageField.Frame />
-      <ImageField.Actions />
+      <ImageField.Frame>
+        <ImageField.Actions />
+      </ImageField.Frame>
       <ImageField.Meta />
     </ImageField>
   );
@@ -40,17 +40,25 @@ export function BannerField({upload}: {upload: ImageFieldProps["onUpload"]}) {
 
 ImageField composes `useDropZoneState`, `DropZone.Area`, `DropZone.Trigger`, and `ImagePreview`. It never crops, stores files, manages a gallery, or interprets application languages.
 
-## Layout and states
+## Size and states
 
-| Layout | Geometry | Use |
-| --- | --- | --- |
-| `inline` | 56 × 56px frame, adjacent label and controls | Small icons |
-| `tile` | 176px width, height determined by `aspectRatio` | Logos |
-| `banner` | Container width, height determined by `aspectRatio` | Banners and share cards |
+There is one form: an upload frame. By default it is a 50 × 50px square whose empty state is a single upload icon, with no text. You own the size: write it on Frame with `className`. `aspectRatio` widens the frame from `--image-field-size`, its height: 16:5 gives 160 × 50 by default, and `className="[--image-field-size:7rem]"` gives about 358 × 112. Fixed sizes such as `size-24` or `h-28 w-full` pin both sides instead: `aspectRatio` and the toolbar no longer shape the frame (the ratio check still runs). The toolbar sits inside the frame; when it does not fit, the frame widens to hold it instead of squeezing the buttons. A 50px frame cannot hold the toolbar, so with an image the pill covers it: for small frames compose Actions outside (see Composition) or size the frame up. To fill the container, give Frame `className="aspect-[var(--image-field-ratio,16/9)] w-full"`: the height then follows the ratio.
 
-Images use `object-fit: contain` on a checkerboard. Empty, dragging, uploading, uploaded, ratio mismatch, upload failure, placeholder, and broken-link states occupy the same frame. Changing the declared ratio intentionally changes tile/banner geometry; loading and upload state do not. A ratio difference greater than 5% warns without rejecting the file. Omit `aspectRatio` for images of any shape: the frame takes the loaded image's proportions (16:9 for banner, 1:1 for tile while empty or loading), is capped at `--image-field-max-height` (default 32rem), and recommended guidance shows width only. `naturalWidth < recommendedWidth` produces a resolution warning.
+Add text only where you need it, through Placeholder. It replaces the default upload icon, so the icon and wording are yours:
 
-The empty frame is a file picker. Dragging shows a release message. Uploading shows a local preview, spinner, and progress, with cancel in the toolbar. After `onChange(path)`, the local file stays on screen until the stored image loads, then swaps without an empty frame; if the stored image fails, the broken state shows immediately. Validation and upload errors appear in Meta below the frame. The old image stays zoomable and its replace and remove controls remain usable. Upload failure adds retry to the toolbar. When the value is empty, the full-frame picker remains available and the toolbar contains only retry. Upload and file-validation errors render first in Meta, above any composed Description or FieldError. Broken links retain the frame, path, replacement, and removal. Clicking the image opens the preview. Tile and banner show the toolbar as a blurred pill in the top-end corner; buttons grow to 44px on coarse pointers. Editing controls are always visible, including on touch devices.
+```tsx
+<ImageField.Frame className="h-28 w-full">
+  <ImageField.Placeholder>
+    <Icon icon="gravity-ui:cloud-arrow-up-in" />
+    <span>Click or drop to upload</span>
+  </ImageField.Placeholder>
+  <ImageField.Actions />
+</ImageField.Frame>
+```
+
+Images use `object-fit: contain` on a flat gray surface (`--surface-secondary`); hover and press step to `--surface-tertiary` and `--default`. Empty, dragging, uploading, uploaded, ratio mismatch, upload failure, placeholder, and broken-link states occupy the same frame. Changing the declared ratio intentionally changes the geometry; loading and upload state do not. A ratio difference greater than 5% warns without rejecting the file. Omit `aspectRatio` for images of any shape: the frame takes the loaded image's proportions (square while empty or loading), and recommended guidance shows width only. `naturalWidth < recommendedWidth` produces a resolution warning.
+
+The empty frame is a file picker. Feedback inside the frame is icon-only: dragging shows the upload icon, uploading shows a spinner and a bottom progress bar, and a broken link shows a broken-image icon; their strings (`dropHere`, `uploading`, `broken`) stay available to screen readers. Uploading keeps a local preview, with an icon-only cancel in the toolbar. After `onChange(path)`, the local file stays on screen until the stored image loads, then swaps without an empty frame; if the stored image fails, the broken state shows immediately. Validation and upload errors appear in Meta below the frame. The old image stays zoomable and its replace and remove controls remain usable. Upload failure adds an icon-only retry to the toolbar. When the value is empty, the full-frame picker remains available and the toolbar contains only retry. Upload and file-validation errors render first in Meta, above any composed Description or FieldError. Broken links retain the frame, path, replacement, and removal. Clicking the image opens the preview. The toolbar is a blurred pill in the frame's top-end corner; every default button has a tooltip, and buttons grow to 44px on coarse pointers. Editing controls are always visible, including on touch devices.
 
 ## API
 
@@ -62,8 +70,7 @@ The empty frame is a file picker. Dragging shows a release message. Uploading sh
 | `resolveSrc` | `(path: string) => string` | Identity |
 | `aria-label` | `string` | —; names the field when no `<Label>` is composed |
 | `aspectRatio` | `number` | —; positive finite width / height. Omitted: the frame follows the image's own proportions and no ratio check runs |
-| `validateRatio` | `boolean` | `true`; `false` keeps the `aspectRatio` frame but skips the ratio warning (e.g. wide logos contained in a square tile) |
-| `layout` | `"inline" \| "tile" \| "banner"` | `"banner"` |
+| `validateRatio` | `boolean` | `true`; `false` keeps the `aspectRatio` frame but skips the ratio warning (e.g. wide logos contained in a square frame) |
 | `recommendedWidth` | `number` | —; source pixel width for guidance and warnings |
 | `accept` | `string \| string[]` | `image/jpeg,image/png,image/webp,image/gif` |
 | `maxFileSize` | `number` | —; bytes |
@@ -71,22 +78,24 @@ The empty frame is a file picker. Dragging shows a release message. Uploading sh
 | `isDisabled` | `boolean` | `false` |
 | `isInvalid` | `boolean` | `false`; marks the field invalid for a composed `<FieldError>`. Upload errors set it on their own |
 | `labels` | `Partial<ImageFieldLabels>` | English strings |
-| `children` | `ReactNode` | Frame, Actions, and Meta |
+| `children` | `ReactNode` | Frame (with Actions inside) and Meta |
 | `ref` | `Ref<HTMLDivElement>` | Root element |
 
 Native root div attributes, `className`, and `style` are supported. `labels` keys are `upload`, `replace`, `remove`, `preview`, `closePreview`, `retry`, `cancel`, `dropHere`, `broken`, `ratioMismatch`, `tooSmall`, `uploading`, `uploadFailed`, `recommended`, `invalidFileType`, `fileTooLarge`, and `tooManyFiles`. Override these for the app locale; raw server error strings are not displayed unless `getUploadErrorMessage` maps them.
 
 ## Composition
 
-Every part is written out; nothing about structure or text is configured through props. What you compose is what renders, in every layout:
+Every part is written out; nothing about structure or text is configured through props. What you compose is what renders:
 
 ```tsx
-<ImageField aspectRatio={1} isInvalid={!!formError} layout="tile" value={path} onChange={setPath} onUpload={upload}>
+<ImageField aspectRatio={1} isInvalid={!!formError} value={path} onChange={setPath} onUpload={upload}>
   <Label>Logo</Label>
   <ImageField.Frame>
-    <img alt="Inherited logo" src="/default-logo.png" />
+    <ImageField.Placeholder>
+      <img alt="Inherited logo" src="/default-logo.png" />
+    </ImageField.Placeholder>
+    <ImageField.Actions />
   </ImageField.Frame>
-  <ImageField.Actions />
   <ImageField.Meta>
     <ImageField.Warning />
     <ImageField.Size />
@@ -99,51 +108,64 @@ Every part is written out; nothing about structure or text is configured through
 | Part | Renders |
 | --- | --- |
 | `<Label>` | The shared Label; the root links it with `aria-labelledby` and uses its text as the image alt. Omit it and pass `aria-label` when the title lives elsewhere |
-| `ImageField.Frame` | Preview, upload trigger, progress, and drop feedback. Its children show in the empty frame (e.g. the fallback image the app inherits) and never emit `onChange` |
-| `ImageField.Actions` | The toolbar, see below |
+| `ImageField.Frame` | Preview, upload trigger, progress, and drop feedback. Its children are layered over the image: usually Placeholder and Actions |
+| `ImageField.Placeholder` | Content of the empty frame (e.g. text or the fallback image the app inherits); replaces the default upload icon, renders only while empty, and never emits `onChange` |
+| `ImageField.Actions` | The toolbar, see below. Inside Frame it is a pill over the image; composed beside Frame it renders plain buttons next to it |
 | `ImageField.Meta` | Live region below the frame and the target of the root's `aria-describedby`. Upload and file-validation errors always render first. Without children it renders `Warning` and `Size` |
 | `ImageField.Warning` | Ratio or resolution warning, or the unreachable path of a broken image |
 | `ImageField.Size` | Loaded dimensions and format, or the recommended size before an image loads |
 | `<Description>` / `<FieldError>` | The shared parts, composed inside Meta so they are announced and described |
 
-`ImageField.Root` aliases `ImageField`. Without children the field renders Frame, Actions, and Meta and needs `aria-label`. Layout is CSS only: Label takes the row above the frame (beside it for inline), Actions sits in the frame's grid cell as a blurred pill in the top-end corner for tile/banner and beside the frame for inline, and Meta parts stack below. Actions hides itself while nothing in it applies, so it stays in the composition even on an empty frame; omit it for a frame without controls. `Warning` and `Size` render only while they apply and never beside an upload error, like the action parts. For compact layouts such as a tile in a table row, compose `<ImageField.Meta><ImageField.Warning /></ImageField.Meta>`: Meta stays empty and takes no height until an error or warning appears. A form error is a composed `<FieldError>` plus `isInvalid`, which paints the frame like an upload error.
+`ImageField.Root` aliases `ImageField`. Without children the field renders Frame (with Actions inside) and Meta and needs `aria-label`. Label takes the row above the frame and Meta parts stack below it. Actions belongs inside Frame by default; to put the buttons outside, compose it as Frame's sibling instead:
+
+```tsx
+<ImageField {...props}>
+  <Label>Logo</Label>
+  <ImageField.Frame />
+  <ImageField.Actions />
+  <ImageField.Meta />
+</ImageField>
+```
+ Actions hides itself while nothing in it applies, so it stays in the composition even on an empty frame; omit it for a frame without controls. `Warning` and `Size` render only while they apply and never beside an upload error, like the action parts. For compact uses such as a table row, compose `<ImageField.Meta><ImageField.Warning /></ImageField.Meta>`: Meta stays empty and takes no height until an error or warning appears. A form error is a composed `<FieldError>` plus `isInvalid`, which paints the frame like an upload error.
 
 Action parts compose custom toolbars and render only while they apply: `ReplaceTrigger` / `RemoveButton` (value present, not uploading), `RetryButton` (upload failed), and `CancelButton` (uploading). Each accepts Button props (`variant`, `size`, `isIconOnly`, `className`, children); icon-only is the default without children. Children of Actions replace the default toolbar: what you write is what renders. Pass a function to show your own buttons per state; it receives `{isDisabled, isEmpty, isUploading}`, mirrored on Actions as `data-disabled` / `data-empty` / `data-uploading` for CSS-only styling:
 ```tsx
 <ImageField {...props}>
-  <ImageField.Frame />
-  <ImageField.Actions>
-    {({isEmpty, isUploading}) => (
-      <>
-        <ImageField.CancelButton />
-        <ImageField.RetryButton />
-        <ImageField.ReplaceTrigger />
-        <ImageField.RemoveButton />
-        {/* With or without an image */}
-        {!isUploading && (
-          <Button isIconOnly size="sm" variant="ghost" aria-label="Choose from library" onPress={openLibrary}>
-            <Icon icon="gravity-ui:picture" />
-          </Button>
-        )}
-        {/* Only with an image */}
-        {!isEmpty && !isUploading && <Button size="sm" variant="ghost" onPress={edit}>Edit</Button>}
-      </>
-    )}
-  </ImageField.Actions>
+  <ImageField.Frame>
+    <ImageField.Actions>
+      {({isEmpty, isUploading}) => (
+        <>
+          <ImageField.CancelButton />
+          <ImageField.RetryButton />
+          <ImageField.ReplaceTrigger />
+          <ImageField.RemoveButton />
+          {/* With or without an image */}
+          {!isUploading && (
+            <Button isIconOnly size="sm" variant="ghost" aria-label="Choose from library" onPress={openLibrary}>
+              <Icon icon="gravity-ui:picture" />
+            </Button>
+          )}
+          {/* Only with an image: the wider toolbar stretches the frame */}
+          {!isEmpty && !isUploading && <Button size="sm" variant="ghost" onPress={edit}>Edit</Button>}
+        </>
+      )}
+    </ImageField.Actions>
+  </ImageField.Frame>
   <ImageField.Meta />
 </ImageField>
 ```
 
-Restyle Actions with `className`. For a hover overlay, stretch it over the frame and keep it `pointer-events-none` so clicking the image still opens the preview:
+Restyle Actions with `className`. For a hover overlay, position it over the whole frame and keep it `pointer-events-none` so clicking the image still opens the preview:
 
 ```tsx
 <ImageField {...props}>
-  <ImageField.Frame className="peer" />
-  <ImageField.Actions className="pointer-events-none m-0 max-w-none place-self-stretch justify-center rounded-xl bg-black/50 opacity-0 peer-hover:opacity-100 hover:opacity-100 focus-within:opacity-100 [&_button]:pointer-events-auto">
-    <ImageField.ReplaceTrigger>Replace</ImageField.ReplaceTrigger>
-    <ImageField.RetryButton />
-    <ImageField.RemoveButton variant="danger" />
-  </ImageField.Actions>
+  <ImageField.Frame className="group">
+    <ImageField.Actions className="pointer-events-none absolute inset-0 m-0 justify-center rounded-none bg-black/50 opacity-0 group-hover:opacity-100 focus-within:opacity-100 [&_button]:pointer-events-auto">
+      <ImageField.ReplaceTrigger />
+      <ImageField.RetryButton />
+      <ImageField.RemoveButton variant="danger" />
+    </ImageField.Actions>
+  </ImageField.Frame>
   <ImageField.Meta />
 </ImageField>
 ```
@@ -152,4 +174,4 @@ Restyle Actions with `className`. For a hover overlay, stretch it over the frame
 
 Tab reaches the drag-and-drop target, file picker, and toolbar. Enter/Space open the picker or preview; Escape closes ImagePreview. Paste files on the focused area or its controls; text inputs/contenteditable descendants retain native paste. Disabled areas are inert. Buttons never submit the surrounding form. Removal returns focus to the picker. Metadata and upload progress are announced; the root group references the composed `<Label>` with `aria-labelledby` (or uses `aria-label` without one) and Meta with `aria-describedby`. The drop target and image alt text use the same name.
 
-Stable `data-slot` hooks: `image-field`, `image-field-frame`, `image-field-image`, `image-field-placeholder`, `image-field-feedback`, `image-field-actions`, `image-field-meta`, `image-field-warning`, and `image-field-size`; the composed Label keeps `label`. The area, trigger, preview, and progress inherit their shared component slots. Root exposes `data-layout`, `data-disabled`, and `data-invalid`. Dragging is `data-drop-target` on DropZone.Area. Frame exposes `data-warning` / `data-invalid`; Actions exposes `data-empty` / `data-uploading` / `data-disabled`; Meta exposes `data-warning`. Use `--image-field-tile-width` to customize the 176px tile width. `imageFieldVariants` and `ImageFieldVariants` are exported from both React and styles packages.
+Stable `data-slot` hooks: `image-field`, `image-field-frame`, `image-field-image`, `image-field-placeholder`, `image-field-feedback`, `image-field-actions`, `image-field-meta`, `image-field-warning`, and `image-field-size`; the composed Label keeps `label`. The area, trigger, preview, and progress inherit their shared component slots. Root exposes `data-disabled` and `data-invalid`. Dragging is `data-drop-target` on DropZone.Area. Frame exposes `data-warning` / `data-invalid`; Actions exposes `data-empty` / `data-uploading` / `data-disabled`; Meta exposes `data-warning`. Size the frame with `className` on Frame; set `--image-field-size` to keep the width following `aspectRatio`. `imageFieldVariants` and `ImageFieldVariants` are exported from both React and styles packages.
