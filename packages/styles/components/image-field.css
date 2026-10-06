@@ -20,7 +20,7 @@
     }
   }
   &[data-drop-target="true"] .image-field__frame {
-    @apply border-accent;
+    @apply border-solid border-accent;
   }
 }
 /*
@@ -42,6 +42,13 @@
   /* Unset ratio follows the image; cap tall sources, which letterbox via object-contain. */
   &[data-auto-ratio="true"] {
     max-height: var(--image-field-max-height, 32rem);
+  }
+  /* Waiting for a file: a dashed outline reads as a drop target, not an image placeholder. */
+  &:has(> .image-field__empty-trigger) {
+    @apply border-dashed border-border-secondary;
+  }
+  &:has(> .image-field__empty-trigger:where(:hover, [data-hovered="true"])) {
+    @apply border-border-tertiary;
   }
   &[data-warning="true"] {
     @apply border-warning;
@@ -96,9 +103,10 @@
   &[data-hovered="true"] {
     @apply bg-surface-tertiary text-foreground;
   }
+  /* A step past the hover tint, so pressing never reads lighter than hovering. */
   &:active,
   &[data-pressed="true"] {
-    @apply bg-default;
+    @apply bg-default-hover;
   }
   &:focus-visible,
   &[data-focus-visible="true"] {
@@ -136,15 +144,24 @@
     --button-fg: var(--danger-soft-foreground);
   }
 }
-/* Upload feedback is icon-only; its text stays for screen readers. */
+/*
+ * Upload feedback is icon-only; its text stays for screen readers. A light veil keeps the local
+ * preview recognisable, so the spinner sits on its own frosted chip to stay legible on any image.
+ */
 .image-field__overlay {
-  @apply absolute inset-0 flex items-center justify-center bg-surface-secondary/80 text-foreground backdrop-blur-sm;
-  & > span {
+  @apply absolute inset-0 flex items-center justify-center bg-surface-secondary/40;
+  & > [data-slot="spinner"] {
+    @apply box-content rounded-full bg-overlay/80 p-1.5 text-overlay-foreground shadow-overlay backdrop-blur-md;
+  }
+  & > [data-slot="image-field-feedback-text"] {
     @apply sr-only;
   }
 }
+/* Accent-tinted so "release to upload" never looks like the neutral hover tint. */
 .image-field__drop-overlay {
-  @apply pointer-events-none absolute inset-0 z-4 flex items-center justify-center bg-surface-tertiary text-foreground;
+  @apply pointer-events-none absolute inset-0 z-4 flex items-center justify-center text-accent;
+  /* Opaque, so a stored image never shows through the tint. */
+  background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--surface-secondary);
   & svg {
     @apply size-5;
   }

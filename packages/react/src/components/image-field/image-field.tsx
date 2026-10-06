@@ -19,7 +19,7 @@ import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {Button} from "../button";
 import {Description} from "../description";
 import {DropZone, formatFileType, useDropZoneState} from "../drop-zone";
-import {ArrowsRotateIcon, CloseIcon, EyeSlashIcon, TrashBinIcon, UploadCloudIcon} from "../icons";
+import {ArrowsRotateIcon, CloseIcon, PictureIcon, TrashBinIcon, UploadCloudIcon} from "../icons";
 import {ImagePreview} from "../image-preview";
 import {Spinner} from "../spinner";
 import {Tooltip} from "../tooltip";
@@ -335,7 +335,7 @@ export function ImageFieldFrame({children, className, ...props}: ImageFieldFrame
       )}
       {!!failed && !uploading && (
         <div data-broken className={slots.placeholder()} data-slot="image-field-placeholder">
-          <EyeSlashIcon aria-hidden="true" />
+          <PictureIcon aria-hidden="true" />
           <span>{labels.broken}</span>
         </div>
       )}
@@ -354,9 +354,10 @@ export function ImageFieldFrame({children, className, ...props}: ImageFieldFrame
       )}
       {!!uploading && (
         <div className={slots.overlay()} data-slot="image-field-feedback">
-          <Spinner aria-label={labels.uploading} size="sm" />
+          {/* Decorative: the text below and the progress bar already announce the upload. */}
+          <Spinner aria-hidden="true" size="sm" />
           {/* No progress yet (e.g. a fetch-based onUpload never reports any): don't claim 0%. */}
-          <span>
+          <span data-slot="image-field-feedback-text">
             {labels.uploading}
             {!!c.file!.progress && ` ${Math.round(c.file!.progress * 100)}%`}
           </span>
