@@ -121,6 +121,45 @@ describe("SplitView (browser)", () => {
     await expect.poll(() => entered.mock.calls.length).toBeGreaterThan(0);
   });
 
+  it("keeps entering panes out of the page's horizontal scroll area", async () => {
+    // A narrow page gutter, like px-2: the 1.5rem entry offset used to scroll the page sideways.
+    await render(
+      <div data-testid="scroller" style={{overflow: "auto", padding: "0 0.5rem", width: 376}}>
+        <WorkspaceFixture width={360} />
+      </div>,
+    );
+    const scroller = page.getByTestId("scroller").element() as HTMLElement;
+    const overflow: number[] = [];
+
+    region("Main content")
+      .element()
+      .addEventListener("transitionrun", () =>
+        overflow.push(scroller.scrollWidth - scroller.clientWidth),
+      );
+    await userEvent.click(page.getByRole("button", {name: "Select conversation"}));
+    await expect.poll(() => overflow.length).toBeGreaterThan(0);
+    expect(Math.max(...overflow)).toBe(0);
+  });
+
+  it("keeps focus-ring room past the edges of a scroll none section", async () => {
+    await render(
+      <div style={{height: 240, padding: 16, width: 1280}}>
+        <SplitView>
+          <SplitView.Pane aria-label="Navigation" scroll="none">
+            {/* Stands in for a flush field's ring, which is not hit-testable itself. */}
+            <div data-testid="flush" style={{height: 40, marginInlineStart: -6}} />
+          </SplitView.Pane>
+          <SplitView.Content aria-label="Main content" />
+        </SplitView>
+      </div>,
+    );
+    const pane = region("Navigation").element().getBoundingClientRect();
+
+    expect(document.elementFromPoint(pane.left - 4, pane.top + 20)).toBe(
+      page.getByTestId("flush").element(),
+    );
+  });
+
   it("repairs focus when the container hides a pane and keeps outside focus intact", async () => {
     await render(
       <>
@@ -193,7 +232,7 @@ describe("SplitView (browser)", () => {
       </div>,
     );
     expect(region("Sized navigation").element().getBoundingClientRect().width).toBe(280);
-    expect(getComputedStyle(region("Sized content").element()).overflowY).toBe("hidden");
+    expect(getComputedStyle(region("Sized content").element()).overflowY).toBe("clip");
   });
 
   it("keeps nested container tiers and logical RTL positions independent", async () => {

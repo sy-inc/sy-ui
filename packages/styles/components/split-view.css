@@ -1,6 +1,10 @@
 .split-view {
   @apply flex h-full min-h-0 w-full min-w-0 gap-3;
 
+  /* Entry offsets must not leak into the page's scroll area; the margin keeps edge focus rings,
+     surface shadows and a pane's -mx-2 gutter. */
+  overflow: clip;
+  overflow-clip-margin: 0.5rem;
   container: sy-split-view / inline-size;
   --split-view-start-width: 18rem;
   --split-view-end-width: 20rem;
@@ -64,8 +68,11 @@
     translate 300ms var(--ease-out-fluid);
   @apply motion-reduce:transition-none;
 
+  /* Clip, not hidden: no programmatic scrolling, and the margin keeps flush focus rings and
+     shadows (ink overflow, so never page scroll). Scrolling panes clip at their padding box. */
   &[data-scroll="none"] {
-    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 0.5rem;
   }
 }
 
