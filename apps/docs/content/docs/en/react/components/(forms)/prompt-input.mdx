@@ -168,6 +168,82 @@ const [files, setFiles] = useState(["brief.pdf", "notes.md"]);
 Set `actionsVisibility="hover"` to reveal item actions on hover or focus, or `always`
 to keep them visible. The default is `hover`.
 
+## Slash commands
+
+For `/` quick replies or canned responses, compose `Autocomplete.Filter` with the composer
+instead of a popover. Wrap `PromptInput.TextArea` in a `TextField` so `Autocomplete.Filter`
+can drive it, and render a `ListBox` above the shell. Focus stays in the text area while
+ArrowUp and ArrowDown move through matches, and Enter inserts the reply without submitting.
+
+```tsx
+import {Autocomplete, ListBox, PromptInput, TextField} from "@sy-inc/react";
+import {useState} from "react";
+
+const getSlashQuery = (value: string) => /(?:^|\s)\/(\S*)$/.exec(value)?.[1];
+
+export function SlashCommands({replies}: {replies: {id: string; shortcut: string; text: string}[]}) {
+  const [value, setValue] = useState("");
+  const [isDismissed, setIsDismissed] = useState(false);
+  const query = isDismissed ? undefined : getSlashQuery(value);
+
+  const handleValueChange = (nextValue: string) => {
+    setValue(nextValue);
+    setIsDismissed(false);
+  };
+
+  return (
+    <PromptInput className="relative" value={value} onValueChange={handleValueChange}>
+      <Autocomplete.Filter
+        filter={(textValue, inputValue) =>
+          textValue.startsWith((getSlashQuery(inputValue) ?? "").toLowerCase())
+        }
+        inputValue={value}
+        onInputChange={handleValueChange}
+      >
+        {query !== undefined ? (
+          <ListBox
+            aria-label="Quick replies"
+            className="absolute inset-x-0 bottom-full mb-2 rounded-2xl bg-overlay p-1"
+            items={replies}
+            onAction={(key) => {
+              const reply = replies.find((item) => item.id === key);
+
+              if (reply) setValue(value.replace(/\/\S*$/, reply.text));
+            }}
+          >
+            {(item) => (
+              <ListBox.Item id={item.id} textValue={item.shortcut}>
+                /{item.shortcut} {item.text}
+              </ListBox.Item>
+            )}
+          </ListBox>
+        ) : null}
+        <PromptInput.Shell>
+          <PromptInput.Content>
+            <TextField aria-label="Message input">
+              <PromptInput.TextArea
+                spellCheck
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setIsDismissed(true);
+                }}
+              />
+            </TextField>
+          </PromptInput.Content>
+        </PromptInput.Shell>
+      </Autocomplete.Filter>
+    </PromptInput>
+  );
+}
+```
+
+- Pass the same value to `PromptInput` and `Autocomplete.Filter`, and update both from one handler.
+- `filter` receives the full text area value; match items against the trailing `/query` only.
+- Mount the `ListBox` only while a command is being typed. While a list is mounted, the
+  arrow keys move through it instead of the text cursor.
+- Escape is not handled for you. Track a dismissed flag as above.
+- `Autocomplete.Filter` turns spell check off on its input. Set `spellCheck` on
+  `PromptInput.TextArea` to keep it for chat messages.
+
 ## Accessibility
 
 Give `PromptInput.TextArea` an accessible name with `aria-label` or an associated

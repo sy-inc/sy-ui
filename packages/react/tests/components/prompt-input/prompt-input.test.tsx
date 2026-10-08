@@ -3,7 +3,7 @@ import React from "react";
 
 import {PromptInput} from "@/components/prompt-input";
 
-import {PromptInputFixture} from "./fixtures";
+import {PromptInputFixture, SlashCommandsFixture} from "./fixtures";
 
 describe("PromptInput", () => {
   it("exposes the documented compound slots and BEM modifiers", () => {
@@ -232,6 +232,103 @@ describe("PromptInput", () => {
 
       await dragWithKeyboard(1, "{ArrowUp}{ArrowUp}");
       expect(onReorder).toHaveBeenCalledWith([files[1], files[0]]);
+    });
+  });
+
+  describe("slash commands", () => {
+    beforeEach(() => {
+      vi.useFakeTimers({shouldAdvanceTime: true});
+    });
+
+    afterEach(() => {
+      runAllTimers();
+      vi.useRealTimers();
+    });
+
+    const setup = (onSubmit = vi.fn()) => {
+      const user = setupUser({advanceTimers: vi.advanceTimersByTime});
+
+      render(<SlashCommandsFixture onSubmit={onSubmit} />);
+
+      return {onSubmit, textarea: screen.getByRole("textbox", {name: "Message input"}), user};
+    };
+
+    const optionNames = () => screen.getAllByRole("option").map((option) => option.textContent);
+
+    it("renders matching replies for the trailing slash query while focus stays in the text area", async () => {
+      const {textarea, user} = setup();
+
+      await user.type(textarea, "ok /re");
+      runAllTimers();
+
+      const listbox = screen.getByRole("listbox", {name: "Quick replies"});
+
+      expect(optionNames()).toEqual(["/refund"]);
+      expect(textarea).toHaveFocus();
+      expect(textarea).toHaveAttribute("aria-controls", listbox.id);
+      expect(textarea).toHaveAttribute(
+        "aria-activedescendant",
+        screen.getByRole("option", {name: "/refund"}).id,
+      );
+    });
+
+    it("supports ArrowDown and Enter to insert a reply without submitting", async () => {
+      const {onSubmit, textarea, user} = setup();
+
+      await user.type(textarea, "/");
+      expect(optionNames()).toEqual(["/greet", "/refund", "/thanks"]);
+
+      await user.keyboard("{ArrowDown}");
+      runAllTimers();
+      expect(textarea).toHaveAttribute(
+        "aria-activedescendant",
+        screen.getByRole("option", {name: "/refund"}).id,
+      );
+
+      await user.keyboard("{Enter}");
+      expect(textarea).toHaveValue("Refunds take 3 days.");
+      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      expect(onSubmit).not.toHaveBeenCalled();
+      expect(textarea).toHaveFocus();
+
+      await user.keyboard("{Enter}");
+      expect(onSubmit).toHaveBeenCalledWith("Refunds take 3 days.");
+    });
+
+    it("supports Escape to close the list until the value changes", async () => {
+      const {textarea, user} = setup();
+
+      await user.type(textarea, "/");
+      await user.keyboard("{Escape}");
+      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      expect(textarea).toHaveValue("/");
+
+      await user.keyboard("t");
+      expect(optionNames()).toEqual(["/thanks"]);
+    });
+
+    it("renders an empty state when no reply matches", async () => {
+      const {textarea, user} = setup();
+
+      await user.type(textarea, "/zz");
+
+      expect(screen.queryByRole("option", {name: /^\//})).not.toBeInTheDocument();
+      expect(screen.getByRole("listbox", {name: "Quick replies"})).toHaveTextContent(
+        "No quick replies",
+      );
+    });
+
+    it("keeps Enter and text editing for the composer when no command is typed", async () => {
+      const {onSubmit, textarea, user} = setup();
+
+      await user.type(textarea, "a/b");
+      expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+      expect(textarea).not.toHaveAttribute("aria-activedescendant");
+      expect(textarea).toHaveAttribute("spellcheck", "true");
+
+      await user.keyboard("{Shift>}{Enter}{/Shift}c{Enter}");
+      expect(onSubmit).toHaveBeenCalledWith("a/b\nc");
+      expect(textarea).toHaveValue("");
     });
   });
 

@@ -163,6 +163,81 @@ const [files, setFiles] = useState(["brief.pdf", "notes.md"]);
 设置 `actionsVisibility="hover"` 可在悬停或聚焦时显示 Item 操作，设置
 `always` 则始终显示。默认值是 `hover`。
 
+## 斜杠命令
+
+要实现 `/` 快捷回复（预设回复），请把 `Autocomplete.Filter` 与输入框组合使用，而不是使用
+弹出层。用 `TextField` 包裹 `PromptInput.TextArea`，让 `Autocomplete.Filter` 能够驱动它，
+并在 Shell 上方渲染一个 `ListBox`。焦点始终留在文本框中：ArrowUp 与 ArrowDown 在匹配项之间
+移动，Enter 插入回复且不会提交表单。
+
+```tsx
+import {Autocomplete, ListBox, PromptInput, TextField} from "@sy-inc/react";
+import {useState} from "react";
+
+const getSlashQuery = (value: string) => /(?:^|\s)\/(\S*)$/.exec(value)?.[1];
+
+export function SlashCommands({replies}: {replies: {id: string; shortcut: string; text: string}[]}) {
+  const [value, setValue] = useState("");
+  const [isDismissed, setIsDismissed] = useState(false);
+  const query = isDismissed ? undefined : getSlashQuery(value);
+
+  const handleValueChange = (nextValue: string) => {
+    setValue(nextValue);
+    setIsDismissed(false);
+  };
+
+  return (
+    <PromptInput className="relative" value={value} onValueChange={handleValueChange}>
+      <Autocomplete.Filter
+        filter={(textValue, inputValue) =>
+          textValue.startsWith((getSlashQuery(inputValue) ?? "").toLowerCase())
+        }
+        inputValue={value}
+        onInputChange={handleValueChange}
+      >
+        {query !== undefined ? (
+          <ListBox
+            aria-label="快捷回复"
+            className="absolute inset-x-0 bottom-full mb-2 rounded-2xl bg-overlay p-1"
+            items={replies}
+            onAction={(key) => {
+              const reply = replies.find((item) => item.id === key);
+
+              if (reply) setValue(value.replace(/\/\S*$/, reply.text));
+            }}
+          >
+            {(item) => (
+              <ListBox.Item id={item.id} textValue={item.shortcut}>
+                /{item.shortcut} {item.text}
+              </ListBox.Item>
+            )}
+          </ListBox>
+        ) : null}
+        <PromptInput.Shell>
+          <PromptInput.Content>
+            <TextField aria-label="消息输入">
+              <PromptInput.TextArea
+                spellCheck
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setIsDismissed(true);
+                }}
+              />
+            </TextField>
+          </PromptInput.Content>
+        </PromptInput.Shell>
+      </Autocomplete.Filter>
+    </PromptInput>
+  );
+}
+```
+
+- 给 `PromptInput` 与 `Autocomplete.Filter` 传同一个值，并用同一个处理函数更新。
+- `filter` 拿到的是文本框的完整值，只需用末尾的 `/query` 匹配选项。
+- 仅在输入命令时挂载 `ListBox`。列表挂载期间，方向键会在列表中移动，而不是移动文本光标。
+- 组件不会自动处理 Escape，请像上例一样自行维护「已关闭」状态。
+- `Autocomplete.Filter` 会关闭输入框的拼写检查。在 `PromptInput.TextArea` 上设置
+  `spellCheck` 即可为聊天消息保留它。
+
 ## 无障碍
 
 通过 `aria-label` 或关联的共享 `Label` 为 `PromptInput.TextArea` 提供无障碍

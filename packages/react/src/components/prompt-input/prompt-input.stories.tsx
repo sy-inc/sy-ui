@@ -4,9 +4,11 @@ import type {Meta, StoryObj} from "@storybook/react";
 import {Icon} from "@iconify/react";
 import React from "react";
 
+import {Autocomplete} from "../autocomplete";
 import {Label} from "../label";
 import {ListBox} from "../list-box";
 import {Select} from "../select";
+import {TextField} from "../textfield";
 
 import {PromptInput} from "./index";
 
@@ -285,6 +287,101 @@ export const ReorderableQueue: Story = {
     <main className="flex min-h-screen items-center justify-center p-6 sm:p-10">
       <div className="w-full max-w-[640px]">
         <QueueExample />
+      </div>
+    </main>
+  ),
+};
+
+const quickReplies = [
+  {id: "greet", shortcut: "greet", text: "Hi there! How can I help you today?"},
+  {id: "refund", shortcut: "refund", text: "Refunds are processed within 3–5 business days."},
+  {id: "shipping", shortcut: "shipping", text: "Orders ship within 24 hours of payment."},
+  {id: "thanks", shortcut: "thanks", text: "Thanks for reaching out. Have a great day!"},
+];
+
+/* The `/query` at the end of the value, or `undefined` when no command is being typed. */
+const getSlashQuery = (value: string) => /(?:^|\s)\/(\S*)$/.exec(value)?.[1];
+
+const SlashCommandsExample = () => {
+  const [value, setValue] = React.useState("");
+  const [isDismissed, setIsDismissed] = React.useState(false);
+  const query = isDismissed ? undefined : getSlashQuery(value);
+
+  const handleValueChange = (nextValue: string) => {
+    setValue(nextValue);
+    setIsDismissed(false);
+  };
+
+  return (
+    <PromptInput
+      className="relative"
+      value={value}
+      onSubmit={() => setValue("")}
+      onValueChange={handleValueChange}
+    >
+      <Autocomplete.Filter
+        inputValue={value}
+        filter={(textValue, inputValue) =>
+          textValue.startsWith((getSlashQuery(inputValue) ?? "").toLowerCase())
+        }
+        onInputChange={handleValueChange}
+      >
+        {/* Mount the list only while a command is typed, so arrow keys stay with the text area otherwise. */}
+        {query !== undefined ? (
+          <ListBox
+            aria-label="Quick replies"
+            className="absolute inset-x-0 bottom-full z-10 mb-2 rounded-2xl bg-overlay p-1 shadow-(--overlay-shadow)"
+            items={quickReplies}
+            renderEmptyState={() => <div className="p-2 text-sm text-muted">No quick replies</div>}
+            onAction={(key) => {
+              const reply = quickReplies.find((item) => item.id === key);
+
+              if (reply) setValue(value.replace(/\/\S*$/, reply.text));
+            }}
+          >
+            {(item) => (
+              <ListBox.Item id={item.id} textValue={item.shortcut}>
+                <span className="font-medium">/{item.shortcut}</span>
+                <span className="truncate text-muted">{item.text}</span>
+              </ListBox.Item>
+            )}
+          </ListBox>
+        ) : null}
+        <PromptInput.Shell>
+          <PromptInput.Content>
+            <TextField aria-label="Message input">
+              <PromptInput.TextArea
+                spellCheck
+                placeholder="Type / for quick replies"
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setIsDismissed(true);
+                }}
+              />
+            </TextField>
+          </PromptInput.Content>
+          <PromptInput.Toolbar>
+            <PromptInput.ToolbarStart />
+            <PromptInput.ToolbarEnd>
+              <PromptInput.Send />
+            </PromptInput.ToolbarEnd>
+          </PromptInput.Toolbar>
+        </PromptInput.Shell>
+      </Autocomplete.Filter>
+    </PromptInput>
+  );
+};
+
+/**
+ * Type `/` to open quick replies above the composer. Focus stays in the text area:
+ * ArrowUp/ArrowDown move through matches, Enter inserts the reply, and Escape closes the list.
+ * Built from `Autocomplete.Filter`, a `TextField` around `PromptInput.TextArea`, and an inline
+ * `ListBox` — no popover, so focus is never moved.
+ */
+export const SlashCommands: Story = {
+  render: () => (
+    <main className="flex min-h-screen items-center justify-center p-6 sm:p-10">
+      <div className="w-full max-w-[640px]">
+        <SlashCommandsExample />
       </div>
     </main>
   ),
