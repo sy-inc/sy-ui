@@ -90,7 +90,6 @@
   }
 
   @media (hover: hover) {
-    &:hover .table__cell,
     &[data-hovered="true"] .table__cell {
       @apply bg-default/50;
     }
@@ -321,7 +320,6 @@
 
   .table__row {
     @media (hover: hover) {
-      &:hover .table__cell,
       &[data-hovered="true"] .table__cell {
         @apply bg-transparent;
       }
@@ -353,7 +351,6 @@
 
   /* Hover state — applied to cells so Firefox clips bg to border-radius */
   @media (hover: hover) {
-    &:hover .table__cell,
     &[data-hovered="true"] .table__cell {
       @apply bg-surface/40;
     }
@@ -374,7 +371,6 @@
 
   /* Hovered pinned cells must stay opaque so content scrolling underneath cannot show through. */
   @media (hover: hover) {
-    &:hover .table__cell[data-pinned],
     &[data-hovered="true"] .table__cell[data-pinned] {
       background-color: var(
         --table-pinned-hover-bg,
