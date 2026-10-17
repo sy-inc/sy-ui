@@ -1,6 +1,7 @@
 import type {Selection} from "@react-types/shared";
 
-import {render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {render, screen, setupUser, waitFor} from "@sy-inc/testing/helpers";
+import {useDragAndDrop, useListData} from "react-aria-components";
 
 import {Button} from "@/components/button";
 import {ListView} from "@/components/list-view";
@@ -41,6 +42,35 @@ const renderListView = (
       </ListView.Item>
     </ListView>,
   );
+
+const ReorderableList = () => {
+  const list = useListData({
+    initialItems: [
+      {id: "a", name: "Alpha"},
+      {id: "b", name: "Beta"},
+    ],
+  });
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) => [...keys].map((key) => ({"text/plain": String(key)})),
+    onReorder: (event) => {
+      if (event.target.dropPosition === "before") list.moveBefore(event.target.key, event.keys);
+      else if (event.target.dropPosition === "after") list.moveAfter(event.target.key, event.keys);
+    },
+  });
+
+  return (
+    <ListView aria-label="Reorderable" dragAndDropHooks={dragAndDropHooks} items={list.items}>
+      {(item) => (
+        <ListView.Item textValue={item.name}>
+          <ListView.DragHandle />
+          <ListView.Content>
+            <ListView.Title>{item.name}</ListView.Title>
+          </ListView.Content>
+        </ListView.Item>
+      )}
+    </ListView>
+  );
+};
 
 describe("ListView", () => {
   const user = setupUser();
@@ -189,5 +219,36 @@ describe("ListView", () => {
 
     await user.keyboard("{Enter}");
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+
+  describe("drag and drop", () => {
+    it("exposes DragHandle as the row's drag button named from its text", () => {
+      render(<ReorderableList />);
+
+      expect(screen.getByRole("button", {name: "Drag Alpha"})).toHaveAttribute(
+        "data-slot",
+        "list-view-drag-handle",
+      );
+    });
+
+    it("supports reordering from the keyboard handle", async () => {
+      render(<ReorderableList />);
+
+      const order = () => screen.getAllByRole("row").map((row) => row.textContent);
+
+      expect(order()).toEqual(["Alpha", "Beta"]);
+
+      screen.getByRole("button", {name: "Drag Alpha"}).focus();
+      await user.keyboard("{Enter}");
+      await user.keyboard("{ArrowDown}");
+
+      await waitFor(() => {
+        expect(document.activeElement).toHaveAccessibleName("Insert after Beta");
+      });
+
+      await user.keyboard("{Enter}");
+
+      expect(order()).toEqual(["Beta", "Alpha"]);
+    });
   });
 });

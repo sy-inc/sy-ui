@@ -13,6 +13,7 @@ export const tableVariants = tv({
     column: "table__column",
     columnResizer: "table__column-resizer",
     content: "table__content",
+    dragHandle: "table__drag-handle",
     footer: "table__footer",
     header: "table__header",
     loadMore: "table__load-more",
@@ -38,15 +39,4 @@ export const tableVariants = tv({
   },
 });
 
-// Exclude React Aria render prop keys from the variant types
-type TableRenderPropsKeys =
-  | "isHovered"
-  | "isFocused"
-  | "isFocusVisible"
-  | "isSelected"
-  | "isDisabled"
-  | "isDragging"
-  | "isDropTarget"
-  | "state";
-
-export type TableVariants = Omit<VariantProps<typeof tableVariants>, TableRenderPropsKeys>;
+export type TableVariants = VariantProps<typeof tableVariants>;

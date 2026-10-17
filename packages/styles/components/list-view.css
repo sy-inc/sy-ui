@@ -155,3 +155,25 @@
 .list-view__description {
   @apply truncate text-xs leading-4 font-normal text-muted;
 }
+
+/* ==========================================================================
+   Drag and drop
+   ========================================================================== */
+
+/* `slot="drag"` grip. Paired with `.button--icon-only` to outrank the
+   `.button--icon-only.button--sm` width. The negative start margin cancels the icon
+   button's inset so the grip lines up with the row text column. */
+.list-view__drag-handle.button--icon-only {
+  @apply -ms-1.5 size-7 shrink-0 text-muted;
+}
+
+/* Insertion line between rows, rendered by React Aria while dragging. Inset by the row
+   padding so it lines up with the row text in every variant. */
+.list-view .react-aria-DropIndicator {
+  @apply relative h-0 outline-none;
+
+  &[data-drop-target="true"]::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-4 -top-px z-20 h-0.5 rounded-full bg-focus;
+  }
+}

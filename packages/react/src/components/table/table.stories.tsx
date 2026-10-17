@@ -4,6 +4,7 @@ import type {Selection, SortDescriptor} from "react-aria-components/Table";
 import {Icon} from "@iconify/react";
 import {cn} from "@sy-inc/styles";
 import React from "react";
+import {useDragAndDrop, useListData} from "react-aria-components";
 
 import {Avatar} from "../avatar";
 import {Button} from "../button";
@@ -532,6 +533,70 @@ export const DynamicWithSelection: Story = {
   render: () => <DynamicWithSelectionTemplate />,
 };
 
+/**
+ * Drag to reorder — `Table.DragHandle` in a leading cell; the drop line comes from the
+ * default React Aria indicator, so no `renderDropIndicator` is needed.
+ */
+const ReorderTemplate = ({variant = "primary"}: {variant?: "primary" | "secondary"}) => {
+  const list = useListData({initialItems: users.slice(0, 5)});
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) => [...keys].map((key) => ({"text/plain": String(key)})),
+    onReorder(event) {
+      if (event.target.dropPosition === "before") {
+        list.moveBefore(event.target.key, event.keys);
+      } else if (event.target.dropPosition === "after") {
+        list.moveAfter(event.target.key, event.keys);
+      }
+    },
+  });
+
+  return (
+    <Wrapper>
+      <Table variant={variant}>
+        <Table.ScrollContainer>
+          <Table.Content
+            aria-label={`Reorderable users (${variant})`}
+            className="min-w-[650px]"
+            dragAndDropHooks={dragAndDropHooks}
+          >
+            <Table.Header>
+              <Table.Column>
+                <span className="sr-only">Reorder</span>
+              </Table.Column>
+              <Table.Collection items={columns}>
+                {(column) => (
+                  <Table.Column isRowHeader={column.isRowHeader}>{column.name}</Table.Column>
+                )}
+              </Table.Collection>
+            </Table.Header>
+            <Table.Body items={list.items}>
+              {(user) => (
+                <Table.Row>
+                  <Table.Cell>
+                    <Table.DragHandle />
+                  </Table.Cell>
+                  <Table.Collection items={columns}>
+                    {(column) => <Table.Cell>{user[column.id as keyof User]}</Table.Cell>}
+                  </Table.Collection>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
+      </Table>
+    </Wrapper>
+  );
+};
+
+export const Reorder: Story = {
+  render: () => (
+    <div className="flex w-[896px] flex-col gap-8">
+      <ReorderTemplate />
+      <ReorderTemplate variant="secondary" />
+    </div>
+  ),
+};
+
 export const SelectionCheckboxes: Story = {
   render: () => (
     <Wrapper>
@@ -895,16 +960,16 @@ function ShowcaseTableTemplate() {
                     <Table.Cell className="text-end">
                       <div className="flex justify-end gap-1">
                         <Button
-                          aria-label={`Edit ${row.employee}`}
                           isIconOnly
+                          aria-label={`Edit ${row.employee}`}
                           size="sm"
                           variant="ghost"
                         >
                           <Icon icon="gravity-ui:pencil" />
                         </Button>
                         <Button
-                          aria-label={`Delete ${row.employee}`}
                           isIconOnly
+                          aria-label={`Delete ${row.employee}`}
                           size="sm"
                           variant="ghost"
                         >

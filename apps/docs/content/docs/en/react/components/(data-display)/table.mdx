@@ -158,6 +158,15 @@ accessibility.
   minHeight="420px"
 />
 
+### Reorder
+
+Pass `dragAndDropHooks` from React Aria's `useDragAndDrop` to `Table.Content` and put a `Table.DragHandle` in a leading cell. Leave out `renderDropIndicator`: the default indicator already draws an insertion line aligned with the cell text in both variants.
+
+<ComponentPreview
+  name="table-reorder"
+  minHeight="320px"
+/>
+
 ## Customization
 
 ### Tailwind CSS
@@ -220,6 +229,8 @@ The Table component uses these CSS classes ([View source styles](https://github.
 #### Advanced Classes [!toc]
 - `.table__column-resizer` - Drag handle for column resizing
 - `.table__resizable-container` - Wrapper enabling column resizing
+- `.table__drag-handle` - Row drag button (`Table.DragHandle`)
+- `.table__body .react-aria-DropIndicator` - Insertion line between rows while dragging
 - `.table__load-more` - Sentinel row for infinite scrolling
 - `.table__load-more-content` - Styled container for the loading indicator
 - `.table__overflow` - Opt-in truncation wrapper
@@ -322,6 +333,16 @@ Inherits from [React Aria Cell](https://react-spectrum.adobe.com/react-aria/Tabl
 |------|------|---------|-------------|
 | `className` | `string` | - | Additional CSS classes |
 | `children` | `React.ReactNode` | - | Cell content |
+
+### Table.DragHandle
+
+Renders the row's drag button (`slot="drag"`), a ghost icon button with a grip icon by default. Place it in a `Table.Cell`. React Aria uses it for keyboard and screen-reader dragging; pointer drags start anywhere on the row. Inherits [Button](/docs/react/components/button) props.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `aria-label` | `string` | React Aria's localized "Drag {row text}" | Accessible name override |
+| `children` | `React.ReactNode` | grip icon | Custom icon |
+| `className` | `string` | - | Additional CSS classes |
 
 ### Table.SortableColumnHeader
 

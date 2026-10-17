@@ -280,8 +280,8 @@
   }
 }
 
-.prompt-input__queue-item-handle {
-  @apply size-7 min-h-7 min-w-7 shrink-0 text-muted;
+.prompt-input__queue-item-handle.button--icon-only {
+  @apply size-7 shrink-0 text-muted;
 
   &:not([disabled]) {
     @apply cursor-grab;

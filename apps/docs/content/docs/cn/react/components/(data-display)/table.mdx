@@ -161,6 +161,15 @@ SY INC 的 Table 作为无头表格库之上的渲染层。
   minHeight="420px"
 />
 
+### 拖动排序
+
+把 React Aria `useDragAndDrop` 返回的 `dragAndDropHooks` 传给 `Table.Content`，并在首列单元格放一个 `Table.DragHandle`。无需 `renderDropIndicator`：默认落点指示器已在两种变体下绘制与单元格文字对齐的插入线。
+
+<ComponentPreview
+  name="table-reorder"
+  minHeight="320px"
+/>
+
 ## 自定义样式
 
 ### Tailwind CSS
@@ -222,6 +231,8 @@ Table 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-in
 #### 进阶类 [!toc]
 - `.table__column-resizer` - 列宽拖拽手柄
 - `.table__resizable-container` - 启用列宽调整的包裹层
+- `.table__drag-handle` - 行拖动按钮（`Table.DragHandle`）
+- `.table__body .react-aria-DropIndicator` - 拖动时行间的插入线
 - `.table__load-more` - 无限滚动的哨兵行
 - `.table__load-more-content` - 加载指示器的样式容器
 - `.table__overflow` - 按需文本截断包裹层
@@ -318,6 +329,15 @@ Table 同时支持 CSS 伪类与 data 属性，以提供更灵活的状态控制
 |------|------|--------|------|
 | `className` | `string` | - | 额外的 CSS 类。 |
 | `children` | `React.ReactNode` | - | 单元格内容。 |
+
+### Table.DragHandle
+渲染行的拖动按钮（`slot="drag"`），默认是带抓手图标的 ghost 图标按钮，放在 `Table.Cell` 内。React Aria 用它支持键盘与屏幕阅读器拖动；指针拖动可从行内任意位置开始。继承 [Button](/docs/react/components/button) props。
+
+| Prop | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `aria-label` | `string` | React Aria 本地化的“拖动 {行文本}” | 覆盖无障碍名称。 |
+| `children` | `React.ReactNode` | 抓手图标 | 自定义图标。 |
+| `className` | `string` | - | 额外的 CSS 类。 |
 
 ### Table.SortableColumnHeader
 渲染可排序列的标签与升序 / 降序指示器。请在 `Table.Column` 的渲染函数回调中使用，并将 `sortDirection` 透传进来。

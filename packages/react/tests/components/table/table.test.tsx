@@ -1,5 +1,4 @@
 import type {Selection, SortDescriptor} from "react-aria-components/Table";
-import {useState} from "react";
 
 import {
   User,
@@ -12,6 +11,8 @@ import {
   setupUser,
   waitFor,
 } from "@sy-inc/testing/helpers";
+import {useState} from "react";
+import {useDragAndDrop, useListData} from "react-aria-components";
 
 import {Checkbox} from "@/components/checkbox";
 import {Table} from "@/components/table";
@@ -80,6 +81,38 @@ const renderTable = (
         </Table.Content>
       </Table.ScrollContainer>
     </Table>,
+  );
+};
+
+const ReorderableTable = ({isTruncate}: {isTruncate?: boolean}) => {
+  const list = useListData({initialItems: rows});
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) => [...keys].map((key) => ({"text/plain": String(key)})),
+    onReorder: (event) => {
+      if (event.target.dropPosition === "before") list.moveBefore(event.target.key, event.keys);
+      else if (event.target.dropPosition === "after") list.moveAfter(event.target.key, event.keys);
+    },
+  });
+
+  return (
+    <Table isTruncate={isTruncate}>
+      <Table.Content aria-label="Reorderable" dragAndDropHooks={dragAndDropHooks}>
+        <Table.Header>
+          <Table.Column>Reorder</Table.Column>
+          <Table.Column isRowHeader>Name</Table.Column>
+        </Table.Header>
+        <Table.Body items={list.items}>
+          {(row) => (
+            <Table.Row>
+              <Table.Cell>
+                <Table.DragHandle />
+              </Table.Cell>
+              <Table.Cell>{row.name}</Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table.Content>
+    </Table>
   );
 };
 
@@ -388,8 +421,8 @@ describe("Table", () => {
       <Table
         isResizable
         onResize={onResize}
-        onResizeStart={onResizeStart}
         onResizeEnd={onResizeEnd}
+        onResizeStart={onResizeStart}
       >
         <Table.Content aria-label="Resizable team">
           <Table.Header>
@@ -486,6 +519,7 @@ describe("Table", () => {
       );
 
       const overflow = screen.getByText("Interest Collected");
+
       Object.defineProperties(overflow, {
         clientWidth: {configurable: true, value: 80},
         scrollWidth: {configurable: true, value: 180},
@@ -722,5 +756,50 @@ describe("Table", () => {
     expect(overlay).toHaveAttribute("data-slot", "table-loading-overlay");
     expect(overlay).toHaveClass("table__loading-overlay");
     expect(overlay).toHaveTextContent("Loading");
+  });
+
+  describe("drag and drop", () => {
+    const bodyOrder = () =>
+      screen
+        .getAllByRole("row")
+        .slice(1)
+        .map((row) => row.textContent);
+
+    it("exposes DragHandle as the row's drag button named from its text", () => {
+      render(<ReorderableTable />);
+
+      expect(screen.getByRole("button", {name: "Drag Kate"})).toHaveAttribute(
+        "data-slot",
+        "table-drag-handle",
+      );
+    });
+
+    it("names DragHandle from the row text when cells truncate", () => {
+      render(<ReorderableTable isTruncate />);
+
+      expect(screen.getByRole("button", {name: "Drag Kate"})).toBeInTheDocument();
+    });
+
+    it("supports reordering from the keyboard handle", async () => {
+      const user = setupUser();
+
+      render(<ReorderableTable />);
+      expect(bodyOrder()).toEqual(["Kate", "John", "Sara"]);
+
+      await user.tab();
+      await user.keyboard("{ArrowRight}");
+      expect(screen.getByRole("button", {name: "Drag Kate"})).toHaveFocus();
+
+      await user.keyboard("{Enter}");
+      await user.keyboard("{ArrowDown}");
+
+      await waitFor(() => {
+        expect(document.activeElement).toHaveAccessibleName("Insert between John and Sara");
+      });
+
+      await user.keyboard("{Enter}");
+
+      expect(bodyOrder()).toEqual(["John", "Kate", "Sara"]);
+    });
   });
 });

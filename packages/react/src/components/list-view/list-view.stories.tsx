@@ -3,6 +3,7 @@ import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
 import {useState} from "react";
+import {useDragAndDrop, useListData} from "react-aria-components";
 
 import {ActionBar} from "../action-bar";
 import {Button} from "../button";
@@ -305,5 +306,49 @@ export const Disabled: Story = {
         ))}
       </ListView>
     </ListViewCanvas>
+  ),
+};
+
+const ReorderableList = ({variant}: {variant: "primary" | "secondary"}) => {
+  const list = useListData({initialItems: files});
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) => [...keys].map((key) => ({"text/plain": String(key)})),
+    onReorder(event) {
+      if (event.target.dropPosition === "before") {
+        list.moveBefore(event.target.key, event.keys);
+      } else if (event.target.dropPosition === "after") {
+        list.moveAfter(event.target.key, event.keys);
+      }
+    },
+  });
+
+  return (
+    <ListView
+      aria-label={`Reorderable files (${variant})`}
+      dragAndDropHooks={dragAndDropHooks}
+      items={list.items}
+      selectionMode="none"
+      variant={variant}
+    >
+      {(file) => (
+        <ListView.Item textValue={file.name}>
+          <ListView.DragHandle />
+          <Icon aria-hidden icon={file.icon} />
+          <ListView.Content>
+            <ListView.Title>{file.name}</ListView.Title>
+            <ListView.Description>{file.updated}</ListView.Description>
+          </ListView.Content>
+        </ListView.Item>
+      )}
+    </ListView>
+  );
+};
+
+export const Reorder: Story = {
+  render: () => (
+    <div className="ms-5 grid w-[928px] grid-cols-2 gap-8">
+      <ReorderableList variant="primary" />
+      <ReorderableList variant="secondary" />
+    </div>
   ),
 };

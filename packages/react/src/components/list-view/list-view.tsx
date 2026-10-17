@@ -1,5 +1,6 @@
 "use client";
 
+import type {ButtonProps} from "../button";
 import type {ListViewVariants} from "@sy-inc/styles";
 import type {ComponentProps, ComponentPropsWithRef} from "react";
 
@@ -13,7 +14,9 @@ import {
 } from "react-aria-components/GridList";
 
 import {composeTwRenderProps} from "../../utils";
+import {Button} from "../button";
 import {Checkbox} from "../checkbox";
+import {IconGripVertical} from "../icons";
 
 type ListViewContextValue = {
   slots?: ReturnType<typeof listViewVariants>;
@@ -114,6 +117,30 @@ function ListViewSelection({className, ...props}: ListViewSelectionProps) {
 }
 
 /* -------------------------------------------------------------------------------------------------
+ * ListView DragHandle — the row's `slot="drag"` button. React Aria wires it for keyboard and
+ * screen-reader dragging and names it from the row's text; pointer drags start anywhere on the row.
+ * -----------------------------------------------------------------------------------------------*/
+interface ListViewDragHandleProps extends ButtonProps {}
+
+function ListViewDragHandle({children, className, ...props}: ListViewDragHandleProps) {
+  const {slots} = use(ListViewContext);
+
+  return (
+    <Button
+      {...props}
+      isIconOnly
+      className={composeTwRenderProps(className, slots?.dragHandle())}
+      data-slot="list-view-drag-handle"
+      size="sm"
+      slot="drag"
+      variant="ghost"
+    >
+      {children ?? <IconGripVertical />}
+    </Button>
+  );
+}
+
+/* -------------------------------------------------------------------------------------------------
  * ListView Content — the stacked title/description column of a row.
  * -----------------------------------------------------------------------------------------------*/
 interface ListViewContentProps extends ComponentPropsWithRef<"div"> {}
@@ -158,6 +185,7 @@ ListViewItem.displayName = "SY INC.ListView.Item";
 ListViewSection.displayName = "SY INC.ListView.Section";
 ListViewHeader.displayName = "SY INC.ListView.Header";
 ListViewSelection.displayName = "SY INC.ListView.Selection";
+ListViewDragHandle.displayName = "SY INC.ListView.DragHandle";
 ListViewContent.displayName = "SY INC.ListView.Content";
 ListViewTitle.displayName = "SY INC.ListView.Title";
 ListViewDescription.displayName = "SY INC.ListView.Description";
@@ -168,6 +196,7 @@ export {
   ListViewSection,
   ListViewHeader,
   ListViewSelection,
+  ListViewDragHandle,
   ListViewContent,
   ListViewTitle,
   ListViewDescription,
@@ -178,6 +207,7 @@ export type {
   ListViewSectionProps,
   ListViewHeaderProps,
   ListViewSelectionProps,
+  ListViewDragHandleProps,
   ListViewContentProps,
   ListViewTitleProps,
   ListViewDescriptionProps,

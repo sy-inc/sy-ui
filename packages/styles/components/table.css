@@ -183,11 +183,7 @@
   inset-inline-end: var(--table-pinned-offset, 0px);
 }
 
-.table__column[data-pinned="start"] {
-  @apply z-40;
-}
-
-.table__column[data-pinned="end"] {
+.table__column[data-pinned] {
   @apply z-40;
 }
 
@@ -380,8 +376,8 @@
   }
 
   /* Disabled state */
-  &:not([data-summary-row])[aria-disabled="true"],
-  &:not([data-summary-row])[data-disabled="true"] {
+  &[aria-disabled="true"],
+  &[data-disabled="true"] {
     @apply status-disabled;
   }
 
@@ -399,6 +395,26 @@
   /* Drop target state */
   &[data-drop-target="true"] .table__cell {
     @apply bg-accent-soft;
+  }
+}
+
+/* `slot="drag"` grip inside a cell. Paired with `.button--icon-only` to outrank the
+   `.button--icon-only.button--sm` width. The negative start margin cancels the icon
+   button's inset so the grip lines up with the cell text column. */
+.table__drag-handle.button--icon-only {
+  @apply -ms-1.5 size-7 shrink-0 text-muted;
+}
+
+/* Insertion line between rows, rendered by React Aria while dragging as a row with one
+   full-width cell. Inset by the cell padding so it lines up with the cell text. */
+.table__body .react-aria-DropIndicator {
+  & > [role="gridcell"] {
+    @apply relative h-0 border-0;
+  }
+
+  &[data-drop-target="true"] > [role="gridcell"]::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-4 -top-px z-20 h-0.5 rounded-full bg-focus;
   }
 }
 

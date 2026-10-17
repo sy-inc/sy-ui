@@ -38,6 +38,12 @@ import { ListView } from '@sy-inc/react';
 </ListView>
 ```
 
+## 拖动排序
+
+把 React Aria `useDragAndDrop` 返回的 `dragAndDropHooks` 传给 ListView，并在每行首位放一个 `ListView.DragHandle`。无需 `renderDropIndicator`：默认落点指示器已在两种变体下绘制与行文字对齐的插入线。
+
+<ComponentPreview name="list-view-reorder" />
+
 ## API 参考
 
 ### ListView
@@ -73,6 +79,10 @@ ListView 透传 React Aria GridList props。未设置 `selectionMode` 时不开�
 
 渲染行的选择复选框（`slot="selection"`）。请传入 `aria-label`，使复选框拥有独立于行的名称；`selectionMode="none"` 时应省略该部件。
 
+### ListView.DragHandle
+
+渲染行的拖动按钮（`slot="drag"`），默认是带抓手图标的 ghost 图标按钮。React Aria 用它支持键盘与屏幕阅读器拖动；指针拖动可从行内任意位置开始。React Aria 会根据行的 `textValue` 生成本地化名称（如“拖动 文档”），图标与行文字列对齐。仅在列表设置了 `dragAndDropHooks` 时渲染。
+
 ### ListView.Content
 
 纵向堆叠 `Title` 与 `Description` 并占据行的剩余宽度，使前置图标与尾部操作分别贴在行的两端。直接放在 `Item` 下的图标（`svg`）会被统一为 `size-4` 与 muted 前景色。
@@ -95,6 +105,6 @@ ListView 透传 React Aria GridList props。未设置 `selectionMode` 时不开�
 
 ## 样式
 
-`variant="primary"` 将不透明的 `--surface` 行叠在带底色的容器上，通过调整 alpha 表达 hover、按下与选中——alpha 越低容器透出越多，视觉上越深。`selectionMode="single"` 时没有复选框承载选中状态，选中行改用 `--accent-soft`。`variant="secondary"` 去掉容器，hover 与按下使用 `--default`，选中行使用 `--accent-soft`。BEM hooks 为 `.list-view`、`.list-view__item`、`.list-view__section`、`.list-view__header`、`.list-view__content`、`.list-view__title` 和 `.list-view__description`；选中行可通过 `[data-selected="true"]` 定位。
+`variant="primary"` 将不透明的 `--surface` 行叠在带底色的容器上，通过调整 alpha 表达 hover、按下与选中——alpha 越低容器透出越多，视觉上越深。`selectionMode="single"` 时没有复选框承载选中状态，选中行改用 `--accent-soft`。`variant="secondary"` 去掉容器，hover 与按下使用 `--default`，选中行使用 `--accent-soft`。BEM hooks 为 `.list-view`、`.list-view__item`、`.list-view__section`、`.list-view__header`、`.list-view__content`、`.list-view__title` 和 `.list-view__description`；选中行可通过 `[data-selected="true"]` 定位。拖动把手为 `.list-view__drag-handle`，拖动中的行匹配 `[data-dragging="true"]`，插入线为 `.list-view .react-aria-DropIndicator[data-drop-target="true"]`。
 
 <RelatedComponents component="list-box" />

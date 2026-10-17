@@ -1,7 +1,9 @@
+import type {SortDescriptor} from "react-aria-components/Table";
+
 import {render} from "@sy-inc/testing/browser";
 import React from "react";
-import type {SortDescriptor} from "react-aria-components/Table";
-import {page} from "vitest/browser";
+import {useDragAndDrop, useListData} from "react-aria-components";
+import {page, userEvent} from "vitest/browser";
 
 import {Table} from "@/components/table";
 
@@ -59,7 +61,7 @@ function SortableTable() {
         onSortChange={setSortDescriptor}
       >
         <Table.Header>
-          <Table.Column allowsSorting id="name" isRowHeader>
+          <Table.Column allowsSorting isRowHeader id="name">
             {({sortDirection}) => (
               <Table.SortableColumnHeader sortDirection={sortDirection}>
                 Name
@@ -73,12 +75,51 @@ function SortableTable() {
   );
 }
 
+function ReorderableTable() {
+  const list = useListData({
+    initialItems: [
+      {id: "kate", name: "Kate"},
+      {id: "john", name: "John"},
+      {id: "sara", name: "Sara"},
+    ],
+  });
+  const {dragAndDropHooks} = useDragAndDrop({
+    getItems: (keys) => [...keys].map((key) => ({"text/plain": String(key)})),
+    onReorder: (event) => {
+      if (event.target.dropPosition === "before") list.moveBefore(event.target.key, event.keys);
+      else if (event.target.dropPosition === "after") list.moveAfter(event.target.key, event.keys);
+    },
+  });
+
+  return (
+    <Table>
+      <Table.Content aria-label="Reorderable" dragAndDropHooks={dragAndDropHooks}>
+        <Table.Header>
+          <Table.Column>Reorder</Table.Column>
+          <Table.Column isRowHeader>Name</Table.Column>
+        </Table.Header>
+        <Table.Body items={list.items}>
+          {(row) => (
+            <Table.Row>
+              <Table.Cell>
+                <Table.DragHandle />
+              </Table.Cell>
+              <Table.Cell>{row.name}</Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table.Content>
+    </Table>
+  );
+}
+
 describe("Table (browser)", () => {
   it("rotates the active sort icon when the sort direction changes", async () => {
     await render(<SortableTable />);
 
     const icon = document.querySelector<SVGElement>('[data-sort-icon="active"]')!;
     let transitionCount = 0;
+
     icon.addEventListener("transitionstart", (event) => {
       if (event.propertyName === "transform") transitionCount += 1;
     });
@@ -98,6 +139,7 @@ describe("Table (browser)", () => {
 
     const neutralIcons = document.querySelectorAll<SVGElement>('[data-sort-icon^="neutral-"]');
     let transitionCount = 0;
+
     neutralIcons.forEach((icon) => {
       icon.addEventListener("transitionstart", (event) => {
         if (event.propertyName === "opacity") transitionCount += 1;
@@ -105,6 +147,7 @@ describe("Table (browser)", () => {
     });
 
     const column = page.getByRole("columnheader", {name: "Name"});
+
     await column.click();
     await column.click();
     await new Promise<void>((resolve) => setTimeout(resolve, 250));
@@ -163,7 +206,6 @@ describe("Table (browser)", () => {
     const scrollContainer = document.querySelector<HTMLElement>(
       '[data-slot="table-scroll-container"]',
     )!;
-    const geometry = document.querySelector<HTMLElement>("[data-table-geometry]")!;
     const grid = page.getByRole("grid", {name: "Pinned team"}).element();
     const summary = summaryCell.closest<HTMLElement>('[data-slot="table-summary"]')!;
     const summaryBeforeScroll = summary.getBoundingClientRect();
@@ -209,7 +251,8 @@ describe("Table (browser)", () => {
       requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
     );
 
-    expect(geometry.dataset["tableStartShadow"]).toBe("1");
+    expect(header).toHaveAttribute("data-pinned-shadow");
+    expect(bodyCell).toHaveAttribute("data-pinned-shadow");
   });
 
   it("keeps pinned cells opaque while a row is hovered", async () => {
@@ -226,7 +269,7 @@ describe("Table (browser)", () => {
           <Table.ScrollContainer style={{overflowX: "auto", width: 260}}>
             <Table.Content aria-label="Hovered pinned team">
               <Table.Header>
-                <Table.Column id="name" isRowHeader>
+                <Table.Column isRowHeader id="name">
                   Name
                 </Table.Column>
                 <Table.Column id="role">Role</Table.Column>
@@ -246,6 +289,7 @@ describe("Table (browser)", () => {
     );
 
     const row = page.getByRole("row", {name: "Kate"}).element();
+
     row.dataset["hovered"] = "true";
 
     const pinnedCell = page.getByRole("rowheader", {name: "Kate"}).element();
@@ -310,7 +354,7 @@ describe("Table (browser)", () => {
           <Table.ScrollContainer style={{overflowX: "auto", width: 260}}>
             <Table.Content aria-label="Selectable pinned team" selectionMode="multiple">
               <Table.Header>
-                <Table.Column id="name" isRowHeader>
+                <Table.Column isRowHeader id="name">
                   <Table.SelectionCheckbox aria-label="Select all rows" />
                 </Table.Column>
                 <Table.Column id="role">Role</Table.Column>
@@ -417,5 +461,30 @@ describe("Table (browser)", () => {
     expect(page.getByRole("rowheader", {name: "John"}).element()).toHaveAttribute(
       "data-pinned-shadow",
     );
+  });
+
+  // Regression for https://github.com/adobe/react-spectrum/issues/10423 — see `TableCell`.
+  it("supports reordering on the first pointer drag from the drag handle", async () => {
+    await render(<ReorderableTable />);
+
+    const handleCell = page
+      .getByRole("button", {name: "Drag Kate"})
+      .element()
+      .closest<HTMLElement>('[role="gridcell"]')!;
+    const handleBox = handleCell.getBoundingClientRect();
+    const targetRow = page.getByRole("row", {name: "Sara"});
+    const targetBox = targetRow.element().getBoundingClientRect();
+
+    await userEvent.dragAndDrop(page.elementLocator(handleCell), targetRow, {
+      sourcePosition: {x: handleBox.width / 2, y: handleBox.height / 2},
+      targetPosition: {x: 40, y: targetBox.height * 0.8},
+    });
+
+    expect(
+      page
+        .getByRole("rowheader")
+        .elements()
+        .map((cell) => cell.textContent),
+    ).toEqual(["John", "Sara", "Kate"]);
   });
 });

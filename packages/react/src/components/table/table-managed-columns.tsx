@@ -5,7 +5,7 @@ import type {Key} from "@react-types/shared";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
 import {mergeRefs} from "@react-aria/utils";
-import React, {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
+import React, {useLayoutEffect, useMemo, useRef, useState} from "react";
 
 import {
   calculateTableColumnGeometry,
@@ -24,112 +24,19 @@ export interface TableManagedColumnsProps extends Omit<ComponentPropsWithRef<"di
   viewportWidth?: number;
 }
 
-function usePinnedShadowSync(
-  containerRef: React.RefObject<HTMLDivElement | null>,
-  geometry: TableColumnGeometry,
-  enabled: boolean,
-) {
-  const geometryRef = useRef(geometry);
+const clearManagedCell = (cell: HTMLElement) => {
+  delete cell.dataset["managedPinned"];
+  delete cell.dataset["pinned"];
+  delete cell.dataset["managedColumnIndex"];
+  delete cell.dataset["pinnedShadow"];
+  cell.style.removeProperty("--table-pinned-offset");
+};
 
-  const viewportRef = useRef<HTMLElement | null>(null);
-  const shadowStateRef = useRef({end: "", start: ""});
-  const updateShadows = useCallback(
-    (force = false) => {
-      const container = containerRef.current;
-      const viewport = viewportRef.current;
-
-      if (!enabled || !container || !viewport) return;
-
-      const currentGeometry = geometryRef.current;
-      const direction = getComputedStyle(viewport).direction === "rtl" ? "rtl" : "ltr";
-      const scrollOffset = normalizeTableScrollOffset(
-        viewport.scrollLeft,
-        Math.max(0, currentGeometry.totalWidth - currentGeometry.viewportWidth),
-        direction,
-      );
-      const shadows = getTablePinnedShadowColumns(currentGeometry, scrollOffset);
-      const nextEnd = shadows.end == null ? "" : String(shadows.end.index + 1);
-      const nextStart = shadows.start == null ? "" : String(shadows.start.index + 1);
-      const state = shadowStateRef.current;
-
-      const syncShadowCells = (side: "end" | "start", columnIndex: string) => {
-        for (const cell of container.querySelectorAll<HTMLElement>(`[data-pinned="${side}"]`)) {
-          if (cell.dataset["managedColumnIndex"] === columnIndex) cell.dataset["pinnedShadow"] = "";
-          else delete cell.dataset["pinnedShadow"];
-        }
-      };
-
-      if (nextStart !== state.start || force) {
-        state.start = nextStart;
-        if (nextStart) container.dataset["tableStartShadow"] = nextStart;
-        else delete container.dataset["tableStartShadow"];
-        syncShadowCells("start", nextStart);
-      }
-
-      if (nextEnd !== state.end || force) {
-        state.end = nextEnd;
-        if (nextEnd) container.dataset["tableEndShadow"] = nextEnd;
-        else delete container.dataset["tableEndShadow"];
-        syncShadowCells("end", nextEnd);
-      }
-    },
-    [containerRef, enabled],
-  );
-
-  useLayoutEffect(() => {
-    geometryRef.current = geometry;
-  }, [geometry]);
-
-  useLayoutEffect(() => {
-    const container = containerRef.current;
-
-    if (!enabled || !container) return;
-
-    const viewport =
-      container.querySelector<HTMLElement>(
-        '[data-slot="table-scroll-container"], [data-slot="table-resizable-container"]',
-      ) ?? container;
-
-    viewportRef.current = viewport;
-
-    let frame: number | undefined;
-    const scheduleUpdate = () => {
-      if (frame == null) {
-        frame = requestAnimationFrame(() => {
-          frame = undefined;
-          updateShadows();
-        });
-      }
-    };
-
-    updateShadows();
-    viewport.addEventListener("scroll", scheduleUpdate, {passive: true});
-    const observer = new MutationObserver(() => updateShadows(true));
-
-    observer.observe(container, {
-      attributeFilter: ["data-managed-column-index", "data-pinned"],
-      attributes: true,
-      childList: true,
-      subtree: true,
-    });
-
-    return () => {
-      observer.disconnect();
-      viewport.removeEventListener("scroll", scheduleUpdate);
-      if (frame != null) cancelAnimationFrame(frame);
-      viewportRef.current = null;
-      shadowStateRef.current = {end: "", start: ""};
-      delete container.dataset["tableEndShadow"];
-      delete container.dataset["tableStartShadow"];
-      for (const cell of container.querySelectorAll<HTMLElement>("[data-pinned-shadow]")) {
-        delete cell.dataset["pinnedShadow"];
-      }
-    };
-  }, [containerRef, enabled, updateShadows]);
-
-  useLayoutEffect(() => updateShadows(), [geometry, updateShadows]);
-}
-
+/**
+ * Native pinning. Header cells get `data-pinned` and the offset from `Table.Column` props; body and
+ * summary cells don't know their column, so they are matched by position. Shadows mark the
+ * innermost pinned column on each side that is currently stuck.
+ */
 function useManagedPinnedCells(
   containerRef: React.RefObject<HTMLDivElement | null>,
   geometry: TableColumnGeometry,
@@ -140,18 +47,42 @@ function useManagedPinnedCells(
 
     if (!enabled || !container) return;
 
-    const sync = () => {
+    const viewport =
+      container.querySelector<HTMLElement>(
+        '[data-slot="table-scroll-container"], [data-slot="table-resizable-container"]',
+      ) ?? container;
+    const shadows = {end: "", start: ""};
+
+    const syncShadows = (force: boolean) => {
+      const direction = getComputedStyle(viewport).direction === "rtl" ? "rtl" : "ltr";
+      const scrollOffset = normalizeTableScrollOffset(
+        viewport.scrollLeft,
+        Math.max(0, geometry.totalWidth - geometry.viewportWidth),
+        direction,
+      );
+      const next = getTablePinnedShadowColumns(geometry, scrollOffset);
+
+      for (const side of ["start", "end"] as const) {
+        const columnIndex = next[side] == null ? "" : String(next[side].index + 1);
+
+        if (columnIndex === shadows[side] && !force) continue;
+        shadows[side] = columnIndex;
+
+        for (const cell of container.querySelectorAll<HTMLElement>(`[data-pinned="${side}"]`)) {
+          if (cell.dataset["managedColumnIndex"] === columnIndex) cell.dataset["pinnedShadow"] = "";
+          else delete cell.dataset["pinnedShadow"];
+        }
+      }
+    };
+
+    const syncCells = () => {
       const targets = new Set<HTMLElement>();
 
       for (const column of geometry.columns) {
         if (!column.pinned) continue;
 
         const index = column.index + 1;
-        const selector = [
-          `thead tr > *:nth-child(${index})`,
-          `tbody tr > *:nth-child(${index})`,
-          `tfoot tr > *:nth-child(${index})`,
-        ].join(",");
+        const selector = `tbody tr > *:nth-child(${index}), tfoot tr > *:nth-child(${index})`;
         const offset = `${column.pinnedOffset ?? 0}px`;
 
         for (const cell of container.querySelectorAll<HTMLElement>(selector)) {
@@ -168,18 +99,23 @@ function useManagedPinnedCells(
       }
 
       for (const cell of container.querySelectorAll<HTMLElement>("[data-managed-pinned]")) {
-        if (targets.has(cell)) continue;
-        delete cell.dataset["managedPinned"];
-        delete cell.dataset["pinned"];
-        delete cell.dataset["managedColumnIndex"];
-        delete cell.dataset["pinnedShadow"];
-        cell.style.removeProperty("--table-pinned-offset");
+        if (!targets.has(cell)) clearManagedCell(cell);
       }
+
+      syncShadows(true);
     };
 
-    sync();
+    let frame: number | undefined;
+    const scheduleShadows = () => {
+      frame ??= requestAnimationFrame(() => {
+        frame = undefined;
+        syncShadows(false);
+      });
+    };
 
-    const observer = new MutationObserver(sync);
+    syncCells();
+
+    const observer = new MutationObserver(syncCells);
 
     observer.observe(container, {
       attributeFilter: ["data-managed-pinned", "data-pinned", "style"],
@@ -187,15 +123,18 @@ function useManagedPinnedCells(
       childList: true,
       subtree: true,
     });
+    viewport.addEventListener("scroll", scheduleShadows, {passive: true});
 
     return () => {
       observer.disconnect();
+      viewport.removeEventListener("scroll", scheduleShadows);
+      if (frame != null) cancelAnimationFrame(frame);
       for (const cell of container.querySelectorAll<HTMLElement>("[data-managed-pinned]")) {
-        delete cell.dataset["managedPinned"];
-        delete cell.dataset["pinned"];
-        delete cell.dataset["managedColumnIndex"];
+        clearManagedCell(cell);
+      }
+      // Header cells keep their React-owned `data-pinned`; only the shadow is ours.
+      for (const cell of container.querySelectorAll<HTMLElement>("[data-pinned-shadow]")) {
         delete cell.dataset["pinnedShadow"];
-        cell.style.removeProperty("--table-pinned-offset");
       }
     };
   }, [containerRef, enabled, geometry]);
@@ -283,16 +222,9 @@ export const TableManagedColumns = React.forwardRef<HTMLDivElement, TableManaged
     ]);
 
     useManagedPinnedCells(containerRef, geometry, geometryMode === "native");
-    usePinnedShadowSync(containerRef, geometry, geometryMode === "native");
 
     return (
-      <div
-        ref={mergedContainerRef}
-        data-slot="table-managed-columns"
-        data-table-geometry=""
-        style={style}
-        {...props}
-      >
+      <div ref={mergedContainerRef} data-slot="table-managed-columns" style={style} {...props}>
         <TableManagedColumnsContext value={context}>{children}</TableManagedColumnsContext>
       </div>
     );

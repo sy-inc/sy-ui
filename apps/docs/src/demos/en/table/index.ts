@@ -11,3 +11,4 @@ export {ExpandableRows} from "./expandable-rows";
 export {PaginationDemo} from "./pagination";
 export {Virtualization} from "./virtualization";
 export {TanstackTable} from "./tanstack-table";
+export {Reorder} from "./reorder";

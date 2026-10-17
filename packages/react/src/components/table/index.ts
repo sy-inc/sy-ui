@@ -7,6 +7,7 @@ import {
   TableColumn,
   TableColumnResizer,
   TableContent,
+  TableDragHandle,
   TableFooter,
   TableHeader,
   TableLoadMoreContent,
@@ -34,6 +35,7 @@ export const Table = Object.assign(TableRoot, {
   Column: TableColumn,
   ColumnResizer: TableColumnResizer,
   Content: TableContent,
+  DragHandle: TableDragHandle,
   Footer: TableFooter,
   Header: TableHeader,
   LoadMore: TableLoadMoreItem,
@@ -63,6 +65,7 @@ export type Table = {
   RowProps: ComponentProps<typeof TableRow>;
   CellProps: ComponentProps<typeof TableCell>;
   SelectionCheckboxProps: ComponentProps<typeof TableSelectionCheckbox>;
+  DragHandleProps: ComponentProps<typeof TableDragHandle>;
   FooterProps: ComponentProps<typeof TableFooter>;
   LoadMoreProps: ComponentProps<typeof TableLoadMoreItem>;
   LoadMoreContentProps: ComponentProps<typeof TableLoadMoreContent>;
@@ -89,6 +92,7 @@ export {
   TableRow,
   TableCell,
   TableSelectionCheckbox,
+  TableDragHandle,
   TableFooter,
   TableCollection,
   TableLoadMoreItem,
@@ -114,6 +118,7 @@ export type {
   TableRowProps,
   TableCellProps,
   TableSelectionCheckboxProps,
+  TableDragHandleProps,
   TableFooterProps,
   TableLoadMoreItemProps,
   TableLoadMoreContentProps,

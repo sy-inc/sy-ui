@@ -2550,6 +2550,10 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./table/custom-styles").then((m) => m.CustomStyles),
     file: "en/table/custom-styles.tsx",
   },
+  "table-reorder": {
+    loader: () => import("./table/reorder").then((m) => m.Reorder),
+    file: "en/table/reorder.tsx",
+  },
 
   // Tabs Demo
   "tabs-basic": {
@@ -3035,6 +3039,10 @@ export const demos: Record<string, DemoItem> = {
   "list-view-default": {
     loader: () => import("./list-view/default").then((m) => m.Default),
     file: "en/list-view/default.tsx",
+  },
+  "list-view-reorder": {
+    loader: () => import("./list-view/reorder").then((m) => m.Reorder),
+    file: "en/list-view/reorder.tsx",
   },
 
   // Release Demos

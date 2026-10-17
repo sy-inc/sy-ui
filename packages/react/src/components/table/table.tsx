@@ -1,6 +1,7 @@
 "use client";
 
 import type {DOMRenderProps} from "../../utils/dom";
+import type {ButtonProps} from "../button";
 import type {TableVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentProps, ComponentPropsWithRef, ReactNode} from "react";
 import type {SortDescriptor} from "react-aria-components/Table";
@@ -16,6 +17,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import {composeRenderProps} from "react-aria-components/composeRenderProps";
 import {
   Cell as CellPrimitive,
   Collection as CollectionPrimitive,
@@ -29,12 +31,12 @@ import {
   Table as TablePrimitive,
   TableFooter as TableSummaryPrimitive,
 } from "react-aria-components/Table";
-import {cx} from "tailwind-variants";
 
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
+import {Button} from "../button";
 import {Checkbox} from "../checkbox";
-import {IconChevronDown, IconChevronUp} from "../icons";
+import {IconChevronDown, IconChevronUp, IconGripVertical} from "../icons";
 import {Tooltip} from "../tooltip";
 
 import {TableGeometryModeContext, TableManagedColumnsContext} from "./table-context";
@@ -70,8 +72,8 @@ interface TableRootProps<
 const TableRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
   children,
   className,
-  isTruncate = false,
   isResizable = false,
+  isTruncate = false,
   onResize,
   onResizeEnd,
   onResizeStart,
@@ -227,16 +229,17 @@ interface TableColumnProps extends ComponentPropsWithRef<typeof ColumnPrimitive>
 }
 
 const TableColumn = ({
-  className,
   children,
+  className,
   defaultWidth,
   id,
   maxWidth,
   minWidth,
   ref,
   style,
-  width,
+  textValue,
   tooltipProps,
+  width,
   ...props
 }: TableColumnProps) => {
   const {isResizable, isTruncate, slots} = use(TableContext);
@@ -253,46 +256,23 @@ const TableColumn = ({
         width: column.width,
       }
     : undefined;
-  const isSelectionCheckbox =
-    React.isValidElement(children) && children.type === TableSelectionCheckbox;
+  const shouldTruncate =
+    isTruncate && !(React.isValidElement(children) && children.type === TableSelectionCheckbox);
   const resolvedChildren =
-    (isTruncate && !isSelectionCheckbox) || isResizable ? (
-      typeof children === "function" ? (
-        (values: unknown) => (
+    shouldTruncate || isResizable
+      ? composeRenderProps(children, (node) => (
           <>
-            {isTruncate && !isSelectionCheckbox ? (
-              <TableOverflow
-                tooltip
-                tooltipProps={tooltipProps}
-                className="block max-w-full min-w-0 truncate"
-              >
-                {(children as (values: unknown) => ReactNode)(values)}
+            {shouldTruncate ? (
+              <TableOverflow tooltip tooltipProps={tooltipProps}>
+                {node}
               </TableOverflow>
             ) : (
-              (children as (values: unknown) => ReactNode)(values)
+              node
             )}
             {isResizable ? <TableColumnResizer /> : null}
           </>
-        )
-      ) : (
-        <>
-          {isTruncate && !isSelectionCheckbox ? (
-            <TableOverflow
-              tooltip
-              tooltipProps={tooltipProps}
-              className="block max-w-full min-w-0 truncate"
-            >
-              {children}
-            </TableOverflow>
-          ) : (
-            children
-          )}
-          {isResizable ? <TableColumnResizer /> : null}
-        </>
-      )
-    ) : (
-      children
-    );
+        ))
+      : children;
 
   return (
     <ColumnPrimitive
@@ -305,6 +285,7 @@ const TableColumn = ({
       id={id}
       maxWidth={definition?.maxWidth ?? maxWidth}
       minWidth={definition?.minWidth ?? minWidth}
+      textValue={textValue ?? (typeof children === "string" ? children : undefined)}
       width={column?.width ?? width}
       style={
         typeof style === "function"
@@ -404,32 +385,54 @@ function TableRow<T extends object>({className, ...props}: TableRowProps<T>) {
  * -----------------------------------------------------------------------------------------------*/
 type TableCellProps = ComponentPropsWithRef<typeof CellPrimitive>;
 
-const TableCell = ({className, ref, ...props}: TableCellProps) => {
+/**
+ * Workaround for https://github.com/adobe/react-spectrum/issues/10423 (fix pending in
+ * https://github.com/adobe/react-spectrum/pull/10602). In a draggable row, React Aria means to drop
+ * the cell's tabindex on pointer down so the browser does not focus it, but that guard never runs.
+ * The focused cell then moves focus into its first focusable child (e.g. `Table.DragHandle`), and
+ * Chromium and WebKit cancel the native drag, so the first drag on that row does nothing.
+ * Delete this, and its `onPointerDown` wiring below, once react-aria-components ships the fix.
+ */
+const releaseCellFocusOnDragPress = (event: React.PointerEvent<HTMLElement>) => {
+  const cell = event.currentTarget;
+  const tabIndex = cell.getAttribute("tabindex");
+
+  if (tabIndex == null || !cell.closest('[draggable="true"]')) return;
+
+  cell.removeAttribute("tabindex");
+  requestAnimationFrame(() => cell.setAttribute("tabindex", tabIndex));
+};
+
+const TableCell = ({
+  children,
+  className,
+  onPointerDown,
+  ref,
+  textValue,
+  ...props
+}: TableCellProps) => {
   const {isTruncate, slots} = use(TableContext);
-  const children = isTruncate ? (
-    typeof props.children === "function" ? (
-      (values: unknown) => (
-        <div className="max-w-full min-w-0 truncate" data-slot="table-cell-content">
-          {(props.children as (values: unknown) => ReactNode)(values)}
-        </div>
-      )
-    ) : (
-      <div className="max-w-full min-w-0 truncate" data-slot="table-cell-content">
-        {props.children}
-      </div>
-    )
-  ) : (
-    props.children
-  );
 
   return (
     <CellPrimitive
       ref={ref}
       className={composeTwRenderProps(className, slots?.cell())}
       data-slot="table-cell"
+      // Wrapped children hide the string React Aria reads for the row's name (typeahead, drag handle).
+      textValue={textValue ?? (typeof children === "string" ? children : undefined)}
       {...props}
+      onPointerDown={(event) => {
+        releaseCellFocusOnDragPress(event);
+        onPointerDown?.(event);
+      }}
     >
-      {children}
+      {isTruncate
+        ? composeRenderProps(children, (node) => (
+            <div className={slots?.overflow()} data-slot="table-cell-content">
+              {node}
+            </div>
+          ))
+        : children}
     </CellPrimitive>
   );
 };
@@ -446,6 +449,32 @@ const TableSelectionCheckbox = (props: TableSelectionCheckboxProps) => (
 );
 
 TableSelectionCheckbox.displayName = "SY INC.Table.SelectionCheckbox";
+
+/* -------------------------------------------------------------------------------------------------
+ * Table Drag Handle — the row's `slot="drag"` button. React Aria wires it for keyboard and
+ * screen-reader dragging and names it from the row's text; pointer drags start anywhere on the row.
+ * -----------------------------------------------------------------------------------------------*/
+interface TableDragHandleProps extends ButtonProps {}
+
+const TableDragHandle = ({children, className, ...props}: TableDragHandleProps) => {
+  const {slots} = use(TableContext);
+
+  return (
+    <Button
+      {...props}
+      isIconOnly
+      className={composeTwRenderProps(className, slots?.dragHandle())}
+      data-slot="table-drag-handle"
+      size="sm"
+      slot="drag"
+      variant="ghost"
+    >
+      {children ?? <IconGripVertical />}
+    </Button>
+  );
+};
+
+TableDragHandle.displayName = "SY INC.Table.DragHandle";
 
 /* -------------------------------------------------------------------------------------------------
  * Table Overflow
@@ -484,8 +513,6 @@ const TableOverflow = ({
     const element = localRef.current;
 
     if (!element) return;
-
-    updateOverflow();
 
     const observer = new ResizeObserver(updateOverflow);
 
@@ -636,12 +663,13 @@ const TableResizableContainer = ({
   ref,
   ...props
 }: TableResizableContainerProps) => {
+  const {slots} = use(TableContext);
   const managedColumns = use(TableManagedColumnsContext);
 
   return (
     <ResizableTableContainerPrimitive
       ref={ref}
-      className={cx("table__resizable-container", className)}
+      className={slots?.resizableContainer({className})}
       data-slot="table-resizable-container"
       onResize={(widths) => {
         if (managedColumns) {
@@ -859,6 +887,7 @@ export {
   TableRow,
   TableCell,
   TableSelectionCheckbox,
+  TableDragHandle,
   TableFooter,
   TableCollection,
   TableLoadMoreItem,
@@ -881,6 +910,7 @@ export type {
   TableRowProps,
   TableCellProps,
   TableSelectionCheckboxProps,
+  TableDragHandleProps,
   TableFooterProps,
   TableLoadMoreItemProps,
   TableLoadMoreContentProps,
