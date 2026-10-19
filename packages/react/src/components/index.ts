@@ -37,6 +37,7 @@ export * from "./color-swatch";
 export * from "./color-swatch-picker";
 export * from "./close-button";
 export * from "./combo-box";
+export * from "./content-toc";
 export * from "./countdown";
 export * from "./date-field";
 export * from "./date-picker";

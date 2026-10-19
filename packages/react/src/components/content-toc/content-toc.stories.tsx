@@ -1,15 +1,70 @@
-"use client";
-
-import type {ContentTocProps} from "./content-toc";
+import type {ContentTocProps} from "./index";
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {useEffect, useId, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {tv} from "tailwind-variants";
 
-import {ToggleButton} from "../../components/toggle-button";
-import {ToggleButtonGroup} from "../../components/toggle-button-group";
+import {Button} from "../button";
+import {ToggleButton} from "../toggle-button";
+import {ToggleButtonGroup} from "../toggle-button-group";
 
-import {ContentToc} from "./content-toc";
-import {contentTocStoryVariants} from "./content-toc.styles";
+import {ContentToc} from "./index";
+
+/* Demo canvas only. ContentToc itself never positions or caps itself: placement is the consumer's. */
+const demo = tv({
+  slots: {
+    canvas: "min-h-screen bg-background p-4 text-foreground sm:p-8",
+    frame:
+      "relative mx-auto max-w-6xl overflow-hidden rounded-2xl border border-border bg-surface shadow-sm",
+    toolbar: "flex flex-wrap items-center justify-between gap-4 border-b border-border px-6 py-4",
+    identity: "flex items-center gap-3",
+    monogram:
+      "flex size-9 items-center justify-center rounded-lg bg-foreground text-xs font-semibold text-background",
+    toolbarTitle: "text-sm font-semibold",
+    eyebrow: "text-xs tracking-wide text-muted",
+    controls: "flex flex-wrap items-center gap-3",
+    controlLabel: "mb-1.5 block text-[10px] font-medium tracking-wider text-muted",
+    reader:
+      "h-[min(760px,82vh)] min-h-96 overflow-y-auto overscroll-contain outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-inset",
+    layout: "grid items-start gap-10 p-6 md:gap-12 md:p-10 lg:gap-20 lg:px-14",
+    article: "min-w-0",
+    articleHeader: "space-y-5 border-b border-border pb-9",
+    breadcrumb: "text-xs font-medium tracking-widest text-accent uppercase",
+    title: "text-3xl leading-tight font-semibold tracking-tight sm:text-4xl",
+    lead: "max-w-xl text-base leading-8 text-muted",
+    meta: "flex items-center gap-3 text-xs text-muted",
+    dot: "size-1 rounded-full bg-muted/50",
+    section: "space-y-5 border-b border-border py-9 last:border-0 last:pb-28",
+    heading:
+      "scroll-mt-10 text-xl leading-relaxed font-semibold tracking-tight outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-focus",
+    paragraph: "text-sm leading-8 text-muted",
+    callout:
+      "rounded-xl border border-accent/15 bg-accent/5 px-5 py-4 text-sm leading-7 text-foreground",
+    calloutLabel: "mb-1 block text-xs font-semibold tracking-wide text-accent",
+    example:
+      "rounded-xl border border-border bg-background p-5 font-mono text-xs leading-7 text-muted",
+    aside:
+      "sticky top-6 order-first self-start rounded-xl bg-surface/95 backdrop-blur-sm max-md:static md:top-10 md:order-last",
+    asideList: "max-h-44 md:max-h-[calc(min(760px,82vh)-180px)]",
+    floating: "absolute right-4 bottom-16 z-20 max-w-[calc(100%-32px)] sm:right-7",
+    footer:
+      "flex flex-wrap items-center justify-between gap-2 border-t border-border px-6 py-3 text-xs text-muted",
+    status: "flex items-center gap-2",
+    statusDot: "size-1.5 rounded-full bg-accent",
+  },
+  variants: {
+    depth: {
+      2: {},
+      3: {heading: "text-lg"},
+      4: {heading: "text-base"},
+    },
+    presentation: {
+      sidebar: {layout: "md:grid-cols-[minmax(0,1fr)_228px]"},
+      floating: {layout: "mx-auto max-w-3xl grid-cols-1"},
+    },
+  },
+  defaultVariants: {presentation: "sidebar"},
+});
 
 const sections = [
   {
@@ -91,7 +146,7 @@ function ContentTocPreview({
   initialVariant = "circuit",
 }: {
   initialPresentation?: ContentTocProps["presentation"];
-  initialVariant?: ContentTocProps["highlightVariant"];
+  initialVariant?: ContentTocProps["variant"];
 }) {
   const [variant, setVariant] = useState(initialVariant);
   const [presentation, setPresentation] = useState(initialPresentation);
@@ -100,7 +155,7 @@ function ContentTocPreview({
   const articleRef = useRef<HTMLElement>(null);
   const previousPresentation = useRef(presentation);
   const prefix = useId();
-  const styles = contentTocStoryVariants({presentation});
+  const styles = demo({presentation});
   const items = useMemo(
     () => sections.map(({depth, id, title}) => ({depth, id: `${prefix}-${id}`, title})),
     [prefix],
@@ -176,11 +231,16 @@ function ContentTocPreview({
   const toc = (
     <ContentToc
       activeId={items[active]!.id}
-      highlightVariant={variant}
+      className={presentation === "sidebar" ? styles.aside() : styles.floating()}
       items={items}
+      label="本页目录"
       presentation={presentation}
+      variant={variant}
       onNavigate={navigate}
-    />
+    >
+      <ContentToc.Title />
+      <ContentToc.List className={presentation === "sidebar" ? styles.asideList() : undefined} />
+    </ContentToc>
   );
 
   return (
@@ -263,7 +323,7 @@ function ContentTocPreview({
                   <section key={section.id} className={styles.section()}>
                     <Heading
                       data-toc-heading
-                      className={contentTocStoryVariants({depth: section.depth}).heading()}
+                      className={demo({depth: section.depth}).heading()}
                       id={`${prefix}-${section.id}`}
                       tabIndex={-1}
                     >
@@ -307,24 +367,65 @@ function ContentTocPreview({
   );
 }
 
+const formSections = [
+  {depth: 2, id: "basics", title: "基本信息"},
+  {depth: 2, id: "rules", title: "优惠规则"},
+  {depth: 3, id: "threshold", title: "门槛与叠加"},
+  {depth: 2, id: "schedule", title: "活动时间"},
+] satisfies ContentTocProps["items"];
+
+function FormOutlinePreview() {
+  const [active, setActive] = useState("basics");
+  const [invalid, setInvalid] = useState(new Set(["rules", "schedule"]));
+
+  return (
+    <div className="flex items-start gap-10 p-8">
+      <ContentToc
+        activeId={active}
+        className="w-56"
+        items={formSections}
+        label="表单目录"
+        onNavigate={setActive}
+      >
+        <ContentToc.Title />
+        <ContentToc.List>
+          {(item) => (
+            <ContentToc.Item>
+              <span className="min-w-0 flex-1">{item.title}</span>
+              {invalid.has(item.id) && (
+                <span aria-label="有错误" className="size-1.5 shrink-0 rounded-full bg-danger" />
+              )}
+            </ContentToc.Item>
+          )}
+        </ContentToc.List>
+      </ContentToc>
+      <Button variant="secondary" onPress={() => setInvalid(new Set())}>
+        修正全部错误
+      </Button>
+    </div>
+  );
+}
+
 const meta = {
-  title: "Components/Navigation/Content TOC",
-  parameters: {
-    layout: "fullscreen",
-    docs: {
-      description: {
-        component:
-          "统一的 Content TOC 交互原型。侧边常驻与浮动展开共用目录、高亮及轨道实现，可分别切换展示方式和 Straight / Circuit 样式。尚未接入文档站或导出为公共组件。",
-      },
-    },
-  },
-} satisfies Meta;
+  title: "Components/ContentToc",
+  component: ContentToc,
+  args: {items: [], label: ""},
+  parameters: {layout: "fullscreen"},
+} satisfies Meta<typeof ContentToc>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Circuit: Story = {render: () => <ContentTocPreview initialVariant="circuit" />};
-export const Straight: Story = {render: () => <ContentTocPreview initialVariant="straight" />};
-
-export const Floating: Story = {render: () => <ContentTocPreview initialPresentation="floating" />};
+export const Circuit: Story = {
+  render: () => <ContentTocPreview initialVariant="circuit" />,
+};
+export const Straight: Story = {
+  render: () => <ContentTocPreview initialVariant="straight" />,
+};
+export const Floating: Story = {
+  render: () => <ContentTocPreview initialPresentation="floating" />,
+};
+export const WithStatusMarkers: Story = {
+  render: () => <FormOutlinePreview />,
+};

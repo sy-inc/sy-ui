@@ -1,0 +1,129 @@
+---
+title: ContentToc 内容目录
+description: 用轨道高亮当前章节的页面目录，可常驻侧边或从浮动按钮展开。
+links:
+  source: content-toc/content-toc.tsx
+  storybook: Components/ContentToc
+---
+
+## 用法
+
+```tsx
+import {ContentToc} from '@sy-inc/react';
+
+const items = [
+  {id: 'overview', depth: 2, title: '概览'},
+  {id: 'anchors', depth: 3, title: '标题与锚点'},
+  {id: 'next', depth: 2, title: '下一步'},
+];
+
+export default function Example({activeId}: {activeId: string}) {
+  return (
+    <ContentToc
+      activeId={activeId}
+      className="sticky top-24"
+      items={items}
+      label="本页目录"
+      onNavigate={(id) => document.getElementById(id)?.scrollIntoView({behavior: 'smooth'})}
+    >
+      <ContentToc.Title />
+      <ContentToc.List className="max-h-[calc(100vh-10rem)]" />
+    </ContentToc>
+  );
+}
+```
+
+`activeId` 是受控的。按页面需要自行计算——监听标题滚动、当前聚焦的表单字段或路由 hash——再传入即可。
+
+## 结构
+
+```tsx
+<ContentToc>
+  <ContentToc.Title />
+  <ContentToc.List>
+    {(item) => <ContentToc.Item />}
+  </ContentToc.List>
+</ContentToc>
+```
+
+## 定位与高度
+
+ContentToc 不会自行定位。`sticky`、`fixed` 和偏移写在根节点的 `className` 上，滚动列表的高度上限用 `ContentToc.List` 的 `max-h-*` 控制。列表会让当前项保持在可视范围内。浮动面板中的列表默认上限为 `min(420px, 60vh)`。
+
+## 浮动展示
+
+`presentation="floating"` 会把常驻目录换成一个按钮，显示当前位置（`2 / 9`）和当前章节。目录在非模态弹层中展开，跳转后自动关闭。
+
+```tsx
+<ContentToc
+  activeId={activeId}
+  className="fixed right-6 bottom-6 z-20"
+  items={items}
+  label="本页目录"
+  presentation="floating"
+  onNavigate={go}
+>
+  <ContentToc.Title />
+  <ContentToc.List />
+</ContentToc>
+```
+
+## 自定义目录项
+
+`ContentToc.List` 默认为每个条目渲染一个只含标题的 `ContentToc.Item`。传入渲染函数即可追加内容，例如校验状态标记。
+
+```tsx
+<ContentToc.List>
+  {(item) => (
+    <ContentToc.Item>
+      <span className="min-w-0 flex-1">{item.title}</span>
+      {errors[item.id] && (
+        <span aria-label="有错误" role="img" className="size-1.5 rounded-full bg-danger" />
+      )}
+    </ContentToc.Item>
+  )}
+</ContentToc.List>
+```
+
+在目录项的 `onClick` 中调用 `event.preventDefault()` 会跳过 `onNavigate`。
+
+## Props
+
+### ContentToc
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `items` | `ContentTocEntry[]` | — | 每个章节的 `{id, depth: 2 \| 3 \| 4, title}`。为空时不渲染。 |
+| `label` | `string` | — | 目录的无障碍名称，也是浮动按钮上的文案。 |
+| `activeId` | `string` | — | 当前所在章节的 id。 |
+| `onNavigate` | `(id: string) => void` | — | 选择条目时调用。链接不会跳转到 hash。 |
+| `presentation` | `"sidebar" \| "floating"` | `"sidebar"` | 常驻目录或浮动按钮。 |
+| `variant` | `"straight" \| "circuit"` | `"circuit"` | 直线轨道，或随标题层级折进的轨道。 |
+
+根节点透传原生 `nav` 属性（浮动展示时为 `div`）。
+
+### ContentToc.Title
+
+原生 `div` 属性。没有 children 时显示 `label`。
+
+### ContentToc.List
+
+原生 `div` 属性，另有 `children?: (item: ContentTocEntry) => ReactNode`。
+
+### ContentToc.Item
+
+除 `href`（固定为 `#<id>`）外的原生 `a` 属性。没有 children 时显示条目标题。
+
+## 样式
+
+| `data-slot` | 元素 | 属性 |
+| --- | --- | --- |
+| `content-toc` | 根节点 | `data-presentation`、`data-variant` |
+| `content-toc-title` | 标题 | |
+| `content-toc-list` | 滚动容器 | |
+| `content-toc-item` | 链接 | `data-active`、`data-depth` |
+| `content-toc-trigger` | 浮动按钮 | |
+
+## 无障碍
+
+目录是以 `label` 命名的 `nav` 地标。当前链接带有 `aria-current="location"`，除颜色外还通过字重区分。浮动展示时，按钮的名称包含 label、位置和当前章节；弹层是以 `label` 命名的对话框，按 Escape 关闭并把焦点还给按钮。

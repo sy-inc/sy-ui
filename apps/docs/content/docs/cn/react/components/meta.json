@@ -46,6 +46,7 @@
     "(colors)/color-swatch",
     "(colors)/color-swatch-picker",
     "(pickers)/combo-box",
+    "(navigation)/content-toc",
     "(date-and-time)/countdown",
     "(date-and-time)/date-field",
     "(date-and-time)/date-picker",

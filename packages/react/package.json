@@ -48,6 +48,11 @@
       "import": "./src/components/checkbox-button-group/index.ts",
       "default": "./src/components/checkbox-button-group/index.ts"
     },
+    "./content-toc": {
+      "types": "./src/components/content-toc/index.ts",
+      "import": "./src/components/content-toc/index.ts",
+      "default": "./src/components/content-toc/index.ts"
+    },
     "./countdown": {
       "types": "./src/components/countdown/index.ts",
       "import": "./src/components/countdown/index.ts",

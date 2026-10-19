@@ -1,0 +1,129 @@
+---
+title: ContentToc
+description: A page outline whose rail highlights the section in view, shown inline or from a floating trigger.
+links:
+  source: content-toc/content-toc.tsx
+  storybook: Components/ContentToc
+---
+
+## Usage
+
+```tsx
+import {ContentToc} from '@sy-inc/react';
+
+const items = [
+  {id: 'overview', depth: 2, title: 'Overview'},
+  {id: 'anchors', depth: 3, title: 'Headings and anchors'},
+  {id: 'next', depth: 2, title: 'Next steps'},
+];
+
+export default function Example({activeId}: {activeId: string}) {
+  return (
+    <ContentToc
+      activeId={activeId}
+      className="sticky top-24"
+      items={items}
+      label="On this page"
+      onNavigate={(id) => document.getElementById(id)?.scrollIntoView({behavior: 'smooth'})}
+    >
+      <ContentToc.Title />
+      <ContentToc.List className="max-h-[calc(100vh-10rem)]" />
+    </ContentToc>
+  );
+}
+```
+
+`activeId` is controlled. Compute it however fits the page — a scroll-spy over headings, the focused form field, the current route hash — and pass it in.
+
+## Anatomy
+
+```tsx
+<ContentToc>
+  <ContentToc.Title />
+  <ContentToc.List>
+    {(item) => <ContentToc.Item />}
+  </ContentToc.List>
+</ContentToc>
+```
+
+## Placement and height
+
+ContentToc never positions itself. Put `sticky`, `fixed` and offsets in the root `className`, and cap the scrollable list with `max-h-*` on `ContentToc.List`. The list keeps the active entry scrolled into view. Inside the floating panel the list defaults to `min(420px, 60vh)`.
+
+## Floating presentation
+
+`presentation="floating"` replaces the inline outline with a trigger that shows the position (`2 / 9`) and the current section. The outline opens in a non-modal popover and closes after navigation.
+
+```tsx
+<ContentToc
+  activeId={activeId}
+  className="fixed right-6 bottom-6 z-20"
+  items={items}
+  label="On this page"
+  presentation="floating"
+  onNavigate={go}
+>
+  <ContentToc.Title />
+  <ContentToc.List />
+</ContentToc>
+```
+
+## Custom items
+
+`ContentToc.List` renders one `ContentToc.Item` per entry with its title. Pass a render function to add content such as a validation marker.
+
+```tsx
+<ContentToc.List>
+  {(item) => (
+    <ContentToc.Item>
+      <span className="min-w-0 flex-1">{item.title}</span>
+      {errors[item.id] && (
+        <span aria-label="Has errors" role="img" className="size-1.5 rounded-full bg-danger" />
+      )}
+    </ContentToc.Item>
+  )}
+</ContentToc.List>
+```
+
+Calling `event.preventDefault()` in an item's `onClick` skips `onNavigate`.
+
+## Props
+
+### ContentToc
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `ContentTocEntry[]` | — | `{id, depth: 2 \| 3 \| 4, title}` for each section. Renders nothing when empty. |
+| `label` | `string` | — | Accessible name of the outline and the floating trigger's label. |
+| `activeId` | `string` | — | Id of the section in view. |
+| `onNavigate` | `(id: string) => void` | — | Called when an entry is chosen. Links do not follow their hash. |
+| `presentation` | `"sidebar" \| "floating"` | `"sidebar"` | Inline outline or floating trigger. |
+| `variant` | `"straight" \| "circuit"` | `"circuit"` | Straight rail, or one that bends with the heading depth. |
+
+The root forwards native `nav` props (a `div` in floating presentation).
+
+### ContentToc.Title
+
+Native `div` props. Renders `label` when it has no children.
+
+### ContentToc.List
+
+Native `div` props, plus `children?: (item: ContentTocEntry) => ReactNode`.
+
+### ContentToc.Item
+
+Native `a` props except `href`, which is `#<id>`. Renders the entry's title when it has no children.
+
+## Styling
+
+| `data-slot` | Element | Attributes |
+| --- | --- | --- |
+| `content-toc` | Root | `data-presentation`, `data-variant` |
+| `content-toc-title` | Title | |
+| `content-toc-list` | Scroll container | |
+| `content-toc-item` | Link | `data-active`, `data-depth` |
+| `content-toc-trigger` | Floating trigger | |
+
+## Accessibility
+
+The outline is a `nav` landmark named by `label`. The active link has `aria-current="location"`, and state is shown by weight as well as color. In floating presentation the trigger's name includes the label, position and current section; the popover is a dialog named by `label`, closes on Escape and returns focus to the trigger.

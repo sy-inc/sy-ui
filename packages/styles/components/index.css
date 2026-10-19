@@ -202,3 +202,6 @@
 @import "./image-field.css";
 
 @import "./split-view.css";
+
+/* ContentToc composes Button and Popover for its floating presentation. */
+@import "./content-toc.css";

@@ -1,11 +1,13 @@
-export interface TocRow {
+export type ContentTocRailVariant = "straight" | "circuit";
+
+export interface ContentTocRow {
   depth: number;
   height: number;
   top: number;
 }
 
-export function buildTocPath(rows: TocRow[], variant: "straight" | "circuit"): string {
-  const x = (row: TocRow) => (variant === "straight" ? 10 : 10 + (row.depth - 2) * 12);
+export function buildTocPath(rows: ContentTocRow[], variant: ContentTocRailVariant): string {
+  const x = (row: ContentTocRow) => (variant === "straight" ? 10 : 10 + (row.depth - 2) * 12);
 
   return rows
     .map((row, index) => {

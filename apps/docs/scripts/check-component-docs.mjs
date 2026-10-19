@@ -43,6 +43,7 @@ export const REQUIRED_COMPONENT_DOCS = [
   "countdown",
   "image-preview",
   "image-field",
+  "content-toc",
 ];
 
 const LANGUAGES = ["en", "cn"];

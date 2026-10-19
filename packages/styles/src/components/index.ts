@@ -33,6 +33,7 @@ export * from "./color-picker/color-picker.styles";
 export * from "./cell-color-picker/cell-color-picker.styles";
 export * from "./color-slider/color-slider.styles";
 export * from "./color-swatch-picker/color-swatch-picker.styles";
+export * from "./content-toc/content-toc.styles";
 export * from "./color-swatch/color-swatch.styles";
 export * from "./combo-box/combo-box.styles";
 export * from "./date-field/date-field.styles";

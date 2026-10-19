@@ -1,8 +1,8 @@
 import {describe, expect, it} from "vitest";
 
-import {buildTocPath} from "@/stories/content-toc/content-toc.geometry";
+import {buildTocPath} from "@/components/content-toc/content-toc.geometry";
 
-describe("Content TOC story geometry", () => {
+describe("ContentToc geometry", () => {
   const rows = [
     {depth: 2, height: 36, top: 0},
     {depth: 3, height: 56, top: 36},

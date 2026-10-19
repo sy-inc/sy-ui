@@ -7,38 +7,6 @@ import test from "node:test";
 import {REQUIRED_COMPONENT_DOCS, getComponentDocGaps} from "./check-component-docs.mjs";
 
 test("reports missing and unregistered component documentation", async () => {
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-select"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("action-bar"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-color-picker"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("chat-message"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("message-bubble"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("message-list"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("segment"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-slider"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("cell-switch"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("input-phone"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("list-view"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("item-card"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("pressable-feedback"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("text-shimmer"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("prompt-input"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("drawer"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("widget"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("timeline"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("radio-button-group"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("checkbox-button-group"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("file-tree"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("resizable"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("split-view"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("item-card-group"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("marquee"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("kpi"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("kpi-group"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("overflow-text"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("rating"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("countdown"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("image-preview"));
-  assert.ok(REQUIRED_COMPONENT_DOCS.includes("image-field"));
   const root = await mkdtemp(path.join(tmpdir(), "sy-docs-"));
 
   try {

@@ -1,0 +1,128 @@
+/* ContentToc: page outline with a rail that tracks the active section.
+   Placement (sticky, fixed, offsets) belongs to the consumer's className. */
+.content-toc {
+  @apply min-w-0;
+}
+
+.content-toc__title {
+  @apply mb-4 text-xs font-semibold tracking-wider text-foreground;
+}
+
+/* Scroll container. Unbounded in the sidebar; cap it with `max-h-*` on ContentToc.List. */
+.content-toc__list {
+  @apply min-w-0 overflow-y-auto overscroll-contain;
+}
+
+.content-toc__track {
+  @apply relative isolate;
+}
+
+.content-toc__rail {
+  @apply pointer-events-none absolute top-0 left-0 overflow-visible;
+}
+
+.content-toc__rail-base {
+  @apply text-border;
+}
+
+.content-toc__rail-active {
+  @apply text-accent;
+}
+
+.content-toc__rail-clip {
+  transition:
+    transform 200ms var(--ease-smooth),
+    height 200ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+.content-toc__item {
+  @apply relative flex min-h-9 items-center gap-2 rounded-md py-2 pr-2 pl-7 text-[13px] leading-5 break-words text-muted no-underline;
+  transition: color 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-depth="3"] {
+    @apply pl-10;
+  }
+
+  &[data-depth="4"] {
+    @apply pl-13;
+  }
+
+  &:hover {
+    @apply text-foreground;
+  }
+
+  &[data-active="true"] {
+    @apply font-medium text-accent;
+  }
+
+  &:focus-visible {
+    @apply status-focused-inset;
+  }
+}
+
+/* Floating presentation: a trigger summarising the position, opening the outline in a popover. */
+.content-toc__trigger {
+  @apply h-auto min-h-16 w-64 max-w-full justify-start gap-4 rounded-2xl px-4 py-3 text-left;
+}
+
+.content-toc__trail {
+  @apply flex w-5 shrink-0 flex-col items-start gap-0.5;
+}
+
+.content-toc__trail-bar {
+  @apply block h-0.5 w-5 rounded-full bg-muted/25;
+  transition: background-color 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-depth="3"] {
+    @apply ml-1 w-4;
+  }
+
+  &[data-depth="4"] {
+    @apply ml-2 w-3;
+  }
+
+  &[data-active="true"] {
+    @apply bg-accent;
+  }
+}
+
+.content-toc__summary {
+  @apply flex min-w-0 flex-1 flex-col gap-1;
+}
+
+.content-toc__summary-label {
+  @apply flex items-center justify-between gap-3 text-[11px] font-normal text-muted;
+}
+
+.content-toc__summary-count {
+  @apply font-mono text-[10px] tabular-nums;
+}
+
+.content-toc__summary-title {
+  @apply truncate text-xs font-medium text-foreground;
+}
+
+.content-toc__indicator {
+  @apply size-3.5 shrink-0 text-muted;
+  transition: transform 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-open="true"] {
+    @apply rotate-180;
+  }
+}
+
+.content-toc__popover {
+  @apply w-80 max-w-[calc(100vw-2rem)];
+}
+
+.content-toc__dialog {
+  @apply p-5 outline-hidden;
+
+  .content-toc__list {
+    @apply max-h-[min(420px,60vh)];
+  }
+}
