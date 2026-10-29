@@ -1,6 +1,7 @@
 import type {ComponentProps} from "react";
 
 import {render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {createRef} from "react";
 
 import {InputGroup} from "@/components/input-group";
 import {Label} from "@/components/label";
@@ -70,6 +71,18 @@ describe("InputGroup", () => {
     await user.click(suffix!);
 
     expect(input).toHaveFocus();
+  });
+
+  it("exposes the group element through ref", () => {
+    const ref = createRef<HTMLDivElement>();
+
+    render(
+      <InputGroup ref={ref}>
+        <InputGroup.Input aria-label="Amount" />
+      </InputGroup>,
+    );
+
+    expect(ref.current).toHaveAttribute("data-slot", "input-group");
   });
 
   it("exposes inherited variant from TextField", () => {

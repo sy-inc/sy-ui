@@ -51,9 +51,8 @@ The root is a `div` by default. For an interactive card, render a real button so
 
 ```tsx
 <ItemCard<"button">
-  aria-label="Open billing"
-  render={({children, ...props}) => (
-    <PressableFeedback {...props} onPress={openBilling}>
+  render={({children, className, ref}) => (
+    <PressableFeedback ref={ref} aria-label="Open billing" className={className} onPress={openBilling}>
       <PressableFeedback.Highlight />
       <PressableFeedback.Ripple />
       {children}
@@ -66,13 +65,19 @@ The root is a `div` by default. For an interactive card, render a real button so
 </ItemCard>
 ```
 
+`render` receives native `button` props, which do not type-check when spread onto `PressableFeedback` (a React Aria button). Forward `className` and `ref` only, and put `aria-label`, `onPress`, and other props on `PressableFeedback` itself — it is the rendered element.
+
 The root carries no press styling of its own. Render [PressableFeedback](/docs/react/components/pressable-feedback) to get hover, focus, pressed, and disabled feedback; a plain `<button>` works too, but stays visually inert.
 
 The root takes no `disabled` prop. Set it on the element you return from `render` — `isDisabled` on
 `PressableFeedback`, `disabled` on a plain `button`:
 
 ```tsx
-render={({children, ...props}) => <PressableFeedback isDisabled {...props}>{children}</PressableFeedback>}
+render={({children, className, ref}) => (
+  <PressableFeedback ref={ref} isDisabled className={className}>
+    {children}
+  </PressableFeedback>
+)}
 ```
 
 Do not nest an action button inside a pressable root button. Compose existing `Button`, `Switch`, `Select`, `Avatar`, and `Badge` in `Action` or alongside the content instead of ItemCard-specific controls.

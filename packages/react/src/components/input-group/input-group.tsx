@@ -41,7 +41,6 @@ const InputGroupRoot = ({
 }: InputGroupRootProps) => {
   const textFieldContext = use(TextFieldContext);
   const resolvedVariant = variant ?? textFieldContext?.variant;
-  const groupRef = React.useRef<HTMLDivElement>(null);
   const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   const togglePasswordVisible = React.useCallback(() => {
@@ -54,10 +53,9 @@ const InputGroupRoot = ({
   );
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    const input = groupRef.current?.querySelector("input");
+    const input = e.currentTarget.querySelector("input");
 
-    if (input && target !== input && !input.contains(target)) {
+    if (input && !input.contains(e.target as Node)) {
       input.focus();
     }
 
@@ -73,12 +71,11 @@ const InputGroupRoot = ({
     <InputGroupContext value={inputGroupContextValue}>
       <GroupPrimitive
         {...props}
-        ref={groupRef}
         className={composeTwRenderProps(className, slots?.base())}
         data-slot="input-group"
         onClick={handleClick}
       >
-        {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
+        {children}
       </GroupPrimitive>
     </InputGroupContext>
   );

@@ -51,9 +51,8 @@ import {ItemCard} from "@sy-inc/react";
 
 ```tsx
 <ItemCard<"button">
-  aria-label="打开账单"
-  render={({children, ...props}) => (
-    <PressableFeedback {...props} onPress={openBilling}>
+  render={({children, className, ref}) => (
+    <PressableFeedback ref={ref} aria-label="打开账单" className={className} onPress={openBilling}>
       <PressableFeedback.Highlight />
       <PressableFeedback.Ripple />
       {children}
@@ -66,12 +65,18 @@ import {ItemCard} from "@sy-inc/react";
 </ItemCard>
 ```
 
+`render` 收到的是原生 `button` 属性，直接展开到 `PressableFeedback`（React Aria button）上无法通过类型检查。只转发 `className` 与 `ref`，`aria-label`、`onPress` 等属性直接写在 `PressableFeedback` 上——它才是实际渲染的元素。
+
 根节点自身不带任何按压样式。用 [PressableFeedback](/docs/react/components/pressable-feedback) 渲染即可获得 hover、focus、pressed 与 disabled 反馈；直接用原生 `<button>` 也可以，只是没有视觉反馈。
 
 根节点不再提供 `disabled` prop。请在 `render` 返回的元素上设置：`PressableFeedback` 用 `isDisabled`，原生 `button` 用 `disabled`：
 
 ```tsx
-render={({children, ...props}) => <PressableFeedback isDisabled {...props}>{children}</PressableFeedback>}
+render={({children, className, ref}) => (
+  <PressableFeedback ref={ref} isDisabled className={className}>
+    {children}
+  </PressableFeedback>
+)}
 ```
 
 不要在 pressable root button 内嵌 action button。请在 `Action` 或内容旁组合现有的 `Button`、`Switch`、`Select`、`Avatar` 和 `Badge`，不要创建 ItemCard 专属控件。
