@@ -1,11 +1,18 @@
 import type {Meta} from "@storybook/react";
+import type {Selection} from "react-aria-components/ListBox";
 
 import {Icon} from "@iconify/react";
-import React from "react";
+import React, {useState} from "react";
+import {useFilter} from "react-aria-components/Autocomplete";
 
+import {Autocomplete} from "../autocomplete";
 import {Avatar} from "../avatar";
 import {Button} from "../button";
 import {Card} from "../card";
+import {EmptyState} from "../empty-state";
+import {ListBox} from "../list-box";
+import {SearchField} from "../search-field";
+import {Separator} from "../separator";
 
 import {Popover} from "./index";
 
@@ -251,4 +258,65 @@ const CardWithHelptextTemplate = (props: Popover["ContentProps"]) => (
 export const CardWithHelptext = {
   args: defaultArgs,
   render: CardWithHelptextTemplate,
+};
+
+const tags = [
+  {id: "vip", name: "VIP"},
+  {id: "new", name: "New customer"},
+  {id: "returning", name: "Returning"},
+  {id: "wholesale", name: "Wholesale"},
+  {id: "follow-up", name: "Needs follow-up"},
+  {id: "churn-risk", name: "Churn risk"},
+];
+
+const SearchListTemplate = (props: Popover["ContentProps"]) => {
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set(["vip"]));
+  const {contains} = useFilter({sensitivity: "base"});
+
+  return (
+    <Popover>
+      <Button isIconOnly aria-label="Add tags" variant="tertiary">
+        <Icon icon="gravity-ui:plus" />
+      </Button>
+      <Popover.Content placement="bottom start" {...props} variant="list">
+        <Popover.Dialog aria-label="Tags">
+          <Autocomplete.Filter filter={contains}>
+            <SearchField autoFocus aria-label="Search tags" variant="secondary">
+              <SearchField.Group>
+                <SearchField.SearchIcon />
+                <SearchField.Input placeholder="Search tags..." />
+                <SearchField.ClearButton />
+              </SearchField.Group>
+            </SearchField>
+            <ListBox
+              aria-label="Tags"
+              renderEmptyState={() => <EmptyState>No tags found</EmptyState>}
+              selectedKeys={selectedKeys}
+              selectionMode="multiple"
+              onSelectionChange={setSelectedKeys}
+            >
+              {tags.map((tag) => (
+                <ListBox.Item key={tag.id} id={tag.id} textValue={tag.name}>
+                  {tag.name}
+                  <ListBox.ItemIndicator />
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Autocomplete.Filter>
+          <Separator />
+          <div className="p-1.5">
+            <Button fullWidth size="sm" variant="ghost">
+              <Icon icon="gravity-ui:gear" />
+              Manage tags
+            </Button>
+          </div>
+        </Popover.Dialog>
+      </Popover.Content>
+    </Popover>
+  );
+};
+
+export const SearchList = {
+  args: defaultArgs,
+  render: SearchListTemplate,
 };

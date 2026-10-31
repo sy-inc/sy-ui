@@ -6,9 +6,9 @@ import type {SurfaceVariants} from "../surface";
 import type {AutocompleteVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode, RefObject} from "react";
 
-import {mergeRefs, useResizeObserver} from "@react-aria/utils";
+import {mergeRefs} from "@react-aria/utils";
 import {autocompleteVariants} from "@sy-inc/styles";
-import React, {createContext, use, useCallback, useRef, useState} from "react";
+import React, {createContext, use, useRef} from "react";
 import {useIsHidden} from "react-aria/private/collections/Hidden";
 import {Autocomplete as AutocompletePrimitive} from "react-aria-components/Autocomplete";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
@@ -43,6 +43,8 @@ const AutocompleteContext = createContext<AutocompleteContext>({
   clearButtonRef: {current: null} as RefObject<HTMLButtonElement | null>,
   isDisabled: false,
 });
+
+const DEFAULT_SURFACE_CONTEXT = {variant: "default" as SurfaceVariants["variant"]};
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Root
@@ -215,42 +217,23 @@ interface AutocompletePopoverProps extends Omit<
   children: React.ReactNode;
 }
 
+// The popover measures `triggerRef` itself and exposes it as `--trigger-width`.
 const AutocompletePopover = ({
   children,
   className,
   placement = "bottom",
-  style,
   ...props
 }: AutocompletePopoverProps) => {
   const {slots, triggerRef} = use(AutocompleteContext);
-  const [triggerWidth, setTriggerWidth] = useState<string | null>(null);
-
-  const onResize = useCallback(() => {
-    if (triggerRef.current) {
-      setTriggerWidth(triggerRef.current.offsetWidth + "px");
-    }
-  }, [triggerRef]);
-
-  useResizeObserver({ref: triggerRef, onResize});
 
   return (
-    <SurfaceContext
-      value={{
-        variant: "default" as SurfaceVariants["variant"],
-      }}
-    >
+    <SurfaceContext value={DEFAULT_SURFACE_CONTEXT}>
       <PopoverPrimitive
         {...props}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="autocomplete-popover"
         placement={placement}
         triggerRef={triggerRef}
-        style={
-          {
-            "--trigger-width": triggerWidth,
-            ...(typeof style === "object" && style !== null ? style : {}),
-          } as React.CSSProperties
-        }
       >
         {children}
       </PopoverPrimitive>

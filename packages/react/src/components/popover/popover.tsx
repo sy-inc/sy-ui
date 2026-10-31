@@ -33,21 +33,17 @@ const PopoverContext = createContext<PopoverContext>({});
 
 const DEFAULT_SURFACE_CONTEXT = {variant: "default" as SurfaceVariants["variant"]};
 
+// Slots take no root-level variants (`variant` is applied per call in Content), so one value serves all.
+const POPOVER_CONTEXT_VALUE: PopoverContext = {slots: popoverVariants()};
+
 /* -------------------------------------------------------------------------------------------------
  * Popover Root
  * -----------------------------------------------------------------------------------------------*/
 type PopoverRootProps = ComponentPropsWithRef<typeof PopoverTriggerPrimitive>;
 
-const PopoverRoot = ({
-  children,
-  ...props
-}: ComponentPropsWithRef<typeof PopoverTriggerPrimitive>) => {
-  const slots = React.useMemo(() => popoverVariants(), []);
-
-  const popoverContextValue = React.useMemo(() => ({slots}), [slots]);
-
+const PopoverRoot = ({children, ...props}: PopoverRootProps) => {
   return (
-    <PopoverContext value={popoverContextValue}>
+    <PopoverContext value={POPOVER_CONTEXT_VALUE}>
       <PopoverTriggerPrimitive data-slot="popover-root" {...props}>
         {children}
       </PopoverTriggerPrimitive>
@@ -63,12 +59,15 @@ interface PopoverContentProps
   children: React.ReactNode;
 }
 
-const PopoverContent = ({children, className, ...props}: PopoverContentProps) => {
+const PopoverContent = ({children, className, variant, ...props}: PopoverContentProps) => {
   const {slots} = use(PopoverContext);
 
   return (
     <SurfaceContext value={DEFAULT_SURFACE_CONTEXT}>
-      <PopoverPrimitive {...props} className={composeTwRenderProps(className, slots?.base())}>
+      <PopoverPrimitive
+        {...props}
+        className={composeTwRenderProps(className, slots?.base({variant}))}
+      >
         {children}
       </PopoverPrimitive>
     </SurfaceContext>

@@ -9,6 +9,12 @@ export const popoverVariants = tv({
     heading: "popover__heading",
     trigger: "popover__trigger",
   },
+  variants: {
+    variant: {
+      default: {},
+      list: {base: "popover--list"},
+    },
+  },
 });
 
 export type PopoverVariants = VariantProps<typeof popoverVariants>;

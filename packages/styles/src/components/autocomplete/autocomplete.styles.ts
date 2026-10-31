@@ -10,9 +10,8 @@ export const autocompleteVariants = tv({
   slots: {
     base: "autocomplete",
     clearButton: "autocomplete__clear-button",
-    filter: "autocomplete__filter",
     indicator: "autocomplete__indicator",
-    popover: "autocomplete__popover",
+    popover: "popover popover--list autocomplete__popover",
     trigger: "autocomplete__trigger",
     value: "autocomplete__value",
   },
