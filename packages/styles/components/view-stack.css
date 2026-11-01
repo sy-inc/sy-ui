@@ -1,0 +1,96 @@
+/* ViewStack: pages that replace each other in place (wizard steps, drill-down). */
+.view-stack {
+  @apply relative flex min-h-0 flex-col;
+
+  /* Set in px by the component while the page swaps, otherwise auto. */
+  height: var(--view-stack-height, auto);
+
+  /* Sliding pages must not leak past the container; the margin keeps edge focus rings. */
+  overflow: clip;
+  overflow-clip-margin: 0.5rem;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition: height 250ms var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+
+  /* Entering pages travel from this offset; leaving pages travel to its negation. */
+  --view-stack-offset: 1.5rem;
+
+  &[data-direction="backward"] {
+    --view-stack-offset: -1.5rem;
+  }
+
+  &:dir(rtl) {
+    --view-stack-offset: -1.5rem;
+  }
+
+  &[data-direction="backward"]:dir(rtl) {
+    --view-stack-offset: 1.5rem;
+  }
+}
+
+.view-stack__view {
+  /* Pages are programmatic focus targets (tabIndex -1), not controls. */
+  @apply flex min-h-0 flex-col outline-none;
+
+  transition:
+    opacity 200ms var(--ease-smooth),
+    translate 300ms var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+
+  /* shouldForceMount: inactive pages stay mounted but hidden. */
+  &[hidden] {
+    display: none;
+  }
+
+  /* Out of flow so the container measures and sizes to the entering page only. */
+  &[data-exiting="true"] {
+    @apply pointer-events-none absolute inset-x-0 top-0;
+    opacity: 0;
+    translate: calc(var(--view-stack-offset) * -1) 0;
+  }
+}
+
+/* Entry motion is enabled after mount so SSR and the first paint never animate. */
+.view-stack[data-motion="true"] > .view-stack__view {
+  @starting-style {
+    opacity: 0;
+    translate: var(--view-stack-offset) 0;
+  }
+}
+
+/* Page header row (Back + Title). Pages use their container's own Body / Footer
+   (Modal.Body, Drawer.Body, ...), so scrolling and gutters come from the container.
+   No outer padding: padded containers (Modal, Popover) already frame it, and
+   containers whose own sections carry gutters (Drawer, list Popover) add them in their CSS. */
+.view-stack__header {
+  @apply flex min-h-8 items-center gap-1;
+}
+
+/* Scoped to the view so it outranks the container section's own margin reset (e.g. `.modal__body`). */
+.view-stack__view > .view-stack__header + * {
+  @apply mt-3;
+}
+
+.view-stack__title {
+  @apply font-medium text-foreground outline-none;
+}
+
+.view-stack__back {
+  /* Header chevron: pull it out so the glyph, not the hit area, lines up with the content. */
+  &[data-icon-only="true"] {
+    @apply -ms-2;
+  }
+
+  /* Text "Back" in a footer row sits at the start, primary actions stay at the end. */
+  &:not([data-icon-only="true"]) {
+    @apply me-auto;
+  }
+
+  &:dir(rtl) > svg {
+    transform: rotate(180deg);
+  }
+}

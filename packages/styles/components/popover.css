@@ -107,6 +107,11 @@
   [data-slot="empty-state"] {
     @apply text-center text-sm text-overlay-foreground/60;
   }
+
+  /* A ViewStack page header takes the search field's gutter. */
+  [data-slot="view-stack-header"] {
+    @apply px-3;
+  }
 }
 
 /* Default width for icon-sized triggers. Zero specificity, so a className or

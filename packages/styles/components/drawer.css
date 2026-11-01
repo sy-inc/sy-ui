@@ -241,3 +241,8 @@
     transition: none;
   }
 }
+
+/* A ViewStack page header takes the drawer header's gutters; pages use Drawer.Body / Drawer.Footer. */
+.drawer__dialog [data-slot="view-stack-header"] {
+  @apply px-5 pt-4;
+}

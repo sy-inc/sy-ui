@@ -67,6 +67,7 @@ export * from "./segment";
 export * from "./sidebar";
 export * from "./split-view";
 export * from "./stepper";
+export * from "./view-stack";
 export * from "./time-field";
 export * from "./disclosure";
 export * from "./disclosure-group";
