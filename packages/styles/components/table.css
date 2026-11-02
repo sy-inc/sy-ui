@@ -352,16 +352,12 @@
     }
   }
 
-  /* Selected state */
+  /* Selected state — tint layered over each cell's own background-color, so regular and
+     pinned cells match and pinned cells stay opaque. */
   &[data-selected="true"] .table__cell {
-    @apply bg-surface/10;
-  }
-
-  /* Selected pinned cells must stay opaque so content scrolling underneath cannot show through. */
-  &[data-selected="true"] .table__cell[data-pinned] {
-    background-color: var(
-      --table-pinned-selected-bg,
-      color-mix(in oklab, var(--table-pinned-bg, var(--color-surface)) 96%, var(--foreground) 4%)
+    background-image: linear-gradient(
+      var(--table-row-selected-bg, var(--color-accent-soft)),
+      var(--table-row-selected-bg, var(--color-accent-soft))
     );
   }
 
