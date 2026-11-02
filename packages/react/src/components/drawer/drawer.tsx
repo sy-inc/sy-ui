@@ -123,7 +123,9 @@ type DrawerContextValue = {
   slots: ReturnType<typeof drawerVariants>;
   snapPoints: readonly DrawerSnapPoint[];
 };
-const DrawerContext = createContext<DrawerContextValue | null>(null);
+// Exported for internal boundaries only (e.g. Sidebar's mobile drawer); not part of the public API.
+// eslint-disable-next-line react-refresh/only-export-components
+export const DrawerContext = createContext<DrawerContextValue | null>(null);
 
 const noop = () => {};
 // Parts rendered without Drawer.Root (e.g. a Backdrop controlled via isOpen) fall back to these.

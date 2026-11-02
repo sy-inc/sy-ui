@@ -3,6 +3,7 @@ import {isDocumentScrollLocked} from "@sy-inc/testing/helpers";
 import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
 
+import {Drawer} from "@/components/drawer";
 import {Sidebar} from "@/components/sidebar";
 import {Tabs} from "@/components/tabs";
 
@@ -59,6 +60,38 @@ describe("Sidebar (browser)", () => {
     await expect.element(dialog).not.toBeInTheDocument();
     expect(isDocumentScrollLocked()).toBe(false);
     await expect.element(trigger).toHaveFocus();
+  });
+
+  it("keeps the mobile panel in place while a drawer opened from it is open", async () => {
+    await render(
+      <Sidebar>
+        <Sidebar.Panel aria-label="Workspace navigation">
+          <Drawer>
+            <Drawer.Trigger>Language</Drawer.Trigger>
+            <Drawer.Backdrop>
+              <Drawer.Content placement="bottom">
+                <Drawer.Dialog aria-label="Language picker">Picker</Drawer.Dialog>
+              </Drawer.Content>
+            </Drawer.Backdrop>
+          </Drawer>
+        </Sidebar.Panel>
+        <Sidebar.Inset>
+          <Sidebar.Trigger />
+        </Sidebar.Inset>
+      </Sidebar>,
+    );
+
+    await page.getByRole("button", {name: "Toggle sidebar"}).click();
+    await page.getByRole("button", {name: "Language"}).click();
+    await expect.element(page.getByRole("dialog", {name: "Language picker"})).toBeInTheDocument();
+
+    const panelContent = page
+      .getByRole("dialog", {name: "Workspace navigation"})
+      .element()
+      .closest<HTMLElement>('[data-slot="drawer-content"]')!;
+
+    expect(panelContent).not.toHaveAttribute("data-nested-open");
+    expect(getComputedStyle(panelContent).transform).toBe("none");
   });
 
   it("does not reserve the desktop gap on the mobile SSR first paint", () => {

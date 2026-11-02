@@ -17,6 +17,7 @@ import {composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {Button} from "../button";
 import {Drawer} from "../drawer";
+import {DrawerContext} from "../drawer/drawer";
 import {Input} from "../input";
 import {Link} from "../link";
 import {Separator} from "../separator";
@@ -296,7 +297,9 @@ const SidebarPanel = ({
                   {description}
                 </span>
               ) : null}
-              {children}
+              {/* The mobile Drawer is an implementation detail: drawers opened from the panel are
+                  top-level, so the sidebar never recedes as their parent. */}
+              <DrawerContext value={null}>{children}</DrawerContext>
             </Drawer.Dialog>
           </Drawer.Content>
         </Drawer.Backdrop>
