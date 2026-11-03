@@ -383,12 +383,13 @@ describe("Table (browser)", () => {
     expect(getComputedStyle(selectedActions).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   });
 
-  it("supports recalculating pinned offsets after column resizing", async () => {
+  it("supports recalculating pinned offsets and group widths after column resizing", async () => {
     let resizedWidth = 0;
 
     await render(
       <Table>
         <Table.ManagedColumns
+          columnGroups={[{columns: ["name", "role"], id: "team", label: "Team"}]}
           viewportWidth={320}
           columns={[
             {id: "name", maxWidth: 180, minWidth: 80, pinned: "start", width: 100},
@@ -425,7 +426,8 @@ describe("Table (browser)", () => {
       </Table>,
     );
 
-    const roleHeader = page.getByRole("columnheader", {name: "Role"}).element();
+    const roleHeader = page.getByRole("columnheader", {name: "Team Role"}).element();
+    const group = document.querySelector<HTMLElement>('[data-slot="table-column-group"]')!;
     const resizer = document.querySelector<HTMLInputElement>(
       '[data-slot="table-column-resizer"] input[type="range"]',
     )!;
@@ -442,6 +444,10 @@ describe("Table (browser)", () => {
     expect(
       Number.parseFloat(roleHeader.style.getPropertyValue("--table-pinned-offset")),
     ).toBeGreaterThan(offsetBeforeResize);
+    expect(group.getBoundingClientRect().width).toBeCloseTo(
+      resizedWidth + roleHeader.getBoundingClientRect().width,
+      0,
+    );
   });
 
   it("supports adding pinned rows after a scroll frontier is active", async () => {
@@ -486,5 +492,171 @@ describe("Table (browser)", () => {
         .elements()
         .map((cell) => cell.textContent),
     ).toEqual(["John", "Sara", "Kate"]);
+  });
+});
+
+describe("Table column groups (browser)", () => {
+  it.each(["ltr", "rtl"] as const)(
+    "keeps the group bar aligned with pinned and scrolling header cells in %s",
+    async (direction) => {
+      await render(
+        <Table dir={direction}>
+          <Table.ManagedColumns
+            viewportWidth={300}
+            columnGroups={[
+              {columns: ["name"], id: "member", label: "会员"},
+              {columns: ["dc", "da"], id: "deposit", label: "存款"},
+            ]}
+            columns={[
+              {id: "name", pinned: "start", width: 120},
+              {id: "dc", width: 200},
+              {id: "da", width: 200},
+            ]}
+          >
+            <Table.ScrollContainer style={{maxHeight: 192, overflow: "auto", width: 300}}>
+              <Table.Content aria-label="Grouped members">
+                <Table.Header>
+                  <Table.Column isRowHeader id="name">
+                    Name
+                  </Table.Column>
+                  <Table.Column id="dc">次数</Table.Column>
+                  <Table.Column id="da">金额</Table.Column>
+                </Table.Header>
+                <Table.Body>
+                  {Array.from({length: 12}, (_, index) => (
+                    <Table.Row key={index} id={String(index)}>
+                      <Table.Cell>{`Member ${index + 1}`}</Table.Cell>
+                      <Table.Cell>3</Table.Cell>
+                      <Table.Cell>300</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Content>
+            </Table.ScrollContainer>
+          </Table.ManagedColumns>
+        </Table>,
+      );
+
+      const scrollContainer = document.querySelector<HTMLElement>(
+        '[data-slot="table-scroll-container"]',
+      )!;
+      const bar = document.querySelector<HTMLElement>('[data-slot="table-column-groups"]')!;
+      const [pinnedSegment, depositSegment] = document.querySelectorAll<HTMLElement>(
+        '[data-slot="table-column-group"]',
+      );
+      const pinnedHeader = page.getByRole("columnheader", {name: "会员 Name"}).element();
+      const depositHeader = page.getByRole("columnheader", {name: "存款 次数"}).element();
+      const edge = direction === "rtl" ? "right" : "left";
+      const depositStartBefore = depositSegment!.getBoundingClientRect()[edge];
+      const nextFrame = () =>
+        new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        );
+
+      expect(scrollContainer.scrollHeight).toBeGreaterThan(scrollContainer.clientHeight);
+      expect(depositStartBefore).toBeCloseTo(depositHeader.getBoundingClientRect()[edge], 0);
+
+      scrollContainer.scrollLeft = direction === "rtl" ? -200 : 200;
+      scrollContainer.dispatchEvent(new Event("scroll", {bubbles: true}));
+      await nextFrame();
+
+      expect(pinnedSegment!.getBoundingClientRect().left).toBeCloseTo(
+        pinnedHeader.getBoundingClientRect().left,
+        0,
+      );
+      expect(depositSegment!.getBoundingClientRect()[edge]).toBeCloseTo(
+        depositStartBefore + (direction === "rtl" ? 200 : -200),
+        0,
+      );
+      expect(depositSegment!.getBoundingClientRect()[edge]).toBeCloseTo(
+        depositHeader.getBoundingClientRect()[edge],
+        0,
+      );
+      expect(pinnedSegment).toHaveAttribute("data-pinned-shadow");
+
+      scrollContainer.scrollTop = 100;
+      scrollContainer.dispatchEvent(new Event("scroll", {bubbles: true}));
+      await nextFrame();
+
+      expect(pinnedHeader.getBoundingClientRect().top).toBeCloseTo(
+        bar.getBoundingClientRect().top,
+        0,
+      );
+      expect(bar.getBoundingClientRect().top).toBeCloseTo(
+        scrollContainer.getBoundingClientRect().top,
+        0,
+      );
+    },
+  );
+  it("supports ungrouped header cells spanning both levels above scrolled segments", async () => {
+    await render(
+      <Table variant="secondary">
+        <Table.ManagedColumns
+          columnGroups={[{columns: ["dc", "da"], id: "deposit", label: "存款"}]}
+          viewportWidth={300}
+          columns={[
+            {id: "name", pinned: "start", width: 120},
+            {id: "dc", width: 200},
+            {id: "da", width: 200},
+          ]}
+        >
+          <Table.ScrollContainer style={{maxHeight: 192, overflow: "auto", width: 300}}>
+            <Table.Content aria-label="Secondary grouped members">
+              <Table.Header>
+                <Table.Column isRowHeader id="name">
+                  Name
+                </Table.Column>
+                <Table.Column id="dc">次数</Table.Column>
+                <Table.Column id="da">金额</Table.Column>
+              </Table.Header>
+              <Table.Body>
+                <Table.Row id="1">
+                  <Table.Cell>Kate</Table.Cell>
+                  <Table.Cell>3</Table.Cell>
+                  <Table.Cell>300</Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table.Content>
+          </Table.ScrollContainer>
+        </Table.ManagedColumns>
+      </Table>,
+    );
+
+    const scrollContainer = document.querySelector<HTMLElement>(
+      '[data-slot="table-scroll-container"]',
+    )!;
+    const bar = document.querySelector<HTMLElement>('[data-slot="table-column-groups"]')!;
+    const depositSegment = document.querySelector<HTMLElement>(
+      '[data-slot="table-column-group"]:not([data-empty])',
+    )!;
+    const nameHeader = page.getByRole("columnheader", {name: "Name"}).element();
+    const depositHeader = page.getByRole("columnheader", {name: "存款 次数"}).element();
+    const pinnedCell = page.getByRole("rowheader", {name: "Kate"}).element();
+    const barRect = bar.getBoundingClientRect();
+    const hitAt = (x: number) => document.elementFromPoint(x, barRect.top + barRect.height / 2);
+
+    // Both levels belong to the ungrouped cell; the grouped leaf sits under its segment.
+    expect(nameHeader.getBoundingClientRect().top).toBeCloseTo(barRect.top, 0);
+    expect(nameHeader.getBoundingClientRect().height).toBeCloseTo(
+      depositHeader.getBoundingClientRect().height,
+      0,
+    );
+    expect(depositSegment.getBoundingClientRect().bottom).toBeLessThan(
+      depositHeader.getBoundingClientRect().bottom,
+    );
+    // The group label takes the pointer, so pressing it never sorts a leaf column.
+    expect(hitAt(depositSegment.getBoundingClientRect().left + 20)).toBe(depositSegment);
+
+    scrollContainer.scrollLeft = 200;
+    scrollContainer.dispatchEvent(new Event("scroll", {bubbles: true}));
+
+    const nameRect = nameHeader.getBoundingClientRect();
+
+    // The scrolled segment slides under the pinned ungrouped cell's upper level.
+    expect(depositSegment.getBoundingClientRect().left).toBeLessThan(nameRect.right);
+    expect(nameHeader.contains(hitAt(nameRect.left + nameRect.width / 2))).toBe(true);
+
+    await expect.poll(() => pinnedCell.getAttribute("data-pinned")).toBe("start");
+    expect(getComputedStyle(pinnedCell).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
   });
 });

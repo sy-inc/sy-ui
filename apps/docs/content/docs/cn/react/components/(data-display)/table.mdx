@@ -126,6 +126,21 @@ export default () => (
 
 在单元格内组合 `Table.Overflow` 可按需截断文本；添加 `tooltip` 后，仅在内容真实溢出时显示完整值。`Table.LoadingOverlay` 只提供布局，加载状态与 `aria-busy` 仍由业务容器管理。
 
+### 列分组
+
+在 `Table.ManagedColumns` 上传入 `columnGroups`，即可把表头分成上下两层：分组列的分组名在上层、叶子列在下层，未分组列贯穿两层。每个分组只列出成员叶子列的 `id`，叶子列定义保持不变；分组宽度等于当前成员列宽之和，拖宽叶子列时分组段同步变化。分组条由 `Table.Content` 自动挂载，随表格一起置于滚动或列宽调整容器内；列宽之和超出容器时在容器内横向滚动。
+
+<ComponentPreview
+  name="table-column-groups"
+  minHeight="420px"
+/>
+
+- 只支持一层分组。
+- 只在 `Table.ManagedColumns` 原生模式下可用；`Table.Virtualizer` 和不使用受管列的普通原生表格不支持。
+- 相邻成员合并为一段。分组跨越固定区或成员不相邻时，会切成多个同名分组段，各自随固定区吸附。分组 `id` 必须唯一；同一叶子列属于多个分组会抛错；不在 `columns` 中的成员视为已隐藏并忽略。
+- 未分组列贯穿上下两层；固定的未分组列在横向滚动时盖住滑过的分组段。
+- 分组条对读屏器隐藏，分组名会并入叶子列的可访问名称（例如「存款 次数」）。
+
 ### 空状态
 
 在 `Table.Body` 上使用 `renderEmptyState`，在表格无数据时展示自定义消息。
@@ -230,6 +245,8 @@ Table 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-in
 
 #### 进阶类 [!toc]
 - `.table__column-resizer` - 列宽拖拽手柄
+- `.table__column-groups` - 叠在表头上层的分组条（`aria-hidden`）；分组叶子列的表头单元格带 `[data-grouped]`
+- `.table__column-group` - 分组段（未分组列位置的透明占位段带 `[data-empty]`）
 - `.table__resizable-container` - 启用列宽调整的包裹层
 - `.table__drag-handle` - 行拖动按钮（`Table.DragHandle`）
 - `.table__body .react-aria-DropIndicator` - 拖动时行间的插入线
@@ -359,6 +376,7 @@ Table 同时支持 CSS 伪类与 data 属性，以提供更灵活的状态控制
 | Prop | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
 | `columns` | `TableColumnDefinition[]` | - | 有序叶级列定义，包含 `id`，以及 `width`、`flex`、`minWidth`、`maxWidth` 或原生 `pinned: "start" \| "end"`。 |
+| `columnGroups` | `TableColumnGroup[]` | - | 一层列分组 `{id, label, columns}`，`columns` 为成员叶子列 `id`。仅原生模式。 |
 | `fillContainer` | `boolean` | `false` | 将视口剩余宽度分配给各列。 |
 | `viewportWidth` | `number` | 自动测量 | 受控几何视口宽度，通常无需传入。 |
 

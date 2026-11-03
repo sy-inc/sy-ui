@@ -140,4 +140,8 @@ export {tableVariants} from "@sy-inc/styles";
 
 export type {TableVariants} from "@sy-inc/styles";
 
-export type {TableColumnDefinition, TableColumnPinnedSide} from "./table-column-geometry";
+export type {
+  TableColumnDefinition,
+  TableColumnGroup,
+  TableColumnPinnedSide,
+} from "./table-column-geometry";

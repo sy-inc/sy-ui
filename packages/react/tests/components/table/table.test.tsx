@@ -1,3 +1,4 @@
+import type {ReactNode} from "react";
 import type {Selection, SortDescriptor} from "react-aria-components/Table";
 
 import {
@@ -11,7 +12,7 @@ import {
   setupUser,
   waitFor,
 } from "@sy-inc/testing/helpers";
-import {useState} from "react";
+import {Fragment, useState} from "react";
 import {useDragAndDrop, useListData} from "react-aria-components";
 
 import {Checkbox} from "@/components/checkbox";
@@ -115,6 +116,52 @@ const ReorderableTable = ({isTruncate}: {isTruncate?: boolean}) => {
     </Table>
   );
 };
+
+const depositGroups = [{columns: ["dc", "da"], id: "deposit", label: "存款"}];
+
+const renderGroupedTable = ({
+  Container = Table.ScrollContainer,
+  columnGroups,
+  isResizable,
+  isTruncate,
+}: {
+  Container?: (props: {children?: ReactNode}) => ReactNode;
+  columnGroups?: Table["ManagedColumnsProps"]["columnGroups"];
+  isResizable?: boolean;
+  isTruncate?: boolean;
+} = {}) =>
+  render(
+    <Table isResizable={isResizable} isTruncate={isTruncate}>
+      <Table.ManagedColumns
+        columnGroups={columnGroups}
+        viewportWidth={400}
+        columns={[
+          {id: "name", width: 150},
+          {id: "dc", width: 100},
+          {id: "da", width: 150},
+        ]}
+      >
+        <Container>
+          <Table.Content aria-label="Members">
+            <Table.Header>
+              <Table.Column isRowHeader id="name">
+                Name
+              </Table.Column>
+              <Table.Column id="dc">次数</Table.Column>
+              <Table.Column id="da">金额</Table.Column>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row id="1">
+                <Table.Cell>Kate</Table.Cell>
+                <Table.Cell>3</Table.Cell>
+                <Table.Cell>300</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Content>
+        </Container>
+      </Table.ManagedColumns>
+    </Table>,
+  );
 
 describe("Table", () => {
   let testUtilUser: User;
@@ -598,6 +645,68 @@ describe("Table", () => {
     );
 
     warn.mockRestore();
+  });
+
+  describe("column groups", () => {
+    it("renders an aria-hidden group bar sized from member widths", () => {
+      renderGroupedTable({columnGroups: depositGroups});
+
+      const bar = document.querySelector('[data-slot="table-column-groups"]');
+      const segments = document.querySelectorAll<HTMLElement>('[data-slot="table-column-group"]');
+
+      expect(bar).toHaveAttribute("aria-hidden", "true");
+      expect(segments).toHaveLength(2);
+      expect(segments[0]).toHaveAttribute("data-empty");
+      expect(segments[1]).toHaveTextContent("存款");
+      expect(segments[1]?.style.width).toBe("250px");
+    });
+
+    it("renders no group bar without column groups", () => {
+      renderGroupedTable();
+
+      expect(document.querySelector('[data-slot="table-column-groups"]')).toBeNull();
+    });
+
+    it("renders one group bar next to its table when scroll and resizable containers are nested", () => {
+      renderGroupedTable({
+        columnGroups: depositGroups,
+        Container: ({children}) => (
+          <Table.ResizableContainer>
+            <Table.ScrollContainer>{children}</Table.ScrollContainer>
+          </Table.ResizableContainer>
+        ),
+      });
+
+      const bars = document.querySelectorAll('[data-slot="table-column-groups"]');
+
+      expect(bars).toHaveLength(1);
+      expect(bars[0]?.parentElement).toBe(
+        screen.getByRole("grid", {name: "Members"}).parentElement,
+      );
+    });
+
+    it("renders groups with the automatic resizable container outside managed columns", () => {
+      renderGroupedTable({
+        columnGroups: depositGroups,
+        Container: Fragment,
+        isResizable: true,
+      });
+
+      expect(document.querySelectorAll('[data-slot="table-column-groups"]')).toHaveLength(1);
+      expect(screen.getByRole("columnheader", {name: /^存款 次数/})).toBeInTheDocument();
+    });
+
+    it("exposes the group name in grouped leaf column names only", () => {
+      renderGroupedTable({columnGroups: depositGroups, isTruncate: true});
+
+      expect(screen.getByRole("columnheader", {name: "存款 次数"})).toBeInTheDocument();
+      expect(screen.getByRole("columnheader", {name: "Name"})).toBeInTheDocument();
+
+      const header = screen.getByRole("columnheader", {name: "存款 次数"});
+      const overflow = header.querySelector('[data-slot="table-overflow"]');
+
+      expect(overflow).toHaveTextContent(/^次数$/);
+    });
   });
 
   it("renders a native summary row group within the table", () => {

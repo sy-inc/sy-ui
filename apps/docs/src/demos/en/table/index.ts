@@ -12,3 +12,4 @@ export {PaginationDemo} from "./pagination";
 export {Virtualization} from "./virtualization";
 export {TanstackTable} from "./tanstack-table";
 export {Reorder} from "./reorder";
+export {ColumnGroups} from "./column-groups";

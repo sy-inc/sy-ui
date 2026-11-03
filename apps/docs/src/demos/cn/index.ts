@@ -2474,6 +2474,10 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./table/column-resizing").then((m) => m.ColumnResizing),
     file: "cn/table/column-resizing.tsx",
   },
+  "table-column-groups": {
+    loader: () => import("./table/column-groups").then((m) => m.ColumnGroups),
+    file: "cn/table/column-groups.tsx",
+  },
   "table-empty-state": {
     loader: () => import("./table/empty-state").then((m) => m.EmptyStateDemo),
     file: "cn/table/empty-state.tsx",

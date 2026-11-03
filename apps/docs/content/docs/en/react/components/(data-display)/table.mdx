@@ -121,6 +121,21 @@ Wrap the table in `Table.ResizableContainer` and add `Table.ColumnResizer` insid
 
 Use `Table.Overflow` inside a cell to opt into truncation. Add `tooltip` to show the full value only when it is actually clipped. `Table.LoadingOverlay` supplies layout only: keep loading state and `aria-busy` on the owning application surface.
 
+### Column Groups
+
+Pass `columnGroups` to `Table.ManagedColumns` to split the header into two levels: group names on top, grouped leaf columns below, and ungrouped columns spanning both levels. Each group lists only its member leaf column ids, so leaf definitions stay unchanged. A group is as wide as its members' current widths and follows column resizing. `Table.Content` mounts the group bar automatically alongside the table, inside its scrolling or resizable container; when the column widths exceed the container, the table scrolls horizontally inside it.
+
+<ComponentPreview
+  name="table-column-groups"
+  minHeight="420px"
+/>
+
+- Only one level of groups is supported.
+- Available only in native `Table.ManagedColumns` mode. `Table.Virtualizer` and plain native tables without managed columns are not supported.
+- Adjacent members merge into one segment. A group spanning a pinned edge or non-adjacent members is split into same-name segments that stick with their pinned area. Group ids must be unique. A leaf column in more than one group throws; member ids missing from `columns` are treated as hidden and ignored.
+- Ungrouped columns span both levels; pinned ungrouped columns cover group segments scrolling beneath them.
+- The group bar is hidden from screen readers; the group name is added to each leaf column's accessible name (for example "Deposits Count").
+
 ### Empty State
 
 Use `renderEmptyState` on `Table.Body` to display a custom message when the table has no data.
@@ -228,6 +243,8 @@ The Table component uses these CSS classes ([View source styles](https://github.
 
 #### Advanced Classes [!toc]
 - `.table__column-resizer` - Drag handle for column resizing
+- `.table__column-groups` - Group bar overlaying the header's upper level (`aria-hidden`); grouped leaf header cells carry `[data-grouped]`
+- `.table__column-group` - Group segment (transparent `[data-empty]` placeholders over ungrouped columns)
 - `.table__resizable-container` - Wrapper enabling column resizing
 - `.table__drag-handle` - Row drag button (`Table.DragHandle`)
 - `.table__body .react-aria-DropIndicator` - Insertion line between rows while dragging
@@ -367,6 +384,7 @@ Renders a sortable column label with an ascending/descending indicator. Use it i
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `columns` | `TableColumnDefinition[]` | - | Ordered leaf definitions with `id` plus `width`, `flex`, `minWidth`, `maxWidth`, or native `pinned: "start" \| "end"`. |
+| `columnGroups` | `TableColumnGroup[]` | - | One level of column groups `{id, label, columns}`, where `columns` are member leaf ids. Native mode only. |
 | `fillContainer` | `boolean` | `false` | Distribute spare viewport width between columns. |
 | `viewportWidth` | `number` | measured | Controlled geometry viewport width. Usually omit it. |
 

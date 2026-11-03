@@ -17,6 +17,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import {VisuallyHidden} from "react-aria";
 import {composeRenderProps} from "react-aria-components/composeRenderProps";
 import {
   Cell as CellPrimitive,
@@ -143,6 +144,50 @@ const TableScrollContainer = <E extends keyof React.JSX.IntrinsicElements = "div
 TableScrollContainer.displayName = "SY INC.Table.ScrollContainer";
 
 /* -------------------------------------------------------------------------------------------------
+ * Table Column Group Bar — internal, owned by Table.Content. Overlays the header's upper level:
+ * grouped leaves sit under their segment, ungrouped header cells span both levels beneath the
+ * empty (transparent, never sticky) segments. Purely visual: group names reach assistive tech
+ * through each leaf column's accessible name instead.
+ * -----------------------------------------------------------------------------------------------*/
+const TableColumnGroupBar = () => {
+  const {slots} = use(TableContext);
+  const managedColumns = use(TableManagedColumnsContext);
+  const geometryMode = use(TableGeometryModeContext);
+
+  if (geometryMode !== "native" || !managedColumns?.columnGroupSegments.length) return null;
+
+  return (
+    <div
+      aria-hidden
+      className={slots?.columnGroups()}
+      data-slot="table-column-groups"
+      style={{width: managedColumns.geometry.totalWidth}}
+    >
+      {managedColumns.columnGroupSegments.map(
+        ({columnIndex, group, pinned, pinnedOffset, width}) => (
+          <div
+            key={columnIndex}
+            className={slots?.columnGroup()}
+            data-empty={!group || undefined}
+            data-managed-column-index={pinned ? columnIndex + 1 : undefined}
+            data-pinned={pinned}
+            data-slot="table-column-group"
+            style={
+              {
+                "--table-pinned-offset": pinned ? `${pinnedOffset ?? 0}px` : undefined,
+                width,
+              } as CSSProperties
+            }
+          >
+            {group?.label}
+          </div>
+        ),
+      )}
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------------------------------
  * Table Content
  * -----------------------------------------------------------------------------------------------*/
 interface TableContentProps extends Omit<
@@ -182,19 +227,22 @@ function TableContent({
     : undefined;
 
   return (
-    <TablePrimitive
-      className={composeTwRenderProps(className, slots?.content())}
-      data-managed-layout={managedColumns ? "true" : undefined}
-      data-slot="table-content"
-      style={
-        typeof style === "function"
-          ? (values) => ({...managedStyle, ...style(values)})
-          : {...managedStyle, ...style}
-      }
-      {...props}
-      sortDescriptor={sortDescriptor}
-      onSortChange={handleSortChange}
-    />
+    <>
+      <TableColumnGroupBar />
+      <TablePrimitive
+        className={composeTwRenderProps(className, slots?.content())}
+        data-managed-layout={managedColumns ? "true" : undefined}
+        data-slot="table-content"
+        style={
+          typeof style === "function"
+            ? (values) => ({...managedStyle, ...style(values)})
+            : {...managedStyle, ...style}
+        }
+        {...props}
+        sortDescriptor={sortDescriptor}
+        onSortChange={handleSortChange}
+      />
+    </>
   );
 }
 
@@ -247,6 +295,7 @@ const TableColumn = ({
   const geometryMode = use(TableGeometryModeContext);
   const column = id == null ? undefined : managedColumns?.geometry.byId.get(id);
   const definition = id == null ? undefined : managedColumns?.definitions.get(id);
+  const group = id == null ? undefined : managedColumns?.columnGroupByColumn.get(id);
   const pinned = geometryMode === "native" ? column?.pinned : undefined;
   const managedStyle: CSSProperties | undefined = column
     ? {
@@ -259,9 +308,10 @@ const TableColumn = ({
   const shouldTruncate =
     isTruncate && !(React.isValidElement(children) && children.type === TableSelectionCheckbox);
   const resolvedChildren =
-    shouldTruncate || isResizable
+    shouldTruncate || isResizable || group
       ? composeRenderProps(children, (node) => (
           <>
+            {group ? <VisuallyHidden>{group.label} </VisuallyHidden> : null}
             {shouldTruncate ? (
               <TableOverflow tooltip tooltipProps={tooltipProps}>
                 {node}
@@ -278,6 +328,7 @@ const TableColumn = ({
     <ColumnPrimitive
       ref={ref}
       className={composeTwRenderProps(className, slots?.column())}
+      data-grouped={group ? true : undefined}
       data-managed-column-index={column ? column.index + 1 : undefined}
       data-pinned={pinned}
       data-slot="table-column"

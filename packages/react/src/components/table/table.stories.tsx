@@ -1125,6 +1125,273 @@ export const ManagedColumns: Story = {
   ),
 };
 
+/**
+ * One level of column groups above the header (`Table.ManagedColumns` native mode only). Groups
+ * follow the leaf geometry: resizing a member widens its segment, and pinned segments stick and
+ * cast the pinned shadow with their columns.
+ */
+const columnGroupMembers = Array.from({length: 8}, (_, index) => ({
+  depositAmount: (index + 1) * 1250,
+  depositCount: index + 3,
+  id: String(index + 1),
+  name: `Member ${index + 1}`,
+  withdrawAmount: (index + 1) * 480,
+  withdrawCount: index + 1,
+}));
+
+const ColumnGroupsTable = ({variant}: {variant: "primary" | "secondary"}) => (
+  <Table variant={variant}>
+    <Table.ManagedColumns
+      columnGroups={[
+        {columns: ["depositCount", "depositAmount"], id: "deposit", label: "存款"},
+        {columns: ["withdrawCount", "withdrawAmount"], id: "withdraw", label: "提款"},
+      ]}
+      columns={[
+        {id: "select", minWidth: 56, pinned: "start", width: 56},
+        {id: "name", minWidth: 160, width: 180},
+        {id: "depositCount", width: 140},
+        {id: "depositAmount", width: 160},
+        {id: "withdrawCount", width: 140},
+        {id: "withdrawAmount", width: 160},
+        {id: "actions", pinned: "end", width: 100},
+      ]}
+    >
+      <Table.ResizableContainer className="max-h-72 max-w-3xl overflow-auto">
+        <Table.Content aria-label={`Column groups (${variant})`} selectionMode="multiple">
+          <Table.Header>
+            <Table.Column aria-label="Select rows" id="select">
+              <Table.SelectionCheckbox aria-label="Select all rows" />
+            </Table.Column>
+            <Table.Column isRowHeader id="name">
+              Name
+              <Table.ColumnResizer />
+            </Table.Column>
+            <Table.Column id="depositCount">
+              次数
+              <Table.ColumnResizer />
+            </Table.Column>
+            <Table.Column id="depositAmount">
+              金额
+              <Table.ColumnResizer />
+            </Table.Column>
+            <Table.Column id="withdrawCount">
+              次数
+              <Table.ColumnResizer />
+            </Table.Column>
+            <Table.Column id="withdrawAmount">
+              金额
+              <Table.ColumnResizer />
+            </Table.Column>
+            <Table.Column id="actions">Actions</Table.Column>
+          </Table.Header>
+          <Table.Body items={columnGroupMembers}>
+            {(member) => (
+              <Table.Row>
+                <Table.Cell>
+                  <Table.SelectionCheckbox aria-label={`Select ${member.name}`} />
+                </Table.Cell>
+                <Table.Cell>{member.name}</Table.Cell>
+                <Table.Cell>{member.depositCount}</Table.Cell>
+                <Table.Cell>{member.depositAmount}</Table.Cell>
+                <Table.Cell>{member.withdrawCount}</Table.Cell>
+                <Table.Cell>{member.withdrawAmount}</Table.Cell>
+                <Table.Cell>Edit</Table.Cell>
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Content>
+      </Table.ResizableContainer>
+    </Table.ManagedColumns>
+  </Table>
+);
+
+export const ColumnGroups: Story = {
+  render: () => (
+    <Wrapper>
+      <div className="flex flex-col gap-8">
+        <ColumnGroupsTable variant="primary" />
+        <ColumnGroupsTable variant="secondary" />
+      </div>
+    </Wrapper>
+  ),
+};
+
+/**
+ * Report layout: controlled leaf widths (`fillContainer` hands spare width to them on wide
+ * screens), grouped leaves under their group, ungrouped columns spanning both header levels.
+ * When the summed widths exceed the container, the table scrolls horizontally inside it.
+ */
+interface MemberReportRow {
+  bank: string;
+  bets: string;
+  commission: [number, number];
+  deposit: [number, number];
+  id: string;
+  lastDeposit: string;
+  lastLogin: string;
+  manual: [number, number];
+  name: string;
+  phone: string;
+  promotion: [number, number];
+  registeredAt: string;
+  withdraw: [number, number];
+}
+
+const memberReportNames = ["Alex Tan", "Brian Lim Wei Jie", "Chandra Kumar", "Diana Wong"];
+const memberReportBanks = ["CIMB", "MBB", "TNG"];
+const memberReportBets = ["META (1) JILI (1)", "MG888H52 (1)", "META2 (1) WF2 (1)", ""];
+
+const memberReportRows: MemberReportRow[] = Array.from({length: 12}, (_, index) => {
+  const deposits = index % 4 === 0 ? 1 : 0;
+  const promotions = index % 3;
+
+  return {
+    bank: memberReportBanks[index % memberReportBanks.length]!,
+    bets: memberReportBets[index % memberReportBets.length]!,
+    commission: [0, 0],
+    deposit: [deposits, deposits * 60],
+    id: String(index + 1),
+    lastDeposit: deposits ? `2026-11-03 0${index % 10}:22` : "-",
+    lastLogin: `2026-11-0${3 - (index % 2)} ${String(23 - index).padStart(2, "0")}:45`,
+    manual: [0, 0],
+    name: `${memberReportNames[index % memberReportNames.length]} ${index + 1}`,
+    phone: `6012${String(1000000 + index * 7919).slice(0, 7)}`,
+    promotion: [promotions, promotions * 55],
+    registeredAt: `2026-11-0${3 - (index % 2)} ${String(23 - index).padStart(2, "0")}:19`,
+    withdraw: [0, 0],
+  };
+});
+
+type MemberReportPair = "commission" | "deposit" | "manual" | "promotion" | "withdraw";
+
+const memberReportPairs: {id: MemberReportPair; label: string}[] = [
+  {id: "deposit", label: "存款"},
+  {id: "withdraw", label: "提款"},
+  {id: "promotion", label: "促销"},
+  {id: "manual", label: "手动"},
+  {id: "commission", label: "佣金"},
+];
+const memberReportCashPairs = memberReportPairs.slice(0, 2);
+const memberReportBonusPairs = memberReportPairs.slice(2);
+
+const memberReportPairColumns = (pairs: typeof memberReportPairs) =>
+  pairs.flatMap(({id}) => [
+    {id: `${id}Count`, maxWidth: 52, minWidth: 52, width: 52},
+    {id: `${id}Amount`, maxWidth: 76, width: 76},
+  ]);
+
+const memberReportPairHeaders = (pairs: typeof memberReportPairs) =>
+  pairs.flatMap(({id}) => [
+    <Table.Column key={`${id}Count`} className="text-end" id={`${id}Count`}>
+      次数
+    </Table.Column>,
+    <Table.Column key={`${id}Amount`} className="text-end" id={`${id}Amount`}>
+      总额
+    </Table.Column>,
+  ]);
+
+const memberReportPairCells = (pairs: typeof memberReportPairs, row: MemberReportRow) =>
+  pairs.flatMap(({id}) => [
+    <Table.Cell key={`${id}Count`} className="text-end tabular-nums">
+      {row[id][0]}
+    </Table.Cell>,
+    <Table.Cell key={`${id}Amount`} className="text-end tabular-nums">
+      {row[id][1].toFixed(2)}
+    </Table.Cell>,
+  ]);
+
+/**
+ * Compact density without a library `size` prop: scope overrides to this table through the
+ * documented `data-slot` hooks. Grouped leaves keep the group bar offset in their top padding,
+ * so they get their own `pt`. A `Table.Virtualizer` also needs a smaller `layoutOptions.rowHeight`.
+ * Column widths below are sized for this `px-3 text-xs`; numeric columns cap `maxWidth` so
+ * `fillContainer` hands spare width to the text columns instead.
+ */
+const memberReportCompactClassName =
+  "[--table-column-groups-height:1.75rem] [&_[data-slot=table-cell]]:px-3 [&_[data-slot=table-cell]]:py-1 [&_[data-slot=table-cell]]:text-xs [&_[data-slot=table-column]]:px-3 [&_[data-slot=table-column]]:pb-1.5 [&_[data-slot=table-column]:not([data-grouped])]:pt-1.5 [&_[data-slot=table-column][data-grouped]]:pt-[calc(0.375rem+var(--table-column-groups-height))]";
+
+/** Row buttons follow the compact density; the smallest Button size is still 32px tall. */
+const memberReportButtonClassName = "h-6 px-2 text-xs";
+
+export const ColumnGroupsReport: Story = {
+  parameters: {layout: "padded"},
+  render: () => (
+    <Table isTruncate className={memberReportCompactClassName}>
+      <Table.ManagedColumns
+        fillContainer
+        columnGroups={memberReportPairs.map(({id, label}) => ({
+          columns: [`${id}Count`, `${id}Amount`],
+          id,
+          label,
+        }))}
+        columns={[
+          {id: "registeredAt", width: 128},
+          {id: "name", width: 144},
+          {id: "phone", width: 104},
+          {id: "bank", maxWidth: 64, minWidth: 64, width: 64},
+          {id: "actions", maxWidth: 112, width: 112},
+          ...memberReportPairColumns(memberReportCashPairs),
+          {id: "winLoss", maxWidth: 76, width: 76},
+          ...memberReportPairColumns(memberReportBonusPairs),
+          {id: "lastDeposit", width: 128},
+          {id: "lastLogin", width: 128},
+          {id: "bets", width: 160},
+        ]}
+      >
+        <Table.ScrollContainer className="max-h-96 overflow-auto">
+          <Table.Content aria-label="Member report">
+            <Table.Header>
+              <Table.Column id="registeredAt">注册日期</Table.Column>
+              <Table.Column isRowHeader id="name">
+                名字
+              </Table.Column>
+              <Table.Column id="phone">手机号</Table.Column>
+              <Table.Column id="bank">银行</Table.Column>
+              <Table.Column id="actions">动作</Table.Column>
+              {memberReportPairHeaders(memberReportCashPairs)}
+              <Table.Column className="text-end" id="winLoss">
+                赢/输
+              </Table.Column>
+              {memberReportPairHeaders(memberReportBonusPairs)}
+              <Table.Column id="lastDeposit">最后存款</Table.Column>
+              <Table.Column id="lastLogin">最后登录</Table.Column>
+              <Table.Column id="bets">投注</Table.Column>
+            </Table.Header>
+            <Table.Body items={memberReportRows}>
+              {(row) => (
+                <Table.Row>
+                  <Table.Cell>{row.registeredAt}</Table.Cell>
+                  <Table.Cell>{row.name}</Table.Cell>
+                  <Table.Cell>{row.phone}</Table.Cell>
+                  <Table.Cell>{row.bank}</Table.Cell>
+                  <Table.Cell>
+                    <div className="flex gap-1">
+                      <Button className={memberReportButtonClassName} size="sm" variant="secondary">
+                        聊天
+                      </Button>
+                      <Button className={memberReportButtonClassName} size="sm" variant="secondary">
+                        钱包
+                      </Button>
+                    </div>
+                  </Table.Cell>
+                  {memberReportPairCells(memberReportCashPairs, row)}
+                  <Table.Cell className="text-end tabular-nums">
+                    {(row.deposit[1] - row.withdraw[1]).toFixed(2)}
+                  </Table.Cell>
+                  {memberReportPairCells(memberReportBonusPairs, row)}
+                  <Table.Cell>{row.lastDeposit}</Table.Cell>
+                  <Table.Cell>{row.lastLogin}</Table.Cell>
+                  <Table.Cell>{row.bets || "-"}</Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
+      </Table.ManagedColumns>
+    </Table>
+  ),
+};
+
 /** Presentational overlay for refresh/sort/filter loading; the caller owns loading state. */
 export const LoadingOverlay: Story = {
   render: () => (

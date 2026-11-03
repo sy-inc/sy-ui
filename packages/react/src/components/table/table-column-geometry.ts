@@ -1,4 +1,5 @@
 import type {Key} from "@react-types/shared";
+import type {ReactNode} from "react";
 
 export type TableColumnPinnedSide = "start" | "end";
 
@@ -33,6 +34,22 @@ export interface TableColumnGeometry {
   totalWidth: number;
   viewportWidth: number;
   widths: Map<Key, number>;
+}
+
+export interface TableColumnGroup {
+  /** Leaf column ids. Ids missing from `columns` are treated as hidden. */
+  columns: readonly Key[];
+  id: Key;
+  label: ReactNode;
+}
+
+export interface ResolvedTableColumnGroupSegment {
+  /** Innermost column for pinned segments (the shadow frontier), otherwise the first column. */
+  columnIndex: number;
+  group?: TableColumnGroup;
+  pinned?: TableColumnPinnedSide;
+  pinnedOffset?: number;
+  width: number;
 }
 
 export interface TablePinnedShadowColumns {
@@ -191,4 +208,60 @@ export function getTablePinnedShadowColumns(
   }, undefined);
 
   return {end, start};
+}
+
+/**
+ * Splits the group bar into segments: a new segment starts whenever the group or the pinned side
+ * changes, so a group cut by a pinned edge (or by a non-member) renders as several same-name
+ * segments.
+ */
+export function getTableColumnGroupSegments(
+  geometry: TableColumnGeometry,
+  groups: readonly TableColumnGroup[],
+) {
+  const groupByColumn = new Map<Key, TableColumnGroup>();
+  const groupIds = new Set<Key>();
+
+  for (const group of groups) {
+    if (groupIds.has(group.id)) {
+      throw new Error(`Duplicate table column group id: ${String(group.id)}`);
+    }
+
+    groupIds.add(group.id);
+    for (const id of group.columns) {
+      if (groupByColumn.has(id)) {
+        throw new Error(`Table column "${String(id)}" belongs to more than one column group`);
+      }
+
+      groupByColumn.set(id, group);
+    }
+  }
+
+  const segments: ResolvedTableColumnGroupSegment[] = [];
+  let previous: ResolvedTableColumnGroupSegment | undefined;
+
+  for (const column of geometry.columns) {
+    const group = groupByColumn.get(column.id);
+    // Empty segments never stick: they are transparent, and a pinned one would double the shadow.
+    const pinned = group ? column.pinned : undefined;
+
+    if (previous && previous.group?.id === group?.id && previous.pinned === pinned) {
+      previous.width += column.width;
+      if (pinned === "start") previous.columnIndex = column.index;
+      if (pinned === "end") previous.pinnedOffset = column.pinnedOffset;
+      continue;
+    }
+
+    previous = {
+      columnIndex: column.index,
+      group,
+      pinned,
+      pinnedOffset: column.pinnedOffset,
+      width: column.width,
+    };
+    segments.push(previous);
+  }
+
+  // No visible group: no bar at all.
+  return {groupByColumn, segments: segments.some((segment) => segment.group) ? segments : []};
 }

@@ -29,7 +29,9 @@
 }
 
 .table-root--secondary {
-  /* No background, padding, or rounding on the root */
+  /* No background, padding, or rounding on the root. Sits on the page, not a card: pinned cells
+     default to the page background. */
+  --_pinned-surface: var(--color-background);
 }
 
 /* Secondary: header is a standalone rounded card.
@@ -129,19 +131,21 @@
 /* --------------------------------------------------------------------------
    Table Column (<th>)
    -------------------------------------------------------------------------- */
+/* Separator between columns / group segments — a short vertical line on the end edge */
+:is(.table__column, .table__summary .table__cell, .table__column-group)::after {
+  content: "";
+  @apply pointer-events-none absolute end-0 top-1/2 h-4 w-px -translate-y-1/2 rounded-sm bg-separator;
+}
+
+:is(.table__column, .table__summary .table__cell, .table__column-group):last-child:not(
+    :only-child
+  )::after {
+  content: none;
+}
+
 .table__column,
 .table__summary .table__cell {
   @apply relative px-4 py-2.5 text-start text-xs font-medium text-muted;
-
-  /* Separator between columns — a short vertical line on the right edge */
-  &::after {
-    content: "";
-    @apply pointer-events-none absolute end-0 top-1/2 h-4 w-px -translate-y-1/2 rounded-sm bg-separator;
-  }
-
-  &:last-child:not(:only-child)::after {
-    content: none;
-  }
 
   /* Sortable columns */
   &[data-allows-sorting="true"] {
@@ -171,15 +175,15 @@
 
 /* Managed native pinning. Runtime geometry supplies only the logical offset variable and data
    hooks; all reusable positioning and shadow rules stay in CSS. */
-:is(.table__column, .table__cell)[data-pinned] {
+:is(.table__column, .table__cell, .table__column-group)[data-pinned] {
   @apply sticky;
 }
 
-:is(.table__column, .table__cell)[data-pinned="start"] {
+:is(.table__column, .table__cell, .table__column-group)[data-pinned="start"] {
   inset-inline-start: var(--table-pinned-offset, 0px);
 }
 
-:is(.table__column, .table__cell)[data-pinned="end"] {
+:is(.table__column, .table__cell, .table__column-group)[data-pinned="end"] {
   inset-inline-end: var(--table-pinned-offset, 0px);
 }
 
@@ -196,34 +200,118 @@
 }
 
 .table__cell[data-pinned] {
-  background-color: var(--table-pinned-bg, var(--color-surface));
+  background-color: var(--table-pinned-bg, var(--_pinned-surface, var(--color-surface)));
 }
 
-:is(.table__column, .table__cell)[data-pinned-shadow]::before {
+:is(.table__column, .table__cell, .table__column-group)[data-pinned-shadow]::before {
   @apply pointer-events-none absolute inset-y-0 w-8;
   content: "";
 }
 
-:is(.table__column, .table__cell)[data-pinned="start"][data-pinned-shadow]::before {
+:is(
+    .table__column,
+    .table__cell,
+    .table__column-group
+  )[data-pinned="start"][data-pinned-shadow]::before {
   inset-inline-start: 100%;
   box-shadow: 10px 0 8px -8px
     var(--table-pinned-shadow, color-mix(in srgb, currentColor 28%, transparent)) inset;
 }
 
-:is(.table__column, .table__cell)[data-pinned="end"][data-pinned-shadow]::before {
+:is(
+    .table__column,
+    .table__cell,
+    .table__column-group
+  )[data-pinned="end"][data-pinned-shadow]::before {
   inset-inline-end: 100%;
   box-shadow: -10px 0 8px -8px
     var(--table-pinned-shadow, color-mix(in srgb, currentColor 28%, transparent)) inset;
 }
 
-:is(.table__column, .table__cell)[data-pinned="start"][data-pinned-shadow]:dir(rtl)::before {
+:is(
+    .table__column,
+    .table__cell,
+    .table__column-group
+  )[data-pinned="start"][data-pinned-shadow]:dir(rtl)::before {
   box-shadow: -10px 0 8px -8px
     var(--table-pinned-shadow, color-mix(in srgb, currentColor 28%, transparent)) inset;
 }
 
-:is(.table__column, .table__cell)[data-pinned="end"][data-pinned-shadow]:dir(rtl)::before {
+:is(.table__column, .table__cell, .table__column-group)[data-pinned="end"][data-pinned-shadow]:dir(
+    rtl
+  )::before {
   box-shadow: 10px 0 8px -8px
     var(--table-pinned-shadow, color-mix(in srgb, currentColor 28%, transparent)) inset;
+}
+
+/* --------------------------------------------------------------------------
+   Column Groups — aria-hidden bar overlaying the header's upper level, sized from
+   managed column geometry. Grouped leaves (`[data-grouped]`) sit under their segment;
+   ungrouped header cells span both levels beneath transparent empty segments.
+   -------------------------------------------------------------------------- */
+.table__column-groups {
+  @apply pointer-events-none sticky top-0 flex;
+  z-index: 45;
+  height: var(--table-column-groups-height, 2.25rem);
+  margin-bottom: calc(-1 * var(--table-column-groups-height, 2.25rem));
+}
+
+.table__column-group {
+  @apply relative flex shrink-0 items-center justify-center px-4 text-xs font-medium text-muted;
+
+  &:not([data-empty]) {
+    @apply pointer-events-auto border-b border-separator/50 bg-surface-secondary;
+  }
+
+  &[data-empty]::after {
+    content: none;
+  }
+
+  &[data-pinned] {
+    @apply z-10;
+  }
+}
+
+/* Header layering: header cells 30 < pinned grouped cells 40 < group bar 45 < pinned ungrouped
+   cells 50, so scrolling segments slide under pinned ungrouped cells. A sticky `<thead>` always
+   forms a stacking context, so it goes static and the (sticky) cells interleave with the bar. */
+.table__column-groups ~ .table__content .table__header {
+  position: static;
+}
+
+.table__column-groups ~ .table__content .table__column[data-pinned]:not([data-grouped]) {
+  @apply z-50;
+}
+
+.table__header .table__column[data-grouped] {
+  padding-top: calc(0.625rem + var(--table-column-groups-height, 2.25rem));
+}
+
+/* Centre a grouped leaf's resting separator / resizer in the lower level. */
+.table__column[data-grouped]::after,
+.table__column[data-grouped]
+  .table__column-resizer:not(
+    :hover,
+    :focus-visible,
+    [data-hovered="true"],
+    [data-resizing="true"],
+    [data-focus-visible="true"]
+  ) {
+  top: calc(50% + var(--table-column-groups-height, 2.25rem) / 2);
+}
+
+.table-root--secondary .table__column-group:first-child {
+  border-start-start-radius: min(32px, var(--radius-2xl));
+}
+
+.table-root--secondary .table__column-group:last-child {
+  border-start-end-radius: min(32px, var(--radius-2xl));
+}
+
+/* Secondary rows are transparent; pinned body cells stay opaque so scrolled content cannot show
+   through. Set `--table-pinned-bg` when the table sits on another surface. */
+.table-root--secondary .table__row .table__cell[data-pinned] {
+  background-color: var(--table-pinned-bg, var(--_pinned-surface));
 }
 
 /* Virtualized: each column is wrapped in a `VirtualizerItem` (role="presentation"),
@@ -366,7 +454,11 @@
     &[data-hovered="true"] .table__cell[data-pinned] {
       background-color: var(
         --table-pinned-hover-bg,
-        color-mix(in oklab, var(--table-pinned-bg, var(--color-surface)) 96%, var(--foreground) 4%)
+        color-mix(
+          in oklab,
+          var(--table-pinned-bg, var(--_pinned-surface, var(--color-surface))) 96%,
+          var(--foreground) 4%
+        )
       );
     }
   }

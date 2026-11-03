@@ -11,6 +11,8 @@ export const tableVariants = tv({
     body: "table__body",
     cell: "table__cell",
     column: "table__column",
+    columnGroup: "table__column-group",
+    columnGroups: "table__column-groups",
     columnResizer: "table__column-resizer",
     content: "table__content",
     dragHandle: "table__drag-handle",

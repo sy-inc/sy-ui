@@ -1,6 +1,10 @@
 "use client";
 
-import type {TableColumnDefinition, TableColumnGeometry} from "./table-column-geometry";
+import type {
+  TableColumnDefinition,
+  TableColumnGeometry,
+  TableColumnGroup,
+} from "./table-column-geometry";
 import type {Key} from "@react-types/shared";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
@@ -9,6 +13,7 @@ import React, {useLayoutEffect, useMemo, useRef, useState} from "react";
 
 import {
   calculateTableColumnGeometry,
+  getTableColumnGroupSegments,
   getTablePinnedShadowColumns,
   normalizeTableScrollOffset,
 } from "./table-column-geometry";
@@ -16,6 +21,8 @@ import {TableGeometryModeContext, TableManagedColumnsContext} from "./table-cont
 
 export interface TableManagedColumnsProps extends Omit<ComponentPropsWithRef<"div">, "children"> {
   children: ReactNode;
+  /** One level of visual groups above the header. Native mode only. */
+  columnGroups?: readonly TableColumnGroup[];
   /** Leaf columns, in the same order as the header and every row. */
   columns: readonly TableColumnDefinition[];
   /** Distribute spare width between fixed columns. */
@@ -144,6 +151,7 @@ export const TableManagedColumns = React.forwardRef<HTMLDivElement, TableManaged
   function TableManagedColumns(
     {
       children,
+      columnGroups,
       columns,
       fillContainer = false,
       style,
@@ -191,14 +199,17 @@ export const TableManagedColumns = React.forwardRef<HTMLDivElement, TableManaged
       () => calculateTableColumnGeometry(columns, viewportWidth, widthOverrides, fillContainer),
       [columns, fillContainer, viewportWidth, widthOverrides],
     );
-    const context = useMemo(
-      () => ({
+    const context = useMemo(() => {
+      const {groupByColumn, segments} = getTableColumnGroupSegments(geometry, columnGroups ?? []);
+
+      return {
+        columnGroupByColumn: groupByColumn,
+        columnGroupSegments: segments,
         definitions: new Map(columns.map((column) => [column.id, column])),
         geometry,
         setColumnWidths: setWidthOverrides,
-      }),
-      [columns, geometry],
-    );
+      };
+    }, [columnGroups, columns, geometry]);
 
     useLayoutEffect(() => {
       if (

@@ -1,11 +1,18 @@
 "use client";
 
-import type {TableColumnDefinition, TableColumnGeometry} from "./table-column-geometry";
+import type {
+  ResolvedTableColumnGroupSegment,
+  TableColumnDefinition,
+  TableColumnGeometry,
+  TableColumnGroup,
+} from "./table-column-geometry";
 import type {Key} from "@react-types/shared";
 
 import {createContext} from "react";
 
 export interface TableManagedColumnsContextValue {
+  columnGroupByColumn: ReadonlyMap<Key, TableColumnGroup>;
+  columnGroupSegments: readonly ResolvedTableColumnGroupSegment[];
   definitions: ReadonlyMap<Key, TableColumnDefinition>;
   geometry: TableColumnGeometry;
   setColumnWidths: (widths: ReadonlyMap<Key, number>) => void;
