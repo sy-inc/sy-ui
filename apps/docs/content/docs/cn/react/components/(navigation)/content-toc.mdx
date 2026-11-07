@@ -9,7 +9,7 @@ links:
 ## 用法
 
 ```tsx
-import {ContentToc} from '@sy-inc/react';
+import {ContentToc, useContentTocSpy} from '@sy-inc/react';
 
 const items = [
   {id: 'overview', depth: 2, title: '概览'},
@@ -17,15 +17,11 @@ const items = [
   {id: 'next', depth: 2, title: '下一步'},
 ];
 
-export default function Example({activeId}: {activeId: string}) {
+export default function Example() {
+  const spy = useContentTocSpy({ids: items.map((item) => item.id)});
+
   return (
-    <ContentToc
-      activeId={activeId}
-      className="sticky top-24"
-      items={items}
-      label="本页目录"
-      onNavigate={(id) => document.getElementById(id)?.scrollIntoView({behavior: 'smooth'})}
-    >
+    <ContentToc {...spy} className="sticky top-24" items={items} label="本页目录">
       <ContentToc.Title />
       <ContentToc.List className="max-h-[calc(100vh-10rem)]" />
     </ContentToc>
@@ -33,7 +29,14 @@ export default function Example({activeId}: {activeId: string}) {
 }
 ```
 
-`activeId` 是受控的。按页面需要自行计算——监听标题滚动、当前聚焦的表单字段或路由 hash——再传入即可。
+## 跟随滚动
+
+`useContentTocSpy` 计算当前章节和可见章节，并在跳转时滚动到对应位置。返回的 `activeId`、`visibleIds`、`onNavigate` 直接展开到根节点。
+
+- `root` 是滚动容器的 ref，省略时跟随 window。
+- `offset`（默认 `80`）是标题成为当前章节的位置，也是跳转后标题停留的位置。有吸顶头部时调大即可。
+- 标题需要加 `tabIndex={-1}`，跳转后焦点才能移到标题上。开启减弱动效时直接跳转，不做平滑滚动。
+- 不由滚动驱动的目录，比如按聚焦的表单字段高亮，照旧自己传 `activeId`。
 
 ## 结构
 

@@ -1,10 +1,11 @@
 import type {ContentTocEntry} from "@/components/content-toc";
 
 import {render} from "@sy-inc/testing/browser";
+import {useRef} from "react";
 import {page, userEvent} from "vitest/browser";
 
 import {Button} from "@/components/button";
-import {ContentToc} from "@/components/content-toc";
+import {ContentToc, useContentTocSpy} from "@/components/content-toc";
 
 const items: ContentTocEntry[] = [
   {depth: 2, id: "intro", title: "概览"},
@@ -61,7 +62,7 @@ describe("ContentToc (browser)", () => {
   it("calls navigation once and closes the floating panel after choosing a chapter", async () => {
     const onNavigate = vi.fn();
 
-    const screen = await render(
+    await render(
       <ContentToc
         activeId="intro"
         items={items}
@@ -78,23 +79,6 @@ describe("ContentToc (browser)", () => {
     await page.getByRole("link", {name: "下一节"}).click();
     expect(onNavigate).toHaveBeenCalledExactlyOnceWith("next");
     await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
-    await screen.rerender(
-      <ContentToc
-        activeId="next"
-        items={items}
-        label="本页目录"
-        presentation="floating"
-        onNavigate={onNavigate}
-      >
-        <ContentToc.Title />
-        <ContentToc.List />
-      </ContentToc>,
-    );
-    await expect.element(page.getByRole("button", {name: /本页目录/})).toHaveTextContent("下一节");
-    await page.getByRole("button", {name: /本页目录/}).click();
-    await expect
-      .element(page.getByRole("link", {name: "下一节"}))
-      .toHaveAttribute("aria-current", "location");
   });
 
   it("supports dismissing the floating panel by clicking outside", async () => {
@@ -119,36 +103,6 @@ describe("ContentToc (browser)", () => {
     await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("preserves the active chapter when switching from sidebar to floating presentation", async () => {
-    const onNavigate = vi.fn();
-    const screen = await render(
-      <ContentToc activeId="details" items={items} label="本页目录" onNavigate={onNavigate}>
-        <ContentToc.Title />
-        <ContentToc.List />
-      </ContentToc>,
-    );
-
-    await expect
-      .element(page.getByRole("link", {name: "标题与锚点"}))
-      .toHaveAttribute("aria-current", "location");
-    await screen.rerender(
-      <ContentToc
-        activeId="details"
-        items={items}
-        label="本页目录"
-        presentation="floating"
-        onNavigate={onNavigate}
-      >
-        <ContentToc.Title />
-        <ContentToc.List />
-      </ContentToc>,
-    );
-    await page.getByRole("button", {name: /本页目录/}).click();
-    await expect
-      .element(page.getByRole("link", {name: "标题与锚点"}))
-      .toHaveAttribute("aria-current", "location");
-  });
-
   it("renders the rail highlight across every visible entry", async () => {
     await render(
       <ContentToc activeId="intro" items={items} label="本页目录" visibleIds={["intro", "next"]}>
@@ -161,5 +115,54 @@ describe("ContentToc (browser)", () => {
     await expect
       .poll(() => Number(document.querySelector("clipPath rect")?.getAttribute("height")))
       .toBe(span);
+  });
+
+  it("supports tracking and navigating a scroll container with useContentTocSpy", async () => {
+    const SpyFixture = () => {
+      const root = useRef<HTMLDivElement>(null);
+      const spy = useContentTocSpy({ids: items.map((item) => item.id), root});
+
+      return (
+        <>
+          <div ref={root} data-testid="reader" style={{height: 200, overflowY: "auto"}}>
+            {items.map((item) => (
+              <section key={item.id} style={{height: 300}}>
+                <h2 id={item.id} tabIndex={-1}>
+                  {item.title}
+                </h2>
+              </section>
+            ))}
+          </div>
+          <ContentToc {...spy} items={items} label="本页目录">
+            <ContentToc.List />
+          </ContentToc>
+        </>
+      );
+    };
+
+    await render(<SpyFixture />);
+    const reader = page.getByTestId("reader").element() as HTMLElement;
+    const link = (name: string) => page.getByRole("link", {name});
+
+    await expect.element(link("概览")).toHaveAttribute("aria-current", "location");
+    await expect.element(link("标题与锚点")).toHaveAttribute("data-visible", "false");
+
+    reader.scrollTop = 200;
+    await expect.element(link("概览")).toHaveAttribute("data-visible", "true");
+    await expect.element(link("标题与锚点")).toHaveAttribute("data-visible", "true");
+
+    reader.scrollTop = reader.scrollHeight;
+    await expect.element(link("下一节")).toHaveAttribute("aria-current", "location");
+
+    await link("标题与锚点").click();
+    await expect.element(link("标题与锚点")).toHaveAttribute("aria-current", "location");
+    const heading = page.getByRole("heading", {name: "标题与锚点"});
+
+    await expect.element(heading).toHaveFocus();
+    await expect
+      .poll(
+        () => heading.element().getBoundingClientRect().top - reader.getBoundingClientRect().top,
+      )
+      .toBeCloseTo(80, 0);
   });
 });

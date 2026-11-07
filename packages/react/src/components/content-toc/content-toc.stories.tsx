@@ -1,15 +1,14 @@
 import type {ContentTocProps, ContentTocRailVariant} from "./index";
 import type {Meta, StoryObj} from "@storybook/react";
-import type {Ref} from "react";
 
-import {memo, useEffect, useId, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {memo, useId, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {tv} from "tailwind-variants";
 
 import {Button} from "../button";
 import {ToggleButton} from "../toggle-button";
 import {ToggleButtonGroup} from "../toggle-button-group";
 
-import {ContentToc} from "./index";
+import {ContentToc, useContentTocSpy} from "./index";
 
 /* Demo canvas only. ContentToc itself never positions or caps itself: placement is the consumer's. */
 const demo = tv({
@@ -143,17 +142,11 @@ const sections = [
 ] satisfies {id: string; depth: 2 | 3 | 4; title: string; text: string; detail: string}[];
 
 /* Memoized so scroll-spy updates re-render only the outline and footer, not the whole page. */
-const DemoArticle = memo(function DemoArticle({
-  prefix,
-  ref,
-}: {
-  prefix: string;
-  ref: Ref<HTMLElement>;
-}) {
+const DemoArticle = memo(function DemoArticle({prefix}: {prefix: string}) {
   const styles = demo();
 
   return (
-    <article ref={ref} className={styles.article()}>
+    <article className={styles.article()}>
       <header className={styles.articleHeader()}>
         <p className={styles.breadcrumb()}>设计指南 / 内容导航</p>
         <h1 className={styles.title()}>让目录跟上阅读。</h1>
@@ -263,6 +256,9 @@ const DemoToolbar = memo(function DemoToolbar({
   );
 });
 
+/* Where headings land in the reader; shared by the spy and the presentation switch. */
+const READING_OFFSET = 80;
+
 function ContentTocPreview({
   initialPresentation = "sidebar",
   initialVariant = "circuit",
@@ -272,10 +268,7 @@ function ContentTocPreview({
 }) {
   const [variant, setVariant] = useState(initialVariant);
   const [presentation, setPresentation] = useState(initialPresentation);
-  const [active, setActive] = useState(0);
-  const [visible, setVisible] = useState<[number, number]>([0, 0]);
   const readerRef = useRef<HTMLDivElement>(null);
-  const articleRef = useRef<HTMLElement>(null);
   const previousPresentation = useRef(presentation);
   const prefix = useId();
   const styles = demo({presentation});
@@ -283,100 +276,37 @@ function ContentTocPreview({
     () => sections.map(({depth, id, title}) => ({depth, id: `${prefix}-${id}`, title})),
     [prefix],
   );
-  const visibleIds = useMemo(
-    () => items.slice(visible[0], visible[1] + 1).map((item) => item.id),
-    [items, visible],
+  const spy = useContentTocSpy({
+    ids: items.map((item) => item.id),
+    offset: READING_OFFSET,
+    root: readerRef,
+  });
+  const active = Math.max(
+    0,
+    items.findIndex((item) => item.id === spy.activeId),
   );
 
+  // Keep the reading position when the outline moves between sidebar and floating.
   useLayoutEffect(() => {
     if (previousPresentation.current === presentation) return;
     previousPresentation.current = presentation;
     const reader = readerRef.current;
-    const heading = articleRef.current?.querySelectorAll<HTMLElement>("[data-toc-heading]")[active];
+    const heading = spy.activeId && document.getElementById(spy.activeId);
 
     if (reader && heading) {
       reader.scrollTop +=
-        heading.getBoundingClientRect().top - reader.getBoundingClientRect().top - 60;
+        heading.getBoundingClientRect().top - reader.getBoundingClientRect().top - READING_OFFSET;
     }
-  }, [presentation, active]);
-
-  useEffect(() => {
-    const reader = readerRef.current;
-    const article = articleRef.current;
-
-    if (!reader || !article) return;
-    let frame = 0;
-
-    const update = () => {
-      const bounds = reader.getBoundingClientRect();
-      const threshold = bounds.top + 80;
-      const end = article.getBoundingClientRect().bottom;
-      const tops = Array.from(article.querySelectorAll<HTMLElement>("[data-toc-heading]")).map(
-        (heading) => heading.getBoundingClientRect().top,
-      );
-      let index = 0;
-      let from = -1;
-      let to = -1;
-
-      tops.forEach((top, i) => {
-        if (top <= threshold) index = i;
-        // A section runs from its heading to the next one; ignore slivers under 24px.
-        if (top < bounds.bottom - 24 && (tops[i + 1] ?? end) > bounds.top + 24) {
-          if (from === -1) from = i;
-          to = i;
-        }
-      });
-      if (reader.scrollTop + reader.clientHeight >= reader.scrollHeight - 2)
-        index = sections.length - 1;
-      setActive(index);
-      setVisible((prev) => (prev[0] === from && prev[1] === to ? prev : [from, to]));
-    };
-    const schedule = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(update);
-    };
-    const observer = new ResizeObserver(schedule);
-
-    observer.observe(article);
-    observer.observe(reader);
-    reader.addEventListener("scroll", schedule, {passive: true});
-    update();
-
-    return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-      reader.removeEventListener("scroll", schedule);
-    };
-  }, []);
-
-  function navigate(id: string) {
-    const reader = readerRef.current;
-    const heading = document.getElementById(id);
-
-    if (!reader || !heading || !articleRef.current?.contains(heading)) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    reader.scrollTo({
-      behavior: reducedMotion ? "instant" : "smooth",
-      top:
-        reader.scrollTop +
-        heading.getBoundingClientRect().top -
-        reader.getBoundingClientRect().top -
-        60,
-    });
-    heading.focus({preventScroll: true});
-  }
+  }, [presentation, spy.activeId]);
 
   const toc = (
     <ContentToc
-      activeId={items[active]!.id}
+      {...spy}
       className={presentation === "sidebar" ? styles.aside() : styles.floating()}
       items={items}
       label="本页目录"
       presentation={presentation}
       variant={variant}
-      visibleIds={visibleIds}
-      onNavigate={navigate}
     >
       <ContentToc.Title />
       <ContentToc.List className={presentation === "sidebar" ? styles.asideList() : undefined} />
@@ -402,7 +332,7 @@ function ContentTocPreview({
           tabIndex={0}
         >
           <div className={styles.layout()}>
-            <DemoArticle ref={articleRef} prefix={prefix} />
+            <DemoArticle prefix={prefix} />
 
             {presentation === "sidebar" && toc}
           </div>

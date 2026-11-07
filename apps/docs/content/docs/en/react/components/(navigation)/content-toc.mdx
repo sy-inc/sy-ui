@@ -9,7 +9,7 @@ links:
 ## Usage
 
 ```tsx
-import {ContentToc} from '@sy-inc/react';
+import {ContentToc, useContentTocSpy} from '@sy-inc/react';
 
 const items = [
   {id: 'overview', depth: 2, title: 'Overview'},
@@ -17,15 +17,11 @@ const items = [
   {id: 'next', depth: 2, title: 'Next steps'},
 ];
 
-export default function Example({activeId}: {activeId: string}) {
+export default function Example() {
+  const spy = useContentTocSpy({ids: items.map((item) => item.id)});
+
   return (
-    <ContentToc
-      activeId={activeId}
-      className="sticky top-24"
-      items={items}
-      label="On this page"
-      onNavigate={(id) => document.getElementById(id)?.scrollIntoView({behavior: 'smooth'})}
-    >
+    <ContentToc {...spy} className="sticky top-24" items={items} label="On this page">
       <ContentToc.Title />
       <ContentToc.List className="max-h-[calc(100vh-10rem)]" />
     </ContentToc>
@@ -33,7 +29,14 @@ export default function Example({activeId}: {activeId: string}) {
 }
 ```
 
-`activeId` is controlled. Compute it however fits the page — a scroll-spy over headings, the focused form field, the current route hash — and pass it in.
+## Scroll-spy
+
+`useContentTocSpy` tracks the current and visible sections and scrolls to a section on navigation. Spread the `activeId`, `visibleIds` and `onNavigate` it returns onto the root.
+
+- `root` is a ref to the scroll container; leave it out to follow the window.
+- `offset` (default `80`) is where a heading becomes current, and where navigation lands it. Raise it to clear a sticky header.
+- Give the headings `tabIndex={-1}` so navigation can move focus to them. Reduced motion jumps instead of scrolling smoothly.
+- Outlines not driven by scrolling, such as the focused form field, keep passing `activeId` themselves.
 
 ## Anatomy
 

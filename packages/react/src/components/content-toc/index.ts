@@ -18,6 +18,8 @@ export type ContentToc = {
 };
 
 export {ContentTocRoot, ContentTocTitle, ContentTocList, ContentTocItem};
+export {useContentTocSpy} from "./use-content-toc-spy";
+export type {UseContentTocSpyOptions, UseContentTocSpyResult} from "./use-content-toc-spy";
 export type {
   ContentTocRootProps,
   ContentTocRootProps as ContentTocProps,
