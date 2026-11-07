@@ -53,6 +53,11 @@
     @apply text-foreground;
   }
 
+  /* Text follows the rail across the visible span; the active entry adds weight. */
+  &[data-visible="true"] {
+    @apply text-accent;
+  }
+
   &[data-active="true"] {
     @apply font-medium text-accent;
   }
