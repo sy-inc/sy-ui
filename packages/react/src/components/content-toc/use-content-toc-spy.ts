@@ -56,7 +56,7 @@ export const useContentTocSpy = ({
 }: UseContentTocSpyOptions): UseContentTocSpyResult => {
   // Depend on content, not the array reference, so inline `ids` don't re-subscribe every render.
   const key = ids.join("\n");
-  const [activeId, setActiveId] = useState(ids[0]);
+  const [activeId, setActiveId] = useState<string | undefined>(ids[0]);
   const [visibleIds, setVisibleIds] = useState<string[]>([]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const useContentTocSpy = ({
 
         return heading ? [{id, top: heading.getBoundingClientRect().top}] : [];
       });
-      let active = sections[0]?.id;
+      let active: string | undefined = sections[0]?.id;
       const visible: string[] = [];
 
       sections.forEach(({id, top}, index) => {
