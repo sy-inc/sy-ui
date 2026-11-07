@@ -1,6 +1,6 @@
 {
   "name": "@sy-inc/react",
-  "version": "0.1.53",
+  "version": "0.1.54",
   "description": "🚀 Beautiful and modern React UI library built with Tailwind CSS 4.0.",
   "license": "MIT",
   "type": "module",
