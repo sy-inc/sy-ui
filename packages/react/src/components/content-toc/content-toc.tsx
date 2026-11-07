@@ -24,9 +24,13 @@ export interface ContentTocEntry {
 
 interface ContentTocContextValue {
   activeId?: string;
+  /** Index of `activeId` in `items`, or -1. */
+  activeIndex: number;
   items: ContentTocEntry[];
   label: string;
   navigate: (id: string) => void;
+  /** Indices of the first and last highlighted entries. */
+  span?: [number, number];
   variant: ContentTocRailVariant;
 }
 
@@ -56,7 +60,27 @@ export interface ContentTocRootProps extends Omit<ComponentPropsWithoutRef<"nav"
   presentation?: "sidebar" | "floating";
   /** Straight rail, or one that bends with the heading depth. @default "circuit" */
   variant?: ContentTocRailVariant;
+  /**
+   * Ids of every section currently in view. The rail highlights from the first to the last of
+   * them; `activeId` still decides `aria-current`. Falls back to `activeId` when empty.
+   */
+  visibleIds?: string[];
 }
+
+/* First..last index of `visibleIds` in `items`; unknown ids are ignored, gaps are filled. */
+const getSpan = (
+  items: ContentTocEntry[],
+  activeIndex: number,
+  visibleIds?: string[],
+): [number, number] | undefined => {
+  const indices = (visibleIds ?? [])
+    .map((id) => items.findIndex((item) => item.id === id))
+    .filter((index) => index !== -1);
+
+  if (indices.length > 0) return [Math.min(...indices), Math.max(...indices)];
+
+  return activeIndex === -1 ? undefined : [activeIndex, activeIndex];
+};
 
 const ContentTocRoot = React.forwardRef<HTMLElement, ContentTocRootProps>(
   (
@@ -69,6 +93,7 @@ const ContentTocRoot = React.forwardRef<HTMLElement, ContentTocRootProps>(
       onNavigate,
       presentation = "sidebar",
       variant = "circuit",
+      visibleIds,
       ...props
     },
     ref,
@@ -77,14 +102,17 @@ const ContentTocRoot = React.forwardRef<HTMLElement, ContentTocRootProps>(
 
     if (items.length === 0) return null;
 
+    const activeIndex = items.findIndex((item) => item.id === activeId);
     const context: ContentTocContextValue = {
       activeId,
+      activeIndex,
       items,
       label,
       navigate: (id) => {
         setOpen(false);
         onNavigate?.(id);
       },
+      span: getSpan(items, activeIndex, visibleIds),
       variant,
     };
     const rootProps = {
@@ -104,8 +132,6 @@ const ContentTocRoot = React.forwardRef<HTMLElement, ContentTocRootProps>(
         </ContentTocContext>
       );
     }
-
-    const activeIndex = items.findIndex((item) => item.id === activeId);
 
     return (
       <ContentTocContext value={context}>
@@ -165,12 +191,14 @@ export interface ContentTocItemProps extends Omit<ComponentPropsWithoutRef<"a">,
 
 const ContentTocItem = React.forwardRef<HTMLAnchorElement, ContentTocItemProps>(
   ({children, className, onClick, ...props}, ref) => {
-    const {activeId, navigate} = useContentToc("Item");
+    const {activeId, items, navigate, span} = useContentToc("Item");
     const item = useContext(ContentTocEntryContext);
 
     if (!item) throw new Error("ContentToc.Item must be rendered by ContentToc.List.");
 
     const isActive = item.id === activeId;
+    const index = items.indexOf(item);
+    const isVisible = !!span && index >= span[0] && index <= span[1];
 
     return (
       <a
@@ -181,6 +209,7 @@ const ContentTocItem = React.forwardRef<HTMLAnchorElement, ContentTocItemProps>(
         data-active={isActive}
         data-depth={item.depth}
         data-slot="content-toc-item"
+        data-visible={isVisible}
         href={`#${item.id}`}
         onClick={(event) => {
           onClick?.(event);
@@ -204,16 +233,18 @@ const renderDefaultItem = () => <ContentTocItem />;
 
 const ContentTocList = React.forwardRef<HTMLDivElement, ContentTocListProps>(
   ({children = renderDefaultItem, className, ...props}, ref) => {
-    const {activeId, items, variant} = useContentToc("List");
+    const {activeIndex, items, span, variant} = useContentToc("List");
     const [rows, setRows] = useState<ContentTocRow[]>([]);
     const scrollRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const clipId = useId();
-    const activeIndex = items.findIndex((item) => item.id === activeId);
-    const row = rows[activeIndex];
+    const first = span && rows[span[0]];
+    const last = span && rows[span[1]];
     const lastRow = rows.at(-1);
     const height = lastRow ? lastRow.top + lastRow.height : 0;
     const path = buildTocPath(rows, variant);
+    // Re-measure on structural change only, so inline `items` arrays don't relayout on every render.
+    const structureKey = items.map((item) => `${item.id}:${item.depth}`).join();
 
     useLayoutEffect(() => {
       const track = trackRef.current;
@@ -239,7 +270,7 @@ const ContentTocList = React.forwardRef<HTMLDivElement, ContentTocListProps>(
       measure();
 
       return () => observer.disconnect();
-    }, [items]);
+    }, [structureKey]);
 
     // Keep the active entry visible inside a capped list.
     useEffect(() => {
@@ -275,8 +306,8 @@ const ContentTocList = React.forwardRef<HTMLDivElement, ContentTocListProps>(
               <clipPath id={clipId}>
                 <rect
                   className={slots.railClip()}
-                  height={row?.height ?? 0}
-                  style={{transform: `translateY(${row?.top ?? 0}px)`}}
+                  height={first && last ? last.top + last.height - first.top : 0}
+                  style={{transform: `translateY(${first?.top ?? 0}px)`}}
                   width="48"
                 />
               </clipPath>

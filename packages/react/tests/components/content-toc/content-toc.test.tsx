@@ -33,6 +33,22 @@ describe("ContentToc", () => {
     expect(screen.getByRole("navigation")).toHaveAttribute("data-variant", "straight");
   });
 
+  it("exposes the visible range while keeping a single current entry", () => {
+    const visible = () =>
+      screen.getAllByRole("link").map((link) => link.getAttribute("data-visible") === "true");
+    const {rerender} = render(<TocFixture activeId="intro" visibleIds={["next", "intro"]} />);
+
+    // Gaps are filled: the range runs from the first to the last visible entry.
+    expect(visible()).toEqual([true, true, true]);
+    expect(screen.getAllByRole("link", {current: "location"})).toHaveLength(1);
+
+    rerender(<TocFixture activeId="details" visibleIds={["missing"]} />);
+    expect(visible()).toEqual([false, true, false]);
+
+    rerender(<TocFixture activeId="next" visibleIds={[]} />);
+    expect(visible()).toEqual([false, false, true]);
+  });
+
   it("calls onNavigate instead of following the hash", async () => {
     const user = setupUser();
     const onNavigate = vi.fn();
@@ -84,6 +100,38 @@ describe("ContentToc", () => {
     expect(
       screen.getByRole("navigation").querySelector('[data-slot="content-toc-list"]'),
     ).toHaveClass("max-h-40");
+  });
+
+  it("supports inline items without re-measuring until the outline structure changes", () => {
+    let observers = 0;
+
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        constructor() {
+          observers += 1;
+        }
+        disconnect() {}
+        observe() {}
+        unobserve() {}
+      },
+    );
+
+    try {
+      const copy = () => items.map((item) => ({...item}));
+      const {rerender} = render(<TocFixture activeId="intro" items={copy()} />);
+
+      expect(observers).toBe(1);
+
+      rerender(<TocFixture activeId="details" items={copy()} />);
+      rerender(<TocFixture activeId="next" items={copy()} />);
+      expect(observers).toBe(1);
+
+      rerender(<TocFixture items={copy().map((item) => ({...item, depth: 2}))} />);
+      expect(observers).toBe(2);
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("renders nothing without entries", () => {

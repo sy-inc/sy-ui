@@ -148,4 +148,18 @@ describe("ContentToc (browser)", () => {
       .element(page.getByRole("link", {name: "标题与锚点"}))
       .toHaveAttribute("aria-current", "location");
   });
+
+  it("renders the rail highlight across every visible entry", async () => {
+    await render(
+      <ContentToc activeId="intro" items={items} label="本页目录" visibleIds={["intro", "next"]}>
+        <ContentToc.List />
+      </ContentToc>,
+    );
+    const links = [...document.querySelectorAll<HTMLElement>('[data-slot="content-toc-item"]')];
+    const span = links.at(-1)!.offsetTop + links.at(-1)!.offsetHeight - links[0]!.offsetTop;
+
+    await expect
+      .poll(() => Number(document.querySelector("clipPath rect")?.getAttribute("height")))
+      .toBe(span);
+  });
 });

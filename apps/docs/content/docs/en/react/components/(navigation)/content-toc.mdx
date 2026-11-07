@@ -96,6 +96,7 @@ Calling `event.preventDefault()` in an item's `onClick` skips `onNavigate`.
 | `items` | `ContentTocEntry[]` | — | `{id, depth: 2 \| 3 \| 4, title}` for each section. Renders nothing when empty. |
 | `label` | `string` | — | Accessible name of the outline and the floating trigger's label. |
 | `activeId` | `string` | — | Id of the section in view. |
+| `visibleIds` | `string[]` | — | Ids of every section in view. The rail highlights from the first to the last; `activeId` still sets `aria-current`. Falls back to `activeId` when empty. |
 | `onNavigate` | `(id: string) => void` | — | Called when an entry is chosen. Links do not follow their hash. |
 | `presentation` | `"sidebar" \| "floating"` | `"sidebar"` | Inline outline or floating trigger. |
 | `variant` | `"straight" \| "circuit"` | `"circuit"` | Straight rail, or one that bends with the heading depth. |
@@ -121,7 +122,7 @@ Native `a` props except `href`, which is `#<id>`. Renders the entry's title when
 | `content-toc` | Root | `data-presentation`, `data-variant` |
 | `content-toc-title` | Title | |
 | `content-toc-list` | Scroll container | |
-| `content-toc-item` | Link | `data-active`, `data-depth` |
+| `content-toc-item` | Link | `data-active`, `data-depth`, `data-visible` |
 | `content-toc-trigger` | Floating trigger | |
 
 ## Accessibility

@@ -39,7 +39,7 @@ export default () => (
 );
 ```
 
-> **ButtonGroup** wraps multiple Button components together, applying consistent styling, spacing, and automatic border radius handling. It uses React Context to pass `size`, `variant`, and `isDisabled` props to all child buttons.
+> **ButtonGroup** wraps multiple Button components together, applying consistent styling, spacing, and automatic border radius handling. It uses React Context to pass `size`, `variant`, and `isDisabled` props to its direct child buttons.
 
 ## Examples
 
@@ -155,8 +155,8 @@ Add `<ButtonGroup.Separator />` inside each Button (except the first) to show di
 
 ## Note
 
-- ButtonGroup uses React Context to pass `size`, `variant`, and `isDisabled` props to all child Button components
-- **Only direct child buttons receive the ButtonGroup props** - Buttons nested inside other components (like Modal, Dropdown, etc.) will not inherit the group's props even if they are descendants of the ButtonGroup
+- ButtonGroup uses React Context to pass `size`, `variant`, and `isDisabled` props to its direct child Button components
+- **Only direct child buttons receive the ButtonGroup props** - Buttons nested inside other components (like Modal, Dropdown, etc.) will not inherit the group's props even if they are descendants of the ButtonGroup. This includes trigger buttons wrapped in `Popover`, `Tooltip` or `Dropdown` — set `size` / `variant` on those Buttons directly, e.g. `<Popover><Button size="sm" variant="tertiary">…</Button>…</Popover>`
 - Individual Button components can override the group's `isDisabled` prop by setting `isDisabled={false}`
 - The component automatically handles border radius between buttons
 - Add `<ButtonGroup.Separator />` inside each Button (except the first) to show dividers between buttons

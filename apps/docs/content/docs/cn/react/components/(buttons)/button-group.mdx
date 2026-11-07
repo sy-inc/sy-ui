@@ -39,7 +39,7 @@ export default () => (
 );
 ```
 
-> **ButtonGroup** 将多个 Button 组合在一起，应用一致的样式、间距与自动圆角处理。它通过 React Context 向所有子按钮传递 `size`、`variant` 与 `isDisabled` 属性。
+> **ButtonGroup** 将多个 Button 组合在一起，应用一致的样式、间距与自动圆角处理。它通过 React Context 向直接子按钮传递 `size`、`variant` 与 `isDisabled` 属性。
 
 ## 示例
 
@@ -155,8 +155,8 @@ ButtonGroup 组件自动为按钮应用圆角：
 
 ## 说明
 
-- ButtonGroup 通过 React Context 向所有子 Button 传递 `size`、`variant` 与 `isDisabled` 属性
-- **仅直接子按钮接收 ButtonGroup 属性** - 嵌套在其他组件（如 Modal、Dropdown 等）内的 Button 即使位于 ButtonGroup 后代也不会继承组属性
+- ButtonGroup 通过 React Context 向直接子 Button 传递 `size`、`variant` 与 `isDisabled` 属性
+- **仅直接子按钮接收 ButtonGroup 属性** - 嵌套在其他组件（如 Modal、Dropdown 等）内的 Button 即使位于 ButtonGroup 后代也不会继承组属性。包裹在 `Popover`、`Tooltip`、`Dropdown` 中的触发按钮同样如此，需在该 Button 上直接设置 `size` / `variant`，例如 `<Popover><Button size="sm" variant="tertiary">…</Button>…</Popover>`
 - 单个 Button 可通过 `isDisabled={false}` 覆盖组的 `isDisabled` 属性
 - 组件自动处理按钮之间的圆角
 - 在每个 Button 内（第一个除外）添加 `<ButtonGroup.Separator />` 以显示分隔线

@@ -1,7 +1,8 @@
-import type {ContentTocProps} from "./index";
+import type {ContentTocProps, ContentTocRailVariant} from "./index";
 import type {Meta, StoryObj} from "@storybook/react";
+import type {Ref} from "react";
 
-import {useEffect, useId, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {memo, useEffect, useId, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {tv} from "tailwind-variants";
 
 import {Button} from "../button";
@@ -44,7 +45,7 @@ const demo = tv({
     example:
       "rounded-xl border border-border bg-background p-5 font-mono text-xs leading-7 text-muted",
     aside:
-      "sticky top-6 order-first self-start rounded-xl bg-surface/95 backdrop-blur-sm max-md:static md:top-10 md:order-last",
+      "sticky top-6 order-first self-start rounded-xl bg-surface max-md:static md:top-10 md:order-last",
     asideList: "max-h-44 md:max-h-[calc(min(760px,82vh)-180px)]",
     floating: "absolute right-4 bottom-16 z-20 max-w-[calc(100%-32px)] sm:right-7",
     footer:
@@ -141,6 +142,127 @@ const sections = [
   },
 ] satisfies {id: string; depth: 2 | 3 | 4; title: string; text: string; detail: string}[];
 
+/* Memoized so scroll-spy updates re-render only the outline and footer, not the whole page. */
+const DemoArticle = memo(function DemoArticle({
+  prefix,
+  ref,
+}: {
+  prefix: string;
+  ref: Ref<HTMLElement>;
+}) {
+  const styles = demo();
+
+  return (
+    <article ref={ref} className={styles.article()}>
+      <header className={styles.articleHeader()}>
+        <p className={styles.breadcrumb()}>设计指南 / 内容导航</p>
+        <h1 className={styles.title()}>让目录跟上阅读。</h1>
+        <p className={styles.lead()}>
+          用一条连续的轨道，串起文章的结构与阅读的位置。向下滚动，看看目录如何随内容自然流动。
+        </p>
+        <div className={styles.meta()}>
+          <span>SY INC Design</span>
+          <span className={styles.dot()} />
+          <span>约 4 分钟</span>
+        </div>
+      </header>
+      {sections.map((section, index) => {
+        const Heading = section.depth === 2 ? "h2" : section.depth === 3 ? "h3" : "h4";
+
+        return (
+          <section key={section.id} className={styles.section()}>
+            <Heading
+              data-toc-heading
+              className={demo({depth: section.depth}).heading()}
+              id={`${prefix}-${section.id}`}
+              tabIndex={-1}
+            >
+              {section.title}
+            </Heading>
+            <p className={styles.paragraph()}>{section.text}</p>
+            <p className={styles.paragraph()}>{section.detail}</p>
+            {index === 0 && (
+              <aside className={styles.callout()}>
+                <span className={styles.calloutLabel()}>试试看</span>
+                滚动正文，或打开目录跳转到任意章节。进入子章节时，留意轨道如何折进，再回到主线。
+              </aside>
+            )}
+            {section.id === "hierarchy" && (
+              <pre className={styles.example()}>
+                {"H2  组织内容层级\n  H3  标题与锚点\n    H4  更深一层的内容\n  H3  长标题与换行"}
+              </pre>
+            )}
+          </section>
+        );
+      })}
+    </article>
+  );
+});
+
+const DemoToolbar = memo(function DemoToolbar({
+  onPresentationChange,
+  onVariantChange,
+  presentation,
+  variant,
+}: {
+  presentation: NonNullable<ContentTocProps["presentation"]>;
+  variant: ContentTocRailVariant;
+  onPresentationChange: (value: NonNullable<ContentTocProps["presentation"]>) => void;
+  onVariantChange: (value: ContentTocRailVariant) => void;
+}) {
+  const styles = demo();
+
+  return (
+    <header className={styles.toolbar()}>
+      <div className={styles.identity()}>
+        <span className={styles.monogram()}>SY</span>
+        <div>
+          <p className={styles.toolbarTitle()}>Content TOC</p>
+          <p className={styles.eyebrow()}>内容导航 · 交互预览</p>
+        </div>
+      </div>
+      <div className={styles.controls()}>
+        <div>
+          <span className={styles.controlLabel()}>展示方式</span>
+          <ToggleButtonGroup
+            disallowEmptySelection
+            aria-label="展示方式"
+            selectedKeys={[presentation]}
+            selectionMode="single"
+            size="sm"
+            onSelectionChange={(keys) => {
+              const value = [...keys][0];
+
+              if (value === "sidebar" || value === "floating") onPresentationChange(value);
+            }}
+          >
+            <ToggleButton id="sidebar">侧边常驻</ToggleButton>
+            <ToggleButton id="floating">浮动展开</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <div>
+          <span className={styles.controlLabel()}>轨道样式</span>
+          <ToggleButtonGroup
+            disallowEmptySelection
+            aria-label="轨道样式"
+            selectedKeys={[variant]}
+            selectionMode="single"
+            size="sm"
+            onSelectionChange={(keys) => {
+              const value = [...keys][0];
+
+              if (value === "straight" || value === "circuit") onVariantChange(value);
+            }}
+          >
+            <ToggleButton id="straight">Straight</ToggleButton>
+            <ToggleButton id="circuit">Circuit</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+      </div>
+    </header>
+  );
+});
+
 function ContentTocPreview({
   initialPresentation = "sidebar",
   initialVariant = "circuit",
@@ -151,6 +273,7 @@ function ContentTocPreview({
   const [variant, setVariant] = useState(initialVariant);
   const [presentation, setPresentation] = useState(initialPresentation);
   const [active, setActive] = useState(0);
+  const [visible, setVisible] = useState<[number, number]>([0, 0]);
   const readerRef = useRef<HTMLDivElement>(null);
   const articleRef = useRef<HTMLElement>(null);
   const previousPresentation = useRef(presentation);
@@ -159,6 +282,10 @@ function ContentTocPreview({
   const items = useMemo(
     () => sections.map(({depth, id, title}) => ({depth, id: `${prefix}-${id}`, title})),
     [prefix],
+  );
+  const visibleIds = useMemo(
+    () => items.slice(visible[0], visible[1] + 1).map((item) => item.id),
+    [items, visible],
   );
 
   useLayoutEffect(() => {
@@ -181,16 +308,28 @@ function ContentTocPreview({
     let frame = 0;
 
     const update = () => {
-      const threshold = reader.getBoundingClientRect().top + 80;
-      const headings = Array.from(article.querySelectorAll<HTMLElement>("[data-toc-heading]"));
+      const bounds = reader.getBoundingClientRect();
+      const threshold = bounds.top + 80;
+      const end = article.getBoundingClientRect().bottom;
+      const tops = Array.from(article.querySelectorAll<HTMLElement>("[data-toc-heading]")).map(
+        (heading) => heading.getBoundingClientRect().top,
+      );
       let index = 0;
+      let from = -1;
+      let to = -1;
 
-      headings.forEach((heading, i) => {
-        if (heading.getBoundingClientRect().top <= threshold) index = i;
+      tops.forEach((top, i) => {
+        if (top <= threshold) index = i;
+        // A section runs from its heading to the next one; ignore slivers under 24px.
+        if (top < bounds.bottom - 24 && (tops[i + 1] ?? end) > bounds.top + 24) {
+          if (from === -1) from = i;
+          to = i;
+        }
       });
       if (reader.scrollTop + reader.clientHeight >= reader.scrollHeight - 2)
         index = sections.length - 1;
       setActive(index);
+      setVisible((prev) => (prev[0] === from && prev[1] === to ? prev : [from, to]));
     };
     const schedule = () => {
       cancelAnimationFrame(frame);
@@ -236,6 +375,7 @@ function ContentTocPreview({
       label="本页目录"
       presentation={presentation}
       variant={variant}
+      visibleIds={visibleIds}
       onNavigate={navigate}
     >
       <ContentToc.Title />
@@ -246,53 +386,12 @@ function ContentTocPreview({
   return (
     <div className={styles.canvas()}>
       <div className={styles.frame()}>
-        <header className={styles.toolbar()}>
-          <div className={styles.identity()}>
-            <span className={styles.monogram()}>SY</span>
-            <div>
-              <p className={styles.toolbarTitle()}>Content TOC</p>
-              <p className={styles.eyebrow()}>内容导航 · 交互预览</p>
-            </div>
-          </div>
-          <div className={styles.controls()}>
-            <div>
-              <span className={styles.controlLabel()}>展示方式</span>
-              <ToggleButtonGroup
-                disallowEmptySelection
-                aria-label="展示方式"
-                selectedKeys={[presentation]}
-                selectionMode="single"
-                size="sm"
-                onSelectionChange={(keys) => {
-                  const value = [...keys][0];
-
-                  if (value === "sidebar" || value === "floating") setPresentation(value);
-                }}
-              >
-                <ToggleButton id="sidebar">侧边常驻</ToggleButton>
-                <ToggleButton id="floating">浮动展开</ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <div>
-              <span className={styles.controlLabel()}>轨道样式</span>
-              <ToggleButtonGroup
-                disallowEmptySelection
-                aria-label="轨道样式"
-                selectedKeys={[variant]}
-                selectionMode="single"
-                size="sm"
-                onSelectionChange={(keys) => {
-                  const value = [...keys][0];
-
-                  if (value === "straight" || value === "circuit") setVariant(value);
-                }}
-              >
-                <ToggleButton id="straight">Straight</ToggleButton>
-                <ToggleButton id="circuit">Circuit</ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-          </div>
-        </header>
+        <DemoToolbar
+          presentation={presentation}
+          variant={variant}
+          onPresentationChange={setPresentation}
+          onVariantChange={setVariant}
+        />
 
         <div
           ref={readerRef}
@@ -303,51 +402,7 @@ function ContentTocPreview({
           tabIndex={0}
         >
           <div className={styles.layout()}>
-            <article ref={articleRef} className={styles.article()}>
-              <header className={styles.articleHeader()}>
-                <p className={styles.breadcrumb()}>设计指南 / 内容导航</p>
-                <h1 className={styles.title()}>让目录跟上阅读。</h1>
-                <p className={styles.lead()}>
-                  用一条连续的轨道，串起文章的结构与阅读的位置。向下滚动，看看目录如何随内容自然流动。
-                </p>
-                <div className={styles.meta()}>
-                  <span>SY INC Design</span>
-                  <span className={styles.dot()} />
-                  <span>约 4 分钟</span>
-                </div>
-              </header>
-              {sections.map((section, index) => {
-                const Heading = section.depth === 2 ? "h2" : section.depth === 3 ? "h3" : "h4";
-
-                return (
-                  <section key={section.id} className={styles.section()}>
-                    <Heading
-                      data-toc-heading
-                      className={demo({depth: section.depth}).heading()}
-                      id={`${prefix}-${section.id}`}
-                      tabIndex={-1}
-                    >
-                      {section.title}
-                    </Heading>
-                    <p className={styles.paragraph()}>{section.text}</p>
-                    <p className={styles.paragraph()}>{section.detail}</p>
-                    {index === 0 && (
-                      <aside className={styles.callout()}>
-                        <span className={styles.calloutLabel()}>试试看</span>
-                        滚动正文，或打开目录跳转到任意章节。进入子章节时，留意轨道如何折进，再回到主线。
-                      </aside>
-                    )}
-                    {section.id === "hierarchy" && (
-                      <pre className={styles.example()}>
-                        {
-                          "H2  组织内容层级\n  H3  标题与锚点\n    H4  更深一层的内容\n  H3  长标题与换行"
-                        }
-                      </pre>
-                    )}
-                  </section>
-                );
-              })}
-            </article>
+            <DemoArticle ref={articleRef} prefix={prefix} />
 
             {presentation === "sidebar" && toc}
           </div>

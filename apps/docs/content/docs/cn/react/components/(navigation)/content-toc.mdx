@@ -96,6 +96,7 @@ ContentToc 不会自行定位。`sticky`、`fixed` 和偏移写在根节点的 `
 | `items` | `ContentTocEntry[]` | — | 每个章节的 `{id, depth: 2 \| 3 \| 4, title}`。为空时不渲染。 |
 | `label` | `string` | — | 目录的无障碍名称，也是浮动按钮上的文案。 |
 | `activeId` | `string` | — | 当前所在章节的 id。 |
+| `visibleIds` | `string[]` | — | 视口内所有章节的 id。轨道从第一个高亮到最后一个；`aria-current` 仍由 `activeId` 决定。为空时退回 `activeId`。 |
 | `onNavigate` | `(id: string) => void` | — | 选择条目时调用。链接不会跳转到 hash。 |
 | `presentation` | `"sidebar" \| "floating"` | `"sidebar"` | 常驻目录或浮动按钮。 |
 | `variant` | `"straight" \| "circuit"` | `"circuit"` | 直线轨道，或随标题层级折进的轨道。 |
@@ -121,7 +122,7 @@ ContentToc 不会自行定位。`sticky`、`fixed` 和偏移写在根节点的 `
 | `content-toc` | 根节点 | `data-presentation`、`data-variant` |
 | `content-toc-title` | 标题 | |
 | `content-toc-list` | 滚动容器 | |
-| `content-toc-item` | 链接 | `data-active`、`data-depth` |
+| `content-toc-item` | 链接 | `data-active`、`data-depth`、`data-visible` |
 | `content-toc-trigger` | 浮动按钮 | |
 
 ## 无障碍
