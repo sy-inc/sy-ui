@@ -251,7 +251,8 @@ export function SlashCommands({replies}: {replies: {id: string; shortcut: string
 会一并禁用，而 Footer 文案仍可被读屏软件读到。
 
 焦点环画在 `:focus-within` 的 `.prompt-input__shell` 上而不是文本框上，整个输入区
-读起来像一个控件。工具栏按钮保留各自的焦点环。
+读起来像一个控件。工具栏按钮保留各自的焦点环。点击 Shell 的任意空白处（包括工具栏）都会
+聚焦文本框；其中的按钮、链接等控件保持各自的行为。
 
 ## API 参考
 

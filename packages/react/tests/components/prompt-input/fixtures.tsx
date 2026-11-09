@@ -41,7 +41,13 @@ const quickReplies = [
 const getSlashQuery = (value: string) => /(?:^|\s)\/(\S*)$/.exec(value)?.[1];
 
 /** The documented `/` quick-reply composition: Autocomplete.Filter + TextField + inline ListBox. */
-export const SlashCommandsFixture = ({onSubmit}: {onSubmit?: (value: string) => void}) => {
+export const SlashCommandsFixture = ({
+  layout,
+  onSubmit,
+}: {
+  layout?: ComponentProps<typeof PromptInput>["layout"];
+  onSubmit?: (value: string) => void;
+}) => {
   const [value, setValue] = useState("");
   const [isDismissed, setIsDismissed] = useState(false);
   const query = isDismissed ? undefined : getSlashQuery(value);
@@ -53,6 +59,7 @@ export const SlashCommandsFixture = ({onSubmit}: {onSubmit?: (value: string) => 
 
   return (
     <PromptInput
+      layout={layout}
       value={value}
       onValueChange={handleValueChange}
       onSubmit={() => {

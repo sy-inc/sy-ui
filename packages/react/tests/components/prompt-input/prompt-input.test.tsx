@@ -1,7 +1,9 @@
 import {render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 import React from "react";
 
+import {ListBox} from "@/components/list-box";
 import {PromptInput} from "@/components/prompt-input";
+import {Select} from "@/components/select";
 
 import {PromptInputFixture, SlashCommandsFixture} from "./fixtures";
 
@@ -93,6 +95,73 @@ describe("PromptInput", () => {
     expect(stop).toBeEnabled();
     await user.click(stop);
     expect(onStop).toHaveBeenCalledOnce();
+  });
+
+  describe("shell press", () => {
+    const toolbar = () =>
+      screen.getByTestId("prompt-input").querySelector<HTMLElement>(".prompt-input__toolbar")!;
+
+    it("supports focusing the text area from blank shell space", async () => {
+      const user = setupUser();
+
+      render(<PromptInputFixture />);
+      await user.click(toolbar());
+
+      expect(screen.getByRole("textbox", {name: "Message input"})).toHaveFocus();
+    });
+
+    it("keeps focus on interactive shell content", async () => {
+      const user = setupUser();
+
+      render(<PromptInputFixture />);
+      const attach = screen.getByRole("button", {name: "Attach file"});
+
+      await user.click(attach);
+
+      expect(attach).toHaveFocus();
+    });
+
+    it("supports skipping focus while the text area is locked", async () => {
+      const user = setupUser();
+
+      render(<PromptInputFixture defaultValue="Working" status="streaming" />);
+      await user.click(toolbar());
+
+      expect(screen.getByRole("textbox", {name: "Message input"})).not.toHaveFocus();
+    });
+
+    it("keeps focus in a portaled toolbar popover", async () => {
+      const user = setupUser();
+
+      render(
+        <PromptInput>
+          <PromptInput.Shell>
+            <PromptInput.Content>
+              <PromptInput.TextArea aria-label="Message input" />
+            </PromptInput.Content>
+            <PromptInput.Toolbar>
+              <Select aria-label="Model" defaultSelectedKey="fast">
+                <Select.Trigger>
+                  <Select.Value />
+                </Select.Trigger>
+                <Select.Popover>
+                  <ListBox>
+                    <ListBox.Item id="fast">Fast</ListBox.Item>
+                    <ListBox.Item id="smart">Smart</ListBox.Item>
+                  </ListBox>
+                </Select.Popover>
+              </Select>
+            </PromptInput.Toolbar>
+          </PromptInput.Shell>
+        </PromptInput>,
+      );
+      await user.click(screen.getByRole("button", {name: /Model/}));
+      const popover = screen.getByRole("listbox").parentElement!;
+
+      await user.click(popover);
+
+      expect(popover).toContainElement(document.activeElement as HTMLElement);
+    });
   });
 
   it("supports leaving input editable while running", () => {

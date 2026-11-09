@@ -90,7 +90,9 @@
   @apply motion-reduce:transition-none;
 }
 
-.prompt-input__attachments + .prompt-input__textarea {
+/* The second selector covers a wrapper around the text area (e.g. TextField for slash commands). */
+.prompt-input__attachments + .prompt-input__textarea,
+.prompt-input__attachments + :has(> .prompt-input__textarea) > .prompt-input__textarea {
   @apply pt-1;
 }
 
@@ -131,23 +133,13 @@
   @apply status-disabled;
 }
 
-.prompt-input:not([data-disabled="true"]) {
-  .prompt-input__shell {
-    @apply cursor-text;
-  }
-
-  .prompt-input__toolbar {
-    @apply cursor-default;
-  }
+/* Pressing any non-interactive part of the shell focuses the text area. */
+.prompt-input:not([data-disabled="true"]) .prompt-input__shell {
+  @apply cursor-text;
 }
 
 .prompt-input[data-pending="true"] .prompt-input__shell {
   @apply opacity-95;
-}
-
-.prompt-input[data-status="error"] .prompt-input__send {
-  background-color: var(--danger);
-  color: var(--danger-foreground);
 }
 
 .prompt-input--stacked {
@@ -183,6 +175,12 @@
 
   .prompt-input__attachments {
     grid-area: attachments;
+  }
+
+  /* A wrapper around the text area (e.g. TextField for slash commands) takes its cell. */
+  .prompt-input__content > :has(> .prompt-input__textarea) {
+    @apply min-w-0;
+    grid-area: textarea;
   }
 
   .prompt-input__textarea {

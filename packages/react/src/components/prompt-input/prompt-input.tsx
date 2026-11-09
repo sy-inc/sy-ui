@@ -202,15 +202,47 @@ const createSlot = <E extends "div" | "p">(displayName: string, slot: SlotName, 
 
 interface PromptInputShellProps extends ComponentPropsWithRef<"div"> {}
 
-const PromptInputShell = ({className, ...props}: PromptInputShellProps) => {
+/* React Aria widgets are native controls or carry a tabindex, so roles need no separate entries. */
+const INTERACTIVE_SELECTOR =
+  "a[href], button, input, label, select, textarea, [contenteditable]:not([contenteditable='false']), [tabindex]";
+
+const PromptInputShell = ({className, onMouseDown, ...props}: PromptInputShellProps) => {
   const context = usePromptInput();
 
+  /* Pressing blank shell space focuses the text area; mousedown keeps an already focused one focused. */
+  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    onMouseDown?.(event);
+    if (event.defaultPrevented || event.button !== 0) return;
+
+    const shell = event.currentTarget;
+    const target = event.target as Element;
+
+    /* React bubbles events from portaled content (e.g. a toolbar Select popover); leave those alone. */
+    if (!shell.contains(target)) return;
+
+    const interactive = target.closest(INTERACTIVE_SELECTOR);
+
+    if (interactive && shell.contains(interactive)) return;
+
+    const textArea = shell.querySelector<HTMLTextAreaElement>(
+      '[data-slot="prompt-input-textarea"]',
+    );
+
+    if (!textArea || textArea.disabled) return;
+
+    event.preventDefault();
+    textArea.focus();
+  };
+
   return (
+    // Pointer-only convenience: keyboard users reach the text area directly, so no role is added.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       {...props}
       className={composeSlotClassName(context?.slots.shell, className)}
       data-slot="prompt-input-shell"
       inert={context?.isDisabled || undefined}
+      onMouseDown={handleMouseDown}
     />
   );
 };
@@ -412,9 +444,9 @@ const PromptInputSend = ({
     context?.isDisabled || isDisabled || (!isRunning && cannotSubmit),
   );
 
-  const handlePress: NonNullable<ButtonProps["onPress"]> = (event) => {
+  const handleStopPress: NonNullable<ButtonProps["onPress"]> = (event) => {
     onPress?.(event);
-    if (isRunning) context?.onStop?.();
+    context?.onStop?.();
   };
 
   const defaultChildren =
@@ -438,7 +470,7 @@ const PromptInputSend = ({
       size={size ?? context?.size}
       type={type ?? (isRunning ? "button" : "submit")}
       variant={variant ?? (status === "error" ? "danger" : "primary")}
-      onPress={isRunning ? handlePress : onPress}
+      onPress={isRunning ? handleStopPress : onPress}
     >
       {children ?? defaultChildren}
     </Button>

@@ -258,7 +258,9 @@ names. Override them when the surrounding content needs more context.
 selector is disabled with them. The footer stays readable.
 
 The focus ring sits on `.prompt-input__shell` at `:focus-within`, not on the text area, so
-the composer reads as one control. Toolbar actions keep their own rings.
+the composer reads as one control. Toolbar actions keep their own rings. Pressing any blank
+part of the shell, including the toolbar, focuses the text area; buttons, links, and other
+controls inside it keep their own behavior.
 
 ## API reference
 
