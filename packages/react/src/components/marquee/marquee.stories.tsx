@@ -20,6 +20,10 @@ const meta: Meta<typeof Marquee.Content> = {
     speed: 50,
   },
   argTypes: {
+    gap: {
+      control: "select",
+      options: [0, 16, 48, "container"],
+    },
     direction: {
       control: "select",
       options: ["left", "right", "up", "down"],

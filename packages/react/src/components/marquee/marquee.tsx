@@ -73,8 +73,12 @@ interface MarqueeContentProps extends Omit<ComponentPropsWithRef<"div">, "childr
   delay?: number;
   /** Shows a fading overlay at both edges. @default false */
   gradient?: boolean;
-  /** Space between repeated content in pixels. @default 16 */
-  gap?: number;
+  /**
+   * Space between repeated content in pixels. `"container"` spaces it one content box apart along
+   * the scroll axis and leads with that space, so the content enters from beyond the edge and
+   * scrolls fully out before it comes back. It needs a definite size on that axis. @default 16
+   */
+  gap?: number | "container";
   /**
    * `"overflow"` only scrolls when the content is longer than the content box; content that fits
    * sits still at the start edge, with no copy and no fades. @default "always"
@@ -151,10 +155,10 @@ const MarqueeContent = ({
   const duration = distance > 0 && speed > 0 ? distance / speed : 1;
   // The measured sequence includes its trailing gap. Until it is measured, an overflow marquee
   // renders still, so the server and first paint show plain content instead of a masked track.
+  const gapSize = gap === "container" ? measurement.container : Math.max(0, gap);
   const still =
     scroll === "overflow" &&
-    (measurement.container === 0 ||
-      measurement.sequence - Math.max(0, gap) <= measurement.container);
+    (measurement.container === 0 || measurement.sequence - gapSize <= measurement.container);
   const paused = !play;
   // Wrapped once and shared by every copy: the identical element references let React skip
   // re-rendering the children when a resize updates the measurement.
@@ -186,7 +190,7 @@ const MarqueeContent = ({
   const marqueeStyle: MarqueeStyle = {
     "--marquee-delay": `${Math.max(0, delay)}s`,
     "--marquee-duration": `${Math.max(0.001, duration)}s`,
-    "--marquee-gap": `${Math.max(0, gap)}px`,
+    "--marquee-gap": `${gapSize}px`,
     ...style,
   };
 
@@ -197,6 +201,7 @@ const MarqueeContent = ({
       className={slots.content({className})}
       data-auto-fill={dataAttr(autoFill)}
       data-direction={direction}
+      data-gap={gap === "container" ? gap : undefined}
       data-gradient={dataAttr(gradient && !still)}
       data-pause-on-interaction={dataAttr(pauseOnInteraction)}
       data-paused={dataAttr(paused)}

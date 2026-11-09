@@ -203,6 +203,92 @@ describe("Marquee (browser)", () => {
     });
   });
 
+  describe("container gap", () => {
+    const query = (slot: string) => document.querySelector<HTMLElement>(`[data-slot="${slot}"]`)!;
+
+    it("starts the content beyond the entering edge, one content box apart", async () => {
+      await render(
+        <Marquee style={{width: 320}}>
+          <Marquee.Content gap="container" play={false}>
+            <span style={{width: 200}}>Notice</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = query("marquee-content");
+      const tracks = document.querySelectorAll<HTMLElement>('[data-slot="marquee-track"]');
+
+      await expect.poll(() => content.style.getPropertyValue("--marquee-gap")).toBe("320px");
+      expect(query("marquee-item").getBoundingClientRect().left).toBeCloseTo(
+        content.getBoundingClientRect().right,
+        0,
+      );
+      expect(tracks[0]!.getBoundingClientRect().width).toBeCloseTo(520, 0);
+      expect(tracks[0]!.getBoundingClientRect().right).toBeCloseTo(
+        tracks[1]!.getBoundingClientRect().left,
+        0,
+      );
+    });
+
+    it("leads along the block axis for a vertical marquee", async () => {
+      await render(
+        <Marquee style={{height: 120}}>
+          <Marquee.Content direction="up" gap="container" play={false}>
+            <span style={{height: 24}}>Notice</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = query("marquee-content");
+
+      await expect.poll(() => content.style.getPropertyValue("--marquee-gap")).toBe("120px");
+      expect(query("marquee-item").getBoundingClientRect().top).toBeCloseTo(
+        content.getBoundingClientRect().bottom,
+        0,
+      );
+    });
+
+    it("holds content that fits at the start edge", async () => {
+      await render(
+        <Marquee style={{width: 320}}>
+          <Marquee.Content gap="container" scroll="overflow">
+            <span style={{width: 200}}>Notice</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = query("marquee-content");
+
+      await expect.poll(() => content.style.getPropertyValue("--marquee-gap")).toBe("320px");
+      expect(content.dataset["static"]).toBe("true");
+      expect(query("marquee-item").getBoundingClientRect().left).toBeCloseTo(
+        content.getBoundingClientRect().left,
+        0,
+      );
+    });
+
+    it("keeps the content at the start edge for system reduced motion", async () => {
+      await browserCdp().send("Emulation.setEmulatedMedia", {
+        features: [{name: "prefers-reduced-motion", value: "reduce"}],
+      });
+      await render(
+        <Marquee style={{width: 320}}>
+          <Marquee.Content gap="container">
+            <span style={{width: 200}}>Notice</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = query("marquee-content");
+
+      await expect.poll(() => content.style.getPropertyValue("--marquee-gap")).toBe("320px");
+      expect(query("marquee-item").getBoundingClientRect().left).toBeCloseTo(
+        content.getBoundingClientRect().left,
+        0,
+      );
+    });
+  });
+
   it("disables animation for system reduced motion", async () => {
     await browserCdp().send("Emulation.setEmulatedMedia", {
       features: [{name: "prefers-reduced-motion", value: "reduce"}],

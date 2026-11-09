@@ -179,6 +179,29 @@ describe("Marquee", () => {
     offsetWidth.mockRestore();
   });
 
+  it("supports a gap of one content box", async () => {
+    const offsetWidth = vi
+      .spyOn(HTMLElement.prototype, "offsetWidth", "get")
+      .mockImplementation(function (this: HTMLElement) {
+        return this.dataset["slot"] === "marquee-sequence" ? 400 : 300;
+      });
+
+    render(
+      <Marquee>
+        <Marquee.Content data-testid="content" gap="container" speed={50}>
+          Content
+        </Marquee.Content>
+      </Marquee>,
+    );
+    const content = screen.getByTestId("content");
+
+    await waitFor(() => expect(content.style.getPropertyValue("--marquee-gap")).toBe("300px"));
+    expect(content).toHaveAttribute("data-gap", "container");
+    expect(content.style.getPropertyValue("--marquee-duration")).toBe("8s");
+
+    offsetWidth.mockRestore();
+  });
+
   describe("scroll", () => {
     const mockWidths = (sequence: number, container: number) =>
       vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(function (
@@ -240,6 +263,25 @@ describe("Marquee", () => {
 
       expect(screen.getByTestId("content")).toHaveAttribute("data-static", "true");
       expect(screen.getAllByText("Content")).toHaveLength(1);
+    });
+
+    it("holds still when the content fits, discounting a container gap", async () => {
+      // 100px of content plus the 300px container gap fits a 300px content box.
+      const offsetWidth = mockWidths(400, 300);
+
+      render(
+        <Marquee>
+          <Marquee.Content data-testid="content" gap="container" scroll="overflow">
+            Content
+          </Marquee.Content>
+        </Marquee>,
+      );
+      const content = screen.getByTestId("content");
+
+      await waitFor(() => expect(content).toHaveAttribute("data-ready", "true"));
+      expect(content).toHaveAttribute("data-static", "true");
+
+      offsetWidth.mockRestore();
     });
 
     it("always scrolls by default, even when the content fits", async () => {

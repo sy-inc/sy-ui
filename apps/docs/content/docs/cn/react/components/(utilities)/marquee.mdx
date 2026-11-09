@@ -210,7 +210,7 @@ import {Badge, Marquee} from "@sy-inc/react";
 | `speed` | `number` | `50` | 速度，单位为像素/秒 |
 | `delay` | `number` | `0` | 开始延迟，单位为秒 |
 | `gradient` | `boolean` | `false` | 显示两侧渐隐 |
-| `gap` | `number` | `16` | 子项间距，单位为像素 |
+| `gap` | `number \| "container"` | `16` | 子项间距，单位为像素。`"container"` 让间距等于内容区在滚动方向上的尺寸，并把间距放在开头，内容从边缘外进入；滚动方向上需要确定的尺寸 |
 | `scroll` | `"always" \| "overflow"` | `"always"` | `"overflow"` 时仅在内容放不下时滚动 |
 | `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | 样式，可包含任意 `--marquee-*` 覆盖 |
 | `children` | `ReactNode` | — | 需要重复的内容 |

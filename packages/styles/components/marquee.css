@@ -97,6 +97,24 @@
   }
 }
 
+/* `gap="container"` leads each copy with its space, so the content starts beyond the entering edge
+   and scrolls fully out before it comes back. Content that holds still, or reduced motion, keeps
+   the space trailing; the sequence keeps its size either way, so the measurement holds. */
+@media (prefers-reduced-motion: no-preference) {
+  .marquee__content[data-gap="container"]:not([data-static="true"]) .marquee__sequence {
+    padding-inline: var(--marquee-gap) 0;
+  }
+
+  .marquee__content[data-gap="container"]:not([data-static="true"]):is(
+      [data-direction="up"],
+      [data-direction="down"]
+    )
+    .marquee__sequence {
+    padding-block: var(--marquee-gap) 0;
+    padding-inline: 0;
+  }
+}
+
 /* The mask lives on the content so the fades never reach the prefix and suffix. */
 .marquee__content[data-gradient="true"] {
   mask-image: linear-gradient(

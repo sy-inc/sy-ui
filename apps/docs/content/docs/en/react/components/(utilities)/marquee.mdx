@@ -210,7 +210,7 @@ Accepts every `div` prop. Also exported as `Marquee.Root`.
 | `speed` | `number` | `50` | Speed in pixels per second |
 | `delay` | `number` | `0` | Start delay in seconds |
 | `gradient` | `boolean` | `false` | Shows fades at both edges |
-| `gap` | `number` | `16` | Space between items in pixels |
+| `gap` | `number \| "container"` | `16` | Space between items in pixels. `"container"` spaces them one content box apart and leads with that space, so the content enters from beyond the edge; needs a definite size on the scroll axis |
 | `scroll` | `"always" \| "overflow"` | `"always"` | `"overflow"` scrolls only when the content does not fit |
 | `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | Styles, including any `--marquee-*` override |
 | `children` | `ReactNode` | — | Content to repeat |
