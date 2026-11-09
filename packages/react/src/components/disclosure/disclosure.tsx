@@ -48,11 +48,13 @@ const DisclosureRoot = ({children, className, ...props}: DisclosureRootProps) =>
         {...props}
         className={composeTwRenderProps(className, slots.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </DisclosurePrimitive>
     </DisclosureContext>
   );
 };
+
+DisclosureRoot.displayName = "SY INC.Disclosure";
 
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Heading
@@ -73,6 +75,8 @@ const DisclosureHeading = ({className, ...props}: DisclosureHeadingProps) => {
   );
 };
 
+DisclosureHeading.displayName = "SY INC.Disclosure.Heading";
+
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Trigger
  * -----------------------------------------------------------------------------------------------*/
@@ -87,13 +91,11 @@ const DisclosureTrigger = ({className, ...props}: DisclosureTriggerProps) => {
       data-slot="disclosure-trigger"
       slot="trigger"
       {...props}
-    >
-      {(values) => (
-        <>{typeof props.children === "function" ? props.children(values) : props.children}</>
-      )}
-    </Button>
+    />
   );
 };
+
+DisclosureTrigger.displayName = "SY INC.Disclosure.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Content
@@ -117,6 +119,8 @@ const DisclosureContent = ({children, className, ...props}: DisclosureContentPro
     </DisclosurePanel>
   );
 };
+
+DisclosureContent.displayName = "SY INC.Disclosure.Content";
 
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Body
@@ -142,6 +146,8 @@ const DisclosureBody = <E extends keyof React.JSX.IntrinsicElements = "div">({
     </dom.div>
   );
 };
+
+DisclosureBody.displayName = "SY INC.Disclosure.Body";
 
 /* -------------------------------------------------------------------------------------------------
  * Disclosure Indicator
@@ -187,6 +193,8 @@ const DisclosureIndicator = <E extends keyof React.JSX.IntrinsicElements = "svg"
     />
   );
 };
+
+DisclosureIndicator.displayName = "SY INC.Disclosure.Indicator";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

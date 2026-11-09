@@ -26,6 +26,8 @@ const MenuSectionRoot = ({children, className, ...props}: MenuSectionRootProps) 
   );
 };
 
+MenuSectionRoot.displayName = "SY INC.MenuSection";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

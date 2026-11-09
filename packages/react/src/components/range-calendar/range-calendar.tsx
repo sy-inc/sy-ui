@@ -1,14 +1,16 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0): https://github.com/heroui-inc/heroui/pull/6959 */
+
 import type {DOMRenderProps} from "../../utils/dom";
-import type {RangeCalendarVariants} from "@sy-inc/styles";
 import type {CalendarIdentifier} from "@internationalized/date";
+import type {RangeCalendarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {DateValue} from "react-aria-components/Calendar";
 
-import {rangeCalendarVariants} from "@sy-inc/styles";
 import {CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
 import {useControlledState} from "@react-stately/utils";
+import {rangeCalendarVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 import {useLocale} from "react-aria-components/I18nProvider";
@@ -110,9 +112,9 @@ function RangeCalendarRoot<T extends DateValue = DateValue>({
   const yearPickerContext = React.useMemo(
     () => ({
       calendarGridSlot: "range-calendar-grid" as const,
+      calendarRef,
       isYearPickerOpen,
       setIsYearPickerOpen,
-      calendarRef,
     }),
     [isYearPickerOpen, setIsYearPickerOpen],
   );
@@ -165,13 +167,13 @@ RangeCalendarRoot.displayName = "SY INC.RangeCalendar";
 | * RangeCalendar Header
 | * -----------------------------------------------------------------------------------------------*/
 interface RangeCalendarHeaderProps<
-  E extends keyof React.JSX.IntrinsicElements = "header",
+  E extends keyof React.JSX.IntrinsicElements = "div",
 > extends DOMRenderProps<E, undefined> {
   children?: ReactNode;
   className?: string;
 }
 
-const RangeCalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "header">({
+const RangeCalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "div">({
   children,
   className,
   ...props
@@ -180,13 +182,13 @@ const RangeCalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "head
   const {slots} = use(RangeCalendarContext);
 
   return (
-    <dom.header
+    <dom.div
       className={composeSlotClassName(slots?.header, className)}
       data-slot="range-calendar-header"
       {...(props as any)}
     >
       {children}
-    </dom.header>
+    </dom.div>
   );
 };
 

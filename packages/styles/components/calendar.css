@@ -1,3 +1,5 @@
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6925.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
 /* =============================================================================
  * Calendar Component Styles
  *
@@ -39,7 +41,7 @@
 
   .calendar__grid-header {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     @apply w-full;
 
     & > tr {
@@ -49,7 +51,7 @@
 
   .calendar__grid-body {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     @apply mt-1 w-full;
 
     & > tr {
@@ -134,7 +136,7 @@
 .calendar__grid {
   /* Override table display with CSS Grid for easier customization */
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   @apply w-full;
 
   &[aria-readonly="true"] {
@@ -175,7 +177,7 @@
 
 .calendar__header-cell {
   /* Header cell (th - weekday names) styles */
-  @apply flex items-center justify-center pb-2 text-xs font-medium text-muted;
+  @apply block min-w-0 truncate pb-2 text-center text-xs font-medium text-muted;
 }
 
 /* -----------------------------------------------------------------------------

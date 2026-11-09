@@ -50,7 +50,7 @@ const SearchFieldRoot = ({
         {...props}
         className={composeTwRenderProps(className, slots?.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </SearchFieldPrimitive>
     </SearchFieldContext>
   );
@@ -70,7 +70,7 @@ const SearchFieldGroup = ({children, className, ...props}: SearchFieldGroupProps
       data-slot="search-field-group"
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </GroupPrimitive>
   );
 };
@@ -150,6 +150,12 @@ const SearchFieldClearButton = ({className, ...props}: SearchFieldClearButtonPro
     />
   );
 };
+
+SearchFieldRoot.displayName = "SY INC.SearchField";
+SearchFieldGroup.displayName = "SY INC.SearchField.Group";
+SearchFieldInput.displayName = "SY INC.SearchField.Input";
+SearchFieldSearchIcon.displayName = "SY INC.SearchField.SearchIcon";
+SearchFieldClearButton.displayName = "SY INC.SearchField.ClearButton";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

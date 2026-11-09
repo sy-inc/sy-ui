@@ -176,6 +176,11 @@ const FieldsetActions = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
+FieldsetRoot.displayName = "SY INC.Fieldset";
+FieldsetLegend.displayName = "SY INC.Fieldset.Legend";
+FieldGroup.displayName = "SY INC.Fieldset.Group";
+FieldsetActions.displayName = "SY INC.Fieldset.Actions";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

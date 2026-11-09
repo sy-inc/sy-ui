@@ -148,4 +148,51 @@ describe("ScrollShadow", () => {
 
     expect(screen.getByTestId("scroll-shadow")).toHaveAttribute("data-foo", "bar");
   });
+  it("supports clearing old axis attributes and explicit visibility when disabled", () => {
+    const {rerender} = render(
+      <ScrollShadow data-testid="shadow" visibility="both">
+        Content
+      </ScrollShadow>,
+    );
+    const el = screen.getByTestId("shadow");
+
+    rerender(
+      <ScrollShadow
+        data-testid="shadow"
+        isEnabled={false}
+        orientation="horizontal"
+        visibility="left"
+      >
+        Content
+      </ScrollShadow>,
+    );
+    expect(el).not.toHaveAttribute("data-top-bottom-scroll");
+    expect(el).toHaveAttribute("data-left-scroll", "true");
+    rerender(
+      <ScrollShadow data-testid="shadow" isEnabled={false} orientation="horizontal">
+        Content
+      </ScrollShadow>,
+    );
+    expect(el).not.toHaveAttribute("data-left-scroll");
+  });
+
+  it("supports cancelling a pending auto write when disabling before the next frame", async () => {
+    vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(100);
+    vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(300);
+    const callback = vi.fn();
+    const {rerender} = render(
+      <ScrollShadow data-testid="shadow" onVisibilityChange={callback}>
+        Content
+      </ScrollShadow>,
+    );
+
+    rerender(
+      <ScrollShadow data-testid="shadow" isEnabled={false} onVisibilityChange={callback}>
+        Content
+      </ScrollShadow>,
+    );
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    expect(screen.getByTestId("shadow")).not.toHaveAttribute("data-bottom-scroll");
+    expect(callback).not.toHaveBeenCalled();
+  });
 });

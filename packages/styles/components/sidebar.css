@@ -128,7 +128,9 @@
 }
 
 .sidebar__input.input {
-  @apply h-8 w-full bg-background shadow-none;
+  --field-fill-rest: var(--background);
+
+  @apply h-8 w-full shadow-none;
 }
 
 .sidebar__separator.separator {

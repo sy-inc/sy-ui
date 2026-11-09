@@ -15,6 +15,7 @@ import {
   Dialog as DialogPrimitive,
   Heading as HeadingPrimitive,
   DialogTrigger as ModalTriggerPrimitive,
+  OverlayTriggerStateContext,
 } from "react-aria-components/Dialog";
 import {
   ModalOverlay as ModalOverlayPrimitive,
@@ -22,6 +23,7 @@ import {
   Pressable as PressablePrimitive,
 } from "react-aria-components/Modal";
 
+import {useOverlayExitHoldProps} from "../../hooks/use-overlay-exit-hold";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {CloseButton} from "../close-button";
@@ -50,7 +52,7 @@ interface ModalRootProps extends ComponentPropsWithRef<typeof ModalTriggerPrimit
 
 const ModalRoot = ({children, state, ...props}: ModalRootProps) => {
   const modalContext = useMemo<ModalContext>(
-    () => ({slots: modalVariants(), placement: undefined}),
+    () => ({placement: undefined, slots: modalVariants()}),
     [],
   );
 
@@ -120,6 +122,8 @@ const ModalBackdrop = ({
   ...props
 }: ModalBackdropProps) => {
   const {slots: contextSlots} = use(ModalContext);
+  const state = use(OverlayTriggerStateContext);
+  const hold = useOverlayExitHoldProps(props, state);
 
   const updatedSlots = useMemo(() => modalVariants({variant}), [variant]);
 
@@ -138,10 +142,11 @@ const ModalBackdrop = ({
         onClick?.(e);
       }}
       {...props}
+      {...hold}
     >
       {(renderProps) => (
         <ModalContext value={updatedModalContext}>
-          {typeof children === "function" ? children(renderProps) : children}{" "}
+          {typeof children === "function" ? children(renderProps) : children}
         </ModalContext>
       )}
     </ModalOverlayPrimitive>
@@ -376,6 +381,18 @@ const ModalCloseTrigger = ({className, ...rest}: ModalCloseTriggerProps) => {
     />
   );
 };
+
+ModalRoot.displayName = "SY INC.Modal";
+ModalTrigger.displayName = "SY INC.Modal.Trigger";
+ModalBackdrop.displayName = "SY INC.Modal.Backdrop";
+ModalContainer.displayName = "SY INC.Modal.Container";
+ModalDialog.displayName = "SY INC.Modal.Dialog";
+ModalHeader.displayName = "SY INC.Modal.Header";
+ModalBody.displayName = "SY INC.Modal.Body";
+ModalFooter.displayName = "SY INC.Modal.Footer";
+ModalHeading.displayName = "SY INC.Modal.Heading";
+ModalIcon.displayName = "SY INC.Modal.Icon";
+ModalCloseTrigger.displayName = "SY INC.Modal.CloseTrigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

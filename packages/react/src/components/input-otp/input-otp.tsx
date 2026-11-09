@@ -56,8 +56,8 @@ const InputOTPRoot = ({
     <InputOTPContext value={inputOTPContextValue}>
       <OTPInput
         // OTP Input package uses the `className` prop for the actual `input` element which is not visible to the user so no need to pass it to the base container
-        className={slots.input({className: inputClassName})}
         aria-invalid={isInvalid || undefined}
+        className={slots.input({className: inputClassName})}
         containerClassName={slots.base({className})}
         data-disabled={dataAttr(isDisabled)}
         data-invalid={dataAttr(isInvalid)}
@@ -140,6 +140,11 @@ const InputOTPSeparator = ({className, ...props}: InputOTPSeparatorProps) => {
     />
   );
 };
+
+InputOTPRoot.displayName = "SY INC.InputOTP";
+InputOTPGroup.displayName = "SY INC.InputOTP.Group";
+InputOTPSlot.displayName = "SY INC.InputOTP.Slot";
+InputOTPSeparator.displayName = "SY INC.InputOTP.Separator";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

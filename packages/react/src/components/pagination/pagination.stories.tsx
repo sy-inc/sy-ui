@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {PaginationProps} from "./index";
 import type {Meta} from "@storybook/react";
 
@@ -74,7 +76,7 @@ const SizesTemplate = (props: PaginationProps) => {
         <React.Fragment key={size}>
           <div className="flex flex-col gap-2">
             <span className="text-sm font-semibold text-muted capitalize">{size}</span>
-            <Pagination {...props} size={size}>
+            <Pagination {...props} aria-label={`${size} pagination`} size={size}>
               <Pagination.Content>
                 <Pagination.Item>
                   <Pagination.Previous>

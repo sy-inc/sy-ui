@@ -6,8 +6,8 @@ import type {ToastVariants} from "@sy-inc/styles";
 import type {CSSProperties, ComponentPropsWithRef, ReactNode, Ref} from "react";
 import type {QueuedToast, ToastProps as ToastPrimitiveProps} from "react-aria-components/Toast";
 
-import {mobileMediaQuery, toastVariants} from "@sy-inc/styles";
 import {mergeRefs} from "@react-aria/utils";
+import {toastVariants} from "@sy-inc/styles";
 import React, {
   createContext,
   use,
@@ -30,7 +30,6 @@ import {
 } from "react-aria-components/Toast";
 
 import {useMeasuredHeight} from "../../hooks/use-measured-height";
-import {useMediaQuery} from "../../hooks/use-media-query";
 import {useSafeLayoutEffect} from "../../hooks/use-safe-layout-effect";
 import {dataAttr} from "../../utils/assertion";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
@@ -321,6 +320,8 @@ const ToastContent = ({children, className, ...rest}: ToastContentProps) => {
   );
 };
 
+ToastContent.displayName = "SY INC.Toast.Content";
+
 /* ------------------------------------------------------------------------------------------------
  * Toast Indicator
  * --------------------------------------------------------------------------------------------- */
@@ -379,7 +380,7 @@ const ToastIndicator = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
-ToastIndicator.displayName = "SY INC.ToastIndicator";
+ToastIndicator.displayName = "SY INC.Toast.Indicator";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Title
@@ -401,7 +402,7 @@ const ToastTitle = ({children, className, ...rest}: ToastTitleProps) => {
   );
 };
 
-ToastTitle.displayName = "SY INC.ToastTitle";
+ToastTitle.displayName = "SY INC.Toast.Title";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Description
@@ -423,7 +424,7 @@ const ToastDescription = ({children, className, ...rest}: ToastDescriptionProps)
   );
 };
 
-ToastDescription.displayName = "SY INC.ToastDescription";
+ToastDescription.displayName = "SY INC.Toast.Description";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Close Button
@@ -443,7 +444,7 @@ const ToastCloseButton = ({className, ...rest}: ToastCloseButtonProps) => {
   );
 };
 
-ToastCloseButton.displayName = "SY INC.ToastCloseButton";
+ToastCloseButton.displayName = "SY INC.Toast.CloseButton";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Action Button
@@ -464,7 +465,7 @@ const ToastActionButton = ({children, className, ...rest}: ToastActionButtonProp
   );
 };
 
-ToastActionButton.displayName = "SY INC.ToastActionButton";
+ToastActionButton.displayName = "SY INC.Toast.ActionButton";
 
 /* ------------------------------------------------------------------------------------------------
  * Toast Region
@@ -529,7 +530,6 @@ const ToastProvider = <T extends object = ToastContentValue>({
   ...rest
 }: ToastProviderProps<T>) => {
   const slots = useMemo(() => toastVariants({placement}), [placement]);
-  const isMobile = useMediaQuery(mobileMediaQuery);
   const [toastHeights, setToastHeights] = useState<Record<string, number>>({});
 
   const toastQueue = useMemo((): ExitAwareToastQueue<T> => {
@@ -766,18 +766,15 @@ const ToastProvider = <T extends object = ToastContentValue>({
           <ToastContent>
             {!!title && <ToastTitle>{title}</ToastTitle>}
             {!!description && <ToastDescription>{description}</ToastDescription>}
-            {isMobile && actionProps?.children ? (
-              <ToastActionButton {...actionProps}>{actionProps.children}</ToastActionButton>
-            ) : null}
           </ToastContent>
-          {!isMobile && actionProps?.children ? (
+          {actionProps?.children ? (
             <ToastActionButton {...actionProps}>{actionProps.children}</ToastActionButton>
           ) : null}
           <ToastCloseButton />
         </Toast>
       );
     },
-    [isMobile, placement, scaleFactor],
+    [placement, scaleFactor],
   );
 
   const contextValue = useMemo<ToastContext>(
@@ -850,7 +847,7 @@ const ToastProvider = <T extends object = ToastContentValue>({
   );
 };
 
-ToastProvider.displayName = "SY INC.ToastProvider";
+ToastProvider.displayName = "SY INC.Toast.Provider";
 
 /* ------------------------------------------------------------------------------------------------
  * Exports

@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {ScrollShadowVisibility} from ".";
 import type {Meta, StoryObj} from "@storybook/react";
 
@@ -16,6 +18,7 @@ const meta: Meta<typeof ScrollShadow> = {
     layout: "centered",
   },
   argTypes: {},
+  args: {tabIndex: 0},
 };
 
 export default meta;

@@ -190,6 +190,11 @@ const ColorSwatchPickerIndicator = <E extends keyof React.JSX.IntrinsicElements 
 /* -------------------------------------------------------------------------------------------------
 | * Exports
 | * -----------------------------------------------------------------------------------------------*/
+ColorSwatchPickerRoot.displayName = "SY INC.ColorSwatchPicker";
+ColorSwatchPickerItem.displayName = "SY INC.ColorSwatchPicker.Item";
+ColorSwatchPickerSwatch.displayName = "SY INC.ColorSwatchPicker.Swatch";
+ColorSwatchPickerIndicator.displayName = "SY INC.ColorSwatchPicker.Indicator";
+
 export {
   ColorSwatchPickerRoot,
   ColorSwatchPickerItem,

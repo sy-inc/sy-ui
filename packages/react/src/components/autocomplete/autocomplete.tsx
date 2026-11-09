@@ -1,5 +1,8 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6879, 6947, 6959.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
+
 import type {Booleanish} from "../../utils/assertion";
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
@@ -20,6 +23,7 @@ import {
   SelectValue as SelectValuePrimitive,
 } from "react-aria-components/Select";
 
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {dataAttr} from "../../utils/assertion";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
@@ -39,9 +43,9 @@ type AutocompleteContext = {
 };
 
 const AutocompleteContext = createContext<AutocompleteContext>({
-  triggerRef: {current: null} as RefObject<HTMLDivElement | null>,
   clearButtonRef: {current: null} as RefObject<HTMLButtonElement | null>,
   isDisabled: false,
+  triggerRef: {current: null} as RefObject<HTMLDivElement | null>,
 });
 
 const DEFAULT_SURFACE_CONTEXT = {variant: "default" as SurfaceVariants["variant"]};
@@ -73,7 +77,7 @@ const AutocompleteRoot = <T extends object = object, M extends "single" | "multi
   const clearButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const context = React.useMemo<AutocompleteContext>(
-    () => ({slots, triggerRef, clearButtonRef, onClear, isDisabled}),
+    () => ({clearButtonRef, isDisabled, onClear, slots, triggerRef}),
     [slots, onClear, isDisabled],
   );
 
@@ -86,7 +90,7 @@ const AutocompleteRoot = <T extends object = object, M extends "single" | "multi
           className={composeTwRenderProps(className, slots?.base())}
           isDisabled={isDisabled}
         >
-          {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+          {children}
         </SelectPrimitive>
       </AutocompleteContext>
     </FieldSlotsGate>
@@ -135,12 +139,12 @@ const AutocompleteTrigger = ({
       onClick={handleClick}
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </GroupPrimitive>
   );
 };
 
-AutocompleteTrigger.displayName = "AutocompleteTrigger";
+AutocompleteTrigger.displayName = "SY INC.Autocomplete.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Autocomplete Value
@@ -191,8 +195,8 @@ const AutocompleteIndicator = <E extends keyof React.JSX.IntrinsicElements = "sv
         {
           ...(props as any),
           className: composeSlotClassName(slots?.indicator, className),
-          "data-slot": "autocomplete-indicator",
           "data-open": dataAttr(state?.isOpen),
+          "data-slot": "autocomplete-indicator",
         },
       )
     ) : (
@@ -225,11 +229,13 @@ const AutocompletePopover = ({
   ...props
 }: AutocompletePopoverProps) => {
   const {slots, triggerRef} = use(AutocompleteContext);
+  const hold = usePopoverExitHold(props);
 
   return (
     <SurfaceContext value={DEFAULT_SURFACE_CONTEXT}>
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="autocomplete-popover"
         placement={placement}
@@ -305,6 +311,13 @@ const AutocompleteClearButton = <E extends keyof React.JSX.IntrinsicElements = "
     </dom.button>
   );
 };
+
+AutocompleteRoot.displayName = "SY INC.Autocomplete";
+AutocompleteValue.displayName = "SY INC.Autocomplete.Value";
+AutocompleteIndicator.displayName = "SY INC.Autocomplete.Indicator";
+AutocompletePopover.displayName = "SY INC.Autocomplete.Popover";
+AutocompleteFilter.displayName = "SY INC.Autocomplete.Filter";
+AutocompleteClearButton.displayName = "SY INC.Autocomplete.ClearButton";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

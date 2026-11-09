@@ -59,10 +59,12 @@ const ButtonRoot = ({
       style={style}
       {...rest}
     >
-      {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
+      {children}
     </ButtonPrimitive>
   );
 };
+
+ButtonRoot.displayName = "SY INC.Button";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

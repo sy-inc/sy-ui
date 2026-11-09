@@ -10,6 +10,11 @@ const SCROLL_KEYS = {
   vertical: ["topScroll", "bottomScroll", "topBottomScroll"],
 } as const;
 
+/** Removes every scroll-state data attribute, on both axes. */
+export const clearScrollState = (el: HTMLElement) => {
+  for (const key of Object.values(SCROLL_KEYS).flat()) delete el.dataset[key];
+};
+
 /** Writes the scroll-state data attributes the scroll-shadow CSS reads. */
 export const writeScrollState = (
   el: HTMLElement,

@@ -1,3 +1,5 @@
+@import "./overlay-motion.css";
+
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Component Styles
  * Block: alert-dialog
@@ -49,12 +51,12 @@
 
   /* Entering animation */
   &[data-entering="true"] {
-    @apply animate-in duration-150 ease-out fade-in-0;
+    animation: sy-overlay-fade-in 150ms var(--ease-out);
   }
 
   /* Exiting animation */
   &[data-exiting="true"] {
-    @apply animate-out duration-100 ease-out fade-out-0;
+    animation: sy-overlay-fade-out 100ms var(--ease-out);
   }
 
   /**
@@ -87,6 +89,11 @@
  */
 .alert-dialog__backdrop--blur {
   @apply bg-backdrop backdrop-blur-md;
+
+  @media (hover: none) and (pointer: coarse) {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /**
@@ -101,29 +108,32 @@
 
   /* Entering animation */
   &[data-entering="true"] {
-    @apply animate-in duration-250 ease-out-quad fade-in-0 zoom-in-105;
+    animation: sy-overlay-enter-105 250ms var(--ease-out-quad);
 
     &[data-placement="auto"] {
-      @apply slide-in-from-bottom-1;
-      @apply sm:slide-in-from-bottom-0;
+      animation-name: sy-overlay-enter-105-y;
+      @media (min-width: 640px) {
+        animation-name: sy-overlay-enter-105;
+      }
     }
 
     &[data-placement="top"] {
-      @apply slide-in-from-top-1;
+      animation-name: sy-overlay-enter-105-ny;
     }
 
     &[data-placement="center"] {
-      @apply slide-in-from-top-0;
+      animation-name: sy-overlay-enter-105;
     }
 
     &[data-placement="bottom"] {
-      @apply slide-in-from-bottom-1;
+      animation-name: sy-overlay-enter-105-y;
     }
   }
 
   /* Exiting animation */
-  &[data-exiting="true"] {
-    @apply animate-out duration-100 ease-out-quad fade-out-0 zoom-out-95;
+  &[data-exiting="true"],
+  &[data-exiting="true"][data-placement] {
+    animation: sy-overlay-exit 100ms var(--ease-out-quad);
   }
 
   /**

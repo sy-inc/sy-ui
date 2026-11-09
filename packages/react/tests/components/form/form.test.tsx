@@ -1,4 +1,4 @@
-import type {FormEvent} from "react";
+import type {SyntheticEvent} from "react";
 
 import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
@@ -31,7 +31,7 @@ describe("Form", () => {
   });
 
   it("calls onSubmit with form data", async () => {
-    const onSubmit = vi.fn((e: FormEvent<HTMLFormElement>) => {
+    const onSubmit = vi.fn((e: SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
     });
 

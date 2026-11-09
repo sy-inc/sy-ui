@@ -12,6 +12,11 @@ type BrowserCDPSession = {
 const browserCdp = () => cdp() as BrowserCDPSession;
 
 describe("Marquee (browser)", () => {
+  beforeEach(async () => {
+    // DOM cleanup leaves the real pointer over the next fixture at the same coordinates.
+    await browserCdp().send("Input.dispatchMouseEvent", {type: "mouseMoved", x: -1, y: -1});
+  });
+
   afterEach(async () => {
     await browserCdp().send("Emulation.setEmulatedMedia", {
       features: [{name: "prefers-reduced-motion", value: "no-preference"}],
@@ -233,6 +238,8 @@ describe("Marquee (browser)", () => {
     const track = document.querySelector<HTMLElement>('[data-slot="marquee-track"]')!;
 
     await expect.poll(() => content.dataset["ready"]).toBe("true");
+    expect(content.matches(":hover")).toBe(false);
+    expect(content.matches(":focus-within")).toBe(false);
     expect(getComputedStyle(track).animationPlayState).toBe("running");
 
     content.querySelector("a")!.focus();

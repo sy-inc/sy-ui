@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {Typography} from "./index";
@@ -319,7 +321,7 @@ export const CompoundPrimitives: Story = {
         <Typography.Code>Typography.Code</Typography.Code> when you want the semantic element chosen
         automatically.
       </Typography.Paragraph>
-      <Typography.Heading level={4}>Recent Activity</Typography.Heading>
+      <Typography.Heading level={2}>Recent Activity</Typography.Heading>
       <Typography.Paragraph color="muted" size="sm">
         No new notifications. Check back later for updates on your projects and team activity.
       </Typography.Paragraph>

@@ -3,8 +3,8 @@
 import type {DateValue} from "@internationalized/date";
 
 import {Calendar} from "@gravity-ui/icons";
-import {Button, DateField, Description, FieldError, Form, Label} from "@sy-inc/react";
 import {getLocalTimeZone, today} from "@internationalized/date";
+import {Button, DateField, Description, FieldError, Form, Label} from "@sy-inc/react";
 import {useState} from "react";
 
 export function FormExample() {
@@ -13,7 +13,7 @@ export function FormExample() {
   const todayDate = today(getLocalTimeZone());
   const isInvalid = value !== null && value.compare(todayDate) < 0;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!value || isInvalid) {

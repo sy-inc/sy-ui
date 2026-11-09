@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Avatar, Card} from "@sy-inc/react";
 import React from "react";
 import {tv} from "tailwind-variants";
@@ -5,7 +7,7 @@ import {tv} from "tailwind-variants";
 const cardStyles = tv({
   slots: {
     avatar: "size-[56px] rounded-xl",
-    card: "w-full",
+    card: "min-w-0 flex-1 basis-[140px]",
     cardContent: "items-start",
     footer: "items-center gap-2",
     footerAvatar: "size-4",
@@ -16,14 +18,11 @@ export function SubtleCardsDemo() {
   const {avatar, card, cardContent, footer, footerAvatar} = cardStyles();
 
   return (
-    <div className="flex w-full flex-row gap-4">
+    <div className="flex w-full flex-row flex-wrap gap-4">
       <Card className={card()}>
         <Card.Header>
           <Avatar className={avatar()}>
-            <Avatar.Image
-              alt="Demo 1"
-              src="https://assets.sy-inc.com/docs/demo1.jpg"
-            />
+            <Avatar.Image alt="Demo 1" src="https://assets.sy-inc.com/docs/demo1.jpg" />
             <Avatar.Fallback>JK</Avatar.Fallback>
           </Avatar>
         </Card.Header>
@@ -33,10 +32,7 @@ export function SubtleCardsDemo() {
         </Card.Content>
         <Card.Footer className={footer()}>
           <Avatar className={footerAvatar()}>
-            <Avatar.Image
-              alt="John"
-              src="https://assets.sy-inc.com/avatars/red.jpg"
-            />
+            <Avatar.Image alt="John" src="https://assets.sy-inc.com/avatars/red.jpg" />
             <Avatar.Fallback>JK</Avatar.Fallback>
           </Avatar>
           <p className="text-xs text-muted">By John</p>
@@ -45,10 +41,7 @@ export function SubtleCardsDemo() {
       <Card className={card()}>
         <Card.Header>
           <Avatar className={avatar()}>
-            <Avatar.Image
-              alt="AI Builders"
-              src="https://assets.sy-inc.com/docs/demo2.jpg"
-            />
+            <Avatar.Image alt="AI Builders" src="https://assets.sy-inc.com/docs/demo2.jpg" />
             <Avatar.Fallback>J</Avatar.Fallback>
           </Avatar>
         </Card.Header>
@@ -58,10 +51,7 @@ export function SubtleCardsDemo() {
         </Card.Content>
         <Card.Footer className={footer()}>
           <Avatar className={footerAvatar()}>
-            <Avatar.Image
-              alt="Martha"
-              src="https://assets.sy-inc.com/avatars/blue.jpg"
-            />
+            <Avatar.Image alt="Martha" src="https://assets.sy-inc.com/avatars/blue.jpg" />
             <Avatar.Fallback>M</Avatar.Fallback>
           </Avatar>
           <p className="text-xs text-muted">By Martha</p>

@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Avatar, Card} from "@sy-inc/react";
 import React from "react";
 
@@ -5,14 +7,11 @@ import {VerifiedBadgeIcon} from "./components/icons";
 
 export function XProfileDemo() {
   return (
-    <Card className="w-[400px] items-start justify-center">
+    <Card className="w-full max-w-[400px] items-start justify-center">
       <Card.Header className="items-top w-full flex-row justify-between">
         <div className="flex items-center gap-3">
           <Avatar size="sm">
-            <Avatar.Image
-              alt="SY INC"
-              src="https://assets.sy-inc.com/docs/sy-inc_isotipo.png"
-            />
+            <Avatar.Image alt="SY INC" src="https://assets.sy-inc.com/docs/sy-inc_isotipo.png" />
             <Avatar.Fallback>H</Avatar.Fallback>
           </Avatar>
           <div className="flex h-full flex-col items-start justify-center">

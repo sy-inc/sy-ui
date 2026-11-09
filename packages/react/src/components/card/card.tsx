@@ -199,6 +199,13 @@ const CardFooter = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
+CardRoot.displayName = "SY INC.Card";
+CardHeader.displayName = "SY INC.Card.Header";
+CardTitle.displayName = "SY INC.Card.Title";
+CardDescription.displayName = "SY INC.Card.Description";
+CardContent.displayName = "SY INC.Card.Content";
+CardFooter.displayName = "SY INC.Card.Footer";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

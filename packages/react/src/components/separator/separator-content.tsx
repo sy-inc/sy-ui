@@ -44,3 +44,5 @@ const SeparatorContent = ({
 export {SeparatorContent};
 
 export type {SeparatorContentProps};
+
+SeparatorContent.displayName = "SY INC.SeparatorContent";

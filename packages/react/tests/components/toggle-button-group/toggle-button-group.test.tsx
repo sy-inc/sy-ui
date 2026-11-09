@@ -2,6 +2,7 @@ import {render, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {ToggleButton} from "@/components/toggle-button";
 import {ToggleButtonGroup} from "@/components/toggle-button-group";
+import {Toolbar} from "@/components/toolbar";
 
 describe("ToggleButtonGroup", () => {
   let user: ReturnType<typeof setupUser>;
@@ -178,5 +179,34 @@ describe("ToggleButtonGroup", () => {
     expect(screen.getByRole("button", {name: "Bold"}).className).toEqual(
       expect.stringContaining("toggle-button--lg"),
     );
+  });
+  it("renders a nested group without unsupported orientation and keeps keyboard navigation", async () => {
+    render(
+      <Toolbar aria-label="Editor" orientation="vertical">
+        <ToggleButtonGroup aria-label="Formatting" orientation="vertical" selectionMode="multiple">
+          <ToggleButton id="bold">Bold</ToggleButton>
+          <ToggleButton id="italic">Italic</ToggleButton>
+        </ToggleButtonGroup>
+      </Toolbar>,
+    );
+    const group = screen.getByRole("group", {name: "Formatting"});
+
+    expect(group).not.toHaveAttribute("aria-orientation");
+    await user.click(screen.getByRole("button", {name: "Bold"}));
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getByRole("button", {name: "Italic"})).toHaveFocus();
+  });
+
+  it("supports consumer renderers with their own semantic role", () => {
+    render(
+      <ToggleButtonGroup
+        orientation="vertical"
+        render={(props) => <div {...props} role="toolbar" />}
+        selectionMode="multiple"
+      >
+        <ToggleButton id="bold">Bold</ToggleButton>
+      </ToggleButtonGroup>,
+    );
+    expect(screen.getByRole("toolbar")).toHaveAttribute("aria-orientation", "vertical");
   });
 });

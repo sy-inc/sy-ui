@@ -24,6 +24,21 @@ const triggerRing = () =>
   getComputedStyle(page.getByRole("button", {name: "State"}).element()).boxShadow;
 
 describe("Select (browser)", () => {
+  it("keeps the selected checkmark outside the label content", async () => {
+    await render(<SelectFixture defaultValue="california" />);
+    await page.getByRole("button", {name: "State"}).click();
+    const option = page.getByRole("option", {name: "California"});
+
+    await expect.element(option).toBeVisible();
+    const item = option.element();
+    const indicator = item.querySelector('[data-slot="list-box-item-indicator"]')!;
+    const contentEnd =
+      item.getBoundingClientRect().right - parseFloat(getComputedStyle(item).paddingInlineEnd);
+
+    expect(contentEnd).toBeLessThanOrEqual(indicator.getBoundingClientRect().left);
+    await userEvent.keyboard("{Escape}");
+  });
+
   it("opens the listbox, shows options, and restores focus to the trigger after Escape", async () => {
     await renderSelect();
 

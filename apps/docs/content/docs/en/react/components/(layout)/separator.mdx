@@ -50,6 +50,14 @@ Use `SeparatorContent` when inline content should appear between two decorative 
   name="separator-with-content"
 />
 
+### Decorative
+
+Use `isDecorative` for visual dividers between listbox sections. The divider keeps its styling and is hidden from assistive technology.
+
+```tsx
+<Separator isDecorative />
+```
+
 ### Render Function
 
 <ComponentPreview
@@ -103,6 +111,7 @@ The Separator component uses these CSS classes ([View source styles](https://git
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
+| `isDecorative` | `boolean` | `false` | Hides a visual divider from assistive technology |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the separator |
 | `variant` | `'default' \| 'secondary' \| 'tertiary'` | `'default'` | The visual variant of the separator |
 | `className` | `string` | - | Additional CSS classes |

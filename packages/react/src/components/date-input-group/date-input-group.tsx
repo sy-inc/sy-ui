@@ -6,8 +6,6 @@ import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {
   DateInputProps as DateInputPrimitiveProps,
   DateSegmentProps as DateSegmentPrimitiveProps,
-  DateInputProps as TimeInputPrimitiveProps,
-  DateSegmentProps as TimeSegmentPrimitiveProps,
 } from "react-aria-components/DateField";
 
 import {dateInputGroupVariants} from "@sy-inc/styles";
@@ -57,7 +55,7 @@ const DateInputGroupRoot = ({
         data-slot="date-input-group"
         {...props}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </GroupPrimitive>
     </DateInputGroupContext>
   );
@@ -95,22 +93,17 @@ const DateInputGroupPrefix = <E extends keyof React.JSX.IntrinsicElements = "div
 /* -------------------------------------------------------------------------------------------------
  * DateInputGroup Input
  * -----------------------------------------------------------------------------------------------*/
-interface DateInputGroupInputProps
-  extends
-    DateInputPrimitiveProps,
-    Partial<Omit<TimeInputPrimitiveProps, keyof DateInputPrimitiveProps>> {}
+interface DateInputGroupInputProps extends DateInputPrimitiveProps {}
 
 const DateInputGroupInput = ({className, ...props}: DateInputGroupInputProps) => {
   const {slots} = use(DateInputGroupContext);
 
-  // TimeInput and DateInput have compatible interfaces
-  // React Aria Components will handle the correct primitive based on parent context (TimeField vs DateField)
-  // We use DateInputPrimitive as the default, but it will work with TimeField context
+  // RAC's DateInput reads DateField or TimeField state from context, so one primitive serves both.
   return (
     <DateInputPrimitive
       className={composeTwRenderProps(className, slots?.input())}
       data-slot="date-input-group-input"
-      {...(props as DateInputPrimitiveProps)}
+      {...props}
     />
   );
 };
@@ -119,19 +112,13 @@ const DateInputGroupInput = ({className, ...props}: DateInputGroupInputProps) =>
  * DateInputGroup Segment
  * -----------------------------------------------------------------------------------------------*/
 
-interface DateInputGroupSegmentProps
-  extends
-    DateSegmentPrimitiveProps,
-    Partial<Omit<TimeSegmentPrimitiveProps, keyof DateSegmentPrimitiveProps>> {
+interface DateInputGroupSegmentProps extends DateSegmentPrimitiveProps {
   className?: string;
 }
 
 const DateInputGroupSegment = ({className, segment, ...props}: DateInputGroupSegmentProps) => {
   const {slots} = use(DateInputGroupContext);
 
-  // TimeSegment and DateSegment have compatible interfaces
-  // React Aria Components will handle the correct primitive based on parent context
-  // We use DateSegmentPrimitive as the default, but it will work with TimeField context
   return (
     <DateSegmentPrimitive
       className={composeSlotClassName(slots?.segment, className)}
@@ -199,6 +186,13 @@ const DateInputGroupSuffix = <E extends keyof React.JSX.IntrinsicElements = "div
     </dom.div>
   );
 };
+
+DateInputGroupRoot.displayName = "SY INC.DateInputGroup";
+DateInputGroupPrefix.displayName = "SY INC.DateInputGroup.Prefix";
+DateInputGroupInput.displayName = "SY INC.DateInputGroup.Input";
+DateInputGroupSegment.displayName = "SY INC.DateInputGroup.Segment";
+DateInputGroupInputContainer.displayName = "SY INC.DateInputGroup.InputContainer";
+DateInputGroupSuffix.displayName = "SY INC.DateInputGroup.Suffix";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

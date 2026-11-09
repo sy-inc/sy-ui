@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
@@ -456,7 +458,7 @@ export const ScrollComparison = () => {
                   outside allows page scrolling
                 </p>
               </Modal.Header>
-              <Modal.Body>
+              <Modal.Body tabIndex={0}>
                 {Array.from({length: 30}).map((_, i) => (
                   <p key={i} className="mb-3">
                     Paragraph {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -817,7 +819,7 @@ export const CustomPortal = () => {
                   <Modal.Header>
                     <Modal.Heading>Custom Portal</Modal.Heading>
                   </Modal.Header>
-                  <Modal.Body>
+                  <Modal.Body tabIndex={0}>
                     <p className="text-sm text-muted">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
                       incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis

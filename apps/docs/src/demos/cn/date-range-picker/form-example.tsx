@@ -2,6 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
+import {getLocalTimeZone, today} from "@internationalized/date";
 import {
   Button,
   DateField,
@@ -12,7 +13,6 @@ import {
   Label,
   RangeCalendar,
 } from "@sy-inc/react";
-import {getLocalTimeZone, today} from "@internationalized/date";
 import {useState} from "react";
 
 type DateRange = {
@@ -27,7 +27,7 @@ export function FormExample() {
   const isInvalid =
     value != null && (value.start.compare(currentDate) < 0 || value.end.compare(value.start) < 0);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!value || isInvalid) return;

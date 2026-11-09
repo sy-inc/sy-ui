@@ -27,6 +27,52 @@ describe("Drawer layout (browser)", () => {
     }
   });
 
+  it.each(["top", "bottom", "left", "right"] as const)(
+    "bounds detached %s panels at every oversized snap point",
+    async (placement) => {
+      await render(
+        <DrawerFixture
+          defaultOpen
+          isDetached
+          placement={placement}
+          snapPoints={["200vh", "300vh"]}
+        />,
+      );
+      const content = document.querySelector<HTMLElement>('[data-slot="drawer-content"]')!;
+
+      await expect.poll(() => getComputedStyle(content).transform).toBe("none");
+      const rect = content.getBoundingClientRect();
+
+      expect(rect.left).toBeGreaterThanOrEqual(8);
+      expect(rect.top).toBeGreaterThanOrEqual(8);
+      expect(rect.right).toBeLessThanOrEqual(window.innerWidth - 8);
+      expect(rect.bottom).toBeLessThanOrEqual(window.innerHeight - 8);
+    },
+  );
+
+  it("resolves CSS lengths and preserves consumer Content styles", async () => {
+    await render(
+      <Drawer
+        defaultOpen
+        defaultActiveSnapPoint="10rem"
+        snapPoints={["10rem", "calc(100% - 100px)"]}
+      >
+        <Drawer.Backdrop>
+          <Drawer.Content style={{backgroundColor: "rgb(255, 0, 0)"}}>
+            <Drawer.Dialog aria-label="CSS lengths">
+              <Drawer.Heading>CSS lengths</Drawer.Heading>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>,
+    );
+    const content = document.querySelector<HTMLElement>('[data-slot="drawer-content"]')!;
+
+    expect(content.offsetHeight).toBe(160);
+    expect(getComputedStyle(content).backgroundColor).toBe("rgb(255, 0, 0)");
+    expect(getComputedStyle(content).touchAction).toBe("auto");
+  });
+
   describe("side panel width", () => {
     const renderSide = ({
       contentWidth,
@@ -120,7 +166,10 @@ describe("Drawer layout (browser)", () => {
     const content = document.querySelector<HTMLElement>('[data-slot="drawer-content"]')!;
     const body = document.querySelector<HTMLElement>('[data-slot="drawer-body"]')!;
 
-    expect(getComputedStyle(content).touchAction).toBe("none");
+    expect(getComputedStyle(content).touchAction).toBe("auto");
+    expect(
+      getComputedStyle(document.querySelector('[data-slot="drawer-handle"]')!).touchAction,
+    ).toBe("none");
     expect(getComputedStyle(body).touchAction).toBe("auto");
   });
 });

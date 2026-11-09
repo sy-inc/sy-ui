@@ -32,11 +32,13 @@ const CheckboxGroup = ({children, className, variant, ...props}: CheckboxGroupPr
         data-slot="checkbox-group"
         {...props}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </CheckboxGroupPrimitive>
     </CheckboxGroupContext.Provider>
   );
 };
+
+CheckboxGroup.displayName = "SY INC.CheckboxGroup";
 
 export {CheckboxGroup, CheckboxGroupContext};
 export type {CheckboxGroupProps};

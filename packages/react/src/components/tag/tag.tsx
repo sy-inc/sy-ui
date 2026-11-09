@@ -108,6 +108,9 @@ const TagRemoveButton = ({children, className, ...restProps}: TagRemoveButtonPro
   );
 };
 
+TagRoot.displayName = "SY INC.Tag";
+TagRemoveButton.displayName = "SY INC.Tag.RemoveButton";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

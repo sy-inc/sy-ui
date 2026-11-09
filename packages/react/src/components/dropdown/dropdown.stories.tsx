@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Selection} from "@react-types/shared";
 import type {Meta, StoryObj} from "@storybook/react";
 
@@ -507,12 +509,9 @@ export const WithDescriptions: Story = {
 export const WithSections: Story = {
   render: () => (
     <Dropdown>
-      <Dropdown.Trigger
-        aria-label="Menu"
-        className="button button-md button--secondary button--icon-only data-[focus-visible=true]:status-focused"
-      >
+      <Button isIconOnly aria-label="Menu" variant="secondary">
         <Icon className="outline-none" icon="gravity-ui:ellipsis-vertical" />
-      </Dropdown.Trigger>
+      </Button>
       <Dropdown.Popover>
         <Dropdown.Menu onAction={(key) => alert(`Selected: ${key}`)}>
           <Dropdown.Section>
@@ -850,10 +849,7 @@ export const CustomTrigger: Story = {
     <Dropdown>
       <Dropdown.Trigger className="rounded-full">
         <Avatar>
-          <Avatar.Image
-            alt="Junior Garcia"
-            src="https://assets.sy-inc.com/avatars/orange.jpg"
-          />
+          <Avatar.Image alt="Junior Garcia" src="https://assets.sy-inc.com/avatars/orange.jpg" />
           <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
         </Avatar>
       </Dropdown.Trigger>
@@ -861,10 +857,7 @@ export const CustomTrigger: Story = {
         <div className="px-3 pt-3 pb-1">
           <div className="flex items-center gap-2">
             <Avatar size="sm">
-              <Avatar.Image
-                alt="Jane"
-                src="https://assets.sy-inc.com/avatars/orange.jpg"
-              />
+              <Avatar.Image alt="Jane" src="https://assets.sy-inc.com/avatars/orange.jpg" />
               <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
             </Avatar>
             <div className="flex flex-col gap-0">

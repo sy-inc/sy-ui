@@ -2,9 +2,11 @@ import type {ComponentProps} from "react";
 
 import {
   SliderFill,
+  SliderMark,
   SliderMarks,
   SliderOutput,
   SliderRoot,
+  SliderSteps,
   SliderThumb,
   SliderTrack,
 } from "./slider";
@@ -18,7 +20,9 @@ export const Slider = Object.assign(SliderRoot, {
   Track: SliderTrack,
   Fill: SliderFill,
   Thumb: SliderThumb,
+  Steps: SliderSteps,
   Marks: SliderMarks,
+  Mark: SliderMark,
 });
 
 export type Slider = {
@@ -28,13 +32,24 @@ export type Slider = {
   TrackProps: ComponentProps<typeof SliderTrack>;
   FillProps: ComponentProps<typeof SliderFill>;
   ThumbProps: ComponentProps<typeof SliderThumb>;
+  StepsProps: ComponentProps<typeof SliderSteps>;
   MarksProps: ComponentProps<typeof SliderMarks>;
+  MarkProps: ComponentProps<typeof SliderMark>;
 };
 
 /* -------------------------------------------------------------------------------------------------
  * Named Component
  * -----------------------------------------------------------------------------------------------*/
-export {SliderRoot, SliderOutput, SliderTrack, SliderFill, SliderThumb, SliderMarks};
+export {
+  SliderRoot,
+  SliderOutput,
+  SliderTrack,
+  SliderFill,
+  SliderThumb,
+  SliderSteps,
+  SliderMarks,
+  SliderMark,
+};
 
 export type {
   SliderRootProps,
@@ -43,7 +58,9 @@ export type {
   SliderTrackProps,
   SliderFillProps,
   SliderThumbProps,
+  SliderStepsProps,
   SliderMarksProps,
+  SliderMarkProps,
 } from "./slider";
 
 /* -------------------------------------------------------------------------------------------------

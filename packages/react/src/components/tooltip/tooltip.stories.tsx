@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
@@ -55,7 +57,7 @@ const defaultArgs: Omit<Tooltip["ContentProps"], "children"> = {
 const Template = (props: Tooltip["ContentProps"]) => (
   <div className="flex items-center justify-center gap-3">
     <Tooltip delay={0}>
-      <Button isIconOnly variant="tertiary">
+      <Button isIconOnly aria-label="More information" variant="tertiary">
         <Icon icon="gravity-ui:circle-info" />
       </Button>
       <Tooltip.Content {...props}>
@@ -96,17 +98,15 @@ const CardWithTooltipTemplate = (props: Tooltip["ContentProps"]) => (
   <Card className="w-[200px]">
     <Card.Content className="flex items-center justify-center p-6">
       <Tooltip delay={0}>
-        <Tooltip.Trigger aria-label="Attach a file">
-          <Button
-            isIconOnly
-            aria-label="Attach file"
-            className="rounded-full"
-            size="lg"
-            variant="secondary"
-          >
-            <Icon icon="gravity-ui:paperclip" />
-          </Button>
-        </Tooltip.Trigger>
+        <Button
+          isIconOnly
+          aria-label="Attach file"
+          className="rounded-full"
+          size="lg"
+          variant="secondary"
+        >
+          <Icon icon="gravity-ui:paperclip" />
+        </Button>
         <Tooltip.Content {...props}>
           <Tooltip.Arrow />
           <p>Attach a file</p>

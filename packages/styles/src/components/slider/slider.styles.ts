@@ -9,8 +9,11 @@ export const sliderVariants = tv({
   slots: {
     base: "",
     fill: "",
+    mark: "",
     marks: "",
     output: "",
+    step: "",
+    steps: "",
     thumb: "",
     track: "",
   },
@@ -31,8 +34,11 @@ export const sliderVariants = tv({
       default: {
         base: "slider",
         fill: "slider__fill",
+        mark: "slider__mark",
         marks: "slider__marks",
         output: "slider__output",
+        step: "slider__step",
+        steps: "slider__steps",
         thumb: "slider__thumb",
         track: "slider__track",
       },

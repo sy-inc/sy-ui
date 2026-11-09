@@ -14,6 +14,7 @@ import {
   Popover as PopoverPrimitive,
 } from "react-aria-components/Popover";
 
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {SurfaceContext} from "../surface";
 
@@ -81,7 +82,7 @@ const ColorPickerTrigger = ({children, className, ...props}: ColorPickerTriggerP
       data-slot="color-picker-trigger"
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </ButtonPrimitive>
   );
 };
@@ -103,6 +104,7 @@ const ColorPickerPopover = ({
   ...props
 }: ColorPickerPopoverProps) => {
   const {slots} = use(ColorPickerContext);
+  const hold = usePopoverExitHold(props);
 
   return (
     <SurfaceContext
@@ -112,6 +114,7 @@ const ColorPickerPopover = ({
     >
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="color-picker-popover"
         placement={placement}
@@ -121,6 +124,10 @@ const ColorPickerPopover = ({
     </SurfaceContext>
   );
 };
+
+ColorPickerRoot.displayName = "SY INC.ColorPicker";
+ColorPickerTrigger.displayName = "SY INC.ColorPicker.Trigger";
+ColorPickerPopover.displayName = "SY INC.ColorPicker.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

@@ -32,6 +32,8 @@ const DescriptionRoot = ({children, className, ...rest}: DescriptionRootProps) =
   );
 };
 
+DescriptionRoot.displayName = "SY INC.Description";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

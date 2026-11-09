@@ -32,10 +32,12 @@ function TimeFieldRoot<T extends TimeValue>({
       {...props}
       className={composeTwRenderProps(className, styles)}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </TimeFieldPrimitive>
   );
 }
+
+TimeFieldRoot.displayName = "SY INC.TimeField";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

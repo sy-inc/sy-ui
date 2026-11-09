@@ -1,3 +1,4 @@
+/* Fixes adapted from HeroUI v3.2.7 (heroui-inc/heroui), Apache-2.0. */
 /* ==========================================================================
    Base checkbox styles
    ========================================================================== */
@@ -55,16 +56,14 @@
 
   /* Invalid + Selected: checkmark icon color */
   &[data-invalid="true"][data-selected="true"] [data-slot="checkbox-default-indicator--checkmark"],
-  &[data-invalid="true"][aria-checked="true"] [data-slot="checkbox-default-indicator--checkmark"],
-  &[aria-invalid="true"][data-selected="true"] [data-slot="checkbox-default-indicator--checkmark"],
-  &[aria-invalid="true"][aria-checked="true"] [data-slot="checkbox-default-indicator--checkmark"] {
+  &[aria-invalid="true"][data-selected="true"] [data-slot="checkbox-default-indicator--checkmark"] {
     @apply text-danger-foreground;
   }
 
   /* Indeterminate line indicator */
   &[data-indeterminate="true"] {
     [data-slot="checkbox-default-indicator--indeterminate"] {
-      @apply size-3;
+      @apply absolute size-3;
     }
   }
 
@@ -138,7 +137,6 @@
 
   /* Selection states */
   /* Selected */
-  .checkbox[aria-checked="true"] &,
   .checkbox[data-selected="true"] & {
     @apply border-transparent text-accent-foreground;
 
@@ -161,21 +159,13 @@
 
   /* Validation states */
   /* Invalid (only when not selected/indeterminate) */
-  .checkbox[data-invalid="true"]:not([aria-checked="true"]):not([data-selected="true"]):not(
-      [data-indeterminate="true"]
-    )
-    &,
-  .checkbox[aria-invalid="true"]:not([aria-checked="true"]):not([data-selected="true"]):not(
-      [data-indeterminate="true"]
-    )
-    & {
+  .checkbox[data-invalid="true"]:not([data-selected="true"]):not([data-indeterminate="true"]) &,
+  .checkbox[aria-invalid="true"]:not([data-selected="true"]):not([data-indeterminate="true"]) & {
     @apply status-invalid-field;
   }
 
   /* Invalid + Selected */
-  .checkbox[data-invalid="true"][aria-checked="true"] &,
   .checkbox[data-invalid="true"][data-selected="true"] &,
-  .checkbox[aria-invalid="true"][aria-checked="true"] &,
   .checkbox[aria-invalid="true"][data-selected="true"] & {
     @apply border-transparent bg-danger text-danger-foreground;
 
@@ -239,15 +229,12 @@
 }
 
 /* Unselected state background for secondary variant */
-.checkbox--secondary:not([aria-checked="true"]):not([data-selected="true"]):not(
-    [data-indeterminate="true"]
-  )
+.checkbox--secondary:not([data-selected="true"]):not([data-indeterminate="true"])
   .checkbox__control {
   background-color: var(--checkbox-control-bg);
 }
 
 /* Selected state on secondary variant */
-.checkbox--secondary[aria-checked="true"] .checkbox__control,
 .checkbox--secondary[data-selected="true"] .checkbox__control {
   &::before {
     @apply bg-accent;

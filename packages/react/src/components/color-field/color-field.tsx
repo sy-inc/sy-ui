@@ -27,10 +27,12 @@ function ColorFieldRoot({children, className, fullWidth, ...props}: ColorFieldRo
       {...props}
       className={composeTwRenderProps(className, styles)}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </ColorFieldPrimitive>
   );
 }
+
+ColorFieldRoot.displayName = "SY INC.ColorField";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

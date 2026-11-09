@@ -52,7 +52,7 @@ const AccordionRoot = ({
       data-slot="accordion"
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </DisclosureGroup>
   );
 
@@ -223,6 +223,14 @@ const AccordionPanel = ({children, className, ...props}: AccordionPanelProps) =>
     </DisclosurePanel>
   );
 };
+
+AccordionRoot.displayName = "SY INC.Accordion";
+AccordionItem.displayName = "SY INC.Accordion.Item";
+AccordionIndicator.displayName = "SY INC.Accordion.Indicator";
+AccordionHeading.displayName = "SY INC.Accordion.Heading";
+AccordionTrigger.displayName = "SY INC.Accordion.Trigger";
+AccordionBody.displayName = "SY INC.Accordion.Body";
+AccordionPanel.displayName = "SY INC.Accordion.Panel";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

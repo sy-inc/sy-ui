@@ -49,6 +49,14 @@ Separator 组件会根据不同的表面背景自动适配，以获得更好的�
   name="separator-with-content"
 />
 
+### 装饰性分隔线
+
+列表框分区之间的纯视觉分隔线可使用 `isDecorative`，保留外观并对辅助技术隐藏。
+
+```tsx
+<Separator isDecorative />
+```
+
 ### 渲染函数
 
 <ComponentPreview
@@ -100,6 +108,7 @@ Separator 使用以下 CSS 类（[查看源码样式](https://github.com/sy-inc/
 ### Separator
 | Prop | 类型 | 默认值 | 描述 |
 |------|------|--------|------|
+| `isDecorative` | `boolean` | `false` | 对辅助技术隐藏纯视觉分隔线 |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Separator 的方向 |
 | `variant` | `'default' \| 'secondary' \| 'tertiary'` | `'default'` | Separator 的视觉变体 |
 | `className` | `string` | - | 额外的 CSS 类名 |

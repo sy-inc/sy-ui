@@ -5,6 +5,8 @@ import {page, userEvent} from "vitest/browser";
 import {Button} from "@/components/button";
 import {Drawer} from "@/components/drawer";
 
+import "../../../../styles/dist/sy-inc.min.css";
+
 import {DrawerFixture} from "./fixtures";
 
 const dispatchDrag = (element: Element, start: number, end: number, vertical = true) => {
@@ -13,6 +15,7 @@ const dispatchDrag = (element: Element, start: number, end: number, vertical = t
       new PointerEvent(type, {
         bubbles: true,
         button: 0,
+        buttons: 1,
         clientX: vertical ? 100 : value,
         clientY: vertical ? value : 100,
         pointerId: 1,
@@ -24,12 +27,212 @@ const dispatchDrag = (element: Element, start: number, end: number, vertical = t
   pointer("pointerup", end);
 };
 
-const dispatchPointer = (element: Element, type: string, x: number, y: number) =>
+const dispatchPointer = (element: Element, type: string, x: number, y: number, buttons = 1) =>
   element.dispatchEvent(
-    new PointerEvent(type, {bubbles: true, button: 0, clientX: x, clientY: y, pointerId: 1}),
+    new PointerEvent(type, {
+      bubbles: true,
+      button: 0,
+      buttons,
+      clientX: x,
+      clientY: y,
+      pointerId: 1,
+    }),
   );
 
 describe("Drawer (browser)", () => {
+  it("respects consumer percentage max-height when selecting a snap point", async () => {
+    const onActiveSnapPointChange = vi.fn();
+
+    await render(
+      <Drawer
+        defaultOpen
+        defaultActiveSnapPoint={0.25}
+        isDismissable={false}
+        snapPoints={[0.25, 0.8]}
+        onActiveSnapPointChange={onActiveSnapPointChange}
+      >
+        <Drawer.Backdrop>
+          <Drawer.Content style={{maxHeight: "50%"}}>
+            <Drawer.Dialog aria-label="Bounded snaps">
+              <Drawer.Heading>Bounded snaps</Drawer.Heading>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>,
+    );
+    dispatchDrag(
+      page.getByRole("dialog", {name: "Bounded snaps"}).element(),
+      window.innerHeight * 0.3,
+      window.innerHeight * 0.1,
+    );
+    expect(onActiveSnapPointChange).toHaveBeenCalledWith(0.8);
+  });
+
+  it("respects consumer calc max-height when selecting a snap point", async () => {
+    const onActiveSnapPointChange = vi.fn();
+
+    await render(
+      <Drawer
+        defaultOpen
+        defaultActiveSnapPoint={0.25}
+        isDismissable={false}
+        snapPoints={[0.25, "calc(100% - 4rem)", 1]}
+        onActiveSnapPointChange={onActiveSnapPointChange}
+      >
+        <Drawer.Backdrop>
+          <Drawer.Content style={{maxHeight: "calc(100% - 2rem)"}}>
+            <Drawer.Dialog aria-label="Calc bounded snaps">
+              <Drawer.Heading>Calc bounded snaps</Drawer.Heading>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>,
+    );
+    const height = window.innerHeight;
+    const start = height * 0.9;
+
+    // Target height - 40px: nearer the capped 1 (height - 32px) than the calc point (height - 64px).
+    dispatchDrag(
+      page.getByRole("dialog", {name: "Calc bounded snaps"}).element(),
+      start,
+      start - (height - 40 - height * 0.25),
+    );
+    expect(onActiveSnapPointChange).toHaveBeenCalledWith(1);
+  });
+
+  it("resolves CSS calc snap targets in the positioned panel's containing block", async () => {
+    await render(
+      <DrawerFixture
+        defaultOpen
+        isDismissable={false}
+        snapPoints={["10rem", "calc(100% - 100px)"]}
+      />,
+    );
+    const dialog = page.getByRole("dialog", {name: "Drawer Title"});
+    const extent = window.innerHeight - 100;
+    const desired = (160 + extent) / 2 - 25;
+
+    dispatchDrag(dialog.element(), 100, 100 + extent - desired);
+    await expect.element(dialog).toHaveAttribute("data-active-snap-point", "10rem");
+  });
+
+  it("reports a controlled snap request without changing the selected point", async () => {
+    const onActiveSnapPointChange = vi.fn();
+    const result = await render(
+      <DrawerFixture
+        defaultOpen
+        activeSnapPoint={0.25}
+        isDismissable={false}
+        snapPoints={[0.25, 0.8]}
+        onActiveSnapPointChange={onActiveSnapPointChange}
+      />,
+    );
+    const dialog = page.getByRole("dialog", {name: "Drawer Title"});
+
+    dispatchDrag(dialog.element(), 600, 100);
+    expect(onActiveSnapPointChange).toHaveBeenCalledWith(0.8);
+    await expect.element(dialog).toHaveAttribute("data-active-snap-point", "0.25");
+    await result.rerender(
+      <DrawerFixture
+        defaultOpen
+        activeSnapPoint={0.8}
+        isDismissable={false}
+        snapPoints={[0.25, 0.8]}
+        onActiveSnapPointChange={onActiveSnapPointChange}
+      />,
+    );
+    await expect.element(dialog).toHaveAttribute("data-active-snap-point", "0.8");
+  });
+
+  it("supports Enter and Space snap adjustment on the handle", async () => {
+    await render(
+      <DrawerFixture defaultOpen defaultActiveSnapPoint={0.25} snapPoints={[0.25, 0.5, 0.8]} />,
+    );
+    const handle = page.getByRole("button", {name: "Adjust drawer size"});
+
+    (handle.element() as HTMLElement).focus();
+    await userEvent.keyboard("{Enter}");
+    await expect
+      .element(page.getByRole("dialog", {name: "Drawer Title"}))
+      .toHaveAttribute("data-active-snap-point", "0.5");
+    await userEvent.keyboard(" ");
+    await expect
+      .element(page.getByRole("dialog", {name: "Drawer Title"}))
+      .toHaveAttribute("data-active-snap-point", "0.8");
+  });
+
+  it("ignores child capture loss and snaps back only when Content loses capture", async () => {
+    const onRelease = vi.fn();
+
+    await render(
+      <Drawer defaultOpen onRelease={onRelease}>
+        <Drawer.Backdrop>
+          <Drawer.Content>
+            <Drawer.Dialog aria-label="Capture drawer">
+              <Drawer.Heading>Capture drawer</Drawer.Heading>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>,
+    );
+    const dialog = page.getByRole("dialog", {name: "Capture drawer"}).element();
+    const content = dialog.closest<HTMLElement>('[data-slot="drawer-content"]')!;
+
+    dispatchPointer(dialog, "pointerdown", 100, 100);
+    dispatchPointer(dialog, "pointermove", 100, 140);
+    dispatchPointer(dialog, "lostpointercapture", 100, 140);
+    expect(content.style.transform).toBe("translateY(40px)");
+    dispatchPointer(content, "lostpointercapture", 100, 140);
+    expect(content.style.transform).toBe("");
+    await expect.poll(() => content.hasAttribute("data-dragging")).toBe(false);
+    expect(onRelease).toHaveBeenCalledTimes(1);
+    expect(dialog).toBeInTheDocument();
+    dispatchPointer(dialog, "pointerup", 100, 600);
+    expect(dialog).toBeInTheDocument();
+    expect(onRelease).toHaveBeenCalledTimes(1);
+  });
+
+  it("resolves relative snap targets against the viewport on release", async () => {
+    await render(
+      <DrawerFixture
+        defaultOpen
+        defaultActiveSnapPoint={0.5}
+        isDismissable={false}
+        snapPoints={[0.5, 0.8]}
+      />,
+    );
+    const dialog = page.getByRole("dialog", {name: "Drawer Title"});
+
+    // A short expansion stays at 50%; measuring against the current 50% panel selects 80%.
+    dispatchDrag(dialog.element(), 100, 80);
+    await expect.element(dialog).toHaveAttribute("data-active-snap-point", "0.5");
+  });
+
+  it("merges consumer pointer handlers with drag recovery", async () => {
+    const onPointerMove = vi.fn();
+
+    await render(
+      <Drawer defaultOpen>
+        <Drawer.Backdrop>
+          <Drawer.Content onPointerMove={onPointerMove}>
+            <Drawer.Dialog aria-label="Merged handlers">
+              <Drawer.Heading>Merged handlers</Drawer.Heading>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>,
+    );
+    const dialog = page.getByRole("dialog", {name: "Merged handlers"}).element();
+    const content = dialog.closest<HTMLElement>('[data-slot="drawer-content"]')!;
+
+    dispatchPointer(dialog, "pointerdown", 100, 100);
+    dispatchPointer(dialog, "pointermove", 100, 140);
+    expect(onPointerMove).toHaveBeenCalledTimes(1);
+    expect(content.style.transform).toBe("translateY(40px)");
+    dispatchPointer(content, "pointercancel", 100, 140);
+    expect(content.style.transform).toBe("");
+  });
+
   it("supports portal focus trap, scroll lock, and Escape focus restore", async () => {
     await render(<DrawerFixture />);
 
@@ -258,6 +461,23 @@ describe("Drawer (browser)", () => {
       await expect.poll(() => content.hasAttribute("data-dragging")).toBe(false);
     });
 
+    it("abandons a press released outside Content before the drag threshold", async () => {
+      await render(<DrawerFixture defaultOpen />);
+
+      const dialog = page.getByRole("dialog", {name: "Drawer Title"}).element();
+      const content = getContent();
+
+      dispatchPointer(dialog, "pointerdown", 100, 100);
+      // Its pointerup landed outside Content; the next hover move arrives with no button pressed.
+      dispatchPointer(dialog, "pointermove", 100, 140, 0);
+      expect(content.style.transform).toBe("");
+
+      dispatchPointer(dialog, "pointerdown", 100, 200);
+      dispatchPointer(dialog, "pointermove", 100, 240);
+      expect(content.style.transform).toBe("translateY(40px)");
+      dispatchPointer(dialog, "pointercancel", 100, 240);
+    });
+
     it("drags only the nested drawer the gesture started in", async () => {
       await render(
         <Drawer defaultOpen>
@@ -366,7 +586,7 @@ describe("Drawer (browser)", () => {
     const onBackgroundPress = vi.fn();
 
     await render(
-      <div data-drawer-background>
+      <div data-drawer-background style={{minHeight: "100vh"}}>
         <Button onPress={onBackgroundPress}>Background action</Button>
         <Drawer shouldScaleBackground isModal={false}>
           <Button variant="secondary">Open non-modal</Button>

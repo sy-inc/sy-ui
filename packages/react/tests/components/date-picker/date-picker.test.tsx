@@ -1,7 +1,8 @@
 import type {DateValue} from "@internationalized/date";
+import type {ComponentProps} from "react";
 
-import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 import {CalendarDate} from "@internationalized/date";
+import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {Calendar} from "@/components/calendar";
 import {DateField} from "@/components/date-field";
@@ -12,6 +13,7 @@ const renderDatePicker = (
   props: {
     value?: DateValue | null;
     defaultValue?: DateValue;
+    popoverProps?: Omit<ComponentProps<typeof DatePicker.Popover>, "children">;
     onChange?: (value: DateValue | null) => void;
   } = {},
 ) => {
@@ -32,7 +34,7 @@ const renderDatePicker = (
           </DatePicker.Trigger>
         </DateField.Suffix>
       </DateField.Group>
-      <DatePicker.Popover>
+      <DatePicker.Popover {...props.popoverProps}>
         <Calendar aria-label="Selected date">
           <Calendar.Header>
             <Calendar.YearPickerTrigger>
@@ -118,5 +120,32 @@ describe("DatePicker", () => {
     expect(value.year).toBe(2026);
     expect(value.month).toBe(8);
     expect(value.day).toBe(15);
+  });
+  it("renders an automatically wrapped dialog named after its field", async () => {
+    renderDatePicker();
+    await user.click(screen.getByRole("button", {name: /Open calendar/}));
+    runAllTimers();
+
+    expect(screen.getByRole("dialog")).toHaveAccessibleName(/Date/);
+    expect(screen.queryByRole("banner")).not.toBeInTheDocument();
+  });
+
+  it("supports a custom dialog render and explicit accessible name", async () => {
+    renderDatePicker({
+      popoverProps: {
+        "aria-label": "Choose dates",
+        render: (props) => <div {...props} data-custom-dialog="true" />,
+      },
+    });
+    await user.click(screen.getByRole("button", {name: /Open calendar/}));
+    runAllTimers();
+
+    const dialog = screen.getByRole("dialog", {name: "Choose dates"});
+
+    expect(dialog).toHaveAttribute("data-custom-dialog", "true");
+    expect(dialog).not.toHaveAttribute("aria-labelledby");
+    await user.keyboard("{Escape}");
+    runAllTimers();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

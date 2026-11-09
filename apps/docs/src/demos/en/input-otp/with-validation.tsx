@@ -7,7 +7,7 @@ export function WithValidation() {
   const [value, setValue] = React.useState("");
   const [isInvalid, setIsInvalid] = React.useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const code = formData.get("code");
@@ -54,7 +54,9 @@ export function WithValidation() {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-        <FieldError id="code-error">{isInvalid && "Invalid code. Please try again."}</FieldError>
+        <FieldError id="code-error">
+          {isInvalid ? "Invalid code. Please try again." : null}
+        </FieldError>
         <Button isDisabled={value.length !== 6} type="submit">
           Submit
         </Button>

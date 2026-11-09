@@ -1,8 +1,10 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0): https://github.com/heroui-inc/heroui/pull/6959 */
+
 import type {DOMRenderProps} from "../../utils/dom";
-import type {CalendarVariants} from "@sy-inc/styles";
 import type {CalendarIdentifier} from "@internationalized/date";
+import type {CalendarVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {
   CalendarSelectionMode,
@@ -10,9 +12,9 @@ import type {
   CalendarProps as RACCalendarProps,
 } from "react-aria-components/Calendar";
 
-import {calendarVariants} from "@sy-inc/styles";
 import {CalendarDate, DateFormatter, createCalendar} from "@internationalized/date";
 import {useControlledState} from "@react-stately/utils";
+import {calendarVariants} from "@sy-inc/styles";
 import React, {createContext, use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 import {
@@ -117,9 +119,9 @@ function CalendarRoot<T extends DateValue = DateValue, M extends CalendarSelecti
   const yearPickerContext = React.useMemo(
     () => ({
       calendarGridSlot: "calendar-grid" as const,
+      calendarRef,
       isYearPickerOpen,
       setIsYearPickerOpen,
-      calendarRef,
     }),
     [isYearPickerOpen, setIsYearPickerOpen],
   );
@@ -168,13 +170,13 @@ CalendarRoot.displayName = "SY INC.Calendar";
 | * Calendar Header
 | * -----------------------------------------------------------------------------------------------*/
 interface CalendarHeaderProps<
-  E extends keyof React.JSX.IntrinsicElements = "header",
+  E extends keyof React.JSX.IntrinsicElements = "div",
 > extends DOMRenderProps<E, undefined> {
   children?: ReactNode;
   className?: string;
 }
 
-const CalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "header">({
+const CalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "div">({
   children,
   className,
   ...props
@@ -182,13 +184,13 @@ const CalendarHeader = <E extends keyof React.JSX.IntrinsicElements = "header">(
   const {slots} = use(CalendarContext);
 
   return (
-    <dom.header
+    <dom.div
       className={composeSlotClassName(slots?.header, className)}
       data-slot="calendar-header"
       {...(props as any)}
     >
       {children}
-    </dom.header>
+    </dom.div>
   );
 };
 

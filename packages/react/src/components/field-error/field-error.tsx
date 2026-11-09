@@ -49,7 +49,7 @@ const FieldErrorRoot = ({children, className, ...rest}: FieldErrorRootProps) => 
       data-slot="field-error"
       {...rest}
     >
-      {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
+      {children}
     </FieldErrorPrimitive>
   );
 
@@ -66,6 +66,8 @@ const FieldErrorRoot = ({children, className, ...rest}: FieldErrorRootProps) => 
     </FieldErrorContext>
   );
 };
+
+FieldErrorRoot.displayName = "SY INC.FieldError";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

@@ -53,7 +53,7 @@ const InputGroupRoot = ({
   );
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const input = e.currentTarget.querySelector("input");
+    const input = e.currentTarget.querySelector<HTMLElement>("input, textarea");
 
     if (input && !input.contains(e.target as Node)) {
       input.focus();
@@ -189,6 +189,13 @@ const InputGroupPasswordToggle = ({
     </Button>
   );
 };
+
+InputGroupRoot.displayName = "SY INC.InputGroup";
+InputGroupInput.displayName = "SY INC.InputGroup.Input";
+InputGroupPrefix.displayName = "SY INC.InputGroup.Prefix";
+InputGroupTextArea.displayName = "SY INC.InputGroup.TextArea";
+InputGroupSuffix.displayName = "SY INC.InputGroup.Suffix";
+InputGroupPasswordToggle.displayName = "SY INC.InputGroup.PasswordToggle";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

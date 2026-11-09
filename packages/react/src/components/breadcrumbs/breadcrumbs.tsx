@@ -105,6 +105,9 @@ const BreadcrumbsItem = ({
   );
 };
 
+BreadcrumbsRoot.displayName = "SY INC.Breadcrumbs";
+BreadcrumbsItem.displayName = "SY INC.Breadcrumbs.Item";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

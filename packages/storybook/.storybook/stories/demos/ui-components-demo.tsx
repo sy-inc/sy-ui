@@ -1,9 +1,11 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Checkbox, Radio, RadioGroup, Spinner, Switch} from "@sy-inc/react";
 import React from "react";
 
 export function UIComponentsDemo() {
   return (
-    <div className="flex w-full items-center justify-center gap-8">
+    <div className="flex w-full flex-wrap items-center justify-center gap-8">
       {/* Checkbox - Selected State */}
       <Checkbox defaultSelected aria-label="Checkbox Indicator Example">
         <Checkbox.Content>
@@ -30,14 +32,14 @@ export function UIComponentsDemo() {
         name="demo"
         orientation="horizontal"
       >
-        <Radio value="option1">
+        <Radio aria-label="First option" value="option1">
           <Radio.Content>
             <Radio.Control>
               <Radio.Indicator />
             </Radio.Control>
           </Radio.Content>
         </Radio>
-        <Radio value="option2">
+        <Radio aria-label="Second option" value="option2">
           <Radio.Content>
             <Radio.Control>
               <Radio.Indicator />

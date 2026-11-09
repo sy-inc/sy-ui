@@ -52,11 +52,8 @@
   }
 
   /* Disabled + Selected state */
-  &:disabled[aria-checked="true"],
   &:disabled[data-selected="true"],
-  &[data-disabled="true"][aria-checked="true"],
   &[data-disabled="true"][data-selected="true"],
-  &[aria-disabled="true"][aria-checked="true"],
   &[aria-disabled="true"][data-selected="true"] {
     .switch__thumb {
       opacity: 0.4;
@@ -118,24 +115,19 @@
   }
 
   /* Checked states */
-  .switch[aria-checked="true"] &,
   .switch[data-selected="true"] & {
     background-color: var(--switch-control-bg-checked);
   }
 
   /* Checked + Hover states */
-  .switch[aria-checked="true"]:hover &,
   .switch[data-selected="true"]:hover &,
-  .switch[aria-checked="true"][data-hovered="true"] &,
   .switch[data-selected="true"][data-hovered="true"] &,
   .switch:has([data-slot="switch-content"][data-hovered="true"])[data-selected="true"] & {
     background-color: var(--switch-control-bg-checked-hover);
   }
 
   /* Checked + Pressed states */
-  .switch[aria-checked="true"]:active &,
   .switch[data-selected="true"]:active &,
-  .switch[aria-checked="true"][data-pressed="true"] &,
   .switch[data-selected="true"][data-pressed="true"] &,
   .switch:has([data-slot="switch-content"][data-pressed="true"])[data-selected="true"] & {
     background-color: var(--switch-control-bg-checked-hover);
@@ -174,32 +166,31 @@
 
 /* Switch thumb */
 .switch__thumb {
-  /* Default size (medium) with margin-based positioning */
-  @apply ms-0.5 flex origin-center rounded-lg bg-white text-black shadow-field;
+  /* Logical offsets keep the flex layout stable and follow the actual track width. */
+  @apply relative ms-0.5 flex shrink-0 origin-center rounded-lg bg-white text-black shadow-field;
+  /* Sizes set only the width; the end offset follows it (and the track width). */
+  --switch-thumb-width: 1.375rem; /* ~19px on desktop, ~22px on mobile */
+  inset-inline-start: 0;
   height: 1rem; /* ~14px on desktop, ~16px on mobile */
-  width: 1.375rem; /* ~19px on desktop, ~22px on mobile */
+  width: var(--switch-thumb-width);
 
   /**
    * Transitions
    * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
    */
   transition:
-    margin 300ms var(--ease-out-fluid),
+    inset-inline-start 300ms var(--ease-out-fluid),
     background-color 200ms var(--ease-out);
   @apply motion-reduce:transition-none;
 
-  /* Selected/checked state - use margin instead of translate */
-  .switch[aria-checked="true"] &,
+  /* Slide to the logical end without changing the flex item margin. */
   .switch[data-selected="true"] & {
-    @apply ms-[calc(100%-1.5rem)] bg-accent-foreground text-accent;
+    @apply bg-accent-foreground text-accent;
+    inset-inline-start: calc(100% - var(--switch-thumb-width) - var(--spacing));
     box-shadow:
       0px 0px 5px 0px rgb(0 0 0 / 0.02),
       0px 2px 10px 0px rgb(0 0 0 / 0.06),
       0px 0px 1px 0px rgb(0 0 0 / 0.3);
-  }
-
-  .switch:active &,
-  .switch[data-pressed="true"] & {
   }
 }
 
@@ -207,25 +198,13 @@
 .switch--sm .switch__thumb {
   @apply rounded-md;
   height: 0.75rem; /* ~10.5px on desktop, ~12px on mobile */
-  width: 1.03125rem; /* ~14.4px on desktop, ~16.5px on mobile - maintains 1.375:1 ratio */
-
-  /* Small selected state positioning */
-  .switch[aria-checked="true"] &,
-  .switch[data-selected="true"] & {
-    @apply ms-[calc(100%-1.15625rem)];
-  }
+  --switch-thumb-width: 1.03125rem; /* ~14.4px on desktop, ~16.5px on mobile - 1.375:1 ratio */
 }
 
 .switch--lg .switch__thumb {
   @apply rounded-xl;
   height: 1.25rem; /* ~17.5px on desktop, ~20px on mobile */
-  width: 1.71875rem; /* ~24px on desktop, ~27.5px on mobile - maintains 1.375:1 ratio */
-
-  /* Large selected state positioning */
-  .switch[aria-checked="true"] &,
-  .switch[data-selected="true"] & {
-    @apply ms-[calc(100%-1.84375rem)];
-  }
+  --switch-thumb-width: 1.71875rem; /* ~24px on desktop, ~27.5px on mobile - 1.375:1 ratio */
 }
 
 /* Switch thumb content container */

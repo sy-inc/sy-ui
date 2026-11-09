@@ -1,6 +1,11 @@
 import {fireEvent, render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {ButtonContext} from "react-aria-components/Button";
 
 import {CloseButton} from "@/components/close-button";
+import {Label} from "@/components/label";
+import {SearchField} from "@/components/search-field";
+import {Tag} from "@/components/tag";
+import {TagGroup} from "@/components/tag-group";
 
 const pointerOpts = {
   button: 0,
@@ -43,6 +48,100 @@ describe("CloseButton", () => {
     render(<CloseButton aria-label="Dismiss dialog" />);
 
     expect(screen.getByRole("button", {name: "Dismiss dialog"})).toBeInTheDocument();
+  });
+
+  it("keeps a localized name from the button slot", () => {
+    render(
+      <ButtonContext value={{slots: {close: {"aria-label": "关闭通知"}}}}>
+        <CloseButton slot="close" />
+      </ButtonContext>,
+    );
+
+    expect(screen.getByRole("button", {name: "关闭通知"})).toBeInTheDocument();
+  });
+
+  it("prefers an explicit name over the button slot", () => {
+    render(
+      <ButtonContext value={{slots: {close: {"aria-label": "关闭通知"}}}}>
+        <CloseButton aria-label="Dismiss notification" slot="close" />
+      </ButtonContext>,
+    );
+
+    expect(screen.getByRole("button", {name: "Dismiss notification"})).toBeInTheDocument();
+  });
+
+  it("supports an explicit labelledby without adding the default label", () => {
+    render(
+      <>
+        <span id="dismiss-label">Dismiss panel</span>
+        <CloseButton aria-labelledby="dismiss-label" />
+      </>,
+    );
+
+    expect(screen.getByRole("button", {name: "Dismiss panel"})).not.toHaveAttribute("aria-label");
+  });
+
+  it("keeps labelledby from the button slot", () => {
+    render(
+      <>
+        <span id="slot-dismiss-label">Dismiss item</span>
+        <ButtonContext value={{slots: {remove: {"aria-labelledby": "slot-dismiss-label"}}}}>
+          <CloseButton slot="remove" />
+        </ButtonContext>
+      </>,
+    );
+
+    expect(screen.getByRole("button", {name: "Dismiss item"})).not.toHaveAttribute("aria-label");
+  });
+
+  it("keeps an unslotted context name", () => {
+    render(
+      <ButtonContext value={{"aria-label": "Dismiss context"}}>
+        <CloseButton />
+      </ButtonContext>,
+    );
+
+    expect(screen.getByRole("button", {name: "Dismiss context"})).toBeInTheDocument();
+  });
+
+  it("falls back to Close when a button slot has no name", () => {
+    render(
+      <ButtonContext value={{slots: {close: {}}}}>
+        <CloseButton slot="close" />
+      </ButtonContext>,
+    );
+
+    expect(screen.getByRole("button", {name: "Close"})).toBeInTheDocument();
+  });
+
+  it("keeps the SearchField clear name and action", async () => {
+    render(
+      <SearchField defaultValue="draft">
+        <Label>Search</Label>
+        <SearchField.Group>
+          <SearchField.Input />
+          <SearchField.ClearButton />
+        </SearchField.Group>
+      </SearchField>,
+    );
+
+    await user.click(screen.getByRole("button", {name: "Clear search"}));
+    expect(screen.getByRole("searchbox", {name: "Search"})).toHaveValue("");
+  });
+
+  it("keeps the Tag remove name and action", async () => {
+    const onRemove = vi.fn();
+
+    render(
+      <TagGroup aria-label="Categories" onRemove={onRemove}>
+        <TagGroup.List>
+          <Tag id="news">News</Tag>
+        </TagGroup.List>
+      </TagGroup>,
+    );
+
+    await user.click(screen.getByRole("button", {name: "Remove tag News"}));
+    expect(onRemove).toHaveBeenCalledTimes(1);
   });
 
   it("supports data attribute passthrough", () => {

@@ -138,6 +138,33 @@
 }
 
 /**
+ * Field autofill cover
+ *
+ * Chromium paints autofilled controls with an `!important` UA background, so an
+ * inset shadow repaints the current fill over it. Text-entry shells publish that
+ * fill as `--field-fill` (inherited by their inner, shadow-none inputs); the
+ * trailing `--tw-*` layers keep a standalone input's own focus ring and shadow.
+ * The `:focus` form outranks `[data-invalid]:focus` rings. The cover must not
+ * animate, so box-shadow is left out of the transition.
+ */
+@utility field-autofill {
+  &:autofill,
+  &:autofill:focus {
+    background-color: var(--field-fill);
+    box-shadow:
+      0 0 0 1000px var(--field-fill) inset,
+      var(--tw-inset-shadow, 0 0 #0000),
+      var(--tw-inset-ring-shadow, 0 0 #0000),
+      var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000),
+      var(--tw-shadow, 0 0 #0000);
+    -webkit-text-fill-color: var(--field-foreground);
+    caret-color: var(--field-foreground);
+    transition: background-color 9999s ease-in-out 0s;
+  }
+}
+
+/**
  * Choice card
  *
  * The shared card body for the "pick one / pick many" button groups, where the card

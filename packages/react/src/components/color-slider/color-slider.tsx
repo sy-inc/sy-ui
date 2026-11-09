@@ -109,9 +109,7 @@ const ColorSliderOutput = ({children, className, ...props}: ColorSliderOutputPro
       data-slot="color-slider-output"
       {...props}
     >
-      {children
-        ? (values) => <>{typeof children === "function" ? children(values) : children}</>
-        : ({state}) => state.getThumbValueLabel(0)}
+      {children ? children : ({state}) => state.getThumbValueLabel(0)}
     </SliderOutputPrimitive>
   );
 };
@@ -166,7 +164,7 @@ const ColorSliderTrack = ({children, className, style, ...props}: ColorSliderTra
       })}
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </SliderTrackPrimitive>
   );
 };
@@ -190,10 +188,15 @@ const ColorSliderThumb = ({children, className, style, ...props}: ColorSliderThu
       })}
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </ColorThumbPrimitive>
   );
 };
+
+ColorSliderRoot.displayName = "SY INC.ColorSlider";
+ColorSliderOutput.displayName = "SY INC.ColorSlider.Output";
+ColorSliderTrack.displayName = "SY INC.ColorSlider.Track";
+ColorSliderThumb.displayName = "SY INC.ColorSlider.Thumb";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

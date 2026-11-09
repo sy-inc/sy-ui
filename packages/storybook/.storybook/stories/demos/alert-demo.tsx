@@ -1,9 +1,11 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Alert, Button} from "@sy-inc/react";
 import React from "react";
 
 export function AlertDemo() {
   return (
-    <Alert className="w-[400px] items-center">
+    <Alert className="w-full max-w-[400px] items-center">
       <Alert.Indicator />
       <Alert.Content>
         <Alert.Title>You have 2 credits left</Alert.Title>

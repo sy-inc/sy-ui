@@ -264,7 +264,7 @@ export function SlashCommands({replies}: {replies: {id: string; shortcut: string
 | `value` | `string` | - | 受控文本值。 |
 | `defaultValue` | `string` | `""` | 非受控初始值。 |
 | `onValueChange` | `(value: string) => void` | - | 文本值改变时调用。 |
-| `onSubmit` | `(event: FormEvent<HTMLFormElement>) => void` | - | 有效 Enter 或表单提交时调用，原生默认行为已被阻止。 |
+| `onSubmit` | `(event: SyntheticEvent<HTMLFormElement>) => void` | - | 有效 Enter 或表单提交时调用，原生默认行为已被阻止。 |
 | `onStop` | `() => void` | - | submitted 或 streaming 时由 Send 调用。 |
 | `status` | `"ready" \| "submitted" \| "streaming" \| "error"` | `"ready"` | 请求生命周期状态。 |
 | `isDisabled` | `boolean` | `false` | 禁用输入区域及其操作。 |

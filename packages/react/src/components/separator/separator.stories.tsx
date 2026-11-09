@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
 
 import React from "react";
@@ -11,6 +13,7 @@ const meta: Meta<typeof Separator> = {
     layout: "centered",
   },
   argTypes: {
+    isDecorative: {control: "boolean"},
     orientation: {
       control: {type: "radio"},
       options: ["horizontal", "vertical"],
@@ -48,6 +51,17 @@ export const Vertical: Story = {
       <div>Docs</div>
       <Separator orientation="vertical" />
       <div>Source</div>
+    </div>
+  ),
+};
+
+export const Decorative: Story = {
+  args: {isDecorative: true},
+  render: (args) => (
+    <div className="flex h-5 items-center gap-4">
+      <span>Blog</span>
+      <Separator {...args} orientation="vertical" />
+      <span>Docs</span>
     </div>
   ),
 };

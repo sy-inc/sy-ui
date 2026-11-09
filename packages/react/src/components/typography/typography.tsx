@@ -102,6 +102,12 @@ const Prose = ({children, className, ...props}: ProseProps) => {
   );
 };
 
+TypographyRoot.displayName = "SY INC.Typography";
+Heading.displayName = "SY INC.Typography.Heading";
+Paragraph.displayName = "SY INC.Typography.Paragraph";
+Code.displayName = "SY INC.Typography.Code";
+Prose.displayName = "SY INC.Typography.Prose";
+
 export {Code, Heading, Paragraph, Prose, TypographyRoot};
 
 export type {CodeProps, HeadingProps, ParagraphProps, ProseProps, TypographyRootProps};

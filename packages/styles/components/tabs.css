@@ -249,6 +249,11 @@
   transition-property: translate, width, height;
   transition-timing-function: var(--ease-out-fluid);
   @apply motion-reduce:transition-none;
+
+  /* Collection hydration may briefly expose an intermediate selection. */
+  &[data-animation-ready="false"] {
+    @apply transition-none;
+  }
 }
 
 /* ==========================================================================

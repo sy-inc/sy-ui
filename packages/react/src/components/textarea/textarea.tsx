@@ -32,6 +32,8 @@ const TextAreaRoot = ({autoGrow, className, fullWidth, variant, ...rest}: TextAr
   );
 };
 
+TextAreaRoot.displayName = "SY INC.TextArea";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

@@ -2,6 +2,7 @@
 
 import type {DateValue} from "@internationalized/date";
 
+import {getLocalTimeZone, today} from "@internationalized/date";
 import {
   Button,
   Calendar,
@@ -12,7 +13,6 @@ import {
   Form,
   Label,
 } from "@sy-inc/react";
-import {getLocalTimeZone, today} from "@internationalized/date";
 import {useState} from "react";
 
 export function FormExample() {
@@ -21,7 +21,7 @@ export function FormExample() {
   const currentDate = today(getLocalTimeZone());
   const isInvalid = value != null && value.compare(currentDate) < 0;
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!value || isInvalid) {

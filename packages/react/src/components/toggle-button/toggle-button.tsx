@@ -43,10 +43,12 @@ const ToggleButtonRoot = ({
       style={style}
       {...rest}
     >
-      {(renderProps) => (typeof children === "function" ? children(renderProps) : children)}
+      {children}
     </ToggleButtonPrimitive>
   );
 };
+
+ToggleButtonRoot.displayName = "SY INC.ToggleButton";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

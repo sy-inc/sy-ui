@@ -71,7 +71,7 @@ interface PromptInputRootProps extends Omit<FormProps, "defaultValue">, PromptIn
   /** Maximum auto-growing text area height. Numbers are interpreted as pixels. */
   maxHeight?: number | string;
   /** Called when the form is submitted with a non-empty value. The native default is prevented. */
-  onSubmit?: React.FormEventHandler<HTMLFormElement>;
+  onSubmit?: (event: React.SyntheticEvent<HTMLFormElement>) => void;
   /** Called by PromptInput.Send while a request is submitted or streaming. */
   onStop?: () => void;
   /** Called whenever the managed text value changes. */
@@ -118,7 +118,7 @@ const PromptInputRoot = ({
     [onValueChange, valueProp],
   );
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (isDisabled || isPending || value.trim().length === 0) return;
@@ -336,8 +336,8 @@ const PromptInputTextArea = ({
       data-slot="prompt-input-textarea"
       disabled={Boolean(context?.isInputDisabled || disabled)}
       rows={rows}
-      variant="bare"
       value={value}
+      variant="bare"
       onChange={handleChange}
       onKeyDown={handleKeyDown}
     />

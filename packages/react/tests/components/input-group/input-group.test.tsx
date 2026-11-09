@@ -73,6 +73,22 @@ describe("InputGroup", () => {
     expect(input).toHaveFocus();
   });
 
+  it("supports focusing the textarea when Prefix is clicked", async () => {
+    render(
+      <TextField>
+        <Label>Notes</Label>
+        <InputGroup>
+          <InputGroup.Prefix>@</InputGroup.Prefix>
+          <InputGroup.TextArea />
+        </InputGroup>
+      </TextField>,
+    );
+
+    await user.click(document.querySelector('[data-slot="input-group-prefix"]')!);
+
+    expect(screen.getByRole("textbox", {name: "Notes"})).toHaveFocus();
+  });
+
   it("exposes the group element through ref", () => {
     const ref = createRef<HTMLDivElement>();
 

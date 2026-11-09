@@ -439,7 +439,7 @@ describe("DropZone", () => {
     });
 
     it("does not submit a surrounding form when trigger, remove, or clear controls are pressed", async () => {
-      const onSubmit = vi.fn((event: React.FormEvent) => event.preventDefault());
+      const onSubmit = vi.fn((event: React.SyntheticEvent) => event.preventDefault());
       const user = setupUser();
       const restored: DropZoneFile = {
         id: "one",

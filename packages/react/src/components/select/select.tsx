@@ -1,9 +1,12 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6947, 6959.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
+
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
-import type {SelectVariants} from "@sy-inc/styles";
 import type {KeyboardEvent as AriaKeyboardEvent} from "@react-types/shared";
+import type {SelectVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
 import {selectVariants} from "@sy-inc/styles";
@@ -16,6 +19,7 @@ import {
   SelectValue as SelectValuePrimitive,
 } from "react-aria-components/Select";
 
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {dataAttr} from "../../utils/assertion";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
@@ -84,7 +88,7 @@ const SelectRoot = <T extends object = object, M extends "single" | "multiple" =
           className={composeTwRenderProps(className, slots?.base())}
           isDisabled={isDisabled}
         >
-          {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+          {children}
         </SelectPrimitive>
       </SelectContext>
     </FieldSlotsGate>
@@ -277,6 +281,7 @@ const SelectPopover = ({
   ...props
 }: SelectPopoverProps) => {
   const {slots} = use(SelectContext);
+  const hold = usePopoverExitHold(props);
 
   return (
     <SurfaceContext
@@ -286,6 +291,7 @@ const SelectPopover = ({
     >
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="select-popover"
         placement={placement}
@@ -295,6 +301,13 @@ const SelectPopover = ({
     </SurfaceContext>
   );
 };
+
+SelectRoot.displayName = "SY INC.Select";
+SelectTrigger.displayName = "SY INC.Select.Trigger";
+SelectValue.displayName = "SY INC.Select.Value";
+SelectIndicator.displayName = "SY INC.Select.Indicator";
+SelectClearButton.displayName = "SY INC.Select.ClearButton";
+SelectPopover.displayName = "SY INC.Select.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

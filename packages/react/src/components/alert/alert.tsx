@@ -188,6 +188,12 @@ const AlertDescription = <E extends keyof React.JSX.IntrinsicElements = "span">(
   );
 };
 
+AlertRoot.displayName = "SY INC.Alert";
+AlertIndicator.displayName = "SY INC.Alert.Indicator";
+AlertContent.displayName = "SY INC.Alert.Content";
+AlertTitle.displayName = "SY INC.Alert.Title";
+AlertDescription.displayName = "SY INC.Alert.Description";
+
 /* ------------------------------------------------------------------------------------------------
  * Exports
  * --------------------------------------------------------------------------------------------- */

@@ -271,7 +271,7 @@ In addition to native form props:
 | `value` | `string` | - | Controlled text value. |
 | `defaultValue` | `string` | `""` | Initial uncontrolled value. |
 | `onValueChange` | `(value: string) => void` | - | Called for managed text changes. |
-| `onSubmit` | `(event: FormEvent<HTMLFormElement>) => void` | - | Called for a valid Enter or form submission. The native default is already prevented. |
+| `onSubmit` | `(event: SyntheticEvent<HTMLFormElement>) => void` | - | Called for a valid Enter or form submission. The native default is already prevented. |
 | `onStop` | `() => void` | - | Called by Send while submitted or streaming. |
 | `status` | `"ready" \| "submitted" \| "streaming" \| "error"` | `"ready"` | Request lifecycle state. |
 | `isDisabled` | `boolean` | `false` | Disables the composer and its actions. |

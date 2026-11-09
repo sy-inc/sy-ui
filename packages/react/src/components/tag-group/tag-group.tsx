@@ -74,6 +74,9 @@ const TagGroupList = <T extends object>({
   );
 };
 
+TagGroupRoot.displayName = "SY INC.TagGroup";
+TagGroupList.displayName = "SY INC.TagGroup.List";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

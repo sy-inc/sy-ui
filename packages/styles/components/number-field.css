@@ -1,3 +1,5 @@
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6943.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
 /* Number field styles */
 .number-field {
   @apply flex flex-col gap-1;
@@ -15,9 +17,17 @@
 }
 
 .number-field__group {
-  @apply grid h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none;
+  @apply grid h-9 items-center overflow-hidden rounded-field border text-sm text-field-foreground shadow-field outline-none;
   border-width: var(--border-width-field);
   border-color: var(--field-border);
+
+  /* Variants set the -rest/-hover/-focus tokens; states pick one as the current fill. */
+  --field-fill-rest: var(--color-field);
+  --field-fill-hover: var(--color-field-hover);
+  --field-fill-focus: var(--field-focus);
+  --field-fill: var(--field-fill-rest);
+  background-color: var(--field-fill);
+
   grid-template-columns: 1fr;
 
   &:has([slot="decrement"]) {
@@ -46,7 +56,7 @@
   @media (hover: hover) {
     &:hover:not(:focus-within),
     &[data-hovered="true"]:not([data-focus-within="true"]) {
-      @apply bg-field-hover;
+      --field-fill: var(--field-fill-hover);
       border-color: var(--field-border-hover);
     }
   }
@@ -56,13 +66,13 @@
   &:focus-within {
     @apply status-focused-field;
     border-color: var(--field-border-focus);
-    background-color: var(--field-focus);
+    --field-fill: var(--field-fill-focus);
   }
 
   /* Invalid state */
   &[data-invalid="true"] {
     @apply status-invalid-field;
-    background-color: var(--field-focus);
+    --field-fill: var(--field-fill-focus);
     border-color: var(--color-field-border-invalid);
   }
 
@@ -70,21 +80,6 @@
   &[data-disabled="true"],
   &[aria-disabled="true"] {
     @apply status-disabled;
-  }
-
-  /**
-   * Browser autofill state.
-   * The user-agent paints `:-webkit-autofill`/`:autofill` on the inner <input>
-   * only. Because the input has its border-radius stripped on whichever side
-   * touches the increment/decrement buttons, the autofill highlight ends up
-   * as a sharp-cornered rectangle and the buttons receive no highlight.
-   * Lift the highlight onto the group so the rounded shell + buttons all
-   * share it. (Affects autofilled numeric fields, e.g. OTP/year inputs.)
-   */
-  &:has([data-slot="number-field-input"]:-webkit-autofill),
-  &:has([data-slot="number-field-input"]:autofill) {
-    background-color: var(--field-focus);
-    border-color: var(--field-border-focus);
   }
 }
 
@@ -107,24 +102,8 @@
     @apply outline-none;
   }
 
-  /**
-   * Neutralize the browser's per-input autofill paint so the inner <input>
-   * doesn't draw a sharp-cornered yellow rectangle. The unified highlight
-   * is applied to `.number-field__group` above. Preserve the autofilled
-   * text and caret colors, and pin the background-color transition so the
-   * inset box-shadow trick doesn't flicker on state changes.
-   */
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active,
-  &:autofill {
-    -webkit-box-shadow: 0 0 0 1000px transparent inset;
-    box-shadow: 0 0 0 1000px transparent inset;
-    -webkit-text-fill-color: var(--field-foreground);
-    caret-color: var(--field-foreground);
-    transition: background-color 9999s ease-in-out 0s;
-  }
+  /* Cover autofill with the inherited shell fill. */
+  @apply field-autofill;
 }
 
 .number-field__increment-button,
@@ -192,34 +171,9 @@
 
 .number-field--secondary .number-field__group {
   @apply shadow-none;
-  background-color: var(--number-field-group-bg);
-
-  --number-field-group-bg: var(--default);
-  --number-field-group-bg-hover: var(--default-hover);
-  --number-field-group-bg-focus: var(--default);
-
-  @media (hover: hover) {
-    &:hover:not(:focus-within),
-    &[data-hovered="true"]:not([data-focus-within="true"]) {
-      background-color: var(--number-field-group-bg-hover);
-    }
-  }
-
-  &:focus-within,
-  &[data-focus-within="true"] {
-    background-color: var(--number-field-group-bg-focus);
-  }
-
-  /* Invalid state */
-  &[data-invalid="true"] {
-    @apply status-invalid-field;
-    border-color: var(--color-field-border-invalid);
-    background-color: var(--number-field-group-bg-focus);
-  }
-
-  [data-slot="number-field-input"] {
-    @apply bg-transparent;
-  }
+  --field-fill-rest: var(--default);
+  --field-fill-hover: var(--default-hover);
+  --field-fill-focus: var(--default);
 }
 
 /* Full width modifier */

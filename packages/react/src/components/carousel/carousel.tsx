@@ -316,7 +316,8 @@ const CarouselRoot = ({
 
       if (forward ? !api.canGoToNext() : !api.canGoToPrev()) return;
       event.preventDefault();
-      forward ? api.goToNext() : api.goToPrev();
+      if (forward) api.goToNext();
+      else api.goToPrev();
     };
 
     viewport.addEventListener("keydown", onKeyDown);
@@ -519,6 +520,7 @@ const CarouselContent = ({className, ref, ...props}: CarouselContentProps) => {
       className={slots.viewport()}
       data-slot="carousel-viewport"
       // A tab stop only while there is somewhere for the arrow keys to go.
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- scrollable region must be keyboard-focusable
       tabIndex={scrollable ? 0 : undefined}
     >
       <div
@@ -555,10 +557,8 @@ const CarouselItem = ({
 }: CarouselItemProps) => {
   const {api, clickable, selectedIndex, slots} = useCarouselContext();
   const interactive = itemClickable ?? clickable;
-  const itemRef = React.useRef<HTMLDivElement>(null);
+  const [node, setNode] = React.useState<HTMLDivElement | null>(null);
   const selectItem = () => {
-    const node = itemRef.current;
-
     if (!interactive || isDisabled || !api || !node) return;
     const index = api.slideNodes().indexOf(node);
 
@@ -569,7 +569,7 @@ const CarouselItem = ({
 
   return (
     <div
-      ref={mergeRefs<HTMLDivElement>(itemRef, ref)}
+      ref={mergeRefs<HTMLDivElement>(setNode, ref)}
       aria-disabled={interactive && isDisabled ? "true" : undefined}
       aria-roledescription="slide"
       className={slots.item({className})}
@@ -578,9 +578,7 @@ const CarouselItem = ({
       role={interactive ? "button" : "group"}
       tabIndex={interactive && !isDisabled ? 0 : undefined}
       data-selected={
-        api &&
-        itemRef.current &&
-        leadSlideForSnap(api, selectedIndex) === api.slideNodes().indexOf(itemRef.current)
+        api && node && leadSlideForSnap(api, selectedIndex) === api.slideNodes().indexOf(node)
           ? "true"
           : "false"
       }
@@ -701,7 +699,7 @@ const CarouselAutoplayControl = ({
   return (
     <ButtonPrimitive
       aria-label={autoplayPlaying ? pauseLabel : playLabel}
-      className={composeTwRenderProps(undefined, slots.autoplay())}
+      className={slots.autoplay()}
       data-slot="carousel-autoplay"
       onPress={toggleAutoplay}
     >
@@ -827,7 +825,7 @@ const CarouselPagination = ({children, className, ...props}: CarouselPaginationP
             key={index}
             aria-current={isSelected ? "true" : undefined}
             aria-label={`Go to slide ${index + 1}`}
-            className={composeTwRenderProps(undefined, slots.paginationItem())}
+            className={slots.paginationItem()}
             data-autoplay={showAutoplayProgress && isSelected ? "true" : undefined}
             data-custom={children ? "true" : undefined}
             data-selected={isSelected ? "true" : undefined}

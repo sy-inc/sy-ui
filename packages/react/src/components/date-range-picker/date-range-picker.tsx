@@ -1,5 +1,7 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0): https://github.com/heroui-inc/heroui/pull/6959 */
+
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
 import type {DateRangePickerVariants} from "@sy-inc/styles";
@@ -8,13 +10,16 @@ import type {DateValue} from "react-aria-components/Calendar";
 
 import {mergeRefs} from "@react-aria/utils";
 import {dateRangePickerVariants} from "@sy-inc/styles";
-import React, {createContext, use, useEffect, useRef} from "react";
+import React, {createContext, use} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
 import {
   DateRangePicker as DateRangePickerPrimitive,
   Popover as PopoverPrimitive,
 } from "react-aria-components/DateRangePicker";
 
+import {usePickerPopoverRender} from "../../hooks/use-picker-popover-render";
+import {usePickerTriggerFocus} from "../../hooks/use-picker-trigger-focus";
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {dataAttr} from "../../utils/assertion";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
@@ -46,38 +51,7 @@ const DateRangePickerRoot = <T extends DateValue>({
   ...props
 }: DateRangePickerRootProps<T>) => {
   const slots = React.useMemo(() => dateRangePickerVariants(), []);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const shouldRestoreFocusToTriggerRef = useRef(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      if (!event.metaKey && !event.ctrlKey && !event.altKey) {
-        shouldRestoreFocusToTriggerRef.current = true;
-      }
-    };
-
-    window.addEventListener("keydown", handleGlobalKeyDown, true);
-
-    return () => {
-      window.removeEventListener("keydown", handleGlobalKeyDown, true);
-    };
-  }, [isOpen]);
-
-  const handleOpenChange = (nextIsOpen: boolean) => {
-    setIsOpen(nextIsOpen);
-
-    if (!nextIsOpen && shouldRestoreFocusToTriggerRef.current) {
-      window.requestAnimationFrame(() => {
-        triggerRef.current?.focus();
-      });
-    }
-
-    shouldRestoreFocusToTriggerRef.current = false;
-    onOpenChange?.(nextIsOpen);
-  };
+  const {handleOpenChange, triggerRef} = usePickerTriggerFocus(onOpenChange);
 
   const dateRangePickerContextValue = React.useMemo(
     () => ({slots, triggerRef}),
@@ -93,7 +67,7 @@ const DateRangePickerRoot = <T extends DateValue>({
         className={composeTwRenderProps(className, slots?.base())}
         onOpenChange={handleOpenChange}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </DateRangePickerPrimitive>
     </DateRangePickerContext>
   );
@@ -123,7 +97,7 @@ const DateRangePickerTrigger = ({
       data-slot="date-range-picker-trigger"
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </ButtonPrimitive>
   );
 };
@@ -208,9 +182,12 @@ const DateRangePickerPopover = ({
   children,
   className,
   placement = "bottom",
+  render,
   ...props
 }: DateRangePickerPopoverProps) => {
   const {slots} = use(DateRangePickerContext);
+  const hold = usePopoverExitHold(props);
+  const popoverRender = usePickerPopoverRender(render, props.slot);
 
   return (
     <SurfaceContext
@@ -220,9 +197,11 @@ const DateRangePickerPopover = ({
     >
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="date-range-picker-popover"
         placement={placement}
+        render={popoverRender}
       >
         {children}
       </PopoverPrimitive>

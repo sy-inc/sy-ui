@@ -96,8 +96,6 @@ class ManagedToastTimer {
 
 // A react-stately ToastQueue that keeps closing toasts mounted for exitDuration (so CSS exit animations can play), supports in-place updates, and centralizes timer pausing. Every close path funnels through close().
 class ExitAwareToastQueue<T extends object> extends ToastQueuePrimitive<T> {
-  private static didWarnMissingNotify = false;
-
   private readonly exitDuration: number;
   private exitTimers = new Map<string, ReturnType<typeof setTimeout>>();
   private exitingSnapshot: ReadonlySet<string> = new Set();
@@ -220,24 +218,7 @@ class ExitAwareToastQueue<T extends object> extends ToastQueuePrimitive<T> {
     }
 
     // React reads the queue through useSyncExternalStore, so a mutation alone would not re-render. updateVisibleToasts is TypeScript-private but a plain method at runtime; stately has no "update" action.
-    const notify = (this as unknown as {updateVisibleToasts?: unknown}).updateVisibleToasts;
-
-    if (typeof notify === "function") {
-      (notify as (action: "add") => void).call(this, "add");
-    } else {
-      // Unstable API drifted. Best effort: a fresh exiting snapshot still re-renders the provider, which re-renders the mutated content.
-      if (!ExitAwareToastQueue.didWarnMissingNotify) {
-        ExitAwareToastQueue.didWarnMissingNotify = true;
-        // eslint-disable-next-line no-console
-        console.warn(
-          "[SY INC Toast] react-stately no longer exposes updateVisibleToasts; " +
-            "toast updates fall back to a partial re-render.",
-        );
-      }
-
-      this.exitingSnapshot = new Set(this.exitTimers.keys());
-      this.notifyExitSubscribers();
-    }
+    (this as unknown as {updateVisibleToasts(action: "add"): void}).updateVisibleToasts("add");
 
     return true;
   }

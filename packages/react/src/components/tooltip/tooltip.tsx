@@ -4,8 +4,8 @@ import type {DOMRenderProps} from "../../utils/dom";
 import type {TooltipVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
 
-import {tooltipVariants} from "@sy-inc/styles";
 import {mergeProps} from "@react-aria/utils";
+import {tooltipVariants} from "@sy-inc/styles";
 import React, {createContext, use, useRef} from "react";
 import {useFocusable} from "react-aria/useFocusable";
 import {
@@ -16,6 +16,7 @@ import {
 } from "react-aria-components/Tooltip";
 
 import {useCSSVariable} from "../../hooks/use-css-variable";
+import {useOverlayExitHoldProps} from "../../hooks/use-overlay-exit-hold";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {parseCSSTime} from "../../utils/css";
 import {dom} from "../../utils/dom";
@@ -115,11 +116,14 @@ const TooltipContent = ({
   ...props
 }: TooltipContentProps) => {
   const {slots} = use(TooltipContext);
+  const state = use(TooltipTriggerStateContext);
+  const hold = useOverlayExitHoldProps(props, state, {enabled: !state?.shouldSkipAnimation});
   const offset = offsetProp ? offsetProp : showArrow ? 7 : 3;
 
   return (
     <TooltipPrimitive
       {...props}
+      {...hold}
       className={composeTwRenderProps(className, slots?.base())}
       offset={offset}
     >
@@ -207,6 +211,11 @@ const TooltipTrigger = <E extends keyof React.JSX.IntrinsicElements = "div">({
     </dom.div>
   );
 };
+
+TooltipRoot.displayName = "SY INC.Tooltip";
+TooltipContent.displayName = "SY INC.Tooltip.Content";
+TooltipArrow.displayName = "SY INC.Tooltip.Arrow";
+TooltipTrigger.displayName = "SY INC.Tooltip.Trigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

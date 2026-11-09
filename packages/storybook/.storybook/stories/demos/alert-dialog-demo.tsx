@@ -1,10 +1,12 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {FloppyDisk} from "@gravity-ui/icons";
 import {Avatar, Button, Card, CloseButton} from "@sy-inc/react";
 import React from "react";
 
 export function AlertDialogDemo() {
   return (
-    <Card className="h-[208px] w-[340px] items-start justify-center p-5">
+    <Card className="min-h-[208px] w-full max-w-[340px] items-start justify-center p-5">
       <Card.Header className="flex w-full items-start justify-center gap-2 px-1">
         <Avatar color="warning" variant="soft">
           <Avatar.Fallback>

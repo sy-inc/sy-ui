@@ -16,8 +16,11 @@ import {
   OverlayArrow,
   Popover as PopoverPrimitive,
   Pressable as PressablePrimitive,
+  PopoverContext as RACPopoverContext,
 } from "react-aria-components/Popover";
+import {useSlottedContext} from "react-aria-components/slots";
 
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {SurfaceContext} from "../surface";
@@ -59,14 +62,30 @@ interface PopoverContentProps
   children: React.ReactNode;
 }
 
-const PopoverContent = ({children, className, variant, ...props}: PopoverContentProps) => {
+const PopoverContent = ({children, className, render, variant, ...props}: PopoverContentProps) => {
   const {slots} = use(PopoverContext);
+  const racContext = useSlottedContext(RACPopoverContext, props.slot);
+  const resolvedRender = render ?? racContext?.render;
+  const hold = usePopoverExitHold(props);
 
   return (
     <SurfaceContext value={DEFAULT_SURFACE_CONTEXT}>
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.base({variant}))}
+        render={(domProps, values) => {
+          if (resolvedRender) return resolvedRender(domProps, values);
+
+          // A child Dialog owns the accessible name when the outer container has no role.
+          return (
+            <div
+              {...domProps}
+              aria-label={domProps.role ? domProps["aria-label"] : undefined}
+              aria-labelledby={domProps.role ? domProps["aria-labelledby"] : undefined}
+            />
+          );
+        }}
       >
         {children}
       </PopoverPrimitive>
@@ -184,6 +203,13 @@ const PopoverHeading = ({children, className, ...props}: PopoverHeadingProps) =>
     </HeadingPrimitive>
   );
 };
+
+PopoverRoot.displayName = "SY INC.Popover";
+PopoverContent.displayName = "SY INC.Popover.Content";
+PopoverArrow.displayName = "SY INC.Popover.Arrow";
+PopoverDialog.displayName = "SY INC.Popover.Dialog";
+PopoverTrigger.displayName = "SY INC.Popover.Trigger";
+PopoverHeading.displayName = "SY INC.Popover.Heading";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

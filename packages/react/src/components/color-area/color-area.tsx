@@ -78,6 +78,9 @@ const ColorAreaThumb = ({className, style, ...props}: ColorAreaThumbProps) => {
   );
 };
 
+ColorAreaRoot.displayName = "SY INC.ColorArea";
+ColorAreaThumb.displayName = "SY INC.ColorArea.Thumb";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

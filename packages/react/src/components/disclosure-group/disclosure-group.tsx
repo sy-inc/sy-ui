@@ -36,11 +36,13 @@ const DisclosureGroupRoot = ({children, className, ...props}: DisclosureGroupRoo
         {...props}
         className={composeTwRenderProps(className, slots.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </DisclosureGroupPrimitive>
     </DisclosureGroupContext>
   );
 };
+
+DisclosureGroupRoot.displayName = "SY INC.DisclosureGroup";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

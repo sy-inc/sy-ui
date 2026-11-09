@@ -9,7 +9,7 @@ import {useMemo, useRef} from "react";
 
 import {useSafeLayoutEffect} from "../../hooks/use-safe-layout-effect";
 
-import {useScrollShadow, writeScrollState} from "./use-scroll-shadow";
+import {clearScrollState, useScrollShadow, writeScrollState} from "./use-scroll-shadow";
 
 export type ScrollShadowVisibility = "auto" | "both" | "top" | "bottom" | "left" | "right" | "none";
 
@@ -71,17 +71,22 @@ export const ScrollShadowRoot = ({
     visibility,
   });
 
-  // Handle controlled visibility mode
+  // Remove stale automatic/other-axis state before applying controlled visibility.
   useSafeLayoutEffect(() => {
     const el = internalRef.current;
 
-    if (!el || visibility === "auto") return;
+    if (!el) return;
+
+    clearScrollState(el);
+
+    if (visibility === "auto") return;
 
     const before = visibility === "both" || visibility === "top" || visibility === "left";
     const after = visibility === "both" || visibility === "bottom" || visibility === "right";
 
     writeScrollState(el, orientation, before, after);
-  }, [visibility, orientation]);
+    // isEnabled is unread: listing it re-runs the clear, so disabling detection drops stale auto state.
+  }, [visibility, orientation, isEnabled]);
 
   const slots = useMemo(
     () =>

@@ -1,7 +1,8 @@
 import type {DateValue} from "@internationalized/date";
+import type {ComponentProps} from "react";
 
-import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 import {CalendarDate} from "@internationalized/date";
+import {cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
 import {DateField} from "@/components/date-field";
 import {DateRangePicker} from "@/components/date-range-picker";
@@ -16,6 +17,7 @@ type DateRange = {
 const renderDateRangePicker = (
   props: {
     defaultValue?: DateRange;
+    popoverProps?: Omit<ComponentProps<typeof DateRangePicker.Popover>, "children">;
     onChange?: (value: DateRange | null) => void;
   } = {},
 ) => {
@@ -42,7 +44,7 @@ const renderDateRangePicker = (
           </DateRangePicker.Trigger>
         </DateField.Suffix>
       </DateField.Group>
-      <DateRangePicker.Popover>
+      <DateRangePicker.Popover {...props.popoverProps}>
         <RangeCalendar aria-label="Selected range">
           <RangeCalendar.Header>
             <RangeCalendar.YearPickerTrigger>
@@ -114,8 +116,8 @@ describe("DateRangePicker", () => {
 
     renderDateRangePicker({
       defaultValue: {
-        start: new CalendarDate(2026, 8, 1),
         end: new CalendarDate(2026, 8, 5),
+        start: new CalendarDate(2026, 8, 1),
       },
       onChange,
     });
@@ -140,5 +142,32 @@ describe("DateRangePicker", () => {
 
     expect(value.start.toString()).toBe("2026-08-10");
     expect(value.end.toString()).toBe("2026-08-12");
+  });
+  it("renders an automatically wrapped dialog named after its field", async () => {
+    renderDateRangePicker();
+    await user.click(screen.getByRole("button", {name: /Open calendar/}));
+    runAllTimers();
+
+    expect(screen.getByRole("dialog")).toHaveAccessibleName(/Trip dates/);
+    expect(screen.queryByRole("banner")).not.toBeInTheDocument();
+  });
+
+  it("supports a custom dialog render and explicit accessible name", async () => {
+    renderDateRangePicker({
+      popoverProps: {
+        "aria-label": "Choose dates",
+        render: (props) => <div {...props} data-custom-dialog="true" />,
+      },
+    });
+    await user.click(screen.getByRole("button", {name: /Open calendar/}));
+    runAllTimers();
+
+    const dialog = screen.getByRole("dialog", {name: "Choose dates"});
+
+    expect(dialog).toHaveAttribute("data-custom-dialog", "true");
+    expect(dialog).not.toHaveAttribute("aria-labelledby");
+    await user.keyboard("{Escape}");
+    runAllTimers();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

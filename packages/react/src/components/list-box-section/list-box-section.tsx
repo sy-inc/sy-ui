@@ -26,6 +26,8 @@ const ListBoxSectionRoot = ({children, className, ...props}: ListBoxSectionRootP
   );
 };
 
+ListBoxSectionRoot.displayName = "SY INC.ListBoxSection";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

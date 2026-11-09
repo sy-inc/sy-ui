@@ -108,6 +108,10 @@ const KbdContent = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
+KbdRoot.displayName = "SY INC.Kbd";
+KbdAbbr.displayName = "SY INC.Kbd.Abbr";
+KbdContent.displayName = "SY INC.Kbd.Content";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

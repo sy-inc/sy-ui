@@ -5,7 +5,7 @@ import {
   ColorInputGroupPrefix,
   ColorInputGroupRoot,
   ColorInputGroupSuffix,
-} from "../color-input-group";
+} from "../color-input-group/color-input-group";
 
 import {ColorFieldRoot} from "./color-field";
 

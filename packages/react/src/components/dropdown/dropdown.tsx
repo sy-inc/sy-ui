@@ -1,5 +1,7 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0): https://github.com/heroui-inc/heroui/pull/6934 */
+
 import type {SurfaceVariants} from "../surface";
 import type {DropdownVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
@@ -14,6 +16,7 @@ import {
   SubmenuTrigger as SubmenuTriggerPrimitive,
 } from "react-aria-components/Menu";
 
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {composeTwRenderProps} from "../../utils/compose";
 import {MenuItemIndicator, MenuItemRoot, MenuItemSubmenuIndicator} from "../menu-item";
 import {MenuSectionRoot} from "../menu-section";
@@ -27,6 +30,13 @@ type DropdownContext = {
 };
 
 const DropdownContext = createContext<DropdownContext>({});
+
+// A quick close must reveal the popover before its keyboard check completes.
+const revealPopoverForExit = (popover: HTMLElement) => {
+  popover.style.clip = "auto";
+  popover.style.clipPath = "none";
+  popover.style.maskImage = "none";
+};
 
 /* -------------------------------------------------------------------------------------------------
  * Dropdown Root (MenuTrigger wrapper)
@@ -62,7 +72,7 @@ const DropdownTrigger = ({children, className, ...props}: DropdownTriggerProps) 
       data-slot="dropdown-trigger"
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </Button>
   );
 };
@@ -77,6 +87,7 @@ interface DropdownPopoverProps
 
 const DropdownPopover = ({children, className, placement, ...props}: DropdownPopoverProps) => {
   const {slots} = use(DropdownContext);
+  const hold = usePopoverExitHold(props, revealPopoverForExit);
 
   return (
     <SurfaceContext
@@ -86,6 +97,7 @@ const DropdownPopover = ({children, className, placement, ...props}: DropdownPop
     >
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="dropdown-popover"
         placement={placement}
@@ -169,6 +181,16 @@ interface DropdownSectionProps extends ComponentPropsWithRef<typeof MenuSectionR
 const DropdownSection = (props: DropdownSectionProps) => {
   return <MenuSectionRoot {...props} />;
 };
+
+DropdownRoot.displayName = "SY INC.Dropdown";
+DropdownTrigger.displayName = "SY INC.Dropdown.Trigger";
+DropdownPopover.displayName = "SY INC.Dropdown.Popover";
+DropdownMenu.displayName = "SY INC.Dropdown.Menu";
+DropdownItem.displayName = "SY INC.Dropdown.Item";
+DropdownSubmenuIndicator.displayName = "SY INC.Dropdown.SubmenuIndicator";
+DropdownSubmenuTrigger.displayName = "SY INC.Dropdown.SubmenuTrigger";
+DropdownItemIndicator.displayName = "SY INC.Dropdown.ItemIndicator";
+DropdownSection.displayName = "SY INC.Dropdown.Section";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

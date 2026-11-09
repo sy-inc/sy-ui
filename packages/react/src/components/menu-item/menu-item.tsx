@@ -157,6 +157,10 @@ const MenuItemSubmenuIndicator = <E extends keyof React.JSX.IntrinsicElements = 
   );
 };
 
+MenuItemRoot.displayName = "SY INC.MenuItem";
+MenuItemIndicator.displayName = "SY INC.MenuItem.Indicator";
+MenuItemSubmenuIndicator.displayName = "SY INC.MenuItem.SubmenuIndicator";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

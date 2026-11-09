@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Pencil, SquarePlus, TrashBin} from "@gravity-ui/icons";
 import {Description, Header, Kbd, Label, ListBox, Separator, Surface} from "@sy-inc/react";
 import React from "react";
@@ -35,7 +37,7 @@ export function ListBoxDemo() {
             </Kbd>
           </ListBox.Item>
         </ListBox.Section>
-        <Separator />
+        <Separator isDecorative />
         <ListBox.Section>
           <Header>Danger zone</Header>
           <ListBox.Item id="delete-file" textValue="Delete file" variant="danger">

@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {ColorVariableValue} from "../../hooks/use-color-variables";
 
 import React from "react";
@@ -32,12 +34,14 @@ function ColorVariableRow({variable}: ColorVariableRowProps) {
 
   return (
     <div className="flex items-start gap-2 py-1">
-      <div className="flex flex-col gap-0.5">
+      <div className="flex min-w-0 flex-col gap-0.5">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs font-semibold text-foreground">{variable.name}</span>
+          <span className="min-w-0 font-mono text-xs font-semibold wrap-anywhere text-foreground">
+            {variable.name}
+          </span>
           <ColorSwatch name={variable.name} value={displayValue} />
         </div>
-        <span className="font-mono text-xs text-accent">{displayValue}</span>
+        <span className="font-mono text-xs wrap-anywhere text-accent">{displayValue}</span>
       </div>
     </div>
   );
@@ -71,7 +75,7 @@ export function ColorVariablesList({variables}: ColorVariablesListProps) {
   };
 
   return (
-    <div className="flex h-full flex-col gap-4 overflow-y-auto pe-2 text-sm">
+    <div className="flex min-w-0 flex-col gap-4 pe-2 text-sm">
       {categoryOrder.map((category) => {
         const categoryVars = groupedVariables[category];
 

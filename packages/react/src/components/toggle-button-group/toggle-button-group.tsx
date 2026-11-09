@@ -1,5 +1,7 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0): https://github.com/heroui-inc/heroui/pull/6959 */
+
 import type {DOMRenderProps} from "../../utils/dom";
 import type {ToggleButtonGroupVariants, ToggleButtonVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef} from "react";
@@ -44,10 +46,12 @@ const ToggleButtonGroupRoot = ({
   isDetached = false,
   isDisabled,
   orientation: orientationProp,
+  render,
   size,
   ...rest
 }: ToggleButtonGroupRootProps) => {
-  const racContext = useSlottedContext(RACToggleButtonGroupContext);
+  const racContext = useSlottedContext(RACToggleButtonGroupContext, rest.slot);
+  const resolvedRender = render ?? racContext?.render;
   const orientation = orientationProp ?? racContext?.orientation ?? "horizontal";
 
   const slots = React.useMemo(
@@ -56,7 +60,7 @@ const ToggleButtonGroupRoot = ({
   );
 
   const toggleButtonGroupContextValue = React.useMemo(
-    () => ({slots, size, isDisabled}),
+    () => ({isDisabled, size, slots}),
     [slots, size, isDisabled],
   );
 
@@ -68,6 +72,18 @@ const ToggleButtonGroupRoot = ({
         isDisabled={isDisabled}
         orientation={orientation}
         {...rest}
+        render={(domProps, values) => {
+          if (resolvedRender) return resolvedRender(domProps, values);
+
+          return (
+            <div
+              {...domProps}
+              aria-orientation={
+                domProps.role === "group" ? undefined : domProps["aria-orientation"]
+              }
+            />
+          );
+        }}
       >
         {children}
       </ToggleButtonGroupPrimitive>
@@ -100,6 +116,9 @@ const ToggleButtonGroupSeparator = <E extends keyof React.JSX.IntrinsicElements 
     />
   );
 };
+
+ToggleButtonGroupRoot.displayName = "SY INC.ToggleButtonGroup";
+ToggleButtonGroupSeparator.displayName = "SY INC.ToggleButtonGroup.Separator";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

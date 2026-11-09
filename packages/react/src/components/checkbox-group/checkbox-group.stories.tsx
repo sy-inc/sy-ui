@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
 
 import React from "react";
@@ -255,7 +257,7 @@ export const Controlled: Story = {
             Writing
           </Checkbox.Content>
         </Checkbox>
-        <Label className="my-4 text-sm text-muted">Selected: {selected.join(", ") || "None"}</Label>
+        <p className="my-4 text-sm text-muted">Selected: {selected.join(", ") || "None"}</p>
       </CheckboxGroup>
     );
   },

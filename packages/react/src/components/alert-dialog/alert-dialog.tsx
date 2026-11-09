@@ -12,6 +12,7 @@ import {
   DialogTrigger as AlertDialogTriggerPrimitive,
   Dialog as DialogPrimitive,
   Heading as HeadingPrimitive,
+  OverlayTriggerStateContext,
 } from "react-aria-components/Dialog";
 import {
   ModalOverlay as ModalOverlayPrimitive,
@@ -19,6 +20,7 @@ import {
   Pressable as PressablePrimitive,
 } from "react-aria-components/Modal";
 
+import {useOverlayExitHoldProps} from "../../hooks/use-overlay-exit-hold";
 import {composeSlotClassName, composeTwRenderProps} from "../../utils/compose";
 import {dom} from "../../utils/dom";
 import {CloseButton} from "../close-button";
@@ -45,7 +47,7 @@ interface AlertDialogRootProps extends ComponentPropsWithRef<typeof AlertDialogT
 
 const AlertDialogRoot = ({children, ...props}: AlertDialogRootProps) => {
   const alertDialogContext = useMemo<AlertDialogContext>(
-    () => ({slots: alertDialogVariants(), placement: undefined}),
+    () => ({placement: undefined, slots: alertDialogVariants()}),
     [],
   );
 
@@ -109,6 +111,8 @@ const AlertDialogBackdrop = ({
   ...props
 }: AlertDialogBackdropProps) => {
   const {slots: contextSlots} = use(AlertDialogContext);
+  const state = use(OverlayTriggerStateContext);
+  const hold = useOverlayExitHoldProps(props, state);
 
   const updatedSlots = useMemo(() => alertDialogVariants({variant}), [variant]);
 
@@ -128,10 +132,11 @@ const AlertDialogBackdrop = ({
         onClick?.(e);
       }}
       {...props}
+      {...hold}
     >
       {(renderProps) => (
         <AlertDialogContext value={updatedModalContext}>
-          {typeof children === "function" ? children(renderProps) : children}{" "}
+          {typeof children === "function" ? children(renderProps) : children}
         </AlertDialogContext>
       )}
     </ModalOverlayPrimitive>
@@ -348,6 +353,18 @@ const AlertDialogCloseTrigger = ({className, ...rest}: AlertDialogCloseTriggerPr
     />
   );
 };
+
+AlertDialogRoot.displayName = "SY INC.AlertDialog";
+AlertDialogTrigger.displayName = "SY INC.AlertDialog.Trigger";
+AlertDialogBackdrop.displayName = "SY INC.AlertDialog.Backdrop";
+AlertDialogContainer.displayName = "SY INC.AlertDialog.Container";
+AlertDialogDialog.displayName = "SY INC.AlertDialog.Dialog";
+AlertDialogHeader.displayName = "SY INC.AlertDialog.Header";
+AlertDialogHeading.displayName = "SY INC.AlertDialog.Heading";
+AlertDialogBody.displayName = "SY INC.AlertDialog.Body";
+AlertDialogFooter.displayName = "SY INC.AlertDialog.Footer";
+AlertDialogIcon.displayName = "SY INC.AlertDialog.Icon";
+AlertDialogCloseTrigger.displayName = "SY INC.AlertDialog.CloseTrigger";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

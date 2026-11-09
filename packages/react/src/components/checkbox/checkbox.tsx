@@ -1,5 +1,7 @@
 "use client";
 
+/* Fixes adapted from HeroUI v3.2.7 (heroui-inc/heroui), Apache-2.0. */
+
 import type {DOMRenderProps} from "../../utils/dom";
 import type {CheckboxVariants} from "@sy-inc/styles";
 import type {ComponentPropsWithRef, ReactNode} from "react";
@@ -150,35 +152,38 @@ const CheckboxIndicator = <E extends keyof React.JSX.IntrinsicElements = "span">
       children(state ?? ({} as CheckboxFieldRenderProps))
     ) : children ? (
       children
-    ) : isIndeterminate ? (
-      <svg
-        aria-hidden="true"
-        data-slot="checkbox-default-indicator--indeterminate"
-        fill="none"
-        role="presentation"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth={3}
-        viewBox="0 0 24 24"
-      >
-        <line x1="21" x2="3" y1="12" y2="12" />
-      </svg>
     ) : (
-      <svg
-        aria-hidden="true"
-        data-slot="checkbox-default-indicator--checkmark"
-        fill="none"
-        role="presentation"
-        stroke="currentColor"
-        strokeDasharray={22}
-        strokeDashoffset={isSelected ? 44 : 66}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        viewBox="0 0 17 18"
-      >
-        <polyline points="1 9 7 14 15 4" />
-      </svg>
+      <>
+        <svg
+          aria-hidden="true"
+          data-slot="checkbox-default-indicator--checkmark"
+          fill="none"
+          role="presentation"
+          stroke="currentColor"
+          strokeDasharray={22}
+          strokeDashoffset={isSelected && !isIndeterminate ? 44 : 66}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 17 18"
+        >
+          <polyline points="1 9 7 14 15 4" />
+        </svg>
+        {isIndeterminate ? (
+          <svg
+            aria-hidden="true"
+            data-slot="checkbox-default-indicator--indeterminate"
+            fill="none"
+            role="presentation"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth={3}
+            viewBox="0 0 24 24"
+          >
+            <line x1="21" x2="3" y1="12" y2="12" />
+          </svg>
+        ) : null}
+      </>
     );
 
   return (

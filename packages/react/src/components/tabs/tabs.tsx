@@ -24,6 +24,7 @@ import {ScrollShadow} from "../scroll-shadow";
  * Tabs Context
  * -----------------------------------------------------------------------------------------------*/
 type TabsContext = {
+  isIndicatorReady?: boolean;
   orientation?: "horizontal" | "vertical";
   slots?: ReturnType<typeof tabsVariants>;
 };
@@ -88,9 +89,21 @@ const TabsRoot = ({
   variant,
   ...props
 }: TabsRootProps) => {
+  const [isIndicatorReady, setIsIndicatorReady] = React.useState(false);
+
+  React.useEffect(() => {
+    // Wait for collection hydration before allowing indicator transitions.
+    const frame = requestAnimationFrame(() => setIsIndicatorReady(true));
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   const slots = React.useMemo(() => tabsVariants({align, variant}), [align, variant]);
 
-  const tabsContextValue = React.useMemo(() => ({orientation, slots}), [orientation, slots]);
+  const tabsContextValue = React.useMemo(
+    () => ({isIndicatorReady, orientation, slots}),
+    [isIndicatorReady, orientation, slots],
+  );
 
   return (
     <TabsContext value={tabsContextValue}>
@@ -283,11 +296,12 @@ interface TabIndicatorProps extends ComponentPropsWithRef<typeof SelectionIndica
 }
 
 const TabIndicator = ({className, ...props}: TabIndicatorProps) => {
-  const {slots} = use(TabsContext);
+  const {isIndicatorReady = false, slots} = use(TabsContext);
 
   return (
     <SelectionIndicatorPrimitive
       className={composeSlotClassName(slots?.tabIndicator, className)}
+      data-animation-ready={isIndicatorReady}
       data-slot="tabs-indicator"
       {...props}
     />
@@ -340,6 +354,14 @@ const TabSeparator = <E extends keyof React.JSX.IntrinsicElements = "span">({
     />
   );
 };
+
+TabsRoot.displayName = "SY INC.Tabs";
+TabListContainer.displayName = "SY INC.Tabs.ListContainer";
+TabList.displayName = "SY INC.Tabs.List";
+Tab.displayName = "SY INC.Tabs.Tab";
+TabIndicator.displayName = "SY INC.Tabs.Indicator";
+TabPanel.displayName = "SY INC.Tabs.Panel";
+TabSeparator.displayName = "SY INC.Tabs.Separator";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

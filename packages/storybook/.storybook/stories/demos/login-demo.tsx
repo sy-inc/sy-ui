@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Person} from "@gravity-ui/icons";
 import {Avatar, Button, Card, CloseButton, Separator} from "@sy-inc/react";
 import React from "react";
@@ -6,7 +8,7 @@ import {AppleIcon, GoogleIcon} from "./components/icons";
 
 export function LoginDemo() {
   return (
-    <Card className="w-[320px] items-start justify-center p-5">
+    <Card className="w-full max-w-[320px] items-start justify-center p-5">
       <Card.Header className="flex w-full items-center justify-center gap-2">
         <Avatar>
           <Avatar.Fallback>
@@ -16,7 +18,7 @@ export function LoginDemo() {
         <Card.Title>Create an account</Card.Title>
         <CloseButton className="absolute end-3 top-3" />
       </Card.Header>
-      <Card.Content className="gap-2">
+      <Card.Content className="w-full gap-2">
         <p className="text-center text-sm font-medium text-muted">
           Start your free 7-day trial. No credit card required.
         </p>

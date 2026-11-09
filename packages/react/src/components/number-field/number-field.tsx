@@ -49,7 +49,7 @@ const NumberFieldRoot = ({
         {...props}
         className={composeTwRenderProps(className, slots?.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </NumberFieldPrimitive>
     </NumberFieldContext>
   );
@@ -69,7 +69,7 @@ const NumberFieldGroup = ({children, className, ...props}: NumberFieldGroupProps
       data-slot="number-field-group"
       {...props}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </GroupPrimitive>
   );
 };
@@ -146,6 +146,12 @@ const NumberFieldDecrementButton = ({
     </ButtonPrimitive>
   );
 };
+
+NumberFieldRoot.displayName = "SY INC.NumberField";
+NumberFieldGroup.displayName = "SY INC.NumberField.Group";
+NumberFieldInput.displayName = "SY INC.NumberField.Input";
+NumberFieldIncrementButton.displayName = "SY INC.NumberField.IncrementButton";
+NumberFieldDecrementButton.displayName = "SY INC.NumberField.DecrementButton";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

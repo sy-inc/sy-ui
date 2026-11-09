@@ -123,13 +123,18 @@ describe("Drawer", () => {
     expect(onActiveSnapPointChange).toHaveBeenCalledWith("50%");
   });
 
-  it("rejects invalid and mixed snap point domains", () => {
+  it("rejects out-of-range and non-increasing comparable snap points", () => {
+    expect(() => renderDrawer({snapPoints: [1.5]})).toThrow(
+      "Drawer snap point numbers must be between 0 and 1.",
+    );
     expect(() => renderDrawer({snapPoints: [0.8, 0.4]})).toThrow(
       "Drawer snap points must be strictly increasing.",
     );
-    expect(() => renderDrawer({snapPoints: ["50%", "100px"]})).toThrow(
-      "Drawer snap points cannot mix px values with number or % values.",
+    // Numbers are percentages, so they compare with % literals.
+    expect(() => renderDrawer({snapPoints: [0.5, "40%"]})).toThrow(
+      "Drawer snap points must be strictly increasing.",
     );
+    expect(() => renderDrawer({snapPoints: ["50%", "100px"]})).not.toThrow();
   });
 
   it("renders a decorative handle when there are no snap points to adjust", async () => {

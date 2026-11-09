@@ -113,3 +113,23 @@ export const Range: Story = {
     );
   },
 };
+
+export const StepsAndMarks: Story = {
+  render: (args) => (
+    <Slider defaultValue={[20, 70]} step={10} {...args}>
+      <Label>Selected range</Label>
+      <Slider.Output />
+      <Slider.Track>
+        <Slider.Fill />
+        <Slider.Steps />
+        <Slider.Thumb aria-label="Minimum" index={0} />
+        <Slider.Thumb aria-label="Maximum" index={1} />
+      </Slider.Track>
+      <Slider.Marks>
+        <Slider.Mark value={0}>Low</Slider.Mark>
+        <Slider.Mark value={50} />
+        <Slider.Mark value={100}>High</Slider.Mark>
+      </Slider.Marks>
+    </Slider>
+  ),
+};

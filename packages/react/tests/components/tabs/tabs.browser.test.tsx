@@ -1,5 +1,7 @@
+import type {HydrationOptions} from "react-dom/client";
+
 import {render} from "@sy-inc/testing/browser";
-import {StrictMode} from "react";
+import {StrictMode, startTransition} from "react";
 import {I18nProvider} from "react-aria-components/I18nProvider";
 import {hydrateRoot} from "react-dom/client";
 import {renderToString} from "react-dom/server";
@@ -11,21 +13,30 @@ import "../../../../styles/dist/sy-inc.min.css";
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/** StrictMode + hydration: the double-invoked layout effect that leaks the overrides. */
-const hydrateStrict = async (ui: React.ReactElement) => {
+/**
+ * StrictMode + hydration: the double-invoked layout effect that leaks the overrides.
+ * Hydrates in a transition like Next.js; `settle: false` returns before the first client frame.
+ */
+const hydrateStrict = async (
+  ui: React.ReactElement,
+  {settle = true, ...options}: HydrationOptions & {settle?: boolean} = {},
+) => {
   document.body.innerHTML = "";
   const container = document.createElement("div");
   const tree = <StrictMode>{ui}</StrictMode>;
 
   container.innerHTML = renderToString(tree);
   document.body.appendChild(container);
-  const root = hydrateRoot(container, tree);
+  let root!: ReturnType<typeof hydrateRoot>;
 
+  startTransition(() => {
+    root = hydrateRoot(container, tree, options);
+  });
   onTestFinished(() => {
     root.unmount();
     container.remove();
   });
-  await wait(2000);
+  if (settle) await wait(2000);
 };
 
 const indicatorOf = (tabName: string) => {
@@ -290,6 +301,60 @@ describe("Tabs (browser)", () => {
   });
 
   describe("indicator", () => {
+    it.each(["selectedKey", "defaultSelectedKey"] as const)(
+      "renders the hydrated %s indicator aligned after the first client frame",
+      async (selectionProp) => {
+        const onRecoverableError = vi.fn();
+
+        await hydrateStrict(
+          <Tabs {...{[selectionProp]: "b"}}>
+            <Tabs.List aria-label="Initial selection">
+              <Tabs.Tab id="a">
+                Alpha
+                <Tabs.Indicator />
+              </Tabs.Tab>
+              <Tabs.Tab id="b">
+                Beta
+                <Tabs.Indicator />
+              </Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel id="a">First</Tabs.Panel>
+            <Tabs.Panel id="b">Second</Tabs.Panel>
+          </Tabs>,
+          {onRecoverableError, settle: false},
+        );
+        const indicator = () => indicatorOf("Beta").indicator;
+
+        expect(indicator()).toHaveAttribute("data-animation-ready", "false");
+        expect(getComputedStyle(indicator()).transitionProperty).toBe("none");
+        await expect.poll(() => indicator().getAttribute("data-animation-ready")).toBe("true");
+        expect(settledOn("Beta")).toEqual({offset: [0, 0, 0], translate: ""});
+        expect(getComputedStyle(indicator()).transitionProperty).toContain("translate");
+        expect(onRecoverableError).not.toHaveBeenCalled();
+      },
+    );
+
+    it("supports selection animation after delayed mounting in StrictMode", async () => {
+      const view = await render(<StrictMode>{null}</StrictMode>);
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      await view.rerender(
+        <StrictMode>
+          <FlatTabs selectedKey="t5" />
+        </StrictMode>,
+      );
+      await expect
+        .poll(() => indicatorOf("T5").indicator.getAttribute("data-animation-ready"))
+        .toBe("true");
+      expect(settledOn("T5")).toEqual({offset: [0, 0, 0], translate: ""});
+      await view.rerender(
+        <StrictMode>
+          <FlatTabs selectedKey="t2" />
+        </StrictMode>,
+      );
+      await expect.poll(() => settledOn("T2")).toEqual({offset: [0, 0, 0], translate: ""});
+    });
+
     it("settles on the selected tab when nested inside another tab panel", async () => {
       await hydrateStrict(
         <Tabs.Root defaultSelectedKey="o1">

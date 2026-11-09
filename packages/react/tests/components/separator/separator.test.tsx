@@ -1,4 +1,6 @@
 import {render, screen} from "@sy-inc/testing/helpers";
+import {createRef} from "react";
+import {SeparatorContext} from "react-aria-components/Separator";
 
 import {Separator, SeparatorContent} from "@/components/separator";
 
@@ -37,6 +39,62 @@ describe("Separator", () => {
     render(<Separator data-foo="bar" data-testid="separator" />);
 
     expect(screen.getByTestId("separator")).toHaveAttribute("data-foo", "bar");
+  });
+  it.each(["horizontal", "vertical"] as const)("renders a decorative %s divider", (orientation) => {
+    const warn = vi.spyOn(console, "warn");
+
+    onTestFinished(() => warn.mockRestore());
+
+    render(<Separator isDecorative data-testid="divider" orientation={orientation} />);
+    const divider = screen.getByTestId("divider");
+
+    expect(screen.queryByRole("separator")).not.toBeInTheDocument();
+    expect(divider).toHaveAttribute("aria-hidden", "true");
+    expect(divider).toHaveAttribute("role", "presentation");
+    expect(divider).not.toHaveAttribute("aria-orientation");
+    expect(divider).toHaveAttribute("data-orientation", orientation);
+    expect(divider).toHaveClass(`separator--${orientation}`);
+    expect(warn).not.toHaveBeenCalled();
+    expect(divider.tagName).toBe(orientation === "horizontal" ? "HR" : "DIV");
+  });
+
+  it("supports decorative context rendering, refs and explicit overrides", () => {
+    const ref = createRef<HTMLDivElement>();
+    const context = {
+      elementType: "div" as const,
+      render: (props: React.ComponentPropsWithRef<"div">) => (
+        <div {...props} data-testid="context" />
+      ),
+    };
+    const {rerender} = render(
+      <SeparatorContext value={context}>
+        <Separator ref={ref} isDecorative orientation="vertical" variant="secondary" />
+      </SeparatorContext>,
+    );
+
+    expect(ref.current).toBe(screen.getByTestId("context"));
+    expect(ref.current).toHaveAttribute("aria-hidden", "true");
+    expect(ref.current).toHaveClass("separator--secondary");
+    rerender(
+      <SeparatorContext value={context}>
+        <Separator render={(props) => <div {...props} data-testid="explicit" />} />
+      </SeparatorContext>,
+    );
+    expect(screen.getByRole("separator")).toBe(screen.getByTestId("explicit"));
+    expect(screen.queryByTestId("context")).not.toBeInTheDocument();
+  });
+
+  it("supports slotted orientation and hr rendering for decorative dividers", () => {
+    render(
+      <SeparatorContext value={{slots: {divider: {elementType: "hr", orientation: "vertical"}}}}>
+        <Separator isDecorative data-testid="divider" slot="divider" />
+      </SeparatorContext>,
+    );
+    const divider = screen.getByTestId("divider");
+
+    expect(divider.tagName).toBe("DIV");
+    expect(divider).toHaveAttribute("data-orientation", "vertical");
+    expect(divider).toHaveAttribute("aria-hidden", "true");
   });
 });
 

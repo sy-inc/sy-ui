@@ -1,3 +1,4 @@
+/* Fixes adapted from HeroUI v3.2.7 (heroui-inc/heroui), Apache-2.0. */
 /* ==========================================================================
    Base radio styles
 
@@ -68,29 +69,33 @@
 
   /* Interactive states */
   /* Focus */
-  .radio:has([data-slot="radio-content"][data-focus-visible="true"]) &,
+  /* Focus lands on the hidden input inside the content label, not the label itself. */
+  .radio [data-slot="radio-content"]:has(input:focus-visible) &,
   .radio [data-slot="radio-content"][data-focus-visible="true"] & {
     @apply status-focused;
   }
 
   /* Hover */
-  .radio:has([data-slot="radio-content"][data-hovered="true"]) &,
-  .radio [data-slot="radio-content"][data-hovered="true"] & {
-    @apply border-field-border-hover;
-  }
+  @media (hover: hover) {
+    .radio [data-slot="radio-content"]:hover &,
+    .radio [data-slot="radio-content"][data-hovered="true"] & {
+      @apply border-field-border-hover;
+    }
 
-  /* Hover - only when not selected */
-  .radio:has([data-slot="radio-content"][data-hovered="true"]):not([data-selected]):not(
-      :has(input:checked)
-    )
-    & {
-    .radio__indicator:empty::before {
-      @apply bg-field-hover;
+    /* Hover - only when not selected */
+    .radio:has([data-slot="radio-content"]:hover):not([data-selected]):not(:has(input:checked)) &,
+    .radio:has([data-slot="radio-content"][data-hovered="true"]):not([data-selected]):not(
+        :has(input:checked)
+      )
+      & {
+      .radio__indicator:empty::before {
+        @apply bg-field-hover;
+      }
     }
   }
 
   /* Pressed */
-  .radio:has([data-slot="radio-content"][data-pressed="true"]) &,
+  .radio [data-slot="radio-content"]:active &,
   .radio [data-slot="radio-content"][data-pressed="true"] & {
     @apply scale-95;
   }
@@ -98,14 +103,14 @@
   /* Selection states */
   /* Selected */
   .radio[data-selected] &,
-  .radio:has([data-slot="radio-content"][aria-checked="true"]) &,
   .radio:has(input:checked) & {
     @apply border-transparent bg-accent;
   }
 
   /* Selected + Pressed */
+  .radio[data-selected]:has([data-slot="radio-content"]:active) &,
+  .radio:has(input:checked):has([data-slot="radio-content"]:active) &,
   .radio[data-selected]:has([data-slot="radio-content"][data-pressed="true"]) &,
-  .radio:has([data-slot="radio-content"][data-pressed="true"][aria-checked="true"]) &,
   .radio:has(input:checked):has([data-slot="radio-content"][data-pressed="true"]) & {
     @apply bg-accent-hover;
   }
@@ -158,16 +163,15 @@
 
 /* Selected state */
 .radio[data-selected] .radio__indicator:empty::before,
-.radio:has([data-slot="radio-content"][aria-checked="true"]) .radio__indicator:empty::before,
 .radio:has(input:checked) .radio__indicator:empty::before {
   @apply bg-accent-foreground;
   scale: 0.4286; /* 6px */
 }
 
 /* Selected + Pressed state */
+.radio[data-selected]:has([data-slot="radio-content"]:active) .radio__indicator:empty::before,
+.radio:has(input:checked):has([data-slot="radio-content"]:active) .radio__indicator:empty::before,
 .radio[data-selected]:has([data-slot="radio-content"][data-pressed="true"])
-  .radio__indicator:empty::before,
-.radio:has([data-slot="radio-content"][data-pressed="true"][aria-checked="true"])
   .radio__indicator:empty::before,
 .radio:has(input:checked):has([data-slot="radio-content"][data-pressed="true"])
   .radio__indicator:empty::before {

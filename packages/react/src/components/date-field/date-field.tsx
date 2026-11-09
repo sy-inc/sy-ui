@@ -32,10 +32,12 @@ function DateFieldRoot<T extends DateValue>({
       {...props}
       className={composeTwRenderProps(className, styles)}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </DateFieldPrimitive>
   );
 }
+
+DateFieldRoot.displayName = "SY INC.DateField";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

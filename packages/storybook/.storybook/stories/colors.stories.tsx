@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta} from "@storybook/react";
 
 import React from "react";
@@ -52,7 +54,7 @@ interface ColorSectionProps {
 const ColorSection = ({colors, title}: ColorSectionProps) => {
   return (
     <div className="mb-8">
-      <h3 className="mb-4 text-lg font-semibold text-foreground">{title}</h3>
+      <h2 className="mb-4 text-lg font-semibold text-foreground">{title}</h2>
       <div className="grid gap-3">
         {colors.map((color) => (
           <ColorItem key={color.variable} {...color} />

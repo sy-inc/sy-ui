@@ -1,5 +1,7 @@
-import type {Key} from "@sy-inc/react";
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
+import type {Key} from "@sy-inc/react";
 
 import {Icon} from "@iconify/react";
 import {useAsyncList} from "@react-stately/data";
@@ -684,7 +686,7 @@ export const WithSections: Story = {
                   <ListBox.ItemIndicator />
                 </ListBox.Item>
               </ListBox.Section>
-              <Separator />
+              <Separator isDecorative />
               <ListBox.Section>
                 <Header>Europe</Header>
                 <ListBox.Item id="uk" textValue="United Kingdom">
@@ -708,7 +710,7 @@ export const WithSections: Story = {
                   <ListBox.ItemIndicator />
                 </ListBox.Item>
               </ListBox.Section>
-              <Separator />
+              <Separator isDecorative />
               <ListBox.Section>
                 <Header>Asia</Header>
                 <ListBox.Item id="japan" textValue="Japan">
@@ -854,7 +856,7 @@ export const CustomIndicator: Story = {
 
 export const Required: Story = {
   render: () => {
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const data: Record<string, string> = {};
@@ -1445,7 +1447,7 @@ export const UserSelection: Story = {
               return (
                 <div className="flex items-center gap-2">
                   <Avatar className="size-4" size="sm">
-                    <AvatarImage src={selectedItem.avatarUrl} />
+                    <AvatarImage alt="" src={selectedItem.avatarUrl} />
                     <AvatarFallback>{selectedItem.fallback}</AvatarFallback>
                   </Avatar>
                   <span>{selectedItem.name}</span>
@@ -1469,7 +1471,7 @@ export const UserSelection: Story = {
               {users.map((user) => (
                 <ListBox.Item key={user.id} id={user.id} textValue={user.name}>
                   <Avatar size="sm">
-                    <AvatarImage src={user.avatarUrl} />
+                    <AvatarImage alt="" src={user.avatarUrl} />
                     <AvatarFallback>{user.fallback}</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col">
@@ -1566,7 +1568,7 @@ export const UserSelectionMultiple: Story = {
                       return (
                         <Tag key={selectedItem.id} id={selectedItem.id}>
                           <Avatar className="size-4" size="sm">
-                            <AvatarImage src={selectedItem.avatarUrl} />
+                            <AvatarImage alt="" src={selectedItem.avatarUrl} />
                             <AvatarFallback>{selectedItem.fallback}</AvatarFallback>
                           </Avatar>
                           <span>{selectedItem.name}</span>
@@ -1594,7 +1596,7 @@ export const UserSelectionMultiple: Story = {
               {users.map((user) => (
                 <ListBox.Item key={user.id} id={user.id} textValue={user.name}>
                   <Avatar size="sm">
-                    <AvatarImage src={user.avatarUrl} />
+                    <AvatarImage alt="" src={user.avatarUrl} />
                     <AvatarFallback>{user.fallback}</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col">

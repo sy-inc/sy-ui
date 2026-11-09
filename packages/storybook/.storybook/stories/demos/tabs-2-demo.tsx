@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {Comment, Envelope} from "@gravity-ui/icons";
 import {Tabs} from "@sy-inc/react";
 import React from "react";
@@ -19,6 +21,12 @@ export function TabsDemo2() {
           </Tabs.Tab>
         </Tabs.List>
       </Tabs.ListContainer>
+      <Tabs.Panel className="pt-2 text-sm text-muted" id="chats">
+        No new chats
+      </Tabs.Panel>
+      <Tabs.Panel className="pt-2 text-sm text-muted" id="emails">
+        No new emails
+      </Tabs.Panel>
     </Tabs>
   );
 }

@@ -57,13 +57,13 @@ export default () => (
 
 ### Non-Dismissable
 
-Set `isDismissable={false}` on `Drawer.Backdrop` to prevent closing by clicking outside or dragging. The user must interact with the drawer's action buttons.
+Set `isDismissable={false}` on `Drawer.Backdrop` to prevent closing by clicking outside or dragging. Set `isKeyboardDismissDisabled` on the backdrop as well when only explicit action buttons should close it.
 
 <ComponentPreview name="drawer-non-dismissable" />
 
 ### Scrollable Content
 
-The `Drawer.Body` automatically handles overflow with native scrolling. Drag-to-dismiss is excluded from the body area to avoid scroll conflicts.
+The `Drawer.Body` automatically handles overflow with native scrolling. Drag-to-dismiss is excluded from the body area to avoid scroll conflicts. On touch screens, drag from `Drawer.Header`, `Drawer.Footer`, or `Drawer.Handle`.
 
 <ComponentPreview name="drawer-scrollable-content" />
 
@@ -90,11 +90,12 @@ The `Drawer.Body` automatically handles overflow with native scrolling. Drag-to-
 
 Snap points describe the visible extent of the dialog along its active axis:
 
-- A number must be between `0` and `1` and is a relative fraction (`0.5` is `50%`).
-- A value ending in `%` is relative to the drawer dimension.
-- A value ending in `px` is an absolute dimension.
-- Points must be strictly increasing and a list cannot mix `px` with relative values (numbers or
-  `%`).
+- A number must be between `0` and `1` and remains a viewport fraction (`0.5` is `50%`), not a pixel value.
+- A value ending in `%` is relative to the viewport along the placement axis.
+- CSS lengths such as `"240px"`, `"20rem"`, `"70dvh"`, `"calc(100% - 48px)"`, and `"var(--panel-size)"` are supported.
+- Numbers, `%` values and same-unit lengths must be strictly increasing; mixed units and CSS
+  expressions must resolve in increasing order. Every point is measured on the panel itself, so a
+  `max-height` / `max-width` on `Drawer.Content` (including `calc()`) caps it. Detached panels are capped to the viewport minus their inset.
 
 When `defaultActiveSnapPoint` is omitted, the last snap point is selected. Pass
 `activeSnapPoint` with `onActiveSnapPointChange` for a controlled snap point.
@@ -186,7 +187,7 @@ The parts expose state through data attributes including:
 - `[data-active-snap-point]` and `[data-snap-points]` - Current and configured snap points
 - `[data-dragging]` - Pointer dragging is active
 - `[data-detached]`, `[data-handle-only]`, `[data-modal]`, and `[data-nested]` - Root modes
-- `[data-drawer-snap-points="true"]` and `--snap-point-height` - Snap-point layout state
+- `[data-drawer-snap-points="true"]` - Snap-point layout state
 - `[data-drawer-background-scaled="true"]` - A background target is scaled while a drawer is open
 
 ## API Reference
@@ -207,7 +208,7 @@ The parts expose state through data attributes including:
 | `onActiveSnapPointChange` | `(point: DrawerSnapPoint) => void` | - | Called when the active point changes |
 | `closeThreshold` | `number` (`0` to `1`) | `0.25` | Drag distance fraction required to dismiss |
 | `isDetached` | `boolean` | `false` | Adds an inset margin and rounded corners |
-| `isDismissable` | `boolean` | `true` | Allows backdrop, Escape, and drag dismissal |
+| `isDismissable` | `boolean` | `true` | Allows backdrop and drag dismissal; use Backdrop `isKeyboardDismissDisabled` to block Escape |
 | `isHandleOnly` | `boolean` | `false` | Restricts dragging to `Drawer.Handle` |
 | `isModal` | `boolean` | `true` | Uses modal focus and backdrop behavior |
 | `shouldScaleBackground` | `boolean` | `false` | Scales elements marked `data-drawer-background` |
@@ -272,7 +273,7 @@ The content panel receives the active snap point as its height (top/bottom) or w
 | `className` | `string` | - | Handle CSS classes |
 | `aria-label` | `string` | `"Adjust drawer size"` | Accessible name for keyboard resizing |
 
-With two or more snap points the handle has `role="button"` and `tabIndex={0}`. Click or use Arrow
+With two or more snap points the handle has `role="button"` and `tabIndex={0}`. Click, press Enter/Space, or use Arrow
 Up/Right to move to the next snap point, or Arrow Down/Left to move to the previous point. Without
 snap points it is a decorative drag affordance (`aria-hidden`).
 
@@ -347,7 +348,7 @@ Drawer is built on React Aria's dialog and modal primitives:
 - **Dialog semantics**: Use `Drawer.Heading` or an explicit `aria-label`/`aria-labelledby` so the
   panel has an accessible name.
 - **Focus and keyboard behavior**: Modal drawers use the React Aria focus containment behavior;
-  `Escape` dismisses when `isDismissable` is `true`.
+  `Escape` dismisses unless `Drawer.Backdrop` has `isKeyboardDismissDisabled`.
 - **Keyboard resizing**: With snap points, `Drawer.Handle` is a labeled button-like control with
   arrow-key snap point navigation; otherwise it is hidden from assistive technology.
 - **Reduced motion**: Drawer transitions are disabled when `prefers-reduced-motion: reduce` is set.

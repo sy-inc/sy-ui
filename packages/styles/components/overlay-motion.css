@@ -1,0 +1,172 @@
+/* Overlay-only keyframes avoid filter and use literal endpoints for WebKit.
+   Each overlay imports these definitions so selective CSS imports retain motion. */
+@keyframes sy-overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sy-overlay-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes sy-overlay-enter-90 {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-90-y {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.25rem, 0) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-90-ny {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.25rem, 0) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-90-x {
+  from {
+    opacity: 0;
+    transform: translate3d(0.25rem, 0, 0) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-90-nx {
+  from {
+    opacity: 0;
+    transform: translate3d(-0.25rem, 0, 0) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-100 {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-105 {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-105-y {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.25rem, 0) scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-105-ny {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.25rem, 0) scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+}
+@keyframes sy-overlay-exit-full {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-95 {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-95-y {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.25rem, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-95-ny {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.25rem, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-95-x {
+  from {
+    opacity: 0;
+    transform: translate3d(0.25rem, 0, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@keyframes sy-overlay-enter-95-nx {
+  from {
+    opacity: 0;
+    transform: translate3d(-0.25rem, 0, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}

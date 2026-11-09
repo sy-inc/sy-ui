@@ -1,5 +1,6 @@
 import {act, cleanup, render, runAllTimers, screen, setupUser} from "@sy-inc/testing/helpers";
 
+import {I18nProvider} from "@/components/rac";
 import {Toast, ToastQueue} from "@/components/toast";
 
 describe("Toast", () => {
@@ -58,6 +59,47 @@ describe("Toast", () => {
     expect(document.querySelector('[data-slot="toast-indicator"]')).not.toBeNull();
     expect(document.querySelector('[data-slot="toast-default-icon"]')).not.toBeNull();
     expect(screen.getByRole("button", {name: "Close"})).toBeInTheDocument();
+  });
+
+  it("uses the localized close slot label", () => {
+    const queue = new ToastQueue();
+
+    render(
+      <I18nProvider locale="zh-CN">
+        <Toast.Provider queue={queue} />
+      </I18nProvider>,
+    );
+
+    act(() => {
+      queue.add({title: "Saved"});
+    });
+
+    expect(screen.getByRole("button", {name: "关闭"})).toBeInTheDocument();
+  });
+
+  it("prefers a custom close label over the localized slot", () => {
+    const queue = new ToastQueue();
+
+    render(
+      <I18nProvider locale="zh-CN">
+        <Toast.Provider queue={queue}>
+          {({toast}) => (
+            <Toast toast={toast}>
+              <Toast.Content>
+                <Toast.Title>Saved</Toast.Title>
+              </Toast.Content>
+              <Toast.CloseButton aria-label="Dismiss notification" />
+            </Toast>
+          )}
+        </Toast.Provider>
+      </I18nProvider>,
+    );
+
+    act(() => {
+      queue.add({title: "Saved"});
+    });
+
+    expect(screen.getByRole("button", {name: "Dismiss notification"})).toBeInTheDocument();
   });
 
   it("renders no indicator when indicator is null", () => {
@@ -229,6 +271,21 @@ describe("Toast", () => {
   });
 
   describe("lifecycle", () => {
+    it("notifies queue subscribers with a fresh snapshot when a toast is updated", () => {
+      const queue = new ToastQueue();
+      const key = queue.add({title: "Saving"}, {timeout: 0});
+      const previousSnapshot = queue.visibleToasts;
+      const onUpdate = vi.fn();
+      const unsubscribe = queue.subscribe(onUpdate);
+
+      expect(queue.update(key, {title: "Saved"})).toBe(true);
+      expect(onUpdate).toHaveBeenCalledTimes(1);
+      expect(queue.visibleToasts).not.toBe(previousSnapshot);
+      expect(queue.visibleToasts[0]).toMatchObject({content: {title: "Saved"}, key});
+      unsubscribe();
+      queue.clear();
+    });
+
     it("supports updating a toast in place and restarting its countdown", () => {
       const queue = new ToastQueue();
 

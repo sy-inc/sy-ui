@@ -30,6 +30,8 @@ const EmptyStateRoot = <E extends keyof React.JSX.IntrinsicElements = "div">({
   );
 };
 
+EmptyStateRoot.displayName = "SY INC.EmptyState";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

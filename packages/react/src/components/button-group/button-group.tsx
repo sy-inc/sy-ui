@@ -118,6 +118,9 @@ const ButtonGroupSeparator = <E extends keyof React.JSX.IntrinsicElements = "spa
   );
 };
 
+ButtonGroupRoot.displayName = "SY INC.ButtonGroup";
+ButtonGroupSeparator.displayName = "SY INC.ButtonGroup.Separator";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

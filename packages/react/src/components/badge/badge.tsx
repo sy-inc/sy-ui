@@ -129,6 +129,10 @@ const BadgeLabel = <E extends keyof React.JSX.IntrinsicElements = "span">({
   );
 };
 
+BadgeAnchor.displayName = "SY INC.Badge.Anchor";
+BadgeRoot.displayName = "SY INC.Badge";
+BadgeLabel.displayName = "SY INC.Badge.Label";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

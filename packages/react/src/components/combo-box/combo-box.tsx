@@ -1,5 +1,8 @@
 "use client";
 
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6947, 6959.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
+
 import type {DOMRenderProps} from "../../utils/dom";
 import type {SurfaceVariants} from "../surface";
 import type {ComboBoxVariants} from "@sy-inc/styles";
@@ -19,6 +22,7 @@ import {
 } from "react-aria-components/ComboBox";
 import {Group as GroupPrimitive} from "react-aria-components/Group";
 
+import {usePopoverExitHold} from "../../hooks/use-popover-exit-hold";
 import {dataAttr} from "../../utils/assertion";
 import {createCollectionSlot} from "../../utils/collection-prop-injection";
 import {composeTwRenderProps} from "../../utils/compose";
@@ -83,7 +87,7 @@ const ComboBoxRoot = <T extends object = object, M extends "single" | "multiple"
           {...props}
           className={composeTwRenderProps(className, slots?.base())}
         >
-          {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+          {children}
         </ComboBoxPrimitive>
       </ComboBoxContext>
     </FieldSlotsGate>
@@ -247,6 +251,7 @@ const ComboBoxPopover = ({
   ...props
 }: ComboBoxPopoverProps) => {
   const {slots} = use(ComboBoxContext);
+  const hold = usePopoverExitHold(props);
 
   return (
     <SurfaceContext
@@ -256,6 +261,7 @@ const ComboBoxPopover = ({
     >
       <PopoverPrimitive
         {...props}
+        {...hold}
         className={composeTwRenderProps(className, slots?.popover())}
         data-slot="combo-box-popover"
         placement={placement}
@@ -265,6 +271,12 @@ const ComboBoxPopover = ({
     </SurfaceContext>
   );
 };
+
+ComboBoxRoot.displayName = "SY INC.ComboBox";
+ComboBoxInputGroup.displayName = "SY INC.ComboBox.InputGroup";
+ComboBoxValue.displayName = "SY INC.ComboBox.Value";
+ComboBoxTrigger.displayName = "SY INC.ComboBox.Trigger";
+ComboBoxPopover.displayName = "SY INC.ComboBox.Popover";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

@@ -1,3 +1,5 @@
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6941.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
 /* ==========================================================================
    Base menu item styles
    ========================================================================== */
@@ -31,13 +33,13 @@
   }
 
   /* Add inline-start padding when indicator is present */
-  &:has(.menu-item__indicator) {
+  &:has(.menu-item__indicator:not(.menu-item__indicator--submenu)) {
     @apply ps-7;
   }
 
   /* Add inline-end padding when indicator is present and has submenu */
-  &[data-has-submenu="true"]:has(.menu-item__indicator) {
-    @apply ps-2 pe-7;
+  &[data-has-submenu="true"]:has(.menu-item__indicator--submenu) {
+    @apply pe-7;
   }
 
   /* Focus visible state (keyboard focus only) */
@@ -105,11 +107,6 @@
    */
   @apply transition duration-250 motion-reduce:transition-none;
 
-  /* Position on the inline-end when menu item has submenu */
-  .menu-item[data-has-submenu="true"] & {
-    @apply start-auto end-2;
-  }
-
   /* Checkmark SVG indicator */
   [data-slot="menu-item-indicator--checkmark"] {
     @apply size-2.5;
@@ -142,6 +139,10 @@
 /* Submenu indicator (chevron-right) */
 .menu-item__indicator--submenu {
   @apply text-muted;
+
+  .menu-item[data-has-submenu="true"] & {
+    @apply start-auto end-2;
+  }
 
   svg {
     @apply size-3;

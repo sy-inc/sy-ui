@@ -7,7 +7,7 @@ import {
   DateInputGroupRoot,
   DateInputGroupSegment,
   DateInputGroupSuffix,
-} from "../date-input-group";
+} from "../date-input-group/date-input-group";
 
 import {DateFieldRoot} from "./date-field";
 

@@ -85,6 +85,30 @@ export default () => (
   name="slider-render-function"
 />
 
+### Steps and Marks
+
+Compose `Slider.Steps` inside `Slider.Track` for decorative dots at each step. Compose the `Slider.Marks` container after the track and add `Slider.Mark` labels. Marks accept arbitrary in-range values; omitted children use the slider locale and `formatOptions`.
+
+Dots are hidden from assistive technology and add no tab stops. Invalid ranges and more than 1,000 dots are omitted. Indicators expose `data-value` and `data-filled`, update for single or range values, and follow vertical orientation and the React Aria locale direction.
+
+```tsx
+<Slider defaultValue={[20, 70]} step={10}>
+  <Label>Range</Label>
+  <Slider.Output />
+  <Slider.Track>
+    <Slider.Fill />
+    <Slider.Steps />
+    <Slider.Thumb aria-label="Minimum" index={0} />
+    <Slider.Thumb aria-label="Maximum" index={1} />
+  </Slider.Track>
+  <Slider.Marks>
+    <Slider.Mark value={0}>Low</Slider.Mark>
+    <Slider.Mark value={50} />
+    <Slider.Mark value={100}>High</Slider.Mark>
+  </Slider.Marks>
+</Slider>
+```
+
 ## Customization
 
 ### Tailwind CSS
@@ -209,6 +233,33 @@ The component supports both CSS pseudo-classes and data attributes for flexibili
 | `children` | `ReactNode \| RenderFunction` | - | Thumb content or render function |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, SliderThumbRenderProps>` | - | Overrides the default DOM element with a custom render function.|
 
+### Slider.Steps
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Additional classes for the decorative steps container. |
+| `render` | `DOMRenderFunction` | Custom container render function; DOM props and ref are forwarded. |
+
+### Slider.Marks
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `ReactNode` | `Slider.Mark` labels or other custom content. |
+| `className` | `string` | Additional classes. |
+| `render` | `DOMRenderFunction` | Custom container render function. |
+
+### Slider.Mark
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `number` | Required finite value within slider bounds. Out-of-range marks are omitted. |
+| `children` | `ReactNode` | Custom label; defaults to the locale-formatted value. |
+| `className` | `string` | Additional classes. |
+| `style` | `CSSProperties` | Inline styles; the component manages the position. |
+| `render` | `DOMRenderFunction` | Custom label element render function; ref is forwarded. |
+
+Data slots: `slider-steps`, `slider-step`, `slider-marks`, `slider-mark`. Default BEM classes: `.slider__steps`, `.slider__step`, `.slider__marks`, `.slider__mark`. `data-filled="true"` includes marks between the selected range endpoints, or between the minimum and a single thumb.
+
 ### Render Props
 
 When using render functions with Slider.Output or Slider.Track, these values are provided:
@@ -220,133 +271,6 @@ When using render functions with Slider.Output or Slider.Track, these values are
 | `getThumbValueLabel` | `(index: number) => string` | Returns the string label for the specified thumb's value |
 | `orientation` | `"horizontal" \| "vertical"` | The orientation of the slider |
 | `isDisabled` | `boolean` | Whether the slider is disabled |
-
-## Examples
-
-### Basic Usage
-
-```tsx
-import { Slider, Label } from '@sy-inc/react';
-
-<Slider defaultValue={30}>
-  <Label>Volume</Label>
-  <Slider.Output />
-  <Slider.Track>
-    <Slider.Fill />
-    <Slider.Thumb />
-  </Slider.Track>
-</Slider>
-```
-
-### Range Slider
-
-```tsx
-import { Slider, Label } from '@sy-inc/react';
-
-<Slider
-  defaultValue={[100, 500]}
-  formatOptions={{style: "currency", currency: "USD"}}
-  maxValue={1000}
-  minValue={0}
-  step={50}
->
-  <Label>Price Range</Label>
-  <Slider.Output />
-  <Slider.Track>
-    {({state}) => (
-      <>
-        <Slider.Fill />
-        {state.values.map((_, i) => (
-          <Slider.Thumb key={i} index={i} />
-        ))}
-      </>
-    )}
-  </Slider.Track>
-</Slider>
-```
-
-### Controlled Value
-
-```tsx
-import { Slider, Label } from '@sy-inc/react';
-import { useState } from 'react';
-
-function ControlledSlider() {
-  const [value, setValue] = useState(25);
-
-  return (
-    <>
-      <Slider value={value} onChange={setValue}>
-        <Label>Volume</Label>
-        <Slider.Output />
-        <Slider.Track>
-          <Slider.Fill />
-          <Slider.Thumb />
-        </Slider.Track>
-      </Slider>
-      <p>Current value: {value}</p>
-    </>
-  );
-}
-```
-
-### Custom Value Formatting
-
-```tsx
-import { Slider, Label } from '@sy-inc/react';
-
-<Slider
-  defaultValue={60}
-  formatOptions={{style: "currency", currency: "USD"}}
->
-  <Label>Price</Label>
-  <Slider.Output />
-  <Slider.Track>
-    <Slider.Fill />
-    <Slider.Thumb />
-  </Slider.Track>
-</Slider>
-```
-
-### Vertical Orientation
-
-```tsx
-import { Slider, Label } from '@sy-inc/react';
-
-<Slider defaultValue={30} orientation="vertical" aria-label="Volume">
-  <Label>Volume</Label>
-  <Slider.Output />
-  <Slider.Track>
-    <Slider.Fill />
-    <Slider.Thumb />
-  </Slider.Track>
-</Slider>
-```
-
-### Custom Output Display
-
-```tsx
-import { Slider, Label } from '@sy-inc/react';
-
-<Slider defaultValue={[25, 75]}>
-  <Label>Range</Label>
-  <Slider.Output>
-    {({state}) =>
-      state.values.map((_, i) => state.getThumbValueLabel(i)).join(' – ')
-    }
-  </Slider.Output>
-  <Slider.Track>
-    {({state}) => (
-      <>
-        <Slider.Fill />
-        {state.values.map((_, i) => (
-          <Slider.Thumb key={i} index={i} />
-        ))}
-      </>
-    )}
-  </Slider.Track>
-</Slider>
-```
 
 ## Accessibility
 

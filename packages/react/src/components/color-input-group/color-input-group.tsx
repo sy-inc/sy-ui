@@ -49,7 +49,7 @@ const ColorInputGroupRoot = ({
         data-slot="color-input-group"
         {...props}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </GroupPrimitive>
     </ColorInputGroupContext>
   );
@@ -131,6 +131,11 @@ const ColorInputGroupSuffix = <E extends keyof React.JSX.IntrinsicElements = "di
     </dom.div>
   );
 };
+
+ColorInputGroupRoot.displayName = "SY INC.ColorInputGroup";
+ColorInputGroupPrefix.displayName = "SY INC.ColorInputGroup.Prefix";
+ColorInputGroupInput.displayName = "SY INC.ColorInputGroup.Input";
+ColorInputGroupSuffix.displayName = "SY INC.ColorInputGroup.Suffix";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

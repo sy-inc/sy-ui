@@ -19,7 +19,8 @@ export const useMeasuredHeight = (ref: RefObject<HTMLDivElement | null>) => {
     const previousHeight = element.style.height;
 
     element.style.height = "auto";
-    const measuredHeight = element.scrollHeight;
+    // Exclude the expanded toast hit area (::after) from its layout height.
+    const measuredHeight = element.offsetHeight;
 
     element.style.height = previousHeight;
 

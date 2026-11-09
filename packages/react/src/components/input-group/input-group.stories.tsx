@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
@@ -226,7 +228,12 @@ export const PasswordWithToggle: Story = {
 
 export const WithLoadingSuffix: Story = {
   render: () => (
-    <TextField className="w-[280px]" defaultValue="Sending..." name="status">
+    <TextField
+      aria-label="Sending status"
+      className="w-[280px]"
+      defaultValue="Sending..."
+      name="status"
+    >
       <InputGroup>
         <InputGroup.Input className="w-[280px]" />
         <InputGroup.Suffix>

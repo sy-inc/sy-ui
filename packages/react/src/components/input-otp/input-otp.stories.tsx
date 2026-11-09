@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
 
 import React from "react";
@@ -38,10 +40,10 @@ export const Default: Story = {
   render: (args) => (
     <div className="flex w-[280px] flex-col gap-2">
       <div className="flex flex-col gap-1">
-        <Label>Verify account</Label>
+        <Label htmlFor="otp-example-1">Verify account</Label>
         <p className="text-sm text-muted">We&apos;ve sent a code to a****@gmail.com</p>
       </div>
-      <InputOTP {...args} maxLength={6}>
+      <InputOTP id="otp-example-1" {...args} maxLength={6}>
         <InputOTP.Group>
           <InputOTP.Slot index={0} />
           <InputOTP.Slot index={1} />
@@ -68,8 +70,8 @@ export const Variants: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <Label>Primary variant</Label>
-        <InputOTP maxLength={6} variant="primary">
+        <Label htmlFor="otp-example-2">Primary variant</Label>
+        <InputOTP id="otp-example-2" maxLength={6} variant="primary">
           <InputOTP.Group>
             <InputOTP.Slot index={0} />
             <InputOTP.Slot index={1} />
@@ -84,8 +86,8 @@ export const Variants: Story = {
         </InputOTP>
       </div>
       <div className="flex flex-col gap-2">
-        <Label>Secondary variant</Label>
-        <InputOTP maxLength={6} variant="secondary">
+        <Label htmlFor="otp-example-3">Secondary variant</Label>
+        <InputOTP id="otp-example-3" maxLength={6} variant="secondary">
           <InputOTP.Group>
             <InputOTP.Slot index={0} />
             <InputOTP.Slot index={1} />
@@ -106,8 +108,8 @@ export const Variants: Story = {
 export const FourDigits: Story = {
   render: (args) => (
     <div className="flex w-[280px] flex-col gap-2">
-      <Label>Enter PIN</Label>
-      <InputOTP {...args} maxLength={4}>
+      <Label htmlFor="otp-example-4">Enter PIN</Label>
+      <InputOTP id="otp-example-4" {...args} maxLength={4}>
         <InputOTP.Group>
           <InputOTP.Slot index={0} />
           <InputOTP.Slot index={1} />
@@ -122,9 +124,11 @@ export const FourDigits: Story = {
 export const Disabled: Story = {
   render: (args) => (
     <div className="flex w-[280px] flex-col gap-2">
-      <Label isDisabled>Verify account</Label>
+      <Label isDisabled htmlFor="otp-disabled">
+        Verify account
+      </Label>
       <Description>Code verification is currently disabled</Description>
-      <InputOTP {...args} isDisabled maxLength={6}>
+      <InputOTP {...args} isDisabled id="otp-disabled" maxLength={6}>
         <InputOTP.Group>
           <InputOTP.Slot index={0} />
           <InputOTP.Slot index={1} />
@@ -144,9 +148,9 @@ export const Disabled: Story = {
 export const WithPattern: Story = {
   render: (args) => (
     <div className="flex w-[280px] flex-col gap-2">
-      <Label>Enter code (letters only)</Label>
+      <Label htmlFor="otp-example-5">Enter code (letters only)</Label>
       <Description>Only alphabetic characters are allowed</Description>
-      <InputOTP {...args} maxLength={6} pattern={REGEXP_ONLY_CHARS}>
+      <InputOTP id="otp-example-5" {...args} maxLength={6} pattern={REGEXP_ONLY_CHARS}>
         <InputOTP.Group>
           <InputOTP.Slot index={0} />
           <InputOTP.Slot index={1} />
@@ -169,8 +173,8 @@ export const Controlled: Story = {
 
     return (
       <div className="flex w-[280px] flex-col gap-2">
-        <Label>Verify account</Label>
-        <InputOTP {...args} maxLength={6} value={value} onChange={setValue}>
+        <Label htmlFor="otp-example-6">Verify account</Label>
+        <InputOTP id="otp-example-6" {...args} maxLength={6} value={value} onChange={setValue}>
           <InputOTP.Group>
             <InputOTP.Slot index={0} />
             <InputOTP.Slot index={1} />
@@ -208,7 +212,7 @@ export const WithValidation: Story = {
     const [value, setValue] = React.useState("");
     const [isInvalid, setIsInvalid] = React.useState(false);
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const code = formData.get("code");
@@ -233,9 +237,10 @@ export const WithValidation: Story = {
     return (
       <div className="flex w-[280px] flex-col gap-2">
         <Form className="flex flex-col gap-2" onSubmit={onSubmit}>
-          <Label>Verify account</Label>
+          <Label htmlFor="otp-example-7">Verify account</Label>
           <Description>Hint: The code is 123456</Description>
           <InputOTP
+            id="otp-example-7"
             {...args}
             aria-describedby={isInvalid ? "code-error" : undefined}
             isInvalid={isInvalid}
@@ -256,7 +261,9 @@ export const WithValidation: Story = {
               <InputOTP.Slot index={5} />
             </InputOTP.Group>
           </InputOTP>
-          <FieldError id="code-error">{isInvalid && "Invalid code. Please try again."}</FieldError>
+          <FieldError id="code-error">
+            {isInvalid ? "Invalid code. Please try again." : null}
+          </FieldError>
           <Button isDisabled={value.length !== 6} type="submit">
             Submit
           </Button>
@@ -278,7 +285,7 @@ export const OnComplete: Story = {
       console.log("Code complete:", code);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       setIsSubmitting(true);
@@ -292,8 +299,9 @@ export const OnComplete: Story = {
 
     return (
       <Form className="flex w-[280px] flex-col gap-2" onSubmit={handleSubmit}>
-        <Label>Verify account</Label>
+        <Label htmlFor="otp-example-8">Verify account</Label>
         <InputOTP
+          id="otp-example-8"
           {...args}
           maxLength={6}
           value={value}
@@ -342,7 +350,7 @@ export const FormExample: Story = {
     const [error, setError] = React.useState("");
     const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
       setError("");
 
@@ -370,9 +378,10 @@ export const FormExample: Story = {
     return (
       <Form className="flex w-[280px] flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
-          <Label>Two-factor authentication</Label>
+          <Label htmlFor="otp-example-9">Two-factor authentication</Label>
           <Description>Enter the 6-digit code from your authenticator app</Description>
           <InputOTP
+            id="otp-example-9"
             {...args}
             aria-describedby={error ? "code-error" : undefined}
             isInvalid={!!error}

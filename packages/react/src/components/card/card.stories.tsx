@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta, StoryObj} from "@storybook/react";
 
 import {Icon} from "@iconify/react";
@@ -127,15 +129,8 @@ export const Horizontal: Story = {
         </Card.Header>
         <Card.Footer className="mt-auto flex w-full flex-row items-center justify-between">
           <div className="flex flex-col">
-            <span
-              aria-label="Price: 36,799 US dollars"
-              className="text-sm font-medium text-foreground"
-            >
-              $36,799
-            </span>
-            <span aria-label="Available stock: 11 units" className="text-xs text-muted">
-              11 available
-            </span>
+            <span className="text-sm font-medium text-foreground">$36,799</span>
+            <span className="text-xs text-muted">11 available</span>
           </div>
           <Button>Buy Now</Button>
         </Card.Footer>
@@ -159,11 +154,8 @@ export const WithAvatar: Story = {
           <Card.Description>148 members</Card.Description>
         </Card.Header>
         <Card.Footer className="flex gap-2">
-          <Avatar aria-label="Martha's profile picture" className="size-5">
-            <Avatar.Image
-              alt="Martha's avatar"
-              src="https://assets.sy-inc.com/avatars/red.jpg"
-            />
+          <Avatar className="size-5">
+            <Avatar.Image alt="Martha's avatar" src="https://assets.sy-inc.com/avatars/red.jpg" />
             <Avatar.Fallback className="text-xs">IH</Avatar.Fallback>
           </Avatar>
           <span className="text-xs">By Martha</span>
@@ -182,7 +174,7 @@ export const WithAvatar: Story = {
           <Card.Description>362 members</Card.Description>
         </Card.Header>
         <Card.Footer className="flex gap-2">
-          <Avatar aria-label="John's profile picture" className="size-5">
+          <Avatar className="size-5">
             <Avatar.Image
               alt="John's avatar - blue themed"
               src="https://assets.sy-inc.com/avatars/blue.jpg"
@@ -271,10 +263,7 @@ export const WithImages: Story = {
               <Card className="col-span-12 gap-2 sm:col-span-6">
                 <Card.Header>
                   <Avatar className="size-[56px] rounded-xl">
-                    <Avatar.Image
-                      alt="Demo 1"
-                      src="https://assets.sy-inc.com/docs/demo1.jpg"
-                    />
+                    <Avatar.Image alt="Demo 1" src="https://assets.sy-inc.com/docs/demo1.jpg" />
                     <Avatar.Fallback>JK</Avatar.Fallback>
                   </Avatar>
                 </Card.Header>
@@ -284,10 +273,7 @@ export const WithImages: Story = {
                 </Card.Content>
                 <Card.Footer className="flex items-center gap-2">
                   <Avatar className="size-4">
-                    <Avatar.Image
-                      alt="John"
-                      src="https://assets.sy-inc.com/avatars/red.jpg"
-                    />
+                    <Avatar.Image alt="John" src="https://assets.sy-inc.com/avatars/red.jpg" />
                     <Avatar.Fallback>JK</Avatar.Fallback>
                   </Avatar>
                   <p className="text-xs text-muted">By John</p>
@@ -297,10 +283,7 @@ export const WithImages: Story = {
               <Card className="col-span-12 gap-2 sm:col-span-6">
                 <Card.Header>
                   <Avatar className="size-[56px] rounded-xl">
-                    <Avatar.Image
-                      alt="Demo 2"
-                      src="https://assets.sy-inc.com/docs/demo2.jpg"
-                    />
+                    <Avatar.Image alt="Demo 2" src="https://assets.sy-inc.com/docs/demo2.jpg" />
                     <Avatar.Fallback>AB</Avatar.Fallback>
                   </Avatar>
                 </Card.Header>
@@ -310,10 +293,7 @@ export const WithImages: Story = {
                 </Card.Content>
                 <Card.Footer className="flex items-center gap-2">
                   <Avatar className="size-4">
-                    <Avatar.Image
-                      alt="John"
-                      src="https://assets.sy-inc.com/avatars/blue.jpg"
-                    />
+                    <Avatar.Image alt="John" src="https://assets.sy-inc.com/avatars/blue.jpg" />
                     <Avatar.Fallback>M</Avatar.Fallback>
                   </Avatar>
                   <p className="text-xs text-muted">By Martha</p>
@@ -459,7 +439,7 @@ export const WithImages: Story = {
 
 export const WithForm: Story = {
   render: (args) => {
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const data: Record<string, string> = {};

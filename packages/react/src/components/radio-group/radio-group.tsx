@@ -24,10 +24,12 @@ const RadioGroupRoot = ({children, className, variant, ...props}: RadioGroupRoot
       {...props}
       className={composeTwRenderProps(className, styles)}
     >
-      {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+      {children}
     </RadioGroupPrimitive>
   );
 };
+
+RadioGroupRoot.displayName = "SY INC.RadioGroup";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

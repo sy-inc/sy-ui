@@ -3,8 +3,8 @@
 import type {Time} from "@internationalized/date";
 
 import {Clock} from "@gravity-ui/icons";
-import {Button, Description, FieldError, Form, Label, TimeField} from "@sy-inc/react";
 import {parseTime} from "@internationalized/date";
+import {Button, Description, FieldError, Form, Label, TimeField} from "@sy-inc/react";
 import {useState} from "react";
 
 export function FormExample() {
@@ -14,7 +14,7 @@ export function FormExample() {
   const maxTime = parseTime("17:00");
   const isInvalid = value !== null && (value.compare(minTime) < 0 || value.compare(maxTime) > 0);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!value || isInvalid) {

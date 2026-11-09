@@ -57,13 +57,13 @@ export default () => (
 
 ### 不可关闭
 
-在 `Drawer.Backdrop` 上设置 `isDismissable={false}` 可阻止点击外部或拖拽关闭。用户必须通过抽屉内的操作按钮交互。
+在 `Drawer.Backdrop` 上设置 `isDismissable={false}` 可阻止点击外部或拖拽关闭。如果希望只能通过操作按钮关闭，还需在 Backdrop 设置 `isKeyboardDismissDisabled`。
 
 <ComponentPreview name="drawer-non-dismissable" />
 
 ### 可滚动内容
 
-`Drawer.Body` 通过原生滚动自动处理溢出。拖拽关闭在 body 区域被排除，以避免与滚动冲突。
+`Drawer.Body` 通过原生滚动自动处理溢出。拖拽关闭在 body 区域被排除，以避免与滚动冲突。触摸屏上可从 `Drawer.Header`、`Drawer.Footer` 或 `Drawer.Handle` 拖拽。
 
 <ComponentPreview name="drawer-scrollable-content" />
 
@@ -90,10 +90,10 @@ export default () => (
 
 Snap points 描述 dialog 在当前轴上的可见范围：
 
-- 数字必须在 `0` 到 `1` 之间，并表示相对比例（`0.5` 即 `50%`）。
-- 以 `%` 结尾的值表示相对于 Drawer 尺寸的比例。
-- 以 `px` 结尾的值表示绝对尺寸。
-- points 必须严格递增，同一个列表不能混合 `px` 与相对值（数字或 `%`）。
+- 数字必须在 `0` 到 `1` 之间，继续表示视口比例（`0.5` 即 `50%`），不是像素值。
+- 以 `%` 结尾的值表示相对于当前方向视口尺寸的比例。
+- 支持 CSS 长度，例如 `"240px"`、`"20rem"`、`"70dvh"`、`"calc(100% - 48px)"`、`"var(--panel-size)"`。
+- 数字、`%` 值以及同单位长度必须严格递增；混合单位与 CSS 表达式应解析为递增的长度。每个 point 都直接在面板上测量，因此 `Drawer.Content` 上的 `max-height` / `max-width`（包括 `calc()`）会限制它；detached 面板会被限制在扣除边距后的视口内。
 
 省略 `defaultActiveSnapPoint` 时，默认选中最后一个 snap point。受控模式可同时传入
 `activeSnapPoint` 与 `onActiveSnapPointChange`。
@@ -179,7 +179,7 @@ Drawer 组件使用以下类（[查看源码样式](https://github.com/sy-inc/sy
 - `[data-entering]` 与 `[data-exiting]` - 打开与关闭过渡
 - `[data-active-snap-point]` 与 `[data-snap-points]` - 当前及配置的 snap points
 - `[data-dragging]` - 当前正在进行指针拖拽
-- `[data-drawer-snap-points="true"]` 与 `--snap-point-height` - snap point 布局状态
+- `[data-drawer-snap-points="true"]` - snap point 布局状态
 - `[data-detached]`、`[data-handle-only]`、`[data-modal]` 与 `[data-nested]` - Root 模式
 - `[data-drawer-background-scaled="true"]` - Drawer 打开时被缩放的背景目标
 
@@ -201,7 +201,7 @@ Drawer 组件使用以下类（[查看源码样式](https://github.com/sy-inc/sy
 | `onActiveSnapPointChange` | `(point: DrawerSnapPoint) => void` | - | 当前 point 变化时调用 |
 | `closeThreshold` | `number`（`0` 到 `1`） | `0.25` | 触发关闭所需的拖拽距离比例 |
 | `isDetached` | `boolean` | `false` | 添加内边距与圆角 |
-| `isDismissable` | `boolean` | `true` | 允许通过 backdrop、Escape 与拖拽关闭 |
+| `isDismissable` | `boolean` | `true` | 允许通过 backdrop 与拖拽关闭；阻止 Escape 请在 Backdrop 设置 `isKeyboardDismissDisabled` |
 | `isHandleOnly` | `boolean` | `false` | 仅允许从 `Drawer.Handle` 开始拖拽 |
 | `isModal` | `boolean` | `true` | 使用模态焦点与 backdrop 行为 |
 | `shouldScaleBackground` | `boolean` | `false` | 缩放标记为 `data-drawer-background` 的元素 |
@@ -265,7 +265,7 @@ Content 面板会根据当前 snap point 设置高度（顶部/底部）或宽�
 | `className` | `string` | - | Handle CSS 类 |
 | `aria-label` | `string` | `"Adjust drawer size"` | 键盘调整大小时的无障碍名称 |
 
-存在两个及以上 snap point 时，Handle 具有 `role="button"` 与 `tabIndex={0}`。点击或使用 Arrow
+存在两个及以上 snap point 时，Handle 具有 `role="button"` 与 `tabIndex={0}`。点击、按 Enter/Space 或使用 Arrow
 Up/Right 可切换到下一个 snap point，使用 Arrow Down/Left 可切换到上一个 snap point。没有 snap
 point 时它只是装饰性的拖拽提示（`aria-hidden`）。
 
@@ -338,8 +338,8 @@ export function ControlledDrawer() {
 Drawer 基于 React Aria 的 dialog 与 modal 原语构建：
 
 - **Dialog 语义**：使用 `Drawer.Heading` 或明确的 `aria-label`/`aria-labelledby`，为面板提供无障碍名称。
-- **焦点与键盘行为**：模态 Drawer 使用 React Aria 的焦点约束；`isDismissable` 为 `true` 时可用
-  `Escape` 关闭。
+- **焦点与键盘行为**：模态 Drawer 使用 React Aria 的焦点约束；除非在 `Drawer.Backdrop` 设置
+  `isKeyboardDismissDisabled`，否则可用 `Escape` 关闭。
 - **键盘调整大小**：存在 snap point 时，`Drawer.Handle` 是带标签的类按钮控件，可用方向键切换
   snap point；否则会对辅助技术隐藏。
 - **减少动画**：设置 `prefers-reduced-motion: reduce` 时会禁用 Drawer 过渡动画。

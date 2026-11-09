@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Meta} from "@storybook/react";
 import type {Selection} from "react-aria-components/ListBox";
 
@@ -225,11 +227,9 @@ const CardWithHelptextTemplate = (props: Popover["ContentProps"]) => (
       <div className="flex items-center gap-2">
         <Card.Title>Card Title</Card.Title>
         <Popover>
-          <Popover.Trigger aria-label="Help information">
-            <Button isIconOnly aria-label="Help" size="sm" variant="ghost">
-              <Icon className="text-muted" icon="gravity-ui:circle-info" />
-            </Button>
-          </Popover.Trigger>
+          <Button isIconOnly aria-label="Help" size="sm" variant="ghost">
+            <Icon className="text-muted" icon="gravity-ui:circle-info" />
+          </Button>
           <Popover.Content {...props} className="max-w-[200px]" placement="right">
             <Popover.Dialog>
               <Popover.Arrow />

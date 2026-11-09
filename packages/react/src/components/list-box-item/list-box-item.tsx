@@ -103,6 +103,9 @@ const ListBoxItemIndicator = <E extends keyof React.JSX.IntrinsicElements = "spa
   );
 };
 
+ListBoxItemRoot.displayName = "SY INC.ListBoxItem";
+ListBoxItemIndicator.displayName = "SY INC.ListBoxItem.Indicator";
+
 /* -------------------------------------------------------------------------------------------------
  * Exports
  * -----------------------------------------------------------------------------------------------*/

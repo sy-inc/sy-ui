@@ -39,7 +39,7 @@ const LinkRoot = ({children, className, ...props}: LinkRootProps) => {
         {...props}
         className={composeTwRenderProps(className, slots?.base())}
       >
-        {(values) => <>{typeof children === "function" ? children(values) : children}</>}
+        {children}
       </LinkPrimitive>
     </LinkContext>
   );
@@ -73,6 +73,9 @@ const LinkIcon = <E extends keyof React.JSX.IntrinsicElements = "span">({
     </dom.span>
   );
 };
+
+LinkRoot.displayName = "SY INC.Link";
+LinkIcon.displayName = "SY INC.Link.Icon";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports

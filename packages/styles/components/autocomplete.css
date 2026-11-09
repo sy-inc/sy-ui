@@ -1,3 +1,5 @@
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6908, 6916.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
 /* Autocomplete styles */
 .autocomplete {
   @apply flex flex-col gap-1;
@@ -132,6 +134,11 @@
    No Dialog inside, so the popover itself can take focus: drop its outline. */
 .autocomplete__popover {
   @apply w-(--trigger-width) max-w-(--trigger-width) outline-none;
+  border-radius: min(32px, calc(var(--radius-2xl) + var(--spacing) * 1.5));
+
+  [data-slot="list-box-item"]:has(.list-box-item__indicator) {
+    @apply pe-7;
+  }
 }
 
 /* Full width modifier */

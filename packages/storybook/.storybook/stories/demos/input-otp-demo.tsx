@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import {InputOTP, Label, Link} from "@sy-inc/react";
 import React, {useState} from "react";
 
@@ -7,12 +9,12 @@ export function InputOTPDemo() {
 
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-[280px] flex-col items-start justify-center gap-2">
+      <div className="flex w-full max-w-[280px] flex-col items-start justify-center gap-2">
         <div className="flex flex-col items-start gap-1">
           <Label>Verify account</Label>
           <p className="text-sm text-muted">We&apos;ve sent a code to a****@gmail.com</p>
         </div>
-        <InputOTP maxLength={6} value={value} onChange={setValue}>
+        <InputOTP aria-label="Verification code" maxLength={6} value={value} onChange={setValue}>
           <InputOTP.Group>
             <InputOTP.Slot index={0} />
             <InputOTP.Slot index={1} />
@@ -25,7 +27,7 @@ export function InputOTPDemo() {
             <InputOTP.Slot index={5} />
           </InputOTP.Group>
         </InputOTP>
-        <div className="flex items-center gap-[5px] px-1 pt-1">
+        <div className="flex flex-wrap items-center gap-[5px] px-1 pt-1">
           <p className="text-sm text-muted">Didn&apos;t receive a code?</p>
           <Link className="text-foreground" underline="always">
             Resend

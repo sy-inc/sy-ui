@@ -1,3 +1,5 @@
+// Portions adapted from HeroUI v3.2.7 (Apache-2.0); modified for SY INC.
+// Copyright 2025 NextUI Inc.
 import type {Selection} from "@react-types/shared";
 import type {Meta, StoryObj} from "@storybook/react";
 
@@ -31,7 +33,7 @@ export const Default: Story = {
     <ListBox aria-label="Users" className="w-[220px]" selectionMode="single">
       <ListBox.Item id="1" textValue="Bob">
         <Avatar size="sm">
-          <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
+          <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/blue.jpg" />
           <AvatarFallback>B</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
@@ -42,7 +44,7 @@ export const Default: Story = {
       </ListBox.Item>
       <ListBox.Item id="2" textValue="Fred">
         <Avatar size="sm">
-          <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
+          <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/green.jpg" />
           <AvatarFallback>F</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
@@ -53,7 +55,7 @@ export const Default: Story = {
       </ListBox.Item>
       <ListBox.Item id="3" textValue="Martha">
         <Avatar size="sm">
-          <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
+          <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/purple.jpg" />
           <AvatarFallback>M</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
@@ -104,7 +106,7 @@ export const WithSections: Story = {
             </Kbd>
           </ListBox.Item>
         </ListBox.Section>
-        <Separator />
+        <Separator isDecorative />
         <ListBox.Section>
           <Header>Danger zone</Header>
           <ListBox.Item id="delete-file" textValue="Delete file" variant="danger">
@@ -166,7 +168,7 @@ export const WithDisabledItems: Story = {
             </Kbd>
           </ListBox.Item>
         </ListBox.Section>
-        <Separator />
+        <Separator isDecorative />
         <ListBox.Section>
           <Header>Danger zone</Header>
           <ListBox.Item id="delete-file" textValue="Delete file" variant="danger">
@@ -195,7 +197,7 @@ export const MultiSelect: Story = {
       <ListBox aria-label="Users" selectionMode="multiple">
         <ListBox.Item id="1" textValue="Bob">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
+            <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/blue.jpg" />
             <AvatarFallback>B</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -206,7 +208,7 @@ export const MultiSelect: Story = {
         </ListBox.Item>
         <ListBox.Item id="2" textValue="Fred">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
+            <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/green.jpg" />
             <AvatarFallback>F</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -217,7 +219,7 @@ export const MultiSelect: Story = {
         </ListBox.Item>
         <ListBox.Item id="3" textValue="Martha">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
+            <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/purple.jpg" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -237,7 +239,7 @@ export const CustomCheckIcon: Story = {
       <ListBox aria-label="Users" selectionMode="multiple">
         <ListBox.Item id="1" textValue="Bob">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
+            <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/blue.jpg" />
             <AvatarFallback>B</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -252,7 +254,7 @@ export const CustomCheckIcon: Story = {
         </ListBox.Item>
         <ListBox.Item id="2" textValue="Fred">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
+            <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/green.jpg" />
             <AvatarFallback>F</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -267,7 +269,7 @@ export const CustomCheckIcon: Story = {
         </ListBox.Item>
         <ListBox.Item id="3" textValue="Martha">
           <Avatar size="sm">
-            <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
+            <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/purple.jpg" />
             <AvatarFallback>M</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
@@ -302,7 +304,7 @@ export const Controlled: Story = {
           >
             <ListBox.Item id="1" textValue="Bob">
               <Avatar size="sm">
-                <AvatarImage src="https://assets.sy-inc.com/avatars/blue.jpg" />
+                <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/blue.jpg" />
                 <AvatarFallback>B</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
@@ -319,7 +321,7 @@ export const Controlled: Story = {
             </ListBox.Item>
             <ListBox.Item id="2" textValue="Fred">
               <Avatar size="sm">
-                <AvatarImage src="https://assets.sy-inc.com/avatars/green.jpg" />
+                <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/green.jpg" />
                 <AvatarFallback>F</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
@@ -336,7 +338,7 @@ export const Controlled: Story = {
             </ListBox.Item>
             <ListBox.Item id="3" textValue="Martha">
               <Avatar size="sm">
-                <AvatarImage src="https://assets.sy-inc.com/avatars/purple.jpg" />
+                <AvatarImage alt="" src="https://assets.sy-inc.com/avatars/purple.jpg" />
                 <AvatarFallback>M</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">

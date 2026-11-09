@@ -8,7 +8,7 @@ import type {ComponentPropsWithRef, ReactNode} from "react";
 import type {ButtonProps as ButtonPrimitiveProps} from "react-aria-components/Button";
 import type {DialogProps as DialogPrimitiveProps} from "react-aria-components/Dialog";
 
-import {filterDOMProps, useObjectRef} from "@react-aria/utils";
+import {filterDOMProps, mergeProps, useObjectRef} from "@react-aria/utils";
 import {drawerVariants} from "@sy-inc/styles";
 import React, {createContext, use, useEffect, useMemo, useRef, useState} from "react";
 import {Button as ButtonPrimitive} from "react-aria-components/Button";
@@ -29,8 +29,10 @@ import {CloseButton} from "../close-button";
 import {SurfaceContext} from "../surface";
 
 export type DrawerPlacement = "top" | "bottom" | "left" | "right";
-export type DrawerSnapPoint = number | `${number}px` | `${number}%`;
-type ParsedSnapPoint = {css: string; unit: "px" | "relative"; value: number};
+/** Numbers remain viewport fractions (0–1); strings accept CSS lengths and percentages. */
+export type DrawerSnapPoint = number | string;
+// `unit`/`value` are set only for literal lengths, the only points comparable before layout.
+type ParsedSnapPoint = {css: string; unit?: string; value?: number};
 
 const EMPTY_SNAP_POINTS: readonly DrawerSnapPoint[] = [];
 const backgroundScales = new WeakMap<HTMLElement, number>();
@@ -41,31 +43,49 @@ function parseSnapPoint(point: DrawerSnapPoint): ParsedSnapPoint {
     if (!Number.isFinite(point) || point < 0 || point > 1)
       throw new Error("Drawer snap point numbers must be between 0 and 1.");
 
-    return {css: `${point * 100}%`, unit: "relative", value: point};
+    return {css: `${point * 100}%`, unit: "%", value: point * 100};
   }
-  const match = /^(\d+(?:\.\d+)?)(px|%)$/.exec(point);
+  const literal = /^(\d*\.?\d+)([a-z]+|%)$/i.exec(point);
 
-  if (!match) throw new Error("Drawer snap points only support numbers, px, and % values.");
-  const unit = match[2] === "px" ? "px" : "relative";
+  if (
+    (!literal && !/^(?:calc|min|max|clamp|var|env)\(.+\)$/i.test(point)) ||
+    (typeof CSS !== "undefined" && !CSS.supports("height", point))
+  )
+    throw new Error("Drawer snap points must be viewport fractions or CSS lengths.");
 
-  return {css: point, unit, value: unit === "relative" ? Number(match[1]) / 100 : Number(match[1])};
+  return literal
+    ? {css: point, unit: literal[2]!.toLowerCase(), value: Number(literal[1])}
+    : {css: point};
 }
 
 function validateSnapPoints(points: readonly DrawerSnapPoint[]) {
   const parsed = points.map(parseSnapPoint);
 
   for (let index = 1; index < parsed.length; index++) {
-    if (parsed[index - 1]!.unit !== parsed[index]!.unit)
-      throw new Error("Drawer snap points cannot mix px values with number or % values.");
-    if (parsed[index - 1]!.value >= parsed[index]!.value)
+    const previous = parsed[index - 1]!;
+    const point = parsed[index]!;
+
+    if (point.unit && point.unit === previous.unit && previous.value! >= point.value!)
       throw new Error("Drawer snap points must be strictly increasing.");
   }
 
   return parsed;
 }
 
-function pointPixels(point: ParsedSnapPoint, dimension: number) {
-  return point.unit === "px" ? point.value : point.value * dimension;
+// Measured on the panel itself, so the browser resolves %, calc() and the consumer's
+// min/max size against the panel's real containing block.
+function pointPixels(point: ParsedSnapPoint, element: HTMLElement, vertical: boolean) {
+  const dimension = vertical ? "height" : "width";
+  const original = element.style.getPropertyValue(dimension);
+  const priority = element.style.getPropertyPriority(dimension);
+
+  element.style.setProperty(dimension, point.css);
+  const pixels = vertical ? element.offsetHeight : element.offsetWidth;
+
+  // An empty original removes the property again.
+  element.style.setProperty(dimension, original, priority);
+
+  return pixels;
 }
 
 function snapPointIndex(points: readonly DrawerSnapPoint[], value: DrawerSnapPoint | undefined) {
@@ -206,25 +226,22 @@ function useDrawerDrag(
     last: 0,
     lastTime: 0,
     offset: 0,
+    pointerId: -1,
     start: 0,
     velocity: 0,
   });
   const vertical = context.placement === "top" || context.placement === "bottom";
   const direction = context.placement === "top" || context.placement === "left" ? -1 : 1;
   const position = (event: React.PointerEvent) => (vertical ? event.clientY : event.clientX);
+  // Clearing the inline styles hands the panel back to .drawer__content's own transform transition.
   const resetTransform = (element: HTMLElement) => {
-    element.style.transition = "transform 200ms var(--drawer-ease)";
+    element.style.transition = "";
     element.style.transform = "";
-    const clear = () => {
-      element.style.transition = "";
-    };
-
-    element.addEventListener("transitionend", clear, {once: true});
-    window.setTimeout(clear, 250);
   };
 
   const onPointerDown = (event: React.PointerEvent) => {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || drag.current.active || context.nestedOpen || event.defaultPrevented)
+      return;
     // Nothing to do with a drag that can neither dismiss nor move between snap points.
     if (!context.isDismissable && context.parsedSnapPoints.length < 2) return;
     const target = event.target as HTMLElement;
@@ -250,6 +267,7 @@ function useDrawerDrag(
       last: start,
       lastTime: event.timeStamp,
       offset: 0,
+      pointerId: event.pointerId,
       start,
       velocity: 0,
     };
@@ -258,7 +276,13 @@ function useDrawerDrag(
     const state = drag.current;
     const element = contentRef.current;
 
-    if (!state.active || !element) return;
+    if (!state.active || !element || state.pointerId !== event.pointerId) return;
+    // Released outside Content before capture began, so its pointerup never reached us.
+    if (!(event.buttons & 1)) {
+      onPointerCancel(event);
+
+      return;
+    }
     const current = position(event);
     const delta = current - state.start;
     const elapsed = event.timeStamp - state.lastTime;
@@ -290,6 +314,7 @@ function useDrawerDrag(
     const element = contentRef.current;
     const wasDragging = state.active && state.dragging;
 
+    if (state.pointerId !== event.pointerId) return null;
     state.active = false;
     state.dragging = false;
     if (!wasDragging || !element) return null;
@@ -303,21 +328,22 @@ function useDrawerDrag(
     const element = endDrag(event);
 
     if (!element) return;
-    try {
-      element.releasePointerCapture(event.pointerId);
-    } catch {
-      // The browser may already have released this pointer.
-    }
     const dimension = vertical ? element.offsetHeight : element.offsetWidth;
     const shouldClose =
       context.isDismissable &&
       (direction * state.offset > dimension * context.closeThreshold ||
         direction * state.velocity > 0.5);
 
-    if (shouldClose) overlayState?.close();
-    else if (context.parsedSnapPoints.length) {
-      const points = context.parsedSnapPoints.map((point) => pointPixels(point, dimension));
-      const desired = points[context.activeIndex]! - direction * state.offset;
+    if (shouldClose) {
+      // Let the CSS exit start from its own transform rather than an inline transition:none.
+      resetTransform(element);
+      overlayState?.close();
+
+      return;
+    }
+    if (context.parsedSnapPoints.length) {
+      const points = context.parsedSnapPoints.map((point) => pointPixels(point, element, vertical));
+      const desired = dimension - direction * state.offset;
       let nearest = 0;
 
       points.forEach((point, index) => {
@@ -333,8 +359,12 @@ function useDrawerDrag(
 
     if (element) resetTransform(element);
   };
+  const onLostPointerCapture = (event: React.PointerEvent) => {
+    // Moving capture from a hit child to Content fires this on that child first.
+    if (event.target === event.currentTarget) onPointerCancel(event);
+  };
 
-  return {onPointerCancel, onPointerDown, onPointerMove, onPointerUp};
+  return {onLostPointerCapture, onPointerCancel, onPointerDown, onPointerMove, onPointerUp};
 }
 
 export interface DrawerRootProps extends ComponentPropsWithRef<typeof DialogTriggerPrimitive> {
@@ -572,9 +602,8 @@ export const DrawerContent = ({
         <dom.div
           data-slot="drawer-content"
           {...drawerData(context)}
-          {...dragHandlers}
           {...nonModalProps(
-            {...props, children, className, style: contentStyle},
+            {...mergeProps(props, dragHandlers), children, className, style: contentStyle},
             context.slots.content(),
             state,
           )}
@@ -591,8 +620,7 @@ export const DrawerContent = ({
         className={composeTwRenderProps(className, context.slots.content())}
         data-slot="drawer-content"
         {...drawerData(context)}
-        {...dragHandlers}
-        {...props}
+        {...mergeProps(props, dragHandlers)}
         style={contentStyle}
       >
         {children}
@@ -708,12 +736,12 @@ export const DrawerHandle = ({className, onClick, onKeyDown, ...props}: DrawerHa
       {...props}
       onClick={(event: React.MouseEvent<HTMLDivElement>) => {
         onClick?.(event);
-        if (interactive) move(1);
+        if (interactive && !event.defaultPrevented) move(1);
       }}
       onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
         onKeyDown?.(event);
-        if (!interactive) return;
-        if (["ArrowUp", "ArrowRight"].includes(event.key)) {
+        if (!interactive || event.defaultPrevented) return;
+        if (["Enter", " ", "ArrowUp", "ArrowRight"].includes(event.key)) {
           event.preventDefault();
           move(1);
         } else if (["ArrowDown", "ArrowLeft"].includes(event.key)) {

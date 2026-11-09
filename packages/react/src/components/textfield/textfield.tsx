@@ -42,12 +42,14 @@ const TextFieldRoot = ({children, className, fullWidth, variant, ...props}: Text
     >
       {(values) => (
         <TextFieldContext value={contextValue}>
-          <>{typeof children === "function" ? children(values) : children}</>
+          {typeof children === "function" ? children(values) : children}
         </TextFieldContext>
       )}
     </TextFieldPrimitive>
   );
 };
+
+TextFieldRoot.displayName = "SY INC.TextField";
 
 /* -------------------------------------------------------------------------------------------------
  * Exports
