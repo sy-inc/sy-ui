@@ -32,6 +32,7 @@ export type {
   MarqueePrefixProps,
   MarqueeSuffixProps,
   MarqueeDirection,
+  MarqueeScroll,
   MarqueeStyle,
 } from "./marquee";
 

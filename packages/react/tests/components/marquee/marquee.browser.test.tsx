@@ -119,6 +119,88 @@ describe("Marquee (browser)", () => {
       expect(getComputedStyle(prefix).maskImage).toBe("none");
       expect(getComputedStyle(root).maskImage).toBe("none");
     });
+
+    it("fades along the block axis for a vertical marquee", async () => {
+      await render(
+        <Marquee style={{height: 320}}>
+          <Marquee.Content gradient direction="up" play={false}>
+            <span style={{height: 600}}>Long announcement</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = document.querySelector<HTMLElement>('[data-slot="marquee-content"]')!;
+
+      // Chrome omits the default `to bottom`, so the first argument is already a color stop.
+      expect(getComputedStyle(content).maskImage).toMatch(/^linear-gradient\(rgba\(/);
+    });
+  });
+
+  describe("scroll overflow", () => {
+    it("holds content that fits still at the start edge without fades", async () => {
+      await render(
+        <Marquee style={{width: 320}}>
+          <Marquee.Content gradient scroll="overflow">
+            <span style={{width: 200}}>Short notice</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = document.querySelector<HTMLElement>('[data-slot="marquee-content"]')!;
+      const track = document.querySelector<HTMLElement>('[data-slot="marquee-track"]')!;
+
+      await expect.poll(() => content.dataset["ready"]).toBe("true");
+      expect(content.dataset["static"]).toBe("true");
+      expect(document.querySelectorAll('[data-slot="marquee-track"]')).toHaveLength(1);
+      expect(getComputedStyle(track).animationName).toBe("none");
+      expect(getComputedStyle(content).maskImage).toBe("none");
+      expect(track.getBoundingClientRect().left).toBeCloseTo(
+        content.getBoundingClientRect().left,
+        0,
+      );
+    });
+
+    it("scrolls once the content no longer fits", async () => {
+      await render(
+        <Marquee style={{width: 320}}>
+          <Marquee.Content scroll="overflow">
+            <span style={{width: 400}}>Long announcement</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const content = document.querySelector<HTMLElement>('[data-slot="marquee-content"]')!;
+
+      await expect.poll(() => content.dataset["static"]).toBeUndefined();
+      expect(document.querySelectorAll('[data-slot="marquee-track"]')).toHaveLength(2);
+      expect(
+        getComputedStyle(document.querySelector('[data-slot="marquee-track"]')!).animationName,
+      ).toBe("marquee-left");
+    });
+
+    it("switches between still and scrolling as the content box resizes", async () => {
+      await render(
+        <Marquee style={{width: 320}}>
+          <Marquee.Content scroll="overflow">
+            <span style={{width: 400}}>Long announcement</span>
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      const root = document.querySelector<HTMLElement>('[data-slot="marquee"]')!;
+      const content = document.querySelector<HTMLElement>('[data-slot="marquee-content"]')!;
+
+      await expect.poll(() => content.dataset["static"]).toBeUndefined();
+
+      root.style.width = "480px";
+      await expect.poll(() => content.dataset["static"]).toBe("true");
+      expect(
+        getComputedStyle(content.querySelector('[data-slot="marquee-track"]')!).transform,
+      ).toBe("none");
+
+      root.style.width = "320px";
+      await expect.poll(() => content.dataset["static"]).toBeUndefined();
+    });
   });
 
   it("disables animation for system reduced motion", async () => {

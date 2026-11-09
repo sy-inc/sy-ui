@@ -179,6 +179,87 @@ describe("Marquee", () => {
     offsetWidth.mockRestore();
   });
 
+  describe("scroll", () => {
+    const mockWidths = (sequence: number, container: number) =>
+      vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockImplementation(function (
+        this: HTMLElement,
+      ) {
+        return this.dataset["slot"] === "marquee-sequence" ? sequence : container;
+      });
+
+    it("renders content that fits once, without motion or fades", async () => {
+      // 100px of content plus the 16px trailing gap fits a 100px content box.
+      const offsetWidth = mockWidths(116, 100);
+
+      render(
+        <Marquee>
+          <Marquee.Content autoFill gradient data-testid="content" scroll="overflow">
+            Content
+          </Marquee.Content>
+        </Marquee>,
+      );
+      const content = screen.getByTestId("content");
+
+      await waitFor(() => expect(content).toHaveAttribute("data-ready", "true"));
+      expect(content).toHaveAttribute("data-static", "true");
+      expect(content).not.toHaveAttribute("data-gradient");
+      expect(content.querySelectorAll('[data-slot="marquee-track"]')).toHaveLength(1);
+      expect(content.querySelectorAll('[data-slot="marquee-sequence"]')).toHaveLength(1);
+      expect(screen.getAllByText("Content")).toHaveLength(1);
+
+      offsetWidth.mockRestore();
+    });
+
+    it("scrolls content that overflows the content box", async () => {
+      const offsetWidth = mockWidths(117, 100);
+
+      render(
+        <Marquee>
+          <Marquee.Content gradient data-testid="content" scroll="overflow">
+            Content
+          </Marquee.Content>
+        </Marquee>,
+      );
+      const content = screen.getByTestId("content");
+
+      await waitFor(() => expect(content).not.toHaveAttribute("data-static"));
+      expect(content).toHaveAttribute("data-gradient", "true");
+      expect(content.querySelectorAll('[data-slot="marquee-track"]')).toHaveLength(2);
+
+      offsetWidth.mockRestore();
+    });
+
+    it("renders still until the content is measured", () => {
+      render(
+        <Marquee>
+          <Marquee.Content data-testid="content" scroll="overflow">
+            Content
+          </Marquee.Content>
+        </Marquee>,
+      );
+
+      expect(screen.getByTestId("content")).toHaveAttribute("data-static", "true");
+      expect(screen.getAllByText("Content")).toHaveLength(1);
+    });
+
+    it("always scrolls by default, even when the content fits", async () => {
+      const offsetWidth = mockWidths(50, 100);
+
+      render(
+        <Marquee>
+          <Marquee.Content data-testid="content">Content</Marquee.Content>
+        </Marquee>,
+      );
+      const content = screen.getByTestId("content");
+
+      await waitFor(() => expect(content).toHaveAttribute("data-ready", "true"));
+      expect(content).not.toHaveAttribute("data-static");
+      expect(content.querySelectorAll('[data-slot="marquee-track"]')).toHaveLength(2);
+
+      offsetWidth.mockRestore();
+    });
+  });
+
   it("bubbles animation events from the track to native handlers", () => {
     const onAnimationEnd = vi.fn();
 

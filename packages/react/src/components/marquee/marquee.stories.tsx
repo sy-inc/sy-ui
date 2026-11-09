@@ -16,12 +16,17 @@ const meta: Meta<typeof Marquee.Content> = {
     gradient: false,
     pauseOnInteraction: false,
     play: true,
+    scroll: "always",
     speed: 50,
   },
   argTypes: {
     direction: {
       control: "select",
       options: ["left", "right", "up", "down"],
+    },
+    scroll: {
+      control: "inline-radio",
+      options: ["always", "overflow"],
     },
   },
   component: Marquee.Content,
@@ -115,6 +120,23 @@ export const AutoFill: Story = {
         <span className={itemClassName}>Short sequence</span>
       </Marquee.Content>
     </Marquee>
+  ),
+};
+
+/** `scroll="overflow"` holds content that fits still and scrolls only once it overflows. */
+export const ScrollOnOverflow: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {["Fits, so it stays still", "Too long for the bar, so this announcement scrolls"].map(
+        (text) => (
+          <Marquee key={text} className="w-72">
+            <Marquee.Content gradient scroll="overflow">
+              <span className={itemClassName}>{text}</span>
+            </Marquee.Content>
+          </Marquee>
+        ),
+      )}
+    </div>
   ),
 };
 

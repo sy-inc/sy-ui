@@ -33,4 +33,14 @@ describe("Marquee SSR", () => {
       </Marquee>,
     );
   });
+
+  it("renders without hydration mismatch when scrolling only on overflow", async () => {
+    await ssrSmoke(
+      <Marquee>
+        <Marquee.Content gradient scroll="overflow">
+          Scrolling content
+        </Marquee.Content>
+      </Marquee>,
+    );
+  });
 });

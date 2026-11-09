@@ -128,6 +128,18 @@ import {Badge, Marquee} from "@sy-inc/react";
 </Marquee>
 ```
 
+## 溢出时滚动
+
+设置 `scroll="overflow"` 后，只有内容长于滚动内容区时才会滚动。放得下的内容静止在起始边，不生成副本，也不显示渐隐；任一尺寸变化时会自动在两种状态间切换。
+
+```tsx
+<Marquee>
+  <Marquee.Content gradient scroll="overflow">
+    <span>放不下时才滚动</span>
+  </Marquee.Content>
+</Marquee>
+```
+
 ## 渐变
 
 `gradient` 使用遮罩在滚动内容两侧添加不拦截交互的渐隐效果，因此无论背景是纯色、图片还是渐变都能生效，无需指定颜色。前置与后置装饰位于遮罩之外，始终保持不透明。渐隐宽度由 `--marquee-gradient-width` 控制。
@@ -167,6 +179,7 @@ import {Badge, Marquee} from "@sy-inc/react";
 - `data-auto-fill` — 启用自动填充时存在
 - `data-gradient` — 启用边缘渐隐时存在
 - `data-ready` — 测量出可用动画距离后存在
+- `data-static` — `scroll="overflow"` 且内容放得下、保持静止时存在
 
 ### CSS 变量
 
@@ -198,6 +211,7 @@ import {Badge, Marquee} from "@sy-inc/react";
 | `delay` | `number` | `0` | 开始延迟，单位为秒 |
 | `gradient` | `boolean` | `false` | 显示两侧渐隐 |
 | `gap` | `number` | `16` | 子项间距，单位为像素 |
+| `scroll` | `"always" \| "overflow"` | `"always"` | `"overflow"` 时仅在内容放不下时滚动 |
 | `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | 样式，可包含任意 `--marquee-*` 覆盖 |
 | `children` | `ReactNode` | — | 需要重复的内容 |
 

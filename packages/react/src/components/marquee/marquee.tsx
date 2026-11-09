@@ -10,11 +10,16 @@ import {dataAttr} from "../../utils/assertion";
 
 type MarqueeDirection = "left" | "right" | "up" | "down";
 
+type MarqueeScroll = "always" | "overflow";
+
 /** Accepts the `--marquee-*` custom properties alongside regular styles. */
 type MarqueeStyle = CSSProperties & Partial<Record<`--marquee-${string}`, string | number>>;
 
 /* Every state is driven by a data attribute, so no slot carries a variant. */
 const slots = marqueeVariants();
+const itemClass = slots.item();
+const sequenceClass = slots.sequence();
+const trackClass = slots.track();
 
 /* -------------------------------------------------------------------------------------------------
  * Marquee Root
@@ -70,6 +75,11 @@ interface MarqueeContentProps extends Omit<ComponentPropsWithRef<"div">, "childr
   gradient?: boolean;
   /** Space between repeated content in pixels. @default 16 */
   gap?: number;
+  /**
+   * `"overflow"` only scrolls when the content is longer than the content box; content that fits
+   * sits still at the start edge, with no copy and no fades. @default "always"
+   */
+  scroll?: MarqueeScroll;
   /** Regular styles plus any `--marquee-*` override. */
   style?: MarqueeStyle;
 }
@@ -89,6 +99,7 @@ const MarqueeContent = ({
   pauseOnInteraction = false,
   play = true,
   ref,
+  scroll = "always",
   speed = 50,
   style,
   ...props
@@ -138,10 +149,13 @@ const MarqueeContent = ({
     ? measurement.sequence * multiplier
     : Math.max(measurement.sequence, measurement.container);
   const duration = distance > 0 && speed > 0 ? distance / speed : 1;
+  // The measured sequence includes its trailing gap. Until it is measured, an overflow marquee
+  // renders still, so the server and first paint show plain content instead of a masked track.
+  const still =
+    scroll === "overflow" &&
+    (measurement.container === 0 ||
+      measurement.sequence - Math.max(0, gap) <= measurement.container);
   const paused = !play;
-  const itemClass = slots.item();
-  const sequenceClass = slots.sequence();
-  const trackClass = slots.track();
   // Wrapped once and shared by every copy: the identical element references let React skip
   // re-rendering the children when a resize updates the measurement.
   const items = React.useMemo(
@@ -151,7 +165,7 @@ const MarqueeContent = ({
           {child}
         </div>
       )),
-    [children, itemClass],
+    [children],
   );
   const renderSequence = (
     copy: number,
@@ -183,21 +197,25 @@ const MarqueeContent = ({
       className={slots.content({className})}
       data-auto-fill={dataAttr(autoFill)}
       data-direction={direction}
-      data-gradient={dataAttr(gradient)}
+      data-gradient={dataAttr(gradient && !still)}
       data-pause-on-interaction={dataAttr(pauseOnInteraction)}
       data-paused={dataAttr(paused)}
       data-ready={dataAttr(distance > 0)}
       data-slot="marquee-content"
+      data-static={dataAttr(still)}
       style={marqueeStyle}
     >
       <div className={trackClass} data-slot="marquee-track">
         {renderSequence(0, false, sequenceRef)}
-        {Array.from({length: multiplier - 1}, (_, index) => renderSequence(index + 1, true))}
+        {!still &&
+          Array.from({length: multiplier - 1}, (_, index) => renderSequence(index + 1, true))}
       </div>
       {/* The whole track is hidden, so its sequences need no attributes of their own. */}
-      <div inert aria-hidden="true" className={trackClass} data-slot="marquee-track">
-        {Array.from({length: multiplier}, (_, index) => renderSequence(index, false))}
-      </div>
+      {!still && (
+        <div inert aria-hidden="true" className={trackClass} data-slot="marquee-track">
+          {Array.from({length: multiplier}, (_, index) => renderSequence(index, false))}
+        </div>
+      )}
     </div>
   );
 };
@@ -214,6 +232,7 @@ export type {
   MarqueeDirection,
   MarqueePrefixProps,
   MarqueeRootProps,
+  MarqueeScroll,
   MarqueeStyle,
   MarqueeSuffixProps,
 };

@@ -128,6 +128,18 @@ Set `autoFill` when the content is shorter than the space available to it. Marqu
 </Marquee>
 ```
 
+## Scroll on overflow
+
+Set `scroll="overflow"` to scroll only when the content is longer than the content box. Content that fits sits still at the start edge with no copy and no fades, and Marquee switches between the two states as either size changes.
+
+```tsx
+<Marquee>
+  <Marquee.Content gradient scroll="overflow">
+    <span>Scrolls only when it does not fit</span>
+  </Marquee.Content>
+</Marquee>
+```
+
 ## Gradient
 
 `gradient` masks a non-interactive fade at both edges of the scrolling content, so it works over any background, image, or gradient without matching a color. The prefix and suffix are outside the mask and stay fully opaque. Size each fade with `--marquee-gradient-width`.
@@ -167,6 +179,7 @@ The following are set on `Marquee.Content`:
 - `data-auto-fill` — Present when automatic filling is enabled
 - `data-gradient` — Present when edge fades are enabled
 - `data-ready` — Present after a usable animation distance has been measured
+- `data-static` — Present when `scroll="overflow"` content fits and holds still
 
 ### CSS Variables
 
@@ -198,6 +211,7 @@ Accepts every `div` prop. Also exported as `Marquee.Root`.
 | `delay` | `number` | `0` | Start delay in seconds |
 | `gradient` | `boolean` | `false` | Shows fades at both edges |
 | `gap` | `number` | `16` | Space between items in pixels |
+| `scroll` | `"always" \| "overflow"` | `"always"` | `"overflow"` scrolls only when the content does not fit |
 | `style` | `CSSProperties & {"--marquee-*"?: string \| number}` | — | Styles, including any `--marquee-*` override |
 | `children` | `ReactNode` | — | Content to repeat |
 
