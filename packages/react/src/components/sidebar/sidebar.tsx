@@ -5,12 +5,13 @@ import type {DOMRenderProps} from "../../utils/dom";
 import type {TooltipContentProps} from "../tooltip";
 import type {SidebarVariants} from "@sy-inc/styles";
 import type {CSSProperties, ReactNode} from "react";
-import type {ButtonProps, LinkProps} from "react-aria-components";
+import type {ButtonProps, ButtonRenderProps, LinkProps} from "react-aria-components";
 
 import {useEffectEvent} from "@react-aria/utils";
 import {useControlledState} from "@react-stately/utils";
 import {mobileMediaQuery, sidebarCollapseMediaQueries, sidebarVariants} from "@sy-inc/styles";
 import React from "react";
+import {SharedElementTransition} from "react-aria-components/SharedElementTransition";
 
 import {useMediaQuery, useOverlayState} from "../../hooks";
 import {composeTwRenderProps} from "../../utils/compose";
@@ -20,6 +21,7 @@ import {Drawer} from "../drawer";
 import {DrawerContext} from "../drawer/drawer";
 import {Input} from "../input";
 import {Link} from "../link";
+import {SelectionIndicator, SharedElement} from "../rac/selection-indicator";
 import {Separator} from "../separator";
 import {Skeleton} from "../skeleton";
 import {Tooltip} from "../tooltip";
@@ -363,7 +365,62 @@ const createPart = <E extends keyof React.JSX.IntrinsicElements>(
 };
 
 const SidebarHeader = createPart("header", "header", "sidebar-header", "SY INC.Sidebar.Header");
-const SidebarContent = createPart("div", "content", "sidebar-content", "SY INC.Sidebar.Content");
+
+/**
+ * Which menu control the pointer is over. A store rather than state so that each control
+ * subscribes only to "is it me": a hover then re-renders the two controls it moves between,
+ * not every menu item in the sidebar.
+ */
+const createHoverStore = () => {
+  let hoveredId: string | null = null;
+  const listeners = new Set<() => void>();
+
+  return {
+    get: () => hoveredId,
+    set: (id: string | null) => {
+      if (id === hoveredId) return;
+      hoveredId = id;
+      listeners.forEach((listener) => listener());
+    },
+    subscribe: (listener: () => void) => {
+      listeners.add(listener);
+
+      return () => listeners.delete(listener);
+    },
+  };
+};
+
+type SidebarHoverStore = ReturnType<typeof createHoverStore>;
+
+/** Non-null only inside `Sidebar.Content`, the sliding range of the menu indicators. */
+const SidebarHoverContext = React.createContext<SidebarHoverStore | null>(null);
+
+const SidebarContent = ({
+  children,
+  className,
+  onPointerLeave,
+  ...props
+}: SidebarPartProps<"div"> & Omit<React.JSX.IntrinsicElements["div"], keyof SidebarPartProps>) => {
+  const [hoverStore] = React.useState(createHoverStore);
+
+  return (
+    <dom.div
+      {...(props as any)}
+      className={slotClass("content", className)}
+      data-slot="sidebar-content"
+      onPointerLeave={(event: React.PointerEvent<HTMLDivElement>) => {
+        hoverStore.set(null);
+        onPointerLeave?.(event);
+      }}
+    >
+      <SidebarHoverContext value={hoverStore}>
+        <SharedElementTransition>{children}</SharedElementTransition>
+      </SidebarHoverContext>
+    </dom.div>
+  );
+};
+
+SidebarContent.displayName = "SY INC.Sidebar.Content";
 const SidebarFooter = createPart("footer", "footer", "sidebar-footer", "SY INC.Sidebar.Footer");
 const SidebarGroup = createPart("section", "group", "sidebar-group", "SY INC.Sidebar.Group");
 const SidebarInset = createPart("main", "inset", "sidebar-inset", "SY INC.Sidebar.Inset");
@@ -469,17 +526,63 @@ type SidebarControlProps = Omit<ButtonProps, "className"> & {
   "aria-current"?: React.AriaAttributes["aria-current"];
   className?: ButtonProps["className"] | LinkProps["className"];
   href?: string;
+  isActive?: boolean;
   slotClassName: string;
 };
 
-const SidebarControl = ({className, href, slotClassName, ...props}: SidebarControlProps) => {
+const noopSubscribe = () => () => {};
+
+const SidebarControl = ({
+  children,
+  className,
+  href,
+  isActive = false,
+  onHoverStart,
+  slotClassName,
+  ...props
+}: SidebarControlProps) => {
   const Control = (href !== undefined ? Link.Root : Button.Root) as typeof Button.Root;
   const controlProps = href !== undefined ? {href} : {variant: "ghost" as const};
+  const hoverStore = React.use(SidebarHoverContext);
+  const id = React.useId();
+  const isHovered = React.useSyncExternalStore(
+    hoverStore?.subscribe ?? noopSubscribe,
+    () => hoverStore?.get() === id,
+    () => false,
+  );
+  const indicatorProps = hoverStore
+    ? {
+        children: (values: ButtonRenderProps & {defaultChildren: ReactNode}) => (
+          <>
+            {typeof children === "function" ? children(values) : children}
+            <SharedElement
+              aria-hidden
+              className={slotClass("menuHoverIndicator")}
+              data-slot="sidebar-menu-hover-indicator"
+              isVisible={isHovered}
+              name="sidebar-menu-hover"
+            />
+            <SelectionIndicator
+              aria-hidden
+              className={slotClass("menuSelectionIndicator")}
+              data-slot="sidebar-menu-selection-indicator"
+              isSelected={isActive}
+            />
+          </>
+        ),
+        "data-indicator": "true",
+        onHoverStart: (event: Parameters<NonNullable<ButtonProps["onHoverStart"]>>[0]) => {
+          hoverStore.set(id);
+          onHoverStart?.(event);
+        },
+      }
+    : {children, onHoverStart};
 
   return (
     <Control
       {...(props as ButtonProps)}
       {...(controlProps as object)}
+      {...indicatorProps}
       className={composeTwRenderProps(className as ButtonProps["className"], slotClassName)}
     />
   );
@@ -535,6 +638,7 @@ const SidebarMenuButton = ({
       data-slot="sidebar-menu-button"
       data-variant={variant}
       href={href as string}
+      isActive={isActive}
       slotClassName={slotClass("menuButton")}
     />
   );
@@ -564,6 +668,7 @@ const SidebarMenuSubButton = ({
     data-size={size}
     data-slot="sidebar-menu-sub-button"
     href={href as string}
+    isActive={isActive}
     slotClassName={slotClass("menuSubButton")}
   />
 );

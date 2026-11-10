@@ -168,7 +168,7 @@
 }
 
 .sidebar__menu-button {
-  @apply flex h-8 w-full min-w-0 items-center justify-start gap-2 overflow-hidden rounded-lg px-2 text-left text-sm font-normal outline-none;
+  @apply relative isolate flex h-8 w-full min-w-0 items-center justify-start gap-2 rounded-lg px-2 text-left text-sm font-normal outline-none;
 
   transition:
     width 200ms linear,
@@ -176,13 +176,49 @@
     padding 200ms linear;
 }
 
-.sidebar__menu-button:hover,
-.sidebar__menu-button[data-hovered="true"] {
+/* Static backgrounds outside a sliding range; inside one the indicators paint them. */
+.sidebar__menu-button:not([data-indicator]):hover,
+.sidebar__menu-button:not([data-indicator])[data-hovered="true"],
+.sidebar__menu-button:not([data-indicator])[data-active="true"] {
   @apply bg-surface-hover;
 }
 
 .sidebar__menu-button[data-active="true"] {
-  @apply bg-surface-hover font-medium;
+  @apply font-medium;
+}
+
+/* Keeps the ghost Button's own hover / pressed fill from showing under the indicators. */
+.sidebar__menu-button[data-indicator],
+.sidebar__menu-sub-button[data-indicator] {
+  --button-bg-hover: transparent;
+  --button-bg-pressed: transparent;
+}
+
+.sidebar__menu-selection-indicator,
+.sidebar__menu-hover-indicator {
+  @apply pointer-events-none absolute start-0 top-0 size-full rounded-lg;
+
+  z-index: -1;
+  /* Percentage sizes, not inset-0: React Aria's px snapshot only transitions back to a length. */
+  transition:
+    translate 250ms var(--ease-out-fluid),
+    width 250ms var(--ease-out-fluid),
+    height 250ms var(--ease-out-fluid),
+    opacity 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+.sidebar__menu-selection-indicator {
+  @apply bg-surface-hover;
+}
+
+.sidebar__menu-hover-indicator {
+  @apply bg-surface-hover/50;
+
+  &[data-entering],
+  &[data-exiting] {
+    opacity: 0;
+  }
 }
 
 .sidebar__menu-button.link {
@@ -218,8 +254,14 @@
   margin-block: 0;
 }
 
-.sidebar__menu-button > span:last-child,
-.sidebar__menu-sub-button > span:last-child {
+.sidebar__menu-button
+  > span:nth-last-child(
+    1 of :not(.sidebar__menu-selection-indicator, .sidebar__menu-hover-indicator)
+  ),
+.sidebar__menu-sub-button
+  > span:nth-last-child(
+    1 of :not(.sidebar__menu-selection-indicator, .sidebar__menu-hover-indicator)
+  ) {
   @apply truncate;
 }
 
@@ -266,13 +308,30 @@
 }
 
 .sidebar__menu-sub-button {
-  @apply flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-lg px-2 text-muted no-underline outline-none;
+  @apply relative isolate flex h-7 w-full min-w-0 items-center justify-start gap-2 rounded-lg px-2 text-left text-muted no-underline outline-none;
 }
 
 .sidebar__menu-sub-button:hover,
 .sidebar__menu-sub-button[data-hovered="true"],
 .sidebar__menu-sub-button[data-active="true"] {
-  @apply bg-surface-hover text-foreground;
+  @apply text-foreground;
+}
+
+.sidebar__menu-sub-button:not([data-indicator]):hover,
+.sidebar__menu-sub-button:not([data-indicator])[data-hovered="true"],
+.sidebar__menu-sub-button:not([data-indicator])[data-active="true"] {
+  @apply bg-surface-hover;
+}
+
+/* Lets the hover indicator slide out of an open submenu: unclip once the height animation is
+   done, clip again at once on collapse. Without discrete transitions it unclips on expand. */
+.sidebar__menu-item .disclosure__content[data-expanded="true"] {
+  overflow: visible;
+  transition:
+    height 200ms var(--ease-out-quad),
+    opacity 200ms var(--ease-out),
+    overflow 0s 200ms allow-discrete;
+  @apply motion-reduce:transition-none;
 }
 
 .sidebar__menu-sub-button.link:hover,
@@ -326,7 +385,9 @@
   }
 }
 
-.sidebar--collapsible-icon .sidebar__menu-button > :not(:first-child) {
+.sidebar--collapsible-icon
+  .sidebar__menu-button
+  > :not(:first-child, .sidebar__menu-selection-indicator, .sidebar__menu-hover-indicator) {
   @variant sidebar-collapsed {
     @apply hidden;
   }

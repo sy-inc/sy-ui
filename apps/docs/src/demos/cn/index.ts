@@ -2502,6 +2502,10 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./table/reorder").then((m) => m.Reorder),
     file: "cn/table/reorder.tsx",
   },
+  "table-editable-cells": {
+    loader: () => import("./table/editable-cells").then((m) => m.EditableCells),
+    file: "cn/table/editable-cells.tsx",
+  },
   // Tabs Demo
   "tabs-basic": {
     loader: () => import("./tabs/basic").then((m) => m.Basic),

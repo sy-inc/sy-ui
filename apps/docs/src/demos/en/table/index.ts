@@ -13,3 +13,4 @@ export {Virtualization} from "./virtualization";
 export {TanstackTable} from "./tanstack-table";
 export {Reorder} from "./reorder";
 export {ColumnGroups} from "./column-groups";
+export {EditableCells} from "./editable-cells";

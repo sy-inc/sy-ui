@@ -10,7 +10,7 @@ import {Tabs} from "@/components/tabs";
 // Browser geometry tests load the generated CSS artifact directly.
 import "../../../../styles/dist/sy-inc.min.css";
 
-import {SidebarFixture} from "./fixtures";
+import {SidebarFixture, SidebarIndicatorFixture} from "./fixtures";
 
 describe("Sidebar (browser)", () => {
   const originalMatchMedia = window.matchMedia.bind(window);
@@ -191,6 +191,13 @@ describe("Sidebar (browser)", () => {
     ).toBe("0");
     expect(document.querySelector('[data-slot="sidebar-menu-sub"]')).not.toBeVisible();
     expect(getComputedStyle(page.getByText("Models").element()).display).toBe("none");
+    expect(
+      getComputedStyle(
+        document.querySelector(
+          '[href="#models"] > [data-slot="sidebar-menu-selection-indicator"]',
+        )!,
+      ).display,
+    ).not.toBe("none");
 
     const menuButton = page.getByRole("button", {name: "Playground"});
     const icon = menuButton.element().querySelector("svg")!;
@@ -346,5 +353,171 @@ describe("Sidebar (browser)", () => {
     expect(getComputedStyle(inset).backgroundColor).not.toBe(
       getComputedStyle(root).backgroundColor,
     );
+  });
+
+  describe("menu indicators", () => {
+    const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+    const buttonNamed = (name: string) =>
+      page.getByRole("button", {exact: true, name}).element() as HTMLElement;
+    const hoverIndicatorOf = (button: HTMLElement) =>
+      button.querySelector<HTMLElement>('[data-slot="sidebar-menu-hover-indicator"]');
+    const hasRunningTranslate = (element: HTMLElement | null) =>
+      !!element
+        ?.getAnimations()
+        .some(
+          (animation) =>
+            (animation as CSSTransition).transitionProperty === "translate" &&
+            animation.playState === "running",
+        );
+
+    /** Synthetic mouse moves: React derives enter / leave from `pointerout` + `pointerover`. */
+    let pointerAt: Element = document.body;
+    const movePointerTo = (target: Element) => {
+      const init = {bubbles: true, composed: true, isPrimary: true, pointerType: "mouse"};
+
+      pointerAt.dispatchEvent(new PointerEvent("pointerout", {...init, relatedTarget: target}));
+      target.dispatchEvent(new PointerEvent("pointerover", {...init, relatedTarget: pointerAt}));
+      pointerAt = target;
+    };
+
+    const renderDesktop = async () => {
+      stubDesktopMedia();
+      pointerAt = document.body;
+      await render(
+        <div style={{height: 600, width: 800}}>
+          <SidebarIndicatorFixture />
+        </div>,
+      );
+      document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!.style.display = "flex";
+    };
+
+    it("paints menu backgrounds with indicators only inside Content", async () => {
+      await renderDesktop();
+
+      const dashboard = buttonNamed("Dashboard");
+      const acme = buttonNamed("Acme Inc");
+
+      await userEvent.hover(dashboard);
+      await expect.poll(() => hoverIndicatorOf(dashboard)).not.toBeNull();
+      expect(getComputedStyle(dashboard).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+
+      await userEvent.hover(acme);
+      await expect.poll(() => getComputedStyle(acme).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    });
+
+    it("stretches submenu buttons to the full item width", async () => {
+      await renderDesktop();
+
+      const general = buttonNamed("General");
+
+      expect(general.getBoundingClientRect().width).toBe(
+        general.closest("li")!.getBoundingClientRect().width,
+      );
+    });
+
+    it("unclips an open submenu after its height animation and clips it again on collapse", async () => {
+      await renderDesktop();
+
+      const settings = page.getByRole("button", {name: "Settings"});
+      const content = () =>
+        document.querySelector<HTMLElement>(".sidebar__menu-item .disclosure__content")!;
+
+      await settings.click();
+      expect(getComputedStyle(content()).overflow).toBe("clip");
+
+      await settings.click();
+      await new Promise((resolve) => window.setTimeout(resolve, 250));
+      expect(getComputedStyle(content()).overflow).toBe("visible");
+    });
+
+    it("leaves no stale indicator position after rapid hovers", async () => {
+      await renderDesktop();
+
+      // Across groups, into the submenu and over every size, one frame apart (< 250ms transition).
+      for (const name of ["Dashboard", "General", "Design Engineering", "Inbox", "Billing"]) {
+        movePointerTo(buttonNamed(name));
+        await nextFrame();
+      }
+
+      // Within a single frame: hop, flick out of Content and straight back in.
+      const dashboard = buttonNamed("Dashboard");
+
+      movePointerTo(buttonNamed("General"));
+      await null;
+      movePointerTo(dashboard);
+      await null;
+      movePointerTo(document.body);
+      await null;
+      movePointerTo(dashboard);
+
+      await expect
+        .poll(() => {
+          const indicator = hoverIndicatorOf(dashboard);
+
+          return indicator && !indicator.hasAttribute("data-entering") && indicator.style.translate;
+        })
+        .toBe("");
+
+      const last = buttonNamed("Design Engineering");
+
+      await nextFrame();
+      movePointerTo(last);
+      // Slides from the previous item rather than jumping.
+      await expect.poll(() => hasRunningTranslate(hoverIndicatorOf(last))).toBe(true);
+      await expect
+        .poll(() => document.querySelectorAll('[data-slot="sidebar-menu-hover-indicator"]').length)
+        .toBe(1);
+      await expect.poll(() => hasRunningTranslate(hoverIndicatorOf(last))).toBe(false);
+
+      const indicator = hoverIndicatorOf(last)!;
+      const indicatorRect = indicator.getBoundingClientRect();
+      const buttonRect = last.getBoundingClientRect();
+
+      expect(indicator.style.translate).toBe("");
+      expect(indicator.style.width).toBe("");
+      expect(indicator.style.height).toBe("");
+      expect([
+        indicatorRect.left,
+        indicatorRect.top,
+        indicatorRect.width,
+        indicatorRect.height,
+      ]).toEqual([buttonRect.left, buttonRect.top, buttonRect.width, buttonRect.height]);
+    });
+
+    it("slides across the gap between items instead of fading out and in", async () => {
+      await renderDesktop();
+
+      const inbox = buttonNamed("Inbox");
+      const settings = buttonNamed("Settings");
+      const menu = inbox.closest("ul")!;
+
+      await userEvent.hover(inbox);
+      // Let the fade-in finish so the snapshot carried to the next item is fully opaque.
+      await expect.poll(() => getComputedStyle(hoverIndicatorOf(inbox)!).opacity).toBe("1");
+
+      const menuRect = menu.getBoundingClientRect();
+      const inboxRect = inbox.getBoundingClientRect();
+
+      // Middle of the 8px gap below Inbox.
+      await userEvent.hover(menu, {
+        position: {x: inboxRect.left - menuRect.left + 16, y: inboxRect.bottom - menuRect.top + 4},
+      });
+      await nextFrame();
+      await nextFrame();
+      expect(hoverIndicatorOf(inbox)).not.toBeNull();
+      expect(hoverIndicatorOf(inbox)).not.toHaveAttribute("data-exiting");
+
+      await userEvent.hover(settings);
+
+      const indicator = hoverIndicatorOf(settings)!;
+
+      expect(indicator).not.toHaveAttribute("data-entering");
+      expect(getComputedStyle(indicator).opacity).toBe("1");
+      await expect.poll(() => hasRunningTranslate(hoverIndicatorOf(settings))).toBe(true);
+
+      await userEvent.hover(page.getByRole("main").element());
+      await expect.poll(() => indicator.hasAttribute("data-exiting")).toBe(true);
+      await expect.poll(() => indicator.isConnected).toBe(false);
+    });
   });
 });

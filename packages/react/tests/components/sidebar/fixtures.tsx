@@ -1,3 +1,5 @@
+import {useState} from "react";
+
 import {Disclosure} from "@/components/disclosure";
 import {Sidebar} from "@/components/sidebar";
 
@@ -94,3 +96,80 @@ export const SidebarFixture = ({
     </Sidebar.Inset>
   </Sidebar>
 );
+
+const indicatorGroups = [
+  {label: "Platform", items: [{name: "Dashboard"}, {name: "Inbox", size: "sm" as const}]},
+  {label: "Projects", items: [{name: "Design Engineering", size: "lg" as const}]},
+];
+
+/** Two groups, mixed sizes and an open submenu inside one sliding range; Header stays outside. */
+export const SidebarIndicatorFixture = () => {
+  const [active, setActive] = useState("Dashboard");
+  const menuButton = (name: string, size?: "lg" | "sm") => (
+    <Sidebar.MenuButton isActive={active === name} size={size} onPress={() => setActive(name)}>
+      <TestIcon />
+      <span>{name}</span>
+    </Sidebar.MenuButton>
+  );
+
+  return (
+    <Sidebar collapsible="icon">
+      <Sidebar.Panel aria-label="Workspace navigation">
+        <Sidebar.Header>
+          <Sidebar.Menu>
+            <Sidebar.MenuItem>
+              <Sidebar.MenuButton size="lg">
+                <TestIcon />
+                <span>Acme Inc</span>
+              </Sidebar.MenuButton>
+            </Sidebar.MenuItem>
+          </Sidebar.Menu>
+        </Sidebar.Header>
+        <Sidebar.Content>
+          {indicatorGroups.map((group) => (
+            <Sidebar.Group key={group.label} aria-label={group.label}>
+              <Sidebar.GroupLabel>{group.label}</Sidebar.GroupLabel>
+              <Sidebar.GroupContent>
+                <Sidebar.Menu>
+                  {group.items.map((item) => (
+                    <Sidebar.MenuItem key={item.name}>
+                      {menuButton(item.name, item.size)}
+                    </Sidebar.MenuItem>
+                  ))}
+                  {group.label === "Platform" && (
+                    <Sidebar.MenuItem>
+                      <Disclosure defaultExpanded>
+                        <Sidebar.MenuButton slot="trigger">
+                          <TestIcon />
+                          <span>Settings</span>
+                          <Disclosure.Indicator />
+                        </Sidebar.MenuButton>
+                        <Disclosure.Content>
+                          <Sidebar.MenuSub>
+                            {["General", "Billing"].map((name) => (
+                              <Sidebar.MenuSubItem key={name}>
+                                <Sidebar.MenuSubButton
+                                  isActive={active === name}
+                                  onPress={() => setActive(name)}
+                                >
+                                  {name}
+                                </Sidebar.MenuSubButton>
+                              </Sidebar.MenuSubItem>
+                            ))}
+                          </Sidebar.MenuSub>
+                        </Disclosure.Content>
+                      </Disclosure>
+                    </Sidebar.MenuItem>
+                  )}
+                </Sidebar.Menu>
+              </Sidebar.GroupContent>
+            </Sidebar.Group>
+          ))}
+        </Sidebar.Content>
+      </Sidebar.Panel>
+      <Sidebar.Inset>
+        <Sidebar.Trigger />
+      </Sidebar.Inset>
+    </Sidebar>
+  );
+};

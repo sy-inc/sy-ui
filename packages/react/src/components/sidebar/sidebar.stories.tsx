@@ -294,3 +294,101 @@ const ControlledSidebar = () => {
     </Sidebar>
   );
 };
+
+const SlidingIndicatorsSidebar = (args: React.ComponentProps<typeof Sidebar>) => {
+  const [active, setActive] = React.useState("Models");
+  const menuButtonProps = (label: string) => ({
+    isActive: active === label,
+    onPress: () => setActive(label),
+    tooltip: label,
+  });
+
+  return (
+    <Sidebar {...args} className="h-svh min-h-[640px]">
+      <Sidebar.Panel aria-label="Workspace navigation">
+        <Sidebar.Content>
+          <Sidebar.Group>
+            <Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
+            <Sidebar.GroupContent>
+              <Sidebar.Menu>
+                {platform.map((item) => (
+                  <Sidebar.MenuItem key={item.label}>
+                    {"children" in item ? (
+                      <Disclosure defaultExpanded>
+                        <Sidebar.MenuButton slot="trigger" tooltip={item.label}>
+                          <Icon icon={item.icon} />
+                          <span>{item.label}</span>
+                          <Disclosure.Indicator />
+                        </Sidebar.MenuButton>
+                        <Disclosure.Content>
+                          <Sidebar.MenuSub>
+                            {item.children.map((child) => (
+                              <Sidebar.MenuSubItem key={child}>
+                                <Sidebar.MenuSubButton
+                                  isActive={active === child}
+                                  onPress={() => setActive(child)}
+                                >
+                                  <span>{child}</span>
+                                </Sidebar.MenuSubButton>
+                              </Sidebar.MenuSubItem>
+                            ))}
+                          </Sidebar.MenuSub>
+                        </Disclosure.Content>
+                      </Disclosure>
+                    ) : (
+                      <Sidebar.MenuButton
+                        {...menuButtonProps(item.label)}
+                        size={item.label === "Documentation" ? "sm" : "default"}
+                      >
+                        <Icon icon={item.icon} />
+                        <span>{item.label}</span>
+                      </Sidebar.MenuButton>
+                    )}
+                  </Sidebar.MenuItem>
+                ))}
+              </Sidebar.Menu>
+            </Sidebar.GroupContent>
+          </Sidebar.Group>
+          <Sidebar.Group>
+            <Sidebar.GroupLabel>Projects</Sidebar.GroupLabel>
+            <Sidebar.GroupContent>
+              <Sidebar.Menu>
+                {projects.map((item, index) => (
+                  <Sidebar.MenuItem key={item.label}>
+                    <Sidebar.MenuButton
+                      {...menuButtonProps(item.label)}
+                      size={index === 0 ? "lg" : "default"}
+                    >
+                      <Icon icon={item.icon} />
+                      <span>{item.label}</span>
+                    </Sidebar.MenuButton>
+                  </Sidebar.MenuItem>
+                ))}
+              </Sidebar.Menu>
+            </Sidebar.GroupContent>
+          </Sidebar.Group>
+        </Sidebar.Content>
+        {/* Outside the sliding range: keeps the static hover background. */}
+        <Sidebar.Footer>
+          <Sidebar.Menu>
+            <Sidebar.MenuItem>
+              <Sidebar.MenuButton size="lg" tooltip="shadcn">
+                <Icon icon="gravity-ui:person" />
+                <span>shadcn</span>
+              </Sidebar.MenuButton>
+            </Sidebar.MenuItem>
+          </Sidebar.Menu>
+        </Sidebar.Footer>
+        <Sidebar.Rail />
+      </Sidebar.Panel>
+      <Sidebar.Inset className="p-4">
+        <Sidebar.Trigger />
+        <p className="mt-4 text-sm text-muted">Current page: {active}</p>
+      </Sidebar.Inset>
+    </Sidebar>
+  );
+};
+
+export const SlidingIndicators: Story = {
+  render: (args) => <SlidingIndicatorsSidebar {...args} />,
+};

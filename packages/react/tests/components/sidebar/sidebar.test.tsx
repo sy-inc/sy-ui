@@ -1,4 +1,13 @@
-import {act, render, screen, setupUser, waitFor, within} from "@sy-inc/testing/helpers";
+import {
+  act,
+  fireEvent,
+  installPointerEvent,
+  render,
+  screen,
+  setupUser,
+  waitFor,
+  within,
+} from "@sy-inc/testing/helpers";
 
 import {Disclosure} from "@/components/disclosure";
 import {Sidebar, useSidebar} from "@/components/sidebar";
@@ -595,5 +604,63 @@ describe("Sidebar", () => {
     expect(document.querySelector('[data-slot="drawer-backdrop"]')).toHaveClass(
       "sidebar__mobile-backdrop",
     );
+  });
+
+  describe("menu indicators", () => {
+    installPointerEvent();
+
+    const hoverIndicatorIn = (element: HTMLElement) =>
+      element.querySelector('[data-slot="sidebar-menu-hover-indicator"]');
+
+    it("renders a selection indicator only for active buttons inside Content", () => {
+      render(<SidebarFixture />);
+
+      const models = screen.getByRole("link", {name: "Models"});
+      const header = document.querySelector<HTMLElement>('[data-slot="sidebar-header"]')!;
+
+      expect(
+        models.querySelectorAll('[data-slot="sidebar-menu-selection-indicator"]'),
+      ).toHaveLength(1);
+      expect(models).toHaveAttribute("data-indicator", "true");
+      expect(header.querySelector('[data-slot$="-indicator"]')).toBeNull();
+      expect(header.querySelector("[data-indicator]")).toBeNull();
+    });
+
+    // Mouse first: a touch leaves React Aria ignoring emulated mouse events for a moment.
+    it("renders the hover indicator on mouse hover", async () => {
+      const user = setupUser();
+
+      render(<SidebarFixture />);
+
+      const models = screen.getByRole("link", {name: "Models"});
+
+      await user.hover(models);
+      await waitFor(() => expect(hoverIndicatorIn(models)).not.toBeNull());
+    });
+
+    it("renders no hover indicator for touch", () => {
+      render(<SidebarFixture />);
+
+      const models = screen.getByRole("link", {name: "Models"});
+
+      fireEvent.pointerEnter(models, {pointerType: "touch"});
+      fireEvent.pointerDown(models, {pointerType: "touch"});
+      fireEvent.pointerUp(models, {pointerType: "touch"});
+      expect(hoverIndicatorIn(models)).toBeNull();
+    });
+
+    it("renders no hover indicator for keyboard focus", async () => {
+      const user = setupUser();
+
+      render(<SidebarFixture />);
+
+      const playground = screen.getByRole("button", {name: "Playground"});
+
+      while (document.activeElement !== playground) await user.tab();
+
+      expect(playground).toHaveAttribute("data-indicator", "true");
+      expect(playground).toHaveAttribute("data-focus-visible", "true");
+      expect(document.querySelector('[data-slot="sidebar-menu-hover-indicator"]')).toBeNull();
+    });
   });
 });
