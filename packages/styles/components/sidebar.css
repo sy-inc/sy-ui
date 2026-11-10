@@ -124,7 +124,7 @@
 }
 
 .sidebar__content {
-  @apply flex min-h-0 flex-1 scrollbar flex-col overflow-y-auto overscroll-contain;
+  @apply flex min-h-0 flex-1 scrollbar flex-col overflow-x-hidden overflow-y-auto overscroll-contain;
 }
 
 .sidebar__input.input {
@@ -139,6 +139,8 @@
 
 .sidebar__group {
   @apply relative flex w-full min-w-0 flex-col p-2;
+
+  transition: padding 200ms linear;
 }
 
 .sidebar__group-label {
@@ -178,13 +180,8 @@
 
 /* Static backgrounds outside a sliding range; inside one the indicators paint them. */
 .sidebar__menu-button:not([data-indicator]):hover,
-.sidebar__menu-button:not([data-indicator])[data-hovered="true"],
-.sidebar__menu-button:not([data-indicator])[data-active="true"] {
+.sidebar__menu-button:not([data-indicator])[data-hovered="true"] {
   @apply bg-surface-hover;
-}
-
-.sidebar__menu-button[data-active="true"] {
-  @apply font-medium;
 }
 
 /* Keeps the ghost Button's own hover / pressed fill from showing under the indicators. */
@@ -209,7 +206,7 @@
 }
 
 .sidebar__menu-selection-indicator {
-  @apply bg-surface-hover;
+  @apply bg-accent-soft;
 }
 
 .sidebar__menu-hover-indicator {
@@ -312,15 +309,29 @@
 }
 
 .sidebar__menu-sub-button:hover,
-.sidebar__menu-sub-button[data-hovered="true"],
-.sidebar__menu-sub-button[data-active="true"] {
+.sidebar__menu-sub-button[data-hovered="true"] {
   @apply text-foreground;
 }
 
 .sidebar__menu-sub-button:not([data-indicator]):hover,
-.sidebar__menu-sub-button:not([data-indicator])[data-hovered="true"],
-.sidebar__menu-sub-button:not([data-indicator])[data-active="true"] {
+.sidebar__menu-sub-button:not([data-indicator])[data-hovered="true"] {
   @apply bg-surface-hover;
+}
+
+/* Selection follows the theme accent; hover stays neutral. Placed after the `.link` and hover
+   rules so an active item keeps the accent while hovered. */
+.sidebar__menu-button:not([data-indicator])[data-active="true"],
+.sidebar__menu-sub-button:not([data-indicator])[data-active="true"] {
+  @apply bg-accent-soft;
+}
+
+.sidebar__menu-button[data-active="true"],
+.sidebar__menu-sub-button[data-active="true"] {
+  @apply text-accent-soft-foreground;
+}
+
+.sidebar__menu-button[data-active="true"] {
+  @apply font-medium;
 }
 
 /* Lets the hover indicator slide out of an open submenu: unclip once the height animation is
@@ -355,6 +366,13 @@
   }
 }
 
+/* With the labels gone, stacked groups would sit 16px apart; match the 8px item gap instead. */
+.sidebar--collapsible-icon .sidebar__group + .sidebar__group {
+  @variant sidebar-collapsed {
+    @apply pt-0;
+  }
+}
+
 .sidebar--collapsible-icon .sidebar__content {
   @variant sidebar-collapsed {
     @apply overflow-hidden;
@@ -363,13 +381,15 @@
 
 .sidebar--collapsible-icon .sidebar__menu-button {
   @variant sidebar-collapsed {
-    @apply size-8 px-2;
+    /* Width only: each size keeps its own height, so `sm` rows don't grow on collapse.
+       Centred, so a 16px icon and a 32px avatar both sit in the middle of the rail. */
+    @apply w-8 justify-center px-0;
   }
 }
 
 .sidebar--collapsible-icon .sidebar__menu-button[data-size="lg"] {
   @variant sidebar-collapsed {
-    @apply p-0;
+    @apply h-8;
   }
 }
 
@@ -389,7 +409,9 @@
   .sidebar__menu-button
   > :not(:first-child, .sidebar__menu-selection-indicator, .sidebar__menu-hover-indicator) {
   @variant sidebar-collapsed {
-    @apply hidden;
+    /* Important: a layout utility on a label (`grid`, `flex`) would otherwise keep it in the row
+       and push the centred icon off-centre. */
+    @apply hidden!;
   }
 }
 

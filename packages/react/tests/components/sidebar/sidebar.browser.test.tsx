@@ -174,10 +174,20 @@ describe("Sidebar (browser)", () => {
     expect(getComputedStyle(panel).position).toBe("fixed");
     expect(Math.round(header.getBoundingClientRect().height)).toBe(64);
     expect(Math.round(largeButton.getBoundingClientRect().height)).toBe(48);
+    // Labels reappear before the panel finishes widening; that overflow must not scroll sideways.
+    expect(
+      getComputedStyle(document.querySelector('[data-slot="sidebar-content"]')!).overflowX,
+    ).toBe("hidden");
 
     const modelsLink = page.getByRole("link", {name: "Models"});
 
-    expect(getComputedStyle(modelsLink.element()).color).toBe(getComputedStyle(panel).color);
+    const accentProbe = document.createElement("span");
+
+    accentProbe.style.color = "var(--accent-soft-foreground)";
+    panel.append(accentProbe);
+    // Active link takes the theme accent, not the Link component's own colour.
+    expect(getComputedStyle(modelsLink.element()).color).toBe(getComputedStyle(accentProbe).color);
+    accentProbe.remove();
     await userEvent.hover(modelsLink.element());
     expect(getComputedStyle(modelsLink.element()).textDecorationLine).toBe("none");
 
@@ -201,7 +211,10 @@ describe("Sidebar (browser)", () => {
 
     const menuButton = page.getByRole("button", {name: "Playground"});
     const icon = menuButton.element().querySelector("svg")!;
+    const menuButtonRect = menuButton.element().getBoundingClientRect();
 
+    expect([menuButtonRect.width, menuButtonRect.height]).toEqual([32, 32]);
+    expect(Math.round(largeButton.getBoundingClientRect().height)).toBe(32);
     expect(getComputedStyle(icon).marginInline).toBe("0px");
 
     await userEvent.hover(menuButton.element());
@@ -279,6 +292,104 @@ describe("Sidebar (browser)", () => {
     expect(scroller.scrollLeft).toBe(0);
     expect(panel.scrollLeft).toBe(0);
     expect(marker.getBoundingClientRect().left).toBe(markerLeft);
+  });
+
+  it("keeps the small menu button height in the icon state", async () => {
+    stubDesktopMedia();
+    await render(
+      <Sidebar collapsible="icon" defaultOpen={false}>
+        <Sidebar.Panel aria-label="Workspace navigation">
+          <Sidebar.Content>
+            <Sidebar.Menu>
+              <Sidebar.MenuItem>
+                <Sidebar.MenuButton size="sm">
+                  <svg aria-hidden="true" />
+                  <span>Settings</span>
+                </Sidebar.MenuButton>
+              </Sidebar.MenuItem>
+            </Sidebar.Menu>
+          </Sidebar.Content>
+        </Sidebar.Panel>
+        <Sidebar.Inset />
+      </Sidebar>,
+    );
+
+    document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!.style.display = "flex";
+
+    // The collapsed label is display:none, so the button has no accessible name to query by.
+    const rect = document.querySelector('[data-size="sm"]')!.getBoundingClientRect();
+
+    expect([rect.width, rect.height]).toEqual([32, 28]);
+  });
+
+  it("centres a plain icon in a large menu button in the icon state", async () => {
+    stubDesktopMedia();
+    await render(
+      <Sidebar collapsible="icon" defaultOpen={false}>
+        <Sidebar.Panel aria-label="Workspace navigation">
+          <Sidebar.Content>
+            <Sidebar.Menu>
+              <Sidebar.MenuItem>
+                <Sidebar.MenuButton size="lg" style={{gap: 12}}>
+                  <svg aria-hidden="true" />
+                  {/* A consumer layout style on the label must not keep it in the collapsed row. */}
+                  <span style={{display: "grid"}}>Design</span>
+                </Sidebar.MenuButton>
+              </Sidebar.MenuItem>
+            </Sidebar.Menu>
+          </Sidebar.Content>
+        </Sidebar.Panel>
+        <Sidebar.Inset />
+      </Sidebar>,
+    );
+
+    document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!.style.display = "flex";
+
+    const button = document.querySelector('[data-size="lg"]')!;
+    const buttonRect = button.getBoundingClientRect();
+    const iconRect = button.querySelector("svg")!.getBoundingClientRect();
+
+    expect([buttonRect.width, buttonRect.height]).toEqual([32, 32]);
+    expect(iconRect.left + iconRect.width / 2).toBe(buttonRect.left + buttonRect.width / 2);
+  });
+
+  it("spaces stacked groups like menu items in the icon state", async () => {
+    stubDesktopMedia();
+
+    const group = (label: string) => (
+      <Sidebar.Group>
+        <Sidebar.GroupLabel>{label}</Sidebar.GroupLabel>
+        <Sidebar.GroupContent>
+          <Sidebar.Menu>
+            <Sidebar.MenuItem>
+              <Sidebar.MenuButton data-testid={label}>
+                <svg aria-hidden="true" />
+                <span>{label}</span>
+              </Sidebar.MenuButton>
+            </Sidebar.MenuItem>
+          </Sidebar.Menu>
+        </Sidebar.GroupContent>
+      </Sidebar.Group>
+    );
+
+    await render(
+      <Sidebar collapsible="icon" defaultOpen={false}>
+        <Sidebar.Panel aria-label="Workspace navigation">
+          <Sidebar.Content>
+            {group("First")}
+            {group("Second")}
+          </Sidebar.Content>
+        </Sidebar.Panel>
+        <Sidebar.Inset />
+      </Sidebar>,
+    );
+
+    document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!.style.display = "flex";
+
+    const first = page.getByTestId("First").element().getBoundingClientRect();
+    const second = page.getByTestId("Second").element().getBoundingClientRect();
+
+    expect(second.top - first.bottom).toBe(8);
   });
 
   it("supports a collapsible header trigger composition", async () => {
@@ -403,6 +514,58 @@ describe("Sidebar (browser)", () => {
 
       await userEvent.hover(acme);
       await expect.poll(() => getComputedStyle(acme).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    });
+
+    it("paints the selection with the theme accent tokens", async () => {
+      stubDesktopMedia();
+      await render(
+        <div
+          style={
+            {
+              "--accent-soft": "rgb(1, 2, 3)",
+              "--accent-soft-foreground": "rgb(4, 5, 6)",
+              height: 600,
+              width: 800,
+            } as React.CSSProperties
+          }
+        >
+          <SidebarIndicatorFixture />
+        </div>,
+      );
+      document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!.style.display = "flex";
+
+      const dashboard = buttonNamed("Dashboard");
+      const selection = dashboard.querySelector('[data-slot="sidebar-menu-selection-indicator"]')!;
+
+      expect(getComputedStyle(selection).backgroundColor).toBe("rgb(1, 2, 3)");
+      expect(getComputedStyle(dashboard).color).toBe("rgb(4, 5, 6)");
+    });
+
+    it("re-mixes the soft accent inside a theme scoped below the root", async () => {
+      stubDesktopMedia();
+      await render(
+        <div
+          data-theme="ocean"
+          style={{"--accent": "rgb(255, 0, 0)", height: 600, width: 800} as React.CSSProperties}
+        >
+          <SidebarIndicatorFixture />
+        </div>,
+      );
+      document.querySelector<HTMLElement>('[data-slot="sidebar-panel"]')!.style.display = "flex";
+
+      const selection = buttonNamed("Dashboard").querySelector(
+        '[data-slot="sidebar-menu-selection-indicator"]',
+      )!;
+      // The light-theme `--accent-soft` formula, mixed from the scoped accent.
+      const probe = document.createElement("span");
+
+      probe.style.backgroundColor = "color-mix(in oklab, rgb(255, 0, 0) 15%, transparent)";
+      document.body.append(probe);
+
+      expect(getComputedStyle(selection).backgroundColor).toBe(
+        getComputedStyle(probe).backgroundColor,
+      );
+      probe.remove();
     });
 
     it("stretches submenu buttons to the full item width", async () => {

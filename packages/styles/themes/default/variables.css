@@ -118,7 +118,39 @@
     /* Backdrop */
     --backdrop: rgba(0, 0, 0, 0.5);
 
-    /* Calculated Colors */
+    /* Shadows */
+    /* --surface-shadow: 0 0px 0px 0 rgba(24, 24, 27, 0.03), 0 2px 10px 0 rgba(24, 24, 27, 0.08); */
+    --surface-shadow:
+      0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
+      0 0 1px 0 rgba(0, 0, 0, 0.06);
+    /* Overlay shadow */
+    --overlay-shadow:
+      0 2px 8px 0 rgba(0, 0, 0, 0.06), 0 -6px 12px 0 rgba(0, 0, 0, 0.03),
+      0 14px 28px 0 rgba(0, 0, 0, 0.08);
+    /* Shadow-only edge, no ring: an upward drop keeps the top edge visible on white
+       surfaces/overlays, the downward drops add depth. Not inset: thumbs (switch, slider) share it. */
+    --field-shadow:
+      0 -1px 2px 0 rgba(24, 24, 27, 0.06), 0 1px 2px 0 rgba(24, 24, 27, 0.06),
+      0 2px 4px -1px rgba(24, 24, 27, 0.07);
+    /* TextShimmer highlight lift: how far the travelling band moves toward white.
+       A band that only dims reads as dead on a dark surface, so dark lifts it. */
+    --text-shimmer-lift: 0%;
+  }
+
+  /**
+   * Calculated colors live in their own rules so they re-resolve on every theme scope. A custom
+   * property's var() is resolved where it is declared and then inherited as a value, so a theme
+   * applied below :root (`<div data-theme="ocean">`) would otherwise inherit hovers and soft
+   * colors mixed from the root palette. Any [data-theme] element gets the light formulas; the
+   * dark rule below wins on dark scopes (same specificity, later).
+   */
+  :root,
+  .light,
+  .default,
+  [data-theme],
+  :host(.light),
+  :host(.default),
+  :host([data-theme]) {
     --surface-hover: color-mix(in oklab, var(--surface) 92%, var(--surface-foreground) 8%);
 
     --background-secondary: color-mix(in oklab, var(--background) 96%, var(--foreground) 4%);
@@ -173,24 +205,6 @@
 
     --border-secondary: color-mix(in oklab, var(--surface) 78%, var(--surface-foreground) 22%);
     --border-tertiary: color-mix(in oklab, var(--surface) 66%, var(--surface-foreground) 34%);
-
-    /* Shadows */
-    /* --surface-shadow: 0 0px 0px 0 rgba(24, 24, 27, 0.03), 0 2px 10px 0 rgba(24, 24, 27, 0.08); */
-    --surface-shadow:
-      0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
-      0 0 1px 0 rgba(0, 0, 0, 0.06);
-    /* Overlay shadow */
-    --overlay-shadow:
-      0 2px 8px 0 rgba(0, 0, 0, 0.06), 0 -6px 12px 0 rgba(0, 0, 0, 0.03),
-      0 14px 28px 0 rgba(0, 0, 0, 0.08);
-    /* Shadow-only edge, no ring: an upward drop keeps the top edge visible on white
-       surfaces/overlays, the downward drops add depth. Not inset: thumbs (switch, slider) share it. */
-    --field-shadow:
-      0 -1px 2px 0 rgba(24, 24, 27, 0.06), 0 1px 2px 0 rgba(24, 24, 27, 0.06),
-      0 2px 4px -1px rgba(24, 24, 27, 0.07);
-    /* TextShimmer highlight lift: how far the travelling band moves toward white.
-       A band that only dims reads as dead on a dark surface, so dark lifts it. */
-    --text-shimmer-lift: 0%;
   }
 
   .dark,
@@ -260,8 +274,12 @@
     --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
     --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.3) inset;
     --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
+  }
 
-    /* Calculated Colors */
+  .dark,
+  [data-theme="dark"],
+  :host(.dark),
+  :host([data-theme="dark"]) {
     --surface-hover: color-mix(in oklab, var(--surface) 92%, var(--surface-foreground) 8%);
 
     --background-secondary: color-mix(in oklab, var(--background) 96%, var(--foreground) 4%);
