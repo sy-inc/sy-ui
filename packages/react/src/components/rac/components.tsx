@@ -10,4 +10,5 @@ export {
   Focusable,
   OverlayTriggerStateContext,
   DisclosureStateContext,
+  TableStateContext,
 } from "react-aria-components";

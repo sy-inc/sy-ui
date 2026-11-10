@@ -175,7 +175,7 @@ accessibility.
 
 ### Editable Cells
 
-`Table` is a keyboard-navigable grid: arrow keys, Home/End, and type-ahead move between cells, so a text field inside a cell can't move its caret or accept every character. While a field has focus, pause that navigation with `setKeyboardNavigationDisabled` from React Aria's `TableStateContext`, and turn it back on when the field loses focus. Tab then moves between fields in document order.
+`Table` is a keyboard-navigable grid: arrow keys, Home/End, and type-ahead move between cells, so a text field inside a cell can't move its caret or accept every character. While a field has focus, pause that navigation with `setKeyboardNavigationDisabled` from `TableStateContext` (re-exported by `@sy-inc/react`), and turn it back on when the field loses focus. Tab then moves between fields in document order.
 
 If every row is a form and you don't need sorting, selection, or virtualization, use a native `<table>` or a CSS grid instead of `Table`.
 

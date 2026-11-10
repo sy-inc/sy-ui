@@ -11,6 +11,7 @@ export {
   Focusable,
   OverlayTriggerStateContext,
   DisclosureStateContext,
+  TableStateContext,
 } from "./components";
 export {parseColor} from "./utils";
 export type {

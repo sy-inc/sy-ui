@@ -163,6 +163,28 @@ const renderGroupedTable = ({
     </Table>,
   );
 
+// Captures the most recently constructed observer's callback so a test can fire it by hand.
+const mockResizeObserver = () => {
+  const original = globalThis.ResizeObserver;
+  let callback: ResizeObserverCallback = () => undefined;
+
+  globalThis.ResizeObserver = class ResizeObserver {
+    constructor(next: ResizeObserverCallback) {
+      callback = next;
+    }
+    disconnect() {}
+    observe() {}
+    unobserve() {}
+  };
+
+  return {
+    notify: () => callback([], {} as ResizeObserver),
+    restore: () => {
+      globalThis.ResizeObserver = original;
+    },
+  };
+};
+
 describe("Table", () => {
   let testUtilUser: User;
 
@@ -408,6 +430,58 @@ describe("Table", () => {
     ]);
   });
 
+  it("supports applying only the settled viewport width while the container keeps resizing", () => {
+    const resizeObserver = mockResizeObserver();
+    let viewportWidth = 300;
+
+    Object.defineProperty(HTMLElement.prototype, "clientWidth", {
+      configurable: true,
+      get: () => viewportWidth,
+    });
+
+    try {
+      render(
+        <Table>
+          <Table.ManagedColumns fillContainer columns={[{id: "name", width: 100}]}>
+            <Table.ScrollContainer>
+              <Table.Content aria-label="Settled width">
+                <Table.Header>
+                  <Table.Column isRowHeader id="name">
+                    Name
+                  </Table.Column>
+                </Table.Header>
+                <Table.Body>
+                  <Table.Row id="1">
+                    <Table.Cell>Kate</Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table.Content>
+            </Table.ScrollContainer>
+          </Table.ManagedColumns>
+        </Table>,
+      );
+
+      const header = screen.getByRole("columnheader", {name: "Name"});
+
+      expect(header.style.width).toBe("300px");
+
+      for (const width of [340, 420, 500]) {
+        viewportWidth = width;
+        act(() => {
+          resizeObserver.notify();
+          vi.advanceTimersByTime(16);
+        });
+      }
+      expect(header.style.width).toBe("300px");
+
+      act(() => vi.advanceTimersByTime(100));
+      expect(header.style.width).toBe("500px");
+    } finally {
+      resizeObserver.restore();
+      delete (HTMLElement.prototype as {clientWidth?: number}).clientWidth;
+    }
+  });
+
   it("supports managed widths and logical native pinning", async () => {
     render(
       <Table>
@@ -535,17 +609,7 @@ describe("Table", () => {
   });
 
   it("adds a header overflow tooltip only after the header content overflows", async () => {
-    let notifyResize: ResizeObserverCallback = () => undefined;
-    const OriginalResizeObserver = globalThis.ResizeObserver;
-
-    globalThis.ResizeObserver = class ResizeObserver {
-      constructor(callback: ResizeObserverCallback) {
-        notifyResize = callback;
-      }
-      disconnect() {}
-      observe() {}
-      unobserve() {}
-    };
+    const resizeObserver = mockResizeObserver();
 
     try {
       render(
@@ -572,7 +636,7 @@ describe("Table", () => {
         scrollWidth: {configurable: true, value: 180},
       });
 
-      act(() => notifyResize([], {} as ResizeObserver));
+      act(() => resizeObserver.notify());
 
       await waitFor(() => expect(overflow).toHaveAttribute("data-overflowed", "true"));
       expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
@@ -580,7 +644,7 @@ describe("Table", () => {
       runAllTimers();
       expect(screen.getByRole("tooltip")).toHaveTextContent("Interest Collected");
     } finally {
-      globalThis.ResizeObserver = OriginalResizeObserver;
+      resizeObserver.restore();
     }
   });
 
@@ -742,17 +806,7 @@ describe("Table", () => {
   });
 
   it("supports an overflow tooltip from parent focus and text hover without an extra tab stop", async () => {
-    let onResize: ResizeObserverCallback = () => undefined;
-    const OriginalResizeObserver = globalThis.ResizeObserver;
-
-    globalThis.ResizeObserver = class ResizeObserver {
-      constructor(callback: ResizeObserverCallback) {
-        onResize = callback;
-      }
-      disconnect() {}
-      observe() {}
-      unobserve() {}
-    };
+    const resizeObserver = mockResizeObserver();
 
     try {
       render(
@@ -781,7 +835,7 @@ describe("Table", () => {
         scrollWidth: {configurable: true, value: 180},
       });
 
-      act(() => onResize([], {} as ResizeObserver));
+      act(() => resizeObserver.notify());
 
       expect(screen.getByTestId("overflow")).toHaveAttribute("data-overflowed", "true");
       const column = screen.getByRole("columnheader", {name: "A very long header"});
@@ -803,23 +857,13 @@ describe("Table", () => {
       runAllTimers();
       expect(screen.getByRole("tooltip")).toHaveTextContent("A very long header");
     } finally {
-      globalThis.ResizeObserver = OriginalResizeObserver;
+      resizeObserver.restore();
     }
   });
 
   it("supports updating overflow state when content changes at the same width", () => {
-    let onResize: ResizeObserverCallback = () => undefined;
+    const resizeObserver = mockResizeObserver();
     let scrollWidth = 80;
-    const OriginalResizeObserver = globalThis.ResizeObserver;
-
-    globalThis.ResizeObserver = class ResizeObserver {
-      constructor(callback: ResizeObserverCallback) {
-        onResize = callback;
-      }
-      disconnect() {}
-      observe() {}
-      unobserve() {}
-    };
 
     try {
       const view = render(
@@ -835,7 +879,7 @@ describe("Table", () => {
         clientWidth: {configurable: true, value: 100},
         scrollWidth: {configurable: true, get: () => scrollWidth},
       });
-      act(() => onResize([], {} as ResizeObserver));
+      act(() => resizeObserver.notify());
       expect(overflow).not.toHaveAttribute("data-overflowed");
 
       scrollWidth = 180;
@@ -849,7 +893,7 @@ describe("Table", () => {
 
       expect(screen.getByTestId("changing-overflow")).toHaveAttribute("data-overflowed", "true");
     } finally {
-      globalThis.ResizeObserver = OriginalResizeObserver;
+      resizeObserver.restore();
     }
   });
 

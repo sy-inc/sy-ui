@@ -31,6 +31,9 @@ export interface TableManagedColumnsProps extends Omit<ComponentPropsWithRef<"di
   viewportWidth?: number;
 }
 
+/** Quiet period after the last observed resize before the measured width is committed. */
+const RESIZE_SETTLE_MS = 100;
+
 const clearManagedCell = (cell: HTMLElement) => {
   delete cell.dataset["managedPinned"];
   delete cell.dataset["pinned"];
@@ -176,22 +179,32 @@ export const TableManagedColumns = React.forwardRef<HTMLDivElement, TableManaged
           : container.querySelector<HTMLElement>(
               '[data-slot="table-scroll-container"], [data-slot="table-resizable-container"]',
             )) ?? container;
-      const updateWidth = () => {
+      const measure = () => {
         const computedStyle = window.getComputedStyle(viewport);
         const horizontalPadding =
           (Number.parseFloat(computedStyle.paddingLeft) || 0) +
           (Number.parseFloat(computedStyle.paddingRight) || 0);
 
-        setMeasuredViewportWidth(Math.max(0, viewport.clientWidth - horizontalPadding));
+        return Math.max(0, viewport.clientWidth - horizontalPadding);
       };
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const commit = () => setMeasuredViewportWidth(measure());
 
-      updateWidth();
+      commit();
 
-      const observer = new ResizeObserver(updateWidth);
+      // A width transition (e.g. a sidebar collapsing) fires the observer every frame; each commit
+      // re-renders the whole table, so only the trailing width is applied once resizing settles.
+      const observer = new ResizeObserver(() => {
+        clearTimeout(timer);
+        timer = setTimeout(commit, RESIZE_SETTLE_MS);
+      });
 
       observer.observe(viewport);
 
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        clearTimeout(timer);
+      };
     }, [controlledViewportWidth, geometryMode]);
 
     const viewportWidth = controlledViewportWidth ?? measuredViewportWidth;

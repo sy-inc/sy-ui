@@ -2,9 +2,8 @@
 
 import type {ReactNode} from "react";
 
-import {Input, Table} from "@sy-inc/react";
+import {Input, Table, TableStateContext} from "@sy-inc/react";
 import {useContext, useState} from "react";
-import {TableStateContext} from "react-aria-components";
 
 interface Reward {
   day: number;

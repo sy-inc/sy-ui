@@ -178,7 +178,7 @@ SY INC 的 Table 作为无头表格库之上的渲染层。
 
 ### 可编辑单元格
 
-`Table` 是可用键盘导航的网格：方向键、Home/End 与类型选择会在单元格之间移动焦点，因此格内输入框无法移动光标，也可能吞掉输入的字符。输入框聚焦时，通过 React Aria `TableStateContext` 的 `setKeyboardNavigationDisabled` 暂停该导航，失焦后恢复。此时 Tab 按文档顺序在输入框之间切换。
+`Table` 是可用键盘导航的网格：方向键、Home/End 与类型选择会在单元格之间移动焦点，因此格内输入框无法移动光标，也可能吞掉输入的字符。输入框聚焦时，通过 `TableStateContext`（由 `@sy-inc/react` 导出）的 `setKeyboardNavigationDisabled` 暂停该导航，失焦后恢复。此时 Tab 按文档顺序在输入框之间切换。
 
 如果每一行都是表单，且不需要排序、选择或虚拟滚动，请改用原生 `<table>` 或 CSS grid，而不是 `Table`。
 
