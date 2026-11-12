@@ -10,7 +10,6 @@ import {FieldError} from "../field-error";
 import {Form} from "../form";
 import {Label} from "../label";
 import {Link} from "../link";
-import {Spinner} from "../spinner";
 
 import {InputOTP, REGEXP_ONLY_CHARS} from "./index";
 
@@ -330,14 +329,7 @@ export const OnComplete: Story = {
           type="submit"
           variant="primary"
         >
-          {isSubmitting ? (
-            <>
-              <Spinner color="current" size="sm" />
-              Verifying...
-            </>
-          ) : (
-            "Verify Code"
-          )}
+          {isSubmitting ? "Verifying..." : "Verify Code"}
         </Button>
       </Form>
     );
@@ -413,14 +405,7 @@ export const FormExample: Story = {
           type="submit"
           variant="primary"
         >
-          {isSubmitting ? (
-            <>
-              <Spinner color="current" size="sm" />
-              Verifying...
-            </>
-          ) : (
-            "Verify"
-          )}
+          {isSubmitting ? "Verifying..." : "Verify"}
         </Button>
         <div className="flex items-center justify-center gap-1">
           <p className="text-sm text-muted">Having trouble?</p>

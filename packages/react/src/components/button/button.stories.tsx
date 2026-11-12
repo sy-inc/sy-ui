@@ -117,7 +117,6 @@ const TemplateWithIconOnly = ({isDisabled, size, variant}: Button["RootProps"]) 
 const TemplateWithSpinner = ({size, variant}: Button["RootProps"]) => (
   <div className="flex gap-3">
     <Button isPending size={size} variant={variant}>
-      <Spinner color="current" size="sm" />
       Loading
     </Button>
   </div>

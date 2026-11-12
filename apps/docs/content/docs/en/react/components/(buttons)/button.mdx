@@ -47,11 +47,15 @@ import { Button } from '@sy-inc/react';
 
 ### Loading
 
+Set `isPending` and the button renders a spinner before its content. An icon-only button shows the spinner in place of its icon.
+
 <ComponentPreview
   name="button-loading"
 />
 
 ### Loading State
+
+Pass a function as `children` to control the pending content yourself, for example to swap an icon for the spinner. The button adds no spinner of its own when `children` is a function.
 
 <ComponentPreview
   name="button-loading-state"
@@ -159,7 +163,7 @@ The button supports both CSS pseudo-classes and data attributes for flexibility:
 - **Active/Pressed**: `:active` or `[data-pressed="true"]` (includes scale transform)
 - **Focus**: `:focus-visible` or `[data-focus-visible="true"]` (shows focus ring)
 - **Disabled**: `:disabled` or `[aria-disabled="true"]` (reduced opacity, no pointer events)
-- **Pending**: `[data-pending]` (no pointer events during loading)
+- **Pending**: `[data-pending]` (no pointer events during loading, spinner shown)
 
 ## API Reference
 
@@ -171,7 +175,7 @@ The button supports both CSS pseudo-classes and data attributes for flexibility:
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of the button |
 | `fullWidth` | `boolean` | `false` | Whether the button should take full width of its container |
 | `isDisabled` | `boolean` | `false` | Whether the button is disabled |
-| `isPending` | `boolean` | `false` | Whether the button is in a loading state |
+| `isPending` | `boolean` | `false` | Whether the button is in a loading state. Renders a spinner unless `children` is a function |
 | `isIconOnly` | `boolean` | `false` | Whether the button contains only an icon |
 | `onPress` | `(e: PressEvent) => void` | - | Handler called when the button is pressed |
 | `children` | `React.ReactNode \| (values: ButtonRenderProps) => React.ReactNode` | - | Button content or render prop |

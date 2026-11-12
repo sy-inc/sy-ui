@@ -1,4 +1,4 @@
-import {fireEvent, render, screen, setupUser} from "@sy-inc/testing/helpers";
+import {fireEvent, render, screen, setupUser, within} from "@sy-inc/testing/helpers";
 
 import {Button} from "@/components/button";
 
@@ -151,5 +151,55 @@ describe("Button", () => {
 
     pressUp(button);
     expect(button).toHaveTextContent("Save");
+  });
+
+  describe("pending", () => {
+    it("renders a spinner before children", () => {
+      render(<Button isPending>Save</Button>);
+      const button = screen.getByRole("button", {name: /Save/});
+      const spinner = within(button).getByRole("status", {name: "Loading"});
+
+      expect(button).toHaveAttribute("data-pending", "true");
+      expect(button.firstElementChild).toBe(spinner);
+      expect(button).toHaveTextContent("Save");
+    });
+
+    it("renders no spinner when not pending", () => {
+      render(<Button>Save</Button>);
+
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    });
+
+    it("renders the spinner in place of children when icon-only", () => {
+      render(
+        <Button isIconOnly isPending aria-label="Send">
+          <svg data-testid="icon" />
+        </Button>,
+      );
+      const button = screen.getByRole("button", {name: /Send/});
+
+      expect(within(button).getByRole("status", {name: "Loading"})).toBeInTheDocument();
+      expect(screen.queryByTestId("icon")).not.toBeInTheDocument();
+    });
+
+    it("supports render-prop children owning the pending content", () => {
+      render(<Button isPending>{({isPending}) => (isPending ? "Saving" : "Save")}</Button>);
+
+      expect(screen.getByRole("button", {name: "Saving"})).toBeInTheDocument();
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    });
+
+    it("calls no onPress while pending", async () => {
+      const onPress = vi.fn();
+
+      render(
+        <Button isPending onPress={onPress}>
+          Save
+        </Button>,
+      );
+
+      await user.click(screen.getByRole("button", {name: /Save/}));
+      expect(onPress).not.toHaveBeenCalled();
+    });
   });
 });

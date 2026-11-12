@@ -7,7 +7,6 @@ import {Description} from "../description";
 import {FieldError} from "../field-error";
 import {Form} from "../form";
 import {Label} from "../label";
-import {Spinner} from "../spinner";
 
 import {NumberField} from "./index";
 
@@ -531,14 +530,7 @@ export const FormExample: Story = {
           type="submit"
           variant="primary"
         >
-          {isSubmitting ? (
-            <>
-              <Spinner color="current" size="sm" />
-              Processing...
-            </>
-          ) : (
-            "Place Order"
-          )}
+          {isSubmitting ? "Processing..." : "Place Order"}
         </Button>
       </Form>
     );

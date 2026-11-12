@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Form, InputOTP, Label, Spinner} from "@sy-inc/react";
+import {Button, Form, InputOTP, Label} from "@sy-inc/react";
 import React from "react";
 
 export function OnComplete() {
@@ -57,14 +57,7 @@ export function OnComplete() {
         type="submit"
         variant="primary"
       >
-        {isSubmitting ? (
-          <>
-            <Spinner color="current" size="sm" />
-            Verifying...
-          </>
-        ) : (
-          "Verify Code"
-        )}
+        {isSubmitting ? "Verifying..." : "Verify Code"}
       </Button>
     </Form>
   );

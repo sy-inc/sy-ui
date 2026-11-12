@@ -47,11 +47,15 @@ import { Button } from '@sy-inc/react';
 
 ### 加载中
 
+设置 `isPending` 后，按钮会在内容前渲染一个 spinner；仅图标按钮则用 spinner 替换图标。
+
 <ComponentPreview
   name="button-loading"
 />
 
 ### 加载中（点击触发）
+
+将 `children` 写成函数即可自行控制加载态内容，例如把图标换成 spinner。`children` 为函数时，按钮不会自动添加 spinner。
 
 <ComponentPreview
   name="button-loading-state"
@@ -159,7 +163,7 @@ Button 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-i
 - **Active/Pressed**：`:active` 或 `[data-pressed="true"]`（含缩放变换）
 - **Focus**：`:focus-visible` 或 `[data-focus-visible="true"]`（显示焦点环）
 - **Disabled**：`:disabled` 或 `[aria-disabled="true"]`（降低透明度，禁用指针事件）
-- **Pending**：`[data-pending]`（加载期间禁用指针事件）
+- **Pending**：`[data-pending]`（加载期间禁用指针事件，并显示 spinner）
 
 ## API 参考
 
@@ -171,7 +175,7 @@ Button 组件使用以下 CSS 类（[查看源码样式](https://github.com/sy-i
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | 按钮尺寸 |
 | `fullWidth` | `boolean` | `false` | 是否占满容器宽度 |
 | `isDisabled` | `boolean` | `false` | 是否禁用 |
-| `isPending` | `boolean` | `false` | 是否处于加载状态 |
+| `isPending` | `boolean` | `false` | 是否处于加载状态。`children` 不是函数时会自动渲染 spinner |
 | `isIconOnly` | `boolean` | `false` | 是否仅包含图标 |
 | `onPress` | `(e: PressEvent) => void` | - | 按下时的回调 |
 | `children` | `React.ReactNode \| (values: ButtonRenderProps) => React.ReactNode` | - | 按钮内容或 render prop |

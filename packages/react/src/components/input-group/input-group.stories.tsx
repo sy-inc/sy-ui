@@ -421,13 +421,7 @@ export const WithTextArea: Story = {
                   isPending={isSubmitting}
                   onPress={handleSubmit}
                 >
-                  {({isPending}) =>
-                    isPending ? (
-                      <Spinner color="current" size="sm" />
-                    ) : (
-                      <Icon icon="gravity-ui:arrow-up" />
-                    )
-                  }
+                  <Icon icon="gravity-ui:arrow-up" />
                 </Button>
                 <Tooltip.Content className="flex items-center gap-1">
                   <p className="text-xs">Send</p>

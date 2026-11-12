@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, FieldError, Form, Label, NumberField, Spinner} from "@sy-inc/react";
+import {Button, Description, FieldError, Form, Label, NumberField} from "@sy-inc/react";
 import React from "react";
 
 export function FormExample() {
@@ -56,14 +56,7 @@ export function FormExample() {
         type="submit"
         variant="primary"
       >
-        {isSubmitting ? (
-          <>
-            <Spinner color="current" size="sm" />
-            处理中…
-          </>
-        ) : (
-          "下单"
-        )}
+        {isSubmitting ? "处理中…" : "下单"}
       </Button>
     </Form>
   );

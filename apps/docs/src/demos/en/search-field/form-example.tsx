@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, FieldError, Form, Label, SearchField, Spinner} from "@sy-inc/react";
+import {Button, Description, FieldError, Form, Label, SearchField} from "@sy-inc/react";
 import React from "react";
 
 export function FormExample() {
@@ -48,14 +48,7 @@ export function FormExample() {
         type="submit"
         variant="primary"
       >
-        {isSubmitting ? (
-          <>
-            <Spinner color="current" size="sm" />
-            Searching...
-          </>
-        ) : (
-          "Search"
-        )}
+        {isSubmitting ? "Searching..." : "Search"}
       </Button>
     </Form>
   );

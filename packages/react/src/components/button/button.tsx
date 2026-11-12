@@ -9,6 +9,7 @@ import {Button as ButtonPrimitive} from "react-aria-components/Button";
 
 import {composeTwRenderProps} from "../../utils";
 import {BUTTON_GROUP_CHILD, ButtonGroupContext} from "../button-group";
+import {Spinner} from "../spinner";
 
 /* -------------------------------------------------------------------------------------------------
  * Button Root
@@ -23,9 +24,8 @@ const ButtonRoot = ({
   fullWidth,
   isDisabled,
   isIconOnly,
+  isPending,
   size,
-  slot,
-  style,
   variant,
   [BUTTON_GROUP_CHILD]: isButtonGroupChild,
   ...rest
@@ -55,11 +55,19 @@ const ButtonRoot = ({
       className={composeTwRenderProps(className, styles)}
       data-slot="button"
       isDisabled={finalIsDisabled}
-      slot={slot}
-      style={style}
+      isPending={isPending}
       {...rest}
     >
-      {children}
+      {/* Function children own the pending UI; otherwise the spinner leads the content, or
+          replaces it when the button is icon-only (a second glyph would break the square). */}
+      {isPending && typeof children !== "function" ? (
+        <>
+          <Spinner color="current" size="sm" />
+          {isIconOnly ? null : children}
+        </>
+      ) : (
+        children
+      )}
     </ButtonPrimitive>
   );
 };

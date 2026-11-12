@@ -8,7 +8,6 @@ import {FieldError} from "../field-error";
 import {Form} from "../form";
 import {Kbd} from "../kbd";
 import {Label} from "../label";
-import {Spinner} from "../spinner";
 
 import {SearchField} from "./index";
 
@@ -320,14 +319,7 @@ export const FormExample: Story = {
           type="submit"
           variant="primary"
         >
-          {isSubmitting ? (
-            <>
-              <Spinner color="current" size="sm" />
-              Searching...
-            </>
-          ) : (
-            "Search"
-          )}
+          {isSubmitting ? "Searching..." : "Search"}
         </Button>
       </Form>
     );

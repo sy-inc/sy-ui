@@ -1,7 +1,7 @@
 "use client";
 
 import {ArrowUp, At, Microphone, PlugConnection, Plus} from "@gravity-ui/icons";
-import {Button, InputGroup, Kbd, Spinner, TextField, Tooltip} from "@sy-inc/react";
+import {Button, InputGroup, Kbd, TextField, Tooltip} from "@sy-inc/react";
 import {useState} from "react";
 
 export function WithTextArea() {
@@ -74,7 +74,7 @@ export function WithTextArea() {
                 isPending={isSubmitting}
                 onPress={handleSubmit}
               >
-                {({isPending}) => (isPending ? <Spinner color="current" size="sm" /> : <ArrowUp />)}
+                <ArrowUp />
               </Button>
               <Tooltip.Content className="flex items-center gap-1">
                 <p className="text-xs">Send</p>

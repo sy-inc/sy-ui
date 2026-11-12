@@ -35,11 +35,6 @@ export function NewsletterForm() {
     success: circleCheckIcon,
   };
 
-  const getButtonContentKey = (status: "idle" | "loading" | "success" | "error") => {
-    if (status === "idle" || status === "error")
-      return status === "idle" || status === "error" ? "subscribe" : status;
-  };
-
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -143,19 +138,22 @@ export function NewsletterForm() {
               "--disabled-opacity": 100,
             }}
           >
-            <LazyMotion features={domAnimation}>
-              <AnimatePresence initial={false} mode="popLayout">
-                <m.span
-                  key={getButtonContentKey(status)}
-                  animate={{opacity: 1, y: 0}}
-                  exit={{opacity: 0, y: 25}}
-                  initial={{opacity: 0, y: -25}}
-                  transition={{bounce: 0, duration: 0.3, type: "spring"}}
-                >
-                  {subscribeButton[status]}
-                </m.span>
-              </AnimatePresence>
-            </LazyMotion>
+            {/* Function children: this button animates its own pending content. */}
+            {() => (
+              <LazyMotion features={domAnimation}>
+                <AnimatePresence initial={false} mode="popLayout">
+                  <m.span
+                    key={status === "idle" || status === "error" ? "subscribe" : status}
+                    animate={{opacity: 1, y: 0}}
+                    exit={{opacity: 0, y: 25}}
+                    initial={{opacity: 0, y: -25}}
+                    transition={{bounce: 0, duration: 0.3, type: "spring"}}
+                  >
+                    {subscribeButton[status]}
+                  </m.span>
+                </AnimatePresence>
+              </LazyMotion>
+            )}
           </Button>
         </Form>
       </div>

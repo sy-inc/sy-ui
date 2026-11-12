@@ -57,7 +57,7 @@ export default function App() {
 ### 2. Loading State: `isLoading` → `isPending`
 
 **v2:** Used `isLoading` prop
-**v3:** Uses `isPending` prop
+**v3:** Uses `isPending` prop. The button renders a spinner before its content; pass a function as `children` to render the pending content yourself.
 
 ### 3. Default Width Behavior
 
@@ -75,7 +75,7 @@ This means v3 buttons will be narrower than v2 buttons when they have short text
 | `color` | - | Removed (variants handle styling) |
 | `radius` | - | Removed (use Tailwind e.g. `rounded-lg`) |
 | `startContent`, `endContent` | - | Place icons as children |
-| `spinner`, `spinnerPlacement` | - | Handle loading manually with render props |
+| `spinner`, `spinnerPlacement` | - | Spinner is built in and leads the content; use render props to customize |
 | `disableRipple` | - | Removed (ripple removed in v3) |
 | `disableAnimation` | - | Removed (animations handled internally) |
 | `classNames` | - | Use `className` |
@@ -181,15 +181,8 @@ The `isIconOnly` prop is available in both v2 and v3. It renders a square button
 
     const [isLoading, setIsLoading] = useState(false);
 
-    {/* Simple loading */}
-    <Button isPending={isLoading}>
-      {({isPending}) => (
-        <>
-          {isPending && <Spinner color="current" size="sm" />}
-          Loading
-        </>
-      )}
-    </Button>
+    {/* Simple loading: the spinner is rendered for you */}
+    <Button isPending={isLoading}>Loading</Button>
 
     {/* Loading with conditional content */}
     <Button
@@ -324,7 +317,7 @@ v3 Button supports a render prop pattern that provides state information:
 <Button isPending={isLoading}>
   {({isPending, isPressed, isHovered, isFocused, isFocusVisible, isDisabled}) => (
     <>
-      {isPending && <Spinner size="sm" />}
+      {isPending && <Spinner color="current" size="sm" />}
       {isPressed ? "Pressed!" : "Click me"}
     </>
   )}
@@ -348,7 +341,7 @@ Available render props:
 5. **isIconOnly**: Still supported in v3 — renders a square button for icon-only use
 6. **Default Width Changed**: Buttons now use `w-fit` instead of minimum widths - add `min-w-*` classes to match v2 behavior
 7. **Icons**: `startContent`/`endContent` removed - place icons as children
-8. **Loading Spinner**: Must handle spinner manually with render props
+8. **Loading Spinner**: Rendered automatically when `isPending`; use render props to customize
 9. **Render Props**: v3 Button children can be a function receiving `isPending`, `isPressed`, `isHovered`, `isFocused`, `isFocusVisible`, and `isDisabled`
 10. **Radius Removed**: Use Tailwind CSS classes
 11. **Ripple Removed**: No ripple effect in v3

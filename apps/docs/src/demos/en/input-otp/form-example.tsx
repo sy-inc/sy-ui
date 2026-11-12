@@ -1,6 +1,6 @@
 "use client";
 
-import {Button, Description, FieldError, Form, InputOTP, Label, Link, Spinner} from "@sy-inc/react";
+import {Button, Description, FieldError, Form, InputOTP, Label, Link} from "@sy-inc/react";
 import React from "react";
 
 export function FormExample() {
@@ -68,14 +68,7 @@ export function FormExample() {
         type="submit"
         variant="primary"
       >
-        {isSubmitting ? (
-          <>
-            <Spinner color="current" size="sm" />
-            Verifying...
-          </>
-        ) : (
-          "Verify"
-        )}
+        {isSubmitting ? "Verifying..." : "Verify"}
       </Button>
       <div className="flex items-center justify-center gap-1">
         <p className="text-sm text-muted">Having trouble?</p>
