@@ -52,6 +52,14 @@ When used inside a [Surface](/docs/components/surface) component, use `variant="
   name="checkbox-group-on-surface"
 />
 
+### Horizontal
+
+Set `orientation="horizontal"` to lay checkboxes out in a row. Items are spaced by the container gap, so there is no need to override margins on each checkbox.
+
+<ComponentPreview
+  name="checkbox-group-horizontal"
+/>
+
 ### Disabled
 
 <ComponentPreview
@@ -141,6 +149,7 @@ Inherits from [React Aria CheckboxGroup](https://react-spectrum.adobe.com/react-
 | `isReadOnly` | `boolean` | `false` | Whether the checkbox group is read only |
 | `isInvalid` | `boolean` | `false` | Whether the checkbox group is in an invalid state |
 | `name` | `string` | - | The name of the checkbox group, used when submitting an HTML form |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | The axis the checkboxes are laid out along |
 | `children` | `React.ReactNode \| (values: CheckboxGroupRenderProps) => React.ReactNode` | - | Checkbox group content or render prop |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, CheckboxGroupRenderProps>` | - | Overrides the default DOM element with a custom render function.|
 

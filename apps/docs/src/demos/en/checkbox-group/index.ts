@@ -8,3 +8,4 @@ export {Validation} from "./validation";
 export {WithCustomIndicator} from "./with-custom-indicator";
 export {RenderFunction} from "./render-function";
 export {CustomStyles} from "./custom-styles";
+export {Horizontal} from "./horizontal";

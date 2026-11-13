@@ -1,5 +1,5 @@
-import {Description, Label, Radio, RadioGroup} from "@sy-inc/react";
 import {Icon} from "@iconify/react";
+import {Description, Label, Radio, RadioGroup} from "@sy-inc/react";
 import clsx from "clsx";
 
 export function DeliveryAndPayment() {
@@ -61,7 +61,7 @@ export function DeliveryAndPayment() {
       <section className="flex w-full max-w-lg flex-col gap-4">
         <RadioGroup defaultValue="express" name="delivery" variant="secondary">
           <Label>Delivery method</Label>
-          <div className="grid gap-x-4 md:grid-cols-3">
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
             {deliveryOptions.map((option) => (
               <Radio key={option.value} value={option.value}>
                 <Radio.Content
@@ -89,7 +89,7 @@ export function DeliveryAndPayment() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Label>Payment method</Label>
           </div>
-          <div className="grid gap-x-4 md:grid-cols-2">
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
             {paymentOptions.map((option) => (
               <Radio key={option.value} value={option.value}>
                 <Radio.Content

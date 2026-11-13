@@ -8,3 +8,4 @@ export {OnSurface} from "./on-surface";
 export {Validation} from "./validation";
 export {WithCustomIndicator} from "./with-custom-indicator";
 export {RenderFunction} from "./render-function";
+export {Horizontal} from "./horizontal";

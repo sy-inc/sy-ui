@@ -30,7 +30,7 @@ export function FeaturesAndAddOns() {
         <CheckboxGroup name="notification-preferences">
           <Label>通知偏好</Label>
           <Description>选择接收更新的方式</Description>
-          <div className="flex flex-col gap-2">
+          <div className="mt-4 flex flex-col gap-2">
             {addOns.map((addon) => (
               <Checkbox key={addon.value} value={addon.value} variant="secondary">
                 <Checkbox.Content

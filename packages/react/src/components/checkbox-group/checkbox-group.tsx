@@ -20,15 +20,28 @@ interface CheckboxGroupContext {
 const CheckboxGroupContext = createContext<CheckboxGroupContext>({});
 
 interface CheckboxGroupProps
-  extends ComponentPropsWithRef<typeof CheckboxGroupPrimitive>, CheckboxGroupVariants {}
+  extends ComponentPropsWithRef<typeof CheckboxGroupPrimitive>, CheckboxGroupVariants {
+  /**
+   * The axis the checkboxes are laid out along.
+   * @default "vertical"
+   */
+  orientation?: "horizontal" | "vertical";
+}
 
-const CheckboxGroup = ({children, className, variant, ...props}: CheckboxGroupProps) => {
+const CheckboxGroup = ({
+  children,
+  className,
+  orientation = "vertical",
+  variant,
+  ...props
+}: CheckboxGroupProps) => {
   const styles = React.useMemo(() => checkboxGroupVariants({variant}), [variant]);
 
   return (
     <CheckboxGroupContext.Provider value={{variant}}>
       <CheckboxGroupPrimitive
         className={composeTwRenderProps(className, styles)}
+        data-orientation={orientation}
         data-slot="checkbox-group"
         {...props}
       >

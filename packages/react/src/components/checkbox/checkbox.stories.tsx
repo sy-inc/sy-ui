@@ -350,7 +350,7 @@ export const FeaturesAndAddOnsExample: Story = {
           <CheckboxGroup name="notification-preferences">
             <Label>Notification preferences</Label>
             <Description>Choose how you want to receive updates</Description>
-            <div className="flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-2">
               {addOns.map((addon) => (
                 <Checkbox key={addon.value} id={addon.value} value={addon.value}>
                   <Checkbox.Content

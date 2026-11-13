@@ -1,7 +1,23 @@
 .checkbox-group {
   @apply flex flex-col;
 
-  [data-slot="checkbox"] {
+  /* Only direct-child items that follow something. Checkboxes nested in a consumer
+     wrapper are left to that wrapper's layout. */
+  &[data-orientation="vertical"] > * + [data-slot="checkbox"] {
     @apply mt-4;
+  }
+
+  &[data-orientation="horizontal"] {
+    @apply flex-row flex-wrap gap-4;
+
+    /* Group-level label/description/error take their own line, not a slot in the row. */
+    & > :is([data-slot="label"], [data-slot="description"], [data-slot="field-error"]) {
+      flex-basis: 100%;
+    }
+
+    /* Cancel the row gap so the description hugs its label, as in the vertical layout. */
+    & > [data-slot="label"] + [data-slot="description"] {
+      @apply -mt-4;
+    }
   }
 }

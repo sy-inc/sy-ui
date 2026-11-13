@@ -637,6 +637,10 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./checkbox-group/custom-styles").then((m) => m.CustomStyles),
     file: "cn/checkbox-group/custom-styles.tsx",
   },
+  "checkbox-group-horizontal": {
+    loader: () => import("./checkbox-group/horizontal").then((m) => m.Horizontal),
+    file: "cn/checkbox-group/horizontal.tsx",
+  },
   // Chip Demo
   "chip-basic": {
     loader: () => import("./chip/basic").then((m) => m.ChipBasic),

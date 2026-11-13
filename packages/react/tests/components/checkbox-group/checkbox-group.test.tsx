@@ -12,6 +12,7 @@ const renderInterests = (
     isInvalid?: boolean;
     onChange?: (value: string[]) => void;
     defaultValue?: string[];
+    orientation?: "horizontal" | "vertical";
     variant?: "primary" | "secondary";
   } = {},
 ) =>
@@ -22,6 +23,7 @@ const renderInterests = (
       isDisabled={props.isDisabled}
       isInvalid={props.isInvalid}
       name="interests"
+      orientation={props.orientation}
       variant={props.variant}
       onChange={props.onChange}
     >
@@ -73,6 +75,16 @@ describe("CheckboxGroup", () => {
     expect(screen.getByTestId("interests").className).toEqual(
       expect.stringContaining("checkbox-group--secondary"),
     );
+  });
+
+  it("exposes orientation via data-orientation (vertical by default)", () => {
+    const {unmount} = renderInterests();
+
+    expect(screen.getByTestId("interests")).toHaveAttribute("data-orientation", "vertical");
+    unmount();
+
+    renderInterests({orientation: "horizontal"});
+    expect(screen.getByTestId("interests")).toHaveAttribute("data-orientation", "horizontal");
   });
 
   it("calls onChange when selection is toggled via createTester", async () => {

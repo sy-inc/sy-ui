@@ -60,6 +60,24 @@ export const Default: Story = {
   ),
 };
 
+export const Horizontal: Story = {
+  render: () => (
+    <CheckboxGroup defaultValue={["email"]} name="channels" orientation="horizontal">
+      <Label>Notification channels</Label>
+      {["Email", "SMS", "Push"].map((label) => (
+        <Checkbox key={label} value={label.toLowerCase()}>
+          <Checkbox.Content>
+            <Checkbox.Control>
+              <Checkbox.Indicator />
+            </Checkbox.Control>
+            {label}
+          </Checkbox.Content>
+        </Checkbox>
+      ))}
+    </CheckboxGroup>
+  ),
+};
+
 export const WithCustomIndicator: Story = {
   render: () => (
     <CheckboxGroup name="features">

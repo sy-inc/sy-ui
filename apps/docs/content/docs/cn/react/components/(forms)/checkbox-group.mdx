@@ -52,6 +52,14 @@ export default () => (
   name="checkbox-group-on-surface"
 />
 
+### 横向排列
+
+设置 `orientation="horizontal"` 让复选框横向排列，选项之间使用容器间距，无需在子项上覆盖外边距。
+
+<ComponentPreview
+  name="checkbox-group-horizontal"
+/>
+
 ### 禁用
 
 <ComponentPreview
@@ -141,6 +149,7 @@ CheckboxGroup 组件使用以下 CSS 类（[查看源码样式](https://github.c
 | `isReadOnly` | `boolean` | `false` | 是否只读 |
 | `isInvalid` | `boolean` | `false` | 是否处于无效状态 |
 | `name` | `string` | - | 提交 HTML 表单时复选框组的名称 |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | 复选框组的排列方向 |
 | `children` | `React.ReactNode \| (values: CheckboxGroupRenderProps) => React.ReactNode` | - | 内容或 render prop |
 | `render` | `DOMRenderFunction<keyof React.JSX.IntrinsicElements, CheckboxGroupRenderProps>` | - | 使用自定义 render 函数覆盖默认 DOM 元素 |
 
