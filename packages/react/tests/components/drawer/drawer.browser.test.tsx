@@ -444,6 +444,30 @@ describe("Drawer (browser)", () => {
       await expect.element(dialog).toBeInTheDocument();
     });
 
+    it("fades the scrim with the drag and restores it on release", async () => {
+      await render(<DrawerFixture defaultOpen />);
+
+      const dialog = page.getByRole("dialog", {name: "Drawer Title"}).element();
+      const content = getContent();
+      const backdrop = document.querySelector<HTMLElement>('[data-slot="drawer-backdrop"]')!;
+      const scrim = () => getComputedStyle(backdrop).backgroundColor;
+
+      await expect.poll(() => getComputedStyle(content).transform).toBe("none");
+      await expect.poll(() => backdrop.getAnimations().length).toBe(0);
+      const resting = scrim();
+
+      dispatchPointer(dialog, "pointerdown", 100, 100);
+      dispatchPointer(dialog, "pointermove", 100, 100 + content.offsetHeight / 2);
+
+      expect(backdrop.style.getPropertyValue("--drawer-drag-progress")).toBe("0.5");
+      expect(scrim()).not.toBe(resting);
+
+      dispatchPointer(dialog, "pointercancel", 100, 140);
+
+      expect(backdrop.style.getPropertyValue("--drawer-drag-progress")).toBe("");
+      await expect.poll(scrim).toBe(resting);
+    });
+
     it("resets the drag when the pointer is cancelled", async () => {
       await render(<DrawerFixture defaultOpen />);
 

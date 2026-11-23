@@ -50,7 +50,7 @@ function Workspace() {
 
 ## 容器适配
 
-根节点建立具名的 inline-size 容器。CSS 按它的可用宽度适配，而非浏览器视口；
+根节点建立名为 `sy-split-view` 的 inline-size 容器。CSS 按它的可用宽度适配，而非浏览器视口；
 应用侧边栏占用的空间因此会正确影响布局。
 
 | 档位    | 容器宽度           | 显示的栏                                               |
@@ -67,6 +67,21 @@ medium 中选择 End 时：
 - `mediumBehavior="replace-start"` 保留 Content＋End，适用于聊天线程与客户信息。
 - `mediumBehavior="replace-content"` 保留 Start＋End，适用于列表与下一层详情。
 - 不存在打开的 Start 时，两种策略都保留 Content＋End。
+
+### 按档位写内容样式
+
+栏内的内容需要随档位改变画法时，查询这个容器。容器名 `sy-split-view` 与上表阈值是公开约定；
+嵌套的 SplitView 各自解析到最近的根节点。
+
+```tsx
+// 选中态只在并排（medium 及以上）时绘制
+<a className="@min-[40rem]/sy-split-view:aria-[current=page]:bg-surface" href="/profile" />
+
+// 只在单栏（compact）时显示
+<header className="hidden @max-[40rem]/sy-split-view:flex" />
+```
+
+返回按钮不需要自己查询：`SplitView.Back` 只在目标栏被隐藏时显示。
 
 ## 外观
 
@@ -200,7 +215,7 @@ ResizeObserver 和 DOM 测量只在挂载后运行；页面 JS 在 `onLayoutChan
 
 | 节点     | 钩子                                                                                                            |
 | -------- | --------------------------------------------------------------------------------------------------------------- |
-| 根节点   | `.split-view`、`[data-slot="split-view"]`                                                 |
+| 根节点   | `.split-view`、`[data-slot="split-view"]`、容器名 `sy-split-view`                         |
 | 内部布局 | `.split-view__layout`、`[data-slot="split-view-layout"]`、`[data-active]`、`[data-from]`、`[data-medium-behavior]`、`[data-motion]` |
 | 主栏     | `.split-view__content`、`.split-view__content--surface`、`[data-variant]`、`[data-slot="split-view-content"]`、`[data-pane="content"]`、`[data-scroll]`            |
 | 侧栏     | `.split-view__pane`、`.split-view__pane--surface`、`[data-variant]`、`[data-slot="split-view-pane"]`、`[data-pane="start"\|"end"]`、`[hidden]`、`[data-scroll]` |

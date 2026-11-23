@@ -150,6 +150,30 @@ describe("Drawer layout (browser)", () => {
       .not.toBe("rgba(0, 0, 0, 0)");
   });
 
+  it("fades only the scrim, on the same clock as the panel", async () => {
+    await render(
+      <Drawer defaultOpen>
+        <Drawer.Backdrop style={{"--drawer-duration": "400ms"} as React.CSSProperties}>
+          <Drawer.Content>
+            <Drawer.Dialog aria-label="Shared clock">
+              <Drawer.Heading>Shared clock</Drawer.Heading>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>,
+    );
+
+    const backdrop = getComputedStyle(document.querySelector('[data-slot="drawer-backdrop"]')!);
+    const content = getComputedStyle(document.querySelector('[data-slot="drawer-content"]')!);
+
+    // The panel lives inside the backdrop: an opacity fade there would fade the panel too.
+    expect(backdrop.opacity).toBe("1");
+    expect(backdrop.transitionProperty).not.toContain("opacity");
+    expect(backdrop.transitionDuration).toBe("0.4s");
+    expect(content.transitionDuration).toBe("0.4s");
+    expect(backdrop.transitionTimingFunction).toBe(content.transitionTimingFunction);
+  });
+
   it("renders no scrim over the interactive page in non-modal mode", async () => {
     await render(<DrawerFixture defaultOpen backdropVariant="blur" isModal={false} />);
 

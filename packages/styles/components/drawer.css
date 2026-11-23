@@ -1,12 +1,24 @@
-/* Shared motion: the backdrop fade and the panel transform must land together,
-   so both read the same duration/easing. A drag release snaps back through the
-   .drawer__content transition below.
-   --drawer-{enter,exit}-{duration,ease} are optional per-phase overrides (set them on
-   .drawer__content or any ancestor, not on .drawer__dialog); they fall back to the shared values. */
+/* Shared motion: the scrim fade and the panel slide run on one clock. Both parts take their
+   duration/easing from the rule below, so they cannot drift apart. A drag release snaps back
+   through the same .drawer__content transition.
+   --drawer-duration / --drawer-ease and the optional per-phase --drawer-{enter,exit}-{duration,ease}
+   are inherited: set them on Drawer.Backdrop or any ancestor (not on .drawer__dialog). Setting them
+   on Drawer.Content alone moves the panel off the scrim's clock. */
 .drawer__backdrop,
 .drawer__content {
-  --drawer-duration: 250ms;
-  --drawer-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  transition-duration: var(--drawer-enter-duration, var(--drawer-duration, 250ms));
+  transition-timing-function: var(
+    --drawer-enter-ease,
+    var(--drawer-ease, cubic-bezier(0.32, 0.72, 0, 1))
+  );
+
+  &[data-exiting="true"] {
+    transition-duration: var(--drawer-exit-duration, var(--drawer-duration, 250ms));
+    transition-timing-function: var(
+      --drawer-exit-ease,
+      var(--drawer-ease, cubic-bezier(0.32, 0.72, 0, 1))
+    );
+  }
 }
 .drawer__trigger {
   @apply inline-block cursor-(--cursor-interactive);
@@ -33,32 +45,17 @@
 }
 .drawer__backdrop {
   @apply fixed inset-0 z-(--z-index-overlay) h-(--visual-viewport-height) w-full;
-  opacity: 1;
-  transition:
-    opacity 150ms var(--ease-out-quart),
-    background-color var(--drawer-duration) var(--drawer-ease),
-    backdrop-filter var(--drawer-duration) var(--drawer-ease);
+  /* Only the scrim fades. The panel is rendered inside the backdrop, so an opacity fade here would
+     fade the panel as well, on top of its own slide. */
+  transition-property: background-color, backdrop-filter;
 
-  &[data-entering="true"] {
-    opacity: 0;
-  }
-
-  /* Below fadeFromIndex only the scrim disappears. The panel is rendered inside the backdrop,
-     so fading the backdrop's opacity would hide the drawer itself. */
-  &[data-drawer-backdrop-visible="false"] {
-    background-color: transparent;
-    backdrop-filter: none;
-  }
-
-  &[data-exiting="true"] {
-    opacity: 0;
-    transition-duration: var(--drawer-exit-duration, var(--drawer-duration));
-    transition-timing-function: var(--drawer-exit-ease, var(--drawer-ease));
-  }
-
+  /* Entering, exiting, and below fadeFromIndex the scrim is clear. !important so a consumer
+     background on Drawer.Backdrop (utility or custom class) still fades instead of popping. */
   &[data-entering="true"],
-  &[data-exiting="true"] {
-    will-change: opacity;
+  &[data-exiting="true"],
+  &[data-drawer-backdrop-visible="false"] {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
   }
 
   /* Non-modal: the page behind stays interactive, so it must not look covered. */
@@ -72,11 +69,18 @@
     transition: none;
   }
 }
-.drawer__backdrop--opaque {
-  @apply bg-backdrop;
+/* --drawer-drag-progress is written while dragging (0 at rest, 1 fully dragged out) so the scrim
+   tracks the finger. A consumer background on Drawer.Backdrop does not follow the drag. */
+.drawer__backdrop--opaque,
+.drawer__backdrop--blur {
+  background-color: color-mix(
+    in srgb,
+    var(--backdrop) calc((1 - var(--drawer-drag-progress, 0)) * 100%),
+    transparent
+  );
 }
 .drawer__backdrop--blur {
-  @apply bg-backdrop backdrop-blur-md;
+  @apply backdrop-blur-md;
   @media (hover: none) and (pointer: coarse) {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -94,13 +98,8 @@
   /* A touch-action:none ancestor would disable the body's native touch scrolling too.
      The handle, header and footer reserve their gestures for panel dragging instead. */
   touch-action: auto;
-  transition: transform var(--drawer-enter-duration, var(--drawer-duration))
-    var(--drawer-enter-ease, var(--drawer-ease));
+  transition-property: transform;
   will-change: transform;
-  &[data-exiting="true"] {
-    transition-duration: var(--drawer-exit-duration, var(--drawer-duration));
-    transition-timing-function: var(--drawer-exit-ease, var(--drawer-ease));
-  }
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
@@ -163,7 +162,7 @@
 .drawer__content--bottom[data-exiting="true"] {
   transform: translateY(calc(100% + var(--drawer-edge-gap)));
 }
-.drawer__content[data-drawer-snap-points="true"] .drawer__dialog {
+.drawer__content[data-snap-points] .drawer__dialog {
   @apply h-full w-full;
 }
 .drawer__content[data-detached="true"] {

@@ -43,10 +43,10 @@ description: Drawer is rebuilt on the former Sheet implementation, adding snap p
 Class names, `data-slot` values, and placement modifiers are unchanged. The following hooks behave differently:
 
 - **The panel moved to `.drawer__content`.** It used to be a full-viewport, `pointer-events: none` wrapper; it is now the panel itself, fixed to its edge and sized to it. Enter, exit, and drag motion use `transform` on `.drawer__content` instead of `translate` on `.drawer__dialog`.
-- **Motion variables are set on `.drawer__content` or an ancestor.** `--drawer-enter-duration`, `--drawer-exit-duration`, `--drawer-enter-ease`, and `--drawer-exit-ease` keep their names, but setting them on `.drawer__dialog` no longer has an effect. They fall back to the new shared `--drawer-duration` (`250ms`) and `--drawer-ease`.
+- **Motion variables are set on `.drawer__backdrop` or an ancestor.** `--drawer-enter-duration`, `--drawer-exit-duration`, `--drawer-enter-ease`, and `--drawer-exit-ease` keep their names, but setting them on `.drawer__dialog` no longer has an effect, and setting them on `.drawer__content` alone moves the panel off the scrim's clock. They fall back to the new shared `--drawer-duration` (`250ms`) and `--drawer-ease`.
 - **Width can be set on `Drawer.Content` or `Drawer.Dialog`.** Left and right panels size to the dialog, so either part works.
 - **`.drawer__handle-bar`** is now a class on the handle bar, next to the existing `[data-slot="drawer-handle-bar"]`.
-- **New state attributes** for styling: `data-dragging`, `data-detached`, `data-modal`, `data-nested`, `data-nested-open`, `data-handle-only`, `data-active-snap-point`, `data-snap-points`, `data-drawer-snap-points`, and `data-drawer-backdrop-visible`.
+- **New state attributes** for styling: `data-dragging`, `data-detached`, `data-modal`, `data-nested`, `data-nested-open`, `data-handle-only`, `data-active-snap-point`, `data-snap-points`, and `data-drawer-backdrop-visible`.
 
 ## Removed
 
@@ -57,6 +57,6 @@ Class names, `data-slot` values, and placement modifiers are unchanged. The foll
 
 - No code changes are required for existing Drawer usage.
 - Review drawers whose appearance matters; restore the previous look with `className` on the parts if needed.
-- Move overrides of `--drawer-*` motion variables from `.drawer__dialog` to `.drawer__content`.
+- Move overrides of `--drawer-*` motion variables from `.drawer__dialog` to `.drawer__backdrop`.
 - Update custom CSS that animated or positioned `.drawer__dialog` with `translate`, or relied on `.drawer__content` spanning the viewport.
 - If you used `Sheet`, rename it to `Drawer` as described above.

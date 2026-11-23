@@ -177,9 +177,8 @@ Drawer 组件使用以下类（[查看源码样式](https://github.com/sy-inc/sy
 
 - `[data-placement]` - 当前位置（`top`、`bottom`、`left` 或 `right`）
 - `[data-entering]` 与 `[data-exiting]` - 打开与关闭过渡
-- `[data-active-snap-point]` 与 `[data-snap-points]` - 当前及配置的 snap points
+- `[data-active-snap-point]` 与 `[data-snap-points]` - 当前及配置的 snap points；仅在配置了 snap points 时存在
 - `[data-dragging]` - 当前正在进行指针拖拽
-- `[data-drawer-snap-points="true"]` - snap point 布局状态
 - `[data-detached]`、`[data-handle-only]`、`[data-modal]` 与 `[data-nested]` - Root 模式
 - `[data-drawer-background-scaled="true"]` - Drawer 打开时被缩放的背景目标
 
@@ -245,7 +244,7 @@ React Aria Modal props 会继续传递。左右方向的面板默认宽度为 `w
 
 动画可以通过 `--drawer-duration` 与 `--drawer-ease` 调整，也可以用 `--drawer-enter-duration`、
 `--drawer-exit-duration`、`--drawer-enter-ease` 与 `--drawer-exit-ease` 分别调整进入和退出阶段。
-请在 `Drawer.Content` 或其祖先元素上设置。
+请在 `Drawer.Backdrop` 或其祖先元素上设置，遮罩与面板才会保持同一节奏。
 
 ### Drawer.Dialog
 

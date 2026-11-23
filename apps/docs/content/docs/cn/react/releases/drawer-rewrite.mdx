@@ -42,10 +42,10 @@ description: Drawer 改为基于原 Sheet 的实现，新增 snap points、嵌�
 类名、`data-slot` 值与位置修饰类保持不变。以下钩子的行为有所不同：
 
 - **面板移到了 `.drawer__content`。** 它之前是覆盖整个视口、`pointer-events: none` 的包裹层，现在就是面板本身：固定在所在边缘，尺寸与面板一致。进入、退出与拖拽动画改为作用在 `.drawer__content` 的 `transform` 上，而不再是 `.drawer__dialog` 的 `translate`。
-- **动画变量需要设置在 `.drawer__content` 或其祖先元素上。** `--drawer-enter-duration`、`--drawer-exit-duration`、`--drawer-enter-ease` 与 `--drawer-exit-ease` 名称不变，但设置在 `.drawer__dialog` 上已不再生效。未设置时会回退到新的共享变量 `--drawer-duration`（`250ms`）与 `--drawer-ease`。
+- **动画变量需要设置在 `.drawer__backdrop` 或其祖先元素上。** `--drawer-enter-duration`、`--drawer-exit-duration`、`--drawer-enter-ease` 与 `--drawer-exit-ease` 名称不变，但设置在 `.drawer__dialog` 上已不再生效；只设置在 `.drawer__content` 上会让面板脱离遮罩的节奏。未设置时会回退到新的共享变量 `--drawer-duration`（`250ms`）与 `--drawer-ease`。
 - **宽度可以设置在 `Drawer.Content` 或 `Drawer.Dialog` 上。** 左右方向的面板会贴合 dialog 的宽度，所以两个部件都可以。
 - **`.drawer__handle-bar`** 现在作为类名出现在手柄条上，原有的 `[data-slot="drawer-handle-bar"]` 仍然保留。
-- **新增用于样式的状态属性**：`data-dragging`、`data-detached`、`data-modal`、`data-nested`、`data-nested-open`、`data-handle-only`、`data-active-snap-point`、`data-snap-points`、`data-drawer-snap-points` 与 `data-drawer-backdrop-visible`。
+- **新增用于样式的状态属性**：`data-dragging`、`data-detached`、`data-modal`、`data-nested`、`data-nested-open`、`data-handle-only`、`data-active-snap-point`、`data-snap-points` 与 `data-drawer-backdrop-visible`。
 
 ## 移除
 
@@ -56,6 +56,6 @@ description: Drawer 改为基于原 Sheet 的实现，新增 snap points、嵌�
 
 - 现有的 Drawer 用法不需要修改代码。
 - 检查对外观有要求的 Drawer；如有需要，可在各部件上用 `className` 恢复之前的样式。
-- 把设置在 `.drawer__dialog` 上的 `--drawer-*` 动画变量移到 `.drawer__content` 上。
+- 把设置在 `.drawer__dialog` 上的 `--drawer-*` 动画变量移到 `.drawer__backdrop` 上。
 - 更新用 `translate` 为 `.drawer__dialog` 做动画或定位、或者依赖 `.drawer__content` 覆盖整个视口的自定义 CSS。
 - 如果使用过 `Sheet`，请按上文把它改名为 `Drawer`。

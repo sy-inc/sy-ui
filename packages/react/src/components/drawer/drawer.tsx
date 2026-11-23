@@ -178,13 +178,13 @@ function drawerData(context: DrawerContextValue) {
     "data-detached": context.isDetached || undefined,
     "data-dragging": context.dragging || undefined,
     "data-drawer-backdrop-visible": String(context.backdropVisible),
-    "data-drawer-snap-points": context.snapPoints.length > 0 || undefined,
     "data-handle-only": context.isHandleOnly || undefined,
     "data-modal": String(context.isModal),
     "data-nested": context.isNested || undefined,
     "data-nested-open": context.nestedOpen || undefined,
     "data-placement": context.placement,
-    "data-snap-points": context.snapPoints.join(","),
+    // Absent without snap points, so CSS can key the snap layout on its presence.
+    "data-snap-points": context.snapPoints.join(",") || undefined,
   };
 }
 
@@ -227,16 +227,23 @@ function useDrawerDrag(
     lastTime: 0,
     offset: 0,
     pointerId: -1,
+    size: 0,
     start: 0,
     velocity: 0,
   });
   const vertical = context.placement === "top" || context.placement === "bottom";
   const direction = context.placement === "top" || context.placement === "left" ? -1 : 1;
   const position = (event: React.PointerEvent) => (vertical ? event.clientY : event.clientX);
-  // Clearing the inline styles hands the panel back to .drawer__content's own transform transition.
+  const backdropOf = (element: HTMLElement) =>
+    element.closest<HTMLElement>("[data-slot='drawer-backdrop']");
+  // Clearing the inline styles hands the panel and the scrim back to their own CSS transitions.
   const resetTransform = (element: HTMLElement) => {
+    const backdrop = backdropOf(element);
+
     element.style.transition = "";
     element.style.transform = "";
+    backdrop?.style.removeProperty("transition");
+    backdrop?.style.removeProperty("--drawer-drag-progress");
   };
 
   const onPointerDown = (event: React.PointerEvent) => {
@@ -268,6 +275,7 @@ function useDrawerDrag(
       lastTime: event.timeStamp,
       offset: 0,
       pointerId: event.pointerId,
+      size: 0,
       start,
       velocity: 0,
     };
@@ -293,7 +301,9 @@ function useDrawerDrag(
     if (!state.dragging) {
       if (Math.abs(delta) < DRAG_THRESHOLD) return;
       state.dragging = true;
+      state.size = vertical ? element.offsetHeight : element.offsetWidth;
       element.style.transition = "none";
+      backdropOf(element)?.style.setProperty("transition", "none");
       try {
         element.setPointerCapture(event.pointerId);
       } catch {
@@ -306,6 +316,12 @@ function useDrawerDrag(
 
     state.offset = canExpand ? delta : direction * Math.max(0, direction * delta);
     element.style.transform = `translate${vertical ? "Y" : "X"}(${state.offset}px)`;
+    // The scrim follows the finger toward dismissal: 0 at rest, 1 once the panel is fully dragged out.
+    if (context.isDismissable && state.size > 0) {
+      const progress = Math.min(1, Math.max(0, (direction * state.offset) / state.size));
+
+      backdropOf(element)?.style.setProperty("--drawer-drag-progress", String(progress));
+    }
     context.onDrag?.(event);
   };
   // Ends the gesture; returns the content element when a drag actually happened.
@@ -328,7 +344,7 @@ function useDrawerDrag(
     const element = endDrag(event);
 
     if (!element) return;
-    const dimension = vertical ? element.offsetHeight : element.offsetWidth;
+    const dimension = state.size;
     const shouldClose =
       context.isDismissable &&
       (direction * state.offset > dimension * context.closeThreshold ||

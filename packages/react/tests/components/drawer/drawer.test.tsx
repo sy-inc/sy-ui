@@ -39,7 +39,6 @@ describe("Drawer", () => {
     expect(dialog).toHaveAttribute("data-placement", "right");
     expect(dialog).toHaveAttribute("data-snap-points", "0.4,0.8");
     expect(dialog).toHaveAttribute("data-active-snap-point", "0.8");
-    expect(dialog).toHaveAttribute("data-drawer-snap-points", "true");
     expect(document.querySelector('[data-slot="drawer-backdrop"]')).not.toBeNull();
     expect(document.querySelector('[data-slot="drawer-content"]')).not.toBeNull();
     expect(document.querySelector('[data-slot="drawer-handle"]')).not.toBeNull();
@@ -146,6 +145,8 @@ describe("Drawer", () => {
     expect(handle).toHaveAttribute("aria-hidden", "true");
     expect(handle).not.toHaveAttribute("tabindex");
     expect(screen.queryByRole("button", {name: "Adjust drawer size"})).toBeNull();
+    // The snap layout CSS keys on this attribute's presence.
+    expect(screen.getByRole("dialog")).not.toHaveAttribute("data-snap-points");
   });
 
   describe("part-level composition", () => {

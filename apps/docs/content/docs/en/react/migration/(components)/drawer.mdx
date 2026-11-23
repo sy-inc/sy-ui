@@ -418,7 +418,7 @@ Drawer (Root)
 If you already use the v3 Drawer, your code keeps working after the [Drawer rewrite](/docs/react/releases/drawer-rewrite). Only the default look and a few CSS hooks change:
 
 - Padding moved from `.drawer__dialog` to the header, body, and footer, and the heading is larger. Use `className` on the parts to restore the previous look.
-- Enter, exit, and drag motion run on `.drawer__content` with `transform`. Set `--drawer-*` motion variables on `.drawer__content` instead of `.drawer__dialog`.
+- Enter, exit, and drag motion run on `.drawer__content` with `transform`. Set `--drawer-*` motion variables on `.drawer__backdrop` (or an ancestor) instead of `.drawer__dialog`, so the scrim and the panel stay on the same clock.
 - Width can be set on `Drawer.Content` or `Drawer.Dialog`.
 - `Sheet` is removed; rename it to `Drawer`.
 

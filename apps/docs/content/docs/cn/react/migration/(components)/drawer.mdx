@@ -418,7 +418,7 @@ Drawer (Root)
 如果你已经在使用 v3 Drawer，[Drawer 重构](/docs/react/releases/drawer-rewrite)之后代码可以继续使用，只有默认外观和少数 CSS 钩子有变化：
 
 - 内边距从 `.drawer__dialog` 移到了 header、body 与 footer 上，标题字号也更大。可以在各部件上用 `className` 恢复之前的样式。
-- 进入、退出与拖拽动画改为在 `.drawer__content` 上使用 `transform`。`--drawer-*` 动画变量请设置在 `.drawer__content` 上，而不是 `.drawer__dialog`。
+- 进入、退出与拖拽动画改为在 `.drawer__content` 上使用 `transform`。`--drawer-*` 动画变量请设置在 `.drawer__backdrop`（或其祖先元素）上，而不是 `.drawer__dialog`，遮罩与面板才会保持同一节奏。
 - 宽度可以设置在 `Drawer.Content` 或 `Drawer.Dialog` 上。
 - `Sheet` 已移除，请改名为 `Drawer`。
 

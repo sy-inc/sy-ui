@@ -184,10 +184,9 @@ The parts expose state through data attributes including:
 
 - `[data-placement]` - Current placement (`top`, `bottom`, `left`, or `right`)
 - `[data-entering]` and `[data-exiting]` - Open and close transitions
-- `[data-active-snap-point]` and `[data-snap-points]` - Current and configured snap points
+- `[data-active-snap-point]` and `[data-snap-points]` - Current and configured snap points; present only when snap points are configured
 - `[data-dragging]` - Pointer dragging is active
 - `[data-detached]`, `[data-handle-only]`, `[data-modal]`, and `[data-nested]` - Root modes
-- `[data-drawer-snap-points="true"]` - Snap-point layout state
 - `[data-drawer-background-scaled="true"]` - A background target is scaled while a drawer is open
 
 ## API Reference
@@ -253,7 +252,7 @@ set on either `Drawer.Content` or `Drawer.Dialog` overrides it.
 
 Motion can be tuned with `--drawer-duration` and `--drawer-ease`, or per phase with
 `--drawer-enter-duration`, `--drawer-exit-duration`, `--drawer-enter-ease`, and `--drawer-exit-ease`.
-Set them on `Drawer.Content` or an ancestor.
+Set them on `Drawer.Backdrop` or an ancestor so the scrim and the panel stay on the same clock.
 
 ### Drawer.Dialog
 
