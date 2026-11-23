@@ -1,0 +1,9 @@
+import {CellSlider} from "@sy-inc/react";
+
+export function IntegerStep() {
+  return (
+    <div className="w-[252px]">
+      <CellSlider defaultValue={75} label="Volume" maxValue={100} minValue={0} step={1} />
+    </div>
+  );
+}

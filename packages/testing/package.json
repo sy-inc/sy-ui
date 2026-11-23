@@ -4,7 +4,6 @@
   "version": "0.0.1",
   "type": "module",
   "exports": {
-    "./configs/base": "./configs/base.mjs",
     "./configs/react": "./configs/react.mjs",
     "./configs/browser": "./configs/browser.mjs",
     "./setup/react": "./setup/react.ts",
@@ -21,18 +20,18 @@
   "dependencies": {
     "@react-aria/test-utils": "1.0.0-rc.1",
     "@testing-library/dom": "10.4.1",
-    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/jest-dom": "8.0.0",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
-    "@vitest/browser-playwright": "4.1.11",
+    "@vitest/browser-playwright": "5.1.1",
     "jsdom": "30.0.1",
     "playwright": "1.62.1",
-    "vitest-browser-react": "2.2.0"
+    "vitest-browser-react": "2.3.0"
   },
   "peerDependencies": {
     "react": ">=19.0.0",
     "react-dom": ">=19.0.0",
-    "vitest": "^4.1.0"
+    "vitest": "^5.1.0"
   },
   "devDependencies": {
     "@sy-inc/standard": "workspace:*",
@@ -41,6 +40,6 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "typescript": "5.9.3",
-    "vitest": "4.1.11"
+    "vitest": "5.1.1"
   }
 }

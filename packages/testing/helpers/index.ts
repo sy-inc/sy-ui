@@ -14,10 +14,4 @@ export {
   type RenderResult,
 } from "@testing-library/react";
 
-export {
-  installMouseEvent,
-  installPointerEvent,
-  pointerMap,
-  triggerLongPress,
-  User,
-} from "@react-aria/test-utils";
+export {installPointerEvent, User} from "@react-aria/test-utils";

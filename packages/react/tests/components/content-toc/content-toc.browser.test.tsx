@@ -32,7 +32,7 @@ describe("ContentToc (browser)", () => {
       );
       const trigger = page.getByRole("button", {name: /本页目录/});
 
-      await expect.element(trigger).toHaveTextContent("标题与锚点");
+      await expect.element(trigger).toMatchTextContent("标题与锚点");
       await trigger.click();
       const dialog = page.getByRole("dialog", {name: "本页目录"});
 

@@ -39,7 +39,7 @@ describe("RichTextEditor (browser)", () => {
     await expect.element(page.getByText("Large section heading")).toBeInTheDocument();
     await userEvent.keyboard("{Enter}");
     await expect.element(page.getByRole("heading", {name: "Heading"})).toBeInTheDocument();
-    await expect.element(editor).not.toHaveTextContent("/hea");
+    await expect.element(editor).not.toMatchTextContent("/hea");
   });
 
   it("supports link popover semantics and enabled Apply state", async () => {

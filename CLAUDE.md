@@ -11,7 +11,7 @@ SY INC v3 is a modern React UI library built with Tailwind CSS v4, using a pnpm 
 - **Node.js**: v22+ required
 - **pnpm**: v10.26.2 (package manager)
 - **React**: v19+
-- **Tailwind CSS**: v4.1.18
+- **Tailwind CSS**: v4.3.5
 - **TypeScript**: v5.9.3
 - **Turborepo**: Build orchestration
 - **Storybook**: Component development

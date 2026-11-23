@@ -1,4 +1,4 @@
-import {render} from "@sy-inc/testing/browser";
+import {desktopViewport, render} from "@sy-inc/testing/browser";
 import {isDocumentScrollLocked} from "@sy-inc/testing/helpers";
 import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
@@ -218,7 +218,7 @@ describe("Sidebar (browser)", () => {
     expect(getComputedStyle(icon).marginInline).toBe("0px");
 
     await userEvent.hover(menuButton.element());
-    await expect.element(page.getByRole("tooltip")).toHaveTextContent("Playground");
+    await expect.element(page.getByRole("tooltip")).toMatchTextContent("Playground");
   });
 
   it("clips horizontal overflow without becoming horizontally scrollable", async () => {
@@ -648,6 +648,9 @@ describe("Sidebar (browser)", () => {
     });
 
     it("slides across the gap between items instead of fading out and in", async () => {
+      // Hovering the 800px fixture's main area needs more room than the default viewport.
+      await desktopViewport();
+
       await renderDesktop();
 
       const inbox = buttonNamed("Inbox");

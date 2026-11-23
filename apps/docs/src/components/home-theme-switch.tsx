@@ -16,17 +16,13 @@ export interface SwitchProps extends Omit<AriaSwitchProps, "children"> {
   children: React.ReactNode;
 }
 
-const wrapper = tv({
-  base: [
-    "group relative flex h-13 w-[84px] items-center gap-3 rounded-full bg-[#C6BCBB]/50",
-    "px-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.5),0_1px_4px_rgba(0,0,0,0.15)]",
-    "backdrop-blur-[54.3px] dark:bg-[#383435]/30 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0px_1px_4px_0px_rgba(0,0,0,0.15)]",
-  ],
-});
+const wrapper = [
+  "group relative flex h-13 w-[84px] items-center gap-3 rounded-full bg-[#C6BCBB]/50",
+  "px-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.5),0_1px_4px_rgba(0,0,0,0.15)]",
+  "backdrop-blur-[54.3px] dark:bg-[#383435]/30 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0px_1px_4px_0px_rgba(0,0,0,0.15)]",
+].join(" ");
 
-const icon = tv({
-  base: "z-20 text-xl text-foreground",
-});
+const icon = "z-20 text-xl text-foreground";
 
 const thumb = tv({
   base: [
@@ -35,24 +31,15 @@ const thumb = tv({
     "dark:bg-[#383435]/30 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0px_1px_4px_0px_rgba(0,0,0,0.15)]",
     "transition-all duration-300",
   ],
-  compoundVariants: [
-    {
-      class: "w-10",
-      isPressed: true,
-      isSelected: false,
-    },
-    {
-      class: "ms-6 w-10",
-      isPressed: true,
-      isSelected: true,
-    },
-  ],
+  compoundVariants: [{class: "ms-6", isPressed: true, isSelected: true}],
   variants: {
     isFocusVisible: {
       true: "ring-2 ring-offset-2 ring-offset-white",
     },
+    isPressed: {
+      true: "w-10",
+    },
     isSelected: {
-      false: "",
       true: "ms-8",
     },
   },
@@ -77,15 +64,15 @@ export function HomeThemeSwitch({...props}: Omit<SwitchProps, "children">) {
     <AriaSwitch
       {...props}
       aria-label="Theme switch"
-      className={composeTailwindRenderProps(props.className, wrapper())}
+      className={composeTailwindRenderProps(props.className, wrapper)}
       isSelected={isSelected}
       onChange={handleChange}
     >
       {(renderProps) => (
         <>
           <div className={thumb(renderProps)} />
-          <Iconify className={icon()} icon="gravity-ui:sun" />
-          <Iconify className={icon()} icon="gravity-ui:moon" />
+          <Iconify className={icon} icon="gravity-ui:sun" />
+          <Iconify className={icon} icon="gravity-ui:moon" />
         </>
       )}
     </AriaSwitch>

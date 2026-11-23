@@ -38,6 +38,15 @@
       }
     }
   }
+
+  /* RTL: the sweep is linear and both pseudo-elements span the whole box, so playing the keyframes
+     backwards mirrors it. `:dir(rtl)` resolves the element's own direction, so a nested `dir="ltr"`
+     subtree stays LTR. Must stay after the `:has(.skeleton)` block: its `::before` has the same
+     specificity and its `animation` shorthand resets the direction. */
+  &:dir(rtl)::after,
+  &:dir(rtl)::before {
+    animation-direction: reverse;
+  }
 }
 
 .skeleton--pulse {

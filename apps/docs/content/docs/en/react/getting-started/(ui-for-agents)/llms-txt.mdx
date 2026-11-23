@@ -21,6 +21,15 @@ We provide [LLMs.txt](https://llmstxt.org/) files to make SY INC v3 documentatio
 - [/llms-components.txt](/llms-components.txt) — All component documentation
 - [/llms-patterns.txt](/llms-patterns.txt) — All patterns and recipes
 
+## Docs in the package
+
+`@sy-inc/react` ships the same documentation as Markdown under `node_modules/@sy-inc/react/docs/`: an `llms.txt` index, plus one page per component (`components/`) and guide (`guides/`). The files are generated from this site when the package is published, so they always match the installed version and work offline.
+
+Point your agent at the index in `AGENTS.md` or `CLAUDE.md`:
+```
+Before using SY INC components, read node_modules/@sy-inc/react/docs/llms.txt
+```
+
 ## Integration
 
 **Claude Code:** Tell Claude to reference the documentation:

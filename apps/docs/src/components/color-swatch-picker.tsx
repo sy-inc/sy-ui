@@ -12,10 +12,6 @@ import {tv} from "tailwind-variants";
 
 import {composeTailwindRenderProps} from "@/utils/compose-tw-render";
 
-const itemStyles = tv({
-  base: "relative rounded-xs",
-});
-
 const focusIndicator = tv({
   base: "absolute start-0 top-0 h-full w-full scale-[0.5] rounded-full border-2 border-black opacity-0 outline-2 -outline-offset-4 outline-white transition-all forced-color-adjust-none dark:border-white dark:outline-black",
   variants: {
@@ -36,7 +32,7 @@ export function ColorSwatchPickerItem({
   outlineOffsetColor?: string;
 }) {
   return (
-    <AriaColorSwatchPickerItem {...props} className={itemStyles}>
+    <AriaColorSwatchPickerItem {...props} className="relative rounded-xs">
       {({isSelected}) => (
         <>
           <ColorSwatch className={className} />

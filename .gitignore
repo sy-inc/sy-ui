@@ -14,6 +14,7 @@ coverage
 __snapshots__
 **/__screenshots__/
 **/.vitest-attachments/
+**/.vitest/
 coverage.json
 
 # next.js
@@ -93,3 +94,6 @@ apps/docs/public/skills
 
 # SEO analysis output
 .seo-output
+
+# Version-matched docs generated at pack time (packages/react/scripts/build-docs.mjs)
+packages/react/docs

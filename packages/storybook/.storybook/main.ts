@@ -2,6 +2,7 @@ import type {StorybookConfig} from "@storybook/react-vite";
 
 import {readFileSync as fsReadFileSync} from "fs";
 import {createRequire} from "module";
+import {hostname} from "os";
 import {dirname, join as pathJoin} from "path";
 import {fileURLToPath} from "url";
 
@@ -32,6 +33,9 @@ export const getStories = () => {
 const config: StorybookConfig = {
   addons: ["@storybook/addon-a11y", "@storybook/addon-docs"],
   core: {
+    // `dev` listens on all interfaces. A non-empty list keeps host validation on: Storybook already
+    // accepts loopback names and this machine's own IPs, so only its hostname needs listing.
+    allowedHosts: [hostname()],
     disableTelemetry: true,
     disableWhatsNewNotifications: true,
     enableCrashReports: false,

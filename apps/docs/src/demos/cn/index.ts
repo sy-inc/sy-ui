@@ -516,6 +516,66 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./card/custom-styles").then((m) => m.CustomStyles),
     file: "cn/card/custom-styles.tsx",
   },
+  // CellSelect Demo
+  "cell-select-usage": {
+    loader: () => import("./cell-select/usage").then((m) => m.Usage),
+    file: "cn/cell-select/usage.tsx",
+  },
+  "cell-select-controlled": {
+    loader: () => import("./cell-select/controlled").then((m) => m.Controlled),
+    file: "cn/cell-select/controlled.tsx",
+  },
+  "cell-select-custom-value": {
+    loader: () => import("./cell-select/custom-value").then((m) => m.CustomValue),
+    file: "cn/cell-select/custom-value.tsx",
+  },
+  "cell-select-disabled": {
+    loader: () => import("./cell-select/disabled").then((m) => m.Disabled),
+    file: "cn/cell-select/disabled.tsx",
+  },
+  "cell-select-font-family": {
+    loader: () => import("./cell-select/font-family").then((m) => m.FontFamily),
+    file: "cn/cell-select/font-family.tsx",
+  },
+  "cell-select-settings-group": {
+    loader: () => import("./cell-select/settings-group").then((m) => m.SettingsGroup),
+    file: "cn/cell-select/settings-group.tsx",
+  },
+  "cell-select-variants": {
+    loader: () => import("./cell-select/variants").then((m) => m.Variants),
+    file: "cn/cell-select/variants.tsx",
+  },
+
+  // CellSlider Demo
+  "cell-slider-default": {
+    loader: () => import("./cell-slider/default").then((m) => m.Default),
+    file: "cn/cell-slider/default.tsx",
+  },
+  "cell-slider-variants": {
+    loader: () => import("./cell-slider/variants").then((m) => m.Variants),
+    file: "cn/cell-slider/variants.tsx",
+  },
+  "cell-slider-controlled": {
+    loader: () => import("./cell-slider/controlled").then((m) => m.Controlled),
+    file: "cn/cell-slider/controlled.tsx",
+  },
+  "cell-slider-settings-group": {
+    loader: () => import("./cell-slider/settings-group").then((m) => m.SettingsGroup),
+    file: "cn/cell-slider/settings-group.tsx",
+  },
+  "cell-slider-secondary-group": {
+    loader: () => import("./cell-slider/secondary-group").then((m) => m.SecondaryGroup),
+    file: "cn/cell-slider/secondary-group.tsx",
+  },
+  "cell-slider-integer-step": {
+    loader: () => import("./cell-slider/integer-step").then((m) => m.IntegerStep),
+    file: "cn/cell-slider/integer-step.tsx",
+  },
+  "cell-slider-disabled": {
+    loader: () => import("./cell-slider/disabled").then((m) => m.Disabled),
+    file: "cn/cell-slider/disabled.tsx",
+  },
+
   // CellSwitch Demo
   "cell-switch-basic": {
     loader: () => import("./cell-switch/basic").then((m) => m.Basic),
@@ -2091,6 +2151,48 @@ export const demos: Record<string, DemoItem> = {
     loader: () => import("./range-calendar/custom-styles").then((m) => m.CustomStyles),
     file: "cn/range-calendar/custom-styles.tsx",
   },
+  // Rating Demo
+  "rating-default": {
+    loader: () => import("./rating/default").then((m) => m.Default),
+    file: "cn/rating/default.tsx",
+  },
+  "rating-sizes": {
+    loader: () => import("./rating/sizes").then((m) => m.Sizes),
+    file: "cn/rating/sizes.tsx",
+  },
+  "rating-controlled": {
+    loader: () => import("./rating/controlled").then((m) => m.Controlled),
+    file: "cn/rating/controlled.tsx",
+  },
+  "rating-read-only": {
+    loader: () => import("./rating/read-only").then((m) => m.ReadOnly),
+    file: "cn/rating/read-only.tsx",
+  },
+  "rating-custom-icon-heart": {
+    loader: () => import("./rating/custom-icon-heart").then((m) => m.CustomIconHeart),
+    file: "cn/rating/custom-icon-heart.tsx",
+  },
+  "rating-custom-icon-per-item": {
+    loader: () => import("./rating/custom-icon-per-item").then((m) => m.CustomIconPerItem),
+    file: "cn/rating/custom-icon-per-item.tsx",
+  },
+  "rating-disabled": {
+    loader: () => import("./rating/disabled").then((m) => m.Disabled),
+    file: "cn/rating/disabled.tsx",
+  },
+  "rating-custom-color": {
+    loader: () => import("./rating/custom-color").then((m) => m.CustomColor),
+    file: "cn/rating/custom-color.tsx",
+  },
+  "rating-with-label": {
+    loader: () => import("./rating/with-label").then((m) => m.WithLabel),
+    file: "cn/rating/with-label.tsx",
+  },
+  "rating-product-review": {
+    loader: () => import("./rating/product-review").then((m) => m.ProductReview),
+    file: "cn/rating/product-review.tsx",
+  },
+
   // ScrollShadow Demo
   "scroll-shadow-default": {
     loader: () => import("./scroll-shadow/default").then((m) => m.default),
@@ -2477,6 +2579,10 @@ export const demos: Record<string, DemoItem> = {
   "table-column-resizing": {
     loader: () => import("./table/column-resizing").then((m) => m.ColumnResizing),
     file: "cn/table/column-resizing.tsx",
+  },
+  "table-managed-columns": {
+    loader: () => import("./table/managed-columns").then((m) => m.ManagedColumns),
+    file: "cn/table/managed-columns.tsx",
   },
   "table-column-groups": {
     loader: () => import("./table/column-groups").then((m) => m.ColumnGroups),

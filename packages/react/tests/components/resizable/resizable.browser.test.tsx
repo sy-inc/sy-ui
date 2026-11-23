@@ -1,6 +1,6 @@
 import type {ResizableHandleType} from "@/components/resizable";
 
-import {render} from "@sy-inc/testing/browser";
+import {desktopViewport, render} from "@sy-inc/testing/browser";
 import {page, userEvent} from "vitest/browser";
 
 import {Resizable} from "@/components/resizable";
@@ -45,6 +45,9 @@ describe("Resizable (browser)", () => {
   // The divider is 1px wide with a negative margin, so a real drag is the only way to prove
   // the styling did not shrink the library's hit region away.
   it("supports pointer drag and leaves the separator ready for the keyboard", async () => {
+    // The 800px fixture and its drag target need more room than the default viewport.
+    await desktopViewport();
+
     await render(<Fixture />);
     const handle = page.getByRole("separator");
     const element = handle.element() as HTMLElement;

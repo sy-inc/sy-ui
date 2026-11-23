@@ -21,24 +21,24 @@
     "react-dom": "19.2.8",
     "react-aria-components": "1.22.1",
     "react-scan": "0.5.7",
-    "tailwind-variants": "3.3.1"
+    "tailwind-variants": "4.0.2"
   },
   "devDependencies": {
     "@sy-inc/standard": "workspace:*",
-    "@storybook/addon-a11y": "10.2.10",
-    "@storybook/addon-docs": "10.2.10",
+    "@storybook/addon-a11y": "10.6.8",
+    "@storybook/addon-docs": "10.6.8",
     "@storybook/icons": "2.0.1",
-    "@storybook/react": "10.2.10",
-    "@storybook/react-vite": "10.2.10",
-    "@tailwindcss/postcss": "4.3.0",
-    "@tailwindcss/vite": "4.3.0",
+    "@storybook/react": "10.6.8",
+    "@storybook/react-vite": "10.6.8",
+    "@tailwindcss/postcss": "4.3.5",
+    "@tailwindcss/vite": "4.3.5",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
-    "@vitejs/plugin-react": "5.1.2",
-    "glob": "13.0.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "glob": "14.0.6",
     "postcss": "8.5.23",
-    "storybook": "10.2.10",
-    "tailwindcss": "4.3.0",
-    "vite": "7.3.5"
+    "storybook": "10.6.8",
+    "tailwindcss": "4.3.5",
+    "vite": "7.3.8"
   }
 }

@@ -68,7 +68,6 @@ export default defineConfig({
           },
           test: {
             name: "react-jsdom",
-            passWithNoTests: false,
             include: ["tests/**/*.{test,ssr.test}.{ts,tsx}"],
             exclude: ["**/node_modules/**", "**/dist/**", "**/*.browser.test.{ts,tsx}"],
           },
@@ -85,7 +84,6 @@ export default defineConfig({
           },
           test: {
             name: "react-browser",
-            passWithNoTests: false,
             include: ["tests/**/*.browser.test.{ts,tsx}"],
             exclude: ["**/node_modules/**", "**/dist/**"],
           },

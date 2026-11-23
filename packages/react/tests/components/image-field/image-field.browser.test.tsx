@@ -177,14 +177,14 @@ describe("ImageField (browser)", () => {
     };
 
     select(new File(["text"], "bad.txt", {type: "text/plain"}));
-    await expect.element(page.getByRole("alert")).toHaveTextContent("Unsupported image format");
+    await expect.element(page.getByRole("alert")).toMatchTextContent("Unsupported image format");
     expect(onUpload).not.toHaveBeenCalled();
     expect(dimensions()).toEqual(before);
     await page.getByRole("img", {name: "Logo"}).click();
     await expect.element(page.getByRole("dialog", {name: "Logo"})).toBeVisible();
     await userEvent.keyboard("{Escape}");
     select(new File(["png"], "image.png", {type: "image/png"}));
-    await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
+    await expect.element(page.getByRole("alert")).toMatchTextContent("Upload failed");
     const retry = page.getByRole("button", {name: "Retry upload"});
 
     await expect.element(retry).toBeVisible();
@@ -277,7 +277,7 @@ describe("ImageField (browser)", () => {
 
     await expect.element(target).toHaveAccessibleName(/Logo/);
     paste(picker.element());
-    await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
+    await expect.element(page.getByRole("alert")).toMatchTextContent("Upload failed");
     await expect.element(picker).toBeVisible();
     await expect.element(picker).toBeEnabled();
     await expect.element(page.getByRole("button", {name: "Remove image"})).not.toBeInTheDocument();
@@ -285,7 +285,7 @@ describe("ImageField (browser)", () => {
     expect(dimensions()).toEqual(before);
     await page.getByRole("button", {name: "Retry upload"}).click();
     await expect.poll(() => onUpload.mock.calls.length).toBe(2);
-    await expect.element(page.getByRole("alert")).toHaveTextContent("Upload failed");
+    await expect.element(page.getByRole("alert")).toMatchTextContent("Upload failed");
     paste(picker.element());
     await expect.poll(() => onUpload.mock.calls.length).toBe(3);
   });

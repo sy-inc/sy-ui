@@ -1,10 +1,10 @@
-import {render} from "@sy-inc/testing/browser";
+import {desktopViewport, render} from "@sy-inc/testing/browser";
 import {renderToString} from "react-dom/server";
 import {page, userEvent} from "vitest/browser";
 
-import "../../../../styles/dist/sy-inc.min.css";
-
 import {Carousel} from "@/components/carousel";
+
+import "../../../../styles/dist/sy-inc.min.css";
 
 import {CarouselFixture} from "./fixtures";
 
@@ -397,13 +397,16 @@ describe("Carousel (browser)", () => {
   });
 
   it("reports the real autoplay state through its accessible control", async () => {
+    // The off-carousel hover point at 1000,700 needs more room than the default viewport.
+    await desktopViewport();
+
     const outside = document.createElement("div");
 
     outside.setAttribute("data-testid", "carousel-outside");
     outside.style.cssText = "position: fixed; left: 1000px; top: 700px; width: 10px; height: 10px";
     document.body.append(outside);
     await page.getByTestId("carousel-outside").hover();
-    await render(<CarouselFixture autoplay={{delay: 150}} showAutoplayControl />);
+    await render(<CarouselFixture showAutoplayControl autoplay={{delay: 150}} />);
     const toggle = page.getByRole("button", {name: /autoplay/});
 
     await expect.element(toggle).toHaveAttribute("aria-label", "Pause autoplay");
@@ -417,6 +420,9 @@ describe("Carousel (browser)", () => {
   });
 
   it("renders autoplay progress inside the selected pager and pauses and resumes on hover", async () => {
+    // The off-carousel hover point at 1000,700 needs more room than the default viewport.
+    await desktopViewport();
+
     const outside = document.createElement("div");
 
     outside.setAttribute("data-testid", "autoplay-progress-outside");

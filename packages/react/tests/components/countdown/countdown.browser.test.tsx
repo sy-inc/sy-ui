@@ -25,7 +25,7 @@ describe("Countdown (browser)", () => {
     document.dispatchEvent(new Event("visibilitychange"));
     const root = page.getByRole("timer");
 
-    await expect.element(root).toHaveTextContent("0 days, 0 hours, 0 minutes, 11 seconds");
+    await expect.element(root).toMatchTextContent("0 days, 0 hours, 0 minutes, 11 seconds");
     const entering = root.element().querySelector('[data-entering="true"]')!;
     const exiting = root.element().querySelector('[data-exiting="true"]')!;
     const enterAnimation = entering.getAnimations()[0]!;
@@ -69,7 +69,7 @@ describe("Countdown (browser)", () => {
     expect(digit.getBoundingClientRect().height).toBeGreaterThan(0);
     clock.mockReturnValue(now + 1000);
     document.dispatchEvent(new Event("visibilitychange"));
-    await expect.element(root).toHaveTextContent("6 days, 23 hours, 59 minutes, 59 seconds");
+    await expect.element(root).toMatchTextContent("6 days, 23 hours, 59 minutes, 59 seconds");
     const entering = root.element().querySelector('[data-entering="true"]')!;
     const exiting = root.element().querySelector('[data-exiting="true"]')!;
 
@@ -94,7 +94,7 @@ describe("Countdown (browser)", () => {
 
     clock.mockReturnValue(now + 1000);
     document.dispatchEvent(new Event("visibilitychange"));
-    await expect.element(root).toHaveTextContent("0 days, 0 hours, 0 minutes, 11 seconds");
+    await expect.element(root).toMatchTextContent("0 days, 0 hours, 0 minutes, 11 seconds");
     const entering = root.element().querySelector('[data-entering="true"]')!;
     const exiting = root.element().querySelector('[data-exiting="true"]')!;
 

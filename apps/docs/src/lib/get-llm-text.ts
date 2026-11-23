@@ -13,6 +13,7 @@ import remarkMdx from "remark-mdx";
 import {getRelatedComponents} from "@/components-registry";
 import {siteConfig} from "@/config/site";
 import {getDemo} from "@/demos";
+import {formatAbsoluteUrl} from "@/lib/llms-utils";
 
 const processor = remark()
   .use(remarkMdx)
@@ -53,19 +54,6 @@ async function getRawMDXContent(pagePath: string): Promise<string> {
 
     return "";
   }
-}
-
-function formatAbsoluteUrl(path: string): string {
-  if (!path) return "";
-
-  if (path.startsWith("http://") || path.startsWith("https://")) {
-    return path;
-  }
-
-  const baseUrl = siteConfig.siteUrl.toString().replace(/\/$/, "");
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-
-  return `${baseUrl}${cleanPath}`;
 }
 
 function formatLLMHeader(

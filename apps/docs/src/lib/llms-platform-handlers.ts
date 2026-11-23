@@ -1,29 +1,16 @@
 import type {Platform} from "@/lib/llms-utils";
 import type {NextRequest} from "next/server";
 
-import {siteConfig} from "@/config/site";
 import {getLLMText} from "@/lib/get-llm-text";
 import {
   LLMS_TEXT_HEADERS,
   filterExcludedPages,
   filterPagesByPlatform,
   filterPagesByType,
+  formatAbsoluteUrl,
   generatePlatformIndexHeader,
 } from "@/lib/llms-utils";
 import {source} from "@/lib/source";
-
-function formatAbsoluteUrl(path: string): string {
-  if (!path) return "";
-
-  if (path.startsWith("http://") || path.startsWith("https://")) {
-    return path;
-  }
-
-  const baseUrl = siteConfig.siteUrl.toString().replace(/\/$/, "");
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-
-  return `${baseUrl}${cleanPath}`;
-}
 
 export async function getPlatformLlmsTxt(platform: Platform) {
   try {

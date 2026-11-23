@@ -16,7 +16,7 @@ describe("Tooltip (browser)", () => {
     const tooltip = page.getByRole("tooltip");
 
     await expect.element(tooltip).toBeInTheDocument();
-    await expect.element(tooltip).toHaveTextContent("Hover tip");
+    await expect.element(tooltip).toMatchTextContent("Hover tip");
 
     await userEvent.keyboard("{Escape}");
 

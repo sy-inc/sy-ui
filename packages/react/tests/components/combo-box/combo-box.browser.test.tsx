@@ -74,7 +74,7 @@ describe("ComboBox (browser)", () => {
     const activeId = input.element().getAttribute("aria-activedescendant");
     const activeOption = document.getElementById(activeId!);
 
-    expect(activeOption).toHaveTextContent("Animal 39");
+    expect(activeOption).toMatchTextContent("Animal 39");
     await expect
       .poll(() => activeOption!.getBoundingClientRect().bottom)
       .toBeLessThanOrEqual(listbox.element().getBoundingClientRect().bottom + 1);

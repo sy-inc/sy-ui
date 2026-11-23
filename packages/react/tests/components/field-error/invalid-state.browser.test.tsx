@@ -474,7 +474,7 @@ describe("Form controls invalid state (browser)", () => {
       const valid = document.querySelector('[data-state="valid"]')!;
       const invalid = document.querySelector('[data-state="invalid"]')!;
 
-      expect(valid).not.toHaveTextContent(ERR);
+      expect(valid).not.toMatchTextContent(ERR);
 
       if (!fixture.noVisual) {
         expect(dangerPainted(invalid, danger), "invalid control is painted red").toBe(true);

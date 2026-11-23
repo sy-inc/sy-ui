@@ -61,7 +61,7 @@ export function filterExcludedPages(pages: Page[]): Page[] {
   return pages.filter((page) => page.slugs[0] !== "openapi");
 }
 
-function formatAbsoluteUrl(path: string): string {
+export function formatAbsoluteUrl(path: string): string {
   if (!path) return "";
 
   if (path.startsWith("http://") || path.startsWith("https://")) {

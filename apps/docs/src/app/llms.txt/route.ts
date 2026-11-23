@@ -1,21 +1,12 @@
-import {siteConfig} from "@/config/site";
-import {LLMS_TEXT_HEADERS, filterExcludedPages, generateIndexHeader} from "@/lib/llms-utils";
+import {
+  LLMS_TEXT_HEADERS,
+  filterExcludedPages,
+  formatAbsoluteUrl,
+  generateIndexHeader,
+} from "@/lib/llms-utils";
 import {source} from "@/lib/source";
 
 export const revalidate = false;
-
-function formatAbsoluteUrl(path: string): string {
-  if (!path) return "";
-
-  if (path.startsWith("http://") || path.startsWith("https://")) {
-    return path;
-  }
-
-  const baseUrl = siteConfig.siteUrl.toString().replace(/\/$/, "");
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
-
-  return `${baseUrl}${cleanPath}`;
-}
 
 export async function GET() {
   try {

@@ -21,6 +21,15 @@ description: 让 Claude、Cursor、Windsurf 等 AI 助手理解 SY INC v3
 - [/llms-components.txt](/llms-components.txt) — 全部组件文档
 - [/llms-patterns.txt](/llms-patterns.txt) — 全部模式与代码片段
 
+## 包内文档
+
+`@sy-inc/react` 在 `node_modules/@sy-inc/react/docs/` 下附带同一份 Markdown 文档：一个 `llms.txt` 索引，以及每个组件（`components/`）和指南（`guides/`）各一页。这些文件在发布时由本站生成，因此始终与已安装的版本一致，并且可以离线使用。
+
+在 `AGENTS.md` 或 `CLAUDE.md` 中让代理先读取索引：
+```
+Before using SY INC components, read node_modules/@sy-inc/react/docs/llms.txt
+```
+
 ## 集成
 
 **Claude Code：** 让 Claude 参考文档：
