@@ -1,3 +1,5 @@
+/* Portions adapted from HeroUI v3.2.8 (Apache-2.0), PRs #7001, #7025.
+ * Source: https://github.com/heroui-inc/heroui/tree/v3.2.8 */
 @import "./overlay-motion.css";
 
 /* -------------------------------------------------------------------------------------------------
@@ -89,9 +91,18 @@
 .modal__backdrop--blur {
   @apply bg-backdrop backdrop-blur-md;
 
+  /*
+   * A full-viewport backdrop-filter stalls mid-range mobile GPUs long enough
+   * that the open animation is skipped. On touch devices, only skip the blur
+   * while the backdrop is animating so the dim scrim fades on its own, then
+   * apply the blur once the overlay has settled.
+   */
   @media (hover: none) and (pointer: coarse) {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+    &[data-entering="true"],
+    &[data-exiting="true"] {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
   }
 }
 
@@ -337,7 +348,7 @@
  * Element: footer - the bottom action section
  */
 .modal__footer {
-  @apply flex flex-row items-center justify-end gap-2;
+  @apply flex flex-row flex-wrap items-center justify-end gap-2;
   @apply mt-0;
 }
 

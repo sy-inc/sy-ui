@@ -81,9 +81,19 @@
 }
 .drawer__backdrop--blur {
   @apply backdrop-blur-md;
+
+  /* A full-viewport backdrop-filter painted while the panel slides stalls mid-range mobile GPUs.
+     On touch devices the blur is held back until the enter transition has finished and dropped at
+     once on exit, so only the dim scrim moves with the panel. The value pairs follow the
+     backdrop's transition-property order: background-color, backdrop-filter. */
   @media (hover: none) and (pointer: coarse) {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+    transition-duration: var(--drawer-enter-duration, var(--drawer-duration, 250ms)), 0s;
+    transition-delay: 0s, var(--drawer-enter-duration, var(--drawer-duration, 250ms));
+
+    &[data-exiting="true"] {
+      transition-duration: var(--drawer-exit-duration, var(--drawer-duration, 250ms)), 0s;
+      transition-delay: 0s;
+    }
   }
 }
 .drawer__backdrop--transparent {
@@ -213,7 +223,7 @@
   -webkit-overflow-scrolling: touch;
 }
 .drawer__footer {
-  @apply flex items-center justify-end gap-2 px-5 py-4;
+  @apply flex flex-wrap items-center justify-end gap-2 px-5 py-4;
   touch-action: none;
 }
 .drawer__handle {

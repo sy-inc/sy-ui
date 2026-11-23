@@ -129,19 +129,22 @@ describe("Checkbox", () => {
     const {rerender} = renderCheckbox({isIndeterminate: true});
     const checkmark = document.querySelector('[data-slot="checkbox-default-indicator--checkmark"]');
 
-    expect(checkmark).toHaveAttribute("stroke-dashoffset", "66");
-    expect(
-      document.querySelector('[data-slot="checkbox-default-indicator--indeterminate"]'),
-    ).not.toBeNull();
+    const indeterminateLine = document.querySelector(
+      '[data-slot="checkbox-default-indicator--indeterminate"]',
+    );
 
+    expect(checkmark).toHaveAttribute("stroke-dashoffset", "66");
+    expect(indeterminateLine).not.toBeNull();
+
+    // The line stays mounted so its opacity can transition (HeroUI v3.2.8 PR #7019).
     rerender(checkbox());
     expect(document.querySelector('[data-slot="checkbox-default-indicator--checkmark"]')).toBe(
       checkmark,
     );
     expect(checkmark).toHaveAttribute("stroke-dashoffset", "66");
-    expect(
-      document.querySelector('[data-slot="checkbox-default-indicator--indeterminate"]'),
-    ).toBeNull();
+    expect(document.querySelector('[data-slot="checkbox-default-indicator--indeterminate"]')).toBe(
+      indeterminateLine,
+    );
 
     rerender(checkbox({isIndeterminate: true}));
     rerender(checkbox({isSelected: true}));
@@ -149,20 +152,17 @@ describe("Checkbox", () => {
       checkmark,
     );
     expect(checkmark).toHaveAttribute("stroke-dashoffset", "44");
-    expect(
-      document.querySelector('[data-slot="checkbox-default-indicator--indeterminate"]'),
-    ).toBeNull();
+    expect(document.querySelector('[data-slot="checkbox-default-indicator--indeterminate"]')).toBe(
+      indeterminateLine,
+    );
   });
 
-  it("renders only the indeterminate line when selected and indeterminate", () => {
+  it("renders the checkmark undrawn when selected and indeterminate", () => {
     renderCheckbox({isIndeterminate: true, isSelected: true});
 
     expect(
       document.querySelector('[data-slot="checkbox-default-indicator--checkmark"]'),
     ).toHaveAttribute("stroke-dashoffset", "66");
-    expect(
-      document.querySelector('[data-slot="checkbox-default-indicator--indeterminate"]'),
-    ).not.toBeNull();
   });
 
   it("supports Space key toggle", async () => {

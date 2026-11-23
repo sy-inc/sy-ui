@@ -23,7 +23,6 @@ import {dom} from "../../utils/dom";
 type ToggleButtonGroupContext = {
   slots?: ReturnType<typeof toggleButtonGroupVariants>;
   size?: ToggleButtonVariants["size"];
-  isDisabled?: boolean;
 };
 
 const ToggleButtonGroupContext = createContext<ToggleButtonGroupContext>({});
@@ -44,7 +43,6 @@ const ToggleButtonGroupRoot = ({
   className,
   fullWidth,
   isDetached = false,
-  isDisabled,
   orientation: orientationProp,
   render,
   size,
@@ -59,17 +57,13 @@ const ToggleButtonGroupRoot = ({
     [fullWidth, isDetached, orientation],
   );
 
-  const toggleButtonGroupContextValue = React.useMemo(
-    () => ({isDisabled, size, slots}),
-    [slots, size, isDisabled],
-  );
+  const toggleButtonGroupContextValue = React.useMemo(() => ({size, slots}), [slots, size]);
 
   return (
     <ToggleButtonGroupContext value={toggleButtonGroupContextValue}>
       <ToggleButtonGroupPrimitive
         className={composeTwRenderProps(className, slots.base())}
         data-slot="toggle-button-group"
-        isDisabled={isDisabled}
         orientation={orientation}
         {...rest}
         render={(domProps, values) => {

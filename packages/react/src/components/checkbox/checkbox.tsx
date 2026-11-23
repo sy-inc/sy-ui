@@ -1,6 +1,6 @@
 "use client";
 
-/* Fixes adapted from HeroUI v3.2.7 (heroui-inc/heroui), Apache-2.0. */
+/* Fixes adapted from HeroUI v3.2.7 and v3.2.8 PR #7019 (heroui-inc/heroui), Apache-2.0. */
 
 import type {DOMRenderProps} from "../../utils/dom";
 import type {CheckboxVariants} from "@sy-inc/styles";
@@ -169,20 +169,19 @@ const CheckboxIndicator = <E extends keyof React.JSX.IntrinsicElements = "span">
         >
           <polyline points="1 9 7 14 15 4" />
         </svg>
-        {isIndeterminate ? (
-          <svg
-            aria-hidden="true"
-            data-slot="checkbox-default-indicator--indeterminate"
-            fill="none"
-            role="presentation"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth={3}
-            viewBox="0 0 24 24"
-          >
-            <line x1="21" x2="3" y1="12" y2="12" />
-          </svg>
-        ) : null}
+        {/* Always mounted so its opacity can transition in and out (see checkbox.css) */}
+        <svg
+          aria-hidden="true"
+          data-slot="checkbox-default-indicator--indeterminate"
+          fill="none"
+          role="presentation"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth={3}
+          viewBox="0 0 24 24"
+        >
+          <line x1="21" x2="3" y1="12" y2="12" />
+        </svg>
       </>
     );
 

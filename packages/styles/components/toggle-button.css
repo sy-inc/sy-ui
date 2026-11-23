@@ -120,9 +120,7 @@
    ========================================================================== */
 
 .toggle-button--default {
-  --toggle-button-bg: var(--default);
-  --toggle-button-bg-hover: var(--default-hover);
-  --toggle-button-bg-pressed: var(--default-hover);
+  /* No styles as this is the default variant */
 }
 
 .toggle-button--ghost {
@@ -146,4 +144,9 @@
 
 .toggle-button--icon-only.toggle-button--lg {
   @apply w-11 md:w-10;
+}
+
+/* Full width modifier — adapted from HeroUI v3.2.8 (Apache-2.0), PR #7012 */
+.toggle-button--full-width {
+  @apply w-full;
 }

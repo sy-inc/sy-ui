@@ -17,22 +17,20 @@ interface ToggleButtonRootProps
   extends ComponentPropsWithRef<typeof ToggleButtonPrimitive>, ToggleButtonVariants {}
 
 const ToggleButtonRoot = ({
-  children,
   className,
+  fullWidth,
   isIconOnly,
   size,
-  style,
   variant,
   ...rest
 }: ToggleButtonRootProps) => {
   const groupContext = use(ToggleButtonGroupContext);
 
-  // Merge props with precedence: direct props > context props
-  const finalSize = size ?? groupContext?.size;
-
   const styles = toggleButtonVariants({
+    fullWidth,
     isIconOnly,
-    size: finalSize,
+    // Direct prop wins over the group's size
+    size: size ?? groupContext.size,
     variant,
   });
 
@@ -40,11 +38,8 @@ const ToggleButtonRoot = ({
     <ToggleButtonPrimitive
       className={composeTwRenderProps(className, styles)}
       data-slot="toggle-button"
-      style={style}
       {...rest}
-    >
-      {children}
-    </ToggleButtonPrimitive>
+    />
   );
 };
 

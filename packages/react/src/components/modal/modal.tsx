@@ -121,20 +121,14 @@ const ModalBackdrop = ({
   variant,
   ...props
 }: ModalBackdropProps) => {
-  const {slots: contextSlots} = use(ModalContext);
   const state = use(OverlayTriggerStateContext);
   const hold = useOverlayExitHoldProps(props, state);
 
-  const updatedSlots = useMemo(() => modalVariants({variant}), [variant]);
-
-  const updatedModalContext = useMemo<ModalContext>(
-    () => ({slots: {...contextSlots, ...updatedSlots}}),
-    [contextSlots, updatedSlots],
-  );
+  const backdrop = useMemo(() => modalVariants({variant}).backdrop, [variant]);
 
   return (
     <ModalOverlayPrimitive
-      className={composeTwRenderProps(className, updatedSlots?.backdrop())}
+      className={composeTwRenderProps(className, backdrop())}
       data-slot="modal-backdrop"
       isDismissable={isDismissable}
       onClick={(e) => {
@@ -144,11 +138,7 @@ const ModalBackdrop = ({
       {...props}
       {...hold}
     >
-      {(renderProps) => (
-        <ModalContext value={updatedModalContext}>
-          {typeof children === "function" ? children(renderProps) : children}
-        </ModalContext>
-      )}
+      {children}
     </ModalOverlayPrimitive>
   );
 };
@@ -179,21 +169,14 @@ const ModalContainer = ({
   size,
   ...props
 }: ModalContainerProps) => {
-  const {slots: contextSlots} = use(ModalContext);
-
-  const updatedSlots = useMemo(
-    () => modalVariants({appearance, scroll, size}),
-    [appearance, scroll, size],
-  );
-
   const updatedModalContext = useMemo<ModalContext>(
-    () => ({placement, slots: {...contextSlots, ...updatedSlots}}),
-    [contextSlots, placement, updatedSlots],
+    () => ({placement, slots: modalVariants({appearance, scroll, size})}),
+    [appearance, placement, scroll, size],
   );
 
   return (
     <ModalPrimitive
-      className={composeTwRenderProps(className, updatedSlots?.container())}
+      className={composeTwRenderProps(className, updatedModalContext.slots?.container())}
       data-placement={placement}
       data-slot="modal-container"
       {...props}

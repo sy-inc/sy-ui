@@ -30,6 +30,14 @@ type AlertDialogPlacement = "auto" | "top" | "center" | "bottom";
 
 type AlertDialogStatus = "default" | "accent" | "success" | "warning" | "danger";
 
+const STATUS_ICONS = {
+  accent: InfoIcon,
+  danger: DangerIcon,
+  default: InfoIcon,
+  success: SuccessIcon,
+  warning: WarningIcon,
+} satisfies Record<AlertDialogStatus, unknown>;
+
 /* -------------------------------------------------------------------------------------------------
  * AlertDialog Context
  * -----------------------------------------------------------------------------------------------*/
@@ -110,20 +118,14 @@ const AlertDialogBackdrop = ({
   variant,
   ...props
 }: AlertDialogBackdropProps) => {
-  const {slots: contextSlots} = use(AlertDialogContext);
   const state = use(OverlayTriggerStateContext);
   const hold = useOverlayExitHoldProps(props, state);
 
-  const updatedSlots = useMemo(() => alertDialogVariants({variant}), [variant]);
-
-  const updatedModalContext = useMemo<AlertDialogContext>(
-    () => ({slots: {...contextSlots, ...updatedSlots}}),
-    [contextSlots, updatedSlots],
-  );
+  const backdrop = useMemo(() => alertDialogVariants({variant}).backdrop, [variant]);
 
   return (
     <ModalOverlayPrimitive
-      className={composeTwRenderProps(className, updatedSlots?.backdrop())}
+      className={composeTwRenderProps(className, backdrop())}
       data-slot="alert-dialog-backdrop"
       isDismissable={isDismissable}
       isKeyboardDismissDisabled={isKeyboardDismissDisabled}
@@ -134,11 +136,7 @@ const AlertDialogBackdrop = ({
       {...props}
       {...hold}
     >
-      {(renderProps) => (
-        <AlertDialogContext value={updatedModalContext}>
-          {typeof children === "function" ? children(renderProps) : children}
-        </AlertDialogContext>
-      )}
+      {children}
     </ModalOverlayPrimitive>
   );
 };
@@ -165,18 +163,14 @@ const AlertDialogContainer = ({
   size,
   ...props
 }: AlertDialogContainerProps) => {
-  const {slots: contextSlots} = use(AlertDialogContext);
-
-  const updatedSlots = useMemo(() => alertDialogVariants({size}), [size]);
-
   const updatedContext = useMemo<AlertDialogContext>(
-    () => ({placement, slots: {...contextSlots, ...updatedSlots}}),
-    [placement, contextSlots, updatedSlots],
+    () => ({placement, slots: alertDialogVariants({size})}),
+    [placement, size],
   );
 
   return (
     <ModalPrimitive
-      className={composeTwRenderProps(className, updatedSlots?.container())}
+      className={composeTwRenderProps(className, updatedContext.slots?.container())}
       data-placement={placement}
       data-slot="alert-dialog-container"
       {...props}
@@ -312,26 +306,11 @@ const AlertDialogIcon = <E extends keyof React.JSX.IntrinsicElements = "div">({
   Omit<React.JSX.IntrinsicElements[E], keyof AlertDialogIconProps<E>>) => {
   const slots = useMemo(() => alertDialogVariants({status}), [status]);
 
-  const getDefaultIcon = () => {
-    switch (status) {
-      case "default":
-        return <InfoIcon data-slot="alert-dialog-default-icon" />;
-      case "accent":
-        return <InfoIcon data-slot="alert-dialog-default-icon" />;
-      case "success":
-        return <SuccessIcon data-slot="alert-dialog-default-icon" />;
-      case "warning":
-        return <WarningIcon data-slot="alert-dialog-default-icon" />;
-      case "danger":
-        return <DangerIcon data-slot="alert-dialog-default-icon" />;
-      default:
-        return <DangerIcon data-slot="alert-dialog-default-icon" />;
-    }
-  };
+  const DefaultIcon = STATUS_ICONS[status];
 
   return (
     <dom.div className={slots?.icon({className})} data-slot="alert-dialog-icon" {...(props as any)}>
-      {children ?? getDefaultIcon()}
+      {children ?? <DefaultIcon data-slot="alert-dialog-default-icon" />}
     </dom.div>
   );
 };

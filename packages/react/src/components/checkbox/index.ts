@@ -42,8 +42,6 @@ export type {
   CheckboxSelectionProps,
   CheckboxFieldRenderProps,
   CheckboxButtonRenderProps,
-  /** @deprecated Use {@link CheckboxFieldRenderProps} for the root render prop, or {@link CheckboxButtonRenderProps} for content/control/indicator. */
-  CheckboxFieldRenderProps as CheckboxRenderProps,
 } from "./checkbox";
 
 /* -------------------------------------------------------------------------------------------------

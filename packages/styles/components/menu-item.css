@@ -1,4 +1,4 @@
-/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6941.
+/* Portions adapted from HeroUI v3.2.7 (Apache-2.0), PRs #6941, and v3.2.8, PR #7034.
  * Source: https://github.com/heroui-inc/heroui/tree/v3.2.7 */
 /* ==========================================================================
    Base menu item styles
@@ -21,11 +21,23 @@
   cursor: var(--cursor-interactive);
 
   [data-slot="label"] {
-    @apply pointer-events-none w-fit select-none;
+    @apply pointer-events-none w-fit max-w-full min-w-0 select-none;
+    /* Let a long unbroken word wrap inside the item instead of overflowing it */
+    overflow-wrap: break-word;
   }
 
   [data-slot="description"] {
     @apply pointer-events-none text-wrap select-none;
+  }
+
+  /* Keep icons placed directly in the item at their natural size when the label wraps */
+  > svg {
+    @apply shrink-0;
+  }
+
+  /* Let a wrapper around the label (e.g. label + description column) shrink so the label can wrap */
+  > :has([data-slot="label"]) {
+    @apply min-w-0;
   }
 
   [data-slot="submenu-indicator"] svg {

@@ -39,6 +39,12 @@ describe("ToggleButton", () => {
     expect(button).toHaveAttribute("aria-pressed", "false");
   });
 
+  it("supports fullWidth", () => {
+    render(<ToggleButton fullWidth>Bold</ToggleButton>);
+
+    expect(screen.getByRole("button", {name: "Bold"})).toHaveClass("toggle-button--full-width");
+  });
+
   it("supports data attribute passthrough", () => {
     render(<ToggleButton data-testid="toggle">Bold</ToggleButton>);
 
