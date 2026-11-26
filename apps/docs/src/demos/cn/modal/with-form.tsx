@@ -23,23 +23,23 @@ export function WithForm() {
             <Modal.Body className="p-6">
               <Surface variant="default">
                 <form className="flex flex-col gap-4">
-                  <TextField className="w-full" name="name" type="text">
+                  <TextField className="w-full" name="name" type="text" variant="secondary">
                     <Label>姓名</Label>
                     <Input placeholder="输入你的姓名" />
                   </TextField>
-                  <TextField className="w-full" name="email" type="email">
+                  <TextField className="w-full" name="email" type="email" variant="secondary">
                     <Label>邮箱</Label>
                     <Input placeholder="输入你的邮箱" />
                   </TextField>
-                  <TextField className="w-full" name="phone" type="tel">
+                  <TextField className="w-full" name="phone" type="tel" variant="secondary">
                     <Label>电话</Label>
                     <Input placeholder="输入你的电话号码" />
                   </TextField>
-                  <TextField className="w-full" name="company">
+                  <TextField className="w-full" name="company" variant="secondary">
                     <Label>公司</Label>
                     <Input placeholder="输入公司名称" />
                   </TextField>
-                  <TextField className="w-full" name="message">
+                  <TextField className="w-full" name="message" variant="secondary">
                     <Label>留言</Label>
                     <Input placeholder="输入留言内容" />
                   </TextField>

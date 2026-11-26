@@ -6,7 +6,7 @@
 }
 
 @utility focus-field-ring {
-  @apply ring-2 ring-focus ring-offset-0 outline-none;
+  @apply ring-2 ring-focus/10 ring-offset-0 outline-1 outline-focus/50 outline-solid;
   /* No separation - ring sits directly against the element */
   --tw-ring-offset-width: 0px;
 }
@@ -16,14 +16,13 @@
   @apply outline-1 outline-danger outline-solid;
   --tw-ring-offset-width: 3px;
 
-  /* Focused: show 2px ring in danger color, remove outline */
   &:focus,
   &:focus-visible,
   &[data-focused="true"],
   &[data-focus-visible="true"],
   &:focus-within,
   &[data-focus-within="true"] {
-    @apply ring-2 ring-danger ring-offset-0;
+    @apply ring-2 ring-danger/20 ring-offset-0;
     --tw-ring-offset-width: 0px;
   }
 }

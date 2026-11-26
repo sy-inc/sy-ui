@@ -273,7 +273,11 @@
     /* Shadows */
     --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
     --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-    --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
+    /* Hairline edge: dark --field-background equals --surface/--overlay, so without it a
+       primary field on a card or modal has no visible boundary. Outset like the light shadow:
+       the autofill fill is a 1000px inset shadow that would cover an inset hairline.
+       shadow-field sets --tw-shadow, so focus/invalid rings stack on top instead of replacing it. */
+    --field-shadow: 0 0 0 0.5px rgb(255 255 255 / 0.14);
   }
 
   .dark,
